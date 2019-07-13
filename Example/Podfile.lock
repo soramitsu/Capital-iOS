@@ -1,0 +1,131 @@
+PODS:
+  - BoringSSL (10.0.3):
+    - BoringSSL/Implementation (= 10.0.3)
+    - BoringSSL/Interface (= 10.0.3)
+  - BoringSSL/Implementation (10.0.3):
+    - BoringSSL/Interface (= 10.0.3)
+  - BoringSSL/Interface (10.0.3)
+  - CommonWallet (0.6.1):
+    - IrohaCommunication
+    - RobinHood
+    - SoraUI
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
+  - Cuckoo (1.0.4)
+  - Fabric (1.9.0)
+  - FireMock (3.1)
+  - gRPC (1.11.0):
+    - gRPC-RxLibrary (= 1.11.0)
+    - gRPC/Main (= 1.11.0)
+  - gRPC-Core (1.11.0):
+    - gRPC-Core/Implementation (= 1.11.0)
+    - gRPC-Core/Interface (= 1.11.0)
+  - gRPC-Core/Implementation (1.11.0):
+    - BoringSSL (~> 10.0)
+    - gRPC-Core/Interface (= 1.11.0)
+    - nanopb (~> 0.3)
+  - gRPC-Core/Interface (1.11.0)
+  - gRPC-ProtoRPC (1.11.0):
+    - gRPC (= 1.11.0)
+    - gRPC-RxLibrary (= 1.11.0)
+    - Protobuf (~> 3.0)
+  - gRPC-RxLibrary (1.11.0)
+  - gRPC/Main (1.11.0):
+    - gRPC-Core (= 1.11.0)
+    - gRPC-RxLibrary (= 1.11.0)
+  - IrohaCommunication (3.2.0):
+    - BoringSSL (= 10.0.3)
+    - gRPC-ProtoRPC (= 1.11.0)
+    - IrohaCrypto
+    - nanopb (= 0.3.8)
+    - Protobuf (~> 3.5.0)
+  - IrohaCrypto (0.2.6)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
+  - Protobuf (3.5.0)
+  - RobinHood (0.4.0)
+  - SoraUI (1.7.3):
+    - SoraUI/AdaptiveDesign (= 1.7.3)
+    - SoraUI/Animator (= 1.7.3)
+    - SoraUI/Camera (= 1.7.3)
+    - SoraUI/Controls (= 1.7.3)
+    - SoraUI/DetailsView (= 1.7.3)
+    - SoraUI/EmptyState (= 1.7.3)
+    - SoraUI/LoadingView (= 1.7.3)
+    - SoraUI/ModalInputPresentation (= 1.7.3)
+    - SoraUI/PageLoader (= 1.7.3)
+    - SoraUI/PinView (= 1.7.3)
+  - SoraUI/AdaptiveDesign (1.7.3)
+  - SoraUI/Animator (1.7.3)
+  - SoraUI/Camera (1.7.3)
+  - SoraUI/Controls (1.7.3)
+  - SoraUI/DetailsView (1.7.3):
+    - SoraUI/Controls
+  - SoraUI/EmptyState (1.7.3):
+    - SoraUI/Animator
+  - SoraUI/LoadingView (1.7.3):
+    - SoraUI/Controls
+  - SoraUI/ModalInputPresentation (1.7.3):
+    - SoraUI/Animator
+  - SoraUI/PageLoader (1.7.3)
+  - SoraUI/PinView (1.7.3):
+    - SoraUI/Controls
+  - SwiftLint (0.31.0)
+
+DEPENDENCIES:
+  - CommonWallet (from `../`)
+  - Crashlytics (= 3.12.0)
+  - Cuckoo
+  - Fabric (= 1.9.0)
+  - FireMock
+  - SwiftLint (= 0.31.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BoringSSL
+    - Crashlytics
+    - Cuckoo
+    - Fabric
+    - FireMock
+    - gRPC
+    - gRPC-Core
+    - gRPC-ProtoRPC
+    - gRPC-RxLibrary
+    - IrohaCommunication
+    - IrohaCrypto
+    - nanopb
+    - Protobuf
+    - SwiftLint
+  https://github.com/soramitsu/podspec-ios.git:
+    - RobinHood
+    - SoraUI
+
+EXTERNAL SOURCES:
+  CommonWallet:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  BoringSSL: c46efb47593135382bc0934196f16d2f726f5f36
+  CommonWallet: 304f8e98431e82a8e54054664f7fd2fd70a56380
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Cuckoo: 58e8219aa80f956350b6d3b396e9f1d6871544e7
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  FireMock: 3eed872059c12f94855413347da83b9d6d1a6fac
+  gRPC: 70703dc9ba31c72341fc7f37745cc1c379edee96
+  gRPC-Core: 164639cd8ae18ca8b65477fafb2efbaecf4f181a
+  gRPC-ProtoRPC: bb5fddf3424aa4fad74d76736578a79fe40e244e
+  gRPC-RxLibrary: 26d53d1b1f306befd4ad4e15bd6de27839a82481
+  IrohaCommunication: 80d8be2565e5bbd3446bdc5d2bdfb0e0849606e8
+  IrohaCrypto: 4eb85b5edbf7667b5ffcef1b5104357f18ca8e81
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  RobinHood: 8335d1fdfe5eb20c1d163957f8f1acd9ab4c35c3
+  SoraUI: 24ecc1e3fd78c69c43d054b40864715ad4fc979b
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+
+PODFILE CHECKSUM: 9d226b3976164ab9cada57c2b86258657f290e15
+
+COCOAPODS: 1.6.1

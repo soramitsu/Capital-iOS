@@ -1,0 +1,33 @@
+Pod::Spec.new do |s|
+  s.name             = 'CommonWallet'
+  s.version          = '0.6.2'
+  s.summary          = 'Soramitsu Common Wallet Implementation'
+
+  s.description      = <<-DESC
+Library allow fast integration of Soramitsu Wallet implementation into client applications for payment purpose. Implemetation includes both customizable UI and logic to communicate with Iroha blockchain.
+                       DESC
+
+  s.homepage         = 'https://github.com/sora-xor'
+  s.license          = { :type => 'GPL 3.0', :file => 'LICENSE' }
+  s.author           = { 'Andrei Marin' => 'marin@soramitsu.co.jp', 'Ruslan Rezin' => 'rezin@soramitsu.co.jp' }
+  s.source           = { :git => 'https://github.com/soramitsu/Capital-iOS.git', :tag => s.version.to_s }
+
+  s.ios.deployment_target = '9.0'
+  s.swift_version = '4.2'
+
+  s.source_files = 'CommonWallet/Classes/**/*.swift'
+  s.resources = ['CommonWallet/**/*.xcdatamodeld', 'CommonWallet/**/*.xib','CommonWallet/Assets/**/*']
+
+  s.frameworks = 'UIKit', 'CoreImage'
+  s.dependency 'IrohaCommunication'
+  s.dependency 'RobinHood'
+  s.dependency 'SoraUI'
+
+  s.test_spec do |ts|
+    ts.source_files = 'Tests/**/*'
+    ts.dependency 'Cuckoo'
+    ts.dependency 'FireMock'
+    ts.resources = ['Tests/**/*.json']
+  end
+
+end
