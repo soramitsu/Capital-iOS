@@ -147,8 +147,8 @@ final class HistoryViewController: UIViewController {
     }
 
     fileprivate func updateBarTypeContent(for draggableState: DraggableState,
-                                              progress: Double,
-                                              forcesLayoutUpdate: Bool) {
+                                          progress: Double,
+                                          forcesLayoutUpdate: Bool) {
         let titleFullPosition = headerView.bounds.midX - titleLabel.intrinsicContentSize.width / 2.0
         let titleCompactPosition = Constants.compactTitleLeft
         let cornerRadius = configuration?.viewStyle.cornerRadius ?? 0.0
