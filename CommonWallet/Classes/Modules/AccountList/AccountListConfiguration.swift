@@ -1,0 +1,16 @@
+import UIKit
+import IrohaCommunication
+
+protocol AccountListConfigurationProtocol: CellRegisterable {
+    var viewStyle: AccountListViewStyleProtocol { get }
+    var viewModelContext: AccountListViewModelContext { get }
+    var registeredCellsMetadata: [String: Any] { get }
+    var minimumContentHeight: CGFloat { get }
+}
+
+struct AccountListConfiguration: AccountListConfigurationProtocol {
+    var viewStyle: AccountListViewStyleProtocol
+    var registeredCellsMetadata: [String: Any]
+    var viewModelContext: AccountListViewModelContext
+    var minimumContentHeight: CGFloat
+}

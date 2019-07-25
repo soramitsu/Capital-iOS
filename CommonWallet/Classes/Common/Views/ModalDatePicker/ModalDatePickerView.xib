@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ModalDatePickerView" customModule="CommonWallet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KcH-jj-O9n" customClass="RoundedView" customModule="SoraUI">
+                    <rect key="frame" x="0.0" y="2" width="375" height="214"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topLeftRounded" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topRightRounded" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomLeftRounded" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomRightRounded" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SY0-dr-Rgw">
+                    <rect key="frame" x="323" y="0.0" width="44" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="Vio-ib-trf"/>
+                        <constraint firstAttribute="width" constant="44" id="cYB-ue-nhn"/>
+                    </constraints>
+                    <state key="normal" image="iconDone"/>
+                    <connections>
+                        <action selector="actionDone" destination="iN0-l3-epB" eventType="touchUpInside" id="Sbz-x1-VhX"/>
+                    </connections>
+                </button>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="KA0-Pr-WPv">
+                    <rect key="frame" x="0.0" y="42" width="375" height="174"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="174" id="1Wj-gi-Fcy"/>
+                    </constraints>
+                    <date key="date" timeIntervalSinceReferenceDate="581886196.66871798">
+                        <!--2019-06-10 19:03:16 +0000-->
+                    </date>
+                </datePicker>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="KcH-jj-O9n" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="2" id="7DS-qI-ZVV"/>
+                <constraint firstItem="SY0-dr-Rgw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="9Yz-ue-Zy5"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KA0-Pr-WPv" secondAttribute="bottom" id="JV4-b0-uhL"/>
+                <constraint firstItem="KcH-jj-O9n" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Sdw-2P-o84"/>
+                <constraint firstAttribute="trailing" secondItem="KA0-Pr-WPv" secondAttribute="trailing" id="iPC-L8-rob"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KcH-jj-O9n" secondAttribute="bottom" id="lDc-GK-af9"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KcH-jj-O9n" secondAttribute="trailing" id="q7s-LS-H1k"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="SY0-dr-Rgw" secondAttribute="trailing" constant="8" id="t1f-JM-aYq"/>
+                <constraint firstItem="KA0-Pr-WPv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="vUF-sZ-txD"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="backgroundView" destination="KcH-jj-O9n" id="0Ay-di-bcF"/>
+                <outlet property="doneButton" destination="SY0-dr-Rgw" id="KU3-Y0-6X2"/>
+                <outlet property="pickerView" destination="KA0-Pr-WPv" id="Hut-5k-MQY"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="iconDone" width="20" height="20"/>
+    </resources>
+</document>

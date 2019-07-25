@@ -1,0 +1,13 @@
+excluded:
+  - Pods
+
+included:
+  - ../CommonWallet/
+  - CommonWallet
+
+disabled_rules:
+  - trailing_newline
+  - trailing_whitespace
+  - opening_brace
+  - trailing_comma
+  - vertical_whitespace

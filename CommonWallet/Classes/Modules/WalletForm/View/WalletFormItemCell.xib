@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="x6b-vI-sBw" customClass="WalletFormItemCell" customModule="CommonWallet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x6b-vI-sBw" id="agV-yF-KtY">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="54.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Recepient" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dRc-dA-luB">
+                        <rect key="frame" x="20" y="18" width="308.5" height="19"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" red="0.38039215686274508" green="0.38039215686274508" blue="0.38039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Send" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbh-qw-ytf">
+                        <rect key="frame" x="356.5" y="18" width="37.5" height="19"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconIncrease" translatesAutoresizingMaskIntoConstraints="NO" id="biD-fd-MPL">
+                        <rect key="frame" x="336.5" y="17.5" width="20" height="20"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="biD-fd-MPL" firstAttribute="leading" secondItem="dRc-dA-luB" secondAttribute="trailing" constant="8" id="0Nq-Sd-xnZ"/>
+                    <constraint firstItem="dRc-dA-luB" firstAttribute="centerY" secondItem="agV-yF-KtY" secondAttribute="centerY" id="6uR-er-R14"/>
+                    <constraint firstAttribute="trailing" secondItem="rbh-qw-ytf" secondAttribute="trailing" constant="20" id="Lab-OL-wCO"/>
+                    <constraint firstItem="dRc-dA-luB" firstAttribute="leading" secondItem="agV-yF-KtY" secondAttribute="leading" constant="20" id="Q42-Ye-rVo"/>
+                    <constraint firstItem="rbh-qw-ytf" firstAttribute="leading" secondItem="biD-fd-MPL" secondAttribute="trailing" id="RwG-sz-HCs"/>
+                    <constraint firstItem="biD-fd-MPL" firstAttribute="centerY" secondItem="agV-yF-KtY" secondAttribute="centerY" id="Slz-ZO-CIE"/>
+                    <constraint firstItem="rbh-qw-ytf" firstAttribute="centerY" secondItem="agV-yF-KtY" secondAttribute="centerY" id="uSo-Pu-G7c"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="detailsLabel" destination="rbh-qw-ytf" id="gV6-KH-hZB"/>
+                <outlet property="iconImageView" destination="biD-fd-MPL" id="jtZ-Sr-wR5"/>
+                <outlet property="titleLabel" destination="dRc-dA-luB" id="chx-gi-PLi"/>
+            </connections>
+            <point key="canvasLocation" x="338" y="90"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="iconIncrease" width="20" height="20"/>
+    </resources>
+</document>

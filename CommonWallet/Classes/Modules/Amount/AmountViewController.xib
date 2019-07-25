@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AmountViewController" customModule="CommonWallet" customModuleProvider="target">
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="string" keyPath="title" value="Set amount"/>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="amountField" destination="csw-SL-z5r" id="ayX-Mh-kL5"/>
+                <outlet property="amountLabel" destination="HK4-Di-jYi" id="p10-R0-pDJ"/>
+                <outlet property="amountSeparator" destination="69V-4T-9bH" id="aMC-Mm-r6h"/>
+                <outlet property="amountSymbol" destination="dn7-iT-hm5" id="fFF-yR-qv4"/>
+                <outlet property="assetSeparator" destination="3g7-wc-hKL" id="OAc-RT-hR0"/>
+                <outlet property="assetTitleControl" destination="XxF-fD-oEA" id="blt-Sd-yva"/>
+                <outlet property="descriptionHeight" destination="kKN-tF-4TZ" id="8vF-Yj-1iA"/>
+                <outlet property="descriptionLabel" destination="hI2-zD-twK" id="0rx-jK-9uw"/>
+                <outlet property="descriptionPlaceholderLabel" destination="w75-wp-pgg" id="Vnx-hx-Uhj"/>
+                <outlet property="descriptionTextView" destination="B5m-P3-ydu" id="3gP-fG-DKs"/>
+                <outlet property="scrollView" destination="IOD-QX-eJR" id="Bqh-1S-kH5"/>
+                <outlet property="view" destination="iN0-l3-epB" id="V7i-Qe-CuW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" translatesAutoresizingMaskIntoConstraints="NO" id="IOD-QX-eJR">
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3g7-wc-hKL" customClass="BorderedContainerView" customModule="SoraUI">
+                            <rect key="frame" x="20" y="0.0" width="335" height="54"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="r0d-Ma-n3h"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_topBorder" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_leftBorder" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomBorder" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_rightBorder" value="NO"/>
+                                <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                    <color key="value" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XxF-fD-oEA" customClass="ActionTitleControl" customModule="SoraUI">
+                            <rect key="frame" x="20" y="0.0" width="335" height="54"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="54" id="07b-s9-lHA"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="_title" value="Main card — ¥20,000"/>
+                                <userDefinedRuntimeAttribute type="color" keyPath="_titleColor">
+                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="image" keyPath="_icon" value="iconArrowDown"/>
+                                <userDefinedRuntimeAttribute type="string" keyPath="_titleFontName" value="HelveticaNeue"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="_titleFontSize">
+                                    <real key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="_layoutType">
+                                    <integer key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="actionTitleControl" destination="-1" eventType="valueChanged" id="dha-3E-o0j"/>
+                            </connections>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69V-4T-9bH" customClass="BorderedContainerView" customModule="SoraUI">
+                            <rect key="frame" x="20" y="54" width="335" height="105"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HK4-Di-jYi">
+                                    <rect key="frame" x="0.0" y="19" width="335" height="19"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="£" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dn7-iT-hm5">
+                                    <rect key="frame" x="0.0" y="49" width="17" height="35"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="csw-SL-z5r">
+                                    <rect key="frame" x="17" y="49" width="318" height="35"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="Pza-EU-exZ"/>
+                                    </connections>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="HK4-Di-jYi" firstAttribute="top" secondItem="69V-4T-9bH" secondAttribute="top" constant="19" id="BxN-dG-4uU"/>
+                                <constraint firstAttribute="trailing" secondItem="csw-SL-z5r" secondAttribute="trailing" id="DnG-du-Ac5"/>
+                                <constraint firstItem="dn7-iT-hm5" firstAttribute="centerY" secondItem="csw-SL-z5r" secondAttribute="centerY" id="Fba-mE-aVD"/>
+                                <constraint firstAttribute="trailing" secondItem="HK4-Di-jYi" secondAttribute="trailing" id="LOa-BM-TGt"/>
+                                <constraint firstItem="HK4-Di-jYi" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" id="Trx-gY-609"/>
+                                <constraint firstAttribute="bottom" secondItem="csw-SL-z5r" secondAttribute="bottom" constant="21" id="XYK-PF-yQq"/>
+                                <constraint firstItem="dn7-iT-hm5" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" id="arb-pe-3qr"/>
+                                <constraint firstAttribute="height" constant="105" id="f2G-ky-FV4"/>
+                                <constraint firstItem="csw-SL-z5r" firstAttribute="leading" secondItem="dn7-iT-hm5" secondAttribute="trailing" id="lWA-91-NKa"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_topBorder" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_leftBorder" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomBorder" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="_rightBorder" value="NO"/>
+                                <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                    <color key="value" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hI2-zD-twK">
+                            <rect key="frame" x="20" y="178" width="335" height="19"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maximum 150 symbols" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w75-wp-pgg">
+                            <rect key="frame" x="20" y="207" width="335" height="19"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Text about what happened" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="B5m-P3-ydu">
+                            <rect key="frame" x="14" y="199" width="341" height="45"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="kKN-tF-4TZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="JCm-Sd-JFJ"/>
+                            </connections>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="69V-4T-9bH" firstAttribute="trailing" secondItem="3g7-wc-hKL" secondAttribute="trailing" id="1P3-uc-saD"/>
+                        <constraint firstItem="hI2-zD-twK" firstAttribute="top" secondItem="69V-4T-9bH" secondAttribute="bottom" constant="19" id="4Fe-mn-7Kl"/>
+                        <constraint firstItem="B5m-P3-ydu" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" constant="-6" id="4fY-DJ-wqF"/>
+                        <constraint firstAttribute="trailing" secondItem="XxF-fD-oEA" secondAttribute="trailing" constant="20" id="5Px-9w-ZN3"/>
+                        <constraint firstItem="69V-4T-9bH" firstAttribute="leading" secondItem="3g7-wc-hKL" secondAttribute="leading" id="6GN-zK-k8s"/>
+                        <constraint firstAttribute="bottom" secondItem="B5m-P3-ydu" secondAttribute="bottom" id="BbA-AD-Myr"/>
+                        <constraint firstItem="w75-wp-pgg" firstAttribute="top" secondItem="hI2-zD-twK" secondAttribute="bottom" constant="10" id="Dr2-8I-6mJ"/>
+                        <constraint firstItem="hI2-zD-twK" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" id="Hey-G0-Ap0"/>
+                        <constraint firstAttribute="trailing" secondItem="3g7-wc-hKL" secondAttribute="trailing" constant="20" id="IaZ-rH-WnV"/>
+                        <constraint firstItem="w75-wp-pgg" firstAttribute="leading" secondItem="hI2-zD-twK" secondAttribute="leading" id="Ny4-Kp-UsN"/>
+                        <constraint firstItem="3g7-wc-hKL" firstAttribute="top" secondItem="IOD-QX-eJR" secondAttribute="top" id="OAz-8v-BBa"/>
+                        <constraint firstItem="69V-4T-9bH" firstAttribute="top" secondItem="3g7-wc-hKL" secondAttribute="bottom" id="RWs-Hd-K3s"/>
+                        <constraint firstItem="B5m-P3-ydu" firstAttribute="top" secondItem="w75-wp-pgg" secondAttribute="top" constant="-8" id="Ye1-hK-6oi"/>
+                        <constraint firstItem="XxF-fD-oEA" firstAttribute="top" secondItem="IOD-QX-eJR" secondAttribute="top" id="fI3-Ui-Nag"/>
+                        <constraint firstItem="3g7-wc-hKL" firstAttribute="leading" secondItem="IOD-QX-eJR" secondAttribute="leading" constant="20" id="g84-ul-UbK"/>
+                        <constraint firstItem="XxF-fD-oEA" firstAttribute="leading" secondItem="IOD-QX-eJR" secondAttribute="leading" constant="20" id="uhD-JE-eSI"/>
+                        <constraint firstItem="hI2-zD-twK" firstAttribute="trailing" secondItem="69V-4T-9bH" secondAttribute="trailing" id="wc5-VR-ZEP"/>
+                        <constraint firstItem="B5m-P3-ydu" firstAttribute="trailing" secondItem="69V-4T-9bH" secondAttribute="trailing" id="xiL-P2-V6q"/>
+                        <constraint firstItem="w75-wp-pgg" firstAttribute="trailing" secondItem="hI2-zD-twK" secondAttribute="trailing" id="ydD-Kb-Uh6"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="IOD-QX-eJR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="FCK-nw-6gB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IOD-QX-eJR" secondAttribute="trailing" id="ZMZ-YE-5Th"/>
+                <constraint firstItem="XxF-fD-oEA" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" constant="-40" id="gcU-Fk-UUY"/>
+                <constraint firstItem="IOD-QX-eJR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="rRU-Fl-EuF"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="IOD-QX-eJR" secondAttribute="bottom" id="xvc-at-Li6"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="47.200000000000003" y="34.632683658170919"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="iconArrowDown" width="12" height="12"/>
+    </resources>
+</document>

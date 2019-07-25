@@ -1,0 +1,38 @@
+{
+    "status": {
+        "message": "Success",
+        "code": "OK"
+    },
+    "results": [
+        {
+            "accountId": "anton@demo",
+            "firstName": "Anton",
+            "lastName": "K"
+        },
+        {
+            "accountId": "john@demo",
+            "firstName": "John",
+            "lastName": "Gold"
+        },
+        {
+            "accountId": "julio@demo",
+            "firstName": "Julio",
+            "lastName": "Johnes"
+        },
+        {
+            "accountId": "smith@demo",
+            "firstName": "John",
+            "lastName": "Smith"
+        },
+        {
+            "accountId": "highlander@demo",
+            "firstName": "Juan Sánchez Villa-Lobos",
+            "lastName": "Ramírez"
+        },
+        {
+            "accountId": "multipass@demo",
+            "firstName": "Korben",
+            "lastName": "Dallas"
+        }
+    ]
+}
