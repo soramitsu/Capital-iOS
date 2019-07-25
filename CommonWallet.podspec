@@ -10,7 +10,7 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
   s.homepage         = 'https://github.com/soramitsu'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Andrei Marin' => 'marin@soramitsu.co.jp', 'Ruslan Rezin' => 'rezin@soramitsu.co.jp' }
-  s.source           = { :git => 'https://github.com/soramitsu/common-wallet-ios.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/soramitsu/Capital-iOS.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   s.swift_version = '4.2'

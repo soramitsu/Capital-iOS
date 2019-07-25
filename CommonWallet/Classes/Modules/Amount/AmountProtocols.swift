@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 protocol AmountViewProtocol: ControllerBackedProtocol, LoadableViewProtocol, AlertPresentable {
     func set(assetViewModel: AssetSelectionViewModelProtocol)
     func set(amountViewModel: AmountInputViewModelProtocol)

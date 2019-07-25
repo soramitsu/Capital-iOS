@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 typealias FilterViewModel = [WalletViewModelProtocol]
 typealias FilterSelectionAction = ((Int) -> Void)
 

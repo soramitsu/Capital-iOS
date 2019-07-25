@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 protocol AccountListViewProtocol: ControllerBackedProtocol, Containable {
     func didLoad(viewModels: [WalletViewModelProtocol], collapsingRange: Range<Int>)
     func didCompleteReload()
