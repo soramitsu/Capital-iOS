@@ -14,23 +14,23 @@ extension Resolver: CommonWalletContextProtocol {
         return navigationController
     }
 
-    func prepareWithdrawCommand() -> WalletCommandProtocol {
+    func prepareWithdrawCommand() -> WalletPresentationCommandProtocol {
         return WithdrawCommand(resolver: self)
     }
 
-    func prepareSendCommand() -> WalletCommandProtocol {
+    func prepareSendCommand() -> WalletPresentationCommandProtocol {
         return SendCommand(resolver: self)
     }
 
-    func prepareReceiveCommand() -> WalletCommandProtocol {
+    func prepareReceiveCommand() -> WalletPresentationCommandProtocol {
         return ReceiveCommand(resolver: self)
     }
 
-    func prepareAssetDetailsCommand(for assetId: IRAssetId) -> WalletCommandProtocol {
+    func prepareAssetDetailsCommand(for assetId: IRAssetId) -> WalletPresentationCommandProtocol {
         return AssetDetailsCommand(resolver: self, assetId: assetId)
     }
 
-    func prepareScanReceiverCommand() -> WalletCommandProtocol {
+    func prepareScanReceiverCommand() -> WalletPresentationCommandProtocol {
         return ScanReceiverCommand(resolver: self)
     }
 }

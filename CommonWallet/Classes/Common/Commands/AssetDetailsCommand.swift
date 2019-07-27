@@ -5,13 +5,15 @@ final class AssetDetailsCommand {
     let resolver: ResolverProtocol
     let assetId: IRAssetId
 
+    var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
+
     init(resolver: ResolverProtocol, assetId: IRAssetId) {
         self.resolver = resolver
         self.assetId = assetId
     }
 }
 
-extension AssetDetailsCommand: WalletCommandProtocol {
+extension AssetDetailsCommand: WalletPresentationCommandProtocol {
     func execute() throws {
         guard resolver.account.assets.count > 1 else {
             return
@@ -22,12 +24,12 @@ extension AssetDetailsCommand: WalletCommandProtocol {
             return
         }
 
-        guard let assetDetailsView = AccountDetailsAssembly.assembleView(with: resolver,
-                                                                         asset: asset) else {
+        guard
+            let assetDetailsView = AccountDetailsAssembly.assembleView(with: resolver, asset: asset),
+            let navigation = resolver.navigation else {
             return
         }
 
-        assetDetailsView.controller.hidesBottomBarWhenPushed = true
-        resolver.navigation?.push(assetDetailsView.controller)
+        present(view: assetDetailsView, in: navigation)
     }
 }

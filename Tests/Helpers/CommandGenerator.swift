@@ -2,7 +2,7 @@ import Foundation
 import Cuckoo
 
 func createMockedCommandFactory() -> MockWalletCommandFactoryProtocol {
-    let command = MockWalletCommandProtocol()
+    let command = MockWalletPresentationCommandProtocol()
 
     stub(command) { stub in
         when(stub).execute().thenDoNothing()

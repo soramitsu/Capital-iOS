@@ -3,17 +3,21 @@ import Foundation
 final class ScanReceiverCommand {
     let resolver: ResolverProtocol
 
+    var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
+
     init(resolver: ResolverProtocol) {
         self.resolver = resolver
     }
 }
 
-extension ScanReceiverCommand: WalletCommandProtocol {
+extension ScanReceiverCommand: WalletPresentationCommandProtocol {
     func execute() throws {
-        guard let scanView = InvoiceScanAssembly.assembleView(with: resolver) else {
+        guard
+            let scanView = InvoiceScanAssembly.assembleView(with: resolver),
+            let navigation = resolver.navigation else {
             return
         }
 
-        resolver.navigation?.push(scanView.controller)
+        present(view: scanView, in: navigation)
     }
 }
