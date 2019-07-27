@@ -72,7 +72,8 @@ class ContactsTests: NetworkBaseTests {
                                               walletService: walletService,
                                               viewModelFactory: viewModelFactory,
                                               selectedAsset: accountSettings.assets[0],
-                                              currentAccountId: accountSettings.accountId)
+                                              currentAccountId: accountSettings.accountId,
+                                              withdrawOptions: [])
 
             presenter.setup()
 

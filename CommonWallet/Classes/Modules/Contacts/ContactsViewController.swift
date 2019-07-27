@@ -88,7 +88,7 @@ final class ContactsViewController: UIViewController {
 
         nib = UINib(nibName: "SendOptionCell", bundle: bundle)
         
-        tableView.register(nib, forCellReuseIdentifier: ContactConstants.scanCellIdentifier)
+        tableView.register(nib, forCellReuseIdentifier: ContactConstants.optionCellIdentifier)
     }
 
     private func setupSearchField() {

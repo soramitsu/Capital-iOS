@@ -1,3 +1,8 @@
+/**
+ * Copyright Soramitsu Co., Ltd. All Rights Reserved.
+ * SPDX-License-Identifier: GPL-3.0
+ */
+
 import Foundation
 import IrohaCommunication
 
@@ -14,10 +19,6 @@ extension Resolver: CommonWalletContextProtocol {
         return navigationController
     }
 
-    func prepareWithdrawCommand() -> WalletPresentationCommandProtocol {
-        return WithdrawCommand(resolver: self)
-    }
-
     func prepareSendCommand() -> WalletPresentationCommandProtocol {
         return SendCommand(resolver: self)
     }
@@ -30,7 +31,13 @@ extension Resolver: CommonWalletContextProtocol {
         return AssetDetailsCommand(resolver: self, assetId: assetId)
     }
 
-    func prepareScanReceiverCommand() -> WalletPresentationCommandProtocol {
-        return ScanReceiverCommand(resolver: self)
+    func prepareScanReceiverCommand(defaultAssetId: IRAssetId) -> WalletPresentationCommandProtocol {
+        return ScanReceiverCommand(resolver: self, defaultAssetId: defaultAssetId)
+    }
+
+
+    func prepareWithdrawCommand(for option: WalletWithdrawOption, assetId: IRAssetId)
+        -> WalletPresentationCommandProtocol {
+            return WithdrawCommand(resolver: self, option: option, assetId: assetId)
     }
 }

@@ -9,28 +9,29 @@ import IrohaCommunication
 public protocol WalletAccountSettingsProtocol {
     var accountId: IRAccountId { get }
     var assets: [WalletAsset] { get }
+    var withdrawOptions: [WalletWithdrawOption] { get }
     var signer: IRSignatureCreatorProtocol { get }
     var publicKey: IRPublicKeyProtocol { get }
     var transactionQuorum: UInt { get }
 }
 
 public struct WalletAccountSettings: WalletAccountSettingsProtocol {
-    public let accountId: IRAccountId
-    public let assets: [WalletAsset]
-    public let signer: IRSignatureCreatorProtocol
-    public let publicKey: IRPublicKeyProtocol
-    public let transactionQuorum: UInt
+    public var accountId: IRAccountId
+    public var assets: [WalletAsset]
+    public var signer: IRSignatureCreatorProtocol
+    public var publicKey: IRPublicKeyProtocol
+
+    public var withdrawOptions: [WalletWithdrawOption] = []
+    public var transactionQuorum: UInt = 1
 
     public init(accountId: IRAccountId,
                 assets: [WalletAsset],
                 signer: IRSignatureCreatorProtocol,
-                publicKey: IRPublicKeyProtocol,
-                transactionQuorum: UInt = 1) {
+                publicKey: IRPublicKeyProtocol) {
         self.accountId = accountId
         self.assets = assets
         self.signer = signer
         self.publicKey = publicKey
-        self.transactionQuorum = transactionQuorum
     }
 }
 

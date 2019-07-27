@@ -20,7 +20,16 @@ func createRandomAssetId() throws -> String {
     return "\(assetName)#asset"
 }
 
-func createRandomAccountSettings(for assetsCount: Int) throws -> WalletAccountSettings {
+func createRandomWithdrawOption() -> WalletWithdrawOption {
+    return WalletWithdrawOption(identifier: UUID().uuidString,
+                                symbol: UUID().uuidString,
+                                title: UUID().uuidString,
+                                details: UUID().uuidString,
+                                icon: nil)
+}
+
+func createRandomAccountSettings(for assetsCount: Int, withdrawOptionsCount: Int = 0)
+    throws -> WalletAccountSettings {
     let assets = try (0..<assetsCount).map { (index) -> WalletAsset in
         let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
         return WalletAsset(identifier: assetId,
@@ -28,18 +37,30 @@ func createRandomAccountSettings(for assetsCount: Int) throws -> WalletAccountSe
                            details: UUID().uuidString)
     }
 
-    return try createRandomAccountSettings(for: assets)
+    let withdrawOptions: [WalletWithdrawOption]
+
+    if withdrawOptionsCount > 0 {
+        withdrawOptions = (0..<withdrawOptionsCount).map { _ in createRandomWithdrawOption() }
+    } else {
+        withdrawOptions = []
+    }
+
+    return try createRandomAccountSettings(for: assets, withdrawOptions: withdrawOptions)
 }
 
-func createRandomAccountSettings(for assets: [WalletAsset]) throws -> WalletAccountSettings {
+func createRandomAccountSettings(for assets: [WalletAsset], withdrawOptions: [WalletWithdrawOption])
+    throws -> WalletAccountSettings {
     let account = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
 
     let keypair = IREd25519KeyFactory().createRandomKeypair()!
 
     let signer = IREd25519Sha512Signer(privateKey: keypair.privateKey())!
 
-    return WalletAccountSettings(accountId: account,
-                                 assets: assets,
-                                 signer: signer,
-                                 publicKey: keypair.publicKey())
+    var settings = WalletAccountSettings(accountId: account,
+                                         assets: assets,
+                                         signer: signer,
+                                         publicKey: keypair.publicKey())
+    settings.withdrawOptions = withdrawOptions
+
+    return settings
 }

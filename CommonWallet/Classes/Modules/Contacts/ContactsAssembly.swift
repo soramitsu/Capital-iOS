@@ -43,7 +43,8 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           walletService: walletService,
                                           viewModelFactory: viewModelFactory,
                                           selectedAsset: selectedAsset,
-                                          currentAccountId: resolver.account.accountId)
+                                          currentAccountId: resolver.account.accountId,
+                                          withdrawOptions: resolver.account.withdrawOptions)
         view.presenter = presenter
 
         return view
