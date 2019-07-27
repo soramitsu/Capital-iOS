@@ -19,7 +19,7 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
             return
         }
         
-        resolver.navigation.push(amountView.controller)
+        resolver.navigation?.push(amountView.controller)
     }
 
     func scanInvoice() {
@@ -27,10 +27,10 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
             return
         }
 
-        resolver.navigation.push(scanView.controller)
+        resolver.navigation?.push(scanView.controller)
     }
     
     func dismiss() {
-        resolver.navigation.dismiss()
+        resolver.navigation?.dismiss()
     }
 }

@@ -7,7 +7,7 @@ import Foundation
 import IrohaCommunication
 
 public typealias AssetViewModelFactory =
-    (WalletAsset, BalanceData, AssetViewModelDelegate?) throws -> AssetViewModelProtocol
+    (WalletAsset, BalanceData, WalletCommandFactoryProtocol) throws -> AssetViewModelProtocol
 
 public protocol AssetViewModelProtocol: WalletViewModelProtocol {
     var assetId: String { get }
@@ -17,10 +17,6 @@ public protocol AssetViewModelProtocol: WalletViewModelProtocol {
     var accessoryDetails: String? { get }
     var imageViewModel: WalletImageViewModelProtocol? { get }
     var style: AssetCellStyle { get }
-}
-
-public protocol AssetViewModelDelegate: class {
-    func didSelect(assetViewModel: AssetViewModelProtocol)
 }
 
 final class AssetViewModel: AssetViewModelProtocol {
@@ -36,15 +32,12 @@ final class AssetViewModel: AssetViewModelProtocol {
     var imageViewModel: WalletImageViewModelProtocol?
     var style: AssetCellStyle
 
-    weak var delegate: AssetViewModelDelegate?
+    var command: WalletCommandProtocol?
 
-    init(cellReuseIdentifier: String, itemHeight: CGFloat, style: AssetCellStyle) {
+    init(cellReuseIdentifier: String, itemHeight: CGFloat, style: AssetCellStyle, command: WalletCommandProtocol?) {
         self.cellReuseIdentifier = cellReuseIdentifier
         self.itemHeight = itemHeight
         self.style = style
-    }
-
-    func didSelect() {
-        delegate?.didSelect(assetViewModel: self)
+        self.command = command
     }
 }

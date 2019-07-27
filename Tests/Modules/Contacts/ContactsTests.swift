@@ -33,7 +33,9 @@ class ContactsTests: NetworkBaseTests {
 
             let contactsConfiguration = ContactsModuleBuilder().build()
 
-            let viewModelFactory = ContactsViewModelFactory(configuration: contactsConfiguration, avatarRadius: 10.0)
+            let commandFactory = createMockedCommandFactory()
+
+            let viewModelFactory = ContactsViewModelFactory(configuration: contactsConfiguration, avatarRadius: 10.0, commandFactory: commandFactory)
 
             let view = MockContactsViewProtocol()
             let coordinator = MockContactsCoordinatorProtocol()

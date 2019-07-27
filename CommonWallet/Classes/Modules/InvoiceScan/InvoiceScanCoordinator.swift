@@ -18,6 +18,6 @@ final class InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
             return
         }
 
-        resolver.navigation.push(view.controller)
+        resolver.navigation?.push(view.controller)
     }
 }

@@ -33,7 +33,7 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(transactionTypeList: [WalletTransactionType]) -> Self
 
-    func build() throws -> UINavigationController
+    func build() throws -> CommonWalletContextProtocol
 }
 
 public enum CommonWalletBuilderError: Error {
@@ -126,7 +126,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    public func build() throws -> UINavigationController {
+    public func build() throws -> CommonWalletContextProtocol {
         let style = privateStyleBuilder.build()
 
         privateAccountModuleBuilder.walletStyle = style
@@ -172,13 +172,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
             resolver.transactionTypeList = transactionTypeList
         }
 
-        guard let dashboardView = DashboardAssembly.assembleView(with: resolver) else {
-            throw CommonWalletBuilderError.moduleCreationFailed
-        }
-
-        let navigation = Navigation(rootController: dashboardView.controller, style: style)
-        resolver.navigation = navigation
-
-        return navigation.navigationController
+        return resolver
     }
 }

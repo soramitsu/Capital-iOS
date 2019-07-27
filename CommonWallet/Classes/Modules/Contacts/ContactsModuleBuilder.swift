@@ -18,9 +18,9 @@ final class ContactsModuleBuilder {
     fileprivate lazy var cellStyle: ContactCellStyleProtocol = {
         return ContactCellStyle.createDefaultStyle(with: walletStyle)
     }()
-    
-    fileprivate lazy var scanStyle: ScanCodeCellStyleProtocol = {
-        return ScanCodeCellStyle.createDefaultStyle(with: walletStyle)
+
+    fileprivate lazy var sendOptionStyle: SendOptionCellStyleProtocol = {
+        return SendOptionCellStyle.createDefaultStyle(with: walletStyle)
     }()
     
     fileprivate lazy var viewStyle: ContactsViewStyleProtocol = {
@@ -44,8 +44,8 @@ final class ContactsModuleBuilder {
     
     func build() -> ContactsConfigurationProtocol {
         return ContactsConfiguration(contactCellStyle: cellStyle,
-                                     scanCodeCellStyle: scanStyle,
                                      viewStyle: viewStyle,
+                                     sendOptionStyle: sendOptionStyle,
                                      sectionStyle: sectionStyle,
                                      searchPlaceholder: searchPlaceholder,
                                      contactsEmptyStateDataSource: contactsEmptyStateDataSource,
@@ -64,9 +64,10 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
         cellStyle = contactCellStyle
         return self
     }
-    
-    func with(scanCellStyle: ScanCodeCellStyleProtocol) -> Self {
-        scanStyle = scanCellStyle
+
+    @discardableResult
+    func with(sendOptionCellStyle: SendOptionCellStyleProtocol) -> Self {
+        self.sendOptionStyle = sendOptionStyle
         return self
     }
     

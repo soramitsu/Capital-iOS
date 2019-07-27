@@ -77,7 +77,7 @@ class FilterTests: XCTestCase {
                 return
             }
 
-            setupViewModel[1].didSelect()
+            try setupViewModel[1].command?.execute()
 
             XCTAssert(validateAssets(viewModel: setupViewModel, assetsCount: assetsCount))
             XCTAssert(validateTypes(viewModel: setupViewModel, typesCount: transactionTypesCount))
@@ -131,7 +131,7 @@ class FilterTests: XCTestCase {
                 }
             }
 
-            optionalViewModel?[assetsCount + 2].didSelect()
+            try optionalViewModel?[assetsCount + 2].command?.execute()
 
             wait(for: [firstDateExpectation], timeout: Constants.networkTimeout)
 
@@ -159,7 +159,7 @@ class FilterTests: XCTestCase {
                 }
             }
 
-            optionalViewModel?[assetsCount + 3].didSelect()
+            try optionalViewModel?[assetsCount + 3].command?.execute()
 
             wait(for: [secondDateExpectation], timeout: Constants.networkTimeout)
 

@@ -88,32 +88,9 @@ extension AccountListPresenter: AccountListPresenterProtocol {
     }
 }
 
-extension AccountListPresenter: AccountModuleViewDelegate {
+extension AccountListPresenter: ShowMoreViewModelDelegate {
     func shouldToggleExpansion(from value: Bool, for viewModel: WalletViewModelProtocol) -> Bool {
         view?.set(expanded: !value, animated: true)
         return true
-    }
-
-    func didSelect(assetViewModel: AssetViewModelProtocol) {
-        guard viewModelFactory.assets.count > 1 else {
-            return
-        }
-
-        guard
-            let asset = viewModelFactory.assets
-                .first(where: { $0.identifier.identifier() == assetViewModel.assetId }) else {
-                    logger?.error("Can't find asset to open details")
-                    return
-        }
-
-        coordinator.showDetails(for: asset)
-    }
-
-    func didRequestSend(for viewModel: ActionsViewModelProtocol) {
-        coordinator.send()
-    }
-
-    func didRequestReceive(for viewModel: ActionsViewModelProtocol) {
-        coordinator.receive()
     }
 }

@@ -55,9 +55,12 @@ final class ContactViewModel: ContactViewModelProtocol {
         self.image = image
         
     }
-    
-    func didSelect() {
+}
+
+extension ContactViewModel: WalletCommandProtocol {
+    var command: WalletCommandProtocol? { return self }
+
+    func execute() throws {
         delegate?.didSelect(contact: self)
     }
-    
 }

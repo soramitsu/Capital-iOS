@@ -10,9 +10,9 @@ public protocol ContactsModuleBuilderProtocol: class {
     
     @discardableResult
     func with(contactCellStyle: ContactCellStyleProtocol) -> Self
-    
+
     @discardableResult
-    func with(scanCellStyle: ScanCodeCellStyleProtocol) -> Self
+    func with(sendOptionCellStyle: SendOptionCellStyleProtocol) -> Self
     
     @discardableResult
     func with(viewStyle: ContactsViewStyleProtocol) -> Self

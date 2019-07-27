@@ -34,7 +34,8 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           operationFactory: networkOperationFactory)
 
         let viewModelFactory = ContactsViewModelFactory(configuration: config,
-                                                        avatarRadius: ContactCell.avatarRadius)
+                                                        avatarRadius: ContactCell.avatarRadius,
+                                                        commandFactory: resolver.commandFactory)
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,

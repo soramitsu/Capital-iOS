@@ -15,11 +15,7 @@ protocol AccountListPresenterProtocol: class {
     func viewDidAppear()
 }
 
-protocol AccountListCoordinatorProtocol: class {
-    func send()
-    func receive()
-    func showDetails(for asset: WalletAsset)
-}
+protocol AccountListCoordinatorProtocol: class {}
 
 protocol AccountListAssemblyProtocol: class {
     static func assembleView(with resolver: ResolverProtocol) -> AccountListViewProtocol?

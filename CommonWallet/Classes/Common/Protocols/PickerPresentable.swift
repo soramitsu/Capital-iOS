@@ -24,7 +24,7 @@ extension PickerPresentable where Self: CoordinatorProtocol {
             return
         }
 
-        resolver.navigation.present(view.controller)
+        resolver.navigation?.present(view.controller)
     }
     
     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?) {
@@ -35,7 +35,7 @@ extension PickerPresentable where Self: CoordinatorProtocol {
             return
         }
         
-        resolver.navigation.present(view.controller)
+        resolver.navigation?.present(view.controller)
     }
 
 }

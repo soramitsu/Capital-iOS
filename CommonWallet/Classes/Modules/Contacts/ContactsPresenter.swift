@@ -185,7 +185,7 @@ final class ContactsPresenter: NSObject {
 extension ContactsPresenter: ContactsPresenterProtocol {
     
     func setup() {
-        viewModel.actions.append(viewModelFactory.createScanViewModel(delegate: self))
+        viewModel.actions.append(viewModelFactory.createScanViewModel())
         view?.set(viewModel: viewModel)
         
         setupDataProvider()
@@ -210,16 +210,6 @@ extension ContactsPresenter: ContactsPresenterProtocol {
     }
     
 }
-
-
-extension ContactsPresenter: ScanCodeViewModelDelegate {
-    
-    func scanCode() {
-        coordinator.scanInvoice()
-    }
-    
-}
-
 
 extension ContactsPresenter: ContactViewModelDelegate {
     

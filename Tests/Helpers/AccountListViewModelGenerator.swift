@@ -6,16 +6,17 @@
 import Foundation
 @testable import CommonWallet
 
-func createAccountListAssetViewModel(asset: WalletAsset, balanceData: BalanceData, delegate: AssetViewModelDelegate?)
+func createAccountListAssetViewModel(asset: WalletAsset, balanceData: BalanceData, commandFactory: WalletCommandFactoryProtocol)
     throws -> AssetViewModelProtocol {
+        let assetCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
         let cardStyle = CardAssetStyle.createDefaultCardStyle(with: WalletStyle())
         let viewModel = AssetViewModel(cellReuseIdentifier: UUID().uuidString,
                                        itemHeight: CGFloat.random(in: 0...100),
-                                       style: .card(cardStyle))
+                                       style: .card(cardStyle),
+                                       command: assetCommand)
         viewModel.amount = balanceData.balance
         viewModel.details = asset.details
         viewModel.symbol = asset.symbol
-        viewModel.delegate = delegate
 
         return viewModel
 }
@@ -28,13 +29,16 @@ func createAccountListShowMoreViewModel(delegate: ShowMoreViewModelDelegate?) th
     return viewModel
 }
 
-func createAccountListActionsViewModel(delegate: ActionsViewModelDelegate?) throws -> ActionsViewModelProtocol {
+func createAccountListActionsViewModel(commandFactory: WalletCommandFactoryProtocol) throws -> ActionsViewModelProtocol {
+    let sendCommand = commandFactory.prepareSendCommand()
+    let receiveCommand = commandFactory.prepareReceiveCommand()
     let textStyle = WalletTextStyle(font: .walletHeader1, color: .black)
     let viewModel = ActionsViewModel(cellReuseIdentifier: UUID().uuidString,
                                      itemHeight: CGFloat.random(in: 0...100),
-                                     style: ActionsCellStyle(sendText: textStyle, receiveText: textStyle))
+                                     style: ActionsCellStyle(sendText: textStyle, receiveText: textStyle),
+                                     sendCommand: sendCommand,
+                                     receiveCommand: receiveCommand)
 
-    viewModel.delegate = delegate
     return viewModel
 }
 

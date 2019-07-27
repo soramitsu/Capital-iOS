@@ -21,6 +21,7 @@
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
 		8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */; };
 		8425DBB62282B27D008A8B6A /* TransferResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB22282B27D008A8B6A /* TransferResultTests.swift */; };
+		84449ED922EC48C60024BE85 /* CommandGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84449ED822EC48C60024BE85 /* CommandGenerator.swift */; };
 		84476229224CE545009ADC0E /* AccountListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84476227224CE52C009ADC0E /* AccountListTests.swift */; };
 		8447625E224D41E0009ADC0E /* BalanceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447625D224D41E0009ADC0E /* BalanceServiceTests.swift */; };
 		84476260224D41FE009ADC0E /* NetworkBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447625F224D41FE009ADC0E /* NetworkBaseTests.swift */; };
@@ -128,6 +129,7 @@
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
 		8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailsTests.swift; sourceTree = "<group>"; };
 		8425DBB22282B27D008A8B6A /* TransferResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferResultTests.swift; sourceTree = "<group>"; };
+		84449ED822EC48C60024BE85 /* CommandGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandGenerator.swift; sourceTree = "<group>"; };
 		84476227224CE52C009ADC0E /* AccountListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListTests.swift; sourceTree = "<group>"; };
 		8447625D224D41E0009ADC0E /* BalanceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceServiceTests.swift; sourceTree = "<group>"; };
 		8447625F224D41FE009ADC0E /* NetworkBaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBaseTests.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				84C1807222554BBF00F19858 /* ViewModelGenerator.swift */,
 				84C180742255D6E100F19858 /* AccountListViewModelGenerator.swift */,
 				84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */,
+				84449ED822EC48C60024BE85 /* CommandGenerator.swift */,
 			);
 			name = Helpers;
 			path = ../../Tests/Helpers;
@@ -820,7 +823,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n";
+			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n";
 		};
 		8489659A2253A3A300EBAC6D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -956,6 +959,7 @@
 				8447625E224D41E0009ADC0E /* BalanceServiceTests.swift in Sources */,
 				848B6ECF224D6EFF00E8A3C9 /* TransferServiceTests.swift in Sources */,
 				84476260224D41FE009ADC0E /* NetworkBaseTests.swift in Sources */,
+				84449ED922EC48C60024BE85 /* CommandGenerator.swift in Sources */,
 				8447626A224D4783009ADC0E /* CommonMocks.swift in Sources */,
 				8B2D0389227833A900B4BDF7 /* MoneyPresentableTests.swift in Sources */,
 				84AF3DD72296F068008725C3 /* ReceiveAmountTests.swift in Sources */,

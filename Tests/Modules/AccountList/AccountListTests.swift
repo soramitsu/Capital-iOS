@@ -145,7 +145,8 @@ class AccountListTests: NetworkBaseTests {
         let balanceProvider = try dataProviderFactory.createBalanceDataProvider()
 
         let viewModelFactory = AccountModuleViewModelFactory(context: resolver.accountListConfiguration.viewModelContext,
-                                                             assets: resolver.account.assets)
+                                                             assets: resolver.account.assets,
+                                                             commandFactory: resolver.commandFactory)
 
         return AccountListPresenter(view: view,
                                     coordinator: coordinator,
@@ -171,12 +172,15 @@ class AccountListTests: NetworkBaseTests {
         let accountListConfiguration = try AccountListModuleBuilder().build()
         let style = WalletStyle()
 
+        let commandFactory = createMockedCommandFactory()
+
         stub(resolver) { stub in
             when(stub).account.get.then { account }
             when(stub).networkResolver.get.then { networkResolver }
             when(stub).style.get.then { style }
             when(stub).accountListConfiguration.get.then { accountListConfiguration }
             when(stub).logger.get.then { nil }
+            when(stub).commandFactory.get.thenReturn(commandFactory)
         }
 
         return resolver

@@ -76,13 +76,15 @@ final class DefaultDemo: DemoFactoryProtocol {
             .with(bodyRegular: .demoBodyRegular)
             .with(small: .demoSmall)
 
-        let walletController = try walletBuilder.build()
+        let walletContext = try walletBuilder.build()
 
         try mock(networkResolver: networkResolver, with: assets)
 
         self.completionBlock = completionBlock
 
-        return walletController
+        let rootController = try walletContext.createRootController()
+
+        return rootController
     }
 
     func createAssets() throws -> [WalletAsset] {

@@ -167,7 +167,7 @@ extension AccountListViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
 
         let row = adjustedRow(for: indexPath.row)
-        viewModels[row].didSelect()
+        try? viewModels[row].command?.execute()
     }
 }
 

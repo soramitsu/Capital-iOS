@@ -18,6 +18,6 @@ final class ConfirmationCoordinator: ConfirmationCoordinatorProtocol {
             return
         }
 
-        resolver.navigation.set(view.controller, animated: true)
+        resolver.navigation?.set(view.controller, animated: true)
     }
 }

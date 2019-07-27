@@ -18,7 +18,7 @@ protocol ContactsViewModelFactoryProtocol {
     
     func createContactViewModel(from contact: SearchData,
                                 delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
-    func createScanViewModel(delegate: ScanCodeViewModelDelegate?) -> ScanCodeViewModelProtocol
+    func createScanViewModel() -> SendOptionViewModelProtocol
     
 }
 
@@ -27,10 +27,13 @@ final class ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
     
     private let configuration: ContactsConfigurationProtocol
     private let avatarRadius: CGFloat
-    
-    init(configuration: ContactsConfigurationProtocol, avatarRadius: CGFloat) {
+    private let commandFactory: WalletCommandFactoryProtocol
+
+    init(configuration: ContactsConfigurationProtocol, avatarRadius: CGFloat,
+         commandFactory: WalletCommandFactoryProtocol) {
         self.configuration = configuration
         self.avatarRadius = avatarRadius
+        self.commandFactory = commandFactory
     }
     
     func createContactViewModel(from contact: SearchData,
@@ -52,12 +55,15 @@ final class ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
         return viewModel
     }
     
-    func createScanViewModel(delegate: ScanCodeViewModelDelegate?) -> ScanCodeViewModelProtocol {
-        
-        let viewModel = ScanCodeViewModel(cellReuseIdentifier: ContactConstants.scanCellIdentifier,
-                                          itemHeight: ContactConstants.scanCellHeight)
-        viewModel.delegate = delegate
-        viewModel.style = configuration.scanCodeCellStyle
+    func createScanViewModel() -> SendOptionViewModelProtocol {
+        let scanCommand = commandFactory.prepareScanReceiverCommand()
+        let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.scanCellIdentifier,
+                                            itemHeight: ContactConstants.scanCellHeight,
+                                            command: scanCommand)
+
+        viewModel.title = "Scan QR code"
+        viewModel.icon = UIImage(named: "qr", in: Bundle(for: type(of: self)), compatibleWith: nil)
+        viewModel.style = configuration.sendOptionStyle
         
         return viewModel
     }

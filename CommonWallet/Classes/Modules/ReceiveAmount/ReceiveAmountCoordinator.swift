@@ -14,6 +14,6 @@ final class ReceiveAmountCoordinator: ReceiveAmountCoordinatorProtocol {
     }
 
     func close() {
-        resolver.navigation.dismiss()
+        resolver.navigation?.dismiss()
     }
 }

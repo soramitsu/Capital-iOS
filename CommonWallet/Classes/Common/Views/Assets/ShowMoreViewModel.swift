@@ -49,8 +49,12 @@ final class ShowMoreViewModel: ShowMoreViewModelProtocol {
         self.itemHeight = itemHeight
         self.style = style
     }
+}
 
-    func didSelect() {
+extension ShowMoreViewModel: WalletCommandProtocol {
+    var command: WalletCommandProtocol? { return self }
+
+    func execute() throws {
         if let delegate = delegate {
             if delegate.shouldToggleExpansion(from: expanded, for: self) {
                 expanded = !expanded

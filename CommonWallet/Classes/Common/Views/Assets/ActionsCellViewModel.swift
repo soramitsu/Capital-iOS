@@ -5,36 +5,39 @@
 
 import Foundation
 
-public typealias ActionsViewModelFactory = (ActionsViewModelDelegate?) throws -> ActionsViewModelProtocol
+public typealias ActionsViewModelFactory = (WalletCommandFactoryProtocol) throws -> ActionsViewModelProtocol
 
 public protocol ActionsViewModelProtocol: WalletViewModelProtocol {
     var sendTitle: String { get }
     var receiveTitle: String { get }
     var style: ActionsCellStyle { get }
 
-    var delegate: ActionsViewModelDelegate? { get }
-}
-
-public protocol ActionsViewModelDelegate: class {
-    func didRequestSend(for viewModel: ActionsViewModelProtocol)
-    func didRequestReceive(for viewModel: ActionsViewModelProtocol)
+    var sendCommand: WalletCommandProtocol { get }
+    var receiveCommand: WalletCommandProtocol { get }
 }
 
 final class ActionsViewModel: ActionsViewModelProtocol {
     var cellReuseIdentifier: String
     var itemHeight: CGFloat
 
+    var command: WalletCommandProtocol? { return nil }
+
     var sendTitle: String = "Send"
     var receiveTitle: String = "Receive"
     var style: ActionsCellStyle
 
-    weak var delegate: ActionsViewModelDelegate?
+    var sendCommand: WalletCommandProtocol
+    var receiveCommand: WalletCommandProtocol
 
-    init(cellReuseIdentifier: String, itemHeight: CGFloat, style: ActionsCellStyle) {
+    init(cellReuseIdentifier: String,
+         itemHeight: CGFloat,
+         style: ActionsCellStyle,
+         sendCommand: WalletCommandProtocol,
+         receiveCommand: WalletCommandProtocol) {
         self.cellReuseIdentifier = cellReuseIdentifier
         self.itemHeight = itemHeight
         self.style = style
+        self.sendCommand = sendCommand
+        self.receiveCommand = receiveCommand
     }
-
-    func didSelect() {}
 }

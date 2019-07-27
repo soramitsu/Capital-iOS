@@ -86,7 +86,7 @@ final class ContactsViewController: UIViewController {
         
         tableView.register(nib, forCellReuseIdentifier: ContactConstants.contactCellIdentifier)
 
-        nib = UINib(nibName: "ScanCodeCell", bundle: bundle)
+        nib = UINib(nibName: "SendOptionCell", bundle: bundle)
         
         tableView.register(nib, forCellReuseIdentifier: ContactConstants.scanCellIdentifier)
     }
@@ -151,7 +151,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        contactsViewModel[indexPath]!.didSelect()
+        try? contactsViewModel[indexPath]?.command?.execute()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
