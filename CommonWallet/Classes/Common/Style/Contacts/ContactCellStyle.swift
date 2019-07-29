@@ -9,7 +9,6 @@ import Foundation
 public protocol ContactCellStyleProtocol {
     var title: WalletTextStyleProtocol { get }
     var nameIcon: WalletNameIconStyleProtocol { get }
-    var separatorColor: UIColor { get }
     var accessoryIcon: UIImage? { get }
 }
 
@@ -17,16 +16,13 @@ public protocol ContactCellStyleProtocol {
 public struct ContactCellStyle: ContactCellStyleProtocol {
     public var title: WalletTextStyleProtocol
     public var nameIcon: WalletNameIconStyleProtocol
-    public var separatorColor: UIColor
     public var accessoryIcon: UIImage?
     
     public init(title: WalletTextStyleProtocol,
                 nameIcon: WalletNameIconStyleProtocol,
-                separatorColor: UIColor,
                 accessoryIcon: UIImage?) {
         self.title = title
         self.nameIcon = nameIcon
-        self.separatorColor = separatorColor
         self.accessoryIcon = accessoryIcon
     }
 
@@ -42,7 +38,6 @@ extension ContactCellStyle {
                                     compatibleWith: nil)
         return ContactCellStyle(title: title,
                                 nameIcon: style.nameIconStyle,
-                                separatorColor: style.thinBorderColor,
                                 accessoryIcon: accessoryIcon)
     }
 

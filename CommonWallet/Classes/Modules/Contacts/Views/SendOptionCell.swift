@@ -30,7 +30,7 @@ final class SendOptionCell: UITableViewCell {
         if let style = sendOptionViewModel?.style {
             titleLabel.font = style.title.font
             titleLabel.textColor = style.title.color
-            borderView.strokeColor = style.separatorColor
+            borderView.strokeColor = .clear
             accessoryImageView.image = style.accessoryIcon
         }
     }

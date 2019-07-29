@@ -102,11 +102,8 @@ final class ContactsViewController: UIViewController {
             searchFieldBackgroundView.fillColor = style.searchFieldColor
             searchField.font = style.searchTextStyle.font
             searchField.textColor = style.searchTextStyle.color
-        }
-
-        if let style = configuration?.contactCellStyle {
-            searchBorderView.strokeColor = style.separatorColor
-            tableView.separatorColor = style.separatorColor
+            searchBorderView.strokeColor = .thinBorder
+            tableView.separatorColor = .thinBorder
         }
 
         if let caretColor = style?.caretColor {
@@ -170,6 +167,26 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
         header.set(title: title)
         
         return header
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard section == 0 else {
+            return nil
+        }
+
+        let footerView = UINib(nibName: "SeparatorSectionView", bundle: Bundle(for: type(of: self)))
+            .instantiate(withOwner: nil, options: nil).first as? SeparatorSectionView
+        footerView?.style = configuration?.viewStyle.actionsSeparator
+
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        guard section == 0 else {
+            return 0.0
+        }
+
+        return configuration?.viewStyle.actionsSeparator.lineWidth ?? 0.0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

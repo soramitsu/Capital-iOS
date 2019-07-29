@@ -14,6 +14,8 @@ public protocol ContactsViewStyleProtocol {
     var searchFieldColor: UIColor { get }
     var closeIcon: UIImage? { get }
     var searchIcon: UIImage? { get }
+    var separatorColor: UIColor { get }
+    var actionsSeparator: WalletStrokeStyleProtocol { get }
 }
 
 
@@ -25,6 +27,8 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
     public var searchIndicatorStyle: UIColor
     public var closeIcon: UIImage?
     public var searchIcon: UIImage?
+    public var separatorColor: UIColor
+    public var actionsSeparator: WalletStrokeStyleProtocol
 
     public init(backgroundColor: UIColor,
                 searchHeaderBackgroundColor: UIColor,
@@ -32,7 +36,9 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
                 searchFieldColor: UIColor,
                 searchIndicatorStyle: UIColor,
                 closeIcon: UIImage?,
-                searchIcon: UIImage?) {
+                searchIcon: UIImage?,
+                separatorColor: UIColor,
+                actionsSeparator: WalletStrokeStyleProtocol) {
         self.backgroundColor = backgroundColor
         self.searchTextStyle = searchTextStyle
         self.searchHeaderBackgroundColor = searchHeaderBackgroundColor
@@ -40,6 +46,8 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
         self.searchIndicatorStyle = searchIndicatorStyle
         self.closeIcon = closeIcon
         self.searchIcon = searchIcon
+        self.separatorColor = separatorColor
+        self.actionsSeparator = actionsSeparator
     }
 
 }
@@ -56,7 +64,9 @@ extension ContactsViewStyle {
                                  searchFieldColor: .search,
                                  searchIndicatorStyle: .greyText,
                                  closeIcon: style.closeIcon,
-                                 searchIcon: searchIcon)
+                                 searchIcon: searchIcon,
+                                 separatorColor: style.thinBorderColor,
+                                 actionsSeparator: WalletStrokeStyle(color: style.accentColor))
     }
 
 }
