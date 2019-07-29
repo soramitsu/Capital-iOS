@@ -80,6 +80,10 @@
 		84E048A222C209E700F0CA66 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
 		84E28A552279753B00F7646D /* AmountSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A502279753B00F7646D /* AmountSetupTests.swift */; };
 		84E28A562279753B00F7646D /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A522279753B00F7646D /* ContactsTests.swift */; };
+		84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */; };
+		84F77F1B22EF873300152FE2 /* withdrawalMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */; };
+		84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */; };
+		84F77F1E22EF8CB200152FE2 /* withdrawalMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */; };
 		84FA00942269B677005DA950 /* DefaultEmptyStateDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FA00932269B677005DA950 /* DefaultEmptyStateDataSource.swift */; };
 		84FA00962269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FA00952269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift */; };
 		84FA00982269BB33005DA950 /* historyEmptyResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FA00972269BB33005DA950 /* historyEmptyResponse.json */; };
@@ -176,6 +180,9 @@
 		84C180742255D6E100F19858 /* AccountListViewModelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListViewModelGenerator.swift; sourceTree = "<group>"; };
 		84E28A502279753B00F7646D /* AmountSetupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountSetupTests.swift; sourceTree = "<group>"; };
 		84E28A522279753B00F7646D /* ContactsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
+		84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawServiceTests.swift; sourceTree = "<group>"; };
+		84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataResponse.json; sourceTree = "<group>"; };
+		84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalMetadataServiceTests.swift; sourceTree = "<group>"; };
 		84FA00932269B677005DA950 /* DefaultEmptyStateDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEmptyStateDataSource.swift; sourceTree = "<group>"; };
 		84FA00952269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultEmptyStateDataSource+Module.swift"; sourceTree = "<group>"; };
 		84FA00972269BB33005DA950 /* historyEmptyResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyEmptyResponse.json; sourceTree = "<group>"; };
@@ -377,6 +384,8 @@
 				84AF3DCE22967405008725C3 /* ContactsServiceTests.swift */,
 				848B6ECE224D6EFF00E8A3C9 /* TransferServiceTests.swift */,
 				848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */,
+				84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */,
+				84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -470,6 +479,7 @@
 				84FA00972269BB33005DA950 /* historyEmptyResponse.json */,
 				841550E1228D50DA001F18A7 /* transferFailResponse.json */,
 				845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */,
+				84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -716,6 +726,7 @@
 				84C180552253AA0400F19858 /* DemoListViewController.xib in Resources */,
 				848B6EB8224D5A1100E8A3C9 /* accounBalanceResponse.json in Resources */,
 				8B5E81D22268BBA9001DB674 /* contactsResponse.json in Resources */,
+				84F77F1B22EF873300152FE2 /* withdrawalMetadataResponse.json in Resources */,
 				84C1806F22551FCF00F19858 /* DemoHeaderCell.xib in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				845D1DA022B539CC000641F9 /* irohaErrorResponse.json in Resources */,
@@ -738,6 +749,7 @@
 				848B6ED5224D7B2300E8A3C9 /* searchResponse.json in Resources */,
 				848B6ED4224D7B2300E8A3C9 /* successResultResponse.json in Resources */,
 				84752C5722A804B70068188B /* searchInvoiceResponse.json in Resources */,
+				84F77F1E22EF8CB200152FE2 /* withdrawalMetadataResponse.json in Resources */,
 				8B7DC34122B6F952004BFE79 /* historyFilteredResponse.json in Resources */,
 				84AF3DDA2297D442008725C3 /* accountBalanceSingleResponse.json in Resources */,
 				848B6ED7224D7B2300E8A3C9 /* historyResponse.json in Resources */,
@@ -973,6 +985,7 @@
 				84AF3DD32296E892008725C3 /* ConfirmationTests.swift in Sources */,
 				848B6ECB224D6B2500E8A3C9 /* ModelGenerator.swift in Sources */,
 				84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */,
+				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,
 				84C180752255D6E100F19858 /* AccountListViewModelGenerator.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
 				84146E2222B0339F00F18F1C /* CompondDateFormatterTests.swift in Sources */,
@@ -987,6 +1000,7 @@
 				84E28A552279753B00F7646D /* AmountSetupTests.swift in Sources */,
 				8447626D224D49E8009ADC0E /* Constants.swift in Sources */,
 				848B6EC3224D5A1100E8A3C9 /* NetworkMockManager.swift in Sources */,
+				84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */,
 				848B6ED1224D7A6E00E8A3C9 /* LoadableBundleClass.swift in Sources */,
 				848B6ECD224D6D9900E8A3C9 /* SearchServiceTests.swift in Sources */,
 				848B6EC1224D5A1100E8A3C9 /* BaseServiceMock.swift in Sources */,

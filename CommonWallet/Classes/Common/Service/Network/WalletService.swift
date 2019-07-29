@@ -125,5 +125,42 @@ extension WalletService: WalletServiceProtocol {
         
         return operation
     }
-    
+
+    func fetchWithdrawalMetadata(for info: WithdrawalInfo,
+                                 runCompletionIn queue: DispatchQueue,
+                                 completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation {
+        let urlTemplate = networkResolver.urlTemplate(for: .withdrawalMetadata)
+
+        let operation = operationFactory.withdrawalMetadataOperation(urlTemplate, info: info)
+        operation.requestModifier = networkResolver.adapter(for: .withdrawalMetadata)
+
+        operation.completionBlock = {
+            queue.async {
+                completionBlock(operation.result)
+            }
+        }
+
+        operationQueue.addOperation(operation)
+
+        return operation
+    }
+
+    func withdraw(info: TransferInfo,
+                  runCompletionIn queue: DispatchQueue,
+                  completionBlock: @escaping BoolResultCompletionBlock) -> Operation {
+        let urlTemplate = networkResolver.urlTemplate(for: .withdraw)
+
+        let operation = operationFactory.transferOperation(urlTemplate, info: info)
+        operation.requestModifier = networkResolver.adapter(for: .withdraw)
+
+        operation.completionBlock = {
+            queue.async {
+                completionBlock(operation.result)
+            }
+        }
+
+        operationQueue.addOperation(operation)
+
+        return operation
+    }
 }

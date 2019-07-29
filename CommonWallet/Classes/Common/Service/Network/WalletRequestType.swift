@@ -11,4 +11,6 @@ public enum WalletRequestType {
     case history
     case search
     case contacts
+    case withdrawalMetadata
+    case withdraw
 }

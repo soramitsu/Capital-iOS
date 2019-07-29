@@ -20,6 +20,10 @@ final class DemoNetworkResolver: WalletNetworkResolverProtocol {
             return "https://demowallet.com/search?q={search}"
         case .contacts:
             return "https://demowallet.com/contacts"
+        case .withdraw:
+            return "https://demowallet.com/withdraw"
+        case .withdrawalMetadata:
+            return "https://demowallet.com/withdraw/metadata"
         }
     }
 
