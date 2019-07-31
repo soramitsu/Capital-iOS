@@ -53,6 +53,7 @@ public protocol WalletAccessoryStyleProtocol {
     var title: WalletTextStyleProtocol { get }
     var action: WalletRoundedButtonStyle { get }
     var separator: WalletStrokeStyle { get }
+    var background: UIColor { get }
 }
 
 public protocol WalletAmountChangeStyleProtocol {
@@ -172,12 +173,14 @@ public struct WalletAccessoryStyle: WalletAccessoryStyleProtocol {
     public var title: WalletTextStyleProtocol
     public var action: WalletRoundedButtonStyle
     public var separator: WalletStrokeStyle
+    public var background: UIColor
 
     public init(title: WalletTextStyleProtocol, action: WalletRoundedButtonStyle,
-                separator: WalletStrokeStyle) {
+                separator: WalletStrokeStyle, background: UIColor) {
         self.title = title
         self.action = action
         self.separator = separator
+        self.background = background
     }
 }
 

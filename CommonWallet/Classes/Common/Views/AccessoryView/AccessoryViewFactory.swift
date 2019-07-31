@@ -6,28 +6,31 @@
 import Foundation
 
 protocol AccessoryViewFactoryProtocol {
-    static func createAccessoryView(from style: WalletStyleProtocol,
+    static func createAccessoryView(from style: WalletAccessoryStyleProtocol?,
                                     target: Any?,
                                     completionSelector: Selector?) -> AccessoryViewProtocol
 }
 
 final class AccessoryViewFactory: AccessoryViewFactoryProtocol {
     //swiftlint:disable force_cast
-    static func createAccessoryView(from style: WalletStyleProtocol, target: Any?,
+    static func createAccessoryView(from style: WalletAccessoryStyleProtocol?,
+                                    target: Any?,
                                     completionSelector: Selector?) -> AccessoryViewProtocol {
         let bundle = Bundle(for: self)
         let view = UINib(nibName: "AccessoryView", bundle: bundle)
             .instantiate(withOwner: nil, options: nil).first as! AccessoryView
 
-        view.backgroundColor = style.backgroundColor
+        if let style = style {
+            view.backgroundColor = style.background
 
-        view.borderView.strokeColor = style.accessoryStyle.separator.color
-        view.borderView.strokeWidth = style.accessoryStyle.separator.lineWidth
+            view.borderView.strokeColor = style.separator.color
+            view.borderView.strokeWidth = style.separator.lineWidth
 
-        view.titleLabel.textColor = style.accessoryStyle.title.color
-        view.titleLabel.font = style.accessoryStyle.title.font
+            view.titleLabel.textColor = style.title.color
+            view.titleLabel.font = style.title.font
 
-        style.accessoryStyle.action.apply(to: view.actionButton)
+            style.action.apply(to: view.actionButton)
+        }
 
         if let target = target, let selector = completionSelector {
             view.actionButton.addTarget(target, action: selector, for: .touchUpInside)

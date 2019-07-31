@@ -1,22 +1,18 @@
 /**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
+ * Copyright Soramitsu Co., Ltd. All Rights Reserved.
+ * SPDX-License-Identifier: GPL-3.0
+ */
 
 import UIKit
 import SoraUI
 
-final class AmountViewController: UIViewController, AdaptiveDesignable {
+final class WithdrawAmountViewController: AccessoryViewController {
     private struct Constants {
         static let minimumDescriptionHeight: CGFloat = 45.0
         static let placeholderOpacity: CGFloat = 0.22
     }
 
-    var presenter: AmountPresenterProtocol!
-
-    var style: WalletStyleProtocol?
-
-    var accessoryFactory: AccessoryViewFactoryProtocol.Type?
+    var presenter: WithdrawAmountPresenterProtocol!
 
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var assetSeparator: BorderedContainerView!
@@ -25,97 +21,44 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
     @IBOutlet private var amountLabel: UILabel!
     @IBOutlet private var amountSymbol: UILabel!
     @IBOutlet private var amountSeparator: BorderedContainerView!
+    @IBOutlet private var feeTitleLabel: UILabel!
+    @IBOutlet private var feeActivityIndicator: UIActivityIndicatorView!
     @IBOutlet private var descriptionLabel: UILabel!
     @IBOutlet private var descriptionPlaceholderLabel: UILabel!
     @IBOutlet private var descriptionTextView: UITextView!
     @IBOutlet private var descriptionHeight: NSLayoutConstraint!
 
-    private var accessoryView: AccessoryViewProtocol?
-    private var accessoryBottom: NSLayoutConstraint?
+    var style: WalletStyleProtocol?
 
     private var assetSelectionViewModel: AssetSelectionViewModelProtocol?
     private var amountInputViewModel: AmountInputViewModelProtocol?
     private var descriptionInputViewModel: DescriptionInputViewModelProtocol?
-
-    private var keyboardHandler: KeyboardHandler?
+    private var feeViewModel: WithdrawFeeViewModelProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureAccessoryView()
-        configureStyle()
-
+        applyStyle()
         presenter.setup()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // MARK: Style
 
-        setupKeyboardHandler()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        clearKeyboardHandler()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        setupContentInsets()
-    }
-
-    private func configureAccessoryView() {
+    private func applyStyle() {
         guard let style = style else {
             return
         }
 
-        let optionalView = accessoryFactory?.createAccessoryView(from: style.accessoryStyle, target: self,
-                                                                 completionSelector: #selector(actionNext))
-
-        if let contentView = optionalView?.contentView {
-            contentView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(contentView)
-
-            if #available(iOS 11.0, *) {
-                accessoryBottom = contentView.bottomAnchor
-                    .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
-            } else {
-                accessoryBottom = contentView.bottomAnchor
-                    .constraint(equalTo: view.bottomAnchor, constant: 0.0)
-            }
-
-            accessoryBottom?.isActive = true
-
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                 constant: 0.0).isActive = true
-
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                  constant: 0.0).isActive = true
-
-            contentView.heightAnchor.constraint(equalToConstant: contentView.frame.size.height).isActive = true
-
-            accessoryView = optionalView
-
-        }
-    }
-    
-    private func configureStyle() {
-        guard let style = style else {
-            return
-        }
-        
         view.backgroundColor = style.backgroundColor
-        
-        [amountLabel, descriptionLabel].forEach {
+
+        [amountLabel, descriptionLabel, feeTitleLabel].forEach {
             $0?.textColor = style.captionTextColor
             $0?.font = style.bodyRegularFont
         }
 
         assetSeparator.strokeColor = style.thickBorderColor
         amountSeparator.strokeColor = style.thinBorderColor
-        
+
         assetTitleControl.titleLabel.textColor = style.bodyTextColor
         assetTitleControl.titleLabel.font = style.bodyRegularFont
         assetTitleControl.imageView.image = style.downArrowIcon
@@ -139,13 +82,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         descriptionPlaceholderLabel.font = style.bodyRegularFont
     }
 
-    private func updateConfirmationState() {
-        let isEnabled = (assetSelectionViewModel?.isValid ?? false) &&
-            (amountInputViewModel?.isValid ?? false) &&
-            (descriptionInputViewModel?.isValid ?? false)
-
-        accessoryView?.isActionEnabled = isEnabled
-    }
+    // MARK: Handle Changes
 
     private func updateDescriptionState() {
         let currentText = descriptionTextView.text ?? ""
@@ -157,51 +94,18 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
         descriptionHeight.constant = max(newContentSize.height, Constants.minimumDescriptionHeight)
 
-        scrollToDescription(animated: true)
-    }
-
-    // MARK: Keyboard Handling
-
-    private func setupContentInsets() {
-        let accessoryHeight = accessoryView?.contentView.frame.height ?? 0.0
-        let accessoryBottomOffset = accessoryBottom?.constant ?? 0.0
-
-        var currentInsets = scrollView.contentInset
-        currentInsets.bottom = accessoryBottomOffset +  accessoryHeight
-        scrollView.contentInset = currentInsets
-    }
-
-    private func setupKeyboardHandler() {
-        keyboardHandler = KeyboardHandler()
-        keyboardHandler?.animateOnFrameChange = animateKeyboardBoundsChange(for:)
-    }
-
-    private func clearKeyboardHandler() {
-        keyboardHandler = nil
-    }
-
-    private func animateKeyboardBoundsChange(for keyboardFrame: CGRect) {
-        let localKeyboardFrame = view.convert(keyboardFrame, from: nil)
-        let safeAreaHeight = view.bounds.height - scrollView.frame.maxY
-        let accessoryInset = max(view.bounds.height - safeAreaHeight - localKeyboardFrame.minY, 0.0)
-        let accessoryHeight = accessoryView?.contentView.frame.height ?? 0.0
-
-        accessoryBottom?.constant = -accessoryInset
-
-        var currentInsets = scrollView.contentInset
-        currentInsets.bottom = accessoryInset + accessoryHeight
-
-        scrollView.contentInset = currentInsets
-
-        view.layoutIfNeeded()
-
-        if amountField.isFirstResponder {
-            scrollToAmount(animated: false)
-        }
-
         if descriptionTextView.isFirstResponder {
-            scrollToDescription(animated: false)
+            scrollToDescription(animated: true)
         }
+    }
+
+    private func updateConfirmationState() {
+        let isEnabled = (assetSelectionViewModel?.isValid ?? false) &&
+            (amountInputViewModel?.isValid ?? false) &&
+            (descriptionInputViewModel?.isValid ?? false) &&
+            feeViewModel != nil
+
+        accessoryView?.isActionEnabled = isEnabled
     }
 
     private func scrollToAmount(animated: Bool) {
@@ -219,27 +123,47 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         }
     }
 
-    // MARK: Action
-    
-    @objc private func actionNext() {
-        amountField.resignFirstResponder()
-        descriptionTextView.resignFirstResponder()
+    // MARK: Override Superclass
+
+    override func updateBottom(inset: CGFloat) {
+        super.updateBottom(inset: inset)
+
+        var currentInsets = scrollView.contentInset
+        currentInsets.bottom = inset
+
+        scrollView.contentInset = currentInsets
+
+        view.layoutIfNeeded()
+
+        if amountField.isFirstResponder {
+            scrollToAmount(animated: false)
+        }
+
+        if descriptionTextView.isFirstResponder {
+            scrollToDescription(animated: false)
+        }
+    }
+
+    @objc override func actionAccessory() {
+        super.actionAccessory()
 
         presenter.confirm()
     }
+
+    // MARK: Action
 
     @IBAction private func actionTitleControl() {
         presenter.presentAssetSelection()
     }
 }
 
+extension WithdrawAmountViewController: WithdrawAmountViewProtocol {
+    func set(title: String) {
+        self.title = title
+    }
 
-extension AmountViewController: AmountViewProtocol {
     func set(assetViewModel: AssetSelectionViewModelProtocol) {
         self.assetSelectionViewModel?.observable.remove(observer: self)
-
-        self.assetSelectionViewModel = assetViewModel
-        assetViewModel.observable.add(observer: self)
 
         assetTitleControl.titleLabel.text = assetViewModel.title
         assetTitleControl.isUserInteractionEnabled = assetViewModel.canSelect
@@ -248,36 +172,58 @@ extension AmountViewController: AmountViewProtocol {
 
         amountSymbol.text = assetViewModel.symbol
 
+        self.assetSelectionViewModel = assetViewModel
+        assetViewModel.observable.add(observer: self)
+
         updateConfirmationState()
     }
-
+    
     func set(amountViewModel: AmountInputViewModelProtocol) {
         self.amountInputViewModel?.observable.remove(observer: self)
 
-        self.amountInputViewModel = amountViewModel
-        amountViewModel.observable.add(observer: self)
-
         amountField.text = amountViewModel.displayAmount
+
+        self.amountInputViewModel = amountViewModel
+
+        amountViewModel.observable.add(observer: self)
 
         updateConfirmationState()
     }
 
     func set(descriptionViewModel: DescriptionInputViewModelProtocol) {
-        self.descriptionInputViewModel = descriptionViewModel
-
+        descriptionLabel.text = descriptionViewModel.title
         descriptionTextView.text = descriptionViewModel.text
         descriptionPlaceholderLabel.text = descriptionViewModel.placeholder
+
+        self.descriptionInputViewModel = descriptionViewModel
 
         updateDescriptionState()
         updateConfirmationState()
     }
 
-    func set(accessoryViewModel: AccessoryViewModelProtocol) {
+    func didChange(accessoryViewModel: AccessoryViewModelProtocol) {
         accessoryView?.bind(viewModel: accessoryViewModel)
+        updateConfirmationState()
+    }
+
+    func set(feeViewModel: WithdrawFeeViewModelProtocol) {
+        self.feeViewModel?.observable.remove(observer: self)
+        feeTitleLabel.text = feeViewModel.title
+
+        if feeViewModel.isLoading {
+            feeActivityIndicator.startAnimating()
+        } else {
+            feeActivityIndicator.stopAnimating()
+        }
+
+        self.feeViewModel = feeViewModel
+        feeViewModel.observable.add(observer: self)
+
+        updateConfirmationState()
     }
 }
 
-extension AmountViewController: AssetSelectionViewModelObserver {
+extension WithdrawAmountViewController: AssetSelectionViewModelObserver {
     func assetSelectionDidChangeTitle() {
         assetTitleControl.titleLabel.text = assetSelectionViewModel?.title
         assetTitleControl.invalidateLayout()
@@ -302,7 +248,7 @@ extension AmountViewController: AssetSelectionViewModelObserver {
     }
 }
 
-extension AmountViewController: AmountInputViewModelObserver {
+extension WithdrawAmountViewController: AmountInputViewModelObserver {
     func amountInputDidChange() {
         amountField.text = amountInputViewModel?.displayAmount
 
@@ -310,8 +256,26 @@ extension AmountViewController: AmountInputViewModelObserver {
     }
 }
 
-extension AmountViewController: UITextFieldDelegate {
-    
+extension WithdrawAmountViewController: WithdrawFeeViewModelObserver {
+    func feeTitleDidChange() {
+        if let viewModel = feeViewModel {
+            feeTitleLabel.text = viewModel.title
+        }
+    }
+
+    func feeLoadingStateDidChange() {
+        if let viewModel = feeViewModel {
+            if viewModel.isLoading {
+                feeActivityIndicator.startAnimating()
+            } else {
+                feeActivityIndicator.stopAnimating()
+            }
+        }
+    }
+}
+
+extension WithdrawAmountViewController: UITextFieldDelegate {
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
 
@@ -319,18 +283,17 @@ extension AmountViewController: UITextFieldDelegate {
 
         return false
     }
-    
+
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
 
         return amountInputViewModel?.didReceiveReplacement(string, for: range) ?? false
     }
-    
+
 }
 
-
-extension AmountViewController: UITextViewDelegate {
+extension WithdrawAmountViewController: UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return descriptionInputViewModel?.didReceiveReplacement(text, for: range) ?? false

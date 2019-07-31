@@ -69,7 +69,8 @@ final class AmountPresenter {
         amountInputViewModel = AmountInputViewModel(optionalAmount: currentAmount, limit: amountLimit)
 
         let placeholder = "Maximum \(descriptionMaxLength) symbols"
-        descriptionInputViewModel = DescriptionInputViewModel(text: "",
+        descriptionInputViewModel = DescriptionInputViewModel(title: "Description",
+                                                              text: "",
                                                               placeholder: placeholder,
                                                               maxLength: descriptionMaxLength)
 

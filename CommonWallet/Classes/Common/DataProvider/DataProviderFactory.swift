@@ -11,6 +11,9 @@ protocol DataProviderFactoryProtocol: class {
     func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData], CDCWSingleValue>
     func createHistoryDataProvider(for assets: [IRAssetId]) throws
         -> SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>
+    func createContactsDataProvider() throws -> SingleValueProvider<[SearchData], CDCWSingleValue>
+    func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
+        throws -> SingleValueProvider<WithdrawalData, CDCWSingleValue>
 }
 
 final class DataProviderFactory {
@@ -19,6 +22,7 @@ final class DataProviderFactory {
     static let historySyncQueue = DispatchQueue(label: "co.jp.soramitsu.wallet.cache.history.queue")
     static let assetSyncQueue = DispatchQueue(label: "co.jp.soramitsu.wallet.cache.asset.queue")
     static let contactsSyncQueue = DispatchQueue(label: "co.jp.soramitsu.wallet.cache.contacts.queue")
+    static let withdrawalMetadataQueue = DispatchQueue(label: "co.jp.soramitsu.wallet.cache.withdraw.metadata.queue")
 
     static let historyItemsPerPage: Int = 100
 
@@ -48,6 +52,10 @@ final class DataProviderFactory {
     func cacheIdentifier(for assets: [IRAssetId]) -> String {
         let cacheIdentifier = assets.map({ $0.identifier() }).sorted().joined()
         return "\(accountSettings.accountId.identifier())#\(cacheIdentifier.hash)"
+    }
+
+    func withdrawMetadataIdentifier(for assetId: String, optionId: String) -> String {
+        return "\(assetId)\(optionId)#withdraw-metadata"
     }
 
     private func createSingleValueCache()
@@ -134,5 +142,29 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
                                    updateTrigger: updateTrigger,
                                    executionQueue: DataProviderFactory.executionQueue,
                                    serialCacheQueue: DataProviderFactory.contactsSyncQueue)
+    }
+
+    func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
+        throws -> SingleValueProvider<WithdrawalData, CDCWSingleValue> {
+        let info = WithdrawMetadataInfo(assetId: assetId.identifier(), option: option)
+        let source: AnySingleValueProviderSource<WithdrawalData> = AnySingleValueProviderSource(base: self) {
+            let requestType = WalletRequestType.withdrawalMetadata
+            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
+            let operation = self.networkOperationFactory.withdrawalMetadataOperation(urlTemplate, info: info)
+            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+            return operation
+        }
+
+        let cache = createSingleValueCache()
+
+        let updateTrigger = DataProviderEventTrigger.onAddObserver
+
+        let identifier = withdrawMetadataIdentifier(for: info.assetId, optionId: info.option)
+        return SingleValueProvider(targetIdentifier: identifier,
+                                   source: source,
+                                   cache: cache,
+                                   updateTrigger: updateTrigger,
+                                   executionQueue: DataProviderFactory.executionQueue,
+                                   serialCacheQueue: DataProviderFactory.withdrawalMetadataQueue)
     }
 }

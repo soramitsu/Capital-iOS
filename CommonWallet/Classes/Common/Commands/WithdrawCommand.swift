@@ -22,6 +22,19 @@ final class WithdrawCommand {
 
 extension WithdrawCommand: WalletPresentationCommandProtocol {
     func execute() throws {
+        guard let asset = resolver.account
+            .assets.first(where: { $0.identifier.identifier() == assetId.identifier() }) else {
+            return
+        }
 
+        let payload = WithdrawPayload(asset: asset, option: option)
+
+        guard
+            let withdrawView = WithdrawAmountAssembly.assembleView(with: resolver, payload: payload),
+            let navigation = resolver.navigation else {
+                return
+        }
+
+        present(view: withdrawView, in: navigation)
     }
 }

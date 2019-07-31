@@ -21,7 +21,8 @@ class DescriptionInputViewModelTests: XCTestCase {
     // MARK: Private
 
     private func performTestInput(initialText: String, appendingText: String, expectedResult: String) {
-        let descriptionInput = DescriptionInputViewModel(text: initialText,
+        let descriptionInput = DescriptionInputViewModel(title: "Description",
+                                                         text: initialText,
                                                          placeholder: "",
                                                          maxLength: UInt8(initialText.count + appendingText.count))
         let replacingRange = NSRange(location: initialText.count, length: 0)
@@ -31,7 +32,8 @@ class DescriptionInputViewModelTests: XCTestCase {
     }
 
     private func performTestReplace(initialText: String, in range: NSRange, with replacement: String, expectedResult: String) {
-        let descriptionInput = DescriptionInputViewModel(text: initialText,
+        let descriptionInput = DescriptionInputViewModel(title: "Description",
+                                                         text: initialText,
                                                          placeholder: "",
                                                          maxLength: UInt8(initialText.count))
         _ = descriptionInput.didReceiveReplacement(replacement, for: range)

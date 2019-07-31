@@ -47,7 +47,7 @@ class WithdrawalMetadataServiceTests: NetworkBaseTests {
 
             // when
 
-            let info = try createRandomWithdrawalInfo()
+            let info = try createRandomWithdrawMetadataInfo()
             _ = walletService.fetchWithdrawalMetadata(for: info, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     transferExpectation.fulfill()

@@ -41,7 +41,7 @@ protocol WalletServiceProtocol {
                        completionBlock: @escaping SearchCompletionBlock) -> Operation
 
     @discardableResult
-    func fetchWithdrawalMetadata(for info: WithdrawalInfo,
+    func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
                                  runCompletionIn queue: DispatchQueue,
                                  completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation
 

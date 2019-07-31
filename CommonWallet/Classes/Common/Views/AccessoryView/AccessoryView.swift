@@ -61,6 +61,8 @@ extension AccessoryView: AccessoryViewProtocol {
         actionButton.imageWithTitleView?.title = viewModel.action
         actionButton.invalidateLayout()
 
+        self.viewModel = viewModel
+
         setNeedsLayout()
     }
 }

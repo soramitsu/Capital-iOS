@@ -126,7 +126,7 @@ extension WalletService: WalletServiceProtocol {
         return operation
     }
 
-    func fetchWithdrawalMetadata(for info: WithdrawalInfo,
+    func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
                                  runCompletionIn queue: DispatchQueue,
                                  completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation {
         let urlTemplate = networkResolver.urlTemplate(for: .withdrawalMetadata)

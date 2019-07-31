@@ -192,7 +192,8 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
                                 resultFactory: resultFactory)
     }
 
-    func withdrawalMetadataOperation(_ urlTemplate: String, info: WithdrawalInfo) -> NetworkOperation<WithdrawalData> {
+    func withdrawalMetadataOperation(_ urlTemplate: String,
+                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawalData> {
         let requestFactory = BlockNetworkRequestFactory {
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildURL(with: info)
 
