@@ -21,7 +21,9 @@ protocol WithdrawAmountPresenterProtocol: class {
 }
 
 
-protocol WithdrawAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {}
+protocol WithdrawAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
+    func confirm(with info: WithdrawInfo)
+}
 
 
 protocol WithdrawAmountAssemblyProtocol: class {

@@ -69,6 +69,8 @@ final class WithdrawAmountViewController: AccessoryViewController {
         amountSymbol.textColor = style.bodyTextColor
         amountSymbol.font = style.header1Font
 
+        feeActivityIndicator.tintColor = style.captionTextColor
+
         descriptionTextView.textColor = style.bodyTextColor
         descriptionTextView.font = style.bodyRegularFont
 
@@ -102,8 +104,7 @@ final class WithdrawAmountViewController: AccessoryViewController {
     private func updateConfirmationState() {
         let isEnabled = (assetSelectionViewModel?.isValid ?? false) &&
             (amountInputViewModel?.isValid ?? false) &&
-            (descriptionInputViewModel?.isValid ?? false) &&
-            feeViewModel != nil
+            (descriptionInputViewModel?.isValid ?? false)
 
         accessoryView?.isActionEnabled = isEnabled
     }

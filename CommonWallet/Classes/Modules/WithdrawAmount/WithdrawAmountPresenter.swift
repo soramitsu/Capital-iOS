@@ -5,13 +5,24 @@
 
 import Foundation
 import RobinHood
+import IrohaCommunication
+
+struct WithdrawCheckingState: OptionSet {
+    typealias RawValue = UInt8
+
+    static let waiting = WithdrawCheckingState(rawValue: 0)
+    static let requestedAmount = WithdrawCheckingState(rawValue: 1)
+    static let requestedFee = WithdrawCheckingState(rawValue: 2)
+    static let completed = WithdrawCheckingState.requestedAmount.union(.requestedFee)
+
+    var rawValue: WithdrawCheckingState.RawValue
+
+    init(rawValue: WithdrawCheckingState.RawValue) {
+        self.rawValue = rawValue
+    }
+}
 
 final class WithdrawAmountPresenter {
-    enum InputState {
-        case initial
-        case requestingFee
-        case checkingAmount
-    }
 
     weak var view: WithdrawAmountViewProtocol?
     var coordinator: WithdrawAmountCoordinatorProtocol
@@ -33,7 +44,7 @@ final class WithdrawAmountPresenter {
 
     private(set) var payload: WithdrawPayload
 
-    private var state: InputState = .initial
+    private var confirmationState: WithdrawCheckingState?
 
     init(view: WithdrawAmountViewProtocol,
          coordinator: WithdrawAmountCoordinatorProtocol,
@@ -86,18 +97,14 @@ final class WithdrawAmountPresenter {
 
     private func updateAccessoryViewModel(for asset: WalletAsset) {
         guard
-            let balanceData = balances?.first(where: { $0.identifier == asset.identifier.identifier() }),
-            let balance = Decimal(string: balanceData.balance),
-            let feeRateString = metadata?.feeRate,
-            let feeRate = Decimal(string: feeRateString),
+            let feeRate = metadata?.feeRateDecimal,
             let amount = amountInputViewModel.decimalAmount else {
                 let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset, totalAmount: nil)
                 view?.didChange(accessoryViewModel: accessoryViewModel)
                 return
         }
 
-        let fee = balance * feeRate
-        let totalAmount = amount + fee
+        let totalAmount = (1 + feeRate) * amount
 
         let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset, totalAmount: totalAmount)
         view?.didChange(accessoryViewModel: accessoryViewModel)
@@ -117,10 +124,6 @@ final class WithdrawAmountPresenter {
     }
 
     private func handleBalanceResponse(with optionalBalances: [BalanceData]?) {
-        defer {
-            state = .initial
-        }
-
         if let balances = optionalBalances {
             self.balances = balances
         }
@@ -134,7 +137,9 @@ final class WithdrawAmountPresenter {
             let asset = assets.first(where: { $0.identifier.identifier() == assetId.identifier() }),
             let balanceData = balances.first(where: { $0.identifier == assetId.identifier()}) else {
 
-                if case .checkingAmount = state {
+                if confirmationState != nil {
+                   confirmationState = nil
+
                     let message = "Sorry, we couldn't find asset information you want to send. Please, try again later."
                     view?.showError(message: message)
                 }
@@ -144,18 +149,16 @@ final class WithdrawAmountPresenter {
 
         assetSelectionViewModel.title = assetTitleFactory.createTitle(for: asset, balanceData: balanceData)
 
-        if case .checkingAmount = state {
-            view?.didStopLoading()
-
+        if confirmationState != nil {
             completeConfirmation()
         }
     }
 
     private func handleBalanceResponse(with error: Error) {
-        if case .checkingAmount = state {
-            view?.didStopLoading()
+        if confirmationState != nil {
+            confirmationState = nil
 
-            state = .initial
+            view?.didStopLoading()
 
             let message = "Sorry, balance checking request failed. Please, try again later."
             view?.showError(message: message)
@@ -201,10 +204,19 @@ final class WithdrawAmountPresenter {
 
         updateFeeViewModel(for: payload.asset)
         updateAccessoryViewModel(for: payload.asset)
+
+        if confirmationState != nil {
+            completeConfirmation()
+        }
     }
 
     private func handleWithdrawMetadata(error: Error) {
+        if confirmationState != nil {
+            view?.didStopLoading()
 
+            let message = "Sorry, we coudn't calculate fee or it might be outdated"
+            view?.showError(message: message)
+        }
     }
 
     private func setupMetadata(provider: SingleValueProvider<WithdrawalData, CDCWSingleValue>) {
@@ -234,7 +246,42 @@ final class WithdrawAmountPresenter {
     }
 
     private func completeConfirmation() {
+        guard confirmationState == .completed else {
+            return
+        }
 
+        confirmationState = nil
+
+        guard
+            let sendingAmount = amountInputViewModel.decimalAmount,
+            let metadata = metadata,
+            let feeRate = metadata.feeRateDecimal,
+            let destinationAccountId = try? IRAccountIdFactory.account(withIdentifier: metadata.accountId) else {
+                return
+        }
+
+        let totalAmount = (1 + feeRate) * sendingAmount
+
+        guard
+            let balanceData = balances?.first(where: { $0.identifier == payload.asset.identifier.identifier()}),
+            let currentAmount =  Decimal(string: balanceData.balance),
+            totalAmount <= currentAmount else {
+                let message = "Sorry, you don't have enough funds to transfer specified amount."
+                view?.showError(message: message)
+                return
+        }
+
+        guard let irAmount = try? IRAmountFactory.amount(from: (totalAmount as NSNumber).stringValue) else {
+            return
+        }
+
+        let info = WithdrawInfo(destinationAccountId: destinationAccountId,
+                                amount: irAmount,
+                                details: descriptionInputViewModel.text,
+                                feeAccountId: nil,
+                                fee: nil)
+
+        coordinator.confirm(with: info)
     }
 }
 
@@ -283,13 +330,17 @@ extension WithdrawAmountPresenter: ModalPickerViewDelegate {
         do {
             let newAsset = assets[index]
 
-            try updateMetadataProvider(for: newAsset)
+            if newAsset.identifier.identifier() != payload.asset.identifier.identifier() {
+                self.metadata = nil
 
-            payload.asset = newAsset
+                try updateMetadataProvider(for: newAsset)
 
-            updateSelectedAssetViewModel(for: newAsset)
-            updateFeeViewModel(for: newAsset)
-            updateAccessoryViewModel(for: newAsset)
+                payload.asset = newAsset
+
+                updateSelectedAssetViewModel(for: newAsset)
+                updateFeeViewModel(for: newAsset)
+                updateAccessoryViewModel(for: newAsset)
+            }
         } catch {
             logger?.error("Unexpected error when new asset selected \(error)")
         }

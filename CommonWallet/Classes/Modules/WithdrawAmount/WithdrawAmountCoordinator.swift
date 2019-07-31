@@ -11,4 +11,8 @@ final class WithdrawAmountCoordinator: WithdrawAmountCoordinatorProtocol {
     init(resolver: ResolverProtocol) {
         self.resolver = resolver
     }
+
+    func confirm(with payload: TransferPayload) {
+        
+    }
 }
