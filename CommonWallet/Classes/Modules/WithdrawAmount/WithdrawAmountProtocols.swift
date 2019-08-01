@@ -23,7 +23,7 @@ protocol WithdrawAmountPresenterProtocol: class {
 
 
 protocol WithdrawAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
-    func confirm(with info: WithdrawInfo)
+    func confirm(with info: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)
 }
 
 

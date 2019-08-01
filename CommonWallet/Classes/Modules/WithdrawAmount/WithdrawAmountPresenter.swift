@@ -268,7 +268,8 @@ final class WithdrawAmountPresenter {
                 return
         }
 
-        let totalAmount = (1 + feeRate) * sendingAmount
+        let fee = feeRate * sendingAmount
+        let totalAmount = sendingAmount + fee
 
         guard
             let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
@@ -279,17 +280,20 @@ final class WithdrawAmountPresenter {
                 return
         }
 
-        guard let irAmount = try? IRAmountFactory.amount(from: (totalAmount as NSNumber).stringValue) else {
+        guard
+            let irAmount = try? IRAmountFactory.amount(from: (totalAmount as NSNumber).stringValue),
+            let irFee = try? IRAmountFactory.amount(from: (fee as NSNumber).stringValue) else {
             return
         }
 
         let info = WithdrawInfo(destinationAccountId: destinationAccountId,
+                                assetId: selectedAsset.identifier,
                                 amount: irAmount,
                                 details: descriptionInputViewModel.text,
                                 feeAccountId: nil,
-                                fee: nil)
+                                fee: irFee)
 
-        coordinator.confirm(with: info)
+        coordinator.confirm(with: info, asset: selectedAsset, option: selectedOption)
     }
 }
 

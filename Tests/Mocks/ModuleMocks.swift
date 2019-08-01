@@ -7687,16 +7687,16 @@ import IrohaCommunication
     
     
     
-     func confirm(with info: WithdrawInfo)  {
+     func confirm(with info: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)  {
         
-    return cuckoo_manager.call("confirm(with: WithdrawInfo)",
-            parameters: (info),
-            escapingParameters: (info),
+    return cuckoo_manager.call("confirm(with: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)",
+            parameters: (info, asset, option),
+            escapingParameters: (info, asset, option),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.confirm(with: info))
+            defaultCall: __defaultImplStub!.confirm(with: info, asset: asset, option: option))
         
     }
     
@@ -7744,9 +7744,9 @@ import IrohaCommunication
 	    }
 	    
 	    
-	    func confirm<M1: Cuckoo.Matchable>(with info: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(WithdrawInfo)> where M1.MatchedType == WithdrawInfo {
-	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo)>] = [wrap(matchable: info) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawAmountCoordinatorProtocol.self, method: "confirm(with: WithdrawInfo)", parameterMatchers: matchers))
+	    func confirm<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable>(with info: M1, asset: M2, option: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(WithdrawInfo, WalletAsset, WalletWithdrawOption)> where M1.MatchedType == WithdrawInfo, M2.MatchedType == WalletAsset, M3.MatchedType == WalletWithdrawOption {
+	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo, WalletAsset, WalletWithdrawOption)>] = [wrap(matchable: info) { $0.0 }, wrap(matchable: asset) { $0.1 }, wrap(matchable: option) { $0.2 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawAmountCoordinatorProtocol.self, method: "confirm(with: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)", parameterMatchers: matchers))
 	    }
 	    
 	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<([String], Int, ModalPickerViewDelegate?)> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
@@ -7781,9 +7781,9 @@ import IrohaCommunication
 	
 	    
 	    @discardableResult
-	    func confirm<M1: Cuckoo.Matchable>(with info: M1) -> Cuckoo.__DoNotUse<(WithdrawInfo), Void> where M1.MatchedType == WithdrawInfo {
-	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo)>] = [wrap(matchable: info) { $0 }]
-	        return cuckoo_manager.verify("confirm(with: WithdrawInfo)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func confirm<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable>(with info: M1, asset: M2, option: M3) -> Cuckoo.__DoNotUse<(WithdrawInfo, WalletAsset, WalletWithdrawOption), Void> where M1.MatchedType == WithdrawInfo, M2.MatchedType == WalletAsset, M3.MatchedType == WalletWithdrawOption {
+	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo, WalletAsset, WalletWithdrawOption)>] = [wrap(matchable: info) { $0.0 }, wrap(matchable: asset) { $0.1 }, wrap(matchable: option) { $0.2 }]
+	        return cuckoo_manager.verify("confirm(with: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7815,7 +7815,7 @@ import IrohaCommunication
     
 
     
-     func confirm(with info: WithdrawInfo)   {
+     func confirm(with info: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     

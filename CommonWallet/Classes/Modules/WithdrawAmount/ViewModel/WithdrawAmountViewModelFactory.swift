@@ -32,7 +32,7 @@ final class WithdrawAmountViewModelFactory {
 
 extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol {
     func createWithdrawTitle() -> String {
-        return "Send to \(option.symbol)"
+        return "Withdraw to \(option.symbol)"
     }
 
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String {

@@ -8,6 +8,7 @@ import IrohaCommunication
 
 struct WithdrawInfo {
     var destinationAccountId: IRAccountId
+    var assetId: IRAssetId
     var amount: IRAmount
     var details: String
     var feeAccountId: IRAccountId?
