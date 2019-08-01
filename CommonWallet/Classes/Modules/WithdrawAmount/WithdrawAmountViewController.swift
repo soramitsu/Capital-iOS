@@ -152,6 +152,9 @@ final class WithdrawAmountViewController: AccessoryViewController {
     @objc override func actionAccessory() {
         super.actionAccessory()
 
+        amountField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
+
         presenter.confirm()
     }
 
