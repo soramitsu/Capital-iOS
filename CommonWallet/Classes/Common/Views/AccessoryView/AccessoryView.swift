@@ -57,6 +57,7 @@ extension AccessoryView: AccessoryViewProtocol {
         titleLabel.text = viewModel.title
         titleLeading.constant = iconImageView.isHidden ? Constants.titleLeadingWithoutIcon
             : Constants.titleLeadingWithIcon
+        titleLabel.numberOfLines = viewModel.numberOfLines
 
         actionButton.imageWithTitleView?.title = viewModel.action
         actionButton.invalidateLayout()

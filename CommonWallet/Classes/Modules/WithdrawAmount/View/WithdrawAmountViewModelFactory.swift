@@ -73,6 +73,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         }
 
         accessoryViewModel.title = "Total amount \(asset.symbol)\(amountString)"
+        accessoryViewModel.numberOfLines = 2
 
         return accessoryViewModel
     }
