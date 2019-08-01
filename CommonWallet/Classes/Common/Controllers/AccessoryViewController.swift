@@ -8,7 +8,10 @@ import UIKit
 class AccessoryViewController: UIViewController {
     var shouldSetupKeyboardHandler: Bool = true
     var accessoryViewFactory: AccessoryViewFactoryProtocol.Type = AccessoryViewFactory.self
-    var accessoryStyle: WalletAccessoryStyleProtocol?
+
+    var accessoryStyle: WalletAccessoryStyleProtocol? {
+        return nil
+    }
 
     private(set) var accessoryView: AccessoryViewProtocol?
     private(set) var keyboardHandler: KeyboardHandler?

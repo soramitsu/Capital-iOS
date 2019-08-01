@@ -30,6 +30,10 @@ final class WithdrawAmountViewController: AccessoryViewController {
 
     var style: WalletStyleProtocol?
 
+    override var accessoryStyle: WalletAccessoryStyleProtocol? {
+        return style?.accessoryStyle
+    }
+
     private var assetSelectionViewModel: AssetSelectionViewModelProtocol?
     private var amountInputViewModel: AmountInputViewModelProtocol?
     private var descriptionInputViewModel: DescriptionInputViewModelProtocol?

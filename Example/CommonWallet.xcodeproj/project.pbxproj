@@ -57,6 +57,8 @@
 		848B6ED6224D7B2300E8A3C9 /* accounBalanceResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 848B6EAD224D5A1100E8A3C9 /* accounBalanceResponse.json */; };
 		848B6ED7224D7B2300E8A3C9 /* historyResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 848B6EAE224D5A1100E8A3C9 /* historyResponse.json */; };
 		848CB904224E946900B04708 /* CoreDataCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CB903224E946900B04708 /* CoreDataCacheTests.swift */; };
+		848CCE0922F2FB320094289D /* WithdrawAmountSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CCE0822F2FB320094289D /* WithdrawAmountSetupTests.swift */; };
+		848CCE0B22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CCE0A22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift */; };
 		848CFA392278DF1600B74536 /* WalletQRServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */; };
 		84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */; };
 		84AF3DCF22967405008725C3 /* ContactsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3DCE22967405008725C3 /* ContactsServiceTests.swift */; };
@@ -160,6 +162,8 @@
 		848B6ECE224D6EFF00E8A3C9 /* TransferServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferServiceTests.swift; sourceTree = "<group>"; };
 		848B6ED0224D7A6E00E8A3C9 /* LoadableBundleClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableBundleClass.swift; sourceTree = "<group>"; };
 		848CB903224E946900B04708 /* CoreDataCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCacheTests.swift; sourceTree = "<group>"; };
+		848CCE0822F2FB320094289D /* WithdrawAmountSetupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawAmountSetupTests.swift; sourceTree = "<group>"; };
+		848CCE0A22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawAmountConfirmationTests.swift; sourceTree = "<group>"; };
 		848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletQRServiceTests.swift; sourceTree = "<group>"; };
 		84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCacheFacade.swift; sourceTree = "<group>"; };
 		84AF3DCE22967405008725C3 /* ContactsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsServiceTests.swift; sourceTree = "<group>"; };
@@ -393,6 +397,7 @@
 		8447621F224CE2FC009ADC0E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				848CCE0722F2FB320094289D /* WithdrawAmount */,
 				8BB829CB22B2D81600BACD59 /* Filter */,
 				84752C4E22A5BC6F0068188B /* Dashboard */,
 				84AF3DD52296F059008725C3 /* ReceiveAmount */,
@@ -500,6 +505,15 @@
 				848CB903224E946900B04708 /* CoreDataCacheTests.swift */,
 			);
 			path = Cache;
+			sourceTree = "<group>";
+		};
+		848CCE0722F2FB320094289D /* WithdrawAmount */ = {
+			isa = PBXGroup;
+			children = (
+				848CCE0822F2FB320094289D /* WithdrawAmountSetupTests.swift */,
+				848CCE0A22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift */,
+			);
+			path = WithdrawAmount;
 			sourceTree = "<group>";
 		};
 		84AF3DD12296E87E008725C3 /* Confirmation */ = {
@@ -852,7 +866,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/ModuleMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"AccountListAssemblyProtocol, HistoryAssemblyProtocol, ContactsAssemblyProtocol, AmountAssemblyProtocol, TransferResultAssemblyProtocol, TransactionDetailsAssemblyProtocol, InvoiceScanAssemblyProtocol, ConfirmationAssemblyProtocol, ReceiveAmountAssemblyProtocol, DashboardAssemblyProtocol, FilterAssemblyProtocol, FilterViewCellProtocol\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/LoadableViewProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/AlertPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/PickerPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WalletForm/WalletFormProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/CoordinatorProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/ControllerBackedProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/Containable.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Dashboard/DashboardProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/AccountList/AccountListProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Modules/ReceiveAmount/ReceiveAmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/History/HistoryProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Contacts/ContactsProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/AmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/TransferResult/TransferResultProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/TransactionDetails/TransactionDetailsProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/InvoiceScan/InvoiceScanProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Confirmation/ConfirmationProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Filter/FilterProtocols.swift\" \\\n";
+			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/ModuleMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"AccountListAssemblyProtocol, HistoryAssemblyProtocol, ContactsAssemblyProtocol, AmountAssemblyProtocol, TransferResultAssemblyProtocol, TransactionDetailsAssemblyProtocol, InvoiceScanAssemblyProtocol, ConfirmationAssemblyProtocol, ReceiveAmountAssemblyProtocol, DashboardAssemblyProtocol, FilterAssemblyProtocol, WithdrawAmountAssemblyProtocol, FilterViewCellProtocol\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/LoadableViewProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/AlertPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/PickerPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WalletForm/WalletFormProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/CoordinatorProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/ControllerBackedProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/Containable.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Dashboard/DashboardProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/AccountList/AccountListProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Modules/ReceiveAmount/ReceiveAmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/History/HistoryProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Contacts/ContactsProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/AmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/TransferResult/TransferResultProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/TransactionDetails/TransactionDetailsProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/InvoiceScan/InvoiceScanProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Confirmation/ConfirmationProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Filter/FilterProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawAmount/WithdrawAmountProtocols.swift\" \\\n";
 		};
 		84EFCACF223FC1B6003A88C8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -978,6 +992,7 @@
 				84896599225397F100EBAC6D /* CommonWalletBuilderTests.swift in Sources */,
 				8447626F224D4BA4009ADC0E /* AccountSettingsFactory.swift in Sources */,
 				8425DBB62282B27D008A8B6A /* TransferResultTests.swift in Sources */,
+				848CCE0B22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift in Sources */,
 				841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */,
 				84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */,
 				844D556922A9315500BA99EF /* AccessoryViewFactoryTests.swift in Sources */,
@@ -998,6 +1013,7 @@
 				84752C5222A5BCA30068188B /* DashboardReloadableTests.swift in Sources */,
 				8B570D33225726F700459190 /* HistoryTests.swift in Sources */,
 				84E28A552279753B00F7646D /* AmountSetupTests.swift in Sources */,
+				848CCE0922F2FB320094289D /* WithdrawAmountSetupTests.swift in Sources */,
 				8447626D224D49E8009ADC0E /* Constants.swift in Sources */,
 				848B6EC3224D5A1100E8A3C9 /* NetworkMockManager.swift in Sources */,
 				84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */,

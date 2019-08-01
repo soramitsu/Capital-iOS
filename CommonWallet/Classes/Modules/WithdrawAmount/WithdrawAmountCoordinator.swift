@@ -12,7 +12,7 @@ final class WithdrawAmountCoordinator: WithdrawAmountCoordinatorProtocol {
         self.resolver = resolver
     }
 
-    func confirm(with payload: TransferPayload) {
+    func confirm(with info: WithdrawInfo) {
         
     }
 }

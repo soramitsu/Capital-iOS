@@ -42,37 +42,40 @@ final class WithdrawAmountPresenter {
     private let withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     private let assets: [WalletAsset]
 
-    private(set) var payload: WithdrawPayload
+    private(set) var selectedAsset: WalletAsset
+    private(set) var selectedOption: WalletWithdrawOption
 
-    private var confirmationState: WithdrawCheckingState?
+    private(set) var confirmationState: WithdrawCheckingState?
 
     init(view: WithdrawAmountViewProtocol,
          coordinator: WithdrawAmountCoordinatorProtocol,
-         payload: WithdrawPayload,
          assets: [WalletAsset],
+         selectedAsset: WalletAsset,
+         selectedOption: WalletWithdrawOption,
          dataProviderFactory: DataProviderFactoryProtocol,
          withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol,
          assetTitleFactory: AssetSelectionFactoryProtocol) throws {
         self.view = view
         self.coordinator = coordinator
-        self.payload = payload
+        self.selectedAsset = selectedAsset
+        self.selectedOption = selectedOption
         self.assets = assets
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
         self.metaDataProvider = try dataProviderFactory
-            .createWithdrawMetadataProvider(for: payload.asset.identifier, option: payload.option.identifier)
+            .createWithdrawMetadataProvider(for: selectedAsset.identifier, option: selectedOption.identifier)
         self.dataProviderFactory = dataProviderFactory
         self.withdrawViewModelFactory = withdrawViewModelFactory
         self.assetTitleFactory = assetTitleFactory
 
-        let title = assetTitleFactory.createTitle(for: payload.asset, balanceData: nil)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: payload.asset.identifier,
+        let title = assetTitleFactory.createTitle(for: selectedAsset, balanceData: nil)
+        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: title,
-                                                          symbol: payload.asset.symbol)
+                                                          symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = assets.count > 1
 
         amountInputViewModel = withdrawViewModelFactory.createAmountViewModel()
 
-        let feeTitle = withdrawViewModelFactory.createFeeTitle(for: payload.asset, amount: nil)
+        let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
         feeViewModel = WithdrawFeeViewModel(title: feeTitle)
         feeViewModel.isLoading = true
 
@@ -81,8 +84,7 @@ final class WithdrawAmountPresenter {
 
     private func updateFeeViewModel(for asset: WalletAsset) {
         guard
-            let balanceData = balances?.first(where: { $0.identifier == asset.identifier.identifier() }),
-            let balance = Decimal(string: balanceData.balance),
+            let amount = amountInputViewModel.decimalAmount,
             let feeRateString = metadata?.feeRate,
             let feeRate = Decimal(string: feeRateString) else {
                 feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: nil)
@@ -90,8 +92,8 @@ final class WithdrawAmountPresenter {
                 return
         }
 
-        let amount = balance * feeRate
-        feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: amount)
+        let fee = amount * feeRate
+        feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: fee)
         feeViewModel.isLoading = false
     }
 
@@ -149,7 +151,8 @@ final class WithdrawAmountPresenter {
 
         assetSelectionViewModel.title = assetTitleFactory.createTitle(for: asset, balanceData: balanceData)
 
-        if confirmationState != nil {
+        if let currentState = confirmationState {
+            confirmationState = currentState.union(.requestedAmount)
             completeConfirmation()
         }
     }
@@ -193,19 +196,22 @@ final class WithdrawAmountPresenter {
 
     private func updateMetadataProvider(for asset: WalletAsset) throws {
         let metaDataProvider = try dataProviderFactory.createWithdrawMetadataProvider(for: asset.identifier,
-                                                                                      option: payload.option.identifier)
+                                                                                      option: selectedOption.identifier)
         self.metaDataProvider = metaDataProvider
 
         setupMetadata(provider: metaDataProvider)
     }
 
     private func handleWithdraw(metadata: WithdrawalData?) {
-        self.metadata = metadata
+        if metadata != nil {
+            self.metadata = metadata
+        }
 
-        updateFeeViewModel(for: payload.asset)
-        updateAccessoryViewModel(for: payload.asset)
+        updateFeeViewModel(for: selectedAsset)
+        updateAccessoryViewModel(for: selectedAsset)
 
-        if confirmationState != nil {
+        if let currentState = confirmationState {
+            confirmationState = currentState.union(.requestedFee)
             completeConfirmation()
         }
     }
@@ -229,7 +235,7 @@ final class WithdrawAmountPresenter {
                     break
                 }
             } else {
-                self?.handleBalanceResponse(with: nil)
+                self?.handleWithdraw(metadata: nil)
             }
         }
 
@@ -252,6 +258,8 @@ final class WithdrawAmountPresenter {
 
         confirmationState = nil
 
+        view?.didStopLoading()
+
         guard
             let sendingAmount = amountInputViewModel.decimalAmount,
             let metadata = metadata,
@@ -263,7 +271,7 @@ final class WithdrawAmountPresenter {
         let totalAmount = (1 + feeRate) * sendingAmount
 
         guard
-            let balanceData = balances?.first(where: { $0.identifier == payload.asset.identifier.identifier()}),
+            let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
             let currentAmount =  Decimal(string: balanceData.balance),
             totalAmount <= currentAmount else {
                 let message = "Sorry, you don't have enough funds to transfer specified amount."
@@ -295,13 +303,24 @@ extension WithdrawAmountPresenter: WithdrawAmountPresenterProtocol {
         view?.set(feeViewModel: feeViewModel)
         view?.set(descriptionViewModel: descriptionInputViewModel)
 
-        updateAccessoryViewModel(for: payload.asset)
+        updateAccessoryViewModel(for: selectedAsset)
 
         setupBalanceDataProvider()
         setupMetadata(provider: metaDataProvider)
     }
 
-    func confirm() {}
+    func confirm() {
+        guard confirmationState == nil else {
+            return
+        }
+
+        view?.didStartLoading()
+
+        confirmationState = .waiting
+
+        balanceDataProvider.refreshCache()
+        metaDataProvider.refreshCache()
+    }
 
     func presentAssetSelection() {
         var initialIndex = 0
@@ -330,12 +349,12 @@ extension WithdrawAmountPresenter: ModalPickerViewDelegate {
         do {
             let newAsset = assets[index]
 
-            if newAsset.identifier.identifier() != payload.asset.identifier.identifier() {
+            if newAsset.identifier.identifier() != selectedAsset.identifier.identifier() {
                 self.metadata = nil
 
                 try updateMetadataProvider(for: newAsset)
 
-                payload.asset = newAsset
+                self.selectedAsset = newAsset
 
                 updateSelectedAssetViewModel(for: newAsset)
                 updateFeeViewModel(for: newAsset)
@@ -349,7 +368,7 @@ extension WithdrawAmountPresenter: ModalPickerViewDelegate {
 
 extension WithdrawAmountPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
-        updateFeeViewModel(for: payload.asset)
-        updateAccessoryViewModel(for: payload.asset)
+        updateFeeViewModel(for: selectedAsset)
+        updateAccessoryViewModel(for: selectedAsset)
     }
 }

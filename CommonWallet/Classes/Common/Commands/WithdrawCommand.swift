@@ -27,10 +27,8 @@ extension WithdrawCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        let payload = WithdrawPayload(asset: asset, option: option)
-
         guard
-            let withdrawView = WithdrawAmountAssembly.assembleView(with: resolver, payload: payload),
+            let withdrawView = WithdrawAmountAssembly.assembleView(with: resolver, asset: asset, option: option),
             let navigation = resolver.navigation else {
                 return
         }

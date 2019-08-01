@@ -43,6 +43,7 @@ final class DefaultDemo: DemoFactoryProtocol {
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
             .with(amountFormatter: NumberFormatter.amount)
+            .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: transactionTypes)
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0
  */
 
+import IrohaCommunication
 
 protocol WithdrawAmountViewProtocol: ControllerBackedProtocol, LoadableViewProtocol, AlertPresentable {
     func set(title: String)
@@ -27,5 +28,7 @@ protocol WithdrawAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentab
 
 
 protocol WithdrawAmountAssemblyProtocol: class {
-    static func assembleView(with resolver: ResolverProtocol, payload: WithdrawPayload) -> WithdrawAmountViewProtocol?
+    static func assembleView(with resolver: ResolverProtocol,
+                             asset: WalletAsset,
+                             option: WalletWithdrawOption) -> WithdrawAmountViewProtocol?
 }
