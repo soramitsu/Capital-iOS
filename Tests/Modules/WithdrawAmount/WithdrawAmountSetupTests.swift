@@ -41,6 +41,9 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             let view = MockWithdrawAmountViewProtocol()
             let coordinator = MockWithdrawAmountCoordinatorProtocol()
 
+            let assetViewModelObserver = MockAssetSelectionViewModelObserver()
+            let feeViewModelObserver = MockWithdrawFeeViewModelObserver()
+
             // when
 
             stub(networkResolver) {stub in
@@ -72,13 +75,18 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
+            let balanceLoadedExpectation = XCTestExpectation()
+            let feeLoadedExpectation = XCTestExpectation()
+
+            var feeViewModel: WithdrawFeeViewModelProtocol?
 
             stub(view) { stub in
                 when(stub).set(title: any(String.self)).then { _ in
                     titleExpectation.fulfill()
                 }
 
-                when(stub).set(assetViewModel: any()).then { _ in
+                when(stub).set(assetViewModel: any()).then { viewModel in
+                    viewModel.observable.add(observer: assetViewModelObserver)
                     assetSelectionExpectation.fulfill()
                 }
 
@@ -86,7 +94,10 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                     amountExpectation.fulfill()
                 }
 
-                when(stub).set(feeViewModel: any()).then { _ in
+                when(stub).set(feeViewModel: any()).then { viewModel in
+                    feeViewModel = viewModel
+                    viewModel.observable.add(observer: feeViewModelObserver)
+
                     feeExpectation.fulfill()
                 }
 
@@ -96,6 +107,22 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
                 when(stub).didChange(accessoryViewModel: any()).then { _ in
                     accessoryExpectation.fulfill()
+                }
+            }
+
+            stub(assetViewModelObserver) { stub in
+                when(stub).assetSelectionDidChangeTitle().then {
+                    balanceLoadedExpectation.fulfill()
+                }
+            }
+
+            stub(feeViewModelObserver) { stub in
+                when(stub).feeTitleDidChange().thenDoNothing()
+
+                when(stub).feeLoadingStateDidChange().then {
+                    if feeViewModel?.isLoading == false {
+                        feeLoadedExpectation.fulfill()
+                    }
                 }
             }
 
@@ -112,7 +139,14 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
             // then
 
-            wait(for: [titleExpectation, assetSelectionExpectation, amountExpectation, feeExpectation, descriptionExpectation, accessoryExpectation], timeout: Constants.networkTimeout)
+            wait(for: [titleExpectation,
+                       assetSelectionExpectation,
+                       amountExpectation,
+                       feeExpectation,
+                       descriptionExpectation,
+                       accessoryExpectation,
+                       balanceLoadedExpectation,
+                       feeLoadedExpectation], timeout: Constants.networkTimeout)
         } catch {
             XCTFail("Did receive error \(error)")
         }

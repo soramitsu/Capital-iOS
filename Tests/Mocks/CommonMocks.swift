@@ -2884,3 +2884,286 @@ import IrohaCommunication
     
 }
 
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
+ class MockWithdrawFeeViewModelObserver: WithdrawFeeViewModelObserver, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = WithdrawFeeViewModelObserver
+    
+     typealias Stubbing = __StubbingProxy_WithdrawFeeViewModelObserver
+     typealias Verification = __VerificationProxy_WithdrawFeeViewModelObserver
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WithdrawFeeViewModelObserver?
+
+     func enableDefaultImplementation(_ stub: WithdrawFeeViewModelObserver) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+     func feeTitleDidChange()  {
+        
+    return cuckoo_manager.call("feeTitleDidChange()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.feeTitleDidChange!())
+        
+    }
+    
+    
+    
+     func feeLoadingStateDidChange()  {
+        
+    return cuckoo_manager.call("feeLoadingStateDidChange()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.feeLoadingStateDidChange!())
+        
+    }
+    
+
+	 struct __StubbingProxy_WithdrawFeeViewModelObserver: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func feeTitleDidChange() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawFeeViewModelObserver.self, method: "feeTitleDidChange()", parameterMatchers: matchers))
+	    }
+	    
+	    func feeLoadingStateDidChange() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawFeeViewModelObserver.self, method: "feeLoadingStateDidChange()", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	 struct __VerificationProxy_WithdrawFeeViewModelObserver: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func feeTitleDidChange() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("feeTitleDidChange()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func feeLoadingStateDidChange() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("feeLoadingStateDidChange()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+ class WithdrawFeeViewModelObserverStub: WithdrawFeeViewModelObserver {
+    
+
+    
+
+    
+     func feeTitleDidChange()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+     func feeLoadingStateDidChange()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+
+ class MockWithdrawFeeViewModelProtocol: WithdrawFeeViewModelProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = WithdrawFeeViewModelProtocol
+    
+     typealias Stubbing = __StubbingProxy_WithdrawFeeViewModelProtocol
+     typealias Verification = __VerificationProxy_WithdrawFeeViewModelProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WithdrawFeeViewModelProtocol?
+
+     func enableDefaultImplementation(_ stub: WithdrawFeeViewModelProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+     var title: String {
+        get {
+            return cuckoo_manager.getter("title",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.title)
+        }
+        
+    }
+    
+    
+    
+     var isLoading: Bool {
+        get {
+            return cuckoo_manager.getter("isLoading",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isLoading)
+        }
+        
+    }
+    
+    
+    
+     var observable: WalletViewModelObserverContainer<WithdrawFeeViewModelObserver> {
+        get {
+            return cuckoo_manager.getter("observable",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.observable)
+        }
+        
+    }
+    
+
+    
+
+    
+
+	 struct __StubbingProxy_WithdrawFeeViewModelProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var title: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWithdrawFeeViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "title")
+	    }
+	    
+	    
+	    var isLoading: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWithdrawFeeViewModelProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isLoading")
+	    }
+	    
+	    
+	    var observable: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWithdrawFeeViewModelProtocol, WalletViewModelObserverContainer<WithdrawFeeViewModelObserver>> {
+	        return .init(manager: cuckoo_manager, name: "observable")
+	    }
+	    
+	    
+	}
+
+	 struct __VerificationProxy_WithdrawFeeViewModelProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var title: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "title", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var isLoading: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isLoading", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var observable: Cuckoo.VerifyReadOnlyProperty<WalletViewModelObserverContainer<WithdrawFeeViewModelObserver>> {
+	        return .init(manager: cuckoo_manager, name: "observable", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	}
+}
+
+ class WithdrawFeeViewModelProtocolStub: WithdrawFeeViewModelProtocol {
+    
+    
+     var title: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+     var isLoading: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
+    
+    
+     var observable: WalletViewModelObserverContainer<WithdrawFeeViewModelObserver> {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletViewModelObserverContainer<WithdrawFeeViewModelObserver>).self)
+        }
+        
+    }
+    
+
+    
+
+    
+}
+
