@@ -159,9 +159,14 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             let confirmExpectation = XCTestExpectation()
 
+            var infoToConfirm: WithdrawInfo?
+
             stub(coordinator) { stub in
-                when(stub).confirm(with: any(WithdrawInfo.self), asset: any(), option: any()).then { _ in
-                    confirmExpectation.fulfill()
+                when(stub).confirm(with: any(WithdrawInfo.self),
+                                   asset: any(WalletAsset.self),
+                                   option: any(WalletWithdrawOption.self)).then { info, asset, option in
+                                    infoToConfirm = info
+                                    confirmExpectation.fulfill()
                 }
             }
 
@@ -201,6 +206,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             if expectsSuccess {
                 wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
+                
+                XCTAssertEqual(infoToConfirm?.amount.value, inputAmount)
             } else {
                 wait(for: [errorExpectation], timeout: Constants.networkTimeout)
             }

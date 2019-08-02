@@ -69,6 +69,11 @@ extension DemoFactoryProtocol {
                                             networkResolver: networkResolver,
                                             requestType: .withdrawalMetadata,
                                             httpMethod: .get,
-                                            urlMockType: .regex) 
+                                            urlMockType: .regex)
+
+        try WithdrawMock.register(mock: .success,
+                                  networkResolver: networkResolver,
+                                  requestType: .withdraw,
+                                  httpMethod: .post)
     }
 }

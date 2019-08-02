@@ -47,7 +47,9 @@ class WithdrawConfirmationTests: NetworkBaseTests {
             }
 
             stub(coordinator) { stub in
-                when(stub).showResult(for: any(WithdrawInfo.self)).then { _ in
+                when(stub).showResult(for: any(WithdrawInfo.self),
+                                      asset: any(WalletAsset.self),
+                                      option: any(WalletWithdrawOption.self)).then { _ in
                     confirmExpectation.fulfill()
                 }
             }

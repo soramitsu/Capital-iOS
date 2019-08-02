@@ -1,7 +1,9 @@
 protocol WithdrawConfirmationPresenterProtocol: WalletFormPresenterProtocol {}
 
 protocol WithdrawConfirmationCoordinatorProtocol: class {
-    func showResult(for withdrawInfo: WithdrawInfo)
+    func showResult(for withdrawInfo: WithdrawInfo,
+                    asset: WalletAsset,
+                    option: WalletWithdrawOption)
 }
 
 protocol WithdrawConfirmationAssemblyProtocol: class {
