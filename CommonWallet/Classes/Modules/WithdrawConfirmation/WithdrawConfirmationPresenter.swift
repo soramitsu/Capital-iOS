@@ -1,5 +1,5 @@
 import Foundation
-
+import RobinHood
 
 final class WithdrawConfirmationPresenter {
     weak var view: WalletFormViewProtocol?
@@ -95,7 +95,7 @@ final class WithdrawConfirmationPresenter {
         return accessoryViewModel
     }
 
-    func updateView() {
+    private func updateView() {
         var viewModels: [WalletFormViewModelProtocol] = []
 
         let titleViewModel = WalletFormViewModel(layoutType: .accessory,
@@ -119,6 +119,15 @@ final class WithdrawConfirmationPresenter {
         let accesoryViewModel = createAccessoryViewModel()
         view?.didReceive(accessoryViewModel: accesoryViewModel)
     }
+
+    private func handleWithdraw(result: OperationResult<Void>) {
+        switch result {
+        case .success:
+            coordinator.showResult(for: withdrawInfo)
+        case .error:
+            view?.showError(message: "Withdraw failed. Please, try again later.")
+        }
+    }
 }
 
 
@@ -128,6 +137,14 @@ extension WithdrawConfirmationPresenter: WithdrawConfirmationPresenterProtocol {
     }
 
     func performAction() {
+        view?.didStartLoading()
 
+        _ = walletService.withdraw(info: withdrawInfo, runCompletionIn: .main) { [weak self] result in
+            self?.view?.didStopLoading()
+
+            if let result = result {
+                self?.handleWithdraw(result: result)
+            }
+        }
     }
 }
