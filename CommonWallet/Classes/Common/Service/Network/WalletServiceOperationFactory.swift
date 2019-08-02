@@ -193,7 +193,7 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
     }
 
     func withdrawalMetadataOperation(_ urlTemplate: String,
-                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawalData> {
+                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawMetaData> {
         let requestFactory = BlockNetworkRequestFactory {
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildURL(with: info)
 
@@ -202,8 +202,8 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<WithdrawalData> { data in
-            let resultData = try self.jsonDecoder.decode(MultifieldResultData<WithdrawalData>.self, from: data)
+        let resultFactory = AnyNetworkResultFactory<WithdrawMetaData> { data in
+            let resultData = try self.jsonDecoder.decode(MultifieldResultData<WithdrawMetaData>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -213,5 +213,52 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         }
 
         return NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
+    }
+
+    func withdrawOperation(_ urlTemplate: String, info: WithdrawInfo) -> NetworkOperation<Void> {
+        let requestFactory = BlockNetworkRequestFactory {
+            guard let serviceUrl = URL(string: urlTemplate) else {
+                throw NetworkBaseError.invalidUrl
+            }
+
+            var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
+                .transferAsset(self.accountSettings.accountId,
+                               destinationAccount: info.destinationAccountId,
+                               assetId: info.assetId,
+                               description: info.details,
+                               amount: info.amount)
+
+            if let fee = info.fee, let feeAccountId = info.feeAccountId {
+                let feeDescription = "withdrawal fee"
+                transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
+                                                                      destinationAccount: feeAccountId,
+                                                                      assetId: info.assetId,
+                                                                      description: feeDescription,
+                                                                      amount: fee)
+            }
+
+            let transaction = try transactionBuilder.build()
+
+            let transactionData = try IRSerializationFactory.serializeTransaction(transaction)
+            let transactionInfo = TransactionInfo(transaction: transactionData)
+
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = HttpMethod.post.rawValue
+            request.httpBody = try self.jsonEncoder.encode(transactionInfo)
+            request.setValue(HttpContentType.json.rawValue,
+                             forHTTPHeaderField: HttpHeaderKey.contentType.rawValue)
+            return request
+        }
+
+        let resultFactory = AnyNetworkResultFactory<Void> { data in
+            let resultData = try self.jsonDecoder.decode(ResultData<Bool>.self, from: data)
+
+            guard resultData.status.isSuccess else {
+                throw ResultStatusError(statusData: resultData.status)
+            }
+        }
+
+        return NetworkOperation(requestFactory: requestFactory,
+                                resultFactory: resultFactory)
     }
 }

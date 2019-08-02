@@ -10,8 +10,9 @@ import RobinHood
 typealias BalanceCompletionBlock = (OperationResult<[BalanceData]>?) -> Void
 typealias TransactionHistoryBlock = (OperationResult<AssetTransactionPageData>?) -> Void
 typealias BoolResultCompletionBlock = (OperationResult<Bool>?) -> Void
+typealias EmptyResultCompletionBlock = (OperationResult<Void>?) -> Void
 typealias SearchCompletionBlock = (OperationResult<[SearchData]>?) -> Void
-typealias WithdrawalMetadataCompletionBlock = (OperationResult<WithdrawalData>?) -> Void
+typealias WithdrawalMetadataCompletionBlock = (OperationResult<WithdrawMetaData>?) -> Void
 
 protocol WalletServiceProtocol {
     
@@ -46,7 +47,7 @@ protocol WalletServiceProtocol {
                                  completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation
 
     @discardableResult
-    func withdraw(info: TransferInfo,
+    func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping BoolResultCompletionBlock) -> Operation
+                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation
 }

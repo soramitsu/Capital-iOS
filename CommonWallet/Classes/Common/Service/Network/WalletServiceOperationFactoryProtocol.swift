@@ -16,5 +16,6 @@ protocol WalletServiceOperationFactoryProtocol: class {
     func searchOperation(_ urlTemplate: String, searchString: String) -> NetworkOperation<[SearchData]>
     func contactsOperation(_ urlTemplate: String) -> NetworkOperation<[SearchData]>
     func withdrawalMetadataOperation(_ urlTemplate: String,
-                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawalData>
+                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawMetaData>
+    func withdrawOperation(_ urlTemplate: String, info: WithdrawInfo) -> NetworkOperation<Void>
 }

@@ -34,10 +34,10 @@ final class WithdrawAmountPresenter {
     private var feeViewModel: WithdrawFeeViewModel
 
     private var balances: [BalanceData]?
-    private var metadata: WithdrawalData?
+    private var metadata: WithdrawMetaData?
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
-    private var metaDataProvider: SingleValueProvider<WithdrawalData, CDCWSingleValue>
+    private var metaDataProvider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>
     private let assetTitleFactory: AssetSelectionFactoryProtocol
     private let withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     private let assets: [WalletAsset]
@@ -202,7 +202,7 @@ final class WithdrawAmountPresenter {
         setupMetadata(provider: metaDataProvider)
     }
 
-    private func handleWithdraw(metadata: WithdrawalData?) {
+    private func handleWithdraw(metadata: WithdrawMetaData?) {
         if metadata != nil {
             self.metadata = metadata
         }
@@ -225,8 +225,8 @@ final class WithdrawAmountPresenter {
         }
     }
 
-    private func setupMetadata(provider: SingleValueProvider<WithdrawalData, CDCWSingleValue>) {
-        let changesBlock = { [weak self] (changes: [DataProviderChange<WithdrawalData>]) -> Void in
+    private func setupMetadata(provider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>) {
+        let changesBlock = { [weak self] (changes: [DataProviderChange<WithdrawMetaData>]) -> Void in
             if let change = changes.first {
                 switch change {
                 case .insert(let item), .update(let item):
@@ -263,8 +263,8 @@ final class WithdrawAmountPresenter {
         guard
             let sendingAmount = amountInputViewModel.decimalAmount,
             let metadata = metadata,
-            let feeRate = metadata.feeRateDecimal,
-            let destinationAccountId = try? IRAccountIdFactory.account(withIdentifier: metadata.accountId) else {
+            let feeRate = metadata.feeRateDecimal else {
+                logger?.error("Either amount or metadata missing to complete withdraw")
                 return
         }
 
@@ -281,16 +281,27 @@ final class WithdrawAmountPresenter {
         }
 
         guard
+            let destinationAccountId = try? IRAccountIdFactory
+                .account(withIdentifier: metadata.providerAccountId),
             let irAmount = try? IRAmountFactory.amount(from: (totalAmount as NSNumber).stringValue),
-            let irFee = try? IRAmountFactory.amount(from: (fee as NSNumber).stringValue) else {
+            let feeAccountId = try? IRAccountIdFactory.account(withIdentifier: metadata.feeAccountId) else {
+                logger?.error("Can't create necessary iroha objects to complete withdraw")
             return
+        }
+
+        let irFee: IRAmount?
+
+        if fee > 0.0 {
+            irFee = try? IRAmountFactory.amount(from: (fee as NSNumber).stringValue)
+        } else {
+            irFee = nil
         }
 
         let info = WithdrawInfo(destinationAccountId: destinationAccountId,
                                 assetId: selectedAsset.identifier,
                                 amount: irAmount,
                                 details: descriptionInputViewModel.text,
-                                feeAccountId: nil,
+                                feeAccountId: feeAccountId,
                                 fee: irFee)
 
         coordinator.confirm(with: info, asset: selectedAsset, option: selectedOption)

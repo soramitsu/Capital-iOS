@@ -13,7 +13,7 @@ protocol DataProviderFactoryProtocol: class {
         -> SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>
     func createContactsDataProvider() throws -> SingleValueProvider<[SearchData], CDCWSingleValue>
     func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
-        throws -> SingleValueProvider<WithdrawalData, CDCWSingleValue>
+        throws -> SingleValueProvider<WithdrawMetaData, CDCWSingleValue>
 }
 
 final class DataProviderFactory {
@@ -145,9 +145,9 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
     }
 
     func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
-        throws -> SingleValueProvider<WithdrawalData, CDCWSingleValue> {
+        throws -> SingleValueProvider<WithdrawMetaData, CDCWSingleValue> {
         let info = WithdrawMetadataInfo(assetId: assetId.identifier(), option: option)
-        let source: AnySingleValueProviderSource<WithdrawalData> = AnySingleValueProviderSource(base: self) {
+        let source: AnySingleValueProviderSource<WithdrawMetaData> = AnySingleValueProviderSource(base: self) {
             let requestType = WalletRequestType.withdrawalMetadata
             let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
             let operation = self.networkOperationFactory.withdrawalMetadataOperation(urlTemplate, info: info)
