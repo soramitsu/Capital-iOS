@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import IrohaCommunication
 
 enum AccountListModuleBuilderError: Error {
     case unexpectedParameter
@@ -115,10 +116,11 @@ final class AccountListModuleBuilder {
         return viewModel
     }
 
-    fileprivate func createActionsViewModel(commandFactory: WalletCommandFactoryProtocol)
+    fileprivate func createActionsViewModel(commandFactory: WalletCommandFactoryProtocol,
+                                            assetId: IRAssetId?)
         throws -> ActionsViewModelProtocol {
-        let sendCommand = commandFactory.prepareSendCommand()
-        let receiveCommand = commandFactory.prepareReceiveCommand()
+        let sendCommand = commandFactory.prepareSendCommand(for: assetId)
+        let receiveCommand = commandFactory.prepareReceiveCommand(for: assetId)
 
         let viewModel = ActionsViewModel(cellReuseIdentifier: Constants.actionsCellIdentifier,
                                          itemHeight: Constants.actionsCellHeight,

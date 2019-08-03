@@ -65,9 +65,18 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                 assetsBlockLength += 1
             }
 
+            let assetId: IRAssetId?
+
+            if assets.count == 1 {
+                assetId = assets.first?.identifier
+            } else {
+                assetId = nil
+            }
+
+            let actionsViewModel = try context.actionsViewModelFactory(commandFactory, assetId)
+
             let actionsIndex = context.actionsIndex + assetsBlockLength - 1
 
-            let actionsViewModel = try context.actionsViewModelFactory(commandFactory)
             viewModels.insert(actionsViewModel, at: actionsIndex)
         }
 

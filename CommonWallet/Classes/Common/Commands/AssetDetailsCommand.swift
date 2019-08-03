@@ -6,11 +6,21 @@
 import Foundation
 import IrohaCommunication
 
+public protocol AssetDetailsCommadProtocol: WalletPresentationCommandProtocol {
+    var ignoredWhenSingleAsset: Bool { get set }
+}
+
+enum AssetDetailsCommandError: Error {
+    case invalidAssetId
+}
+
 final class AssetDetailsCommand {
     let resolver: ResolverProtocol
     let assetId: IRAssetId
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
+
+    var ignoredWhenSingleAsset: Bool = true
 
     init(resolver: ResolverProtocol, assetId: IRAssetId) {
         self.resolver = resolver
@@ -18,15 +28,14 @@ final class AssetDetailsCommand {
     }
 }
 
-extension AssetDetailsCommand: WalletPresentationCommandProtocol {
+extension AssetDetailsCommand: AssetDetailsCommadProtocol {
     func execute() throws {
-        guard resolver.account.assets.count > 1 else {
+        if ignoredWhenSingleAsset, resolver.account.assets.count <= 1 {
             return
         }
 
         guard let asset = resolver.account.asset(for: assetId.identifier()) else {
-                resolver.logger?.error("Can't find asset to open details")
-            return
+            throw AssetDetailsCommandError.invalidAssetId
         }
 
         guard

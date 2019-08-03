@@ -23,5 +23,6 @@ protocol ReceiveAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentabl
 
 
 protocol ReceiveAmountAssemblyProtocol: class {
-    static func assembleView(resolver: ResolverProtocol) -> ReceiveAmountViewProtocol?
+    static func assembleView(resolver: ResolverProtocol,
+                             selectedAsset: WalletAsset) -> ReceiveAmountViewProtocol?
 }

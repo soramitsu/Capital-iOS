@@ -5,6 +5,7 @@
 
 import Foundation
 @testable import CommonWallet
+import IrohaCommunication
 
 func createAccountListAssetViewModel(asset: WalletAsset, balanceData: BalanceData, commandFactory: WalletCommandFactoryProtocol)
     throws -> AssetViewModelProtocol {
@@ -29,9 +30,10 @@ func createAccountListShowMoreViewModel(delegate: ShowMoreViewModelDelegate?) th
     return viewModel
 }
 
-func createAccountListActionsViewModel(commandFactory: WalletCommandFactoryProtocol) throws -> ActionsViewModelProtocol {
-    let sendCommand = commandFactory.prepareSendCommand()
-    let receiveCommand = commandFactory.prepareReceiveCommand()
+func createAccountListActionsViewModel(commandFactory: WalletCommandFactoryProtocol,
+                                       assetId: IRAssetId?) throws -> ActionsViewModelProtocol {
+    let sendCommand = commandFactory.prepareSendCommand(for: assetId)
+    let receiveCommand = commandFactory.prepareReceiveCommand(for: assetId)
     let textStyle = WalletTextStyle(font: .walletHeader1, color: .black)
     let viewModel = ActionsViewModel(cellReuseIdentifier: UUID().uuidString,
                                      itemHeight: CGFloat.random(in: 0...100),

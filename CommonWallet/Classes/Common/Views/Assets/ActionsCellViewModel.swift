@@ -5,8 +5,6 @@
 
 import Foundation
 
-public typealias ActionsViewModelFactory = (WalletCommandFactoryProtocol) throws -> ActionsViewModelProtocol
-
 public protocol ActionsViewModelProtocol: WalletViewModelProtocol {
     var sendTitle: String { get }
     var receiveTitle: String { get }

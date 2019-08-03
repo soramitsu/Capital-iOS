@@ -6,10 +6,8 @@
 import Foundation
 
 final class ContactsAssembly: ContactsAssemblyProtocol {
-    static func assembleView(with resolver: ResolverProtocol) -> ContactsViewProtocol? {
-        guard let selectedAsset = resolver.account.assets.first else {
-            return nil
-        }
+    static func assembleView(with resolver: ResolverProtocol,
+                             selectedAsset: WalletAsset) -> ContactsViewProtocol? {
 
         let view = ContactsViewController(nibName: "ContactsViewController", bundle: Bundle(for: self))
         

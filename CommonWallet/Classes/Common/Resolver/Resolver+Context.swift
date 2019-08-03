@@ -19,25 +19,25 @@ extension Resolver: CommonWalletContextProtocol {
         return navigationController
     }
 
-    func prepareSendCommand() -> WalletPresentationCommandProtocol {
-        return SendCommand(resolver: self)
+    func prepareSendCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol {
+        return SendCommand(resolver: self, selectedAssetId: assetId)
     }
 
-    func prepareReceiveCommand() -> WalletPresentationCommandProtocol {
-        return ReceiveCommand(resolver: self)
+    func prepareReceiveCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol {
+        return ReceiveCommand(resolver: self, selectedAssetId: assetId)
     }
 
-    func prepareAssetDetailsCommand(for assetId: IRAssetId) -> WalletPresentationCommandProtocol {
+    func prepareAssetDetailsCommand(for assetId: IRAssetId) -> AssetDetailsCommadProtocol {
         return AssetDetailsCommand(resolver: self, assetId: assetId)
     }
 
-    func prepareScanReceiverCommand(defaultAssetId: IRAssetId) -> WalletPresentationCommandProtocol {
-        return ScanReceiverCommand(resolver: self, defaultAssetId: defaultAssetId)
+    func prepareScanReceiverCommand() -> WalletPresentationCommandProtocol {
+        return ScanReceiverCommand(resolver: self)
     }
 
 
-    func prepareWithdrawCommand(for option: WalletWithdrawOption, assetId: IRAssetId)
+    func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String)
         -> WalletPresentationCommandProtocol {
-            return WithdrawCommand(resolver: self, option: option, assetId: assetId)
+            return WithdrawCommand(resolver: self, assetId: assetId, optionId: optionId)
     }
 }
