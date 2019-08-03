@@ -91,7 +91,9 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let accessoryExpectation = XCTestExpectation()
             let errorExpectation = XCTestExpectation()
             let balanceLoadedExpectation = XCTestExpectation()
+            
             let feeLoadedExpectation = XCTestExpectation()
+            feeLoadedExpectation.expectedFulfillmentCount = 2
 
             var assetSelectionViewModel: AssetSelectionViewModelProtocol?
             var feeViewModel: WithdrawFeeViewModelProtocol?
@@ -151,9 +153,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 when(stub).feeTitleDidChange().thenDoNothing()
 
                 when(stub).feeLoadingStateDidChange().then {
-                    if feeViewModel?.isLoading == false {
-                        feeLoadedExpectation.fulfill()
-                    }
+                    feeLoadedExpectation.fulfill()
                 }
             }
 

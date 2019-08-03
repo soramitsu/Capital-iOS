@@ -58,7 +58,7 @@ PODS:
   - OHHTTPStubs/Swift (8.0.0):
     - OHHTTPStubs/Default
   - Protobuf (3.5.0)
-  - RobinHood (0.4.0)
+  - RobinHood (1.0.5)
   - SoraUI (1.7.3):
     - SoraUI/AdaptiveDesign (= 1.7.3)
     - SoraUI/Animator (= 1.7.3)
@@ -110,9 +110,9 @@ SPEC REPOS:
     - nanopb
     - OHHTTPStubs
     - Protobuf
+    - RobinHood
     - SwiftLint
   https://github.com/soramitsu/podspec-ios.git:
-    - RobinHood
     - SoraUI
 
 EXTERNAL SOURCES:
@@ -134,7 +134,7 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
-  RobinHood: 8335d1fdfe5eb20c1d163957f8f1acd9ab4c35c3
+  RobinHood: cef9676ac560712a81cf1145bd838769e38d76d6
   SoraUI: 24ecc1e3fd78c69c43d054b40864715ad4fc979b
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 

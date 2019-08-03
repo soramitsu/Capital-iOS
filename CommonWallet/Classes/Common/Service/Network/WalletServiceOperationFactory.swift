@@ -8,6 +8,11 @@ import IrohaCommunication
 import RobinHood
 
 final class WalletServiceOperationFactory {
+    private struct Constants {
+        static let queryEncoding = CharacterSet.urlQueryAllowed
+            .subtracting(CharacterSet(charactersIn: "+"))
+    }
+
     let accountSettings: WalletAccountSettingsProtocol
 
     private lazy var jsonDecoder = JSONDecoder()
@@ -134,7 +139,8 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
 
     func searchOperation(_ urlTemplate: String, searchString: String) -> NetworkOperation<[SearchData]> {
         let requestFactory = BlockNetworkRequestFactory {
-            guard let encodedString = searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            guard let encodedString = searchString
+                .addingPercentEncoding(withAllowedCharacters: Constants.queryEncoding) else {
                 throw NetworkResponseError.invalidParameters
             }
 
@@ -195,7 +201,9 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
     func withdrawalMetadataOperation(_ urlTemplate: String,
                                      info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawMetaData> {
         let requestFactory = BlockNetworkRequestFactory {
-            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildURL(with: info)
+            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
+                .withUrlEncoding(allowedCharset: Constants.queryEncoding)
+                .buildURL(with: info)
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.get.rawValue

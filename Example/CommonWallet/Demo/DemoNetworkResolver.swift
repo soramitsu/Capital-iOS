@@ -23,7 +23,7 @@ final class DemoNetworkResolver: WalletNetworkResolverProtocol {
         case .withdraw:
             return "https://demowallet.com/withdraw"
         case .withdrawalMetadata:
-            return "https://demowallet.com/withdraw/metadata"
+            return "https://demowallet.com/withdraw/metadata?assetId={assetId}&option={option}"
         }
     }
 
