@@ -24,6 +24,6 @@ extension ScanReceiverCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: scanView, in: navigation)
+        present(view: scanView.controller, in: navigation)
     }
 }

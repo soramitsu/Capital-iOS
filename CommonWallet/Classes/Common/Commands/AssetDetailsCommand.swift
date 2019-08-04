@@ -44,6 +44,6 @@ extension AssetDetailsCommand: AssetDetailsCommadProtocol {
             return
         }
 
-        present(view: assetDetailsView, in: navigation)
+        present(view: assetDetailsView.controller, in: navigation)
     }
 }

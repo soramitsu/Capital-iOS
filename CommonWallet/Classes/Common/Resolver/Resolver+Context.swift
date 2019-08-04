@@ -35,9 +35,12 @@ extension Resolver: CommonWalletContextProtocol {
         return ScanReceiverCommand(resolver: self)
     }
 
-
     func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String)
         -> WalletPresentationCommandProtocol {
             return WithdrawCommand(resolver: self, assetId: assetId, optionId: optionId)
+    }
+
+    func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol {
+        return ControllerPresentationCommand(resolver: self, controller: controller)
     }
 }

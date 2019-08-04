@@ -41,6 +41,6 @@ extension WithdrawCommand: WalletPresentationCommandProtocol {
                 return
         }
 
-        present(view: withdrawView, in: navigation)
+        present(view: withdrawView.controller, in: navigation)
     }
 }

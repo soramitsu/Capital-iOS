@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Cuckoo
 @testable import CommonWallet
 
@@ -2056,6 +2061,21 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
         
     }
     
+    
+    
+    public func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol {
+        
+    return cuckoo_manager.call("preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol",
+            parameters: (controller),
+            escapingParameters: (controller),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.preparePresentationCommand(for: controller))
+        
+    }
+    
 
 	public struct __StubbingProxy_WalletCommandFactoryProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -2088,6 +2108,11 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.ProtocolStubFunction<(IRAssetId, String), WalletPresentationCommandProtocol> where M1.MatchedType == IRAssetId, M2.MatchedType == String {
 	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.ProtocolStubFunction<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
+	        let matchers: [Cuckoo.ParameterMatcher<(UIViewController)>] = [wrap(matchable: controller) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -2136,6 +2161,12 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	        return cuckoo_manager.verify("prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.__DoNotUse<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
+	        let matchers: [Cuckoo.ParameterMatcher<(UIViewController)>] = [wrap(matchable: controller) { $0 }]
+	        return cuckoo_manager.verify("preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -2162,6 +2193,10 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
     }
     
     public func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
+    }
+    
+    public func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
@@ -2282,6 +2317,21 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
         
     }
     
+    
+    
+    public func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol {
+        
+    return cuckoo_manager.call("preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol",
+            parameters: (controller),
+            escapingParameters: (controller),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.preparePresentationCommand(for: controller))
+        
+    }
+    
 
 	public struct __StubbingProxy_CommonWalletContextProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -2319,6 +2369,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.ProtocolStubFunction<(IRAssetId, String), WalletPresentationCommandProtocol> where M1.MatchedType == IRAssetId, M2.MatchedType == String {
 	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.ProtocolStubFunction<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
+	        let matchers: [Cuckoo.ParameterMatcher<(UIViewController)>] = [wrap(matchable: controller) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -2373,6 +2428,12 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        return cuckoo_manager.verify("prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.__DoNotUse<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
+	        let matchers: [Cuckoo.ParameterMatcher<(UIViewController)>] = [wrap(matchable: controller) { $0 }]
+	        return cuckoo_manager.verify("preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -2403,6 +2464,10 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
     }
     
     public func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
+    }
+    
+    public func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     

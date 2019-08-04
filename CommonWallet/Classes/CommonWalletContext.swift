@@ -13,6 +13,7 @@ public protocol WalletCommandFactoryProtocol: class {
     func prepareScanReceiverCommand() -> WalletPresentationCommandProtocol
     func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String)
         -> WalletPresentationCommandProtocol
+    func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol
 }
 
 public protocol CommonWalletContextProtocol: WalletCommandFactoryProtocol {

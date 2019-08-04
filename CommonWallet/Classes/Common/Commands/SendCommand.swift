@@ -40,6 +40,6 @@ extension SendCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: contactsView, in: navigation)
+        present(view: contactsView.controller, in: navigation)
     }
 }
