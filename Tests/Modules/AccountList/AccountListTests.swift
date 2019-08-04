@@ -147,6 +147,7 @@ class AccountListTests: NetworkBaseTests {
         let viewModelFactory = AccountModuleViewModelFactory(context: resolver.accountListConfiguration.viewModelContext,
                                                              assets: resolver.account.assets,
                                                              commandFactory: resolver.commandFactory,
+                                                             commandDecoratorFactory: nil,
                                                              amountFormatter: NumberFormatter())
 
         return AccountListPresenter(view: view,
@@ -173,6 +174,7 @@ class AccountListTests: NetworkBaseTests {
             when(stub).logger.get.then { nil }
             when(stub).commandFactory.get.thenReturn(commandFactory)
             when(stub).amountFormatter.get.thenReturn(NumberFormatter())
+            when(stub).commandDecoratorFactory.get.thenReturn(nil)
         }
 
         return resolver

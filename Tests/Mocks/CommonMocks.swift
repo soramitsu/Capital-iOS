@@ -1,8 +1,3 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import Cuckoo
 @testable import CommonWallet
 
@@ -890,6 +885,20 @@ import IrohaCommunication
         
     }
     
+    
+    
+     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? {
+        get {
+            return cuckoo_manager.getter("commandDecoratorFactory",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.commandDecoratorFactory)
+        }
+        
+    }
+    
 
     
 
@@ -980,6 +989,11 @@ import IrohaCommunication
 	    
 	    var commandFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletCommandFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "commandFactory")
+	    }
+	    
+	    
+	    var commandDecoratorFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletCommandDecoratorFactoryProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "commandDecoratorFactory")
 	    }
 	    
 	    
@@ -1075,6 +1089,11 @@ import IrohaCommunication
 	    
 	    var commandFactory: Cuckoo.VerifyReadOnlyProperty<WalletCommandFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "commandFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var commandDecoratorFactory: Cuckoo.VerifyReadOnlyProperty<WalletCommandDecoratorFactoryProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "commandDecoratorFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -1208,6 +1227,14 @@ import IrohaCommunication
      var commandFactory: WalletCommandFactoryProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletCommandFactoryProtocol).self)
+        }
+        
+    }
+    
+    
+     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletCommandDecoratorFactoryProtocol?).self)
         }
         
     }

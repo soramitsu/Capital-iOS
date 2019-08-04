@@ -24,20 +24,24 @@ final class AccountModuleViewModelFactory {
     let context: AccountListViewModelContextProtocol
     let assets: [WalletAsset]
     let commandFactory: WalletCommandFactoryProtocol
+    let commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     let amountFormatter: NumberFormatter
 
     init(context: AccountListViewModelContextProtocol,
          assets: [WalletAsset],
          commandFactory: WalletCommandFactoryProtocol,
+         commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?,
          amountFormatter: NumberFormatter) {
         self.context = context
         self.assets = assets
         self.commandFactory = commandFactory
+        self.commandDecoratorFactory = commandDecoratorFactory
         self.amountFormatter = amountFormatter
     }
 
     private func createDefaultAssetViewModel(for asset: WalletAsset, balance: BalanceData) -> AssetViewModelProtocol {
         let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
+
         let viewModel = AssetViewModel(cellReuseIdentifier: AccountModuleConstants.assetCellIdentifier,
                                        itemHeight: AccountModuleConstants.assetCellHeight,
                                        style: context.assetCellStyle,
@@ -61,12 +65,24 @@ final class AccountModuleViewModelFactory {
     private func createDefaultActionsViewModel() -> ActionsViewModelProtocol {
         let assetId = assets.count == 1 ? assets.first?.identifier : nil
 
-        let sendCommand = commandFactory.prepareSendCommand(for: assetId)
+        var sendCommand: WalletCommandProtocol = commandFactory.prepareSendCommand(for: assetId)
+
+        if let sendDecorator = commandDecoratorFactory?.createSendCommandDecorator(with: commandFactory) {
+            sendDecorator.undelyingCommand = sendCommand
+            sendCommand = sendDecorator
+        }
+
         let sendViewModel = ActionViewModel(title: "Send",
                                             style: context.actionsStyle.sendText,
                                             command: sendCommand)
 
-        let receiveCommand = commandFactory.prepareReceiveCommand(for: assetId)
+        var receiveCommand: WalletCommandProtocol = commandFactory.prepareReceiveCommand(for: assetId)
+
+        if let receiveDecorator = commandDecoratorFactory?.createReceiveCommandDecorator(with: commandFactory) {
+            receiveDecorator.undelyingCommand = receiveCommand
+            receiveCommand = receiveDecorator
+        }
+
         let receiveViewModel = ActionViewModel(title: "Receive",
                                                style: context.actionsStyle.receiveText,
                                                command: receiveCommand)

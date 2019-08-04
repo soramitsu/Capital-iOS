@@ -18,6 +18,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         let viewModelFactory = AccountModuleViewModelFactory(context: configuration.viewModelContext,
                                                              assets: resolver.account.assets,
                                                              commandFactory: resolver.commandFactory,
+                                                             commandDecoratorFactory: resolver.commandDecoratorFactory,
                                                              amountFormatter: resolver.amountFormatter)
 
         let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
@@ -63,6 +64,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         let viewModelFactory = AccountModuleViewModelFactory(context: detailsContext,
                                                              assets: [detailsAsset],
                                                              commandFactory: resolver.commandFactory,
+                                                             commandDecoratorFactory: resolver.commandDecoratorFactory,
                                                              amountFormatter: resolver.amountFormatter)
 
         let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)

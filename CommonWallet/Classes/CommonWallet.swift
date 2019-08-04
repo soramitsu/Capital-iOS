@@ -33,6 +33,9 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(transactionTypeList: [WalletTransactionType]) -> Self
 
+    @discardableResult
+    func with(commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol) -> Self
+
     func build() throws -> CommonWalletContextProtocol
 }
 
@@ -54,6 +57,7 @@ public final class CommonWalletBuilder {
     fileprivate var transferDescriptionLimit: UInt8?
     fileprivate var transferAmountLimit: Decimal?
     fileprivate var transactionTypeList: [WalletTransactionType]?
+    fileprivate var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
 
     init(account: WalletAccountSettingsProtocol, networkResolver: WalletNetworkResolverProtocol) {
         self.account = account
@@ -124,6 +128,12 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
+    @discardableResult
+    public func with(commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol) -> Self {
+        self.commandDecoratorFactory = commandDecoratorFactory
+        return self
+    }
+
     public func build() throws -> CommonWalletContextProtocol {
         let style = privateStyleBuilder.build()
 
@@ -144,7 +154,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 accountListConfiguration: accountListConfiguration,
                                 historyConfiguration: historyConfiguration,
                                 contactsConfiguration: contactsConfiguration,
-                                invoiceScanConfiguration: invoiceScanConfiguration)
+                                invoiceScanConfiguration: invoiceScanConfiguration,
+                                commandDecoratorFactory: commandDecoratorFactory)
 
         if let transferDescriptionLimit = transferDescriptionLimit {
             resolver.transferDescriptionLimit = transferDescriptionLimit
