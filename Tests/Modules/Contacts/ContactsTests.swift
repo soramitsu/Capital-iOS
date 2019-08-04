@@ -16,7 +16,7 @@ class ContactsTests: NetworkBaseTests {
             // given
 
             let accountSettings = try createRandomAccountSettings(for: 1)
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -44,16 +44,6 @@ class ContactsTests: NetworkBaseTests {
 
             let expectation = XCTestExpectation()
             expectation.expectedFulfillmentCount = 3
-
-            stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { _ in
-                    return Constants.contactsUrlTemplate
-                }
-
-                when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
-                    return nil
-                }
-            }
 
             try ContactsMock.register(mock: .success,
                                       networkResolver: networkResolver,

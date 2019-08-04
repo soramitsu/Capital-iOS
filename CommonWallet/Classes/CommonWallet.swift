@@ -95,8 +95,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
     public func with(amountFormatter: NumberFormatter) -> Self {
         self.amountFormatter = amountFormatter
 
-        privateAccountModuleBuilder = privateAccountModuleBuilder.with(amountFormatter: amountFormatter)
-
         return self
     }
 

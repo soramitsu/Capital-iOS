@@ -6,14 +6,11 @@
 import XCTest
 @testable import CommonWallet
 
-class AccountListViewModelContextTests: XCTestCase {
+class AccountListViewModelFactoryContainerTests: XCTestCase {
 
     func testInitialization() {
-        // given
-        let minimumVisibleAssets: UInt = 2
-
         // when
-        let context = createAccountListViewModelContext(with: minimumVisibleAssets)
+        let context = AccountListViewModelFactoryContainer()
 
         // then
         XCTAssertEqual(context.totalViewModelsCount, 2)
@@ -22,8 +19,7 @@ class AccountListViewModelContextTests: XCTestCase {
     func testInsertSingleBeforeAllReplaceAndRemove() {
         do {
             // given
-            let minimumVisibleAssets: UInt = 2
-            var context = createAccountListViewModelContext(with: minimumVisibleAssets)
+            var context = AccountListViewModelFactoryContainer()
 
             // when
             try context.insert(viewModelFactory: createDummyWalletViewModel, at: 0)
@@ -59,8 +55,7 @@ class AccountListViewModelContextTests: XCTestCase {
     func testInsertSingleAfterAllReplaceAndRemove() {
         do {
             // given
-            let minimumVisibleAssets: UInt = 2
-            var context = createAccountListViewModelContext(with: minimumVisibleAssets)
+            var context = AccountListViewModelFactoryContainer()
 
             // when
             try context.insert(viewModelFactory: createDummyWalletViewModel, at: 2)
@@ -96,8 +91,7 @@ class AccountListViewModelContextTests: XCTestCase {
     func testInsertSingleInBetweenReplacenAndRemove() {
         do {
             // given
-            let minimumVisibleAssets: UInt = 2
-            var context = createAccountListViewModelContext(with: minimumVisibleAssets)
+            var context = AccountListViewModelFactoryContainer()
 
             // when
             try context.insert(viewModelFactory: createDummyWalletViewModel, at: 1)

@@ -5,13 +5,27 @@
 
 import Foundation
 
-public protocol ActionsViewModelProtocol: WalletViewModelProtocol {
-    var sendTitle: String { get }
-    var receiveTitle: String { get }
-    var style: ActionsCellStyle { get }
+public protocol ActionViewModelProtocol: class {
+    var title: String { get }
+    var style: WalletTextStyleProtocol { get }
+    var command: WalletCommandProtocol { get }
+}
 
-    var sendCommand: WalletCommandProtocol { get }
-    var receiveCommand: WalletCommandProtocol { get }
+public protocol ActionsViewModelProtocol: WalletViewModelProtocol {
+    var send: ActionViewModelProtocol { get }
+    var receive: ActionViewModelProtocol { get }
+}
+
+final class ActionViewModel: ActionViewModelProtocol {
+    var title: String
+    var style: WalletTextStyleProtocol
+    var command: WalletCommandProtocol
+
+    init(title: String, style: WalletTextStyleProtocol, command: WalletCommandProtocol) {
+        self.title = title
+        self.style = style
+        self.command = command
+    }
 }
 
 final class ActionsViewModel: ActionsViewModelProtocol {
@@ -20,22 +34,16 @@ final class ActionsViewModel: ActionsViewModelProtocol {
 
     var command: WalletCommandProtocol? { return nil }
 
-    var sendTitle: String = "Send"
-    var receiveTitle: String = "Receive"
-    var style: ActionsCellStyle
-
-    var sendCommand: WalletCommandProtocol
-    var receiveCommand: WalletCommandProtocol
+    var send: ActionViewModelProtocol
+    var receive: ActionViewModelProtocol
 
     init(cellReuseIdentifier: String,
          itemHeight: CGFloat,
-         style: ActionsCellStyle,
-         sendCommand: WalletCommandProtocol,
-         receiveCommand: WalletCommandProtocol) {
+         sendViewModel: ActionViewModelProtocol,
+         receiveViewModel: ActionViewModelProtocol) {
         self.cellReuseIdentifier = cellReuseIdentifier
         self.itemHeight = itemHeight
-        self.style = style
-        self.sendCommand = sendCommand
-        self.receiveCommand = receiveCommand
+        self.send = sendViewModel
+        self.receive = receiveViewModel
     }
 }

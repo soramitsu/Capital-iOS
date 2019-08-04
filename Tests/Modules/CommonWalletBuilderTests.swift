@@ -37,18 +37,7 @@ class CommonWalletBuilderTests: XCTestCase {
     }
 
     private func createDefaultBuilder(with assetCount: Int) throws -> CommonWalletBuilderProtocol {
-        let networkResolver = MockWalletNetworkResolverProtocol()
-
-        stub(networkResolver) { stub in
-            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { _ in
-                return Constants.balanceUrlTemplate
-            }
-
-            when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
-                return nil
-            }
-        }
-
+        let networkResolver = MockNetworkResolver()
         let account = try createRandomAccountSettings(for: 4)
 
         return CommonWalletBuilder.builder(with: account,

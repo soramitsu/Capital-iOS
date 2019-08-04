@@ -6,9 +6,6 @@
 import Foundation
 import IrohaCommunication
 
-public typealias AssetViewModelFactory =
-    (WalletAsset, BalanceData, WalletCommandFactoryProtocol) throws -> AssetViewModelProtocol
-
 public protocol AssetViewModelProtocol: WalletViewModelProtocol {
     var assetId: String { get }
     var amount: String { get }

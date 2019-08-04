@@ -78,9 +78,9 @@
 		84C1806922551D4000F19858 /* DemoHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1806822551D4000F19858 /* DemoHeaderCell.swift */; };
 		84C1806D22551E0600F19858 /* DemoHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1806C22551E0600F19858 /* DemoHeaderViewModel.swift */; };
 		84C1806F22551FCF00F19858 /* DemoHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1806E22551FCF00F19858 /* DemoHeaderCell.xib */; };
-		84C180712255471A00F19858 /* AccountListViewModelContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C180702255471A00F19858 /* AccountListViewModelContextTests.swift */; };
+		84C180712255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C180702255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift */; };
 		84C1807322554BBF00F19858 /* ViewModelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1807222554BBF00F19858 /* ViewModelGenerator.swift */; };
-		84C180752255D6E100F19858 /* AccountListViewModelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C180742255D6E100F19858 /* AccountListViewModelGenerator.swift */; };
+		84D8D9A422F717DA00C9B9C7 /* MockNetworkResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */; };
 		84E048A222C209E700F0CA66 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
 		84E28A552279753B00F7646D /* AmountSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A502279753B00F7646D /* AmountSetupTests.swift */; };
 		84E28A562279753B00F7646D /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A522279753B00F7646D /* ContactsTests.swift */; };
@@ -183,9 +183,9 @@
 		84C1806822551D4000F19858 /* DemoHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoHeaderCell.swift; sourceTree = "<group>"; };
 		84C1806C22551E0600F19858 /* DemoHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoHeaderViewModel.swift; sourceTree = "<group>"; };
 		84C1806E22551FCF00F19858 /* DemoHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoHeaderCell.xib; sourceTree = "<group>"; };
-		84C180702255471A00F19858 /* AccountListViewModelContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListViewModelContextTests.swift; sourceTree = "<group>"; };
+		84C180702255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListViewModelFactoryContainerTests.swift; sourceTree = "<group>"; };
 		84C1807222554BBF00F19858 /* ViewModelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelGenerator.swift; sourceTree = "<group>"; };
-		84C180742255D6E100F19858 /* AccountListViewModelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListViewModelGenerator.swift; sourceTree = "<group>"; };
+		84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkResolver.swift; sourceTree = "<group>"; };
 		84E28A502279753B00F7646D /* AmountSetupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountSetupTests.swift; sourceTree = "<group>"; };
 		84E28A522279753B00F7646D /* ContactsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
 		84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawServiceTests.swift; sourceTree = "<group>"; };
@@ -425,7 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				84476227224CE52C009ADC0E /* AccountListTests.swift */,
-				84C180702255471A00F19858 /* AccountListViewModelContextTests.swift */,
+				84C180702255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift */,
 			);
 			path = AccountList;
 			sourceTree = "<group>";
@@ -450,9 +450,9 @@
 				848B6ECA224D6B2500E8A3C9 /* ModelGenerator.swift */,
 				848B6ED0224D7A6E00E8A3C9 /* LoadableBundleClass.swift */,
 				84C1807222554BBF00F19858 /* ViewModelGenerator.swift */,
-				84C180742255D6E100F19858 /* AccountListViewModelGenerator.swift */,
 				84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */,
 				84449ED822EC48C60024BE85 /* CommandGenerator.swift */,
+				84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */,
 			);
 			name = Helpers;
 			path = ../../Tests/Helpers;
@@ -1019,12 +1019,11 @@
 				841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */,
 				84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */,
 				844D556922A9315500BA99EF /* AccessoryViewFactoryTests.swift in Sources */,
-				84C180712255471A00F19858 /* AccountListViewModelContextTests.swift in Sources */,
+				84C180712255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift in Sources */,
 				84AF3DD32296E892008725C3 /* ConfirmationTests.swift in Sources */,
 				848B6ECB224D6B2500E8A3C9 /* ModelGenerator.swift in Sources */,
 				84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */,
 				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,
-				84C180752255D6E100F19858 /* AccountListViewModelGenerator.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
 				84146E2222B0339F00F18F1C /* CompondDateFormatterTests.swift in Sources */,
 				848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */,
@@ -1045,6 +1044,7 @@
 				848B6ECD224D6D9900E8A3C9 /* SearchServiceTests.swift in Sources */,
 				848B6EC1224D5A1100E8A3C9 /* BaseServiceMock.swift in Sources */,
 				848B6EBF224D5A1100E8A3C9 /* ServiceMock.swift in Sources */,
+				84D8D9A422F717DA00C9B9C7 /* MockNetworkResolver.swift in Sources */,
 				84E28A562279753B00F7646D /* ContactsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

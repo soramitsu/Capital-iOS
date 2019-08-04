@@ -21,13 +21,13 @@ final class ActionsCollectionViewCell: UICollectionViewCell {
 
     @IBAction private func actionSend() {
         if let actionsViewModel = actionsViewModel {
-            try? actionsViewModel.sendCommand.execute()
+            try? actionsViewModel.send.command.execute()
         }
     }
 
     @IBAction private func actionReceive() {
         if let actionsViewModel = actionsViewModel {
-            try? actionsViewModel.receiveCommand.execute()
+            try? actionsViewModel.receive.command.execute()
         }
     }
 }
@@ -41,12 +41,12 @@ extension ActionsCollectionViewCell: WalletViewProtocol {
         if let actionsViewModel = viewModel as? ActionsViewModelProtocol {
             self.actionsViewModel = actionsViewModel
 
-            sendButton.imageWithTitleView?.title = actionsViewModel.sendTitle
-            receiveButton.imageWithTitleView?.title = actionsViewModel.receiveTitle
-            sendButton.imageWithTitleView?.titleColor = actionsViewModel.style.sendText.color
-            sendButton.imageWithTitleView?.titleFont = actionsViewModel.style.sendText.font
-            receiveButton.imageWithTitleView?.titleColor = actionsViewModel.style.receiveText.color
-            receiveButton.imageWithTitleView?.titleFont = actionsViewModel.style.receiveText.font
+            sendButton.imageWithTitleView?.title = actionsViewModel.send.title
+            receiveButton.imageWithTitleView?.title = actionsViewModel.receive.title
+            sendButton.imageWithTitleView?.titleColor = actionsViewModel.send.style.color
+            sendButton.imageWithTitleView?.titleFont = actionsViewModel.send.style.font
+            receiveButton.imageWithTitleView?.titleColor = actionsViewModel.receive.style.color
+            receiveButton.imageWithTitleView?.titleFont = actionsViewModel.receive.style.font
 
             sendButton.invalidateLayout()
             receiveButton.invalidateLayout()

@@ -14,7 +14,7 @@ class WithdrawConfirmationTests: NetworkBaseTests {
             // given
 
             let accountSettings = try createRandomAccountSettings(for: 1, withdrawOptionsCount: 1)
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
 
             let networkOperationFactory = WalletServiceOperationFactory(accountSettings: accountSettings)
 
@@ -57,11 +57,6 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                       option: any(WalletWithdrawOption.self)).then { _ in
                     confirmExpectation.fulfill()
                 }
-            }
-
-            stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).thenReturn(Constants.withdrawUrlTemplate)
-                when(stub).adapter(for: any(WalletRequestType.self)).thenReturn(nil)
             }
 
             try WithdrawMock.register(mock: .success,
