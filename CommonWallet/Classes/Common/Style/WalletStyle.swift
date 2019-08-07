@@ -201,14 +201,14 @@ final class WalletStyle: WalletStyleProtocol {
             let title = WalletTextStyle(font: bodyRegularFont, color: bodyTextColor)
 
             let actionTitle = WalletTextStyle(font: bodyBoldFont, color: .white)
-            let action = WalletRoundedButtonStyle(background: .accentColor, title: actionTitle)
+            let action = WalletRoundedButtonStyle(background: accentColor, title: actionTitle)
 
             let separator = WalletStrokeStyle(color: thinBorderColor, lineWidth: 1.0)
 
             return WalletAccessoryStyle(title: title,
                                         action: action,
                                         separator: separator,
-                                        background: .background)
+                                        background: backgroundColor)
         }
     }
 

@@ -46,8 +46,7 @@ final class WithdrawResultPresenter {
 
         return WalletFormViewModel(layoutType: .accessory,
                                    title: "Amount to send",
-                                   details: details,
-                                   icon: style.amountChangeStyle.decrease)
+                                   details: details)
     }
 
     private func createFeeViewModel() -> WalletFormViewModelProtocol? {
