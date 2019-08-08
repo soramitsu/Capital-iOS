@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Foundation
 import IrohaCommunication
 
@@ -12,7 +17,7 @@ final class WalletInputValidatorFactoryDecorator {
 
     func createDefaultValidator() -> WalletInputValidatorProtocol {
         let hint = "Maximum \(descriptionMaxLength) symbols"
-        return LimitDescriptionValidator(maxLength: descriptionMaxLength, hint: hint)
+        return WalletDefaultInputValidator(hint: hint, maxLength: descriptionMaxLength)
     }
 }
 

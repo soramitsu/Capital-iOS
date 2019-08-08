@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Foundation
 
 public protocol WalletInputValidatorFactoryProtocol: class {
@@ -5,7 +10,7 @@ public protocol WalletInputValidatorFactoryProtocol: class {
     func createWithdrawDescriptionValidator(optionId: String) -> WalletInputValidatorProtocol?
 }
 
-extension WalletInputValidatorFactoryProtocol {
+public extension WalletInputValidatorFactoryProtocol {
     func createTransferDescriptionValidator() -> WalletInputValidatorProtocol? {
         return nil
     }

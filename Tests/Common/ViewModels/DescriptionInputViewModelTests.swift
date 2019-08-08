@@ -23,8 +23,8 @@ class DescriptionInputViewModelTests: XCTestCase {
     private func performTestInput(initialText: String, appendingText: String, expectedResult: String) {
         let initialTextLength = initialText.lengthOfBytes(using: .utf8)
         let appendingTextLength = appendingText.lengthOfBytes(using: .utf8)
-        let inputValidatator = LimitDescriptionValidator(maxLength: UInt8(initialTextLength + appendingTextLength),
-                                                         hint: "Just type something")
+        let inputValidatator = WalletDefaultInputValidator(hint: "Just type something",
+                                                           maxLength: UInt8(initialTextLength + appendingTextLength))
         let descriptionInput = DescriptionInputViewModel(title: "Description",
                                                          validator: inputValidatator)
 
@@ -39,8 +39,8 @@ class DescriptionInputViewModelTests: XCTestCase {
 
     private func performTestReplace(initialText: String, in range: NSRange, with replacement: String, expectedResult: String) {
         let initialTextLength = initialText.lengthOfBytes(using: .utf8)
-        let inputValidatator = LimitDescriptionValidator(maxLength: UInt8(initialTextLength),
-                                                         hint: "Just type something")
+        let inputValidatator = WalletDefaultInputValidator(hint: "Just type something",
+                                                           maxLength: UInt8(initialTextLength))
         let descriptionInput = DescriptionInputViewModel(title: "Description",
                                                          validator: inputValidatator)
 
