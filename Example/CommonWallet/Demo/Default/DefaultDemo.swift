@@ -123,18 +123,15 @@ final class DefaultDemo: DemoFactoryProtocol {
                                                      symbol: "ETC",
                                                      title: etcTitle,
                                                      details: etcDetails,
-                                                     descriptionPlaceholder: nil,
                                                      icon: icon)
 
         let ethTitle = "Send to my Ethereum wallet"
         let ethDetails = "Ethereum wallet address"
 
-        let descriptionPlaceholder = "0x5a0b54d5dc17e0aadc383d2db43b0a0d3e029c4c"
         let ethWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
                                                      symbol: "ETH",
                                                      title: ethTitle,
                                                      details: ethDetails,
-                                                     descriptionPlaceholder: descriptionPlaceholder,
                                                      icon: icon)
 
         return [ethWithdrawOption, etcWithdrawOption]
