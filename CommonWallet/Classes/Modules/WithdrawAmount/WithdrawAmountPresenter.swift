@@ -55,6 +55,7 @@ final class WithdrawAmountPresenter {
          dataProviderFactory: DataProviderFactoryProtocol,
          withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol,
          assetTitleFactory: AssetSelectionFactoryProtocol) throws {
+
         self.view = view
         self.coordinator = coordinator
         self.selectedAsset = selectedAsset
@@ -67,6 +68,8 @@ final class WithdrawAmountPresenter {
         self.withdrawViewModelFactory = withdrawViewModelFactory
         self.assetTitleFactory = assetTitleFactory
 
+        descriptionInputViewModel = try withdrawViewModelFactory.createDescriptionViewModel()
+
         let title = assetTitleFactory.createTitle(for: selectedAsset, balanceData: nil)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: title,
@@ -78,8 +81,6 @@ final class WithdrawAmountPresenter {
         let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
         feeViewModel = WithdrawFeeViewModel(title: feeTitle)
         feeViewModel.isLoading = true
-
-        descriptionInputViewModel = withdrawViewModelFactory.createDescriptionViewModel()
     }
 
     private func updateFeeViewModel(for asset: WalletAsset) {

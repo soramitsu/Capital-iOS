@@ -25,6 +25,7 @@ func createRandomWithdrawOption() -> WalletWithdrawOption {
                                 symbol: UUID().uuidString,
                                 title: UUID().uuidString,
                                 details: UUID().uuidString,
+                                descriptionPlaceholder: UUID().uuidString,
                                 icon: nil)
 }
 

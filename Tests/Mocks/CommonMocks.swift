@@ -831,20 +831,6 @@ import IrohaCommunication
     
     
     
-     var transferDescriptionLimit: UInt8 {
-        get {
-            return cuckoo_manager.getter("transferDescriptionLimit",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.transferDescriptionLimit)
-        }
-        
-    }
-    
-    
-    
      var transferAmountLimit: Decimal {
         get {
             return cuckoo_manager.getter("transferAmountLimit",
@@ -895,6 +881,20 @@ import IrohaCommunication
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
                 defaultCall: __defaultImplStub!.commandDecoratorFactory)
+        }
+        
+    }
+    
+    
+    
+     var inputValidatorFactory: WalletInputValidatorFactoryProtocol {
+        get {
+            return cuckoo_manager.getter("inputValidatorFactory",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.inputValidatorFactory)
         }
         
     }
@@ -972,11 +972,6 @@ import IrohaCommunication
 	    }
 	    
 	    
-	    var transferDescriptionLimit: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, UInt8> {
-	        return .init(manager: cuckoo_manager, name: "transferDescriptionLimit")
-	    }
-	    
-	    
 	    var transferAmountLimit: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, Decimal> {
 	        return .init(manager: cuckoo_manager, name: "transferAmountLimit")
 	    }
@@ -994,6 +989,11 @@ import IrohaCommunication
 	    
 	    var commandDecoratorFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletCommandDecoratorFactoryProtocol?> {
 	        return .init(manager: cuckoo_manager, name: "commandDecoratorFactory")
+	    }
+	    
+	    
+	    var inputValidatorFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletInputValidatorFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "inputValidatorFactory")
 	    }
 	    
 	    
@@ -1072,11 +1072,6 @@ import IrohaCommunication
 	    }
 	    
 	    
-	    var transferDescriptionLimit: Cuckoo.VerifyReadOnlyProperty<UInt8> {
-	        return .init(manager: cuckoo_manager, name: "transferDescriptionLimit", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
 	    var transferAmountLimit: Cuckoo.VerifyReadOnlyProperty<Decimal> {
 	        return .init(manager: cuckoo_manager, name: "transferAmountLimit", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -1094,6 +1089,11 @@ import IrohaCommunication
 	    
 	    var commandDecoratorFactory: Cuckoo.VerifyReadOnlyProperty<WalletCommandDecoratorFactoryProtocol?> {
 	        return .init(manager: cuckoo_manager, name: "commandDecoratorFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var inputValidatorFactory: Cuckoo.VerifyReadOnlyProperty<WalletInputValidatorFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "inputValidatorFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -1200,14 +1200,6 @@ import IrohaCommunication
     }
     
     
-     var transferDescriptionLimit: UInt8 {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (UInt8).self)
-        }
-        
-    }
-    
-    
      var transferAmountLimit: Decimal {
         get {
             return DefaultValueRegistry.defaultValue(for: (Decimal).self)
@@ -1235,6 +1227,14 @@ import IrohaCommunication
      var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletCommandDecoratorFactoryProtocol?).self)
+        }
+        
+    }
+    
+    
+     var inputValidatorFactory: WalletInputValidatorFactoryProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletInputValidatorFactoryProtocol).self)
         }
         
     }

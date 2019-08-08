@@ -21,10 +21,16 @@ class DescriptionInputViewModelTests: XCTestCase {
     // MARK: Private
 
     private func performTestInput(initialText: String, appendingText: String, expectedResult: String) {
+        let initialTextLength = initialText.lengthOfBytes(using: .utf8)
+        let appendingTextLength = appendingText.lengthOfBytes(using: .utf8)
+        let inputValidatator = LimitDescriptionValidator(maxLength: UInt8(initialTextLength + appendingTextLength),
+                                                         hint: "Just type something")
         let descriptionInput = DescriptionInputViewModel(title: "Description",
-                                                         text: initialText,
-                                                         placeholder: "",
-                                                         maxLength: UInt8(initialText.count + appendingText.count))
+                                                         validator: inputValidatator)
+
+        let initialRange = NSRange(location: 0, length: 0)
+        _ = descriptionInput.didReceiveReplacement(initialText, for: initialRange)
+
         let replacingRange = NSRange(location: initialText.count, length: 0)
         _ = descriptionInput.didReceiveReplacement(appendingText, for: replacingRange)
 
@@ -32,10 +38,15 @@ class DescriptionInputViewModelTests: XCTestCase {
     }
 
     private func performTestReplace(initialText: String, in range: NSRange, with replacement: String, expectedResult: String) {
+        let initialTextLength = initialText.lengthOfBytes(using: .utf8)
+        let inputValidatator = LimitDescriptionValidator(maxLength: UInt8(initialTextLength),
+                                                         hint: "Just type something")
         let descriptionInput = DescriptionInputViewModel(title: "Description",
-                                                         text: initialText,
-                                                         placeholder: "",
-                                                         maxLength: UInt8(initialText.count))
+                                                         validator: inputValidatator)
+
+        let initialRange = NSRange(location: 0, length: 0)
+        _ = descriptionInput.didReceiveReplacement(initialText, for: initialRange)
+
         _ = descriptionInput.didReceiveReplacement(replacement, for: range)
         XCTAssertEqual(descriptionInput.text, expectedResult)
     }

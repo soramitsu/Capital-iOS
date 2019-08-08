@@ -36,6 +36,9 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol) -> Self
 
+    @discardableResult
+    func with(inputValidatorFactory: WalletInputValidatorFactoryProtocol) -> Self
+
     func build() throws -> CommonWalletContextProtocol
 }
 
@@ -54,10 +57,11 @@ public final class CommonWalletBuilder {
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatter: NumberFormatter?
     fileprivate var historyDateFormatter: DateFormatter?
-    fileprivate var transferDescriptionLimit: UInt8?
+    fileprivate var transferDescriptionLimit: UInt8 = 64
     fileprivate var transferAmountLimit: Decimal?
     fileprivate var transactionTypeList: [WalletTransactionType]?
     fileprivate var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
+    fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
 
     init(account: WalletAccountSettingsProtocol, networkResolver: WalletNetworkResolverProtocol) {
         self.account = account
@@ -128,9 +132,13 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    @discardableResult
     public func with(commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol) -> Self {
         self.commandDecoratorFactory = commandDecoratorFactory
+        return self
+    }
+
+    public func with(inputValidatorFactory: WalletInputValidatorFactoryProtocol) -> Self {
+        self.inputValidatorFactory = inputValidatorFactory
         return self
     }
 
@@ -149,17 +157,18 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         privateInvoiceScanModuleBuilder.walletStyle = style
         let invoiceScanConfiguration = privateInvoiceScanModuleBuilder.build()
 
+        let decorator = WalletInputValidatorFactoryDecorator(descriptionMaxLength: transferDescriptionLimit)
+        decorator.underlyingFactory = inputValidatorFactory
+
         let resolver = Resolver(account: account,
                                 networkResolver: networkResolver,
                                 accountListConfiguration: accountListConfiguration,
                                 historyConfiguration: historyConfiguration,
                                 contactsConfiguration: contactsConfiguration,
                                 invoiceScanConfiguration: invoiceScanConfiguration,
-                                commandDecoratorFactory: commandDecoratorFactory)
+                                inputValidatorFactory: decorator)
 
-        if let transferDescriptionLimit = transferDescriptionLimit {
-            resolver.transferDescriptionLimit = transferDescriptionLimit
-        }
+        resolver.commandDecoratorFactory = commandDecoratorFactory
 
         if let transferAmountLimit = transferAmountLimit {
             resolver.transferAmountLimit = transferAmountLimit

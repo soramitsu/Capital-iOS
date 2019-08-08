@@ -9,42 +9,47 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              asset: WalletAsset,
                              option: WalletWithdrawOption) -> WithdrawAmountViewProtocol? {
-        let view = WithdrawAmountViewController(nibName: "WithdrawAmountViewController", bundle: Bundle(for: self))
-        view.style = resolver.style
 
-        let coordinator = WithdrawAmountCoordinator(resolver: resolver)
+        do {
+            let view = WithdrawAmountViewController(nibName: "WithdrawAmountViewController", bundle: Bundle(for: self))
+            view.style = resolver.style
 
-        let networkFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
+            let coordinator = WithdrawAmountCoordinator(resolver: resolver)
 
-        let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
-                                                      accountSettings: resolver.account,
-                                                      cacheFacade: CoreDataCacheFacade.shared,
-                                                      networkOperationFactory: networkFactory)
+            let networkFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
 
-        let amountFormatter = resolver.amountFormatter
-        let maxLength = resolver.transferDescriptionLimit
-        let limit = resolver.transferAmountLimit
-        let withdrawViewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
-                                                                      option: option,
-                                                                      amountLimit: limit,
-                                                                      descriptionMaxLength: maxLength)
-        let assetTitleFactory = AssetSelectionFactory(amountFormatter: amountFormatter)
+            let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
+                                                          accountSettings: resolver.account,
+                                                          cacheFacade: CoreDataCacheFacade.shared,
+                                                          networkOperationFactory: networkFactory)
 
-        guard let presenter = try? WithdrawAmountPresenter(view: view,
-                                                           coordinator: coordinator,
-                                                           assets: resolver.account.assets,
-                                                           selectedAsset: asset,
-                                                           selectedOption: option,
-                                                           dataProviderFactory: dataProviderFactory,
-                                                           withdrawViewModelFactory: withdrawViewModelFactory,
-                                                           assetTitleFactory: assetTitleFactory) else {
-                                                            return nil
+            let amountFormatter = resolver.amountFormatter
+
+            let limit = resolver.transferAmountLimit
+            let validatorFactory = resolver.inputValidatorFactory
+            let withdrawViewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
+                                                                          option: option,
+                                                                          amountLimit: limit,
+                                                                          descriptionValidatorFactory: validatorFactory)
+            let assetTitleFactory = AssetSelectionFactory(amountFormatter: amountFormatter)
+
+            let presenter = try WithdrawAmountPresenter(view: view,
+                                                        coordinator: coordinator,
+                                                        assets: resolver.account.assets,
+                                                        selectedAsset: asset,
+                                                        selectedOption: option,
+                                                        dataProviderFactory: dataProviderFactory,
+                                                        withdrawViewModelFactory: withdrawViewModelFactory,
+                                                        assetTitleFactory: assetTitleFactory)
+
+            presenter.logger = resolver.logger
+
+            view.presenter = presenter
+
+            return view
+        } catch {
+            resolver.logger?.error("Did receive unexpected error \(error)")
+            return nil
         }
-
-        presenter.logger = resolver.logger
-
-        view.presenter = presenter
-
-        return view
     }
 }

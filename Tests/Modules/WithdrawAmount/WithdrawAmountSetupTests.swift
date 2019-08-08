@@ -33,10 +33,11 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                           networkOperationFactory: networkOperationFactory)
 
             let amountFormatter = NumberFormatter()
+            let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
             let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
                                                                   option: withdrawOption,
                                                                   amountLimit: 100,
-                                                                  descriptionMaxLength: 64)
+                                                                  descriptionValidatorFactory: inputValidatorFactory)
 
             let view = MockWithdrawAmountViewProtocol()
             let coordinator = MockWithdrawAmountCoordinatorProtocol()

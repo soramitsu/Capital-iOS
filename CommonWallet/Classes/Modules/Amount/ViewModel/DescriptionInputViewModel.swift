@@ -24,38 +24,33 @@ final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
     var title: String
 
     var text: String {
-        didSet {
-            if text != oldValue {
-                observable.observers.forEach { $0.observer?.descriptionInputDidChangeText() }
-            }
-        }
+        return validator.input
     }
-    var placeholder: String
-    var maxLength: UInt8
+
+    var placeholder: String {
+        return validator.hint
+    }
 
     var isValid: Bool {
-        return true
+        return validator.isValid
     }
+
+    let validator: WalletInputValidatorProtocol
 
     var observable: WalletViewModelObserverContainer<DescriptionInputViewModelObserver>
 
-    init(title: String, text: String, placeholder: String, maxLength: UInt8) {
+    init(title: String, validator: WalletInputValidatorProtocol) {
         self.title = title
-        self.text = text
-        self.placeholder = placeholder
-        self.maxLength = maxLength
+        self.validator = validator
 
         observable = WalletViewModelObserverContainer()
     }
 
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
-        let newLength = text.count - range.length + string.count
-        guard maxLength == 0 || newLength <= maxLength else {
-            return false
-        }
+        let applied = validator.didReceiveReplacement(string, for: range)
 
-        text = (text as NSString).replacingCharacters(in: range, with: string)
+        observable.observers.forEach { $0.observer?.descriptionInputDidChangeText() }
 
-        return true
+        return applied
     }
 }
