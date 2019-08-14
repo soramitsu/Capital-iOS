@@ -9,9 +9,9 @@ import IrohaCommunication
 
 public struct WalletAsset {
     
-    public var symbol: String
-    public var details: String
-    public var identifier: IRAssetId
+    public let symbol: String
+    public let details: String
+    public let identifier: IRAssetId
 
     public init(identifier: IRAssetId, symbol: String, details: String) {
         self.identifier = identifier

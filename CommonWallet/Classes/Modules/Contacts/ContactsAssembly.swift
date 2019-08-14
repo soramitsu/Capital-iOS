@@ -34,7 +34,8 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           operationFactory: networkOperationFactory)
 
         let viewModelFactory = ContactsViewModelFactory(configuration: config,
-                                                        avatarRadius: ContactCell.avatarRadius)
+                                                        avatarRadius: ContactCell.avatarRadius,
+                                                        commandFactory: resolver.commandFactory)
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
@@ -42,7 +43,8 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           walletService: walletService,
                                           viewModelFactory: viewModelFactory,
                                           selectedAsset: selectedAsset,
-                                          currentAccountId: resolver.account.accountId)
+                                          currentAccountId: resolver.account.accountId,
+                                          withdrawOptions: resolver.account.withdrawOptions)
         view.presenter = presenter
 
         return view

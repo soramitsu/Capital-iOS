@@ -4,7 +4,7 @@
 */
 
 import Foundation
-
+import IrohaCommunication
 
 protocol ResolverProtocol: class {
     var account: WalletAccountSettingsProtocol { get }
@@ -14,7 +14,7 @@ protocol ResolverProtocol: class {
     var historyConfiguration: HistoryConfigurationProtocol { get }
     var contactsConfiguration: ContactsConfigurationProtocol { get }
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol { get }
-    var navigation: NavigationProtocol! { get }
+    var navigation: NavigationProtocol? { get }
     var logger: WalletLoggerProtocol? { get }
     var amountFormatter: NumberFormatter { get }
     var historyDateFormatter: DateFormatter { get }
@@ -22,6 +22,7 @@ protocol ResolverProtocol: class {
     var transferDescriptionLimit: UInt8 { get }
     var transferAmountLimit: Decimal { get }
     var transactionTypeList: [WalletTransactionType]? { get }
+    var commandFactory: WalletCommandFactoryProtocol { get }
 }
 
 final class Resolver: ResolverProtocol {
@@ -31,7 +32,7 @@ final class Resolver: ResolverProtocol {
     var historyConfiguration: HistoryConfigurationProtocol
     var contactsConfiguration: ContactsConfigurationProtocol
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol
-    var navigation: NavigationProtocol!
+    var navigation: NavigationProtocol?
 
     lazy var style: WalletStyleProtocol = WalletStyle()
     lazy var amountFormatter: NumberFormatter = NumberFormatter()
@@ -41,6 +42,8 @@ final class Resolver: ResolverProtocol {
     var transferAmountLimit: Decimal = 1e+7
     var logger: WalletLoggerProtocol?
     var transactionTypeList: [WalletTransactionType]?
+
+    var commandFactory: WalletCommandFactoryProtocol { return self }
 
     init(account: WalletAccountSettingsProtocol,
          networkResolver: WalletNetworkResolverProtocol,

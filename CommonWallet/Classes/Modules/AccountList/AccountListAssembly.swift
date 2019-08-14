@@ -16,7 +16,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         view.configuration = configuration
 
         let viewModelFactory = AccountModuleViewModelFactory(context: configuration.viewModelContext,
-                                                             assets: resolver.account.assets)
+                                                             assets: resolver.account.assets,
+                                                             commandFactory: resolver.commandFactory)
 
         let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
 
@@ -55,7 +56,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
             minimumVisibleAssets: configuration.viewModelContext.minimumVisibleAssets)
 
         let viewModelFactory = AccountModuleViewModelFactory(context: detailsContext,
-                                                             assets: [detailsAsset])
+                                                             assets: [detailsAsset],
+                                                             commandFactory: resolver.commandFactory)
 
         let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
 

@@ -5,7 +5,7 @@ PODS:
   - BoringSSL/Implementation (10.0.3):
     - BoringSSL/Interface (= 10.0.3)
   - BoringSSL/Interface (10.0.3)
-  - CommonWallet (1.0.0):
+  - CommonWallet (1.1.0):
     - IrohaCommunication
     - RobinHood
     - SoraUI
@@ -121,7 +121,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BoringSSL: c46efb47593135382bc0934196f16d2f726f5f36
-  CommonWallet: 2ed2c224e000648d9e9ad01a4304678562c9f997
+  CommonWallet: 10f202cb005ff7ad6b29b18880b4edf16edea869
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Cuckoo: 58e8219aa80f956350b6d3b396e9f1d6871544e7
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
@@ -140,4 +140,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 719c3bcb0fc1143cf302fd7dbd459de459cecb8e
 
-COCOAPODS: 1.7.3
+COCOAPODS: 1.7.5

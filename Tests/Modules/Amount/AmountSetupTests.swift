@@ -16,7 +16,8 @@ class AmountTests: NetworkBaseTests {
 
             let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
             let walletAsset = WalletAsset(identifier: assetId, symbol: "A", details: UUID().uuidString)
-            let accountSettings = try createRandomAccountSettings(for: [walletAsset])
+            let accountSettings = try createRandomAccountSettings(for: [walletAsset],
+                                                                  withdrawOptions: [])
 
             let networkResolver = MockWalletNetworkResolverProtocol()
 

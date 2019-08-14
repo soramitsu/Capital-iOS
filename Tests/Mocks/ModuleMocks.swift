@@ -2110,51 +2110,6 @@ import Cuckoo
     
 
     
-    
-    
-     func send()  {
-        
-    return cuckoo_manager.call("send()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.send())
-        
-    }
-    
-    
-    
-     func receive()  {
-        
-    return cuckoo_manager.call("receive()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.receive())
-        
-    }
-    
-    
-    
-     func showDetails(for asset: WalletAsset)  {
-        
-    return cuckoo_manager.call("showDetails(for: WalletAsset)",
-            parameters: (asset),
-            escapingParameters: (asset),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.showDetails(for: asset))
-        
-    }
-    
 
 	 struct __StubbingProxy_AccountListCoordinatorProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -2163,21 +2118,6 @@ import Cuckoo
 	        self.cuckoo_manager = manager
 	    }
 	    
-	    
-	    func send() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockAccountListCoordinatorProtocol.self, method: "send()", parameterMatchers: matchers))
-	    }
-	    
-	    func receive() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockAccountListCoordinatorProtocol.self, method: "receive()", parameterMatchers: matchers))
-	    }
-	    
-	    func showDetails<M1: Cuckoo.Matchable>(for asset: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletAsset)> where M1.MatchedType == WalletAsset {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset)>] = [wrap(matchable: asset) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockAccountListCoordinatorProtocol.self, method: "showDetails(for: WalletAsset)", parameterMatchers: matchers))
-	    }
 	    
 	}
 
@@ -2195,24 +2135,6 @@ import Cuckoo
 	    
 	
 	    
-	    @discardableResult
-	    func send() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("send()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func receive() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("receive()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func showDetails<M1: Cuckoo.Matchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset), Void> where M1.MatchedType == WalletAsset {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset)>] = [wrap(matchable: asset) { $0 }]
-	        return cuckoo_manager.verify("showDetails(for: WalletAsset)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
 	}
 }
 
@@ -2221,18 +2143,6 @@ import Cuckoo
 
     
 
-    
-     func send()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func receive()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func showDetails(for asset: WalletAsset)   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
     
 }
 

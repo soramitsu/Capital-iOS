@@ -24,6 +24,7 @@ protocol WalletStyleProtocol {
     var nameIconStyle: WalletNameIconStyleProtocol { get }
     var formCellStyle: WalletFormCellStyleProtocol { get }
     var modalActionStyle: WalletModalActionStyleProtocol { get }
+    var accessoryListIcon: UIImage? { get }
     var accessoryStyle: WalletAccessoryStyleProtocol { get }
     var amountChangeStyle: WalletAmountChangeStyleProtocol { get }
     var statusStyleContainer: WalletTransactionStatusStyleContainerProtocol { get }
@@ -66,6 +67,10 @@ final class WalletStyle: WalletStyleProtocol {
     lazy var doneIcon: UIImage? = UIImage(named: "iconDone",
                                           in: Bundle(for: type(of: self)),
                                           compatibleWith: nil)
+
+    lazy var accessoryListIcon: UIImage? = UIImage(named: "accessoryListIcon",
+                                                   in: Bundle(for: type(of: self)),
+                                                   compatibleWith: nil)
 
     lazy var amountChangeStyle: WalletAmountChangeStyleProtocol = {
         let increaseIcon = UIImage(named: "iconIncrease",

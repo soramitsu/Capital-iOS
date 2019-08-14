@@ -8,7 +8,7 @@ import Foundation
 
 protocol NavigationProtocol {
     
-    var navigationController: WalletNavigationController { get }
+    var navigationController: WalletNavigationController? { get }
     
     func set(_ viewController: UIViewController, animated: Bool)
     func push(_ controller: UIViewController)
@@ -36,13 +36,13 @@ extension NavigationProtocol {
 
 final class Navigation: NavigationProtocol {
     
-    private(set) var navigationController: WalletNavigationController
+    private(set) weak var navigationController: WalletNavigationController?
     private let style: WalletStyleProtocol
     
-    private var activeNavigationController: WalletNavigationController {
+    private var activeNavigationController: WalletNavigationController? {
         var currentNavigationController = navigationController
 
-        while let topNavigationController = currentNavigationController
+        while let topNavigationController = currentNavigationController?
             .presentedViewController as? WalletNavigationController {
             currentNavigationController = topNavigationController
         }
@@ -50,22 +50,23 @@ final class Navigation: NavigationProtocol {
         return currentNavigationController
     }
     
-    init(rootController: UIViewController, style: WalletStyleProtocol) {
+    init(navigationController: WalletNavigationController, style: WalletStyleProtocol) {
         self.style = style
-        navigationController = WalletNavigationController(rootViewController: rootController)
+        self.navigationController = navigationController
+
         navigationController.navigationBarStyle = style.navigationBarStyle
     }
     
     func set(_ viewController: UIViewController, animated: Bool) {
-        activeNavigationController.setViewControllers([viewController], animated: animated)
+        activeNavigationController?.setViewControllers([viewController], animated: animated)
     }
     
     func push(_ controller: UIViewController) {
-        activeNavigationController.pushViewController(controller, animated: true)
+        activeNavigationController?.pushViewController(controller, animated: true)
     }
     
     func pop() {
-        activeNavigationController.popViewController(animated: true)
+        activeNavigationController?.popViewController(animated: true)
     }
     
     func present(_ controller: UIViewController, inNavigationController: Bool) {
@@ -79,13 +80,13 @@ final class Navigation: NavigationProtocol {
             presentedController = controller
         }
 
-        activeNavigationController.present(presentedController,
-                                           animated: true,
-                                           completion: nil)
+        activeNavigationController?.present(presentedController,
+                                            animated: true,
+                                            completion: nil)
     }
     
     func dismiss() {
-        activeNavigationController.dismiss(animated: true, completion: nil)
+        activeNavigationController?.dismiss(animated: true, completion: nil)
     }
     
 }

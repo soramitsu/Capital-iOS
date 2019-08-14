@@ -11,7 +11,7 @@ final class DummyWalletViewModel: WalletViewModelProtocol {
 
     var itemHeight: CGFloat
 
-    func didSelect() {}
+    var command: WalletCommandProtocol? { return nil }
 
     init(cellReuseIdentifier: String, itemHeight: CGFloat) {
         self.cellReuseIdentifier = cellReuseIdentifier

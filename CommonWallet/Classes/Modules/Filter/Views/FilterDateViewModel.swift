@@ -20,9 +20,12 @@ final class FilterDateViewModel: WalletViewModelProtocol {
         self.dateString = dateString
         self.action = action
     }
-    
-    func didSelect() {
+}
+
+extension FilterDateViewModel: WalletCommandProtocol {
+    var command: WalletCommandProtocol? { return self }
+
+    func execute() throws {
         action()
     }
-    
 }

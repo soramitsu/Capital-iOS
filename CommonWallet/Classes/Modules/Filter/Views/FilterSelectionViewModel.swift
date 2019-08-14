@@ -28,9 +28,12 @@ final class FilterSelectionViewModel: WalletViewModelProtocol {
         self.selected = selected
         self.action = action
     }
-    
-    func didSelect() {
+}
+
+extension FilterSelectionViewModel: WalletCommandProtocol {
+    var command: WalletCommandProtocol? { return self }
+
+    func execute() throws {
         action(index)
     }
-    
 }

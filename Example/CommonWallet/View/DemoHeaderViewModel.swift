@@ -23,12 +23,12 @@ final class DemoHeaderViewModel: DemoHeaderViewModelProtocol {
     var title: String
     var style: WalletTextStyleProtocol
 
+    var command: WalletCommandProtocol? { return nil }
+
     weak var delegate: DemoHeaderViewModelDelegate?
 
     init(title: String, style: WalletTextStyleProtocol) {
         self.title = title
         self.style = style
     }
-
-    func didSelect() {}
 }

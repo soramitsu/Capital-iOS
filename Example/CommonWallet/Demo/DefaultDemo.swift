@@ -26,10 +26,11 @@ final class DefaultDemo: DemoFactoryProtocol {
             throw DemoFactoryError.signerCreationFailed
         }
 
-        let account = WalletAccountSettings(accountId: accountId,
+        var account = WalletAccountSettings(accountId: accountId,
                                             assets: assets,
                                             signer: signer,
                                             publicKey: keypair.publicKey())
+        account.withdrawOptions = createWithdrawOptions()
 
         let networkResolver = DemoNetworkResolver()
         
@@ -76,13 +77,15 @@ final class DefaultDemo: DemoFactoryProtocol {
             .with(bodyRegular: .demoBodyRegular)
             .with(small: .demoSmall)
 
-        let walletController = try walletBuilder.build()
+        let walletContext = try walletBuilder.build()
 
         try mock(networkResolver: networkResolver, with: assets)
 
         self.completionBlock = completionBlock
 
-        return walletController
+        let rootController = try walletContext.createRootController()
+
+        return rootController
     }
 
     func createAssets() throws -> [WalletAsset] {
@@ -107,6 +110,29 @@ final class DefaultDemo: DemoFactoryProtocol {
                                      details: "Fast money transfer")
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]
+    }
+
+    func createWithdrawOptions() -> [WalletWithdrawOption] {
+        let icon = UIImage(named: "iconEth")
+
+        let etcTitle = "Send to my Ethereum Classic wallet"
+        let etcDetails = "Ethereum Classic wallet address"
+        let etcWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
+                                                     symbol: "ETC",
+                                                     title: etcTitle,
+                                                     details: etcDetails,
+                                                     icon: icon)
+
+        let ethTitle = "Send to my Ethereum wallet"
+        let ethDetails = "Ethereum wallet address"
+
+        let ethWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
+                                                     symbol: "ETH",
+                                                     title: ethTitle,
+                                                     details: ethDetails,
+                                                     icon: icon)
+
+        return [ethWithdrawOption, etcWithdrawOption]
     }
 }
 

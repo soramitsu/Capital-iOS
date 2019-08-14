@@ -127,7 +127,7 @@ extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
 
-        filter[indexPath.row].didSelect()
+        try? filter[indexPath.row].command?.execute()
     }
     
 }

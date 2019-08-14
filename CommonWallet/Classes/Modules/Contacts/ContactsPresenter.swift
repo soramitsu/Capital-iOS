@@ -30,6 +30,7 @@ final class ContactsPresenter: NSObject {
     private let currentAccountId: IRAccountId
 
     private let selectedAsset: WalletAsset
+    private let withdrawOptions: [WalletWithdrawOption]
 
     private var searchPattern = ""
 
@@ -50,7 +51,8 @@ final class ContactsPresenter: NSObject {
          walletService: WalletServiceProtocol,
          viewModelFactory: ContactsViewModelFactoryProtocol,
          selectedAsset: WalletAsset,
-         currentAccountId: IRAccountId) {
+         currentAccountId: IRAccountId,
+         withdrawOptions: [WalletWithdrawOption]) {
         self.view = view
         self.coordinator = coordinator
         self.dataProvider = dataProvider
@@ -58,6 +60,7 @@ final class ContactsPresenter: NSObject {
         self.viewModelFactory = viewModelFactory
         self.selectedAsset = selectedAsset
         self.currentAccountId = currentAccountId
+        self.withdrawOptions = withdrawOptions
     }
     
     private func setupDataProvider() {
@@ -185,7 +188,13 @@ final class ContactsPresenter: NSObject {
 extension ContactsPresenter: ContactsPresenterProtocol {
     
     func setup() {
-        viewModel.actions.append(viewModelFactory.createScanViewModel(delegate: self))
+        let scanViewModel = viewModelFactory.createScanViewModel(for: selectedAsset.identifier)
+        viewModel.actions.append(scanViewModel)
+
+        let withdrawViewModels = withdrawOptions.map { viewModelFactory
+            .createWithdrawViewModel(for: $0, assetId: selectedAsset.identifier)}
+        viewModel.actions.append(contentsOf: withdrawViewModels)
+
         view?.set(viewModel: viewModel)
         
         setupDataProvider()
@@ -210,16 +219,6 @@ extension ContactsPresenter: ContactsPresenterProtocol {
     }
     
 }
-
-
-extension ContactsPresenter: ScanCodeViewModelDelegate {
-    
-    func scanCode() {
-        coordinator.scanInvoice()
-    }
-    
-}
-
 
 extension ContactsPresenter: ContactViewModelDelegate {
     

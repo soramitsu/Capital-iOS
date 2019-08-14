@@ -8,13 +8,11 @@ import IrohaCommunication
 
 typealias AccountModuleViewModel = (models: [WalletViewModelProtocol], collapsingRange: Range<Int>)
 
-typealias AccountModuleViewDelegate = ShowMoreViewModelDelegate & AssetViewModelDelegate & ActionsViewModelDelegate
-
 protocol AccountModuleViewModelFactoryProtocol: class {
     var assets: [WalletAsset] { get }
 
     func createViewModel(from balances: [BalanceData],
-                         delegate: AccountModuleViewDelegate?) throws -> AccountModuleViewModel
+                         delegate: ShowMoreViewModelDelegate?) throws -> AccountModuleViewModel
 }
 
 enum AccountModuleViewModelFactoryError: Error {
@@ -25,16 +23,20 @@ enum AccountModuleViewModelFactoryError: Error {
 final class AccountModuleViewModelFactory {
     let context: AccountListViewModelContextProtocol
     let assets: [WalletAsset]
+    let commandFactory: WalletCommandFactoryProtocol
 
-    init(context: AccountListViewModelContextProtocol, assets: [WalletAsset]) {
+    init(context: AccountListViewModelContextProtocol,
+         assets: [WalletAsset],
+         commandFactory: WalletCommandFactoryProtocol) {
         self.context = context
         self.assets = assets
+        self.commandFactory = commandFactory
     }
 }
 
 extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
     func createViewModel(from balances: [BalanceData],
-                         delegate: AccountModuleViewDelegate?) throws -> AccountModuleViewModel {
+                         delegate: ShowMoreViewModelDelegate?) throws -> AccountModuleViewModel {
         var viewModels = try context.viewModelFactories.map { try $0() }
 
         var collapsingRange = viewModels.count..<viewModels.count
@@ -45,7 +47,7 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                     return nil
                 }
 
-                return try context.assetViewModelFactory(asset, balance, delegate)
+                return try context.assetViewModelFactory(asset, balance, commandFactory)
             }
 
             var assetsBlockLength = assetViewModels.count
@@ -65,7 +67,7 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
 
             let actionsIndex = context.actionsIndex + assetsBlockLength - 1
 
-            let actionsViewModel = try context.actionsViewModelFactory(delegate)
+            let actionsViewModel = try context.actionsViewModelFactory(commandFactory)
             viewModels.insert(actionsViewModel, at: actionsIndex)
         }
 

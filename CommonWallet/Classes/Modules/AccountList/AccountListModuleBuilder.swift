@@ -83,10 +83,13 @@ final class AccountListModuleBuilder {
 
     fileprivate func createAssetViewModel(from asset: WalletAsset,
                                           balance: BalanceData,
-                                          delegate: AssetViewModelDelegate?) throws -> AssetViewModelProtocol {
+                                          commandFactory: WalletCommandFactoryProtocol)
+        throws -> AssetViewModelProtocol {
+        let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
         let viewModel = AssetViewModel(cellReuseIdentifier: Constants.assetCellIdentifier,
                                        itemHeight: Constants.assetCellHeight,
-                                       style: assetCellStyle)
+                                       style: assetCellStyle,
+                                       command: assetDetailsCommand)
 
         viewModel.assetId = asset.identifier.identifier()
 
@@ -99,7 +102,6 @@ final class AccountListModuleBuilder {
 
         viewModel.details = asset.details
         viewModel.symbol = asset.symbol
-        viewModel.delegate = delegate
 
         return viewModel
     }
@@ -113,11 +115,16 @@ final class AccountListModuleBuilder {
         return viewModel
     }
 
-    fileprivate func createActionsViewModel(delegate: ActionsViewModelDelegate?) throws -> ActionsViewModelProtocol {
+    fileprivate func createActionsViewModel(commandFactory: WalletCommandFactoryProtocol)
+        throws -> ActionsViewModelProtocol {
+        let sendCommand = commandFactory.prepareSendCommand()
+        let receiveCommand = commandFactory.prepareReceiveCommand()
+
         let viewModel = ActionsViewModel(cellReuseIdentifier: Constants.actionsCellIdentifier,
                                          itemHeight: Constants.actionsCellHeight,
-                                         style: actionsCellStyle)
-        viewModel.delegate = delegate
+                                         style: actionsCellStyle,
+                                         sendCommand: sendCommand,
+                                         receiveCommand: receiveCommand)
         return viewModel
     }
 

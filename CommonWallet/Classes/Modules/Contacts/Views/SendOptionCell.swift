@@ -6,33 +6,31 @@
 import Foundation
 import SoraUI
 
-final class ScanCodeCell: UITableViewCell {
+final class SendOptionCell: UITableViewCell {
     
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var iconView: UIImageView!
     @IBOutlet private var borderView: BorderedContainerView!
     @IBOutlet private var accessoryImageView: UIImageView!
     
-    private var scanViewModel: ScanCodeViewModelProtocol?
+    private var sendOptionViewModel: SendOptionViewModelProtocol?
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        scanViewModel = nil
+        sendOptionViewModel = nil
     }
     
     private func updateContent() {
-        if let scanViewModel = scanViewModel {
-            titleLabel.text = scanViewModel.title
-            iconView.image = scanViewModel.icon
-        }
+        titleLabel.text = sendOptionViewModel?.title
+        iconView.image = sendOptionViewModel?.icon
     }
     
     private func applyStyle() {
-        if let scanViewModel = scanViewModel, let style = scanViewModel.style {
+        if let style = sendOptionViewModel?.style {
             titleLabel.font = style.title.font
             titleLabel.textColor = style.title.color
-            borderView.strokeColor = style.separatorColor
+            borderView.strokeColor = .clear
             accessoryImageView.image = style.accessoryIcon
         }
     }
@@ -40,18 +38,18 @@ final class ScanCodeCell: UITableViewCell {
 }
 
 
-extension ScanCodeCell: WalletViewProtocol {
+extension SendOptionCell: WalletViewProtocol {
     
     var viewModel: WalletViewModelProtocol? {
-        return scanViewModel
+        return sendOptionViewModel
     }
     
     func bind(viewModel: WalletViewModelProtocol) {
-        guard let scanViewModel = viewModel as? ScanCodeViewModelProtocol else {
+        guard let sendOptionViewModel = viewModel as? SendOptionViewModel else {
             return
         }
         
-        self.scanViewModel = scanViewModel
+        self.sendOptionViewModel = sendOptionViewModel
         
         applyStyle()
         updateContent()

@@ -18,7 +18,7 @@ final class AmountCoordinator: AmountCoordinatorProtocol {
             return
         }
         
-        resolver.navigation.push(confirmationView.controller)
+        resolver.navigation?.push(confirmationView.controller)
     }
     
 }

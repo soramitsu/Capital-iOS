@@ -21,13 +21,13 @@ final class ActionsCollectionViewCell: UICollectionViewCell {
 
     @IBAction private func actionSend() {
         if let actionsViewModel = actionsViewModel {
-            actionsViewModel.delegate?.didRequestSend(for: actionsViewModel)
+            try? actionsViewModel.sendCommand.execute()
         }
     }
 
     @IBAction private func actionReceive() {
         if let actionsViewModel = actionsViewModel {
-            actionsViewModel.delegate?.didRequestReceive(for: actionsViewModel)
+            try? actionsViewModel.receiveCommand.execute()
         }
     }
 }

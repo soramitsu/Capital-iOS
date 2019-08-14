@@ -14,6 +14,6 @@ final class TransferResultCoordinator: TransferResultCoordinatorProtocol {
     }
 
     func dismiss() {
-        resolver.navigation.dismiss()
+        resolver.navigation?.dismiss()
     }
 }

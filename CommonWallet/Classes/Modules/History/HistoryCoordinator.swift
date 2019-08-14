@@ -20,7 +20,7 @@ final class HistoryCoordinator: HistoryCoordinatorProtocol {
                 return
         }
 
-        resolver.navigation.push(view.controller)
+        resolver.navigation?.push(view.controller)
     }
     
     func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset]) {
@@ -31,7 +31,7 @@ final class HistoryCoordinator: HistoryCoordinatorProtocol {
             return
         }
         
-        resolver.navigation.present(view.controller, inNavigationController: true)
+        resolver.navigation?.present(view.controller, inNavigationController: true)
     }
     
 }

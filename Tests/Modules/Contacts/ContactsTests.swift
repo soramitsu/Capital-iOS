@@ -33,7 +33,9 @@ class ContactsTests: NetworkBaseTests {
 
             let contactsConfiguration = ContactsModuleBuilder().build()
 
-            let viewModelFactory = ContactsViewModelFactory(configuration: contactsConfiguration, avatarRadius: 10.0)
+            let commandFactory = createMockedCommandFactory()
+
+            let viewModelFactory = ContactsViewModelFactory(configuration: contactsConfiguration, avatarRadius: 10.0, commandFactory: commandFactory)
 
             let view = MockContactsViewProtocol()
             let coordinator = MockContactsCoordinatorProtocol()
@@ -70,7 +72,8 @@ class ContactsTests: NetworkBaseTests {
                                               walletService: walletService,
                                               viewModelFactory: viewModelFactory,
                                               selectedAsset: accountSettings.assets[0],
-                                              currentAccountId: accountSettings.accountId)
+                                              currentAccountId: accountSettings.accountId,
+                                              withdrawOptions: [])
 
             presenter.setup()
 
