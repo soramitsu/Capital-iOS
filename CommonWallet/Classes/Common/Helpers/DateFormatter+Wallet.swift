@@ -6,15 +6,6 @@
 import Foundation
 
 extension DateFormatter {
-    static var historyDateFormatter: DateFormatter {
-        let dateFormatterBuilder = CompoundDateFormatterBuilder()
-        return dateFormatterBuilder
-            .withToday(title: "Today")
-            .withYesterday(title: "Yesterday")
-            .withThisYear(dateFormatter: DateFormatter.sectionThisYear)
-            .build(defaultFormat: "dd MMMM YYYY")
-    }
-
     static var sectionThisYear: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM"
@@ -23,7 +14,13 @@ extension DateFormatter {
 
     static var statusDateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM YYYY, HH:mm:ss"
+        dateFormatter.dateFormat = "dd MMM yyyy, HH:mm:ss"
+        return dateFormatter
+    }
+
+    static var filterDateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
         return dateFormatter
     }
 }

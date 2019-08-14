@@ -6,7 +6,13 @@
 import Foundation
 import RobinHood
 
+protocol HistoryViewModelFactoryDelegate: class {
+    func historyViewModelFactoryDidChange(_ factory: HistoryViewModelFactoryProtocol)
+}
+
 protocol HistoryViewModelFactoryProtocol {
+    var delegate: HistoryViewModelFactoryDelegate? { get set }
+
     func merge(newItems: [AssetTransactionData],
                into existingViewModels: inout [TransactionSectionViewModel]) throws
         -> [SectionedListDifference<TransactionSectionViewModel, TransactionItemViewModel>]
@@ -19,18 +25,24 @@ enum HistoryViewModelFactoryError: Error {
 }
 
 final class HistoryViewModelFactory {
-    private(set) var dateFormatter: DateFormatter
+    private(set) var dateFormatterProvider: DateFormatterProviderProtocol
     private(set) var amountFormatter: NumberFormatter
     private(set) var assets: [String: WalletAsset]
 
-    init(dateFormatter: DateFormatter, amountFormatter: NumberFormatter, assets: [WalletAsset]) {
-        self.dateFormatter = dateFormatter
+    weak var delegate: HistoryViewModelFactoryDelegate?
+
+    init(dateFormatterProvider: DateFormatterProviderProtocol,
+         amountFormatter: NumberFormatter,
+         assets: [WalletAsset]) {
+        self.dateFormatterProvider = dateFormatterProvider
         self.amountFormatter = amountFormatter
 
         self.assets = assets.reduce(into: [String: WalletAsset]()) { (result, asset) in
             let key = asset.identifier.identifier()
             result[key] = asset
         }
+
+        dateFormatterProvider.delegate = self
     }
 
     private func createViewModel(from transaction: AssetTransactionData) throws -> TransactionItemViewModel {
@@ -76,7 +88,7 @@ extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
                 let viewModel = try self.createViewModel(from: event)
 
                 let eventDate = Date(timeIntervalSince1970: TimeInterval(event.timestamp))
-                let sectionTitle = dateFormatter.string(from: eventDate)
+                let sectionTitle = dateFormatterProvider.dateFormatter.string(from: eventDate)
 
                 if let searchableSection = searchableSections[sectionTitle] {
                     let itemChange = ListDifference.insert(index: searchableSection.section.items.count, new: viewModel)
@@ -103,5 +115,11 @@ extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
             }
 
             return changes
+    }
+}
+
+extension HistoryViewModelFactory: DateFormatterProviderDelegate {
+    func providerDidChangeDateFormatter(_ provider: DateFormatterProviderProtocol) {
+        delegate?.historyViewModelFactoryDidChange(self)
     }
 }

@@ -114,7 +114,10 @@ class HistoryTests: NetworkBaseTests {
         let walletService = WalletService(networkResolver: networkResolver,
                                           operationFactory: networkOperationFactory)
 
-        let viewModelFactory = HistoryViewModelFactory(dateFormatter: DateFormatter.historyDateFormatter,
+        let dateFormatterProvider = DateFormatterProvider(dateFormatterFactory: TransactionListSectionFormatterFactory.self,
+                                                          dayChangeHandler: DayChangeHandler())
+
+        let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: NumberFormatter(),
                                                        assets: accountSettings.assets)
 
