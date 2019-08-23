@@ -246,6 +246,8 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
                                                                       amount: fee)
             }
 
+            transactionBuilder = transactionBuilder.withQuorum(self.accountSettings.transactionQuorum)
+
             let transaction = try transactionBuilder.build()
 
             let transactionData = try IRSerializationFactory.serializeTransaction(transaction)

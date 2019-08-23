@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CommonWallet'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'Soramitsu Common Wallet Implementation'
 
   s.description      = <<-DESC
@@ -13,7 +13,7 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
   s.source           = { :git => 'https://github.com/soramitsu/Capital-iOS.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   s.source_files = 'CommonWallet/Classes/**/*.swift'
   s.resources = ['CommonWallet/**/*.xcdatamodeld', 'CommonWallet/**/*.xib','CommonWallet/Assets/**/*']
