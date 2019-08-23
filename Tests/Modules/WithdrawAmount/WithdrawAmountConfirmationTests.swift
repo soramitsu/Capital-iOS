@@ -11,17 +11,34 @@ import Cuckoo
 class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
     func testSuccessfullAmountInput() {
-        performConfirmationTest(for: "100", inputDescription: "", expectsSuccess: true)
-        performConfirmationTest(for: "100", inputDescription: "Description", expectsSuccess: true)
+        let networkResolver = MockNetworkResolver()
+        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "", expectsSuccess: true)
+        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "Description", expectsSuccess: true)
     }
 
     func testUnsufficientFundsInput() {
-        performConfirmationTest(for: "100000", inputDescription: "", expectsSuccess: false)
+        let networkResolver = MockNetworkResolver()
+        performConfirmationTest(for: networkResolver, inputAmount: "100000", inputDescription: "", expectsSuccess: false)
+    }
+
+    func testFeeNotAvailable() {
+        let networkResolver = MockNetworkResolver()
+        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "", expectsSuccess: false) {
+            try? WithdrawalMetadataMock.register(mock: .notAvailable,
+                                                networkResolver: networkResolver,
+                                                requestType: .withdrawalMetadata,
+                                                httpMethod: .get,
+                                                urlMockType: .regex)
+        }
     }
 
     // MARK: Private
 
-    private func performConfirmationTest(for inputAmount: String, inputDescription: String, expectsSuccess: Bool) {
+    private func performConfirmationTest(for networkResolver: WalletNetworkResolverProtocol,
+                                         inputAmount: String,
+                                         inputDescription: String,
+                                         expectsSuccess: Bool,
+                                         beforeConfirmationBlock: (() -> Void)? = nil) {
         do {
             // given
 
@@ -34,8 +51,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             let selectedAsset = accountSettings.assets.first!
             let selectionOption = accountSettings.withdrawOptions.first!
-
-            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -181,6 +196,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             _ = amountViewModel?.didReceiveReplacement(inputAmount, for: NSRange(location: 0, length: 0))
             _ = descriptionViewModel?.didReceiveReplacement(description, for: NSRange(location: 0, length: 0))
+
+            beforeConfirmationBlock?()
 
             presenter.confirm()
 

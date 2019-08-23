@@ -90,11 +90,14 @@ enum ContactsMock: ServiceMockProtocol {
 
 enum WithdrawalMetadataMock: ServiceMockProtocol {
     case success
+    case notAvailable
 
     var mockFile: String {
         switch self {
         case .success:
             return "withdrawalMetadataResponse.json"
+        case .notAvailable:
+            return "withdrawalMetadataError.json"
         }
     }
 }

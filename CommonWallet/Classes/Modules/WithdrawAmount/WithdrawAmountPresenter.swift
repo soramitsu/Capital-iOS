@@ -221,9 +221,11 @@ final class WithdrawAmountPresenter {
         if confirmationState != nil {
             view?.didStopLoading()
 
-            let message = "Sorry, we coudn't calculate fee or it might be outdated"
-            view?.showError(message: message)
+            confirmationState = nil
         }
+
+        let message = "Sorry, we coudn't contact withdraw provider. Please, try again later."
+        view?.showError(message: message)
     }
 
     private func setupMetadata(provider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>) {
