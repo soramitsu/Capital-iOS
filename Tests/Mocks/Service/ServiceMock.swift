@@ -87,3 +87,14 @@ enum ContactsMock: ServiceMockProtocol {
 
     }
 }
+
+enum WithdrawalMetadataMock: ServiceMockProtocol {
+    case success
+
+    var mockFile: String {
+        switch self {
+        case .success:
+            return "withdrawalMetadataResponse.json"
+        }
+    }
+}

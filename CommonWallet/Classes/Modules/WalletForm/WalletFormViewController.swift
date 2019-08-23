@@ -89,7 +89,7 @@ final class WalletFormViewController: UIViewController, AdaptiveDesignable {
             return
         }
 
-        let optionalView = accessoryViewFactory?.createAccessoryView(from: style, target: self,
+        let optionalView = accessoryViewFactory?.createAccessoryView(from: style.accessoryStyle, target: self,
                                                                      completionSelector: #selector(performAction))
 
         if let contentView = optionalView?.contentView {

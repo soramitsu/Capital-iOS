@@ -10,6 +10,7 @@ import Foundation
 }
 
 protocol DescriptionInputViewModelProtocol: class {
+    var title: String { get }
     var text: String { get }
     var placeholder: String { get }
     var isValid: Bool { get }
@@ -20,6 +21,8 @@ protocol DescriptionInputViewModelProtocol: class {
 }
 
 final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
+    var title: String
+
     var text: String {
         didSet {
             if text != oldValue {
@@ -36,7 +39,8 @@ final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
 
     var observable: WalletViewModelObserverContainer<DescriptionInputViewModelObserver>
 
-    init(text: String, placeholder: String, maxLength: UInt8) {
+    init(title: String, text: String, placeholder: String, maxLength: UInt8) {
+        self.title = title
         self.text = text
         self.placeholder = placeholder
         self.maxLength = maxLength

@@ -9,6 +9,8 @@ extension NumberFormatter {
     static var amount: NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.roundingMode = .ceiling
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.alwaysShowsDecimalSeparator = false
         return numberFormatter

@@ -35,6 +35,4 @@ final class WalletFormViewModel: WalletFormViewModelProtocol {
         self.detailsColor = detailsColor
         self.icon = icon
     }
-
-    func didSelect() {}
 }

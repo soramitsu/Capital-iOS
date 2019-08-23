@@ -11,6 +11,7 @@ typealias BalanceCompletionBlock = (OperationResult<[BalanceData]>?) -> Void
 typealias TransactionHistoryBlock = (OperationResult<AssetTransactionPageData>?) -> Void
 typealias BoolResultCompletionBlock = (OperationResult<Bool>?) -> Void
 typealias SearchCompletionBlock = (OperationResult<[SearchData]>?) -> Void
+typealias WithdrawalMetadataCompletionBlock = (OperationResult<WithdrawalData>?) -> Void
 
 protocol WalletServiceProtocol {
     
@@ -38,4 +39,14 @@ protocol WalletServiceProtocol {
     @discardableResult
     func fetchContacts(runCompletionIn queue: DispatchQueue,
                        completionBlock: @escaping SearchCompletionBlock) -> Operation
+
+    @discardableResult
+    func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
+                                 runCompletionIn queue: DispatchQueue,
+                                 completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation
+
+    @discardableResult
+    func withdraw(info: TransferInfo,
+                  runCompletionIn queue: DispatchQueue,
+                  completionBlock: @escaping BoolResultCompletionBlock) -> Operation
 }

@@ -207,7 +207,8 @@ final class WalletStyle: WalletStyleProtocol {
 
             return WalletAccessoryStyle(title: title,
                                         action: action,
-                                        separator: separator)
+                                        separator: separator,
+                                        background: .background)
         }
     }
 

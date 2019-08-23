@@ -191,4 +191,27 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         return NetworkOperation(requestFactory: requestFactory,
                                 resultFactory: resultFactory)
     }
+
+    func withdrawalMetadataOperation(_ urlTemplate: String,
+                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawalData> {
+        let requestFactory = BlockNetworkRequestFactory {
+            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildURL(with: info)
+
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = HttpMethod.get.rawValue
+            return request
+        }
+
+        let resultFactory = AnyNetworkResultFactory<WithdrawalData> { data in
+            let resultData = try self.jsonDecoder.decode(MultifieldResultData<WithdrawalData>.self, from: data)
+
+            guard resultData.status.isSuccess else {
+                throw ResultStatusError(statusData: resultData.status)
+            }
+
+            return resultData.result
+        }
+
+        return NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
+    }
 }

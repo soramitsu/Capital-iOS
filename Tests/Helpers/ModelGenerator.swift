@@ -77,3 +77,10 @@ func createRandomTransactionType() -> WalletTransactionType {
                                  displayName: UUID().uuidString,
                                  typeIcon: nil)
 }
+
+func createRandomWithdrawMetadataInfo() throws -> WithdrawMetadataInfo {
+    let assetId = try createRandomAssetId()
+    let option = UUID().uuidString
+
+    return WithdrawMetadataInfo(assetId: assetId, option: option)
+}
