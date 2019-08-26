@@ -3,15 +3,13 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
-protocol WithdrawConfirmationPresenterProtocol: WalletFormPresenterProtocol {}
+protocol WithdrawResultPresenterProtocol: WalletFormPresenterProtocol {}
 
-protocol WithdrawConfirmationCoordinatorProtocol: class {
-    func showResult(for withdrawInfo: WithdrawInfo,
-                    asset: WalletAsset,
-                    option: WalletWithdrawOption)
+protocol WithdrawResultCoordinatorProtocol: class {
+    func dismiss()
 }
 
-protocol WithdrawConfirmationAssemblyProtocol: class {
+protocol WithdrawResultAssemblyProtocol: class {
     static func assembleView(for resolver: ResolverProtocol,
                              info: WithdrawInfo,
                              asset: WalletAsset,

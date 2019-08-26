@@ -26,10 +26,6 @@ final class TransferResultPresenter {
     }
 
     private func provideMainViewModels() {
-        let titleViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                 title: "Your transaction is being processed",
-                                                 details: nil)
-
         let statusViewModel = WalletFormViewModel(layoutType: .accessory,
                                                   title: "Status",
                                                   details: "Pending",
@@ -44,7 +40,7 @@ final class TransferResultPresenter {
                                                     title: "Recipient",
                                                     details: transferPayload.receiverName)
 
-        var viewModels = [titleViewModel, statusViewModel, timeViewModel, typeViewModel, receiverViewModel]
+        var viewModels = [statusViewModel, timeViewModel, typeViewModel, receiverViewModel]
 
         if let amount = Decimal(string: transferPayload.transferInfo.amount.value),
             let amountString = resolver.amountFormatter.string(from: amount as NSNumber) {

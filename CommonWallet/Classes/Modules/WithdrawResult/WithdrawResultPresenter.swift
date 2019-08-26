@@ -4,35 +4,34 @@
 */
 
 import Foundation
-import RobinHood
 
-final class WithdrawConfirmationPresenter {
+final class WithdrawResultPresenter {
     weak var view: WalletFormViewProtocol?
-    var coordinator: WithdrawConfirmationCoordinatorProtocol
+    var coordinator: WithdrawResultCoordinatorProtocol
 
-    let walletService: WalletServiceProtocol
     let withdrawInfo: WithdrawInfo
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
     let amountFormatter: NumberFormatter
+    let dateFormatter: DateFormatter
 
     init(view: WalletFormViewProtocol,
-         coordinator: WithdrawConfirmationCoordinatorProtocol,
-         walletService: WalletServiceProtocol,
+         coordinator: WithdrawResultCoordinatorProtocol,
          withdrawInfo: WithdrawInfo,
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: NumberFormatter) {
+         amountFormatter: NumberFormatter,
+         dateFormatter: DateFormatter) {
         self.view = view
         self.coordinator = coordinator
-        self.walletService = walletService
         self.withdrawInfo = withdrawInfo
         self.asset = asset
-        self.withdrawOption = withdrawOption
         self.style = style
+        self.withdrawOption = withdrawOption
         self.amountFormatter = amountFormatter
+        self.dateFormatter = dateFormatter
     }
 
     private func createAmountViewModel() -> WalletFormViewModelProtocol {
@@ -70,6 +69,28 @@ final class WithdrawConfirmationPresenter {
                                    details: details)
     }
 
+    private func createTotalAmountViewModel() -> WalletFormViewModelProtocol? {
+        guard
+            let fee = withdrawInfo.fee,
+            let feeDecimal = Decimal(string: fee.value),
+            let amountDecimal = Decimal(string: withdrawInfo.amount.value) else {
+                return nil
+        }
+
+        let totalAmountDecimal = amountDecimal + feeDecimal
+
+        guard let totalAmount = amountFormatter.string(from: totalAmountDecimal as NSNumber) else {
+            return nil
+        }
+
+        let details = "\(asset.symbol)\(totalAmount)"
+
+        return WalletFormViewModel(layoutType: .accessory,
+                                   title: "Total amount",
+                                   details: details,
+                                   icon: style.amountChangeStyle.decrease)
+    }
+
     private func createDescriptionViewModel() -> WalletFormViewModelProtocol? {
         guard !withdrawInfo.details.isEmpty else {
             return nil
@@ -80,34 +101,19 @@ final class WithdrawConfirmationPresenter {
                                    details: withdrawInfo.details)
     }
 
-    private func createAccessoryViewModel() -> AccessoryViewModelProtocol {
-        let accessoryViewModel = AccessoryViewModel(title: "", action: "Next")
-
-        guard let fee = withdrawInfo.fee,
-            let feeDecimal = Decimal(string: fee.value),
-            let amountDecimal = Decimal(string: withdrawInfo.amount.value) else {
-            return accessoryViewModel
-        }
-
-        let totalAmount = amountDecimal + feeDecimal
-
-        guard let totalAmountString = amountFormatter.string(from: totalAmount as NSNumber) else {
-            return accessoryViewModel
-        }
-
-        accessoryViewModel.title = "Total amount \(asset.symbol)\(totalAmountString)"
-        accessoryViewModel.numberOfLines = 2
-
-        return accessoryViewModel
-    }
-
-    private func updateView() {
+    private func provideFormViewModels() {
         var viewModels: [WalletFormViewModelProtocol] = []
 
-        let titleViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                 title: "Please check and confirm details",
-                                                 details: nil)
-        viewModels.append(titleViewModel)
+        let statusViewModel = WalletFormViewModel(layoutType: .accessory,
+                                                  title: "Status",
+                                                  details: "Pending",
+                                                  icon: style.statusStyleContainer.pending.icon)
+        viewModels.append(statusViewModel)
+
+        let timeViewModel = WalletFormViewModel(layoutType: .accessory,
+                                                title: "Date and Time",
+                                                details: dateFormatter.string(from: Date()))
+        viewModels.append(timeViewModel)
 
         let amountViewModel = createAmountViewModel()
         viewModels.append(amountViewModel)
@@ -116,41 +122,32 @@ final class WithdrawConfirmationPresenter {
             viewModels.append(feeViewModel)
         }
 
+        if let totalAmountViewModel = createTotalAmountViewModel() {
+            viewModels.append(totalAmountViewModel)
+        }
+
         if let descriptionViewModel = createDescriptionViewModel() {
             viewModels.append(descriptionViewModel)
         }
 
         view?.didReceive(viewModels: viewModels)
-
-        let accesoryViewModel = createAccessoryViewModel()
-        view?.didReceive(accessoryViewModel: accesoryViewModel)
     }
 
-    private func handleWithdraw(result: OperationResult<Void>) {
-        switch result {
-        case .success:
-            coordinator.showResult(for: withdrawInfo, asset: asset, option: withdrawOption)
-        case .error:
-            view?.showError(message: "Withdraw failed. Please, try again later.")
-        }
+    private func provideAccessoryViewModel() {
+        let viewModel = AccessoryViewModel(title: "Funds are being sent",
+                                           action: "Done")
+        view?.didReceive(accessoryViewModel: viewModel)
     }
 }
 
 
-extension WithdrawConfirmationPresenter: WithdrawConfirmationPresenterProtocol {
+extension WithdrawResultPresenter: WithdrawResultPresenterProtocol {
     func setup() {
-        updateView()
+        provideFormViewModels()
+        provideAccessoryViewModel()
     }
 
     func performAction() {
-        view?.didStartLoading()
-
-        _ = walletService.withdraw(info: withdrawInfo, runCompletionIn: .main) { [weak self] result in
-            self?.view?.didStopLoading()
-
-            if let result = result {
-                self?.handleWithdraw(result: result)
-            }
-        }
+        coordinator.dismiss()
     }
 }

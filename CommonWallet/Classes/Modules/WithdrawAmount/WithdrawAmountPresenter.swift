@@ -283,7 +283,7 @@ final class WithdrawAmountPresenter {
         guard
             let destinationAccountId = try? IRAccountIdFactory
                 .account(withIdentifier: metadata.providerAccountId),
-            let irAmount = try? IRAmountFactory.amount(from: (totalAmount as NSNumber).stringValue),
+            let irAmount = try? IRAmountFactory.amount(from: (sendingAmount as NSNumber).stringValue),
             let feeAccountId = try? IRAccountIdFactory.account(withIdentifier: metadata.feeAccountId) else {
                 logger?.error("Can't create necessary iroha objects to complete withdraw")
             return

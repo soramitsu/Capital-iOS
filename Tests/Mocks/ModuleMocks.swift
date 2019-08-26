@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Cuckoo
 @testable import CommonWallet
 
@@ -7980,16 +7985,16 @@ import Cuckoo
     
     
     
-     func showResult(for withdrawInfo: WithdrawInfo)  {
+     func showResult(for withdrawInfo: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)  {
         
-    return cuckoo_manager.call("showResult(for: WithdrawInfo)",
-            parameters: (withdrawInfo),
-            escapingParameters: (withdrawInfo),
+    return cuckoo_manager.call("showResult(for: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)",
+            parameters: (withdrawInfo, asset, option),
+            escapingParameters: (withdrawInfo, asset, option),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.showResult(for: withdrawInfo))
+            defaultCall: __defaultImplStub!.showResult(for: withdrawInfo, asset: asset, option: option))
         
     }
     
@@ -8002,9 +8007,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func showResult<M1: Cuckoo.Matchable>(for withdrawInfo: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(WithdrawInfo)> where M1.MatchedType == WithdrawInfo {
-	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo)>] = [wrap(matchable: withdrawInfo) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawConfirmationCoordinatorProtocol.self, method: "showResult(for: WithdrawInfo)", parameterMatchers: matchers))
+	    func showResult<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable>(for withdrawInfo: M1, asset: M2, option: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(WithdrawInfo, WalletAsset, WalletWithdrawOption)> where M1.MatchedType == WithdrawInfo, M2.MatchedType == WalletAsset, M3.MatchedType == WalletWithdrawOption {
+	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo, WalletAsset, WalletWithdrawOption)>] = [wrap(matchable: withdrawInfo) { $0.0 }, wrap(matchable: asset) { $0.1 }, wrap(matchable: option) { $0.2 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawConfirmationCoordinatorProtocol.self, method: "showResult(for: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -8024,9 +8029,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func showResult<M1: Cuckoo.Matchable>(for withdrawInfo: M1) -> Cuckoo.__DoNotUse<(WithdrawInfo), Void> where M1.MatchedType == WithdrawInfo {
-	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo)>] = [wrap(matchable: withdrawInfo) { $0 }]
-	        return cuckoo_manager.verify("showResult(for: WithdrawInfo)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func showResult<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable>(for withdrawInfo: M1, asset: M2, option: M3) -> Cuckoo.__DoNotUse<(WithdrawInfo, WalletAsset, WalletWithdrawOption), Void> where M1.MatchedType == WithdrawInfo, M2.MatchedType == WalletAsset, M3.MatchedType == WalletWithdrawOption {
+	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo, WalletAsset, WalletWithdrawOption)>] = [wrap(matchable: withdrawInfo) { $0.0 }, wrap(matchable: asset) { $0.1 }, wrap(matchable: option) { $0.2 }]
+	        return cuckoo_manager.verify("showResult(for: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -8038,7 +8043,222 @@ import Cuckoo
     
 
     
-     func showResult(for withdrawInfo: WithdrawInfo)   {
+     func showResult(for withdrawInfo: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+
+ class MockWithdrawResultPresenterProtocol: WithdrawResultPresenterProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = WithdrawResultPresenterProtocol
+    
+     typealias Stubbing = __StubbingProxy_WithdrawResultPresenterProtocol
+     typealias Verification = __VerificationProxy_WithdrawResultPresenterProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WithdrawResultPresenterProtocol?
+
+     func enableDefaultImplementation(_ stub: WithdrawResultPresenterProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+     func setup()  {
+        
+    return cuckoo_manager.call("setup()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.setup())
+        
+    }
+    
+    
+    
+     func performAction()  {
+        
+    return cuckoo_manager.call("performAction()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.performAction())
+        
+    }
+    
+
+	 struct __StubbingProxy_WithdrawResultPresenterProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func setup() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawResultPresenterProtocol.self, method: "setup()", parameterMatchers: matchers))
+	    }
+	    
+	    func performAction() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawResultPresenterProtocol.self, method: "performAction()", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	 struct __VerificationProxy_WithdrawResultPresenterProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func setup() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("setup()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func performAction() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("performAction()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+ class WithdrawResultPresenterProtocolStub: WithdrawResultPresenterProtocol {
+    
+
+    
+
+    
+     func setup()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+     func performAction()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+
+ class MockWithdrawResultCoordinatorProtocol: WithdrawResultCoordinatorProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = WithdrawResultCoordinatorProtocol
+    
+     typealias Stubbing = __StubbingProxy_WithdrawResultCoordinatorProtocol
+     typealias Verification = __VerificationProxy_WithdrawResultCoordinatorProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WithdrawResultCoordinatorProtocol?
+
+     func enableDefaultImplementation(_ stub: WithdrawResultCoordinatorProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+     func dismiss()  {
+        
+    return cuckoo_manager.call("dismiss()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.dismiss())
+        
+    }
+    
+
+	 struct __StubbingProxy_WithdrawResultCoordinatorProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func dismiss() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawResultCoordinatorProtocol.self, method: "dismiss()", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	 struct __VerificationProxy_WithdrawResultCoordinatorProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func dismiss() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("dismiss()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+ class WithdrawResultCoordinatorProtocolStub: WithdrawResultCoordinatorProtocol {
+    
+
+    
+
+    
+     func dismiss()   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
