@@ -30,7 +30,7 @@ class WithdrawServiceTests: NetworkBaseTests {
                 }
             }
 
-            try TransferMock.register(mock: .success,
+            try WithdrawMock.register(mock: .success,
                                       networkResolver: networkResolver,
                                       requestType: .withdraw,
                                       httpMethod: .post)
@@ -45,8 +45,8 @@ class WithdrawServiceTests: NetworkBaseTests {
 
             // when
 
-            let info = try createRandomTransferInfo()
-            _ = walletService.transfer(info: info, runCompletionIn: .main) { (optionalResult) in
+            let info = try createRandomWithdrawInfo()
+            _ = walletService.withdraw(info: info, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     transferExpectation.fulfill()
                 }

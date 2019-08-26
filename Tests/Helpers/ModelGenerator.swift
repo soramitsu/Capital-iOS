@@ -42,6 +42,22 @@ func createRandomTransferInfo() throws -> TransferInfo {
                         details: details)
 }
 
+func createRandomWithdrawInfo() throws -> WithdrawInfo {
+    let destinationAccount = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
+    let feeAccount = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
+    let amount = try IRAmountFactory.amount(fromUnsignedInteger: UInt.random(in: 1...1000))
+    let fee = try IRAmountFactory.amount(fromUnsignedInteger: UInt.random(in: 1...1000))
+    let asset = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+    let details = UUID().uuidString
+
+    return WithdrawInfo(destinationAccountId: destinationAccount,
+                        assetId: asset,
+                        amount: amount,
+                        details: details,
+                        feeAccountId: feeAccount,
+                        fee: fee)
+}
+
 func createRandomReceiveInfo() throws -> ReceiveInfo {
     let accountId = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
     let amount = try IRAmountFactory.amount(fromUnsignedInteger: UInt.random(in: 1...1000))

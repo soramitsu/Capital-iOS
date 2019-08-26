@@ -98,3 +98,14 @@ enum WithdrawalMetadataMock: ServiceMockProtocol {
         }
     }
 }
+
+enum WithdrawMock: ServiceMockProtocol {
+    case success
+
+    var mockFile: String {
+        switch self {
+        case .success:
+            return "successResultResponse.json"
+        }
+    }
+}

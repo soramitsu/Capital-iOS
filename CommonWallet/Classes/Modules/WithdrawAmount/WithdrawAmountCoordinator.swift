@@ -12,7 +12,12 @@ final class WithdrawAmountCoordinator: WithdrawAmountCoordinatorProtocol {
         self.resolver = resolver
     }
 
-    func confirm(with info: WithdrawInfo) {
-        
+    func confirm(with info: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption) {
+        guard let confirmationView = WithdrawConfirmationAssembly
+            .assembleView(for: resolver, info: info, asset: asset, option: option) else {
+                return
+        }
+
+        resolver.navigation?.push(confirmationView.controller)
     }
 }

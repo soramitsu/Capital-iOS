@@ -160,7 +160,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let confirmExpectation = XCTestExpectation()
 
             stub(coordinator) { stub in
-                when(stub).confirm(with: any(WithdrawInfo.self)).then { _ in
+                when(stub).confirm(with: any(WithdrawInfo.self), asset: any(), option: any()).then { _ in
                     confirmExpectation.fulfill()
                 }
             }
