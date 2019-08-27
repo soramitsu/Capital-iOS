@@ -28,18 +28,24 @@ final class HistoryViewModelFactory {
     private(set) var dateFormatterProvider: DateFormatterProviderProtocol
     private(set) var amountFormatter: NumberFormatter
     private(set) var assets: [String: WalletAsset]
+    private(set) var transactionTypes: [String: WalletTransactionType]
 
     weak var delegate: HistoryViewModelFactoryDelegate?
 
     init(dateFormatterProvider: DateFormatterProviderProtocol,
          amountFormatter: NumberFormatter,
-         assets: [WalletAsset]) {
+         assets: [WalletAsset],
+         transactionTypes: [WalletTransactionType]) {
         self.dateFormatterProvider = dateFormatterProvider
         self.amountFormatter = amountFormatter
 
         self.assets = assets.reduce(into: [String: WalletAsset]()) { (result, asset) in
             let key = asset.identifier.identifier()
             result[key] = asset
+        }
+
+        self.transactionTypes = transactionTypes.reduce(into: [String: WalletTransactionType]()) { (result, type) in
+            result[type.backendName] = type
         }
 
         dateFormatterProvider.delegate = self
@@ -57,8 +63,11 @@ final class HistoryViewModelFactory {
         }
 
         viewModel.title = transaction.peerName
-        viewModel.incoming = transaction.incoming
         viewModel.status = transaction.status
+
+        if let transactionType = transactionTypes[transaction.type] {
+            viewModel.incoming = transactionType.isIncome
+        }
 
         if let asset = assets[transaction.assetId] {
             viewModel.amount = asset.symbol + amountDisplayString

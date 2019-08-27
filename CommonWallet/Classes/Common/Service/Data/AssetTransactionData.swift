@@ -23,8 +23,9 @@ public struct AssetTransactionData: Codable, Equatable {
         case peerName
         case details
         case amount
+        case fee
         case timestamp
-        case incoming
+        case type
         case reason
     }
 
@@ -35,8 +36,9 @@ public struct AssetTransactionData: Codable, Equatable {
     var peerName: String
     var details: String
     var amount: String
+    var fee: String?
     var timestamp: Int64
-    var incoming: Bool
+    var type: String
     var reason: String?
 }
 
