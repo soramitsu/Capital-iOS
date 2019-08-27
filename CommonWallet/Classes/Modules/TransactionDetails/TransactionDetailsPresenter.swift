@@ -94,7 +94,7 @@ final class TransactionDetailsPresenter {
             return []
         }
 
-        if let feeString = transactionData.fee, let fee = Decimal(string: feeString) {
+        if let feeString = transactionData.fee, let fee = Decimal(string: feeString), fee > 0.0 {
             let amount = totalAmount - fee
 
             return [createAmountViewModel(for: amount, title: "Amount sent", hasIcon: false),
