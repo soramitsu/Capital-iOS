@@ -185,9 +185,18 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         if let transferAmountLimit = transferAmountLimit {
             resolver.transferAmountLimit = transferAmountLimit
         }
-        
+
         if let transactionTypeList = transactionTypeList {
             resolver.transactionTypeList = transactionTypeList
+
+            WalletTransactionType.required.forEach { type in
+                if !resolver.transactionTypeList.contains(where: { $0.backendName == type.backendName }) {
+                    resolver.transactionTypeList.insert(type, at: 0)
+                }
+            }
+
+        } else {
+            resolver.transactionTypeList = WalletTransactionType.required
         }
 
         return resolver

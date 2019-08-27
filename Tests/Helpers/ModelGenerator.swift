@@ -91,6 +91,7 @@ func createRandomAssetTransactionData() throws -> AssetTransactionData {
 func createRandomTransactionType() -> WalletTransactionType {
     return WalletTransactionType(backendName: UUID().uuidString,
                                  displayName: UUID().uuidString,
+                                 isIncome: [false, true].randomElement()!,
                                  typeIcon: nil)
 }
 

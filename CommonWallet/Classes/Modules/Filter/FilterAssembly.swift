@@ -15,10 +15,11 @@ final class FilterAssembly: FilterAssemblyProtocol {
         let view = FilterViewController(nibName: "FilterViewController", bundle: Bundle(for: self))
         let coordinator = FilterCoordinator(resolver: resolver)
 
+        let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: resolver.transactionTypeList)
         let presenter = FilterPresenter(view: view,
                                         coordinator: coordinator,
                                         assets: assets,
-                                        transactionTypes: resolver.transactionTypeList,
+                                        typeFilters: typeFilters,
                                         filteringInstance: filtering,
                                         filter: filter)
         

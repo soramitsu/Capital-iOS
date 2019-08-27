@@ -34,17 +34,10 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
 
         let networkResolver = DemoNetworkResolver()
 
-        let transactionTypes = [
-            WalletTransactionType(backendName: "ALL", displayName: "All", typeIcon: nil),
-            WalletTransactionType(backendName: "INCOMING", displayName: "Incoming", typeIcon: nil),
-            WalletTransactionType(backendName: "OUTGOING", displayName: "Outgoing", typeIcon: nil)
-        ]
-
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
             .with(amountFormatter: NumberFormatter.amount)
             .with(transferAmountLimit: 1e+12)
-            .with(transactionTypeList: transactionTypes)
             .with(commandDecoratorFactory: DialogCommandDecoratorFactory())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,

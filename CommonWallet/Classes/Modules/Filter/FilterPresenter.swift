@@ -23,8 +23,8 @@ final class FilterPresenter {
     
     private let assets: [WalletAsset]
     private var selectedAssets: Set<WalletAsset> = []
-    private var transactionTypes: [WalletTransactionType]?
-    private var selectedType: WalletTransactionType?
+    private var typeFilters: [WalletTransactionTypeFilter]
+    private var selectedTypeFilter: WalletTransactionTypeFilter?
     private var filteringInstance: Filterable
     private var filter: WalletHistoryRequest?
     private var dateSelection: DateSelection?
@@ -34,7 +34,7 @@ final class FilterPresenter {
         filter.assets = selectedAssets.map { $0.identifier }
         filter.fromDate = fromDate
         filter.toDate = toDate
-        filter.type = selectedType?.backendName
+        filter.type = selectedTypeFilter?.backendName
         return filter
     }
     
@@ -43,13 +43,13 @@ final class FilterPresenter {
     init(view: FilterViewProtocol,
          coordinator: FilterCoordinatorProtocol,
          assets: [WalletAsset],
-         transactionTypes: [WalletTransactionType]?,
+         typeFilters: [WalletTransactionTypeFilter],
          filteringInstance: Filterable,
          filter: WalletHistoryRequest?) {
         self.view = view
         self.coordinator = coordinator
         self.assets = assets
-        self.transactionTypes = transactionTypes
+        self.typeFilters = typeFilters
         self.filteringInstance = filteringInstance
         self.filter = filter
         selectedAssets = selectedAssets.union(assets)
@@ -86,14 +86,10 @@ final class FilterPresenter {
     }
     
     private func selectType(with index: Int) {
-        guard
-            let transactionTypeList = transactionTypes,
-            transactionTypeList.indices.contains(index) else {
-                return
+        if index >= 0, index < typeFilters.count {
+            selectedTypeFilter = typeFilters[index]
+            reload()
         }
-        
-        selectedType = transactionTypeList[index]
-        reload()
     }
     
     private func string(for date: Date?) -> String? {
@@ -131,19 +127,17 @@ final class FilterPresenter {
             self?.selectDate(for: .toDate)
         }))
         
-        if let transactionTypeList = transactionTypes {
-            filterViewModel.append(FilterSectionViewModel(title: "Type"))
-            filterViewModel.append(contentsOf:
-                zip(0..<transactionTypeList.count, transactionTypeList).map {
-                    let selected = selectedType != nil ? selectedType! == $1 : false
-                    return FilterSelectionViewModel(title: $1.displayName,
-                                                    selected: selected,
-                                                    index: $0,
-                                                    action: { [weak self] (index) in
-                                                        self?.selectType(with: index)
-                    })
-            })
-        }
+        filterViewModel.append(FilterSectionViewModel(title: "Type"))
+        filterViewModel.append(contentsOf:
+            zip(0..<typeFilters.count, typeFilters).map {
+                let selected = selectedTypeFilter != nil ? selectedTypeFilter! == $1 : false
+                return FilterSelectionViewModel(title: $1.displayName,
+                                                selected: selected,
+                                                index: $0,
+                                                action: { [weak self] (index) in
+                                                    self?.selectType(with: index)
+                })
+        })
         
         view?.set(filter: filterViewModel)
     }
@@ -161,13 +155,13 @@ extension FilterPresenter: FilterPresenterProtocol {
                     return selectedIds.contains(asset.identifier.identifier())
                 })
             }
+
             fromDate = filter.fromDate
             toDate = filter.toDate
-            selectedType = transactionTypes?.filter({ (type) -> Bool in
-                return type.backendName == filter.type
-            }).first ?? transactionTypes?.first
+            selectedTypeFilter = typeFilters.first(where: { $0.backendName == filter.type })
+                ?? typeFilters.first
         } else {
-            selectedType = transactionTypes?.first
+            selectedTypeFilter = typeFilters.first
         }
         
         reload()
@@ -178,7 +172,7 @@ extension FilterPresenter: FilterPresenterProtocol {
         fromDate = nil
         toDate = nil
         selectedAssets = Set(assets.map { $0 })
-        selectedType = transactionTypes?.first
+        selectedTypeFilter = typeFilters.first
         reload()
     }
     
