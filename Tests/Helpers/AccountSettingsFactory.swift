@@ -23,7 +23,8 @@ func createRandomAssetId() throws -> String {
 func createRandomWithdrawOption() -> WalletWithdrawOption {
     return WalletWithdrawOption(identifier: UUID().uuidString,
                                 symbol: UUID().uuidString,
-                                title: UUID().uuidString,
+                                shortTitle: UUID().uuidString,
+                                longTitle: UUID().uuidString,
                                 details: UUID().uuidString,
                                 icon: nil)
 }

@@ -110,20 +110,24 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
     func createWithdrawOptions() -> [WalletWithdrawOption] {
         let icon = UIImage(named: "iconEth")
 
-        let etcTitle = "Send to my Ethereum Classic wallet"
+        let etcLongTitle = "Send to my Ethereum Classic wallet"
+        let etcShortTitle = "Withdraw to ETC"
         let etcDetails = "Ethereum Classic wallet address"
         let etcWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
                                                      symbol: "ETC",
-                                                     title: etcTitle,
+                                                     shortTitle: etcShortTitle,
+                                                     longTitle: etcLongTitle,
                                                      details: etcDetails,
                                                      icon: icon)
 
-        let ethTitle = "Send to my Ethereum wallet"
+        let ethShortTitle = "Withdraw to ETH"
+        let ethLongTitle = "Send to my Ethereum wallet"
         let ethDetails = "Ethereum wallet address"
 
         let ethWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
                                                      symbol: "ETH",
-                                                     title: ethTitle,
+                                                     shortTitle: ethShortTitle,
+                                                     longTitle: ethLongTitle,
                                                      details: ethDetails,
                                                      icon: icon)
 
