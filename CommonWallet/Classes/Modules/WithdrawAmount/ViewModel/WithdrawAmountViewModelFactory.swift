@@ -9,24 +9,28 @@ protocol WithdrawAmountViewModelFactoryProtocol {
     func createWithdrawTitle() -> String
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String
     func createAmountViewModel() -> AmountInputViewModel
-    func createDescriptionViewModel() -> DescriptionInputViewModel
+    func createDescriptionViewModel() throws -> DescriptionInputViewModel
     func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?) -> AccessoryViewModel
+}
+
+enum WithdrawAmountViewModelFactoryError: Error {
+    case missingValidator
 }
 
 final class WithdrawAmountViewModelFactory {
     let option: WalletWithdrawOption
     let amountFormatter: NumberFormatter
     let amountLimit: Decimal
-    let descriptionMaxLength: UInt8
+    let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
 
     init(amountFormatter: NumberFormatter,
          option: WalletWithdrawOption,
          amountLimit: Decimal,
-         descriptionMaxLength: UInt8) {
+         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
         self.amountFormatter = amountFormatter
         self.option = option
         self.amountLimit = amountLimit
-        self.descriptionMaxLength = descriptionMaxLength
+        self.descriptionValidatorFactory = descriptionValidatorFactory
     }
 }
 
@@ -53,12 +57,14 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         return AmountInputViewModel(optionalAmount: nil, limit: amountLimit)
     }
 
-    func createDescriptionViewModel() -> DescriptionInputViewModel {
-        let placeholder = "Maximum \(descriptionMaxLength) symbols"
+    func createDescriptionViewModel() throws -> DescriptionInputViewModel {
+        guard let validator = descriptionValidatorFactory
+            .createWithdrawDescriptionValidator(optionId: option.identifier) else {
+            throw WithdrawAmountViewModelFactoryError.missingValidator
+        }
+
         return DescriptionInputViewModel(title: option.details,
-                                         text: "",
-                                         placeholder: placeholder,
-                                         maxLength: descriptionMaxLength)
+                                         validator: validator)
     }
 
     func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?) -> AccessoryViewModel {

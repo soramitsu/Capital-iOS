@@ -38,3 +38,7 @@ Pods/
 
 # generamba templates
 Templates/
+
+# mocks
+Tests/Mocks/CommonMocks.swift
+Tests/Mocks/ModuleMocks.swift

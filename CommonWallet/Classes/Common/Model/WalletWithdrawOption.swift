@@ -12,7 +12,11 @@ public struct WalletWithdrawOption {
     public let details: String
     public let icon: UIImage?
 
-    public init(identifier: String, symbol: String, title: String, details: String, icon: UIImage?) {
+    public init(identifier: String,
+                symbol: String,
+                title: String,
+                details: String,
+                icon: UIImage?) {
         self.identifier = identifier
         self.symbol = symbol
         self.title = title

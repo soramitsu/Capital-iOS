@@ -45,6 +45,7 @@ final class DefaultDemo: DemoFactoryProtocol {
             .with(amountFormatter: NumberFormatter.amount)
             .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: transactionTypes)
+            .with(inputValidatorFactory: DemoInputValidatorFactory())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
                                              color: .black)

@@ -7,6 +7,9 @@ import Foundation
 import RobinHood
 import IrohaCommunication
 
+enum AmountPresenterError: Error {
+    case missingDescriptionValidator
+}
 
 final class AmountPresenter {
     enum InputState {
@@ -39,13 +42,21 @@ final class AmountPresenter {
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
          amountLimit: Decimal,
-         descriptionMaxLength: UInt8) {
+         inputValidatorFactory: WalletInputValidatorFactoryProtocol) throws {
+
         self.view = view
         self.coordinator = coordinator
         self.balanceDataProvider = balanceDataProvider
         self.account = account
         self.payload = payload
         self.assetSelectionFactory = assetSelectionFactory
+
+        guard let descriptionValidator = inputValidatorFactory.createTransferDescriptionValidator() else {
+            throw AmountPresenterError.missingDescriptionValidator
+        }
+        
+        descriptionInputViewModel = DescriptionInputViewModel(title: "Description",
+                                                              validator: descriptionValidator)
 
         var optionalAsset: WalletAsset?
         var currentAmount: Decimal?
@@ -67,12 +78,6 @@ final class AmountPresenter {
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
         amountInputViewModel = AmountInputViewModel(optionalAmount: currentAmount, limit: amountLimit)
-
-        let placeholder = "Maximum \(descriptionMaxLength) symbols"
-        descriptionInputViewModel = DescriptionInputViewModel(title: "Description",
-                                                              text: "",
-                                                              placeholder: placeholder,
-                                                              maxLength: descriptionMaxLength)
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
                                                               fullName: payload.receiverName,

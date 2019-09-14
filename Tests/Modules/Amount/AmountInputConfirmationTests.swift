@@ -117,15 +117,16 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             let recieverInfo = try createRandomReceiveInfo()
             let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
-            let presenter = AmountPresenter(view: view,
-                                            coordinator: coordinator,
-                                            balanceDataProvider: dataProvider,
-                                            account: accountSettings,
-                                            payload: amountPayload,
-                                            assetSelectionFactory: assetSelectionFactory,
-                                            accessoryFactory: accessoryViewModelFactory,
-                                            amountLimit: 1e+6,
-                                            descriptionMaxLength: 64)
+            let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
+            let presenter = try AmountPresenter(view: view,
+                                                coordinator: coordinator,
+                                                balanceDataProvider: dataProvider,
+                                                account: accountSettings,
+                                                payload: amountPayload,
+                                                assetSelectionFactory: assetSelectionFactory,
+                                                accessoryFactory: accessoryViewModelFactory,
+                                                amountLimit: 1e+6,
+                                                inputValidatorFactory: inputValidatorFactory)
 
             presenter.setup()
 
