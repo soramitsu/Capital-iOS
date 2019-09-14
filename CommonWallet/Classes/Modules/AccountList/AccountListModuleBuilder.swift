@@ -4,25 +4,13 @@
 */
 
 import Foundation
+import IrohaCommunication
 
 enum AccountListModuleBuilderError: Error {
     case unexpectedParameter
 }
 
 final class AccountListModuleBuilder {
-    fileprivate struct Constants {
-        static let assetCellIdentifier: String = "co.jp.capital.asset.cell.identifier"
-        static let assetCellHeight: CGFloat = 95.0
-        static let showMoreCellIdentifier: String = "co.jp.capital.asset.more.cell.identifier"
-        static let showMoreCellHeight: CGFloat = 35.0
-        static let actionsCellIdentifier: String = "co.jp.capital.asset.actions.cell.identifier"
-        static let actionsCellHeight: CGFloat = 65.0
-        static let minimumVisibleAssets: UInt = 2
-        static let minimumContentHeight: CGFloat = 0.0
-    }
-
-    fileprivate var configuration: AccountListConfiguration!
-
     lazy var walletStyle: WalletStyleProtocol = WalletStyle()
 
     private lazy var viewStyle: AccountListViewStyleProtocol = {
@@ -42,19 +30,17 @@ final class AccountListModuleBuilder {
         return ActionsCellStyle.createDefaultStyle(with: walletStyle)
     }()
 
-    fileprivate lazy var amountFormatter: NumberFormatter = NumberFormatter()
+    fileprivate var viewModelFactoryContainer = AccountListViewModelFactoryContainer()
+
+    fileprivate var accountListViewModelFactory: AccountListViewModelFactoryProtocol?
+
+    fileprivate var registeredCellsMetadata = [String: Any]()
+
+    fileprivate var minimumVisibleAssets: UInt = 2
+
+    fileprivate var minimumContentHeight: CGFloat = 0.0
 
     init() {
-        let viewModelContext = AccountListViewModelContext(assetViewModelFactory: createAssetViewModel,
-                                                           showMoreViewModelFactory: createShowMoreViewModel,
-                                                           actionsViewModelFactory: createActionsViewModel,
-                                                           minimumVisibleAssets: Constants.minimumVisibleAssets)
-
-        configuration = AccountListConfiguration(viewStyle: viewStyle,
-                                                 registeredCellsMetadata: [:],
-                                                 viewModelContext: viewModelContext,
-                                                 minimumContentHeight: Constants.minimumContentHeight)
-
         registerAssetCell()
         registerShowMore()
         registerActions()
@@ -64,126 +50,89 @@ final class AccountListModuleBuilder {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: "CardAssetCollectionViewCell", bundle: bundle)
 
-        configuration.registeredCellsMetadata[Constants.assetCellIdentifier] = nib
+        registeredCellsMetadata[AccountModuleConstants.assetCellIdentifier] = nib
     }
 
     fileprivate func registerShowMore() {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: "ShowMoreCollectionViewCell", bundle: bundle)
 
-        configuration.registeredCellsMetadata[Constants.showMoreCellIdentifier] = nib
+        registeredCellsMetadata[AccountModuleConstants.showMoreCellIdentifier] = nib
     }
 
     fileprivate func registerActions() {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: "ActionsCollectionViewCell", bundle: bundle)
 
-        configuration.registeredCellsMetadata[Constants.actionsCellIdentifier] = nib
-    }
-
-    fileprivate func createAssetViewModel(from asset: WalletAsset,
-                                          balance: BalanceData,
-                                          commandFactory: WalletCommandFactoryProtocol)
-        throws -> AssetViewModelProtocol {
-        let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
-        let viewModel = AssetViewModel(cellReuseIdentifier: Constants.assetCellIdentifier,
-                                       itemHeight: Constants.assetCellHeight,
-                                       style: assetCellStyle,
-                                       command: assetDetailsCommand)
-
-        viewModel.assetId = asset.identifier.identifier()
-
-        if let decimal = Decimal(string: balance.balance),
-            let balanceString = amountFormatter.string(from: decimal as NSNumber) {
-            viewModel.amount = balanceString
-        } else {
-            viewModel.amount = balance.balance
-        }
-
-        viewModel.details = asset.details
-        viewModel.symbol = asset.symbol
-
-        return viewModel
-    }
-
-    fileprivate func createShowMoreViewModel(delegate: ShowMoreViewModelDelegate?) throws
-        -> WalletViewModelProtocol {
-        let viewModel = ShowMoreViewModel(cellReuseIdentifier: Constants.showMoreCellIdentifier,
-                                          itemHeight: Constants.showMoreCellHeight,
-                                          style: showMoreCellStyle)
-        viewModel.delegate = delegate
-        return viewModel
-    }
-
-    fileprivate func createActionsViewModel(commandFactory: WalletCommandFactoryProtocol)
-        throws -> ActionsViewModelProtocol {
-        let sendCommand = commandFactory.prepareSendCommand()
-        let receiveCommand = commandFactory.prepareReceiveCommand()
-
-        let viewModel = ActionsViewModel(cellReuseIdentifier: Constants.actionsCellIdentifier,
-                                         itemHeight: Constants.actionsCellHeight,
-                                         style: actionsCellStyle,
-                                         sendCommand: sendCommand,
-                                         receiveCommand: receiveCommand)
-        return viewModel
+        registeredCellsMetadata[AccountModuleConstants.actionsCellIdentifier] = nib
     }
 
     func build() throws -> AccountListConfigurationProtocol {
-        return configuration
+        let viewModelContext = AccountListViewModelContext(viewModelFactoryContainer: viewModelFactoryContainer,
+                                                           accountListViewModelFactory: accountListViewModelFactory,
+                                                           assetCellStyle: assetCellStyle,
+                                                           actionsStyle: actionsCellStyle,
+                                                           showMoreCellStyle: showMoreCellStyle,
+                                                           minimumVisibleAssets: minimumVisibleAssets)
+
+        return AccountListConfiguration(viewStyle: viewStyle,
+                                        registeredCellsMetadata: registeredCellsMetadata,
+                                        viewModelContext: viewModelContext,
+                                        minimumContentHeight: minimumContentHeight)
     }
 }
 
 extension AccountListModuleBuilder: AccountListModuleBuilderProtocol {
     var assetCellIdentifier: String {
-        return Constants.assetCellIdentifier
+        return AccountModuleConstants.assetCellIdentifier
     }
 
     var actionsCellIdentifier: String {
-        return Constants.actionsCellIdentifier
+        return AccountModuleConstants.actionsCellIdentifier
     }
 
     var showMoreCellIdentifier: String {
-        return Constants.showMoreCellIdentifier
+        return AccountModuleConstants.showMoreCellIdentifier
     }
 
     func with<Cell>(cellClass: Cell.Type?,
                     for reuseIdentifier: String) -> Self where Cell: UICollectionViewCell & WalletViewProtocol {
-        configuration.registeredCellsMetadata[reuseIdentifier] = cellClass
+        registeredCellsMetadata[reuseIdentifier] = cellClass
         return self
     }
 
     func with(cellNib: UINib?, for reuseIdentifier: String) -> Self {
-        configuration.registeredCellsMetadata[reuseIdentifier] = cellNib
+        registeredCellsMetadata[reuseIdentifier] = cellNib
         return self
     }
 
     func replacing(viewModelFactory: @escaping WalletViewModelFactory, at index: Int) throws -> Self {
-        try configuration.viewModelContext.replace(viewModelFactory: viewModelFactory, at: index)
+        try viewModelFactoryContainer.replace(viewModelFactory: viewModelFactory, at: index)
         return self
     }
 
     func inserting(viewModelFactory: @escaping WalletViewModelFactory, at index: Int) throws -> Self {
-        try configuration.viewModelContext.insert(viewModelFactory: viewModelFactory, at: index)
+        try viewModelFactoryContainer.insert(viewModelFactory: viewModelFactory, at: index)
         return self
     }
 
     func removingViewModel(at index: Int) throws -> Self {
-        try configuration.viewModelContext.removeViewModel(at: index)
+        try viewModelFactoryContainer.removeViewModel(at: index)
         return self
     }
 
     func withAsset<Cell>(cellClass: Cell.Type) -> Self where Cell: UICollectionViewCell & WalletViewProtocol {
-        configuration.registeredCellsMetadata[Constants.assetCellIdentifier] = cellClass
+        registeredCellsMetadata[AccountModuleConstants.assetCellIdentifier] = cellClass
         return self
     }
 
     func withAsset(cellNib: UINib) -> Self {
-        configuration.registeredCellsMetadata[Constants.assetCellIdentifier] = cellNib
+        registeredCellsMetadata[AccountModuleConstants.assetCellIdentifier] = cellNib
         return self
     }
 
-    func with(assetViewModelFactory: @escaping AssetViewModelFactory) throws -> Self {
-        configuration.viewModelContext.assetViewModelFactory = assetViewModelFactory
+    func with(listViewModelFactory: AccountListViewModelFactoryProtocol) throws -> Self {
+        self.accountListViewModelFactory = listViewModelFactory
         return self
     }
 
@@ -198,17 +147,12 @@ extension AccountListModuleBuilder: AccountListModuleBuilderProtocol {
     }
 
     func withShowMore<Cell>(cellClass: Cell.Type) -> Self where Cell: UICollectionViewCell & WalletViewProtocol {
-        configuration.registeredCellsMetadata[Constants.showMoreCellIdentifier] = cellClass
+        registeredCellsMetadata[AccountModuleConstants.showMoreCellIdentifier] = cellClass
         return self
     }
 
     func withShowMore(cellNib: UINib) -> Self {
-        configuration.registeredCellsMetadata[Constants.showMoreCellIdentifier] = cellNib
-        return self
-    }
-
-    func with(showMoreViewModelFactory: @escaping ShowMoreViewModelFactory) throws -> Self {
-        configuration.viewModelContext.showMoreViewModelFactory = showMoreViewModelFactory
+        registeredCellsMetadata[AccountModuleConstants.showMoreCellIdentifier] = cellNib
         return self
     }
 
@@ -218,17 +162,12 @@ extension AccountListModuleBuilder: AccountListModuleBuilderProtocol {
     }
 
     func withActions<Cell>(cellClass: Cell.Type) -> Self where Cell: UICollectionViewCell & WalletViewProtocol {
-        configuration.registeredCellsMetadata[Constants.actionsCellIdentifier] = cellClass
+        registeredCellsMetadata[AccountModuleConstants.actionsCellIdentifier] = cellClass
         return self
     }
 
     func withActions(cellNib: UINib) -> Self {
-        configuration.registeredCellsMetadata[Constants.actionsCellIdentifier] = cellNib
-        return self
-    }
-
-    func with(actionsViewModelFactory: @escaping ActionsViewModelFactory) throws -> Self {
-        configuration.viewModelContext.actionsViewModelFactory = actionsViewModelFactory
+        registeredCellsMetadata[AccountModuleConstants.actionsCellIdentifier] = cellNib
         return self
     }
 
@@ -242,17 +181,12 @@ extension AccountListModuleBuilder: AccountListModuleBuilderProtocol {
             throw AccountListModuleBuilderError.unexpectedParameter
         }
 
-        configuration.viewModelContext.minimumVisibleAssets = minimumVisibleAssets
-        return self
-    }
-
-    func with(amountFormatter: NumberFormatter) -> Self {
-        self.amountFormatter = amountFormatter
+        self.minimumVisibleAssets = minimumVisibleAssets
         return self
     }
 
     func with(minimumContentHeight: CGFloat) -> Self {
-        configuration.minimumContentHeight = minimumContentHeight
+        self.minimumContentHeight = minimumContentHeight
         return self
     }
 }

@@ -23,6 +23,7 @@ protocol ResolverProtocol: class {
     var transferAmountLimit: Decimal { get }
     var transactionTypeList: [WalletTransactionType]? { get }
     var commandFactory: WalletCommandFactoryProtocol { get }
+    var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
 }
 
 final class Resolver: ResolverProtocol {
@@ -45,17 +46,21 @@ final class Resolver: ResolverProtocol {
 
     var commandFactory: WalletCommandFactoryProtocol { return self }
 
+    var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
+
     init(account: WalletAccountSettingsProtocol,
          networkResolver: WalletNetworkResolverProtocol,
          accountListConfiguration: AccountListConfigurationProtocol,
          historyConfiguration: HistoryConfigurationProtocol,
          contactsConfiguration: ContactsConfigurationProtocol,
-         invoiceScanConfiguration: InvoiceScanConfigurationProtocol) {
+         invoiceScanConfiguration: InvoiceScanConfigurationProtocol,
+         commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?) {
         self.account = account
         self.networkResolver = networkResolver
         self.accountListConfiguration = accountListConfiguration
         self.historyConfiguration = historyConfiguration
         self.contactsConfiguration = contactsConfiguration
         self.invoiceScanConfiguration = invoiceScanConfiguration
+        self.commandDecoratorFactory = commandDecoratorFactory
     }
 }

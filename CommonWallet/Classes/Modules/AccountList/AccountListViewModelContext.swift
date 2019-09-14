@@ -6,12 +6,11 @@
 import Foundation
 
 protocol AccountListViewModelContextProtocol {
-    var viewModelFactories: [WalletViewModelFactory] { get }
-    var assetViewModelFactory: AssetViewModelFactory { get }
-    var showMoreViewModelFactory: ShowMoreViewModelFactory { get }
-    var actionsViewModelFactory: ActionsViewModelFactory { get }
-    var assetsIndex: Int { get }
-    var actionsIndex: Int { get }
+    var viewModelFactoryContainer: AccountListViewModelFactoryContainer { get }
+    var assetCellStyle: AssetCellStyle { get }
+    var actionsStyle: ActionsCellStyle { get }
+    var showMoreCellStyle: WalletTextStyle { get }
+    var accountListViewModelFactory: AccountListViewModelFactoryProtocol? { get }
     var minimumVisibleAssets: UInt { get }
 }
 
@@ -20,24 +19,10 @@ enum AccountListViewModelContextError: Error {
     case viewModelIndexOutOfBounds
 }
 
-struct AccountListViewModelContext: AccountListViewModelContextProtocol {
+struct AccountListViewModelFactoryContainer {
     private(set) var viewModelFactories: [WalletViewModelFactory] = []
     private(set) var assetsIndex: Int = 0
     private(set) var actionsIndex: Int = 1
-    var assetViewModelFactory: AssetViewModelFactory
-    var showMoreViewModelFactory: ShowMoreViewModelFactory
-    var actionsViewModelFactory: ActionsViewModelFactory
-    var minimumVisibleAssets: UInt
-
-    init(assetViewModelFactory: @escaping AssetViewModelFactory,
-         showMoreViewModelFactory: @escaping ShowMoreViewModelFactory,
-         actionsViewModelFactory: @escaping ActionsViewModelFactory,
-         minimumVisibleAssets: UInt) {
-        self.assetViewModelFactory = assetViewModelFactory
-        self.showMoreViewModelFactory = showMoreViewModelFactory
-        self.actionsViewModelFactory = actionsViewModelFactory
-        self.minimumVisibleAssets = minimumVisibleAssets
-    }
 
     var totalViewModelsCount: Int {
         return viewModelFactories.count + 2
@@ -115,4 +100,13 @@ struct AccountListViewModelContext: AccountListViewModelContextProtocol {
             actionsIndex -= 1
         }
     }
+}
+
+struct AccountListViewModelContext: AccountListViewModelContextProtocol {
+    var viewModelFactoryContainer: AccountListViewModelFactoryContainer
+    var accountListViewModelFactory: AccountListViewModelFactoryProtocol?
+    var assetCellStyle: AssetCellStyle
+    var actionsStyle: ActionsCellStyle
+    var showMoreCellStyle: WalletTextStyle
+    var minimumVisibleAssets: UInt
 }

@@ -15,13 +15,13 @@ public protocol WalletPresentationCommandProtocol: WalletCommandProtocol {
 }
 
 extension WalletPresentationCommandProtocol {
-    func present(view: ControllerBackedProtocol, in navigation: NavigationProtocol) {
+    func present(view: UIViewController, in navigation: NavigationProtocol) {
         switch presentationStyle {
         case .push(let hidesBottomBar):
-            view.controller.hidesBottomBarWhenPushed = hidesBottomBar
-            navigation.push(view.controller)
+            view.hidesBottomBarWhenPushed = hidesBottomBar
+            navigation.push(view)
         case .modal(let inNavigation):
-            navigation.present(view.controller, inNavigationController: inNavigation)
+            navigation.present(view, inNavigationController: inNavigation)
         }
     }
 }

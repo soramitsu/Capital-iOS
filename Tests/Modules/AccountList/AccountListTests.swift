@@ -146,7 +146,9 @@ class AccountListTests: NetworkBaseTests {
 
         let viewModelFactory = AccountModuleViewModelFactory(context: resolver.accountListConfiguration.viewModelContext,
                                                              assets: resolver.account.assets,
-                                                             commandFactory: resolver.commandFactory)
+                                                             commandFactory: resolver.commandFactory,
+                                                             commandDecoratorFactory: nil,
+                                                             amountFormatter: NumberFormatter())
 
         return AccountListPresenter(view: view,
                                     coordinator: coordinator,
@@ -157,17 +159,7 @@ class AccountListTests: NetworkBaseTests {
     private func createMockedResolver(for account: WalletAccountSettingsProtocol) throws -> ResolverProtocol {
         let resolver = MockResolverProtocol()
 
-        let networkResolver = MockWalletNetworkResolverProtocol()
-
-        stub(networkResolver) { stub in
-            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { _ in
-                return Constants.balanceUrlTemplate
-            }
-
-            when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
-                return nil
-            }
-        }
+        let networkResolver = MockNetworkResolver()
 
         let accountListConfiguration = try AccountListModuleBuilder().build()
         let style = WalletStyle()
@@ -181,6 +173,8 @@ class AccountListTests: NetworkBaseTests {
             when(stub).accountListConfiguration.get.then { accountListConfiguration }
             when(stub).logger.get.then { nil }
             when(stub).commandFactory.get.thenReturn(commandFactory)
+            when(stub).amountFormatter.get.thenReturn(NumberFormatter())
+            when(stub).commandDecoratorFactory.get.thenReturn(nil)
         }
 
         return resolver

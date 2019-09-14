@@ -61,7 +61,7 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
     }
 
     func createScanViewModel(for assetId: IRAssetId) -> SendOptionViewModelProtocol {
-        let scanCommand = commandFactory.prepareScanReceiverCommand(defaultAssetId: assetId)
+        let scanCommand = commandFactory.prepareScanReceiverCommand()
         let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.optionCellIdentifier,
                                             itemHeight: ContactConstants.optionCellHeight,
                                             command: scanCommand)
@@ -75,7 +75,8 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
 
     func createWithdrawViewModel(for option: WalletWithdrawOption,
                                  assetId: IRAssetId) -> SendOptionViewModelProtocol {
-        let withdrawCommand = commandFactory.prepareWithdrawCommand(for: option, assetId: assetId)
+        let withdrawCommand = commandFactory.prepareWithdrawCommand(for: assetId,
+                                                                    optionId: option.identifier)
 
         let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.optionCellIdentifier,
                                             itemHeight: ContactConstants.optionCellHeight,

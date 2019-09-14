@@ -35,7 +35,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let selectedAsset = accountSettings.assets.first!
             let selectionOption = accountSettings.withdrawOptions.first!
 
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -60,18 +60,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             // when
 
-            stub(networkResolver) {stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { type in
-                    if type == .balance {
-                        return Constants.balanceUrlTemplate
-                    } else {
-                        return Constants.withdrawalMetadataUrlTemplate
-                    }
-                }
-
-                when(stub).adapter(for: any(WalletRequestType.self)).thenReturn(nil)
-            }
-
             try FetchBalanceMock.register(mock: .success,
                                           networkResolver: networkResolver,
                                           requestType: .balance,
@@ -91,10 +79,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let accessoryExpectation = XCTestExpectation()
             let errorExpectation = XCTestExpectation()
             let balanceLoadedExpectation = XCTestExpectation()
+            
             let feeLoadedExpectation = XCTestExpectation()
+            feeLoadedExpectation.expectedFulfillmentCount = 2
 
-            var assetSelectionViewModel: AssetSelectionViewModelProtocol?
-            var feeViewModel: WithdrawFeeViewModelProtocol?
             var amountViewModel: AmountInputViewModelProtocol?
             var descriptionViewModel: DescriptionInputViewModelProtocol?
 
@@ -104,7 +92,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 }
 
                 when(stub).set(assetViewModel: any()).then { viewModel in
-                    assetSelectionViewModel = viewModel
                     viewModel.observable.add(observer: assetViewModelObserver)
 
                     assetSelectionExpectation.fulfill()
@@ -117,7 +104,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 }
 
                 when(stub).set(feeViewModel: any()).then { viewModel in
-                    feeViewModel = viewModel
                     viewModel.observable.add(observer: feeViewModelObserver)
 
                     feeExpectation.fulfill()
@@ -151,9 +137,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 when(stub).feeTitleDidChange().thenDoNothing()
 
                 when(stub).feeLoadingStateDidChange().then {
-                    if feeViewModel?.isLoading == false {
-                        feeLoadedExpectation.fulfill()
-                    }
+                    feeLoadedExpectation.fulfill()
                 }
             }
 
@@ -191,9 +175,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                        accessoryExpectation,
                        balanceLoadedExpectation,
                        feeLoadedExpectation], timeout: Constants.networkTimeout)
-
-            assetSelectionViewModel?.observable.remove(observer: assetViewModelObserver)
-            feeViewModel?.observable.remove(observer: feeViewModelObserver)
 
             XCTAssertNil(presenter.confirmationState)
 

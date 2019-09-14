@@ -19,7 +19,7 @@ class AmountTests: NetworkBaseTests {
             let accountSettings = try createRandomAccountSettings(for: [walletAsset],
                                                                   withdrawOptions: [])
 
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -67,11 +67,6 @@ class AmountTests: NetworkBaseTests {
                 when(stub).set(accessoryViewModel: any()).then { _ in
                     accessoryExpectation.fulfill()
                 }
-            }
-
-            stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).thenReturn(Constants.balanceUrlTemplate)
-                when(stub).adapter(for: any(WalletRequestType.self)).thenReturn(nil)
             }
 
             stub(assetSelectionObserver) { stub in

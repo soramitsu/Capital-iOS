@@ -30,7 +30,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             let accountSettings = try createRandomAccountSettings(for: [walletAsset],
                                                                   withdrawOptions: [])
 
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -59,7 +59,6 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             let accessoryExpectation = XCTestExpectation()
 
             let balanceExpectation = XCTestExpectation()
-            balanceExpectation.assertForOverFulfill = false
 
             let completionExpectation = XCTestExpectation()
 
@@ -102,11 +101,6 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                 when(stub).confirm(with: any(TransferPayload.self)).then { _ in
                     completionExpectation.fulfill()
                 }
-            }
-
-            stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).thenReturn(Constants.balanceUrlTemplate)
-                when(stub).adapter(for: any(WalletRequestType.self)).thenReturn(nil)
             }
 
             stub(assetSelectionObserver) { stub in

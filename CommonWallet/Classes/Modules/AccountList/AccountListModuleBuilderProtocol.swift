@@ -27,13 +27,13 @@ public protocol AccountListModuleBuilderProtocol: class {
     func removingViewModel(at index: Int) throws -> Self
 
     @discardableResult
+    func with(listViewModelFactory: AccountListViewModelFactoryProtocol) throws -> Self
+
+    @discardableResult
     func withAsset<Cell>(cellClass: Cell.Type) -> Self where Cell: UICollectionViewCell & WalletViewProtocol
 
     @discardableResult
     func withAsset(cellNib: UINib) -> Self
-
-    @discardableResult
-    func with(assetViewModelFactory: @escaping AssetViewModelFactory) throws -> Self
 
     @discardableResult
     func with(viewStyle: AccountListViewStyleProtocol) throws -> Self
@@ -48,9 +48,6 @@ public protocol AccountListModuleBuilderProtocol: class {
     func withShowMore(cellNib: UINib) -> Self
 
     @discardableResult
-    func with(showMoreViewModelFactory: @escaping ShowMoreViewModelFactory) throws -> Self
-
-    @discardableResult
     func with(showMoreStyle: WalletTextStyle) throws -> Self
 
     @discardableResult
@@ -60,16 +57,10 @@ public protocol AccountListModuleBuilderProtocol: class {
     func withActions(cellNib: UINib) -> Self
 
     @discardableResult
-    func with(actionsViewModelFactory: @escaping ActionsViewModelFactory) throws -> Self
-
-    @discardableResult
     func with(actionsStyle: ActionsCellStyle) throws -> Self
 
     @discardableResult
     func with(minimumVisibleAssets: UInt) throws -> Self
-
-    @discardableResult
-    func with(amountFormatter: NumberFormatter) -> Self
 
     @discardableResult
     func with(minimumContentHeight: CGFloat) -> Self

@@ -7,12 +7,13 @@ import Foundation
 import IrohaCommunication
 
 public protocol WalletCommandFactoryProtocol: class {
-    func prepareSendCommand() -> WalletPresentationCommandProtocol
-    func prepareReceiveCommand() -> WalletPresentationCommandProtocol
-    func prepareAssetDetailsCommand(for assetId: IRAssetId) -> WalletPresentationCommandProtocol
-    func prepareScanReceiverCommand(defaultAssetId: IRAssetId) -> WalletPresentationCommandProtocol
-    func prepareWithdrawCommand(for option: WalletWithdrawOption, assetId: IRAssetId)
+    func prepareSendCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol
+    func prepareReceiveCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol
+    func prepareAssetDetailsCommand(for assetId: IRAssetId) -> AssetDetailsCommadProtocol
+    func prepareScanReceiverCommand() -> WalletPresentationCommandProtocol
+    func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String)
         -> WalletPresentationCommandProtocol
+    func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol
 }
 
 public protocol CommonWalletContextProtocol: WalletCommandFactoryProtocol {

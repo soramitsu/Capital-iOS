@@ -9,13 +9,10 @@ import IrohaCommunication
 final class ScanReceiverCommand {
     let resolver: ResolverProtocol
 
-    let defaultAssetId: IRAssetId
-
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
 
-    init(resolver: ResolverProtocol, defaultAssetId: IRAssetId) {
+    init(resolver: ResolverProtocol) {
         self.resolver = resolver
-        self.defaultAssetId = defaultAssetId
     }
 }
 
@@ -27,6 +24,6 @@ extension ScanReceiverCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: scanView, in: navigation)
+        present(view: scanView.controller, in: navigation)
     }
 }

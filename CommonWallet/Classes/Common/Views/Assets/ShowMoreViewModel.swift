@@ -5,8 +5,6 @@
 
 import Foundation
 
-public typealias ShowMoreViewModelFactory = (ShowMoreViewModelDelegate?) throws -> WalletViewModelProtocol
-
 @objc protocol ShowMoreViewModelObserver: class {
     @objc optional func didChangeExpanded(oldValue: Bool)
 }

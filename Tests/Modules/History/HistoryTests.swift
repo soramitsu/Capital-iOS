@@ -23,7 +23,7 @@ class HistoryTests: NetworkBaseTests {
     private func performTestFilterAndThenReset(assetsCount: Int) {
         do {
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
             let view = MockHistoryViewProtocol()
             let coordinator = MockHistoryCoordinatorProtocol()
 
@@ -57,7 +57,7 @@ class HistoryTests: NetworkBaseTests {
     private func performTestSetup(assetsCount: Int) {
         do {
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
             let view = MockHistoryViewProtocol()
             let coordinator = MockHistoryCoordinatorProtocol()
 
@@ -96,7 +96,7 @@ class HistoryTests: NetworkBaseTests {
 
     private func performSetup(view: MockHistoryViewProtocol,
                               coordinator: MockHistoryCoordinatorProtocol,
-                              networkResolver: MockWalletNetworkResolverProtocol,
+                              networkResolver: WalletNetworkResolverProtocol,
                               accountSettings: WalletAccountSettings) throws -> HistoryPresenter {
         // given
 
@@ -119,16 +119,6 @@ class HistoryTests: NetworkBaseTests {
                                                        assets: accountSettings.assets)
 
         // when
-
-        stub(networkResolver) { stub in
-            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { _ in
-                return Constants.historyUrlTemplate
-            }
-
-            when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
-                return nil
-            }
-        }
 
         try FetchHistoryMock.register(mock: .success,
                                       networkResolver: networkResolver,

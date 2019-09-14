@@ -6,25 +6,33 @@
 import Foundation
 import IrohaCommunication
 
+enum WithdrawCommandError: Error {
+    case invalidAssetId
+    case invalidOptionId
+}
+
 final class WithdrawCommand {
     let resolver: ResolverProtocol
-    let option: WalletWithdrawOption
     let assetId: IRAssetId
+    let optionId: String
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
 
-    init(resolver: ResolverProtocol, option: WalletWithdrawOption, assetId: IRAssetId) {
+    init(resolver: ResolverProtocol, assetId: IRAssetId, optionId: String) {
         self.resolver = resolver
-        self.option = option
+        self.optionId = optionId
         self.assetId = assetId
     }
 }
 
 extension WithdrawCommand: WalletPresentationCommandProtocol {
     func execute() throws {
-        guard let asset = resolver.account
-            .assets.first(where: { $0.identifier.identifier() == assetId.identifier() }) else {
-            return
+        guard let asset = resolver.account.asset(for: assetId.identifier()) else {
+            throw WithdrawCommandError.invalidAssetId
+        }
+
+        guard let option = resolver.account.withdrawOption(for: optionId) else {
+            throw WithdrawCommandError.invalidOptionId
         }
 
         guard
@@ -33,6 +41,6 @@ extension WithdrawCommand: WalletPresentationCommandProtocol {
                 return
         }
 
-        present(view: withdrawView, in: navigation)
+        present(view: withdrawView.controller, in: navigation)
     }
 }

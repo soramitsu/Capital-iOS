@@ -31,6 +31,7 @@ protocol ContactsCoordinatorProtocol: class {
 
 protocol ContactsAssemblyProtocol: class {
     
-	static func assembleView(with resolver: ResolverProtocol) -> ContactsViewProtocol?
+    static func assembleView(with resolver: ResolverProtocol,
+                             selectedAsset: WalletAsset) -> ContactsViewProtocol?
     
 }

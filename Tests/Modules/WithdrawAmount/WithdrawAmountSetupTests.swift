@@ -21,7 +21,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             let accountSettings = try createRandomAccountSettings(for: [walletAsset],
                                                                   withdrawOptions: [withdrawOption])
 
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -45,18 +45,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             let feeViewModelObserver = MockWithdrawFeeViewModelObserver()
 
             // when
-
-            stub(networkResolver) {stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { type in
-                    if type == .balance {
-                        return Constants.balanceUrlTemplate
-                    } else {
-                        return Constants.withdrawalMetadataUrlTemplate
-                    }
-                }
-
-                when(stub).adapter(for: any(WalletRequestType.self)).thenReturn(nil)
-            }
 
             try FetchBalanceMock.register(mock: .success,
                                           networkResolver: networkResolver,

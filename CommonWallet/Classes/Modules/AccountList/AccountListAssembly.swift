@@ -17,7 +17,9 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
 
         let viewModelFactory = AccountModuleViewModelFactory(context: configuration.viewModelContext,
                                                              assets: resolver.account.assets,
-                                                             commandFactory: resolver.commandFactory)
+                                                             commandFactory: resolver.commandFactory,
+                                                             commandDecoratorFactory: resolver.commandDecoratorFactory,
+                                                             amountFormatter: resolver.amountFormatter)
 
         let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
 
@@ -49,15 +51,21 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         let configuration = resolver.accountListConfiguration
         view.configuration = configuration
 
-        let detailsContext = AccountListViewModelContext(
-            assetViewModelFactory: configuration.viewModelContext.assetViewModelFactory,
-            showMoreViewModelFactory: configuration.viewModelContext.showMoreViewModelFactory,
-            actionsViewModelFactory: configuration.viewModelContext.actionsViewModelFactory,
-            minimumVisibleAssets: configuration.viewModelContext.minimumVisibleAssets)
+        let accountContext = configuration.viewModelContext
+        let emptyViewModelFactoryContainer = AccountListViewModelFactoryContainer()
+        let listViewModelFactory = accountContext.accountListViewModelFactory
+        let detailsContext = AccountListViewModelContext(viewModelFactoryContainer: emptyViewModelFactoryContainer,
+                                                         accountListViewModelFactory: listViewModelFactory,
+                                                         assetCellStyle: accountContext.assetCellStyle,
+                                                         actionsStyle: accountContext.actionsStyle,
+                                                         showMoreCellStyle: accountContext.showMoreCellStyle,
+                                                         minimumVisibleAssets: accountContext.minimumVisibleAssets)
 
         let viewModelFactory = AccountModuleViewModelFactory(context: detailsContext,
                                                              assets: [detailsAsset],
-                                                             commandFactory: resolver.commandFactory)
+                                                             commandFactory: resolver.commandFactory,
+                                                             commandDecoratorFactory: resolver.commandDecoratorFactory,
+                                                             amountFormatter: resolver.amountFormatter)
 
         let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
 

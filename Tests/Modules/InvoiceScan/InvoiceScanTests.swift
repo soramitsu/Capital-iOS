@@ -48,7 +48,7 @@ class InvoiceScanTests: NetworkBaseTests {
             // given
 
             let accountSettings = try createRandomAccountSettings(for: 1)
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockNetworkResolver()
             let networkOperationFactory = WalletServiceOperationFactory(accountSettings: accountSettings)
             let networkService = WalletService(networkResolver: networkResolver,
                                                operationFactory: networkOperationFactory)
@@ -78,11 +78,6 @@ class InvoiceScanTests: NetworkBaseTests {
                 when(stub).process(payload: any(AmountPayload.self)).then { _ in
                     completionExpectation.fulfill()
                 }
-            }
-
-            stub(networkResolver) { (stub) in
-                when(stub).adapter(for: any(WalletRequestType.self)).thenReturn(nil)
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).thenReturn(Constants.searchUrlTemplate)
             }
 
             try SearchMock.register(mock: networkMock,

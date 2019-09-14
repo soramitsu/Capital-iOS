@@ -7,13 +7,11 @@ import Foundation
 
 
 final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
-    static func assembleView(resolver: ResolverProtocol) -> ReceiveAmountViewProtocol? {
-        guard let defaultAsset = resolver.account.assets.first else {
-            return nil
-        }
+    static func assembleView(resolver: ResolverProtocol,
+                             selectedAsset: WalletAsset) -> ReceiveAmountViewProtocol? {
 
         let receiveInfo = ReceiveInfo(accountId: resolver.account.accountId,
-                                      assetId: defaultAsset.identifier,
+                                      assetId: selectedAsset.identifier,
                                       amount: nil,
                                       details: nil)
 
