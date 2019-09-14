@@ -19,7 +19,7 @@ protocol ResolverProtocol: class {
     var amountFormatter: NumberFormatter { get }
     var statusDateFormatter: DateFormatter { get }
     var transferAmountLimit: Decimal { get }
-    var transactionTypeList: [WalletTransactionType]? { get }
+    var transactionTypeList: [WalletTransactionType] { get }
     var commandFactory: WalletCommandFactoryProtocol { get }
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol { get }
@@ -40,7 +40,7 @@ final class Resolver: ResolverProtocol {
     lazy var statusDateFormatter: DateFormatter = DateFormatter.statusDateFormatter
     var transferAmountLimit: Decimal = 1e+7
     var logger: WalletLoggerProtocol?
-    var transactionTypeList: [WalletTransactionType]?
+    var transactionTypeList: [WalletTransactionType] = []
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
 
     var commandFactory: WalletCommandFactoryProtocol { return self }

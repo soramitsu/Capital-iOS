@@ -19,11 +19,13 @@ class FilterTests: XCTestCase {
             let transactionTypesCount = 4
             let transactionTypes = (0..<transactionTypesCount).map { _ in createRandomTransactionType() }
 
+            let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: transactionTypes)
+
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
-                + transactionTypesCount + 1
+                + typeFilters.count + 1
 
             _ = performSetupTest(accountSettings: accountSettings,
-                                                     transactionTypes: transactionTypes,
+                                                     typeFilters: typeFilters,
                                                      filter: nil,
                                                      expectedViewModelCount: expectedViewModelCount)
 
@@ -40,10 +42,12 @@ class FilterTests: XCTestCase {
             let transactionTypesCount = 4
             let transactionTypes = (0..<transactionTypesCount).map { _ in createRandomTransactionType() }
 
-            let expectedViewModelCount = FilterTests.numberOfDates + transactionTypesCount + 1
+            let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: transactionTypes)
+
+            let expectedViewModelCount = FilterTests.numberOfDates + typeFilters.count + 1
 
             _ = performSetupTest(accountSettings: accountSettings,
-                                 transactionTypes: transactionTypes,
+                                 typeFilters: typeFilters,
                                  filter: nil,
                                  expectedViewModelCount: expectedViewModelCount)
 
@@ -60,15 +64,17 @@ class FilterTests: XCTestCase {
             let transactionTypesCount = 4
             let transactionTypes = (0..<transactionTypesCount).map { _ in createRandomTransactionType() }
 
+            let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: transactionTypes)
+
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
-                + transactionTypesCount + 1
+                + typeFilters.count + 1
 
             let view = MockFilterViewProtocol()
 
             let filter = WalletHistoryRequest(assets: [accountSettings.assets[0].identifier])
             let (presenter, optionalSetupViewModel) = performSetupTest(for: view,
                                                                        accountSettings: accountSettings,
-                                                                       transactionTypes: transactionTypes,
+                                                                       typeFilters: typeFilters,
                                                                        filter: filter,
                                                                        expectedViewModelCount: expectedViewModelCount)
 
@@ -80,7 +86,7 @@ class FilterTests: XCTestCase {
             try setupViewModel[1].command?.execute()
 
             XCTAssert(validateAssets(viewModel: setupViewModel, assetsCount: assetsCount))
-            XCTAssert(validateTypes(viewModel: setupViewModel, typesCount: transactionTypesCount))
+            XCTAssert(validateTypes(viewModel: setupViewModel, typesCount: typeFilters.count))
 
             XCTAssertNil(presenter.fromDate)
             XCTAssertNil(presenter.toDate)
@@ -98,8 +104,10 @@ class FilterTests: XCTestCase {
             let transactionTypesCount = 4
             let transactionTypes = (0..<transactionTypesCount).map { _ in createRandomTransactionType() }
 
+            let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: transactionTypes)
+
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
-                + transactionTypesCount + 1
+                + typeFilters.count + 1
 
             let view = MockFilterViewProtocol()
             let coordinator = MockFilterCoordinatorProtocol()
@@ -107,7 +115,7 @@ class FilterTests: XCTestCase {
             var (presenter, optionalViewModel) = performSetupTest(for: view,
                                                                   coordinator: coordinator,
                                                                   accountSettings: accountSettings,
-                                                                  transactionTypes: transactionTypes,
+                                                                  typeFilters: typeFilters,
                                                                   filter: nil,
                                                                   expectedViewModelCount: expectedViewModelCount)
 
@@ -178,12 +186,71 @@ class FilterTests: XCTestCase {
         }
     }
 
+    func testTransactionTypeFilterSuccessfullSelection() {
+        do {
+            // given
+
+            let assetsCount = 2
+            let accountSettings = try createRandomAccountSettings(for: assetsCount)
+
+            let transactionTypesCount = 4
+            let transactionTypes = (0..<transactionTypesCount).map { _ in createRandomTransactionType() }
+
+            let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: transactionTypes)
+
+            let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
+                + typeFilters.count + 1
+
+            let view = MockFilterViewProtocol()
+            let coordinator = MockFilterCoordinatorProtocol()
+
+            let (presenter, optionalViewModel) = performSetupTest(for: view,
+                                                                  coordinator: coordinator,
+                                                                  accountSettings: accountSettings,
+                                                                  typeFilters: typeFilters,
+                                                                  filter: nil,
+                                                                  expectedViewModelCount: expectedViewModelCount)
+
+            // when
+
+            let expectation = XCTestExpectation()
+
+            stub(view) { stub in
+                when(stub).set(filter: any()).then { _ in
+                    expectation.fulfill()
+                }
+            }
+
+            guard let viewModels = optionalViewModel else {
+                XCTFail()
+                return
+            }
+
+            guard let selectionViewModel = viewModels.last as? FilterSelectionViewModel else {
+                XCTFail("Can't extract transaction type view model")
+                return
+            }
+
+            try selectionViewModel.execute()
+
+            // then
+
+            wait(for: [expectation], timeout: Constants.networkTimeout)
+
+            XCTAssertNil(presenter.fromDate)
+            XCTAssertNil(presenter.toDate)
+
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+
     // MARK: Private
 
     func performSetupTest(for view: MockFilterViewProtocol = MockFilterViewProtocol(),
                           coordinator: MockFilterCoordinatorProtocol = MockFilterCoordinatorProtocol(),
                           accountSettings: WalletAccountSettingsProtocol,
-                          transactionTypes: [WalletTransactionType]?,
+                          typeFilters: [WalletTransactionTypeFilter],
                           filter: WalletHistoryRequest?,
                           expectedViewModelCount: Int) -> (FilterPresenter, FilterViewModel?) {
         // given
@@ -195,7 +262,7 @@ class FilterTests: XCTestCase {
         let presenter = FilterPresenter(view: view,
                                         coordinator: coordinator,
                                         assets: accountSettings.assets,
-                                        transactionTypes: transactionTypes,
+                                        typeFilters: typeFilters,
                                         filteringInstance: filterable,
                                         filter: filter)
 
@@ -228,7 +295,7 @@ class FilterTests: XCTestCase {
 
         XCTAssertEqual(viewModel.count, expectedViewModelCount)
         XCTAssert(validateAssets(viewModel: viewModel, assetsCount: accountSettings.assets.count))
-        XCTAssert(validateTypes(viewModel: viewModel, typesCount: transactionTypes?.count ?? 0))
+        XCTAssert(validateTypes(viewModel: viewModel, typesCount: typeFilters.count))
 
         return (presenter, viewModel)
     }

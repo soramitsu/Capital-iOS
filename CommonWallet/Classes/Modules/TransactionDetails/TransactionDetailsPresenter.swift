@@ -13,15 +13,18 @@ final class TransactionDetailsPresenter {
 
     private(set) var resolver: ResolverProtocol
     private(set) var transactionData: AssetTransactionData
+    private(set) var transactionType: WalletTransactionType
 
     init(view: WalletFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
          resolver: ResolverProtocol,
-         transactionData: AssetTransactionData) {
+         transactionData: AssetTransactionData,
+         transactionType: WalletTransactionType) {
         self.view = view
         self.coordinator = coordinator
         self.resolver = resolver
         self.transactionData = transactionData
+        self.transactionType = transactionType
     }
 
     private func createStatusViewModel(for status: AssetTransactionStatus) -> WalletFormViewModel {
@@ -47,22 +50,59 @@ final class TransactionDetailsPresenter {
         }
     }
 
-    private func createAmountViewModel(for amountString: String) -> WalletFormViewModel {
+    private func createAmountViewModel(for amount: Decimal, title: String, hasIcon: Bool) -> WalletFormViewModel {
         let asset = resolver.account.assets.first {
             $0.identifier.identifier() == transactionData.assetId
         }
 
         let assetSymbol = asset?.symbol ?? ""
+        let amountString = resolver.amountFormatter.string(from: amount as NSNumber) ?? ""
 
         let details = assetSymbol + amountString
 
-        let icon = transactionData.incoming ? resolver.style.amountChangeStyle.increase
-            : resolver.style.amountChangeStyle.decrease
+        var icon: UIImage?
+
+        if hasIcon {
+            icon = transactionType.isIncome ? resolver.style.amountChangeStyle.increase
+                : resolver.style.amountChangeStyle.decrease
+        }
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Amount",
+                                   title: title,
                                    details: details,
                                    icon: icon)
+    }
+
+    private func createPeerViewModel() -> WalletFormViewModel? {
+        if transactionType.backendName == WalletTransactionType.incoming.backendName {
+            return WalletFormViewModel(layoutType: .accessory,
+                                       title: "Sender",
+                                       details: transactionData.peerName)
+        }
+
+        if transactionType.backendName == WalletTransactionType.outgoing.backendName {
+            return WalletFormViewModel(layoutType: .accessory,
+                                       title: "Recipient",
+                                       details: transactionData.peerName)
+        }
+
+        return nil
+    }
+
+    private func createAmountFactorViewModels() -> [WalletFormViewModel] {
+        guard let totalAmount = Decimal(string: transactionData.amount) else {
+            return []
+        }
+
+        if let feeString = transactionData.fee, let fee = Decimal(string: feeString), fee > 0.0 {
+            let amount = totalAmount - fee
+
+            return [createAmountViewModel(for: amount, title: "Amount sent", hasIcon: false),
+                    createAmountViewModel(for: fee, title: "Fee", hasIcon: false),
+                    createAmountViewModel(for: totalAmount, title: "Total amount", hasIcon: true)]
+        } else {
+            return [createAmountViewModel(for: totalAmount, title: "Amount", hasIcon: true)]
+        }
     }
 
     private func updateView() {
@@ -89,25 +129,16 @@ final class TransactionDetailsPresenter {
                                                 details: resolver.statusDateFormatter.string(from: transactionDate))
         viewModels.append(timeViewModel)
 
-        let type = transactionData.incoming ? "Receive" : "Send"
         let typeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                 title: "Type",
-                                                details: type)
+                                                details: transactionType.displayName)
         viewModels.append(typeViewModel)
 
-        let peerTitle = transactionData.incoming ? "Sender" : "Recipient"
-        let receiverViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                    title: peerTitle,
-                                                    details: transactionData.peerName)
-        viewModels.append(receiverViewModel)
-
-        if let amount = Decimal(string: transactionData.amount),
-            let amountString = resolver.amountFormatter.string(from: amount as NSNumber) {
-
-            let amountViewModel = createAmountViewModel(for: amountString)
-
-            viewModels.append(amountViewModel)
+        if let peerViewModel = createPeerViewModel() {
+            viewModels.append(peerViewModel)
         }
+
+        viewModels.append(contentsOf: createAmountFactorViewModels())
 
         if !transactionData.details.isEmpty {
             let descriptionViewModel = WalletFormViewModel(layoutType: .details,

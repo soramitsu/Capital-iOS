@@ -165,7 +165,8 @@ class HistoryTests: NetworkBaseTests {
 
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: NumberFormatter(),
-                                                       assets: accountSettings.assets)
+                                                       assets: accountSettings.assets,
+                                                       transactionTypes: WalletTransactionType.required)
 
         // when
 

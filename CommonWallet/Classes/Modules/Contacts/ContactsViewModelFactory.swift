@@ -82,7 +82,7 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
                                             itemHeight: ContactConstants.optionCellHeight,
                                             command: withdrawCommand)
 
-        viewModel.title = option.title
+        viewModel.title = option.longTitle
         viewModel.icon = option.icon
         viewModel.style = configuration.sendOptionStyle
 

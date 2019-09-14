@@ -36,6 +36,28 @@ class CommonWalletBuilderTests: XCTestCase {
         }
     }
 
+    func testRequiredTransactionTypesWhenNotProvided() {
+        do {
+            let context = try createDefaultBuilder(with: 4).build()
+            checkTransactionTypeConsistency(for: context,
+                                            expectedCount: WalletTransactionType.required.count)
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+
+    func testRequiredTransactionTypesWhenProvided() {
+        do {
+            let context = try createDefaultBuilder(with: 4)
+                .with(transactionTypeList: WalletTransactionType.required)
+                .build()
+            checkTransactionTypeConsistency(for: context,
+                                            expectedCount: WalletTransactionType.required.count)
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+
     private func createDefaultBuilder(with assetCount: Int) throws -> CommonWalletBuilderProtocol {
         let networkResolver = MockNetworkResolver()
         let account = try createRandomAccountSettings(for: 4)
@@ -50,5 +72,20 @@ class CommonWalletBuilderTests: XCTestCase {
         }
 
         return resolver
+    }
+
+    private func checkTransactionTypeConsistency(for context: CommonWalletContextProtocol, expectedCount: Int) {
+        guard let resolver = resolver(from: context) else {
+            XCTFail()
+            return
+        }
+
+        WalletTransactionType.required.forEach { type in
+            if !resolver.transactionTypeList.contains(where: { $0.backendName == type.backendName }) {
+                XCTFail()
+            }
+        }
+
+        XCTAssertEqual(resolver.transactionTypeList.count, expectedCount)
     }
 }

@@ -8,18 +8,21 @@ import Foundation
 public struct WalletWithdrawOption {
     public let identifier: String
     public let symbol: String
-    public let title: String
+    public let shortTitle: String
+    public let longTitle: String
     public let details: String
     public let icon: UIImage?
 
     public init(identifier: String,
                 symbol: String,
-                title: String,
+                shortTitle: String,
+                longTitle: String,
                 details: String,
                 icon: UIImage?) {
         self.identifier = identifier
         self.symbol = symbol
-        self.title = title
+        self.shortTitle = shortTitle
+        self.longTitle = longTitle
         self.details = details
         self.icon = icon
     }

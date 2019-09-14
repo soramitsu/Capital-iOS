@@ -33,18 +33,17 @@ final class DefaultDemo: DemoFactoryProtocol {
         account.withdrawOptions = createWithdrawOptions()
 
         let networkResolver = DemoNetworkResolver()
-        
-        let transactionTypes = [
-            WalletTransactionType(backendName: "ALL", displayName: "All", typeIcon: nil),
-            WalletTransactionType(backendName: "INCOMING", displayName: "Incoming", typeIcon: nil),
-            WalletTransactionType(backendName: "OUTGOING", displayName: "Outgoing", typeIcon: nil)
-        ]
+
+        let withdrawType = WalletTransactionType(backendName: "WITHDRAW",
+                                                 displayName: "Withdraw",
+                                                 isIncome: false,
+                                                 typeIcon: nil)
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
             .with(amountFormatter: NumberFormatter.amount)
             .with(transferAmountLimit: 1e+12)
-            .with(transactionTypeList: transactionTypes)
+            .with(transactionTypeList: [withdrawType])
             .with(inputValidatorFactory: DemoInputValidatorFactory())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
@@ -117,20 +116,24 @@ final class DefaultDemo: DemoFactoryProtocol {
     func createWithdrawOptions() -> [WalletWithdrawOption] {
         let icon = UIImage(named: "iconEth")
 
-        let etcTitle = "Send to my Ethereum Classic wallet"
+        let etcLongTitle = "Send to my Ethereum Classic wallet"
+        let etcShortTitle = "Withdraw to ETC"
         let etcDetails = "Ethereum Classic wallet address"
         let etcWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
                                                      symbol: "ETC",
-                                                     title: etcTitle,
+                                                     shortTitle: etcShortTitle,
+                                                     longTitle: etcLongTitle,
                                                      details: etcDetails,
                                                      icon: icon)
 
-        let ethTitle = "Send to my Ethereum wallet"
+        let ethShortTitle = "Withdraw to ETH"
+        let ethLongTitle = "Send to my Ethereum wallet"
         let ethDetails = "Ethereum wallet address"
 
         let ethWithdrawOption = WalletWithdrawOption(identifier: UUID().uuidString,
                                                      symbol: "ETH",
-                                                     title: ethTitle,
+                                                     shortTitle: ethShortTitle,
+                                                     longTitle: ethLongTitle,
                                                      details: ethDetails,
                                                      icon: icon)
 

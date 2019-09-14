@@ -35,7 +35,8 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
 
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: resolver.amountFormatter,
-                                                       assets: assets)
+                                                       assets: assets,
+                                                       transactionTypes: resolver.transactionTypeList)
 
         let walletService = WalletService(networkResolver: resolver.networkResolver,
                                           operationFactory: networkOperationFactory)

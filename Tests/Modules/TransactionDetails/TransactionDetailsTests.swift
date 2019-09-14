@@ -21,11 +21,19 @@ class TransactionDetailsTests: XCTestCase {
             let resolver = MockResolverProtocol()
 
             let transactionData = try createRandomAssetTransactionData()
+            let transactionType: WalletTransactionType
+
+            if transactionData.type == WalletTransactionType.incoming.backendName {
+                transactionType = WalletTransactionType.incoming
+            } else {
+                transactionType = WalletTransactionType.outgoing
+            }
 
             let presenter = TransactionDetailsPresenter(view: view,
                                                         coordinator: coordinator,
                                                         resolver: resolver,
-                                                        transactionData: transactionData)
+                                                        transactionData: transactionData,
+                                                        transactionType: transactionType)
 
             // when
             let expectation = XCTestExpectation()
