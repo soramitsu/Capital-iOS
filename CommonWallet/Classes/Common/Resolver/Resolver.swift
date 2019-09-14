@@ -17,7 +17,6 @@ protocol ResolverProtocol: class {
     var navigation: NavigationProtocol? { get }
     var logger: WalletLoggerProtocol? { get }
     var amountFormatter: NumberFormatter { get }
-    var historyDateFormatter: DateFormatter { get }
     var statusDateFormatter: DateFormatter { get }
     var transferAmountLimit: Decimal { get }
     var transactionTypeList: [WalletTransactionType]? { get }
@@ -38,7 +37,6 @@ final class Resolver: ResolverProtocol {
 
     lazy var style: WalletStyleProtocol = WalletStyle()
     lazy var amountFormatter: NumberFormatter = NumberFormatter()
-    lazy var historyDateFormatter: DateFormatter = DateFormatter.historyDateFormatter
     lazy var statusDateFormatter: DateFormatter = DateFormatter.statusDateFormatter
     var transferAmountLimit: Decimal = 1e+7
     var logger: WalletLoggerProtocol?

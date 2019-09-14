@@ -78,6 +78,7 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.post.rawValue
             request.httpBody = try self.jsonEncoder.encode(filter)
+            request.setValue(HttpContentType.json.rawValue, forHTTPHeaderField: HttpHeaderKey.contentType.rawValue)
             return request
         }
 

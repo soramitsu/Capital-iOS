@@ -38,11 +38,7 @@ final class FilterPresenter {
         return filter
     }
     
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM YYYY"
-        return formatter
-    }()
+    private lazy var dateFormatter: DateFormatter = DateFormatter.filterDateFormatter
 
     init(view: FilterViewProtocol,
          coordinator: FilterCoordinatorProtocol,

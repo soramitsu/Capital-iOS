@@ -64,7 +64,19 @@ final class HistoryPresenter {
 
         view?.reloadContent()
     }
-    
+
+    private func reloadView() throws {
+        var viewModels = [TransactionSectionViewModel]()
+
+        for page in pages {
+            _ = try viewModelFactory.merge(newItems: page.transactions, into: &viewModels)
+        }
+
+        self.viewModels = viewModels
+
+        view?.reloadContent()
+    }
+
     private func resetView(with newState: DataState) {
         dataLoadingState = newState
         pages = []
@@ -259,6 +271,8 @@ final class HistoryPresenter {
 extension HistoryPresenter: HistoryPresenterProtocol {
     
     func setup() {
+        viewModelFactory.delegate = self
+
         setupDataProvider()
     }
 
@@ -381,4 +395,14 @@ extension HistoryPresenter: HistoryCoordinatorDelegate {
         }
     }
     
+}
+
+extension HistoryPresenter: HistoryViewModelFactoryDelegate {
+    func historyViewModelFactoryDidChange(_ factory: HistoryViewModelFactoryProtocol) {
+        do {
+            try reloadView()
+        } catch {
+            logger?.error("Can't reload view when view model factory changed \(error)")
+        }
+    }
 }

@@ -29,7 +29,11 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
             return nil
         }
 
-        let viewModelFactory = HistoryViewModelFactory(dateFormatter: resolver.historyDateFormatter,
+        let dateFormatterFactory = TransactionListSectionFormatterFactory.self
+        let dateFormatterProvider = DateFormatterProvider(dateFormatterFactory: dateFormatterFactory,
+                                                          dayChangeHandler: DayChangeHandler())
+
+        let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: resolver.amountFormatter,
                                                        assets: assets)
 

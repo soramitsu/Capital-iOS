@@ -18,6 +18,52 @@ class HistoryTests: NetworkBaseTests {
         [1, 2, 4].forEach { performTestFilterAndThenReset(assetsCount: $0) }
     }
 
+    func testSetupAndThenDayChange() {
+        do {
+            // given
+
+            let accountSettings = try createRandomAccountSettings(for: 4)
+            let networkResolver = MockNetworkResolver()
+            let view = MockHistoryViewProtocol()
+            let coordinator = MockHistoryCoordinatorProtocol()
+
+            let presenter = try performSetup(view: view,
+                                             coordinator: coordinator,
+                                             networkResolver: networkResolver,
+                                             accountSettings: accountSettings)
+
+            // when
+
+            let expectation = XCTestExpectation()
+
+            stub(view) { stub in
+                when(stub).reloadContent().then {
+                    XCTAssert(Thread.isMainThread)
+                    expectation.fulfill()
+                }
+            }
+
+            guard case .loaded = presenter.dataLoadingState else {
+                XCTFail("Unexpected state \(presenter.dataLoadingState)")
+                return
+            }
+
+            NotificationCenter.default.post(name: .NSCalendarDayChanged, object: self)
+
+            // then
+
+            wait(for: [expectation], timeout: Constants.networkTimeout)
+
+            guard case .loaded = presenter.dataLoadingState else {
+                XCTFail("Unexpected state \(presenter.dataLoadingState)")
+                return
+            }
+
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+
     // MARK: Private
 
     private func performTestFilterAndThenReset(assetsCount: Int) {
@@ -114,7 +160,10 @@ class HistoryTests: NetworkBaseTests {
         let walletService = WalletService(networkResolver: networkResolver,
                                           operationFactory: networkOperationFactory)
 
-        let viewModelFactory = HistoryViewModelFactory(dateFormatter: DateFormatter.historyDateFormatter,
+        let dateFormatterProvider = DateFormatterProvider(dateFormatterFactory: TransactionListSectionFormatterFactory.self,
+                                                          dayChangeHandler: DayChangeHandler())
+
+        let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: NumberFormatter(),
                                                        assets: accountSettings.assets)
 

@@ -19,7 +19,7 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(amountFormatter: NumberFormatter) -> Self
 
     @discardableResult
-    func with(historyDateFormatter: DateFormatter) -> Self
+    func with(statusDateFormatter: DateFormatter) -> Self
 
     @discardableResult
     func with(transferDescriptionLimit: UInt8) -> Self
@@ -56,7 +56,7 @@ public final class CommonWalletBuilder {
     fileprivate var networkResolver: WalletNetworkResolverProtocol
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatter: NumberFormatter?
-    fileprivate var historyDateFormatter: DateFormatter?
+    fileprivate var statusDateFormatter: DateFormatter?
     fileprivate var transferDescriptionLimit: UInt8 = 64
     fileprivate var transferAmountLimit: Decimal?
     fileprivate var transactionTypeList: [WalletTransactionType]?
@@ -106,8 +106,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    public func with(historyDateFormatter: DateFormatter) -> Self {
-        self.historyDateFormatter = historyDateFormatter
+    public func with(statusDateFormatter: DateFormatter) -> Self {
+        self.statusDateFormatter = statusDateFormatter
 
         return self
     }
@@ -170,10 +170,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
 
-        if let transferAmountLimit = transferAmountLimit {
-            resolver.transferAmountLimit = transferAmountLimit
-        }
-
         resolver.style = style
 
         resolver.logger = logger
@@ -182,8 +178,12 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
             resolver.amountFormatter = amountFormatter
         }
 
-        if let historyDateFormatter = historyDateFormatter {
-            resolver.historyDateFormatter = historyDateFormatter
+        if let statusDateFormatter = statusDateFormatter {
+            resolver.statusDateFormatter = statusDateFormatter
+        }
+
+        if let transferAmountLimit = transferAmountLimit {
+            resolver.transferAmountLimit = transferAmountLimit
         }
         
         if let transactionTypeList = transactionTypeList {
