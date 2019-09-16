@@ -34,7 +34,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
             let cacheFacade = CoreDataTestCacheFacade()
 
-            let networkOperationFactory = WalletServiceOperationFactory(accountSettings: accountSettings)
+            let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
 
             let dataProviderFactory = DataProviderFactory(networkResolver: networkResolver,
                                                           accountSettings: accountSettings,

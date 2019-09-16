@@ -16,12 +16,10 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
 
             let coordinator = WithdrawAmountCoordinator(resolver: resolver)
 
-            let networkFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
-
             let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
                                                           accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: networkFactory)
+                                                          networkOperationFactory: resolver.networkOperationFactory)
 
             let amountFormatter = resolver.amountFormatter
 

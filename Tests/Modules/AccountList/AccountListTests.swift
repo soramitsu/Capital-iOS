@@ -135,7 +135,7 @@ class AccountListTests: NetworkBaseTests {
                                  coordinator: AccountListCoordinatorProtocol,
                                  resolver: ResolverProtocol) throws -> AccountListPresenter {
 
-        let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
+        let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: resolver.account)
 
         let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
                                                       accountSettings: resolver.account,
@@ -160,6 +160,7 @@ class AccountListTests: NetworkBaseTests {
         let resolver = MockResolverProtocol()
 
         let networkResolver = MockNetworkResolver()
+        let networkOperationFactory = MockWalletNetworkOperationFactoryProtocol()
 
         let accountListConfiguration = try AccountListModuleBuilder().build()
         let style = WalletStyle()
@@ -167,11 +168,12 @@ class AccountListTests: NetworkBaseTests {
         let commandFactory = createMockedCommandFactory()
 
         stub(resolver) { stub in
-            when(stub).account.get.then { account }
-            when(stub).networkResolver.get.then { networkResolver }
-            when(stub).style.get.then { style }
-            when(stub).accountListConfiguration.get.then { accountListConfiguration }
-            when(stub).logger.get.then { nil }
+            when(stub).account.get.thenReturn(account)
+            when(stub).networkResolver.get.thenReturn(networkResolver)
+            when(stub).networkOperationFactory.get.thenReturn(networkOperationFactory)
+            when(stub).style.get.thenReturn(style)
+            when(stub).accountListConfiguration.get.thenReturn(accountListConfiguration)
+            when(stub).logger.get.thenReturn(nil)
             when(stub).commandFactory.get.thenReturn(commandFactory)
             when(stub).amountFormatter.get.thenReturn(NumberFormatter())
             when(stub).commandDecoratorFactory.get.thenReturn(nil)

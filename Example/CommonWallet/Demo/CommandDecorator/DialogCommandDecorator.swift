@@ -24,7 +24,7 @@ final class DialogCommandDecorator: WalletCommandDecoratorProtocol {
 
         let continueAction = UIAlertAction(title: "Continue",
                                            style: .default) { _ in
-                                            try? self.undelyingCommand?.execute()
+                                            ((try? self.undelyingCommand?.execute()) as ()??)
         }
 
         let cancel = UIAlertAction(title: "Cancel",

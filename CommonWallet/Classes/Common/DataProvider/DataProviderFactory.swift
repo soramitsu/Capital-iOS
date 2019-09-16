@@ -29,12 +29,12 @@ final class DataProviderFactory {
     let networkResolver: WalletNetworkResolverProtocol
     let accountSettings: WalletAccountSettingsProtocol
     let cacheFacade: CoreDataCacheFacadeProtocol
-    let networkOperationFactory: WalletServiceOperationFactoryProtocol
+    let networkOperationFactory: WalletNetworkOperationFactoryProtocol
 
     init(networkResolver: WalletNetworkResolverProtocol,
          accountSettings: WalletAccountSettingsProtocol,
          cacheFacade: CoreDataCacheFacadeProtocol,
-         networkOperationFactory: WalletServiceOperationFactoryProtocol) {
+         networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
         self.networkResolver = networkResolver
         self.accountSettings = accountSettings
         self.cacheFacade = cacheFacade

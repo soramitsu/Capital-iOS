@@ -6,7 +6,7 @@
 import Foundation
 import IrohaCommunication
 
-struct WithdrawInfo {
+public struct WithdrawInfo {
     var destinationAccountId: IRAccountId
     var assetId: IRAssetId
     var amount: IRAmount

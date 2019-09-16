@@ -16,20 +16,18 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
         view.style = resolver.style
         
         let coordinator = ContactsCoordinator(resolver: resolver)
-
-        let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
         
         let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
                                                       accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: resolver.networkOperationFactory)
 
         guard let contactsDataProvider = try? dataProviderFactory.createContactsDataProvider() else {
             return nil
         }
         
         let walletService = WalletService(networkResolver: resolver.networkResolver,
-                                          operationFactory: networkOperationFactory)
+                                          operationFactory: resolver.networkOperationFactory)
 
         let viewModelFactory = ContactsViewModelFactory(configuration: config,
                                                         avatarRadius: ContactCell.avatarRadius,

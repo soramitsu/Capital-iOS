@@ -7,7 +7,7 @@ import Foundation
 import IrohaCommunication
 import RobinHood
 
-protocol WalletServiceOperationFactoryProtocol: class {
+public protocol WalletNetworkOperationFactoryProtocol: class {
     func fetchBalanceOperation(_ urlTemplate: String, assets: [IRAssetId]) -> NetworkOperation<[BalanceData]>
     func fetchTransactionHistoryOperation(_ urlTemplate: String,
                                           filter: WalletHistoryRequest,

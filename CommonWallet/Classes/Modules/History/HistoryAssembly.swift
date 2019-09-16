@@ -15,13 +15,11 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         view.configuration = resolver.historyConfiguration
 
         let coordinator = HistoryCoordinator(resolver: resolver)
-
-        let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
         
         let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
                                                       accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: resolver.networkOperationFactory)
 
         let assetIds = assets.map({ $0.identifier })
         guard
@@ -39,7 +37,7 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
                                                        transactionTypes: resolver.transactionTypeList)
 
         let walletService = WalletService(networkResolver: resolver.networkResolver,
-                                          operationFactory: networkOperationFactory)
+                                          operationFactory: resolver.networkOperationFactory)
  
         let presenter = HistoryPresenter(view: view,
                                          coordinator: coordinator,
