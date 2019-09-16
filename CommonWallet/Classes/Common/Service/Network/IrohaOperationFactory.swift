@@ -87,6 +87,30 @@ extension IrohaOperationFactoryProtocol {
                                 resultFactory: resultFactory)
     }
 
+    func transferMetadataOperation(_ urlTemplate: String, assetId: IRAssetId) -> NetworkOperation<TransferMetaData> {
+        let requestFactory = BlockNetworkRequestFactory {
+            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
+                .withUrlEncoding(allowedCharset: Constants.queryEncoding)
+                .buildParameterURL(assetId.identifier())
+
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = HttpMethod.get.rawValue
+            return request
+        }
+
+        let resultFactory = AnyNetworkResultFactory<TransferMetaData> { data in
+            let resultData = try self.decoder.decode(MultifieldResultData<TransferMetaData>.self, from: data)
+
+            guard resultData.status.isSuccess else {
+                throw ResultStatusError(statusData: resultData.status)
+            }
+
+            return resultData.result
+        }
+
+        return NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
+    }
+
     func transferOperation(_ urlTemplate: String, info: TransferInfo) -> NetworkOperation<Bool> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {

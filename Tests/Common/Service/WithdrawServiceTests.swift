@@ -46,7 +46,7 @@ class WithdrawServiceTests: NetworkBaseTests {
             // when
 
             let info = try createRandomWithdrawInfo()
-            _ = walletService.withdraw(info: info, runCompletionIn: .main) { (optionalResult) in
+            walletService.withdraw(info: info, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     transferExpectation.fulfill()
                 }

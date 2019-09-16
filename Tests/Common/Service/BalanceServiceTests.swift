@@ -45,7 +45,7 @@ class BalanceServiceTests: NetworkBaseTests {
 
             // when
             let assets = accountSettings.assets.map { $0.identifier }
-            _ = walletService.fetchBalance(for: assets, runCompletionIn: .main) { (optionalResult) in
+            walletService.fetchBalance(for: assets, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     balanceExpectation.fulfill()
                 }

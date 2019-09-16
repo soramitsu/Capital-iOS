@@ -43,14 +43,14 @@ class WithdrawalMetadataServiceTests: NetworkBaseTests {
             let walletService = WalletService(networkResolver: networkResolver,
                                               operationFactory: operationFactory)
 
-            let transferExpectation = XCTestExpectation()
+            let completionExpectation = XCTestExpectation()
 
             // when
 
             let info = try createRandomWithdrawMetadataInfo()
-            _ = walletService.fetchWithdrawalMetadata(for: info, runCompletionIn: .main) { (optionalResult) in
+            walletService.fetchWithdrawalMetadata(for: info, runCompletionIn: .main) { (optionalResult) in
                 defer {
-                    transferExpectation.fulfill()
+                    completionExpectation.fulfill()
                 }
 
                 guard let result = optionalResult else {
@@ -65,7 +65,7 @@ class WithdrawalMetadataServiceTests: NetworkBaseTests {
 
             // then
 
-            wait(for: [urlTemplateGetExpectation, adapterExpectation, transferExpectation],
+            wait(for: [urlTemplateGetExpectation, adapterExpectation, completionExpectation],
                  timeout: Constants.networkTimeout)
         } catch {
             XCTFail("\(error)")

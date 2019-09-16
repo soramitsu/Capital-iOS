@@ -55,7 +55,7 @@ class SearchServiceTests: NetworkBaseTests {
 
             // when
 
-            _ = walletService.search(for: query, runCompletionIn: .main) { (optionalResult) in
+            walletService.search(for: query, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     searchExpectation.fulfill()
                 }

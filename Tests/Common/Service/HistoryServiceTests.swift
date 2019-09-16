@@ -63,24 +63,25 @@ class HistoryServiceTests: NetworkBaseTests {
             let assets = accountSettings.assets.map { $0.identifier }
             var filter = WalletHistoryRequest()
             filter.assets = assets
-            _ = try walletService.fetchTransactionHistory(for: filter,
-                                                          pagination: pagination,
-                                                          runCompletionIn: .main) { (optionalResult) in
-                defer {
-                    historyExpectation.fulfill()
-                }
 
-                guard let result = optionalResult else {
-                    XCTFail("Unexpected nil result")
-                    return
-                }
+            walletService.fetchTransactionHistory(for: filter,
+                                                  pagination: pagination,
+                                                  runCompletionIn: .main) { (optionalResult) in
+                                                    defer {
+                                                        historyExpectation.fulfill()
+                                                    }
 
-                switch result {
-                case .success:
-                    XCTAssert(!expectsError)
-                case .error:
-                    XCTAssert(expectsError)
-                }
+                                                    guard let result = optionalResult else {
+                                                        XCTFail("Unexpected nil result")
+                                                        return
+                                                    }
+
+                                                    switch result {
+                                                    case .success:
+                                                        XCTAssert(!expectsError)
+                                                    case .error:
+                                                        XCTAssert(expectsError)
+                                                    }
             }
 
             // then

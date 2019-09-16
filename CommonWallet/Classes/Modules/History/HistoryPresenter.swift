@@ -126,21 +126,17 @@ final class HistoryPresenter {
     }
 
     private func loadTransactions(for pagination: OffsetPagination) {
-        do {
-            _ = try walletService.fetchTransactionHistory(for: filter,
-                                                          pagination: pagination,
-                                                          runCompletionIn: .main) { [weak self] (optionalResult) in
-                if let result = optionalResult {
-                    switch result {
-                    case .success(let pageData):
-                        self?.handleNext(transactionData: pageData, for: pagination)
-                    case .error(let error):
-                        self?.handleNext(error: error, for: pagination)
-                    }
-                }
-            }
-        } catch {
-            handleNext(error: error, for: pagination)
+        walletService.fetchTransactionHistory(for: filter,
+                                              pagination: pagination,
+                                              runCompletionIn: .main) { [weak self] (optionalResult) in
+                                                    if let result = optionalResult {
+                                                        switch result {
+                                                        case .success(let pageData):
+                                                            self?.handleNext(transactionData: pageData, for: pagination)
+                                                        case .error(let error):
+                                                            self?.handleNext(error: error, for: pagination)
+                                                        }
+                                                    }
         }
     }
 

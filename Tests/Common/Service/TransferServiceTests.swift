@@ -46,7 +46,7 @@ class TransferServiceTests: NetworkBaseTests {
             // when
 
             let info = try createRandomTransferInfo()
-            _ = walletService.transfer(info: info, runCompletionIn: .main) { (optionalResult) in
+            walletService.transfer(info: info, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     transferExpectation.fulfill()
                 }

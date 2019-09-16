@@ -25,6 +25,8 @@ final class WalletService {
 }
 
 extension WalletService: WalletServiceProtocol {
+
+    @discardableResult
     func fetchBalance(for assets: [IRAssetId],
                       runCompletionIn queue: DispatchQueue,
                       completionBlock: @escaping BalanceCompletionBlock) -> Operation {
@@ -44,10 +46,11 @@ extension WalletService: WalletServiceProtocol {
         return operation
     }
 
+    @discardableResult
     func fetchTransactionHistory(for filter: WalletHistoryRequest,
                                  pagination: OffsetPagination,
                                  runCompletionIn queue: DispatchQueue,
-                                 completionBlock: @escaping TransactionHistoryBlock) throws -> Operation {
+                                 completionBlock: @escaping TransactionHistoryBlock) -> Operation {
 
         let urlTemplate = networkResolver.urlTemplate(for: .history)
 
@@ -69,6 +72,28 @@ extension WalletService: WalletServiceProtocol {
         return operation
     }
 
+    @discardableResult
+    func fetchTransferMetadata(for assetId: IRAssetId,
+                               runCompletionIn queue: DispatchQueue,
+                               completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation {
+
+        let urlTemplate = networkResolver.urlTemplate(for: .transferMetadata)
+
+        let operation = operationFactory.transferMetadataOperation(urlTemplate, assetId: assetId)
+        operation.requestModifier = networkResolver.adapter(for: .transferMetadata)
+
+        operation.completionBlock = {
+            queue.async {
+                completionBlock(operation.result)
+            }
+        }
+
+        operationQueue.addOperation(operation)
+
+        return operation
+    }
+
+    @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping BoolResultCompletionBlock) -> Operation {
@@ -88,6 +113,7 @@ extension WalletService: WalletServiceProtocol {
         return operation
     }
 
+    @discardableResult
     func search(for searchString: String,
                 runCompletionIn queue: DispatchQueue,
                 completionBlock: @escaping SearchCompletionBlock) -> Operation {
@@ -106,7 +132,8 @@ extension WalletService: WalletServiceProtocol {
 
         return operation
     }
-    
+
+    @discardableResult
     func fetchContacts(runCompletionIn queue: DispatchQueue,
                        completionBlock: @escaping SearchCompletionBlock) -> Operation {
         let requestType = WalletRequestType.contacts
@@ -126,6 +153,7 @@ extension WalletService: WalletServiceProtocol {
         return operation
     }
 
+    @discardableResult
     func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
                                  runCompletionIn queue: DispatchQueue,
                                  completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation {
@@ -145,6 +173,7 @@ extension WalletService: WalletServiceProtocol {
         return operation
     }
 
+    @discardableResult
     func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping EmptyResultCompletionBlock) -> Operation {

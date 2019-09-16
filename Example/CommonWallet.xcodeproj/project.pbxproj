@@ -17,6 +17,9 @@
 		841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 841550E1228D50DA001F18A7 /* transferFailResponse.json */; };
 		841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */; };
 		8416973E225F278F0015E549 /* StyleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416973D225F278F0015E549 /* StyleBuilderTests.swift */; };
+		8418C5702330049700E92394 /* TransferMetadataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */; };
+		8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
+		8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
 		8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8425DB8B228160DC008A8B6A /* InfoPlist.strings */; };
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
 		8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */; };
@@ -141,6 +144,8 @@
 		841550E1228D50DA001F18A7 /* transferFailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferFailResponse.json; sourceTree = "<group>"; };
 		841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionInputViewModelTests.swift; sourceTree = "<group>"; };
 		8416973D225F278F0015E549 /* StyleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuilderTests.swift; sourceTree = "<group>"; };
+		8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMetadataServiceTests.swift; sourceTree = "<group>"; };
+		8418C5712330052200E92394 /* transferMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataResponse.json; sourceTree = "<group>"; };
 		8425DB8B228160DC008A8B6A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
 		8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailsTests.swift; sourceTree = "<group>"; };
@@ -410,6 +415,7 @@
 				848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */,
 				84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */,
 				84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */,
+				8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -517,6 +523,7 @@
 				845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */,
 				84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */,
 				84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */,
+				8418C5712330052200E92394 /* transferMetadataResponse.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -807,6 +814,7 @@
 				84752C5622A7F6490068188B /* searchInvoiceResponse.json in Resources */,
 				84C180552253AA0400F19858 /* DemoListViewController.xib in Resources */,
 				848B6EB8224D5A1100E8A3C9 /* accounBalanceResponse.json in Resources */,
+				8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */,
 				8B5E81D22268BBA9001DB674 /* contactsResponse.json in Resources */,
 				84F77F1B22EF873300152FE2 /* withdrawalMetadataResponse.json in Resources */,
 				84C1806F22551FCF00F19858 /* DemoHeaderCell.xib in Resources */,
@@ -834,6 +842,7 @@
 				848B6ED4224D7B2300E8A3C9 /* successResultResponse.json in Resources */,
 				84752C5722A804B70068188B /* searchInvoiceResponse.json in Resources */,
 				84F77F1E22EF8CB200152FE2 /* withdrawalMetadataResponse.json in Resources */,
+				8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */,
 				8B7DC34122B6F952004BFE79 /* historyFilteredResponse.json in Resources */,
 				84AF3DDA2297D442008725C3 /* accountBalanceSingleResponse.json in Resources */,
 				848B6ED7224D7B2300E8A3C9 /* historyResponse.json in Resources */,
@@ -1075,6 +1084,7 @@
 				84AF3DD32296E892008725C3 /* ConfirmationTests.swift in Sources */,
 				848B6ECB224D6B2500E8A3C9 /* ModelGenerator.swift in Sources */,
 				84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */,
+				8418C5702330049700E92394 /* TransferMetadataServiceTests.swift in Sources */,
 				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,
 				8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,

@@ -1,28 +1,24 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import XCTest
 @testable import CommonWallet
 import Cuckoo
+import IrohaCommunication
 
-class ContactsServiceTests: NetworkBaseTests {
-
-    func testSuccess() {
+class TransferMetadataServiceTests: NetworkBaseTests {
+    func testWithdrawalMetadataSuccess() {
         do {
             // given
-
             let networkResolver = MockWalletNetworkResolverProtocol()
 
             let urlTemplateGetExpectation = XCTestExpectation()
             let adapterExpectation = XCTestExpectation()
 
             stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { _ in
+                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { type in
+                    XCTAssertEqual(type, .transferMetadata)
+
                     urlTemplateGetExpectation.fulfill()
 
-                    return Constants.contactsUrlTemplate
+                    return Constants.transferMetadataUrlTemplate
                 }
 
                 when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
@@ -32,10 +28,11 @@ class ContactsServiceTests: NetworkBaseTests {
                 }
             }
 
-            try ContactsMock.register(mock: .success,
-                                      networkResolver: networkResolver,
-                                      requestType: .contacts,
-                                      httpMethod: .get)
+            try TransferMetadataMock.register(mock: .success,
+                                              networkResolver: networkResolver,
+                                              requestType: .transferMetadata,
+                                              httpMethod: .get,
+                                              urlMockType: .regex)
 
             let assetsCount = 4
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
@@ -43,13 +40,14 @@ class ContactsServiceTests: NetworkBaseTests {
             let walletService = WalletService(networkResolver: networkResolver,
                                               operationFactory: operationFactory)
 
-            let contactsExpectation = XCTestExpectation()
+            let completionExpectation = XCTestExpectation()
 
             // when
 
-            walletService.fetchContacts(runCompletionIn: .main) { optionalResult in
+            let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+            walletService.fetchTransferMetadata(for: assetId, runCompletionIn: .main) { (optionalResult) in
                 defer {
-                    contactsExpectation.fulfill()
+                    completionExpectation.fulfill()
                 }
 
                 guard let result = optionalResult else {
@@ -64,12 +62,10 @@ class ContactsServiceTests: NetworkBaseTests {
 
             // then
 
-            wait(for: [urlTemplateGetExpectation, adapterExpectation, contactsExpectation],
+            wait(for: [urlTemplateGetExpectation, adapterExpectation, completionExpectation],
                  timeout: Constants.networkTimeout)
-
         } catch {
             XCTFail("\(error)")
         }
     }
-
 }

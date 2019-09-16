@@ -59,6 +59,17 @@ enum SearchMock: ServiceMockProtocol {
     }
 }
 
+enum TransferMetadataMock: ServiceMockProtocol {
+    case success
+
+    var mockFile: String {
+        switch self {
+        case .success:
+            return "transferMetadataResponse.json"
+        }
+    }
+}
+
 enum TransferMock: ServiceMockProtocol {
     case success
     case invalidFormat

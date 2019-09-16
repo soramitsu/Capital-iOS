@@ -16,6 +16,8 @@ final class DemoNetworkResolver: WalletNetworkResolverProtocol {
             return "https://demowallet.com/history?offset={offset}&count={count}"
         case .transfer:
             return "https://demowallet.com/transfer"
+        case .transferMetadata:
+            return "https://demowallet.com/transfer/metadata?assetId={assetId}"
         case .search:
             return "https://demowallet.com/search?q={search}"
         case .contacts:
