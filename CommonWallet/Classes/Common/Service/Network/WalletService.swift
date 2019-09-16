@@ -12,11 +12,11 @@ enum WalletServiceError: Error {
 
 final class WalletService {
     let operationQueue: OperationQueue
-    let operationFactory: WalletServiceOperationFactoryProtocol
+    let operationFactory: WalletNetworkOperationFactoryProtocol
     let networkResolver: WalletNetworkResolverProtocol
 
     init(networkResolver: WalletNetworkResolverProtocol,
-         operationFactory: WalletServiceOperationFactoryProtocol,
+         operationFactory: WalletNetworkOperationFactoryProtocol,
          operationQueue: OperationQueue = OperationQueue()) {
         self.networkResolver = networkResolver
         self.operationFactory = operationFactory

@@ -16,6 +16,9 @@ public protocol CommonWalletBuilderProtocol: class {
     var styleBuilder: WalletStyleBuilderProtocol { get }
 
     @discardableResult
+    func with(networkOperationFactory: WalletNetworkOperationFactoryProtocol) -> Self
+
+    @discardableResult
     func with(amountFormatter: NumberFormatter) -> Self
 
     @discardableResult
@@ -54,6 +57,8 @@ public final class CommonWalletBuilder {
     fileprivate var privateStyleBuilder: WalletStyleBuilder
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkResolver: WalletNetworkResolverProtocol
+    fileprivate lazy var networkOperationFactory: WalletNetworkOperationFactoryProtocol =
+        WalletNetworkOperationFactory(accountSettings: account)
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatter: NumberFormatter?
     fileprivate var statusDateFormatter: DateFormatter?
@@ -98,6 +103,12 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
     public static func builder(with account: WalletAccountSettingsProtocol,
                                networkResolver: WalletNetworkResolverProtocol) -> CommonWalletBuilderProtocol {
         return CommonWalletBuilder(account: account, networkResolver: networkResolver)
+    }
+
+    public func with(networkOperationFactory: WalletNetworkOperationFactoryProtocol) -> Self {
+        self.networkOperationFactory = networkOperationFactory
+
+        return self
     }
 
     public func with(amountFormatter: NumberFormatter) -> Self {
@@ -162,6 +173,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
         let resolver = Resolver(account: account,
                                 networkResolver: networkResolver,
+                                networkOperationFactory: networkOperationFactory,
                                 accountListConfiguration: accountListConfiguration,
                                 historyConfiguration: historyConfiguration,
                                 contactsConfiguration: contactsConfiguration,

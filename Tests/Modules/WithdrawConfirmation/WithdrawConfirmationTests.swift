@@ -16,7 +16,7 @@ class WithdrawConfirmationTests: NetworkBaseTests {
             let accountSettings = try createRandomAccountSettings(for: 1, withdrawOptionsCount: 1)
             let networkResolver = MockNetworkResolver()
 
-            let networkOperationFactory = WalletServiceOperationFactory(accountSettings: accountSettings)
+            let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
 
             let view = MockWalletFormViewProtocol()
             let coordinator = MockWithdrawConfirmationCoordinatorProtocol()

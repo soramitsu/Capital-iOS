@@ -1,29 +1,19 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import Foundation
 import IrohaCommunication
 import RobinHood
 
-final class WalletServiceOperationFactory {
-    private struct Constants {
-        static let queryEncoding = CharacterSet.urlQueryAllowed
-            .subtracting(CharacterSet(charactersIn: "+"))
-    }
-
-    let accountSettings: WalletAccountSettingsProtocol
-
-    private lazy var jsonDecoder = JSONDecoder()
-    private lazy var jsonEncoder = JSONEncoder()
-
-    init(accountSettings: WalletAccountSettingsProtocol) {
-        self.accountSettings = accountSettings
-    }
+public protocol IrohaOperationFactoryProtocol: WalletNetworkOperationFactoryProtocol {
+    var accountSettings: WalletAccountSettingsProtocol { get }
+    var encoder: JSONEncoder { get }
+    var decoder: JSONDecoder { get }
 }
 
-extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
+private struct Constants {
+    static let queryEncoding = CharacterSet.urlQueryAllowed
+        .subtracting(CharacterSet(charactersIn: "+"))
+}
+
+extension IrohaOperationFactoryProtocol {
     func fetchBalanceOperation(_ urlTemplate: String, assets: [IRAssetId]) -> NetworkOperation<[BalanceData]> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
@@ -45,13 +35,13 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.post.rawValue
-            request.httpBody = try self.jsonEncoder.encode(queryInfo)
+            request.httpBody = try self.encoder.encode(queryInfo)
             request.setValue(HttpContentType.json.rawValue, forHTTPHeaderField: HttpHeaderKey.contentType.rawValue)
             return request
         }
 
         let resultFactory = AnyNetworkResultFactory<[BalanceData]> { (data) in
-            let resultData = try self.jsonDecoder.decode(ResultData<[BalanceData]>.self, from: data)
+            let resultData = try self.decoder.decode(ResultData<[BalanceData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -77,14 +67,14 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.post.rawValue
-            request.httpBody = try self.jsonEncoder.encode(filter)
+            request.httpBody = try self.encoder.encode(filter)
             request.setValue(HttpContentType.json.rawValue, forHTTPHeaderField: HttpHeaderKey.contentType.rawValue)
             return request
         }
 
         let resultFactory = AnyNetworkResultFactory<AssetTransactionPageData> { (data) in
-            let resultData = try self.jsonDecoder.decode(MultifieldResultData<AssetTransactionPageData>.self,
-                                                         from: data)
+            let resultData = try self.decoder.decode(MultifieldResultData<AssetTransactionPageData>.self,
+                                                     from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -119,13 +109,13 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.post.rawValue
-            request.httpBody = try self.jsonEncoder.encode(transactionInfo)
+            request.httpBody = try self.encoder.encode(transactionInfo)
             request.setValue(HttpContentType.json.rawValue, forHTTPHeaderField: HttpHeaderKey.contentType.rawValue)
             return request
         }
 
         let resultFactory = AnyNetworkResultFactory<Bool> { (data) in
-            let resultData = try self.jsonDecoder.decode(ResultData<Bool>.self, from: data)
+            let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -142,7 +132,7 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         let requestFactory = BlockNetworkRequestFactory {
             guard let encodedString = searchString
                 .addingPercentEncoding(withAllowedCharacters: Constants.queryEncoding) else {
-                throw NetworkResponseError.invalidParameters
+                    throw NetworkResponseError.invalidParameters
             }
 
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildParameterURL(encodedString)
@@ -153,7 +143,7 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         }
 
         let resultFactory = AnyNetworkResultFactory<[SearchData]> { (data) in
-            let resultData = try self.jsonDecoder.decode(ResultData<[SearchData]>.self, from: data)
+            let resultData = try self.decoder.decode(ResultData<[SearchData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -169,32 +159,32 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         return NetworkOperation(requestFactory: requestFactory,
                                 resultFactory: resultFactory)
     }
-    
+
     func contactsOperation(_ urlTemplate: String) -> NetworkOperation<[SearchData]> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
             }
-            
+
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.get.rawValue
             return request
         }
-        
+
         let resultFactory = AnyNetworkResultFactory<[SearchData]> { (data) in
-            let resultData = try self.jsonDecoder.decode(ResultData<[SearchData]>.self, from: data)
-            
+            let resultData = try self.decoder.decode(ResultData<[SearchData]>.self, from: data)
+
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
             }
-            
+
             guard let searchData = resultData.result else {
                 throw NetworkBaseError.unexpectedResponseObject
             }
-            
+
             return searchData
         }
-        
+
         return NetworkOperation(requestFactory: requestFactory,
                                 resultFactory: resultFactory)
     }
@@ -212,7 +202,7 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         }
 
         let resultFactory = AnyNetworkResultFactory<WithdrawMetaData> { data in
-            let resultData = try self.jsonDecoder.decode(MultifieldResultData<WithdrawMetaData>.self, from: data)
+            let resultData = try self.decoder.decode(MultifieldResultData<WithdrawMetaData>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -257,14 +247,14 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.post.rawValue
-            request.httpBody = try self.jsonEncoder.encode(transactionInfo)
+            request.httpBody = try self.encoder.encode(transactionInfo)
             request.setValue(HttpContentType.json.rawValue,
                              forHTTPHeaderField: HttpHeaderKey.contentType.rawValue)
             return request
         }
 
         let resultFactory = AnyNetworkResultFactory<Void> { data in
-            let resultData = try self.jsonDecoder.decode(ResultData<Bool>.self, from: data)
+            let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
@@ -274,4 +264,5 @@ extension WalletServiceOperationFactory: WalletServiceOperationFactoryProtocol {
         return NetworkOperation(requestFactory: requestFactory,
                                 resultFactory: resultFactory)
     }
+
 }

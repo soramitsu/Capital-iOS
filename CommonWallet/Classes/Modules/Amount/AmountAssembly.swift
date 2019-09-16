@@ -17,12 +17,10 @@ final class AmountAssembly: AmountAssemblyProtocol {
 
             let coordinator = AmountCoordinator(resolver: resolver)
 
-            let networkOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
-
             let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
                                                           accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: networkOperationFactory)
+                                                          networkOperationFactory: resolver.networkOperationFactory)
 
             guard let balanceDataProvider = try? dataProviderFactory.createBalanceDataProvider() else {
                 return nil

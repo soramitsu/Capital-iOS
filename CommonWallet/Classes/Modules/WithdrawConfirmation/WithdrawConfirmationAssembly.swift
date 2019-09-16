@@ -19,9 +19,8 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
 
         let coordinator = WithdrawConfirmationCoordinator(resolver: resolver)
 
-        let walletOperationFactory = WalletServiceOperationFactory(accountSettings: resolver.account)
         let walletService = WalletService(networkResolver: resolver.networkResolver,
-                                          operationFactory: walletOperationFactory)
+                                          operationFactory: resolver.networkOperationFactory)
 
         let presenter = WithdrawConfirmationPresenter(view: view,
                                                       coordinator: coordinator,

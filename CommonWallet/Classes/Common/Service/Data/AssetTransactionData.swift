@@ -42,6 +42,6 @@ public struct AssetTransactionData: Codable, Equatable {
     var reason: String?
 }
 
-struct AssetTransactionPageData: Codable, Equatable {
+public struct AssetTransactionPageData: Codable, Equatable {
     var transactions: [AssetTransactionData]
 }

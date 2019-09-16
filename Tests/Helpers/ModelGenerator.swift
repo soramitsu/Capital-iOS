@@ -13,8 +13,13 @@ enum BytesGeneratorError: Error {
 
 func createRandomData(with bytesCount: Int) throws -> Data {
     var data = Data(count: bytesCount)
-    let result = data.withUnsafeMutableBytes { (mutableBytes: UnsafeMutablePointer<UInt8>) -> Int32 in
-        SecRandomCopyBytes(kSecRandomDefault, bytesCount, mutableBytes)
+
+    let result = data.withUnsafeMutableBytes { (mutableBytes: UnsafeMutableRawBufferPointer) -> Int32 in
+        guard let address = mutableBytes.baseAddress else {
+            return errSecParam
+        }
+
+        return SecRandomCopyBytes(kSecRandomDefault, bytesCount, address)
     }
 
     if result != errSecSuccess {

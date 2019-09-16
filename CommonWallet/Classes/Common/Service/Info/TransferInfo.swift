@@ -6,7 +6,7 @@
 import Foundation
 import IrohaCommunication
 
-struct TransferInfo {
+public struct TransferInfo {
     var source: IRAccountId
     var destination: IRAccountId
     var amount: IRAmount

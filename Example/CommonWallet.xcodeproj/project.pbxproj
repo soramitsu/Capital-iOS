@@ -760,13 +760,13 @@
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = YLWWUD25VZ;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1030;
 						ProvisioningStyle = Manual;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = YLWWUD25VZ;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -919,7 +919,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawAmount/ViewModel/WithdrawFeeViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletPresentationCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/AssetDetailsCommand.swift\" \\\n";
+			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkOperationFactoryProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawAmount/ViewModel/WithdrawFeeViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletPresentationCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/AssetDetailsCommand.swift\" \\\n";
 		};
 		8489659A2253A3A300EBAC6D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1239,8 +1239,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.jp.soramitsu.capital;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ridev;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1259,8 +1258,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.jp.soramitsu.capital;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "capital-adhoc";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1283,8 +1281,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CommonWallet_Example.app/CommonWallet_Example";
 			};
 			name = Debug;
@@ -1303,8 +1300,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CommonWallet_Example.app/CommonWallet_Example";
 			};
 			name = Release;
