@@ -268,9 +268,9 @@ final class AmountPresenter {
                     return nil
             }
 
-            let feeCalculator = try feeCalculationFactory.createStrategy(for: metadata.feeType,
-                                                                         assetId: selectedAsset.identifier,
-                                                                         parameters: [feeRate])
+            let feeCalculator = try feeCalculationFactory.createTransferFeeStrategy(for: metadata.feeType,
+                                                                                    assetId: selectedAsset.identifier,
+                                                                                    parameters: [feeRate])
             let fee = try feeCalculator.calculate(for: sendingAmount)
 
             let totalAmount = sendingAmount + fee

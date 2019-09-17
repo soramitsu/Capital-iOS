@@ -267,9 +267,10 @@ final class WithdrawAmountPresenter {
                     return nil
             }
 
-            let feeCalculator = try feeCalculationFactory.createStrategy(for: metadata.feeType,
-                                                                         assetId: selectedAsset.identifier,
-                                                                         parameters: [feeRate])
+            let feeCalculator = try feeCalculationFactory.createWithdrawFeeStrategy(for: metadata.feeType,
+                                                                                    assetId: selectedAsset.identifier,
+                                                                                    optionId: selectedOption.identifier,
+                                                                                    parameters: [feeRate])
             let fee = try feeCalculator.calculate(for: sendingAmount)
             let totalAmount = sendingAmount + fee
 
