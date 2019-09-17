@@ -14,4 +14,20 @@ public struct TransferInfo {
     public var details: String
     public var feeAccountId: IRAccountId?
     public var fee: IRAmount?
+
+    public init(source: IRAccountId,
+                destination: IRAccountId,
+                amount: IRAmount,
+                asset: IRAssetId,
+                details: String,
+                feeAccountId: IRAccountId?,
+                fee: IRAmount?) {
+        self.source = source
+        self.destination = destination
+        self.amount = amount
+        self.asset = asset
+        self.details = details
+        self.feeAccountId = feeAccountId
+        self.fee = fee
+    }
 }

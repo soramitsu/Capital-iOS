@@ -8,4 +8,9 @@ import Foundation
 public struct WithdrawMetadataInfo: Codable {
     public var assetId: String
     public var option: String
+
+    public init(assetId: String, option: String) {
+        self.assetId = assetId
+        self.option = option
+    }
 }
