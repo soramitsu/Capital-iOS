@@ -37,6 +37,7 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
                                                         selectedAsset: asset,
                                                         selectedOption: option,
                                                         dataProviderFactory: dataProviderFactory,
+                                                        feeCalculationFactory: resolver.feeCalculationFactory,
                                                         withdrawViewModelFactory: withdrawViewModelFactory,
                                                         assetTitleFactory: assetTitleFactory)
 

@@ -40,6 +40,7 @@ final class WithdrawAmountPresenter {
     private var metaDataProvider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>
     private let assetTitleFactory: AssetSelectionFactoryProtocol
     private let withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol
+    private let feeCalculationFactory: FeeCalculationFactoryProtocol
     private let assets: [WalletAsset]
 
     private(set) var selectedAsset: WalletAsset
@@ -53,6 +54,7 @@ final class WithdrawAmountPresenter {
          selectedAsset: WalletAsset,
          selectedOption: WalletWithdrawOption,
          dataProviderFactory: DataProviderFactoryProtocol,
+         feeCalculationFactory: FeeCalculationFactoryProtocol,
          withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol,
          assetTitleFactory: AssetSelectionFactoryProtocol) throws {
 
@@ -66,6 +68,7 @@ final class WithdrawAmountPresenter {
             .createWithdrawMetadataProvider(for: selectedAsset.identifier, option: selectedOption.identifier)
         self.dataProviderFactory = dataProviderFactory
         self.withdrawViewModelFactory = withdrawViewModelFactory
+        self.feeCalculationFactory = feeCalculationFactory
         self.assetTitleFactory = assetTitleFactory
 
         descriptionInputViewModel = try withdrawViewModelFactory.createDescriptionViewModel()
@@ -254,6 +257,60 @@ final class WithdrawAmountPresenter {
                                   options: options)
     }
 
+    private func prepareWithdrawInfo() -> WithdrawInfo? {
+        do {
+            guard
+                let sendingAmount = amountInputViewModel.decimalAmount,
+                let metadata = metadata,
+                let feeRate = metadata.feeRateDecimal else {
+                    logger?.error("Either amount or metadata missing to complete withdraw")
+                    return nil
+            }
+
+            let feeCalculator = try feeCalculationFactory.createStrategy(for: metadata.feeType,
+                                                                         assetId: selectedAsset.identifier,
+                                                                         parameters: [feeRate])
+            let fee = try feeCalculator.calculate(for: sendingAmount)
+            let totalAmount = sendingAmount + fee
+
+            guard
+                let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
+                let currentAmount =  Decimal(string: balanceData.balance),
+                totalAmount <= currentAmount else {
+                    let message = "Sorry, you don't have enough funds to transfer specified amount."
+                    view?.showError(message: message)
+                    return nil
+            }
+
+            let destinationAccountId = try IRAccountIdFactory.account(withIdentifier: metadata.providerAccountId)
+
+            var feeAccountId: IRAccountId?
+            var feeAmount: IRAmount?
+
+            if fee > 0.0 {
+                if let accountIdString = metadata.feeAccountId {
+                    feeAccountId = try IRAccountIdFactory.account(withIdentifier: accountIdString)
+                }
+
+                feeAmount = try IRAmountFactory.amount(from: (fee as NSNumber).stringValue)
+            }
+
+            let amount = try IRAmountFactory.amount(from: (sendingAmount as NSNumber).stringValue)
+
+            let info = WithdrawInfo(destinationAccountId: destinationAccountId,
+                                    assetId: selectedAsset.identifier,
+                                    amount: amount,
+                                    details: descriptionInputViewModel.text,
+                                    feeAccountId: feeAccountId,
+                                    fee: feeAmount)
+
+            return info
+        } catch {
+            logger?.error("Did receive unexpected error \(error)")
+            return nil
+        }
+    }
+
     private func completeConfirmation() {
         guard confirmationState == .completed else {
             return
@@ -263,51 +320,9 @@ final class WithdrawAmountPresenter {
 
         view?.didStopLoading()
 
-        guard
-            let sendingAmount = amountInputViewModel.decimalAmount,
-            let metadata = metadata,
-            let feeRate = metadata.feeRateDecimal else {
-                logger?.error("Either amount or metadata missing to complete withdraw")
-                return
+        if let info = prepareWithdrawInfo() {
+            coordinator.confirm(with: info, asset: selectedAsset, option: selectedOption)
         }
-
-        let fee = feeRate * sendingAmount
-        let totalAmount = sendingAmount + fee
-
-        guard
-            let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
-            let currentAmount =  Decimal(string: balanceData.balance),
-            totalAmount <= currentAmount else {
-                let message = "Sorry, you don't have enough funds to transfer specified amount."
-                view?.showError(message: message)
-                return
-        }
-
-        guard
-            let destinationAccountId = try? IRAccountIdFactory
-                .account(withIdentifier: metadata.providerAccountId),
-            let irAmount = try? IRAmountFactory.amount(from: (sendingAmount as NSNumber).stringValue),
-            let feeAccountId = try? IRAccountIdFactory.account(withIdentifier: metadata.feeAccountId) else {
-                logger?.error("Can't create necessary iroha objects to complete withdraw")
-            return
-        }
-
-        let irFee: IRAmount?
-
-        if fee > 0.0 {
-            irFee = try? IRAmountFactory.amount(from: (fee as NSNumber).stringValue)
-        } else {
-            irFee = nil
-        }
-
-        let info = WithdrawInfo(destinationAccountId: destinationAccountId,
-                                assetId: selectedAsset.identifier,
-                                amount: irAmount,
-                                details: descriptionInputViewModel.text,
-                                feeAccountId: feeAccountId,
-                                fee: irFee)
-
-        coordinator.confirm(with: info, asset: selectedAsset, option: selectedOption)
     }
 }
 

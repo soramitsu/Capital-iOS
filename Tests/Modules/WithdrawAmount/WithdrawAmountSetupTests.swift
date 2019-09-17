@@ -157,6 +157,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                     selectedAsset: walletAsset,
                                                     selectedOption: withdrawOption,
                                                     dataProviderFactory: dataProviderFactory,
+                                                    feeCalculationFactory: FeeCalculationFactory(),
                                                     withdrawViewModelFactory: viewModelFactory,
                                                     assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
 
