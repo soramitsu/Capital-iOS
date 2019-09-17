@@ -155,9 +155,10 @@ class AmountTests: NetworkBaseTests {
 
             let presenter = try AmountPresenter(view: view,
                                                 coordinator: coordinator,
-                                                dataProviderFactory: dataProviderFactory,
-                                                account: accountSettings,
                                                 payload: amountPayload,
+                                                dataProviderFactory: dataProviderFactory,
+                                                feeCalculationFactory: FeeCalculationFactory(),
+                                                account: accountSettings,
                                                 transferViewModelFactory: transferViewModelFactory,
                                                 assetSelectionFactory: assetSelectionFactory,
                                                 accessoryFactory: accessoryViewModelFactory)

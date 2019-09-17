@@ -32,9 +32,10 @@ final class AmountAssembly: AmountAssemblyProtocol {
 
             let presenter = try  AmountPresenter(view: view,
                                                  coordinator: coordinator,
-                                                 dataProviderFactory: dataProviderFactory,
-                                                 account: resolver.account,
                                                  payload: payload,
+                                                 dataProviderFactory: dataProviderFactory,
+                                                 feeCalculationFactory: resolver.feeCalculationFactory,
+                                                 account: resolver.account,
                                                  transferViewModelFactory: transferViewModelFactory,
                                                  assetSelectionFactory: assetSelectionFactory,
                                                  accessoryFactory: accessoryViewModelFactory)

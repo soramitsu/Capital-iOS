@@ -8,7 +8,7 @@ import Foundation
 public struct WithdrawMetaData: Codable, Equatable {
     var providerAccountId: String
     var feeAccountId: String
-    var feeType: FeeType
+    var feeType: String
     var feeRate: String
 }
 

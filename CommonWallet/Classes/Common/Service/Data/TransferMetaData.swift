@@ -2,7 +2,7 @@ import Foundation
 
 public struct TransferMetaData: Codable, Equatable {
     var feeAccountId: String?
-    var feeType: FeeType
+    var feeType: String
     var feeRate: String
 }
 

@@ -117,13 +117,23 @@ extension IrohaOperationFactoryProtocol {
                 throw NetworkBaseError.invalidUrl
             }
 
-            let transaction = try IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
+            var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
                 .transferAsset(info.source,
                                destinationAccount: info.destination,
                                assetId: info.asset,
                                description: info.details,
                                amount: info.amount)
-                .withQuorum(self.accountSettings.transactionQuorum)
+
+            if let fee = info.fee, let feeAccountId = info.feeAccountId {
+                let feeDescription = "transfer fee"
+                transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
+                                                                      destinationAccount: feeAccountId,
+                                                                      assetId: info.asset,
+                                                                      description: feeDescription,
+                                                                      amount: fee)
+            }
+
+            let transaction = try transactionBuilder.withQuorum(self.accountSettings.transactionQuorum)
                 .build()
                 .signed(withSignatories: [self.accountSettings.signer],
                         signatoryPublicKeys: [self.accountSettings.publicKey])
