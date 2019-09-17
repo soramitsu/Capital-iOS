@@ -86,14 +86,11 @@ final class TransferResultPresenter {
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                 title: "Date and Time",
                                                 details: resolver.statusDateFormatter.string(from: Date()))
-        let typeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: "Type",
-                                                details: "Send")
         let receiverViewModel = WalletFormViewModel(layoutType: .accessory,
                                                     title: "Recipient",
                                                     details: transferPayload.receiverName)
 
-        var viewModels = [statusViewModel, timeViewModel, typeViewModel, receiverViewModel]
+        var viewModels = [statusViewModel, timeViewModel, receiverViewModel]
 
         let amountViewModels = prepareAmountViewModels()
         viewModels.append(contentsOf: amountViewModels)
