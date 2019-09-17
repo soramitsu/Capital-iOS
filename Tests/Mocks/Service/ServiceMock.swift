@@ -61,11 +61,14 @@ enum SearchMock: ServiceMockProtocol {
 
 enum TransferMetadataMock: ServiceMockProtocol {
     case success
+    case notAvailable
 
     var mockFile: String {
         switch self {
         case .success:
             return "transferMetadataResponse.json"
+        case .notAvailable:
+            return "feeNotAvailable.json"
         }
     }
 }
@@ -108,7 +111,7 @@ enum WithdrawalMetadataMock: ServiceMockProtocol {
         case .success:
             return "withdrawalMetadataResponse.json"
         case .notAvailable:
-            return "withdrawalMetadataError.json"
+            return "feeNotAvailable.json"
         }
     }
 }

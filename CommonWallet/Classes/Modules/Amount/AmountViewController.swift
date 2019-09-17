@@ -24,6 +24,8 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
     @IBOutlet private var amountField: UITextField!
     @IBOutlet private var amountLabel: UILabel!
     @IBOutlet private var amountSymbol: UILabel!
+    @IBOutlet private var feeTitleLabel: UILabel!
+    @IBOutlet private var feeActivityIndicator: UIActivityIndicatorView!
     @IBOutlet private var amountSeparator: BorderedContainerView!
     @IBOutlet private var descriptionLabel: UILabel!
     @IBOutlet private var descriptionPlaceholderLabel: UILabel!
@@ -36,6 +38,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
     private var assetSelectionViewModel: AssetSelectionViewModelProtocol?
     private var amountInputViewModel: AmountInputViewModelProtocol?
     private var descriptionInputViewModel: DescriptionInputViewModelProtocol?
+    private var feeViewModel: FeeViewModelProtocol?
 
     private var keyboardHandler: KeyboardHandler?
 
@@ -108,7 +111,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         
         view.backgroundColor = style.backgroundColor
         
-        [amountLabel, descriptionLabel].forEach {
+        [amountLabel, descriptionLabel, feeTitleLabel].forEach {
             $0?.textColor = style.captionTextColor
             $0?.font = style.bodyRegularFont
         }
@@ -133,6 +136,8 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
             amountField.tintColor = caretColor
             descriptionTextView.tintColor = caretColor
         }
+
+        feeActivityIndicator.tintColor = style.captionTextColor
 
         descriptionPlaceholderLabel.textColor = style.bodyTextColor
             .withAlphaComponent(Constants.placeholderOpacity)
@@ -275,6 +280,22 @@ extension AmountViewController: AmountViewProtocol {
     func set(accessoryViewModel: AccessoryViewModelProtocol) {
         accessoryView?.bind(viewModel: accessoryViewModel)
     }
+
+    func set(feeViewModel: FeeViewModelProtocol) {
+        self.feeViewModel?.observable.remove(observer: self)
+        feeTitleLabel.text = feeViewModel.title
+
+        if feeViewModel.isLoading {
+            feeActivityIndicator.startAnimating()
+        } else {
+            feeActivityIndicator.stopAnimating()
+        }
+
+        self.feeViewModel = feeViewModel
+        feeViewModel.observable.add(observer: self)
+
+        updateConfirmationState()
+    }
 }
 
 extension AmountViewController: AssetSelectionViewModelObserver {
@@ -329,6 +350,23 @@ extension AmountViewController: UITextFieldDelegate {
     
 }
 
+extension AmountViewController: FeeViewModelObserver {
+    func feeTitleDidChange() {
+        if let viewModel = feeViewModel {
+            feeTitleLabel.text = viewModel.title
+        }
+    }
+
+    func feeLoadingStateDidChange() {
+        if let viewModel = feeViewModel {
+            if viewModel.isLoading {
+                feeActivityIndicator.startAnimating()
+            } else {
+                feeActivityIndicator.stopAnimating()
+            }
+        }
+    }
+}
 
 extension AmountViewController: UITextViewDelegate {
 

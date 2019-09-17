@@ -8,15 +8,25 @@ import RobinHood
 import IrohaCommunication
 
 enum AmountPresenterError: Error {
-    case missingDescriptionValidator
+    case missingSelectedAsset
+}
+
+struct TransferCheckingState: OptionSet {
+    typealias RawValue = UInt8
+
+    static let waiting = TransferCheckingState(rawValue: 0)
+    static let requestedAmount = TransferCheckingState(rawValue: 1)
+    static let requestedFee = TransferCheckingState(rawValue: 2)
+    static let completed = TransferCheckingState.requestedAmount.union(.requestedFee)
+
+    var rawValue: TransferCheckingState.RawValue
+
+    init(rawValue: TransferCheckingState.RawValue) {
+        self.rawValue = rawValue
+    }
 }
 
 final class AmountPresenter {
-    enum InputState {
-        case waiting
-        case checking
-    }
-
     weak var view: AmountViewProtocol?
     var coordinator: AmountCoordinatorProtocol
     var logger: WalletLoggerProtocol?
@@ -25,70 +35,100 @@ final class AmountPresenter {
     private var amountInputViewModel: AmountInputViewModel
     private var descriptionInputViewModel: DescriptionInputViewModel
     private var accessoryViewModel: AccessoryViewModelProtocol
+    private var feeViewModel: FeeViewModel
 
-    private var balances: [BalanceData]?
-    private let account: WalletAccountSettingsProtocol
-    private let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
-    private var payload: AmountPayload
+    private var transferViewModelFactory: AmountViewModelFactoryProtocol
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
 
-    private var state: InputState = .waiting
+    private let dataProviderFactory: DataProviderFactoryProtocol
+    private let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
+    private var metadataProvider: SingleValueProvider<TransferMetaData, CDCWSingleValue>
+
+    private var balances: [BalanceData]?
+    private var metadata: TransferMetaData?
+    private var selectedAsset: WalletAsset
+    private let account: WalletAccountSettingsProtocol
+    private var payload: AmountPayload
+
+    private(set) var confirmationState: TransferCheckingState?
     
     init(view: AmountViewProtocol,
          coordinator: AmountCoordinatorProtocol,
-         balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>,
+         dataProviderFactory: DataProviderFactoryProtocol,
          account: WalletAccountSettingsProtocol,
          payload: AmountPayload,
+         transferViewModelFactory: AmountViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
-         accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
-         amountLimit: Decimal,
-         inputValidatorFactory: WalletInputValidatorFactoryProtocol) throws {
+         accessoryFactory: ContactAccessoryViewModelFactoryProtocol) throws {
+
+        guard
+            let selectedAsset = account.asset(for: payload.receiveInfo.assetId.identifier()) ??
+            account.assets.first else {
+            throw AmountPresenterError.missingSelectedAsset
+        }
 
         self.view = view
         self.coordinator = coordinator
-        self.balanceDataProvider = balanceDataProvider
         self.account = account
         self.payload = payload
+
+        self.selectedAsset = selectedAsset
+
+        self.dataProviderFactory = dataProviderFactory
+        self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
+        self.metadataProvider = try dataProviderFactory.createTransferMetadataProvider(for: selectedAsset.identifier)
+
+        self.transferViewModelFactory = transferViewModelFactory
         self.assetSelectionFactory = assetSelectionFactory
-
-        guard let descriptionValidator = inputValidatorFactory.createTransferDescriptionValidator() else {
-            throw AmountPresenterError.missingDescriptionValidator
-        }
         
-        descriptionInputViewModel = DescriptionInputViewModel(title: "Description",
-                                                              validator: descriptionValidator)
+        descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel()
 
-        var optionalAsset: WalletAsset?
-        var currentAmount: Decimal?
-
-        if let asset = account.asset(for: payload.receiveInfo.assetId.identifier()) {
-            optionalAsset = asset
-
-            if let amount = payload.receiveInfo.amount {
-                currentAmount = Decimal(string: amount.value)
-            }
-        } else {
-            optionalAsset = account.assets.first
-        }
-
-        let title = assetSelectionFactory.createTitle(for: optionalAsset, balanceData: nil)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: optionalAsset?.identifier,
-                                                          title: title,
-                                                          symbol: optionalAsset?.symbol ?? "")
+        let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil)
+        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
+                                                          title: assetTitle,
+                                                          symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        amountInputViewModel = AmountInputViewModel(optionalAmount: currentAmount, limit: amountLimit)
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel()
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
                                                               fullName: payload.receiverName,
                                                               action: "Next")
+
+        let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
+        feeViewModel = FeeViewModel(title: feeTitle)
+        feeViewModel.isLoading = true
+    }
+
+    private func updateFeeViewModel(for asset: WalletAsset) {
+        guard
+            let amount = amountInputViewModel.decimalAmount,
+            let feeRateString = metadata?.feeRate,
+            let feeRate = Decimal(string: feeRateString) else {
+                feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: nil)
+                feeViewModel.isLoading = true
+                return
+        }
+
+        let fee = amount * feeRate
+        feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: fee)
+        feeViewModel.isLoading = false
+    }
+
+    private func updateSelectedAssetViewModel(for newAsset: WalletAsset) {
+        assetSelectionViewModel.isSelecting = false
+
+        assetSelectionViewModel.assetId = newAsset.identifier
+
+        let balanceData = balances?.first { $0.identifier == newAsset.identifier.identifier() }
+        let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: balanceData)
+
+        assetSelectionViewModel.title = title
+
+        assetSelectionViewModel.symbol = newAsset.symbol
     }
     
     private func handleResponse(with optionalBalances: [BalanceData]?) {
-        defer {
-            state = .waiting
-        }
-
         if let balances = optionalBalances {
             self.balances = balances
         }
@@ -102,7 +142,9 @@ final class AmountPresenter {
             let asset = account.asset(for: assetId.identifier()),
             let balanceData = balances.first(where: { $0.identifier == assetId.identifier()}) else {
 
-                if state == .checking {
+                if confirmationState != nil {
+                    confirmationState = nil
+
                     let message = "Sorry, we couldn't find asset information you want to send. Please, try again later."
                     view?.showError(message: message)
                 }
@@ -112,18 +154,17 @@ final class AmountPresenter {
 
         assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: asset, balanceData: balanceData)
 
-        if state == .checking {
-            view?.didStopLoading()
-
-            performConfirmation()
+        if let currentState = confirmationState {
+            confirmationState = currentState.union(.requestedAmount)
+            completeConfirmation()
         }
     }
 
     private func handleResponse(with error: Error) {
-        if state == .checking {
-            view?.didStopLoading()
+        if confirmationState != nil {
+            confirmationState = nil
 
-            state = .waiting
+            view?.didStopLoading()
 
             let message = "Sorry, balance checking request failed. Please, try again later."
             view?.showError(message: message)
@@ -156,7 +197,72 @@ final class AmountPresenter {
                                              options: options)
     }
 
-    private func performConfirmation() {
+    private func handleTransfer(metadata: TransferMetaData?) {
+        if metadata != nil {
+            self.metadata = metadata
+        }
+
+        updateFeeViewModel(for: selectedAsset)
+
+        if let currentState = confirmationState {
+            confirmationState = currentState.union(.requestedFee)
+            completeConfirmation()
+        }
+    }
+
+    private func handleTransferMetadata(error: Error) {
+        if confirmationState != nil {
+            view?.didStopLoading()
+
+            confirmationState = nil
+        }
+
+        let message = "Sorry, we coudn't contact trasfer provider. Please, try again later."
+        view?.showError(message: message)
+    }
+
+    private func updateMetadataProvider(for asset: WalletAsset) throws {
+        let metaDataProvider = try dataProviderFactory.createTransferMetadataProvider(for: asset.identifier)
+        self.metadataProvider = metaDataProvider
+
+        setupMetadata(provider: metaDataProvider)
+    }
+
+    private func setupMetadata(provider: SingleValueProvider<TransferMetaData, CDCWSingleValue>) {
+        let changesBlock = { [weak self] (changes: [DataProviderChange<TransferMetaData>]) -> Void in
+            if let change = changes.first {
+                switch change {
+                case .insert(let item), .update(let item):
+                    self?.handleTransfer(metadata: item)
+                default:
+                    break
+                }
+            } else {
+                self?.handleTransfer(metadata: nil)
+            }
+        }
+
+        let failBlock: (Error) -> Void = { [weak self] (error: Error) in
+            self?.handleTransferMetadata(error: error)
+        }
+
+        let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
+        provider.addCacheObserver(self,
+                                  deliverOn: .main,
+                                  executing: changesBlock,
+                                  failing: failBlock,
+                                  options: options)
+    }
+
+    private func completeConfirmation() {
+        guard confirmationState == .completed else {
+            return
+        }
+
+        confirmationState = nil
+
+        view?.didStopLoading()
+
         guard
             let assetId = assetSelectionViewModel.assetId,
             let asset = account.asset(for: assetId.identifier()),
@@ -192,21 +298,29 @@ final class AmountPresenter {
 extension AmountPresenter: AmountPresenterProtocol {
 
     func setup() {
+        amountInputViewModel.observable.add(observer: self)
+
         view?.set(assetViewModel: assetSelectionViewModel)
         view?.set(amountViewModel: amountInputViewModel)
         view?.set(descriptionViewModel: descriptionInputViewModel)
         view?.set(accessoryViewModel: accessoryViewModel)
+        view?.set(feeViewModel: feeViewModel)
 
         setupBalanceDataProvider()
+        setupMetadata(provider: metadataProvider)
     }
     
     func confirm() {
-        if state == .waiting {
-            view?.didStartLoading()
-
-            state = .checking
-            balanceDataProvider.refreshCache()
+        guard confirmationState == nil else {
+            return
         }
+
+        view?.didStartLoading()
+
+        confirmationState = .waiting
+
+        balanceDataProvider.refreshCache()
+        metadataProvider.refreshCache()
     }
     
     func presentAssetSelection() {
@@ -234,18 +348,27 @@ extension AmountPresenter: ModalPickerViewDelegate {
     }
 
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?) {
-        assetSelectionViewModel.isSelecting = false
+        do {
+            let newAsset = account.assets[index]
 
-        let newAsset = account.assets[index]
+            if newAsset.identifier.identifier() != selectedAsset.identifier.identifier() {
+                self.metadata = nil
 
-        assetSelectionViewModel.assetId = newAsset.identifier
+                try updateMetadataProvider(for: newAsset)
 
-        let balanceData = balances?.first { $0.identifier == newAsset.identifier.identifier() }
-        let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: balanceData)
+                self.selectedAsset = newAsset
 
-        assetSelectionViewModel.title = title
-
-        assetSelectionViewModel.symbol = newAsset.symbol
+                updateSelectedAssetViewModel(for: newAsset)
+                updateFeeViewModel(for: newAsset)
+            }
+        } catch {
+            logger?.error("Unexpected error when new asset selected \(error)")
+        }
     }
+}
 
+extension AmountPresenter: AmountInputViewModelObserver {
+    func amountInputDidChange() {
+        updateFeeViewModel(for: selectedAsset)
+    }
 }

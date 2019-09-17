@@ -31,7 +31,7 @@ final class WithdrawAmountPresenter {
     private var assetSelectionViewModel: AssetSelectionViewModel
     private var amountInputViewModel: AmountInputViewModel
     private var descriptionInputViewModel: DescriptionInputViewModel
-    private var feeViewModel: WithdrawFeeViewModel
+    private var feeViewModel: FeeViewModel
 
     private var balances: [BalanceData]?
     private var metadata: WithdrawMetaData?
@@ -79,7 +79,7 @@ final class WithdrawAmountPresenter {
         amountInputViewModel = withdrawViewModelFactory.createAmountViewModel()
 
         let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
-        feeViewModel = WithdrawFeeViewModel(title: feeTitle)
+        feeViewModel = FeeViewModel(title: feeTitle)
         feeViewModel.isLoading = true
     }
 
@@ -195,14 +195,6 @@ final class WithdrawAmountPresenter {
                                              options: options)
     }
 
-    private func updateMetadataProvider(for asset: WalletAsset) throws {
-        let metaDataProvider = try dataProviderFactory.createWithdrawMetadataProvider(for: asset.identifier,
-                                                                                      option: selectedOption.identifier)
-        self.metaDataProvider = metaDataProvider
-
-        setupMetadata(provider: metaDataProvider)
-    }
-
     private func handleWithdraw(metadata: WithdrawMetaData?) {
         if metadata != nil {
             self.metadata = metadata
@@ -226,6 +218,14 @@ final class WithdrawAmountPresenter {
 
         let message = "Sorry, we coudn't contact withdraw provider. Please, try again later."
         view?.showError(message: message)
+    }
+
+    private func updateMetadataProvider(for asset: WalletAsset) throws {
+        let metaDataProvider = try dataProviderFactory.createWithdrawMetadataProvider(for: asset.identifier,
+                                                                                      option: selectedOption.identifier)
+        self.metaDataProvider = metaDataProvider
+
+        setupMetadata(provider: metaDataProvider)
     }
 
     private func setupMetadata(provider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>) {

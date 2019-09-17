@@ -93,8 +93,8 @@
 		84E048A222C209E700F0CA66 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
 		84E28A552279753B00F7646D /* AmountSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A502279753B00F7646D /* AmountSetupTests.swift */; };
 		84E28A562279753B00F7646D /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A522279753B00F7646D /* ContactsTests.swift */; };
-		84F622BB2310016D00D5D6BA /* withdrawalMetadataError.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */; };
-		84F622BC2310017200D5D6BA /* withdrawalMetadataError.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */; };
+		84F622BB2310016D00D5D6BA /* feeNotAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* feeNotAvailable.json */; };
+		84F622BC2310017200D5D6BA /* feeNotAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* feeNotAvailable.json */; };
 		84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */; };
 		84F77F1B22EF873300152FE2 /* withdrawalMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */; };
 		84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */; };
@@ -207,7 +207,7 @@
 		84D8D9AB22F7315900C9B9C7 /* DialogCommandDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCommandDecorator.swift; sourceTree = "<group>"; };
 		84E28A502279753B00F7646D /* AmountSetupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountSetupTests.swift; sourceTree = "<group>"; };
 		84E28A522279753B00F7646D /* ContactsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
-		84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataError.json; sourceTree = "<group>"; };
+		84F622BA2310016D00D5D6BA /* feeNotAvailable.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = feeNotAvailable.json; sourceTree = "<group>"; };
 		84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawServiceTests.swift; sourceTree = "<group>"; };
 		84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataResponse.json; sourceTree = "<group>"; };
 		84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalMetadataServiceTests.swift; sourceTree = "<group>"; };
@@ -522,7 +522,7 @@
 				841550E1228D50DA001F18A7 /* transferFailResponse.json */,
 				845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */,
 				84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */,
-				84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */,
+				84F622BA2310016D00D5D6BA /* feeNotAvailable.json */,
 				8418C5712330052200E92394 /* transferMetadataResponse.json */,
 			);
 			path = Resources;
@@ -827,7 +827,7 @@
 				848B6EB6224D5A1100E8A3C9 /* searchResponse.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */,
-				84F622BB2310016D00D5D6BA /* withdrawalMetadataError.json in Resources */,
+				84F622BB2310016D00D5D6BA /* feeNotAvailable.json in Resources */,
 				84FA00982269BB33005DA950 /* historyEmptyResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -836,7 +836,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84F622BC2310017200D5D6BA /* withdrawalMetadataError.json in Resources */,
+				84F622BC2310017200D5D6BA /* feeNotAvailable.json in Resources */,
 				84AF3DD022967639008725C3 /* contactsResponse.json in Resources */,
 				848B6ED5224D7B2300E8A3C9 /* searchResponse.json in Resources */,
 				848B6ED4224D7B2300E8A3C9 /* successResultResponse.json in Resources */,
@@ -928,7 +928,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkOperationFactoryProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawAmount/ViewModel/WithdrawFeeViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletPresentationCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/AssetDetailsCommand.swift\" \\\n";
+			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkOperationFactoryProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/FeeViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletPresentationCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/AssetDetailsCommand.swift\" \\\n";
 		};
 		8489659A2253A3A300EBAC6D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

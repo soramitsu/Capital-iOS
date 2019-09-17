@@ -72,7 +72,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let coordinator = MockWithdrawAmountCoordinatorProtocol()
 
             let assetViewModelObserver = MockAssetSelectionViewModelObserver()
-            let feeViewModelObserver = MockWithdrawFeeViewModelObserver()
+            let feeViewModelObserver = MockFeeViewModelObserver()
 
             // when
 

@@ -8,6 +8,7 @@ protocol AmountViewProtocol: ControllerBackedProtocol, LoadableViewProtocol, Ale
     func set(amountViewModel: AmountInputViewModelProtocol)
     func set(descriptionViewModel: DescriptionInputViewModelProtocol)
     func set(accessoryViewModel: AccessoryViewModelProtocol)
+    func set(feeViewModel: FeeViewModelProtocol)
 }
 
 

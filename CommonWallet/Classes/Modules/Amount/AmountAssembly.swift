@@ -22,23 +22,22 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            guard let balanceDataProvider = try? dataProviderFactory.createBalanceDataProvider() else {
-                return nil
-            }
-
             let assetSelectionFactory = AssetSelectionFactory(amountFormatter: resolver.amountFormatter)
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
+            let inputValidatorFactory = resolver.inputValidatorFactory
+            let transferViewModelFactory = AmountViewModelFactory(amountFormatter: resolver.amountFormatter,
+                                                                  amountLimit: resolver.transferAmountLimit,
+                                                                  descriptionValidatorFactory: inputValidatorFactory)
 
             let presenter = try  AmountPresenter(view: view,
                                                  coordinator: coordinator,
-                                                 balanceDataProvider: balanceDataProvider,
+                                                 dataProviderFactory: dataProviderFactory,
                                                  account: resolver.account,
                                                  payload: payload,
+                                                 transferViewModelFactory: transferViewModelFactory,
                                                  assetSelectionFactory: assetSelectionFactory,
-                                                 accessoryFactory: accessoryViewModelFactory,
-                                                 amountLimit: resolver.transferAmountLimit,
-                                                 inputValidatorFactory: resolver.inputValidatorFactory)
+                                                 accessoryFactory: accessoryViewModelFactory)
             view.presenter = presenter
 
             return view

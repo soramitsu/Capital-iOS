@@ -10,7 +10,7 @@ protocol WithdrawAmountViewProtocol: ControllerBackedProtocol, LoadableViewProto
     func set(assetViewModel: AssetSelectionViewModelProtocol)
     func set(amountViewModel: AmountInputViewModelProtocol)
     func set(descriptionViewModel: DescriptionInputViewModelProtocol)
-    func set(feeViewModel: WithdrawFeeViewModelProtocol)
+    func set(feeViewModel: FeeViewModelProtocol)
     func didChange(accessoryViewModel: AccessoryViewModelProtocol)
 }
 
