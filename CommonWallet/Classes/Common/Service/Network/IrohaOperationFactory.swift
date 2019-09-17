@@ -18,7 +18,7 @@ private struct Constants {
         .subtracting(CharacterSet(charactersIn: "+"))
 }
 
-extension IrohaOperationFactoryProtocol {
+public extension IrohaOperationFactoryProtocol {
     func fetchBalanceOperation(_ urlTemplate: String, assets: [IRAssetId]) -> NetworkOperation<[BalanceData]> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
