@@ -7,11 +7,11 @@ import Foundation
 import IrohaCommunication
 
 public struct TransferInfo {
-    var source: IRAccountId
-    var destination: IRAccountId
-    var amount: IRAmount
-    var asset: IRAssetId
-    var details: String
-    var feeAccountId: IRAccountId?
-    var fee: IRAmount?
+    public var source: IRAccountId
+    public var destination: IRAccountId
+    public var amount: IRAmount
+    public var asset: IRAssetId
+    public var details: String
+    public var feeAccountId: IRAccountId?
+    public var fee: IRAmount?
 }

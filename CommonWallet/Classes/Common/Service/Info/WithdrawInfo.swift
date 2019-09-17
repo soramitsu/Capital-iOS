@@ -7,10 +7,10 @@ import Foundation
 import IrohaCommunication
 
 public struct WithdrawInfo {
-    var destinationAccountId: IRAccountId
-    var assetId: IRAssetId
-    var amount: IRAmount
-    var details: String
-    var feeAccountId: IRAccountId?
-    var fee: IRAmount?
+    public var destinationAccountId: IRAccountId
+    public var assetId: IRAssetId
+    public var amount: IRAmount
+    public var details: String
+    public var feeAccountId: IRAccountId?
+    public var fee: IRAmount?
 }

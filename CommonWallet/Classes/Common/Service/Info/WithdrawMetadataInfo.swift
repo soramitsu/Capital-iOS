@@ -6,6 +6,6 @@
 import Foundation
 
 public struct WithdrawMetadataInfo: Codable {
-    var assetId: String
-    var option: String
+    public var assetId: String
+    public var option: String
 }
