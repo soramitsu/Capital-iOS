@@ -39,12 +39,16 @@ func createRandomTransferInfo() throws -> TransferInfo {
     let amount = try IRAmountFactory.amount(fromUnsignedInteger: UInt.random(in: 1...1000))
     let asset = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
     let details = UUID().uuidString
+    let feeAccountId: IRAccountId = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
+    let fee = try IRAmountFactory.amount(fromUnsignedInteger: UInt.random(in: 1...10000))
 
     return TransferInfo(source: source,
                         destination: destination,
                         amount: amount,
                         asset: asset,
-                        details: details)
+                        details: details,
+                        feeAccountId: [nil, feeAccountId].randomElement()!,
+                        fee: [nil, fee].randomElement()!)
 }
 
 func createRandomWithdrawInfo() throws -> WithdrawInfo {

@@ -49,6 +49,12 @@ extension DemoFactoryProtocol {
                                       urlMockType: .regex,
                                       body: defaultFilter(for: assets))
 
+        try TransferMetadataMock.register(mock: .success,
+                                          networkResolver: networkResolver,
+                                          requestType: .transferMetadata,
+                                          httpMethod: .get,
+                                          urlMockType: .regex)
+
         try TransferMock.register(mock: .success,
                                   networkResolver: networkResolver,
                                   requestType: .transfer,

@@ -25,6 +25,8 @@
                 <outlet property="descriptionLabel" destination="hI2-zD-twK" id="0rx-jK-9uw"/>
                 <outlet property="descriptionPlaceholderLabel" destination="w75-wp-pgg" id="Vnx-hx-Uhj"/>
                 <outlet property="descriptionTextView" destination="B5m-P3-ydu" id="3gP-fG-DKs"/>
+                <outlet property="feeActivityIndicator" destination="7XW-bK-PrR" id="cQI-WE-sJJ"/>
+                <outlet property="feeTitleLabel" destination="2bY-Bh-qYs" id="plg-ZR-101"/>
                 <outlet property="scrollView" destination="IOD-QX-eJR" id="Bqh-1S-kH5"/>
                 <outlet property="view" destination="iN0-l3-epB" id="V7i-Qe-CuW"/>
             </connections>
@@ -81,22 +83,22 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69V-4T-9bH" customClass="BorderedContainerView" customModule="SoraUI">
-                            <rect key="frame" x="20" y="54" width="335" height="105"/>
+                            <rect key="frame" x="20" y="54" width="335" height="134"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HK4-Di-jYi">
-                                    <rect key="frame" x="0.0" y="19" width="335" height="19"/>
+                                    <rect key="frame" x="0.0" y="17" width="335" height="19"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="£" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dn7-iT-hm5">
-                                    <rect key="frame" x="0.0" y="49" width="17" height="35"/>
+                                    <rect key="frame" x="0.0" y="40" width="17" height="35"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="csw-SL-z5r">
-                                    <rect key="frame" x="17" y="49" width="318" height="35"/>
+                                    <rect key="frame" x="17" y="40" width="318" height="35"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
@@ -104,17 +106,30 @@
                                         <outlet property="delegate" destination="-1" id="Pza-EU-exZ"/>
                                     </connections>
                                 </textField>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Transaction fee" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bY-Bh-qYs">
+                                    <rect key="frame" x="0.0" y="100" width="118" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7XW-bK-PrR">
+                                    <rect key="frame" x="128" y="100.5" width="20" height="20"/>
+                                </activityIndicatorView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="HK4-Di-jYi" firstAttribute="top" secondItem="69V-4T-9bH" secondAttribute="top" constant="19" id="BxN-dG-4uU"/>
+                                <constraint firstItem="HK4-Di-jYi" firstAttribute="top" secondItem="69V-4T-9bH" secondAttribute="top" constant="17" id="BxN-dG-4uU"/>
                                 <constraint firstAttribute="trailing" secondItem="csw-SL-z5r" secondAttribute="trailing" id="DnG-du-Ac5"/>
                                 <constraint firstItem="dn7-iT-hm5" firstAttribute="centerY" secondItem="csw-SL-z5r" secondAttribute="centerY" id="Fba-mE-aVD"/>
+                                <constraint firstItem="7XW-bK-PrR" firstAttribute="centerY" secondItem="2bY-Bh-qYs" secondAttribute="centerY" id="Isf-mh-42p"/>
                                 <constraint firstAttribute="trailing" secondItem="HK4-Di-jYi" secondAttribute="trailing" id="LOa-BM-TGt"/>
                                 <constraint firstItem="HK4-Di-jYi" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" id="Trx-gY-609"/>
-                                <constraint firstAttribute="bottom" secondItem="csw-SL-z5r" secondAttribute="bottom" constant="21" id="XYK-PF-yQq"/>
+                                <constraint firstAttribute="bottom" secondItem="csw-SL-z5r" secondAttribute="bottom" constant="59" id="XYK-PF-yQq"/>
+                                <constraint firstItem="7XW-bK-PrR" firstAttribute="leading" secondItem="2bY-Bh-qYs" secondAttribute="trailing" constant="10" id="YI8-8t-pTG"/>
+                                <constraint firstAttribute="bottom" secondItem="2bY-Bh-qYs" secondAttribute="bottom" constant="13" id="aM9-mH-Ltl"/>
                                 <constraint firstItem="dn7-iT-hm5" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" id="arb-pe-3qr"/>
-                                <constraint firstAttribute="height" constant="105" id="f2G-ky-FV4"/>
+                                <constraint firstAttribute="height" constant="134" id="f2G-ky-FV4"/>
+                                <constraint firstItem="2bY-Bh-qYs" firstAttribute="leading" secondItem="69V-4T-9bH" secondAttribute="leading" id="k6a-FJ-9AG"/>
                                 <constraint firstItem="csw-SL-z5r" firstAttribute="leading" secondItem="dn7-iT-hm5" secondAttribute="trailing" id="lWA-91-NKa"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
@@ -131,19 +146,19 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hI2-zD-twK">
-                            <rect key="frame" x="20" y="178" width="335" height="19"/>
+                            <rect key="frame" x="20" y="207" width="335" height="19"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maximum 150 symbols" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w75-wp-pgg">
-                            <rect key="frame" x="20" y="207" width="335" height="19"/>
+                            <rect key="frame" x="20" y="236" width="335" height="19"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Text about what happened" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="B5m-P3-ydu">
-                            <rect key="frame" x="14" y="199" width="341" height="45"/>
+                            <rect key="frame" x="14" y="228" width="341" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="kKN-tF-4TZ"/>

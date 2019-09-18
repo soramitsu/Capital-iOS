@@ -5,14 +5,13 @@
 
 import Foundation
 
-public struct WithdrawMetaData: Codable, Equatable {
-    var providerAccountId: String
+public struct TransferMetaData: Codable, Equatable {
     var feeAccountId: String?
     var feeType: String
     var feeRate: String
 }
 
-public extension WithdrawMetaData {
+public extension TransferMetaData {
     var feeRateDecimal: Decimal? {
         return Decimal(string: feeRate)
     }

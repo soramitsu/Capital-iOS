@@ -84,7 +84,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let coordinator = MockWithdrawAmountCoordinatorProtocol()
 
         let assetViewModelObserver = MockAssetSelectionViewModelObserver()
-        let feeViewModelObserver = MockWithdrawFeeViewModelObserver()
+        let feeViewModelObserver = MockFeeViewModelObserver()
 
         // when
 
@@ -97,7 +97,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let balanceLoadedExpectation = XCTestExpectation()
         let feeLoadingCompleteExpectation = XCTestExpectation()
 
-        var feeViewModel: WithdrawFeeViewModelProtocol?
+        var feeViewModel: FeeViewModelProtocol?
 
         stub(view) { stub in
             when(stub).set(title: any(String.self)).then { _ in
@@ -157,6 +157,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                     selectedAsset: walletAsset,
                                                     selectedOption: withdrawOption,
                                                     dataProviderFactory: dataProviderFactory,
+                                                    feeCalculationFactory: FeeCalculationFactory(),
                                                     withdrawViewModelFactory: viewModelFactory,
                                                     assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
 

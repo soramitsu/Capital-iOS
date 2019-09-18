@@ -37,7 +37,7 @@ final class WithdrawAmountViewController: AccessoryViewController {
     private var assetSelectionViewModel: AssetSelectionViewModelProtocol?
     private var amountInputViewModel: AmountInputViewModelProtocol?
     private var descriptionInputViewModel: DescriptionInputViewModelProtocol?
-    private var feeViewModel: WithdrawFeeViewModelProtocol?
+    private var feeViewModel: FeeViewModelProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -214,7 +214,7 @@ extension WithdrawAmountViewController: WithdrawAmountViewProtocol {
         updateConfirmationState()
     }
 
-    func set(feeViewModel: WithdrawFeeViewModelProtocol) {
+    func set(feeViewModel: FeeViewModelProtocol) {
         self.feeViewModel?.observable.remove(observer: self)
         feeTitleLabel.text = feeViewModel.title
 
@@ -264,7 +264,7 @@ extension WithdrawAmountViewController: AmountInputViewModelObserver {
     }
 }
 
-extension WithdrawAmountViewController: WithdrawFeeViewModelObserver {
+extension WithdrawAmountViewController: FeeViewModelObserver {
     func feeTitleDidChange() {
         if let viewModel = feeViewModel {
             feeTitleLabel.text = viewModel.title

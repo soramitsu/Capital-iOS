@@ -24,6 +24,7 @@ protocol ResolverProtocol: class {
     var commandFactory: WalletCommandFactoryProtocol { get }
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol { get }
+    var feeCalculationFactory: FeeCalculationFactoryProtocol { get }
 }
 
 final class Resolver: ResolverProtocol {
@@ -35,15 +36,17 @@ final class Resolver: ResolverProtocol {
     var contactsConfiguration: ContactsConfigurationProtocol
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol
+    var feeCalculationFactory: FeeCalculationFactoryProtocol
+    var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     var navigation: NavigationProtocol?
 
     lazy var style: WalletStyleProtocol = WalletStyle()
     lazy var amountFormatter: NumberFormatter = NumberFormatter()
     lazy var statusDateFormatter: DateFormatter = DateFormatter.statusDateFormatter
     var transferAmountLimit: Decimal = 1e+7
-    var logger: WalletLoggerProtocol?
     var transactionTypeList: [WalletTransactionType] = []
-    var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
+
+    var logger: WalletLoggerProtocol?
 
     var commandFactory: WalletCommandFactoryProtocol { return self }
 
@@ -54,7 +57,8 @@ final class Resolver: ResolverProtocol {
          historyConfiguration: HistoryConfigurationProtocol,
          contactsConfiguration: ContactsConfigurationProtocol,
          invoiceScanConfiguration: InvoiceScanConfigurationProtocol,
-         inputValidatorFactory: WalletInputValidatorFactoryProtocol) {
+         inputValidatorFactory: WalletInputValidatorFactoryProtocol,
+         feeCalculationFactory: FeeCalculationFactoryProtocol) {
         self.account = account
         self.networkResolver = networkResolver
         self.networkOperationFactory = networkOperationFactory
@@ -63,5 +67,6 @@ final class Resolver: ResolverProtocol {
         self.contactsConfiguration = contactsConfiguration
         self.invoiceScanConfiguration = invoiceScanConfiguration
         self.inputValidatorFactory = inputValidatorFactory
+        self.feeCalculationFactory = feeCalculationFactory
     }
 }

@@ -11,17 +11,23 @@ import IrohaCommunication
 class AmountInputConfirmationTests: NetworkBaseTests {
 
     func testSuccessfullAmountInput() {
-        performConfirmationTest(for: "100", inputDescription: "", expectsSuccess: true)
-        performConfirmationTest(for: "100", inputDescription: "Description", expectsSuccess: true)
+        let networkResolver = MockNetworkResolver()
+        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "", expectsSuccess: true)
+        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "Description", expectsSuccess: true)
     }
 
     func testUnsufficientFundsInput() {
-        performConfirmationTest(for: "100000", inputDescription: "", expectsSuccess: false)
+        let networkResolver = MockNetworkResolver()
+        performConfirmationTest(for: networkResolver, inputAmount: "100000", inputDescription: "", expectsSuccess: false)
     }
 
     // MARK: Private
 
-    func performConfirmationTest(for inputAmount: String, inputDescription: String, expectsSuccess: Bool) {
+    private func performConfirmationTest(for networkResolver: WalletNetworkResolverProtocol,
+                                         inputAmount: String,
+                                         inputDescription: String,
+                                         expectsSuccess: Bool,
+                                         beforeConfirmationBlock: (() -> Void)? = nil) {
         do {
             // given
 
@@ -29,8 +35,6 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             let walletAsset = WalletAsset(identifier: assetId, symbol: "A", details: UUID().uuidString)
             let accountSettings = try createRandomAccountSettings(for: [walletAsset],
                                                                   withdrawOptions: [])
-
-            let networkResolver = MockNetworkResolver()
 
             let cacheFacade = CoreDataTestCacheFacade()
 
@@ -40,7 +44,6 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                                                           accountSettings: accountSettings,
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
-            let dataProvider = try dataProviderFactory.createBalanceDataProvider()
 
             let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter())
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
@@ -50,17 +53,31 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             let coordinator = MockAmountCoordinatorProtocol()
 
             let assetSelectionObserver = MockAssetSelectionViewModelObserver()
+            let feeViewModelObserver = MockFeeViewModelObserver()
+
+            try FetchBalanceMock.register(mock: .success,
+                                          networkResolver: networkResolver,
+                                          requestType: .balance,
+                                          httpMethod: .post)
+
+            try TransferMetadataMock.register(mock: .success,
+                                              networkResolver: networkResolver,
+                                              requestType: .transferMetadata,
+                                              httpMethod: .get,
+                                              urlMockType: .regex)
 
             // when
 
             let assetExpectation = XCTestExpectation()
             let amountExpectation = XCTestExpectation()
+            let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
+            let errorExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
 
             let balanceExpectation = XCTestExpectation()
-
-            let completionExpectation = XCTestExpectation()
+            let feeLoadedExpectation = XCTestExpectation()
+            feeLoadedExpectation.expectedFulfillmentCount = 2
 
             var amountViewModel: AmountInputViewModelProtocol?
             var descriptionViewModel: DescriptionInputViewModelProtocol?
@@ -77,6 +94,12 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                     amountExpectation.fulfill()
                 }
 
+                when(stub).set(feeViewModel: any()).then { viewModel in
+                    viewModel.observable.add(observer: feeViewModelObserver)
+
+                    feeExpectation.fulfill()
+                }
+
                 when(stub).set(descriptionViewModel: any()).then { viewModel in
                     descriptionViewModel = viewModel
 
@@ -88,7 +111,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                 }
 
                 when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                    completionExpectation.fulfill()
+                    errorExpectation.fulfill()
                 }
 
                 when(stub).didStartLoading().thenDoNothing()
@@ -97,42 +120,65 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                 when(stub).controller.get.thenReturn(UIViewController())
             }
 
-            stub(coordinator) { stub in
-                when(stub).confirm(with: any(TransferPayload.self)).then { _ in
-                    completionExpectation.fulfill()
-                }
-            }
-
             stub(assetSelectionObserver) { stub in
                 when(stub).assetSelectionDidChangeTitle().then { title in
                     balanceExpectation.fulfill()
                 }
             }
 
-            try FetchBalanceMock.register(mock: .success,
-                                          networkResolver: networkResolver,
-                                          requestType: .balance,
-                                          httpMethod: .post)
+            stub(feeViewModelObserver) { stub in
+                when(stub).feeTitleDidChange().thenDoNothing()
+
+                when(stub).feeLoadingStateDidChange().then {
+                    feeLoadedExpectation.fulfill()
+                }
+            }
+
+            let confirmExpectation = XCTestExpectation()
+
+            var payloadToConfirm: TransferPayload?
+
+            stub(coordinator) { stub in
+                when(stub).confirm(with: any(TransferPayload.self)).then { payload in
+                    payloadToConfirm = payload
+
+                    confirmExpectation.fulfill()
+                }
+            }
 
             let recieverInfo = try createRandomReceiveInfo()
             let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
+            let amountFormatter = NumberFormatter()
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
+            let transferViewModelFactory = AmountViewModelFactory(amountFormatter: amountFormatter,
+                                                                  amountLimit: 1e+6,
+                                                                  descriptionValidatorFactory: inputValidatorFactory)
+
             let presenter = try AmountPresenter(view: view,
                                                 coordinator: coordinator,
-                                                balanceDataProvider: dataProvider,
-                                                account: accountSettings,
                                                 payload: amountPayload,
+                                                dataProviderFactory: dataProviderFactory,
+                                                feeCalculationFactory: FeeCalculationFactory(),
+                                                account: accountSettings,
+                                                transferViewModelFactory: transferViewModelFactory,
                                                 assetSelectionFactory: assetSelectionFactory,
-                                                accessoryFactory: accessoryViewModelFactory,
-                                                amountLimit: 1e+6,
-                                                inputValidatorFactory: inputValidatorFactory)
+                                                accessoryFactory: accessoryViewModelFactory)
 
             presenter.setup()
 
-            wait(for: [assetExpectation, amountExpectation, descriptionExpectation, balanceExpectation, accessoryExpectation], timeout: Constants.networkTimeout)
+            wait(for: [assetExpectation,
+                       amountExpectation,
+                       feeExpectation,
+                       descriptionExpectation,
+                       balanceExpectation,
+                       accessoryExpectation,
+                       feeLoadedExpectation],
+                 timeout: Constants.networkTimeout)
 
             // then
+
+            XCTAssertNil(presenter.confirmationState)
 
             guard let currentAmountViewModel = amountViewModel else {
                 XCTFail("Unexpected empty amount view model")
@@ -149,16 +195,21 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             _ = currentDescriptionViewModel.didReceiveReplacement(inputDescription,
                                                                   for: NSRange(location: 0, length: 0))
 
+            beforeConfirmationBlock?()
+
             presenter.confirm()
 
-            wait(for: [completionExpectation], timeout: Constants.networkTimeout)
+            XCTAssertEqual(presenter.confirmationState, .waiting)
 
             if expectsSuccess {
-                verify(coordinator, times(1)).confirm(with: any(TransferPayload.self))
+                wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
+
+                XCTAssertEqual(payloadToConfirm?.transferInfo.amount.value, inputAmount)
             } else {
-                verify(view, times(1)).showAlert(title: any(), message: any(),
-                                                        actions: any(), completion: any())
+                wait(for: [errorExpectation], timeout: Constants.networkTimeout)
             }
+
+            XCTAssertNil(presenter.confirmationState)
 
         } catch {
             XCTFail("\(error)")

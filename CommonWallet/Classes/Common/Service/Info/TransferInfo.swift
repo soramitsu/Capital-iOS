@@ -12,4 +12,6 @@ public struct TransferInfo {
     var amount: IRAmount
     var asset: IRAssetId
     var details: String
+    var feeAccountId: IRAccountId?
+    var fee: IRAmount?
 }

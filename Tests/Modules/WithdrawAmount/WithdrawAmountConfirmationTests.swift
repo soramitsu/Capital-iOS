@@ -72,7 +72,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let coordinator = MockWithdrawAmountCoordinatorProtocol()
 
             let assetViewModelObserver = MockAssetSelectionViewModelObserver()
-            let feeViewModelObserver = MockWithdrawFeeViewModelObserver()
+            let feeViewModelObserver = MockFeeViewModelObserver()
 
             // when
 
@@ -176,6 +176,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                         selectedAsset: selectedAsset,
                                                         selectedOption: selectionOption,
                                                         dataProviderFactory: dataProviderFactory,
+                                                        feeCalculationFactory: FeeCalculationFactory(),
                                                         withdrawViewModelFactory: viewModelFactory,
                                                         assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
 

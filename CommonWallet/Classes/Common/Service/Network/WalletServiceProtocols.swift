@@ -13,6 +13,7 @@ typealias BoolResultCompletionBlock = (OperationResult<Bool>?) -> Void
 typealias EmptyResultCompletionBlock = (OperationResult<Void>?) -> Void
 typealias SearchCompletionBlock = (OperationResult<[SearchData]>?) -> Void
 typealias WithdrawalMetadataCompletionBlock = (OperationResult<WithdrawMetaData>?) -> Void
+typealias TransferMetadataCompletionBlock = (OperationResult<TransferMetaData>?) -> Void
 
 protocol WalletServiceProtocol {
     
@@ -25,7 +26,12 @@ protocol WalletServiceProtocol {
     func fetchTransactionHistory(for filter: WalletHistoryRequest,
                                  pagination: OffsetPagination,
                                  runCompletionIn queue: DispatchQueue,
-                                 completionBlock: @escaping TransactionHistoryBlock) throws -> Operation
+                                 completionBlock: @escaping TransactionHistoryBlock) -> Operation
+
+    @discardableResult
+    func fetchTransferMetadata(for assetId: IRAssetId,
+                               runCompletionIn queue: DispatchQueue,
+                               completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation
 
     @discardableResult
     func transfer(info: TransferInfo,

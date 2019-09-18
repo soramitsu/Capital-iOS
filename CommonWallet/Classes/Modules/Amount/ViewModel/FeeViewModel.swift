@@ -5,19 +5,19 @@
 
 import Foundation
 
-@objc protocol WithdrawFeeViewModelObserver {
+@objc protocol FeeViewModelObserver {
     @objc optional func feeTitleDidChange()
     @objc optional func feeLoadingStateDidChange()
 }
 
-protocol WithdrawFeeViewModelProtocol: class {
+protocol FeeViewModelProtocol: class {
     var title: String { get }
     var isLoading: Bool { get }
 
-    var observable: WalletViewModelObserverContainer<WithdrawFeeViewModelObserver> { get }
+    var observable: WalletViewModelObserverContainer<FeeViewModelObserver> { get }
 }
 
-final class WithdrawFeeViewModel: WithdrawFeeViewModelProtocol {
+final class FeeViewModel: FeeViewModelProtocol {
     var title: String {
         didSet {
             observable.observers.forEach {
@@ -34,7 +34,7 @@ final class WithdrawFeeViewModel: WithdrawFeeViewModelProtocol {
         }
     }
 
-    var observable: WalletViewModelObserverContainer<WithdrawFeeViewModelObserver>
+    var observable: WalletViewModelObserverContainer<FeeViewModelObserver>
 
     init(title: String) {
         self.title = title

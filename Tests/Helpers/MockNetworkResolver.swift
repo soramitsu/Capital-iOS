@@ -20,6 +20,8 @@ struct MockNetworkResolver: WalletNetworkResolverProtocol {
             return Constants.searchUrlTemplate
         case .transfer:
             return Constants.transferUrlTemplate
+        case .transferMetadata:
+            return Constants.transferMetadataUrlTemplate
         case .withdraw:
             return Constants.withdrawUrlTemplate
         case .withdrawalMetadata:

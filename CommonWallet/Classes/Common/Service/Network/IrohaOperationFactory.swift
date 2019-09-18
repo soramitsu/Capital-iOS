@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Foundation
 import IrohaCommunication
 import RobinHood
@@ -87,19 +92,53 @@ extension IrohaOperationFactoryProtocol {
                                 resultFactory: resultFactory)
     }
 
+    func transferMetadataOperation(_ urlTemplate: String, assetId: IRAssetId) -> NetworkOperation<TransferMetaData> {
+        let requestFactory = BlockNetworkRequestFactory {
+            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
+                .withUrlEncoding(allowedCharset: Constants.queryEncoding)
+                .buildParameterURL(assetId.identifier())
+
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = HttpMethod.get.rawValue
+            return request
+        }
+
+        let resultFactory = AnyNetworkResultFactory<TransferMetaData> { data in
+            let resultData = try self.decoder.decode(MultifieldResultData<TransferMetaData>.self, from: data)
+
+            guard resultData.status.isSuccess else {
+                throw ResultStatusError(statusData: resultData.status)
+            }
+
+            return resultData.result
+        }
+
+        return NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
+    }
+
     func transferOperation(_ urlTemplate: String, info: TransferInfo) -> NetworkOperation<Bool> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
             }
 
-            let transaction = try IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
+            var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
                 .transferAsset(info.source,
                                destinationAccount: info.destination,
                                assetId: info.asset,
                                description: info.details,
                                amount: info.amount)
-                .withQuorum(self.accountSettings.transactionQuorum)
+
+            if let fee = info.fee, let feeAccountId = info.feeAccountId {
+                let feeDescription = "transfer fee"
+                transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
+                                                                      destinationAccount: feeAccountId,
+                                                                      assetId: info.asset,
+                                                                      description: feeDescription,
+                                                                      amount: fee)
+            }
+
+            let transaction = try transactionBuilder.withQuorum(self.accountSettings.transactionQuorum)
                 .build()
                 .signed(withSignatories: [self.accountSettings.signer],
                         signatoryPublicKeys: [self.accountSettings.publicKey])

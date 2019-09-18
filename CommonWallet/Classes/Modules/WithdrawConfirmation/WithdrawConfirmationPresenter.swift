@@ -144,7 +144,7 @@ extension WithdrawConfirmationPresenter: WithdrawConfirmationPresenterProtocol {
     func performAction() {
         view?.didStartLoading()
 
-        _ = walletService.withdraw(info: withdrawInfo, runCompletionIn: .main) { [weak self] result in
+        walletService.withdraw(info: withdrawInfo, runCompletionIn: .main) { [weak self] result in
             self?.view?.didStopLoading()
 
             if let result = result {

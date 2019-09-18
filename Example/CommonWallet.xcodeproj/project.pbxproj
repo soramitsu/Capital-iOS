@@ -17,6 +17,10 @@
 		841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 841550E1228D50DA001F18A7 /* transferFailResponse.json */; };
 		841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */; };
 		8416973E225F278F0015E549 /* StyleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416973D225F278F0015E549 /* StyleBuilderTests.swift */; };
+		8418C5702330049700E92394 /* TransferMetadataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */; };
+		8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
+		8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
+		8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */; };
 		8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8425DB8B228160DC008A8B6A /* InfoPlist.strings */; };
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
 		8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */; };
@@ -90,8 +94,8 @@
 		84E048A222C209E700F0CA66 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
 		84E28A552279753B00F7646D /* AmountSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A502279753B00F7646D /* AmountSetupTests.swift */; };
 		84E28A562279753B00F7646D /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A522279753B00F7646D /* ContactsTests.swift */; };
-		84F622BB2310016D00D5D6BA /* withdrawalMetadataError.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */; };
-		84F622BC2310017200D5D6BA /* withdrawalMetadataError.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */; };
+		84F622BB2310016D00D5D6BA /* feeNotAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* feeNotAvailable.json */; };
+		84F622BC2310017200D5D6BA /* feeNotAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* feeNotAvailable.json */; };
 		84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */; };
 		84F77F1B22EF873300152FE2 /* withdrawalMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */; };
 		84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */; };
@@ -141,6 +145,9 @@
 		841550E1228D50DA001F18A7 /* transferFailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferFailResponse.json; sourceTree = "<group>"; };
 		841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionInputViewModelTests.swift; sourceTree = "<group>"; };
 		8416973D225F278F0015E549 /* StyleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuilderTests.swift; sourceTree = "<group>"; };
+		8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMetadataServiceTests.swift; sourceTree = "<group>"; };
+		8418C5712330052200E92394 /* transferMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataResponse.json; sourceTree = "<group>"; };
+		8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeCalculationTests.swift; sourceTree = "<group>"; };
 		8425DB8B228160DC008A8B6A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
 		8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailsTests.swift; sourceTree = "<group>"; };
@@ -202,7 +209,7 @@
 		84D8D9AB22F7315900C9B9C7 /* DialogCommandDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCommandDecorator.swift; sourceTree = "<group>"; };
 		84E28A502279753B00F7646D /* AmountSetupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountSetupTests.swift; sourceTree = "<group>"; };
 		84E28A522279753B00F7646D /* ContactsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
-		84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataError.json; sourceTree = "<group>"; };
+		84F622BA2310016D00D5D6BA /* feeNotAvailable.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = feeNotAvailable.json; sourceTree = "<group>"; };
 		84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawServiceTests.swift; sourceTree = "<group>"; };
 		84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataResponse.json; sourceTree = "<group>"; };
 		84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalMetadataServiceTests.swift; sourceTree = "<group>"; };
@@ -358,6 +365,14 @@
 			path = StyleBuilder;
 			sourceTree = "<group>";
 		};
+		8418C57B2330F94800E92394 /* Fee */ = {
+			isa = PBXGroup;
+			children = (
+				8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */,
+			);
+			path = Fee;
+			sourceTree = "<group>";
+		};
 		8425DB90228172F0008A8B6A /* InvoiceScan */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +400,7 @@
 		8447621C224CE2FC009ADC0E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				8418C57B2330F94800E92394 /* Fee */,
 				8481A57F22FC48400056D3D4 /* InputValidators */,
 				84146E2022B0339F00F18F1C /* Helpers */,
 				844D556722A9313800BA99EF /* View */,
@@ -410,6 +426,7 @@
 				848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */,
 				84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */,
 				84F77F1C22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift */,
+				8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -516,7 +533,8 @@
 				841550E1228D50DA001F18A7 /* transferFailResponse.json */,
 				845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */,
 				84F77F1A22EF873300152FE2 /* withdrawalMetadataResponse.json */,
-				84F622BA2310016D00D5D6BA /* withdrawalMetadataError.json */,
+				84F622BA2310016D00D5D6BA /* feeNotAvailable.json */,
+				8418C5712330052200E92394 /* transferMetadataResponse.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -807,6 +825,7 @@
 				84752C5622A7F6490068188B /* searchInvoiceResponse.json in Resources */,
 				84C180552253AA0400F19858 /* DemoListViewController.xib in Resources */,
 				848B6EB8224D5A1100E8A3C9 /* accounBalanceResponse.json in Resources */,
+				8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */,
 				8B5E81D22268BBA9001DB674 /* contactsResponse.json in Resources */,
 				84F77F1B22EF873300152FE2 /* withdrawalMetadataResponse.json in Resources */,
 				84C1806F22551FCF00F19858 /* DemoHeaderCell.xib in Resources */,
@@ -819,7 +838,7 @@
 				848B6EB6224D5A1100E8A3C9 /* searchResponse.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */,
-				84F622BB2310016D00D5D6BA /* withdrawalMetadataError.json in Resources */,
+				84F622BB2310016D00D5D6BA /* feeNotAvailable.json in Resources */,
 				84FA00982269BB33005DA950 /* historyEmptyResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -828,12 +847,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84F622BC2310017200D5D6BA /* withdrawalMetadataError.json in Resources */,
+				84F622BC2310017200D5D6BA /* feeNotAvailable.json in Resources */,
 				84AF3DD022967639008725C3 /* contactsResponse.json in Resources */,
 				848B6ED5224D7B2300E8A3C9 /* searchResponse.json in Resources */,
 				848B6ED4224D7B2300E8A3C9 /* successResultResponse.json in Resources */,
 				84752C5722A804B70068188B /* searchInvoiceResponse.json in Resources */,
 				84F77F1E22EF8CB200152FE2 /* withdrawalMetadataResponse.json in Resources */,
+				8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */,
 				8B7DC34122B6F952004BFE79 /* historyFilteredResponse.json in Resources */,
 				84AF3DDA2297D442008725C3 /* accountBalanceSingleResponse.json in Resources */,
 				848B6ED7224D7B2300E8A3C9 /* historyResponse.json in Resources */,
@@ -919,7 +939,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkOperationFactoryProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawAmount/ViewModel/WithdrawFeeViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletPresentationCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/AssetDetailsCommand.swift\" \\\n";
+			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/CommonMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Service/QR/WalletQRCaptureService.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkResolver.swift\" \\\n\"$INPUT_DIR/Classes/Common/Service/Network/WalletNetworkOperationFactoryProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Logger/Logger.swift\" \\\n\"$INPUT_DIR/Classes/Common/Resolver/Resolver.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AmountInputViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/AssetSelectionViewModel.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/ViewModel/FeeViewModel.swift\" \\\n\"$INPUT_DIR/Classes/CommonWalletContext.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/WalletPresentationCommand.swift\" \\\n\"$INPUT_DIR/Classes/Common/Commands/AssetDetailsCommand.swift\" \\\n";
 		};
 		8489659A2253A3A300EBAC6D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1070,11 +1090,13 @@
 				848CCE0B22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift in Sources */,
 				841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */,
 				84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */,
+				8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */,
 				844D556922A9315500BA99EF /* AccessoryViewFactoryTests.swift in Sources */,
 				84C180712255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift in Sources */,
 				84AF3DD32296E892008725C3 /* ConfirmationTests.swift in Sources */,
 				848B6ECB224D6B2500E8A3C9 /* ModelGenerator.swift in Sources */,
 				84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */,
+				8418C5702330049700E92394 /* TransferMetadataServiceTests.swift in Sources */,
 				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,
 				8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
