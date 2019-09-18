@@ -129,10 +129,12 @@ final class TransactionDetailsPresenter {
                                                 details: resolver.statusDateFormatter.string(from: transactionDate))
         viewModels.append(timeViewModel)
 
-        let typeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: "Type",
-                                                details: transactionType.displayName)
-        viewModels.append(typeViewModel)
+        if !transactionType.displayName.isEmpty {
+            let typeViewModel = WalletFormViewModel(layoutType: .accessory,
+                                                    title: "Type",
+                                                    details: transactionType.displayName)
+            viewModels.append(typeViewModel)
+        }
 
         if let peerViewModel = createPeerViewModel() {
             viewModels.append(peerViewModel)
