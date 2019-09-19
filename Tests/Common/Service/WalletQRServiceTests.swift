@@ -17,13 +17,28 @@ class WalletQRServiceTests: XCTestCase {
         performTestQrCodeGeneration(for: info, qrSize: CGSize(width: 100.0, height: 100.0))
     }
 
+    func testSmallQrGeneration() {
+        guard let info = try? createRandomReceiveInfo() else {
+            XCTFail()
+            return
+        }
+
+        performTestQrCodeGeneration(for: info, qrSize: CGSize(width: 1.0, height: 1.0))
+    }
+
     func testZeroQrSizeGeneration() {
         guard let info = try? createRandomReceiveInfo() else {
             XCTFail()
             return
         }
 
-        performTestQrCodeGeneration(for: info, qrSize: .zero)
+        performTestQrFailure(for: info, qrSize: .zero) { error in
+            if let operationError = error as? WalletQRCreationOperationError {
+                return operationError == .bitmapImageCreationFailed
+            } else {
+                return false
+            }
+        }
     }
 
     func testQrCodeGenerationCancel() {
@@ -70,7 +85,7 @@ class WalletQRServiceTests: XCTestCase {
                                     }
 
                                     guard let result = optionalResult, case .success(let image) = result else {
-                                        XCTFail()
+                                        XCTFail("Unexpected result")
                                         return
                                     }
 
@@ -81,6 +96,42 @@ class WalletQRServiceTests: XCTestCase {
 
             XCTAssertEqual(qrSize, qrImage?.size)
             XCTAssertEqual(qrImage?.scale, 1.0)
+        } catch {
+            XCTFail("Failed with \(error)")
+        }
+    }
+
+    private func performTestQrFailure(for info: ReceiveInfo, qrSize: CGSize, errorCheckBlock: @escaping (Error) -> Bool) {
+        do {
+            let service = WalletQRService(operationFactory: WalletQROperationFactory())
+
+            let expectation = XCTestExpectation()
+
+            var optionalReceivedError: Error?
+
+            try service.generate(from: info,
+                                 qrSize: qrSize,
+                                 runIn: .main) { (optionalResult) in
+                                    defer {
+                                        expectation.fulfill()
+                                    }
+
+                                    guard let result = optionalResult, case .error(let error) = result else {
+                                        XCTFail()
+                                        return
+                                    }
+
+                                    optionalReceivedError = error
+            }
+
+            wait(for: [expectation], timeout: Constants.networkTimeout)
+
+            guard let receivedError = optionalReceivedError else {
+                XCTFail("Unexpected empty error")
+                return
+            }
+
+            XCTAssert(errorCheckBlock(receivedError))
         } catch {
             XCTFail("Failed with \(error)")
         }
