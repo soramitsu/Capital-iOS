@@ -90,18 +90,18 @@ final class TransactionDetailsPresenter {
     }
 
     private func createAmountFactorViewModels() -> [WalletFormViewModel] {
-        guard let totalAmount = Decimal(string: transactionData.amount) else {
+        guard let amount = Decimal(string: transactionData.amount) else {
             return []
         }
 
         if let feeString = transactionData.fee, let fee = Decimal(string: feeString), fee > 0.0 {
-            let amount = totalAmount - fee
+            let totalAmount = amount + fee
 
             return [createAmountViewModel(for: amount, title: "Amount sent", hasIcon: false),
                     createAmountViewModel(for: fee, title: "Fee", hasIcon: false),
                     createAmountViewModel(for: totalAmount, title: "Total amount", hasIcon: true)]
         } else {
-            return [createAmountViewModel(for: totalAmount, title: "Amount", hasIcon: true)]
+            return [createAmountViewModel(for: amount, title: "Amount", hasIcon: true)]
         }
     }
 
@@ -129,10 +129,12 @@ final class TransactionDetailsPresenter {
                                                 details: resolver.statusDateFormatter.string(from: transactionDate))
         viewModels.append(timeViewModel)
 
-        let typeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: "Type",
-                                                details: transactionType.displayName)
-        viewModels.append(typeViewModel)
+        if !transactionType.displayName.isEmpty {
+            let typeViewModel = WalletFormViewModel(layoutType: .accessory,
+                                                    title: "Type",
+                                                    details: transactionType.displayName)
+            viewModels.append(typeViewModel)
+        }
 
         if let peerViewModel = createPeerViewModel() {
             viewModels.append(peerViewModel)

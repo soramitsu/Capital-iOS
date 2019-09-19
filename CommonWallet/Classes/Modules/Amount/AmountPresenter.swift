@@ -221,7 +221,7 @@ final class AmountPresenter {
             confirmationState = nil
         }
 
-        let message = "Sorry, we coudn't contact trasfer provider. Please, try again later."
+        let message = "Sorry, we coudn't contact transfer provider. Please, try again later."
         view?.showError(message: message)
     }
 
