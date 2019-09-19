@@ -116,7 +116,7 @@ final class TransactionDetailsPresenter {
         let statusViewModel: WalletFormViewModel = createStatusViewModel(for: transactionData.status)
         viewModels.append(statusViewModel)
 
-        if transactionData.status == .rejected, let reason = transactionData.reason {
+        if transactionData.status == .rejected, let reason = transactionData.reason, !reason.isEmpty {
             let reasonViewModel = WalletFormViewModel(layoutType: .details,
                                                       title: "Reason",
                                                       details: reason)
