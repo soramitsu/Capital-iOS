@@ -12,6 +12,7 @@ final class ReceiveAmountPresenter {
     var coordinator: ReceiveAmountCoordinatorProtocol
 
     private(set) var qrService: WalletQRServiceProtocol
+    private(set) var sharingFactory: AccountShareFactoryProtocol
     private(set) var account: WalletAccountSettingsProtocol
     private(set) var assetSelectionFactory: AssetSelectionFactoryProtocol
     private(set) var assetSelectionViewModel: AssetSelectionViewModel
@@ -19,6 +20,7 @@ final class ReceiveAmountPresenter {
     private(set) var preferredQRSize: CGSize?
 
     private var balances: [BalanceData]?
+    private var currentImage: UIImage?
 
     var logger: WalletLoggerProtocol?
 
@@ -33,18 +35,20 @@ final class ReceiveAmountPresenter {
          account: WalletAccountSettingsProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          qrService: WalletQRServiceProtocol,
+         sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
          amountLimit: Decimal) {
         self.view = view
         self.coordinator = coordinator
         self.qrService = qrService
+        self.sharingFactory = sharingFactory
         self.account = account
         self.assetSelectionFactory = assetSelectionFactory
 
         var optionalAsset: WalletAsset?
         var currentAmount: Decimal?
 
-        if let asset = account.asset(for: receiveInfo.assetId.identifier()) {
+        if let assetId = receiveInfo.assetId, let asset = account.asset(for: assetId.identifier()) {
             optionalAsset = asset
 
             if let amount = receiveInfo.amount {
@@ -68,21 +72,12 @@ final class ReceiveAmountPresenter {
     private func generateQR(with size: CGSize) {
         cancelQRGeneration()
 
+        currentImage = nil
+
         do {
-            guard let assetId = assetSelectionViewModel.assetId else {
+            guard let receiveInfo = createReceiveInfo() else {
                 return
             }
-
-            var amount: IRAmount?
-
-            if let decimalAmount = amountInputViewModel.decimalAmount, decimalAmount > 0 {
-                amount = try IRAmountFactory.amount(from: (decimalAmount as NSNumber).stringValue)
-            }
-
-            let receiveInfo = ReceiveInfo(accountId: account.accountId,
-                                          assetId: assetId,
-                                          amount: amount,
-                                          details: nil)
 
             qrOperation = try qrService.generate(from: receiveInfo, qrSize: size,
                                                  runIn: .main) { [weak self] (operationResult) in
@@ -96,6 +91,24 @@ final class ReceiveAmountPresenter {
         }
     }
 
+    private func createReceiveInfo() -> ReceiveInfo? {
+
+        guard let assetId = assetSelectionViewModel.assetId else {
+            return nil
+        }
+
+        var amount: IRAmount?
+
+        if let decimalAmount = amountInputViewModel.decimalAmount, decimalAmount > 0 {
+            amount = try? IRAmountFactory.amount(from: (decimalAmount as NSNumber).stringValue)
+        }
+
+        return ReceiveInfo(accountId: account.accountId,
+                           assetId: assetId,
+                           amount: amount,
+                           details: nil)
+    }
+
     private func cancelQRGeneration() {
         qrOperation?.cancel()
         qrOperation = nil
@@ -104,6 +117,7 @@ final class ReceiveAmountPresenter {
     private func processOperation(result: OperationResult<UIImage>) {
         switch result {
         case .success(let image):
+            currentImage = image
             view?.didReceive(image: image)
         case .error:
             view?.showError(message: "Can't generate QR code")
@@ -142,6 +156,17 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
 
         assetSelectionViewModel.isSelecting = true
+    }
+
+    func share() {
+        if let qrImage = currentImage, let receiveInfo = createReceiveInfo() {
+            let sources = sharingFactory.createSources(for: receiveInfo,
+                                                       qrImage: qrImage)
+
+            coordinator.share(sources: sources,
+                              from: view,
+                              with: nil)
+        }
     }
 }
 

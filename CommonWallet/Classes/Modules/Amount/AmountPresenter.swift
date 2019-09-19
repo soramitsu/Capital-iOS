@@ -64,9 +64,11 @@ final class AmountPresenter {
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol) throws {
 
-        guard
-            let selectedAsset = account.asset(for: payload.receiveInfo.assetId.identifier()) ??
-            account.assets.first else {
+        if let assetId = payload.receiveInfo.assetId, let asset = account.asset(for: assetId.identifier()) {
+            selectedAsset = asset
+        } else if let asset = account.assets.first {
+            selectedAsset = asset
+        } else {
             throw AmountPresenterError.missingSelectedAsset
         }
 
@@ -74,8 +76,6 @@ final class AmountPresenter {
         self.coordinator = coordinator
         self.account = account
         self.payload = payload
-
-        self.selectedAsset = selectedAsset
 
         self.dataProviderFactory = dataProviderFactory
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()

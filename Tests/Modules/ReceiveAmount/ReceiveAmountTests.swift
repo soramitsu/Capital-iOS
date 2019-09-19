@@ -33,6 +33,7 @@ class ReceiveAmountTests: XCTestCase {
                                                  account: accountSettings,
                                                  assetSelectionFactory: assetSelectionFactory,
                                                  qrService: qrService,
+                                                 sharingFactory: AccountShareFactory(),
                                                  receiveInfo: receiveInfo,
                                                  amountLimit: Decimal(1e+6))
 

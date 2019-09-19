@@ -54,6 +54,18 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private var keyboardHandler: KeyboardHandler?
 
+    override var navigationItem: UINavigationItem {
+        let navigationItem = super.navigationItem
+
+        let shareItem = UIBarButtonItem(image: style?.shareIcon,
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(actionShare))
+        navigationItem.rightBarButtonItem = shareItem
+
+        return navigationItem
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -210,6 +222,10 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     // MARK: Action
+
+    @objc private func actionShare() {
+        presenter.share()
+    }
 
     @IBAction private func actionKeyboardControl() {
         if keyboardControl.isActivated {

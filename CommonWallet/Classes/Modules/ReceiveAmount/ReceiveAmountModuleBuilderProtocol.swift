@@ -6,4 +6,7 @@
 import Foundation
 
 
-public protocol ReceiveAmountModuleBuilderProtocol: class {}
+public protocol ReceiveAmountModuleBuilderProtocol: class {
+    @discardableResult
+    func with(accountShareFactory: AccountShareFactoryProtocol) -> Self
+}
