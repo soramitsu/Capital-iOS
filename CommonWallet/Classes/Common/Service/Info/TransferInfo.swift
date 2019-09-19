@@ -7,11 +7,27 @@ import Foundation
 import IrohaCommunication
 
 public struct TransferInfo {
-    var source: IRAccountId
-    var destination: IRAccountId
-    var amount: IRAmount
-    var asset: IRAssetId
-    var details: String
-    var feeAccountId: IRAccountId?
-    var fee: IRAmount?
+    public var source: IRAccountId
+    public var destination: IRAccountId
+    public var amount: IRAmount
+    public var asset: IRAssetId
+    public var details: String
+    public var feeAccountId: IRAccountId?
+    public var fee: IRAmount?
+
+    public init(source: IRAccountId,
+                destination: IRAccountId,
+                amount: IRAmount,
+                asset: IRAssetId,
+                details: String,
+                feeAccountId: IRAccountId?,
+                fee: IRAmount?) {
+        self.source = source
+        self.destination = destination
+        self.amount = amount
+        self.asset = asset
+        self.details = details
+        self.feeAccountId = feeAccountId
+        self.fee = fee
+    }
 }

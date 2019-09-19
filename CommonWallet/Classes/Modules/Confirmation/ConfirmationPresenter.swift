@@ -42,6 +42,74 @@ final class ConfirmationPresenter {
         }
     }
 
+    private func prepareFeeViewModel() -> WalletFormViewModel? {
+        guard
+            let feeString = payload.transferInfo.fee?.value,
+            let feeDecimal = Decimal(string: feeString),
+            let formattedAmount = resolver.amountFormatter.string(from: feeDecimal as NSNumber) else {
+            return nil
+        }
+
+        let details = "\(payload.assetSymbol)\(formattedAmount)"
+
+        return WalletFormViewModel(layoutType: .accessory,
+                                   title: "Transaction Fee",
+                                   details: details)
+    }
+
+    private func prepareSingleAmountViewModel(for amount: String) -> WalletFormViewModel {
+        return WalletFormViewModel(layoutType: .accessory, title: "Amount",
+                                   details: amount,
+                                   icon: resolver.style.amountChangeStyle.decrease)
+    }
+
+    private func prepareAmountViewModels() -> [WalletFormViewModel] {
+        guard
+            let decimalAmount = Decimal(string: payload.transferInfo.amount.value),
+            let formattedAmount = resolver.amountFormatter.string(from: decimalAmount as NSNumber) else {
+                let amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.value)"
+
+                let viewModel = prepareSingleAmountViewModel(for: amount)
+                return [viewModel]
+
+        }
+
+        let amount = "\(payload.assetSymbol)\(formattedAmount)"
+
+        guard
+            let feeString = payload.transferInfo.fee?.value,
+            let decimalFee = Decimal(string: feeString),
+            let formattedFee = resolver.amountFormatter.string(from: decimalFee as NSNumber) else {
+                let viewModel = prepareSingleAmountViewModel(for: amount)
+                return [viewModel]
+        }
+
+        let totalAmountDecimal = decimalAmount + decimalFee
+
+        let amountViewModel = WalletFormViewModel(layoutType: .accessory,
+                                                  title: "Amount to send",
+                                                  details: amount)
+
+        let fee = "\(payload.assetSymbol)\(formattedFee)"
+
+        let feeViewModel = WalletFormViewModel(layoutType: .accessory,
+                                               title: "Transaction fee",
+                                               details: fee)
+
+        var viewModels = [amountViewModel, feeViewModel]
+
+        if let formattedTotalAmount = resolver.amountFormatter.string(from: totalAmountDecimal as NSNumber) {
+            let totalAmount = "\(payload.assetSymbol)\(formattedTotalAmount)"
+            let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
+                                                           title: "Total amount",
+                                                           details: totalAmount,
+                                                           icon: resolver.style.amountChangeStyle.decrease)
+            viewModels.append(totalAmountViewModel)
+        }
+
+        return viewModels
+    }
+
     func provideMainViewModels() {
         var viewModels: [WalletFormViewModel] = []
 
@@ -49,17 +117,9 @@ final class ConfirmationPresenter {
                                               title: "Please check and confirm details",
                                               details: nil))
 
-        let amount: String
-        if let decimalAmount = Decimal(string: payload.transferInfo.amount.value),
-            let formattedAmount = resolver.amountFormatter.string(from: decimalAmount as NSNumber) {
-            amount = "\(payload.assetSymbol)\(formattedAmount)"
-        } else {
-            amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.value)"
-        }
+        let amountViewModels = prepareAmountViewModels()
 
-        viewModels.append(WalletFormViewModel(layoutType: .accessory, title: "Amount",
-                                              details: amount,
-                                              icon: resolver.style.amountChangeStyle.decrease))
+        viewModels.append(contentsOf: amountViewModels)
 
         if !payload.transferInfo.details.isEmpty {
             viewModels.append(WalletFormViewModel(layoutType: .details,

@@ -5,6 +5,10 @@
 
 import Foundation
 
-struct TransactionInfo: Encodable {
-    var transaction: Data
+public struct TransactionInfo: Encodable {
+    public var transaction: Data
+
+    public init(transaction: Data) {
+        self.transaction = transaction
+    }
 }
