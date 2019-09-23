@@ -107,16 +107,27 @@ final class AmountPresenter {
     private func updateFeeViewModel(for asset: WalletAsset) {
         guard
             let amount = amountInputViewModel.decimalAmount,
-            let feeRateString = metadata?.feeRate,
-            let feeRate = Decimal(string: feeRateString) else {
+            let metadata = metadata,
+            let feeRate = metadata.feeRateDecimal else {
                 feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: nil)
                 feeViewModel.isLoading = true
                 return
         }
 
-        let fee = amount * feeRate
-        feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: fee)
-        feeViewModel.isLoading = false
+        do {
+            let feeCalculator = try feeCalculationFactory
+                .createTransferFeeStrategy(for: metadata.feeType,
+                                           assetId: selectedAsset.identifier,
+                                           parameters: [feeRate])
+
+            let fee = try feeCalculator.calculate(for: amount)
+
+            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: fee)
+            feeViewModel.isLoading = false
+        } catch {
+            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: nil)
+            feeViewModel.isLoading = true
+        }
     }
 
     private func updateSelectedAssetViewModel(for newAsset: WalletAsset) {
@@ -276,7 +287,8 @@ final class AmountPresenter {
             let totalAmount = sendingAmount + fee
 
             guard
-                let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
+                let balanceData = balances?
+                    .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
                 let currentAmount =  Decimal(string: balanceData.balance),
                 totalAmount <= currentAmount else {
                     let message = "Sorry, you don't have enough funds to transfer specified amount."
