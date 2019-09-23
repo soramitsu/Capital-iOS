@@ -6,7 +6,11 @@
 import Foundation
 
 
-protocol ReceiveAmountConfigurationProtocol {}
+protocol ReceiveAmountConfigurationProtocol {
+    var accountShareFactory: AccountShareFactoryProtocol { get }
+}
 
 
-struct ReceiveAmountConfiguration: ReceiveAmountConfigurationProtocol {}
+struct ReceiveAmountConfiguration: ReceiveAmountConfigurationProtocol {
+    var accountShareFactory: AccountShareFactoryProtocol
+}

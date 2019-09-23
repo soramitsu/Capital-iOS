@@ -36,6 +36,7 @@ protocol WalletStyleProtocol {
     var keyboardIcon: UIImage? { get }
     var caretColor: UIColor? { get }
     var doneIcon: UIImage? { get }
+    var shareIcon: UIImage? { get }
 }
 
 
@@ -67,6 +68,10 @@ final class WalletStyle: WalletStyleProtocol {
     lazy var doneIcon: UIImage? = UIImage(named: "iconDone",
                                           in: Bundle(for: type(of: self)),
                                           compatibleWith: nil)
+
+    lazy var shareIcon: UIImage? = UIImage(named: "iconShare",
+                                           in: Bundle(for: type(of: self)),
+                                           compatibleWith: nil)
 
     lazy var accessoryListIcon: UIImage? = UIImage(named: "accessoryListIcon",
                                                    in: Bundle(for: type(of: self)),

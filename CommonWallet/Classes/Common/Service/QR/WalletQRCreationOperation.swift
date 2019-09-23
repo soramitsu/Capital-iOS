@@ -10,6 +10,7 @@ import RobinHood
 enum WalletQRCreationOperationError: Error {
     case generatorUnavailable
     case generatedImageInvalid
+    case bitmapImageCreationFailed
 }
 
 final class WalletQRCreationOperation: BaseOperation<UIImage> {
@@ -45,19 +46,29 @@ final class WalletQRCreationOperation: BaseOperation<UIImage> {
             return
         }
 
-        let resultImage: CIImage
+        let transformedImage: CIImage
 
         if qrImage.extent.size.width * qrImage.extent.height > 0.0 {
             let transform = CGAffineTransform(scaleX: qrSize.width / qrImage.extent.width,
                                               y: qrSize.height / qrImage.extent.height)
-            resultImage = qrImage.transformed(by: transform)
+            transformedImage = qrImage.transformed(by: transform)
         } else {
-            resultImage = qrImage
+            transformedImage = qrImage
+        }
+
+        let context = CIContext()
+
+        guard let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) else {
+            if !isCancelled {
+                result = .error(WalletQRCreationOperationError.bitmapImageCreationFailed)
+            }
+
+            return
         }
 
 
         if !isCancelled {
-            result = .success(UIImage(ciImage: resultImage))
+            result = .success(UIImage(cgImage: cgImage))
         }
     }
 }

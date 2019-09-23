@@ -13,11 +13,12 @@ protocol ReceiveAmountViewProtocol: ControllerBackedProtocol, AlertPresentable {
 protocol ReceiveAmountPresenterProtocol: class {
     func setup(qrSize: CGSize)
     func presentAssetSelection()
+    func share()
     func close()
 }
 
 
-protocol ReceiveAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
+protocol ReceiveAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable, SharingPresentable {
     func close()
 }
 

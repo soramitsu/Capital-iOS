@@ -29,6 +29,7 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                                account: resolver.account,
                                                assetSelectionFactory: assetSelectionFactory,
                                                qrService: qrService,
+                                               sharingFactory: resolver.receiveConfiguration.accountShareFactory,
                                                receiveInfo: receiveInfo,
                                                amountLimit: resolver.transferAmountLimit)
         view.presenter = presenter
