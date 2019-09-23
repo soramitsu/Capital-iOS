@@ -4,20 +4,89 @@
 */
 
 import Foundation
+import Photos
 
+final class InvoiceScanCoordinator: NSObject {
+    private weak var galleryDelegate: ImageGalleryDelegate?
 
-final class InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
     let resolver: ResolverProtocol
 
     init(resolver: ResolverProtocol) {
         self.resolver = resolver
     }
 
+    private func presentGallery(from view: ControllerBackedProtocol?,
+                                delegate: ImageGalleryDelegate) {
+        galleryDelegate = delegate
+
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+
+        view?.controller.present(imagePicker,
+                                 animated: true,
+                                 completion: nil)
+    }
+}
+
+extension InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
     func process(payload: AmountPayload) {
         guard let view = AmountAssembly.assembleView(with: resolver, payload: payload) else {
             return
         }
 
         resolver.navigation?.push(view.controller)
+    }
+
+    func presentImageGallery(from view: ControllerBackedProtocol?, delegate: ImageGalleryDelegate) {
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch photoAuthorizationStatus {
+        case .authorized:
+            presentGallery(from: view, delegate: delegate)
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ (newStatus) in
+                DispatchQueue.main.async {
+                    if newStatus ==  PHAuthorizationStatus.authorized {
+                        self.presentGallery(from: view, delegate: delegate)
+                    } else {
+                        delegate.didCompleteImageSelection(from: self,
+                                                           with: ImageGalleryPresentableError.accessDeniedNow)
+                    }
+                }
+            })
+        case .restricted:
+            delegate.didCompleteImageSelection(from: self,
+                                               with: ImageGalleryPresentableError.accessRestricted)
+        case .denied:
+            delegate.didCompleteImageSelection(from: self,
+                                               with: ImageGalleryPresentableError.accessDeniedPreviously)
+        @unknown default:
+            delegate.didCompleteImageSelection(from: self,
+                                               with: ImageGalleryPresentableError.unknownAuthorizationStatus)
+        }
+    }
+}
+
+extension InvoiceScanCoordinator: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    @objc func imagePickerController(_ picker: UIImagePickerController,
+                                     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+
+        if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            galleryDelegate?.didCompleteImageSelection(from: self, with: [originalImage])
+        } else {
+            galleryDelegate?.didCompleteImageSelection(from: self, with: [])
+        }
+
+        galleryDelegate = nil
+
+        picker.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+
+    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        galleryDelegate?.didCompleteImageSelection(from: self, with: [])
+
+        galleryDelegate = nil
+
+        picker.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 }

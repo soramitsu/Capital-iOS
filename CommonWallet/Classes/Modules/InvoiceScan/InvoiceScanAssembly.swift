@@ -19,9 +19,17 @@ final class InvoiceScanAssembly: InvoiceScanAssemblyProtocol {
 
         let presenter = InvoiceScanPresenter(view: view,
                                              coordinator: coordinator,
-                                             qrScanServiceFactory: qrScanServiceFactory,
+                                             currentAccountId: resolver.account.accountId,
                                              networkService: networkService,
-                                             currentAccountId: resolver.account.accountId)
+                                             qrScanServiceFactory: qrScanServiceFactory)
+
+        if resolver.invoiceScanConfiguration.supportsUpload {
+            view.showsUpload = true
+            presenter.qrExtractionService = WalletQRExtractionService(processingQueue: .global())
+        } else {
+            view.showsUpload = false
+        }
+
         presenter.logger = resolver.logger
 
         view.presenter = presenter

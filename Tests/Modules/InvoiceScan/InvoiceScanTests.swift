@@ -103,9 +103,9 @@ class InvoiceScanTests: NetworkBaseTests {
 
             let presenter = InvoiceScanPresenter(view: view,
                                                  coordinator: coordinator,
-                                                 qrScanServiceFactory: qrScanServiceFactory,
+                                                 currentAccountId: accountSettings.accountId,
                                                  networkService: networkService,
-                                                 currentAccountId: accountSettings.accountId)
+                                                 qrScanServiceFactory: qrScanServiceFactory)
 
             stub(qrScanService) { (stub) in
                 when(stub).start().then {
