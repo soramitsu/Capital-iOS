@@ -58,7 +58,17 @@ final class HistoryViewModelFactory {
             throw HistoryViewModelFactoryError.invalidEventAmount
         }
 
-        guard let amountDisplayString = amountFormatter.string(from: (abs(amountValue) as NSNumber)) else {
+        var totalAmountValue = amountValue
+
+        if let transactionType = transactionTypes[transaction.type],
+            !transactionType.isIncome,
+            let feeString = transaction.fee,
+            let feeValue = Decimal(string: feeString) {
+
+            totalAmountValue += feeValue
+        }
+
+        guard let amountDisplayString = amountFormatter.string(from: (totalAmountValue as NSNumber)) else {
             throw HistoryViewModelFactoryError.amountFormattingFailed
         }
 
