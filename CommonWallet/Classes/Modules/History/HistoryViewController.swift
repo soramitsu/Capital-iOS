@@ -67,6 +67,12 @@ final class HistoryViewController: UIViewController {
 
     private var previousNavigationItemState: NavigationItemState?
 
+    /**
+     *  Property is used to avoid forcing layout updates in case layout system is not setup. Otherwise it may cause
+     *  wrong calculations in UITableView.
+     */
+    private var didSetupLayout: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -84,6 +90,12 @@ final class HistoryViewController: UIViewController {
         super.viewDidAppear(animated)
 
         presenter.reloadCache()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        didSetupLayout = true
     }
 
     private func configureStyle() {
@@ -522,7 +534,7 @@ extension HistoryViewController: Draggable {
                     to: dragableState,
                     finalFrame: draggableView.frame)
         } else {
-            update(for: dragableState, progress: Constants.draggableProgressFinal, forcesLayoutUpdate: true)
+            update(for: dragableState, progress: Constants.draggableProgressFinal, forcesLayoutUpdate: didSetupLayout)
         }
 
         updateTableViewAfterTransition(to: dragableState, animated: animated)
@@ -542,7 +554,7 @@ extension HistoryViewController: Draggable {
 
         if draggableState == state {
             applyContentInsets(for: draggableState)
-            update(for: draggableState, progress: Constants.draggableProgressFinal, forcesLayoutUpdate: true)
+            update(for: draggableState, progress: Constants.draggableProgressFinal, forcesLayoutUpdate: didSetupLayout)
         }
     }
 
@@ -550,8 +562,8 @@ extension HistoryViewController: Draggable {
         UIView.beginAnimations(nil, context: nil)
 
         draggableView.frame = finalFrame
-        updateHeaderHeight(for: newState, progress: progress, forcesLayoutUpdate: true)
-        updateContent(for: newState, progress: progress, forcesLayoutUpdate: true)
+        updateHeaderHeight(for: newState, progress: progress, forcesLayoutUpdate: didSetupLayout)
+        updateContent(for: newState, progress: progress, forcesLayoutUpdate: didSetupLayout)
 
         UIView.commitAnimations()
     }
