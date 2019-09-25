@@ -7,10 +7,10 @@ import Foundation
 
 protocol ImageGalleryDelegate: class {
     func didCompleteImageSelection(from gallery: ImageGalleryPresentable, with selectedImages: [UIImage])
-    func didCompleteImageSelection(from gallery: ImageGalleryPresentable, with error: Error)
+    func didFail(in gallery: ImageGalleryPresentable, with error: Error)
 }
 
-enum ImageGalleryPresentableError: Error {
+enum ImageGalleryError: Error {
     case accessDeniedPreviously
     case accessDeniedNow
     case accessRestricted

@@ -49,20 +49,16 @@ extension InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
                     if newStatus ==  PHAuthorizationStatus.authorized {
                         self.presentGallery(from: view, delegate: delegate)
                     } else {
-                        delegate.didCompleteImageSelection(from: self,
-                                                           with: ImageGalleryPresentableError.accessDeniedNow)
+                        delegate.didFail(in: self, with: ImageGalleryError.accessDeniedNow)
                     }
                 }
             })
         case .restricted:
-            delegate.didCompleteImageSelection(from: self,
-                                               with: ImageGalleryPresentableError.accessRestricted)
+            delegate.didFail(in: self, with: ImageGalleryError.accessRestricted)
         case .denied:
-            delegate.didCompleteImageSelection(from: self,
-                                               with: ImageGalleryPresentableError.accessDeniedPreviously)
+            delegate.didFail(in: self, with: ImageGalleryError.accessDeniedPreviously)
         @unknown default:
-            delegate.didCompleteImageSelection(from: self,
-                                               with: ImageGalleryPresentableError.unknownAuthorizationStatus)
+            delegate.didFail(in: self, with: ImageGalleryError.unknownAuthorizationStatus)
         }
     }
 }

@@ -58,7 +58,7 @@ final class InvoiceScanPresenter {
             return
         }
 
-        if let imageGalleryError = error as? ImageGalleryPresentableError {
+        if let imageGalleryError = error as? ImageGalleryError {
             handleImageGallery(error: imageGalleryError)
         }
 
@@ -94,7 +94,7 @@ final class InvoiceScanPresenter {
         }
     }
 
-    private func handleImageGallery(error: ImageGalleryPresentableError) {
+    private func handleImageGallery(error: ImageGalleryError) {
         switch error {
         case .accessRestricted:
             view?.present(message: "Unfortunatelly, access to the photos is restricted.", animated: true)
@@ -279,7 +279,7 @@ extension InvoiceScanPresenter: ImageGalleryDelegate {
         }
     }
 
-    func didCompleteImageSelection(from gallery: ImageGalleryPresentable, with error: Error) {
+    func didFail(in gallery: ImageGalleryPresentable, with error: Error) {
         handleQRService(error: error)
     }
 }
