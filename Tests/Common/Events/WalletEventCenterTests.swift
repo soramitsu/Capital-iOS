@@ -16,7 +16,7 @@ class WalletEventCenterTests: XCTestCase {
         let expectationObserver1 = XCTestExpectation()
 
         stub(observer1) { stub in
-            stub.processTransactionsUpdate(event: any()).then { _ in
+            stub.processAccountUpdate(event: any()).then { _ in
                 expectationObserver1.fulfill()
             }
         }
@@ -24,7 +24,7 @@ class WalletEventCenterTests: XCTestCase {
         let expectationObserver2 = XCTestExpectation()
 
         stub(observer2) { stub in
-            stub.processTransactionsUpdate(event: any()).then { _ in
+            stub.processAccountUpdate(event: any()).then { _ in
                 expectationObserver2.fulfill()
             }
         }
@@ -32,7 +32,7 @@ class WalletEventCenterTests: XCTestCase {
         eventCenter.add(observer: observer1, dispatchIn: nil)
         eventCenter.add(observer: observer2, dispatchIn: nil)
 
-        eventCenter.notify(with: TransactionsUpdateEvent(transactions: []))
+        eventCenter.notify(with: AccountUpdateEvent())
 
         // then
 
@@ -45,18 +45,18 @@ class WalletEventCenterTests: XCTestCase {
         let completionExpectation = XCTestExpectation()
 
         stub(observer2) { stub in
-            stub.processTransactionsUpdate(event: any()).then { _ in
+            stub.processAccountUpdate(event: any()).then { _ in
                 completionExpectation.fulfill()
             }
         }
 
-        eventCenter.notify(with: TransactionsUpdateEvent(transactions: []))
+        eventCenter.notify(with: AccountUpdateEvent())
 
         // then
 
         wait(for: [completionExpectation], timeout: Constants.networkTimeout)
 
-        verify(observer1, times(1)).processTransactionsUpdate(event: any())
-        verify(observer2, times(2)).processTransactionsUpdate(event: any())
+        verify(observer1, times(1)).processAccountUpdate(event: any())
+        verify(observer2, times(2)).processAccountUpdate(event: any())
     }
 }

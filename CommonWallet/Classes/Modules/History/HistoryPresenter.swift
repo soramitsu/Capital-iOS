@@ -417,7 +417,7 @@ extension HistoryPresenter: WalletEventVisitorProtocol {
         dataProvider.refreshCache()
     }
 
-    func processTransactionsUpdate(event: TransactionsUpdateEvent) {
+    func processAccountUpdate(event: AccountUpdateEvent) {
         dataProvider.refreshCache()
     }
 }

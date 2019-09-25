@@ -109,7 +109,7 @@ extension AccountListPresenter: WalletEventVisitorProtocol {
         balanceDataProvider.refreshCache()
     }
 
-    func processTransactionsUpdate(event: TransactionsUpdateEvent) {
+    func processAccountUpdate(event: AccountUpdateEvent) {
         balanceDataProvider.refreshCache()
     }
 }

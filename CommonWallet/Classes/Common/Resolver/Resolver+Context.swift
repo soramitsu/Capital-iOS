@@ -43,4 +43,8 @@ extension Resolver: CommonWalletContextProtocol {
     func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol {
         return ControllerPresentationCommand(resolver: self, controller: controller)
     }
+
+    func prepareAccountUpdateCommand() -> WalletCommandProtocol {
+        return AccountUpdateCommand(resolver: self)
+    }
 }
