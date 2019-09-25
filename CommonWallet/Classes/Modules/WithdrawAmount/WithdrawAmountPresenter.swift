@@ -89,16 +89,28 @@ final class WithdrawAmountPresenter {
     private func updateFeeViewModel(for asset: WalletAsset) {
         guard
             let amount = amountInputViewModel.decimalAmount,
-            let feeRateString = metadata?.feeRate,
-            let feeRate = Decimal(string: feeRateString) else {
+            let metadata = metadata,
+            let feeRate = metadata.feeRateDecimal else {
                 feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: nil)
                 feeViewModel.isLoading = true
                 return
         }
 
-        let fee = amount * feeRate
-        feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: fee)
-        feeViewModel.isLoading = false
+        do {
+            let calculator = try feeCalculationFactory
+                .createWithdrawFeeStrategy(for: metadata.feeType,
+                                           assetId: selectedAsset.identifier,
+                                           optionId: selectedOption.identifier,
+                                           parameters: [feeRate])
+            let fee = try calculator.calculate(for: amount)
+
+            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: fee)
+            feeViewModel.isLoading = false
+        } catch {
+            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: nil)
+            feeViewModel.isLoading = true
+        }
+
     }
 
     private func updateAccessoryViewModel(for asset: WalletAsset) {

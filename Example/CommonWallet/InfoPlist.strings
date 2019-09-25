@@ -1,1 +1,2 @@
 "NSCameraUsageDescription" = "Camera is used to capture QR code";
+"NSPhotoLibraryUsageDescription" = "Upload QR code from photo library";

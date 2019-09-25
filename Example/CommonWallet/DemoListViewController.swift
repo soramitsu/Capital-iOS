@@ -49,6 +49,8 @@ extension DemoListViewController: UITableViewDelegate {
                 self.dismiss(animated: true, completion: nil)
             }
 
+            wallet.modalPresentationStyle = .fullScreen
+
             present(wallet, animated: true, completion: nil)
         } catch {
             print("Can't create demo \(error)")

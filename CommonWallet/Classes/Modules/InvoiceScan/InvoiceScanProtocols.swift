@@ -16,10 +16,11 @@ protocol InvoiceScanPresenterProtocol: class {
     func handleAppearance()
     func prepareDismiss()
     func handleDismiss()
+    func activateImport()
 }
 
 
-protocol InvoiceScanCoordinatorProtocol: ApplicationSettingsPresentable {
+protocol InvoiceScanCoordinatorProtocol: ApplicationSettingsPresentable, ImageGalleryPresentable {
     func process(payload: AmountPayload)
 }
 

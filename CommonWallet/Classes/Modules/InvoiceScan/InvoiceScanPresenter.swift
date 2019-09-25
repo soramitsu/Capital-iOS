@@ -21,35 +21,51 @@ final class InvoiceScanPresenter {
 
     var logger: WalletLoggerProtocol?
 
-    private(set) var qrScanService: WalletQRCaptureServiceProtocol
-    private(set) var qrMatcher = InvoiceScanMatcher()
     private(set) var networkService: WalletServiceProtocol
     private(set) var currentAccountId: IRAccountId
-
     private(set) var scanState: ScanState = .initializing(accessRequested: false)
+
+    private let qrScanService: WalletQRCaptureServiceProtocol
+    private let qrScanMatcher = InvoiceScanMatcher()
+
+    var qrExtractionService: WalletQRExtractionServiceProtocol?
 
     init(view: InvoiceScanViewProtocol,
          coordinator: InvoiceScanCoordinatorProtocol,
-         qrScanServiceFactory: WalletQRCaptureServiceFactoryProtocol,
+         currentAccountId: IRAccountId,
          networkService: WalletServiceProtocol,
-         currentAccountId: IRAccountId) {
+         qrScanServiceFactory: WalletQRCaptureServiceFactoryProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.networkService = networkService
         self.currentAccountId = currentAccountId
 
-        self.qrScanService = qrScanServiceFactory.createService(with: qrMatcher,
+        self.qrScanService = qrScanServiceFactory.createService(with: qrScanMatcher,
                                                                 delegate: nil,
                                                                 delegateQueue: nil)
+
         self.qrScanService.delegate = self
     }
 
     private func handleQRService(error: Error) {
-        guard let qrServiceError = error as? WalletQRCaptureServiceError else {
-            logger?.error("Unexpected qr service error \(error)")
+        if let captureError = error as? WalletQRCaptureServiceError {
+            handleQRCaptureService(error: captureError)
             return
         }
 
+        if let extractionError = error as? WalletQRExtractionServiceError {
+            handleQRExtractionService(error: extractionError)
+            return
+        }
+
+        if let imageGalleryError = error as? ImageGalleryError {
+            handleImageGallery(error: imageGalleryError)
+        }
+
+        logger?.error("Unexpected qr service error \(error)")
+    }
+
+    private func handleQRCaptureService(error: WalletQRCaptureServiceError) {
         guard case .initializing(let alreadyAskedAccess) = scanState, !alreadyAskedAccess else {
             logger?.warning("Requested to ask access but already done earlier")
             return
@@ -57,12 +73,34 @@ final class InvoiceScanPresenter {
 
         scanState = .initializing(accessRequested: true)
 
-        switch qrServiceError {
+        switch error {
         case .deviceAccessRestricted:
             view?.present(message: "Unfortunatelly, access to the camera is restricted.", animated: true)
         case .deviceAccessDeniedPreviously:
             let message = "Unfortunatelly, you denied access to camera previously. Would you like to allow access now?"
             let title = "Camera Access"
+            coordinator.askOpenApplicationSettins(with: message, title: title, from: view)
+        default:
+            break
+        }
+    }
+
+    private func handleQRExtractionService(error: WalletQRExtractionServiceError) {
+        switch error {
+        case .noFeatures:
+            view?.present(message: "No valid receiver information found", animated: true)
+        case .detectorUnavailable, .invalidImage:
+            view?.present(message: "Can't process selected image", animated: true)
+        }
+    }
+
+    private func handleImageGallery(error: ImageGalleryError) {
+        switch error {
+        case .accessRestricted:
+            view?.present(message: "Unfortunatelly, access to the photos is restricted.", animated: true)
+        case .accessDeniedPreviously:
+            let message = "Unfortunatelly, you denied access to photos previously. Would you like to allow access now?"
+            let title = "Photos Access"
             coordinator.askOpenApplicationSettins(with: message, title: title, from: view)
         default:
             break
@@ -181,6 +219,12 @@ extension InvoiceScanPresenter: InvoiceScanPresenterProtocol {
     func handleDismiss() {
         qrScanService.stop()
     }
+
+    func activateImport() {
+        if qrExtractionService != nil {
+            coordinator.presentImageGallery(from: view, delegate: self)
+        }
+    }
 }
 
 extension InvoiceScanPresenter: WalletQRCaptureServiceDelegate {
@@ -191,7 +235,7 @@ extension InvoiceScanPresenter: WalletQRCaptureServiceDelegate {
     }
 
     func qrCapture(service: WalletQRCaptureServiceProtocol, didMatch code: String) {
-        guard let receiverInfo = qrMatcher.receiverInfo else {
+        guard let receiverInfo = qrScanMatcher.receiverInfo else {
             logger?.warning("Can't find receiver's info for matched code")
             return
         }
@@ -211,5 +255,31 @@ extension InvoiceScanPresenter: WalletQRCaptureServiceDelegate {
         DispatchQueue.main.async {
             self.handleQRService(error: error)
         }
+    }
+}
+
+extension InvoiceScanPresenter: ImageGalleryDelegate {
+    func didCompleteImageSelection(from gallery: ImageGalleryPresentable,
+                                   with selectedImages: [UIImage]) {
+        if let image = selectedImages.first {
+            let matcher = InvoiceScanMatcher()
+
+            qrExtractionService?.extract(from: image,
+                                         using: matcher,
+                                         dispatchCompletionIn: .main) { [weak self] result in
+                switch result {
+                case .success:
+                    if let recieverInfo = matcher.receiverInfo {
+                        self?.handleMatched(receiverInfo: recieverInfo)
+                    }
+                case .failure(let error):
+                    self?.handleQRService(error: error)
+                }
+            }
+        }
+    }
+
+    func didFail(in gallery: ImageGalleryPresentable, with error: Error) {
+        handleQRService(error: error)
     }
 }

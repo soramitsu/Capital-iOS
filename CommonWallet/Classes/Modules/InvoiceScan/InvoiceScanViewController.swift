@@ -9,6 +9,10 @@ import SoraUI
 
 
 final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
+    private struct Constants {
+        static let decreasingBottomFactor: CGFloat = 0.8
+    }
+
     var presenter: InvoiceScanPresenterProtocol!
 
     var style: InvoiceScanViewStyleProtocol?
@@ -16,6 +20,7 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
     @IBOutlet private var qrFrameView: CameraFrameView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet private var uploadButton: RoundedButton!
 
     @IBOutlet private var titleTop: NSLayoutConstraint!
     @IBOutlet private var titleLeading: NSLayoutConstraint!
@@ -23,11 +28,14 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
     @IBOutlet private var messageBottom: NSLayoutConstraint!
     @IBOutlet private var messageLeading: NSLayoutConstraint!
     @IBOutlet private var messageTralling: NSLayoutConstraint!
+    @IBOutlet private var uploadBottom: NSLayoutConstraint!
 
     lazy var messageAppearanceAnimator: BlockViewAnimatorProtocol = BlockViewAnimator()
     lazy var messageDissmisAnimator: BlockViewAnimatorProtocol = BlockViewAnimator()
 
     var messageVisibilityDuration: TimeInterval = 5.0
+
+    var showsUpload: Bool = false
 
     deinit {
         invalidateMessageScheduling()
@@ -36,8 +44,7 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureStyle()
-        adjustLayout()
+        configure()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -64,7 +71,14 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
         presenter.handleAppearance()
     }
 
-    func configureStyle() {
+    private func configure() {
+        uploadButton.isHidden = !showsUpload
+
+        configureStyle()
+        adjustLayout()
+    }
+
+    private func configureStyle() {
         if let style = style {
             titleLabel.textColor = style.title.color
             titleLabel.font = style.title.font
@@ -73,6 +87,8 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
             messageLabel.font = style.message.font
 
             qrFrameView.fillColor = style.background
+
+            style.upload.apply(to: uploadButton)
         }
     }
 
@@ -85,7 +101,11 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
         messageTralling.constant *= designScaleRatio.width
 
         if isAdaptiveHeightDecreased {
-            messageBottom.constant *= designScaleRatio.height
+            let newFontSize = messageLabel.font.pointSize * designScaleRatio.width
+            messageLabel.font = UIFont(name: messageLabel.font.fontName, size: newFontSize)
+
+            messageBottom.constant *= designScaleRatio.height * Constants.decreasingBottomFactor
+            uploadBottom.constant *= designScaleRatio.height * Constants.decreasingBottomFactor
         }
 
         var windowSize = qrFrameView.windowSize
@@ -122,6 +142,12 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
         }
 
         messageDissmisAnimator.animate(block: block, completionBlock: nil)
+    }
+
+    // MARK: Actions
+
+    @IBAction private func actionUpload() {
+        presenter.activateImport()
     }
 }
 
