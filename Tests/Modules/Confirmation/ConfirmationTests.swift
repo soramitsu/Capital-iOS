@@ -36,17 +36,23 @@ class ConfirmationTests: NetworkBaseTests {
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
 
+            let eventCenter = WalletEventCenter()
+
+            let transferObserver = MockWalletEventVisitorProtocol()
+
             let presenter = ConfirmationPresenter(view: view,
                                                   coordinator: coordinator,
                                                   service: walletService,
                                                   resolver: resolver,
                                                   payload: transferPayload,
-                                                  accessoryViewModelFactory: accessoryViewModelFactory)
+                                                  accessoryViewModelFactory: accessoryViewModelFactory,
+                                                  eventCenter: eventCenter)
 
             // when
 
             let setupExpectation = XCTestExpectation()
             let confirmExpectation = XCTestExpectation()
+            let transferEventExpectation = XCTestExpectation()
 
             stub(view) { stub in
                 when(stub).didReceive(viewModels: any([WalletFormViewModelProtocol].self)).then { _ in
@@ -71,10 +77,18 @@ class ConfirmationTests: NetworkBaseTests {
                 when(stub).style.get.thenReturn(WalletStyle())
             }
 
+            stub(transferObserver) { stub in
+                stub.processTransferComplete(event: any()).then { _ in
+                    transferEventExpectation.fulfill()
+                }
+            }
+
             try TransferMock.register(mock: .success,
                                       networkResolver: networkResolver,
                                       requestType: .transfer,
                                       httpMethod: .post)
+
+            eventCenter.add(observer: transferObserver, dispatchIn: nil)
 
             presenter.setup()
 
@@ -88,7 +102,7 @@ class ConfirmationTests: NetworkBaseTests {
 
             // then
 
-            wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
+            wait(for: [confirmExpectation, transferEventExpectation], timeout: Constants.networkTimeout)
 
         } catch {
             XCTFail("\(error)")

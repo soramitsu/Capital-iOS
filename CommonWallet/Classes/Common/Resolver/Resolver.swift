@@ -10,6 +10,7 @@ protocol ResolverProtocol: class {
     var account: WalletAccountSettingsProtocol { get }
     var networkResolver: WalletNetworkResolverProtocol { get }
     var networkOperationFactory: WalletNetworkOperationFactoryProtocol { get }
+    var eventCenter: WalletEventCenterProtocol { get }
     var style: WalletStyleProtocol { get }
     var accountListConfiguration: AccountListConfigurationProtocol { get }
     var historyConfiguration: HistoryConfigurationProtocol { get }
@@ -41,6 +42,8 @@ final class Resolver: ResolverProtocol {
     var feeCalculationFactory: FeeCalculationFactoryProtocol
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     var navigation: NavigationProtocol?
+
+    lazy var eventCenter: WalletEventCenterProtocol = WalletEventCenter()
 
     lazy var style: WalletStyleProtocol = WalletStyle()
     lazy var amountFormatter: NumberFormatter = NumberFormatter()

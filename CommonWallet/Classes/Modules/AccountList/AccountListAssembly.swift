@@ -33,7 +33,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         let presenter = AccountListPresenter(view: view,
                                              coordinator: coordinator,
                                              balanceDataProvider: balanceDataProvider,
-                                             viewModelFactory: viewModelFactory)
+                                             viewModelFactory: viewModelFactory,
+                                             eventCenter: resolver.eventCenter)
         presenter.logger = resolver.logger
 
         view.presenter = presenter
@@ -77,7 +78,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         let presenter = AccountListPresenter(view: view,
                                              coordinator: coordinator,
                                              balanceDataProvider: balanceDataProvider,
-                                             viewModelFactory: viewModelFactory)
+                                             viewModelFactory: viewModelFactory,
+                                             eventCenter: resolver.eventCenter)
         presenter.logger = resolver.logger
 
         view.presenter = presenter

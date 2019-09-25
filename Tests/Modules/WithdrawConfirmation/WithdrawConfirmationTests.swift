@@ -26,6 +26,10 @@ class WithdrawConfirmationTests: NetworkBaseTests {
 
             let withdrawInfo = try createRandomWithdrawInfo()
 
+            let eventCenter = WalletEventCenter()
+
+            let withdrawObserver = MockWalletEventVisitorProtocol()
+
             let presenter = WithdrawConfirmationPresenter(view: view,
                                                           coordinator: coordinator,
                                                           walletService: walletService,
@@ -33,12 +37,14 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                                           asset: accountSettings.assets[0],
                                                           withdrawOption: accountSettings.withdrawOptions[0],
                                                           style: WalletStyle(),
-                                                          amountFormatter: NumberFormatter())
+                                                          amountFormatter: NumberFormatter(),
+                                                          eventCenter: eventCenter)
 
             // when
 
             let setupExpectation = XCTestExpectation()
             let confirmExpectation = XCTestExpectation()
+            let withdrawEventExpectation = XCTestExpectation()
 
             stub(view) { stub in
                 when(stub).didReceive(viewModels: any([WalletFormViewModelProtocol].self)).then { _ in
@@ -55,7 +61,13 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                 when(stub).showResult(for: any(WithdrawInfo.self),
                                       asset: any(WalletAsset.self),
                                       option: any(WalletWithdrawOption.self)).then { _ in
-                    confirmExpectation.fulfill()
+                                        confirmExpectation.fulfill()
+                }
+            }
+
+            stub(withdrawObserver) { stub in
+                stub.processWithdrawComplete(event: any()).then { _ in
+                    withdrawEventExpectation.fulfill()
                 }
             }
 
@@ -63,6 +75,8 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                       networkResolver: networkResolver,
                                       requestType: .withdraw,
                                       httpMethod: .post)
+
+            eventCenter.add(observer: withdrawObserver, dispatchIn: .main)
 
             presenter.setup()
 
@@ -76,7 +90,7 @@ class WithdrawConfirmationTests: NetworkBaseTests {
 
             // then
 
-            wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
+            wait(for: [confirmExpectation, withdrawEventExpectation], timeout: Constants.networkTimeout)
 
         } catch {
             XCTFail("\(error)")

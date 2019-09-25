@@ -80,9 +80,7 @@ final class Navigation: NavigationProtocol {
             presentedController = controller
         }
 
-        activeNavigationController?.present(presentedController,
-                                            animated: true,
-                                            completion: nil)
+        activeNavigationController?.present(presentedController, animated: true, completion: nil)
     }
     
     func dismiss() {

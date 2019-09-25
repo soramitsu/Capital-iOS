@@ -168,6 +168,8 @@ class HistoryTests: NetworkBaseTests {
                                                        assets: accountSettings.assets,
                                                        transactionTypes: WalletTransactionType.required)
 
+        let eventCenter = MockWalletEventCenterProtocol()
+
         // when
 
         try FetchHistoryMock.register(mock: .success,
@@ -185,10 +187,16 @@ class HistoryTests: NetworkBaseTests {
             }
         }
 
+        stub(eventCenter) { stub in
+            stub.add(observer: any(), dispatchIn: any()).thenDoNothing()
+            stub.remove(observer: any()).thenDoNothing()
+        }
+
         let presenter = HistoryPresenter(view: view,
                                          coordinator: coordinator,
                                          dataProvider: dataProvider,
                                          walletService: walletService,
+                                         eventCenter: eventCenter,
                                          viewModelFactory: viewModelFactory,
                                          assets: accountSettings.assets,
                                          transactionsPerPage: 100)
@@ -198,6 +206,8 @@ class HistoryTests: NetworkBaseTests {
         // then
 
         wait(for: [expectation], timeout: Constants.networkTimeout)
+
+        verify(eventCenter, times(1)).add(observer: any(), dispatchIn: any())
 
         guard presenter.viewModels.count > 0 else {
             XCTFail("Must be single page")
