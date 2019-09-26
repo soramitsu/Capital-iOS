@@ -39,7 +39,12 @@ class AccountListTests: NetworkBaseTests {
             let view = MockAccountListViewProtocol()
             let coordinator = MockAccountListCoordinatorProtocol()
 
-            let presenter = try createPresenter(from: view, coordinator: coordinator, resolver: resolver)
+            let eventCenter = MockWalletEventCenterProtocol()
+
+            let presenter = try createPresenter(from: view,
+                                                coordinator: coordinator,
+                                                resolver: resolver,
+                                                eventCenter: eventCenter)
 
             // when
 
@@ -68,11 +73,18 @@ class AccountListTests: NetworkBaseTests {
                 }
             }
 
+            stub(eventCenter) { stub in
+                stub.add(observer: any(), dispatchIn: any()).thenDoNothing()
+                stub.remove(observer: any()).thenDoNothing()
+            }
+
             // then
 
             presenter.setup()
 
             wait(for: [reloadCompletionExpectation, newDataExpectation], timeout: Constants.networkTimeout)
+
+            verify(eventCenter, times(1)).add(observer: any(), dispatchIn: any())
 
         } catch {
             XCTFail("\(error)")
@@ -89,7 +101,12 @@ class AccountListTests: NetworkBaseTests {
             let view = MockAccountListViewProtocol()
             let coordinator = MockAccountListCoordinatorProtocol()
 
-            let presenter = try createPresenter(from: view, coordinator: coordinator, resolver: resolver)
+            let eventCenter = MockWalletEventCenterProtocol()
+
+            let presenter = try createPresenter(from: view,
+                                                coordinator: coordinator,
+                                                resolver: resolver,
+                                                eventCenter: eventCenter)
 
             // when
 
@@ -118,11 +135,18 @@ class AccountListTests: NetworkBaseTests {
                 }
             }
 
+            stub(eventCenter) { stub in
+                stub.add(observer: any(), dispatchIn: any()).thenDoNothing()
+                stub.remove(observer: any()).thenDoNothing()
+            }
+
             // then
 
             presenter.setup()
 
             wait(for: [reloadCompletionExpectation, newDataExpectation], timeout: Constants.networkTimeout)
+
+            verify(eventCenter, times(1)).add(observer: any(), dispatchIn: any())
 
         } catch {
             XCTFail("\(error)")
@@ -133,7 +157,8 @@ class AccountListTests: NetworkBaseTests {
 
     private func createPresenter(from view: AccountListViewProtocol,
                                  coordinator: AccountListCoordinatorProtocol,
-                                 resolver: ResolverProtocol) throws -> AccountListPresenter {
+                                 resolver: ResolverProtocol,
+                                 eventCenter: WalletEventCenterProtocol) throws -> AccountListPresenter {
 
         let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: resolver.account)
 
@@ -153,7 +178,8 @@ class AccountListTests: NetworkBaseTests {
         return AccountListPresenter(view: view,
                                     coordinator: coordinator,
                                     balanceDataProvider: balanceProvider,
-                                    viewModelFactory: viewModelFactory)
+                                    viewModelFactory: viewModelFactory,
+                                    eventCenter: eventCenter)
     }
 
     private func createMockedResolver(for account: WalletAccountSettingsProtocol) throws -> ResolverProtocol {
@@ -161,6 +187,7 @@ class AccountListTests: NetworkBaseTests {
 
         let networkResolver = MockNetworkResolver()
         let networkOperationFactory = MockWalletNetworkOperationFactoryProtocol()
+        let eventCenter = MockWalletEventCenterProtocol()
 
         let accountListConfiguration = try AccountListModuleBuilder().build()
         let style = WalletStyle()
@@ -177,6 +204,7 @@ class AccountListTests: NetworkBaseTests {
             when(stub).commandFactory.get.thenReturn(commandFactory)
             when(stub).amountFormatter.get.thenReturn(NumberFormatter())
             when(stub).commandDecoratorFactory.get.thenReturn(nil)
+            when(stub).eventCenter.get.thenReturn(eventCenter)
         }
 
         return resolver

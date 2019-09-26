@@ -19,14 +19,15 @@ final class HistoryPresenter {
     }
 
     weak var view: HistoryViewProtocol?
-    var coordinator: HistoryCoordinatorProtocol
-    var dataProvider: SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>
-    var walletService: WalletServiceProtocol
+    let coordinator: HistoryCoordinatorProtocol
+    let dataProvider: SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>
+    let walletService: WalletServiceProtocol
+    let eventCenter: WalletEventCenterProtocol
     var viewModelFactory: HistoryViewModelFactoryProtocol
     var transactionsPerPage: Int = 100
-    var assets: [WalletAsset]
+    let assets: [WalletAsset]
     var filter = WalletHistoryRequest()
-    let initialFilter: WalletHistoryRequest
+    var initialFilter: WalletHistoryRequest
 
     private(set) var dataLoadingState: DataState = .waitingCached
     private(set) var viewModels: [TransactionSectionViewModel] = []
@@ -38,6 +39,7 @@ final class HistoryPresenter {
          coordinator: HistoryCoordinatorProtocol,
          dataProvider: SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>,
          walletService: WalletServiceProtocol,
+         eventCenter: WalletEventCenterProtocol,
          viewModelFactory: HistoryViewModelFactoryProtocol,
          assets: [WalletAsset],
          transactionsPerPage: Int) {
@@ -48,6 +50,7 @@ final class HistoryPresenter {
         self.viewModelFactory = viewModelFactory
         self.transactionsPerPage = transactionsPerPage
         self.assets = assets
+        self.eventCenter = eventCenter
 
         let assetIds = assets.map { $0.identifier }
         filter.assets = assetIds
@@ -270,6 +273,8 @@ extension HistoryPresenter: HistoryPresenterProtocol {
         viewModelFactory.delegate = self
 
         setupDataProvider()
+
+        eventCenter.add(observer: self)
     }
 
     func reloadCache() {
@@ -400,5 +405,19 @@ extension HistoryPresenter: HistoryViewModelFactoryDelegate {
         } catch {
             logger?.error("Can't reload view when view model factory changed \(error)")
         }
+    }
+}
+
+extension HistoryPresenter: WalletEventVisitorProtocol {
+    func processTransferComplete(event: TransferCompleteEvent) {
+        dataProvider.refreshCache()
+    }
+
+    func processWithdrawComplete(event: WithdrawCompleteEvent) {
+        dataProvider.refreshCache()
+    }
+
+    func processAccountUpdate(event: AccountUpdateEvent) {
+        dataProvider.refreshCache()
     }
 }

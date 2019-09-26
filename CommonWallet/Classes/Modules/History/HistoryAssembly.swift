@@ -43,6 +43,7 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
                                          coordinator: coordinator,
                                          dataProvider: transactionDataProvider,
                                          walletService: walletService,
+                                         eventCenter: resolver.eventCenter,
                                          viewModelFactory: viewModelFactory,
                                          assets: assets,
                                          transactionsPerPage: DataProviderFactory.historyItemsPerPage)

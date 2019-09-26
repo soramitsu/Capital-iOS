@@ -12,11 +12,12 @@ final class ConfirmationPresenter {
     weak var view: WalletFormViewProtocol?
     var coordinator: ConfirmationCoordinatorProtocol
     
-    private let payload: TransferPayload
-    private let service: WalletServiceProtocol
-    private let resolver: ResolverProtocol
-    private let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
-    
+    let payload: TransferPayload
+    let service: WalletServiceProtocol
+    let resolver: ResolverProtocol
+    let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
+    let eventCenter: WalletEventCenterProtocol
+
     var logger: WalletLoggerProtocol?
 
     init(view: WalletFormViewProtocol,
@@ -24,18 +25,22 @@ final class ConfirmationPresenter {
          service: WalletServiceProtocol,
          resolver: ResolverProtocol,
          payload: TransferPayload,
-         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol) {
+         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
+         eventCenter: WalletEventCenterProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.service = service
         self.payload = payload
         self.resolver = resolver
         self.accessoryViewModelFactory = accessoryViewModelFactory
+        self.eventCenter = eventCenter
     }
 
     private func handleTransfer(result: OperationResult<Bool>) {
         switch result {
         case .success:
+            eventCenter.notify(with: TransferCompleteEvent(payload: payload))
+            
             coordinator.showResult(payload: payload)
         case .error:
             view?.showError(message: "Transaction failed. Please, try again later.")

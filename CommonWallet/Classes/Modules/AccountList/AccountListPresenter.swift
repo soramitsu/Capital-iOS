@@ -12,17 +12,20 @@ final class AccountListPresenter {
 
     let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
     let viewModelFactory: AccountModuleViewModelFactoryProtocol
+    let eventCenter: WalletEventCenterProtocol
 
     var logger: WalletLoggerProtocol?
 
     init(view: AccountListViewProtocol,
          coordinator: AccountListCoordinatorProtocol,
          balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>,
-         viewModelFactory: AccountModuleViewModelFactoryProtocol) {
+         viewModelFactory: AccountModuleViewModelFactoryProtocol,
+         eventCenter: WalletEventCenterProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.balanceDataProvider = balanceDataProvider
         self.viewModelFactory = viewModelFactory
+        self.eventCenter = eventCenter
     }
 
     private func updateView(with assets: [BalanceData]?) {
@@ -77,6 +80,8 @@ extension AccountListPresenter: AccountListPresenterProtocol {
     func setup() {
         updateView(with: [])
         setupBalanceDataProvider()
+
+        eventCenter.add(observer: self)
     }
 
     func reload() {
@@ -92,5 +97,19 @@ extension AccountListPresenter: ShowMoreViewModelDelegate {
     func shouldToggleExpansion(from value: Bool, for viewModel: WalletViewModelProtocol) -> Bool {
         view?.set(expanded: !value, animated: true)
         return true
+    }
+}
+
+extension AccountListPresenter: WalletEventVisitorProtocol {
+    func processTransferComplete(event: TransferCompleteEvent) {
+        balanceDataProvider.refreshCache()
+    }
+
+    func processWithdrawComplete(event: WithdrawCompleteEvent) {
+        balanceDataProvider.refreshCache()
+    }
+
+    func processAccountUpdate(event: AccountUpdateEvent) {
+        balanceDataProvider.refreshCache()
     }
 }

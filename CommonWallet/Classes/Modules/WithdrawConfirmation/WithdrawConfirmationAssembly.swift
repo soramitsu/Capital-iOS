@@ -29,7 +29,8 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
                                                       asset: asset,
                                                       withdrawOption: option,
                                                       style: resolver.style,
-                                                      amountFormatter: resolver.amountFormatter)
+                                                      amountFormatter: resolver.amountFormatter,
+                                                      eventCenter: resolver.eventCenter)
         view.presenter = presenter
 
         return view

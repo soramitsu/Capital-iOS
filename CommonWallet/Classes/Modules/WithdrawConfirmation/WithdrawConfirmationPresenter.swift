@@ -16,6 +16,7 @@ final class WithdrawConfirmationPresenter {
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
     let amountFormatter: NumberFormatter
+    let eventCenter: WalletEventCenterProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: WithdrawConfirmationCoordinatorProtocol,
@@ -24,7 +25,8 @@ final class WithdrawConfirmationPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: NumberFormatter) {
+         amountFormatter: NumberFormatter,
+         eventCenter: WalletEventCenterProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.walletService = walletService
@@ -33,6 +35,7 @@ final class WithdrawConfirmationPresenter {
         self.withdrawOption = withdrawOption
         self.style = style
         self.amountFormatter = amountFormatter
+        self.eventCenter = eventCenter
     }
 
     private func createAmountViewModel() -> WalletFormViewModelProtocol {
@@ -128,6 +131,8 @@ final class WithdrawConfirmationPresenter {
     private func handleWithdraw(result: OperationResult<Void>) {
         switch result {
         case .success:
+            eventCenter.notify(with: WithdrawCompleteEvent(withdrawInfo: withdrawInfo))
+
             coordinator.showResult(for: withdrawInfo, asset: asset, option: withdrawOption)
         case .error:
             view?.showError(message: "Withdraw failed. Please, try again later.")
