@@ -81,7 +81,7 @@ extension AccountListPresenter: AccountListPresenterProtocol {
         updateView(with: [])
         setupBalanceDataProvider()
 
-        eventCenter.add(observer: self, dispatchIn: nil)
+        eventCenter.add(observer: self)
     }
 
     func reload() {

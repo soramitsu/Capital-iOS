@@ -274,7 +274,7 @@ extension HistoryPresenter: HistoryPresenterProtocol {
 
         setupDataProvider()
 
-        eventCenter.add(observer: self, dispatchIn: nil)
+        eventCenter.add(observer: self)
     }
 
     func reloadCache() {
