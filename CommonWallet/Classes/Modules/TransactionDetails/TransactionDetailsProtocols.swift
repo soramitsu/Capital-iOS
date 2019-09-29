@@ -6,7 +6,9 @@
 protocol TransactionDetailsPresenterProtocol: WalletFormPresenterProtocol {}
 
 
-protocol TransactionDetailsCoordinatorProtocol: class {}
+protocol TransactionDetailsCoordinatorProtocol: class {
+    func send(to payload: AmountPayload)
+}
 
 
 protocol TransactionDetailsAssemblyProtocol: class {

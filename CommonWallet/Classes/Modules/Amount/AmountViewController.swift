@@ -42,6 +42,22 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
     private var keyboardHandler: KeyboardHandler?
 
+    var shouldShowModalPresentationItems: Bool = false
+
+    override var navigationItem: UINavigationItem {
+        let navigationItem = super.navigationItem
+
+        if shouldShowModalPresentationItems {
+            let closeItem = UIBarButtonItem(image: style?.closeIcon,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(actionClose))
+            navigationItem.leftBarButtonItem = closeItem
+        }
+
+        return navigationItem
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -235,6 +251,10 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
     @IBAction private func actionTitleControl() {
         presenter.presentAssetSelection()
+    }
+
+    @objc private func actionClose() {
+        presenter.close()
     }
 }
 

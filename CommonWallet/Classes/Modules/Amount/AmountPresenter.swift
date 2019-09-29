@@ -387,6 +387,9 @@ extension AmountPresenter: AmountPresenterProtocol {
         assetSelectionViewModel.isSelecting = true
     }
 
+    func close() {
+        coordinator.close()
+    }
 }
 
 extension AmountPresenter: ModalPickerViewDelegate {

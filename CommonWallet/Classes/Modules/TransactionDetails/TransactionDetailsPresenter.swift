@@ -11,20 +11,26 @@ final class TransactionDetailsPresenter {
     weak var view: WalletFormViewProtocol?
     var coordinator: TransactionDetailsCoordinatorProtocol
 
-    private(set) var resolver: ResolverProtocol
-    private(set) var transactionData: AssetTransactionData
-    private(set) var transactionType: WalletTransactionType
+    let resolver: ResolverProtocol
+    let configuration: TransactionDetailsConfigurationProtocol
+    let transactionData: AssetTransactionData
+    let transactionType: WalletTransactionType
+    let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
+         configuration: TransactionDetailsConfigurationProtocol,
          resolver: ResolverProtocol,
          transactionData: AssetTransactionData,
-         transactionType: WalletTransactionType) {
+         transactionType: WalletTransactionType,
+         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol) {
         self.view = view
         self.coordinator = coordinator
+        self.configuration = configuration
         self.resolver = resolver
         self.transactionData = transactionData
         self.transactionType = transactionType
+        self.accessoryViewModelFactory = accessoryViewModelFactory
     }
 
     private func createStatusViewModel(for status: AssetTransactionStatus) -> WalletFormViewModel {
@@ -109,6 +115,17 @@ final class TransactionDetailsPresenter {
         }
     }
 
+    private func createAccessoryViewModel() -> AccessoryViewModel {
+        let nameComponents = transactionData.peerName.components(separatedBy: " ")
+        let firstName = nameComponents.first ?? ""
+        let lastName = nameComponents.last ?? ""
+
+        return accessoryViewModelFactory.createViewModel(from: transactionData.peerName,
+                                                         firstName: firstName,
+                                                         lastName: lastName,
+                                                         action: "Send back")
+    }
+
     private func updateView() {
         var viewModels = [WalletFormViewModel]()
 
@@ -155,6 +172,12 @@ final class TransactionDetailsPresenter {
         }
 
         view?.didReceive(viewModels: viewModels)
+
+        if transactionType.isIncome,
+            configuration.sendBackTransactionTypes.contains(transactionType.backendName) {
+            let accessoryViewModel = createAccessoryViewModel()
+            view?.didReceive(accessoryViewModel: accessoryViewModel)
+        }
     }
 }
 
@@ -164,5 +187,21 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
         updateView()
     }
 
-    func performAction() {}
+    func performAction() {
+        guard
+            let accountId = try? IRAccountIdFactory.account(withIdentifier: transactionData.peerId),
+            let assetId = try? IRAssetIdFactory.asset(withIdentifier: transactionData.assetId) else {
+            return
+        }
+
+        let receiverInfo = ReceiveInfo(accountId: accountId,
+                                       assetId: assetId,
+                                       amount: nil,
+                                       details: nil)
+
+        let payload = AmountPayload(receiveInfo: receiverInfo,
+                                    receiverName: transactionData.peerName)
+
+        coordinator.send(to: payload)
+    }
 }

@@ -18,7 +18,15 @@ class TransactionDetailsTests: XCTestCase {
 
             let view = MockWalletFormViewProtocol()
             let coordinator = MockTransactionDetailsCoordinatorProtocol()
+
             let resolver = MockResolverProtocol()
+
+            stub(resolver) { stub in
+                when(stub).amountFormatter.get.thenReturn(NumberFormatter())
+                when(stub).statusDateFormatter.get.thenReturn(DateFormatter())
+                when(stub).style.get.thenReturn(WalletStyle())
+                when(stub).account.get.thenReturn(accountSettings)
+            }
 
             let transactionData = try createRandomAssetTransactionData()
             let transactionType: WalletTransactionType
@@ -29,33 +37,35 @@ class TransactionDetailsTests: XCTestCase {
                 transactionType = WalletTransactionType.outgoing
             }
 
+            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
+                                                                             radius: AccessoryView.iconRadius)
+
+            let configuration = TransactionDetailsConfiguration(sendBackTransactionTypes: [])
             let presenter = TransactionDetailsPresenter(view: view,
                                                         coordinator: coordinator,
+                                                        configuration:  configuration,
                                                         resolver: resolver,
                                                         transactionData: transactionData,
-                                                        transactionType: transactionType)
+                                                        transactionType: transactionType,
+                                                        accessoryViewModelFactory: accessoryViewModelFactory)
 
             // when
-            let expectation = XCTestExpectation()
+
+            let listExpectation = XCTestExpectation()
 
             stub(view) { stub in
                 when(stub).didReceive(viewModels: any()).then { _ in
-                    expectation.fulfill()
+                    listExpectation.fulfill()
                 }
-            }
 
-            stub(resolver) { stub in
-                when(stub).amountFormatter.get.thenReturn(NumberFormatter())
-                when(stub).statusDateFormatter.get.thenReturn(DateFormatter())
-                when(stub).style.get.thenReturn(WalletStyle())
-                when(stub).account.get.thenReturn(accountSettings)
+                when(stub).didReceive(accessoryViewModel: any()).thenDoNothing()
             }
 
             presenter.setup()
 
             // then
 
-            wait(for: [expectation], timeout: Constants.networkTimeout)
+            wait(for: [listExpectation], timeout: Constants.networkTimeout)
         } catch {
             XCTFail("\(error)")
         }

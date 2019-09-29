@@ -14,6 +14,7 @@ public protocol CommonWalletBuilderProtocol: class {
     var invoiceScanModuleBuilder: InvoiceScanModuleBuilderProtocol { get }
     var contactsModuleBuilder: ContactsModuleBuilderProtocol { get }
     var receiveModuleBuilder: ReceiveAmountModuleBuilderProtocol { get }
+    var transactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtocol { get }
     var styleBuilder: WalletStyleBuilderProtocol { get }
 
     @discardableResult
@@ -59,6 +60,7 @@ public final class CommonWalletBuilder {
     fileprivate var privateContactsModuleBuilder: ContactsModuleBuilder
     fileprivate var privateInvoiceScanModuleBuilder: InvoiceScanModuleBuilder
     fileprivate var privateReceiveModuleBuilder: ReceiveAmountModuleBuilder
+    fileprivate var privateTransactionDetailsModuleBuilder: TransactionDetailsModuleBuilder
     fileprivate var privateStyleBuilder: WalletStyleBuilder
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkResolver: WalletNetworkResolverProtocol
@@ -82,6 +84,7 @@ public final class CommonWalletBuilder {
         privateContactsModuleBuilder = ContactsModuleBuilder()
         privateInvoiceScanModuleBuilder = InvoiceScanModuleBuilder()
         privateReceiveModuleBuilder = ReceiveAmountModuleBuilder()
+        privateTransactionDetailsModuleBuilder = TransactionDetailsModuleBuilder()
         privateStyleBuilder = WalletStyleBuilder()
     }
 }
@@ -105,6 +108,10 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
     public var receiveModuleBuilder: ReceiveAmountModuleBuilderProtocol {
         return privateReceiveModuleBuilder
+    }
+
+    public var transactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtocol {
+        return privateTransactionDetailsModuleBuilder
     }
 
     public var styleBuilder: WalletStyleBuilderProtocol {
@@ -187,6 +194,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
         let receiveConfiguration = privateReceiveModuleBuilder.build()
 
+        let transactionDetailsConfiguration = privateTransactionDetailsModuleBuilder.build()
+
         let decorator = WalletInputValidatorFactoryDecorator(descriptionMaxLength: transferDescriptionLimit)
         decorator.underlyingFactory = inputValidatorFactory
 
@@ -198,6 +207,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 contactsConfiguration: contactsConfiguration,
                                 invoiceScanConfiguration: invoiceScanConfiguration,
                                 receiveConfiguration: receiveConfiguration,
+                                transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory)
 
