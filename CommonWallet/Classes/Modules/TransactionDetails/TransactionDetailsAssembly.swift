@@ -18,15 +18,21 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         }
 
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
+        view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
         view.title = "Transaction details"
 
-        let coordinator = TransactionDetailsCoordinator()
+        let coordinator = TransactionDetailsCoordinator(resolver: resolver)
 
-        let presenter = TransactionDetailsPresenter(view: view, coordinator: coordinator,
+        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
+                                                                         radius: AccessoryView.iconRadius)
+        let presenter = TransactionDetailsPresenter(view: view,
+                                                    coordinator: coordinator,
+                                                    configuration: resolver.transactionDetailsConfiguration,
                                                     resolver: resolver,
                                                     transactionData: transactionDetails,
-                                                    transactionType: transactionType)
+                                                    transactionType: transactionType,
+                                                    accessoryViewModelFactory: accessoryViewModelFactory)
         view.presenter = presenter
 
         return view

@@ -6,4 +6,20 @@
 import Foundation
 
 
-final class TransactionDetailsCoordinator: TransactionDetailsCoordinatorProtocol {}
+final class TransactionDetailsCoordinator: TransactionDetailsCoordinatorProtocol {
+    private let resolver: ResolverProtocol
+
+    init(resolver: ResolverProtocol) {
+        self.resolver = resolver
+    }
+
+    func send(to payload: AmountPayload) {
+        guard let amountView = AmountAssembly.assembleView(with: resolver,
+                                                           payload: payload,
+                                                           shouldPrepareModalPresentation: true) else {
+            return
+        }
+
+        resolver.navigation?.present(amountView.controller, inNavigationController: true)
+    }
+}

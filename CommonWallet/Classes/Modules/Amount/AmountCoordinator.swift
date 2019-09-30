@@ -20,5 +20,8 @@ final class AmountCoordinator: AmountCoordinatorProtocol {
         
         resolver.navigation?.push(confirmationView.controller)
     }
-    
+
+    func close() {
+        resolver.navigation?.dismiss()
+    }
 }

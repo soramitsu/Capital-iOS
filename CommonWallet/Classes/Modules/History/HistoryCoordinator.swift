@@ -20,6 +20,8 @@ final class HistoryCoordinator: HistoryCoordinatorProtocol {
                 return
         }
 
+        view.controller.hidesBottomBarWhenPushed = true
+
         resolver.navigation?.push(view.controller)
     }
     

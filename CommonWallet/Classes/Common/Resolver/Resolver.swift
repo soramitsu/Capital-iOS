@@ -17,6 +17,7 @@ protocol ResolverProtocol: class {
     var contactsConfiguration: ContactsConfigurationProtocol { get }
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol { get }
     var receiveConfiguration: ReceiveAmountConfigurationProtocol { get }
+    var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol { get }
     var navigation: NavigationProtocol? { get }
     var logger: WalletLoggerProtocol? { get }
     var amountFormatter: NumberFormatter { get }
@@ -38,6 +39,7 @@ final class Resolver: ResolverProtocol {
     var contactsConfiguration: ContactsConfigurationProtocol
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol
     var receiveConfiguration: ReceiveAmountConfigurationProtocol
+    var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol
     var feeCalculationFactory: FeeCalculationFactoryProtocol
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
@@ -63,6 +65,7 @@ final class Resolver: ResolverProtocol {
          contactsConfiguration: ContactsConfigurationProtocol,
          invoiceScanConfiguration: InvoiceScanConfigurationProtocol,
          receiveConfiguration: ReceiveAmountConfigurationProtocol,
+         transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol) {
         self.account = account
@@ -73,6 +76,7 @@ final class Resolver: ResolverProtocol {
         self.contactsConfiguration = contactsConfiguration
         self.invoiceScanConfiguration = invoiceScanConfiguration
         self.receiveConfiguration = receiveConfiguration
+        self.transactionDetailsConfiguration = transactionDetailsConfiguration
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
     }

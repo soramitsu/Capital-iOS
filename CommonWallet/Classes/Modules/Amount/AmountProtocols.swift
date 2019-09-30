@@ -16,14 +16,18 @@ protocol AmountPresenterProtocol: class {
     func setup()
     func confirm()
     func presentAssetSelection()
+    func close()
 }
 
 
 protocol AmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
     func confirm(with payload: TransferPayload)
+    func close()
 }
 
 
 protocol AmountAssemblyProtocol: class {
-    static func assembleView(with resolver: ResolverProtocol, payload: AmountPayload) -> AmountViewProtocol?
+    static func assembleView(with resolver: ResolverProtocol,
+                             payload: AmountPayload,
+                             shouldPrepareModalPresentation: Bool) -> AmountViewProtocol?
 }

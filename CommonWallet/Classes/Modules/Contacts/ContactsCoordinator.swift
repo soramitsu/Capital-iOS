@@ -15,7 +15,9 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
     }
     
     func send(to payload: AmountPayload) {
-        guard let amountView = AmountAssembly.assembleView(with: resolver, payload: payload) else {
+        guard let amountView = AmountAssembly.assembleView(with: resolver,
+                                                           payload: payload,
+                                                           shouldPrepareModalPresentation: false) else {
             return
         }
         
