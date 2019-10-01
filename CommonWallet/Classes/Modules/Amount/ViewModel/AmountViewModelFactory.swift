@@ -7,7 +7,7 @@ import Foundation
 
 protocol AmountViewModelFactoryProtocol {
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String
-    func createAmountViewModel() -> AmountInputViewModel
+    func createAmountViewModel(with optionalAmount: Decimal?) -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
 }
 
@@ -44,8 +44,8 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
         return title + " \(asset.symbol)\(amountString)"
     }
 
-    func createAmountViewModel() -> AmountInputViewModel {
-        return AmountInputViewModel(optionalAmount: nil, limit: amountLimit)
+    func createAmountViewModel(with optionalAmount: Decimal?) -> AmountInputViewModel {
+        return AmountInputViewModel(optionalAmount: optionalAmount, limit: amountLimit)
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {

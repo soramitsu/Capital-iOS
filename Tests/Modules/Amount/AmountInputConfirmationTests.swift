@@ -146,7 +146,9 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                 }
             }
 
-            let recieverInfo = try createRandomReceiveInfo()
+            var recieverInfo = try createRandomReceiveInfo()
+            recieverInfo.amount = nil
+
             let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
             let amountFormatter = NumberFormatter()

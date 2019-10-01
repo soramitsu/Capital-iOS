@@ -93,7 +93,13 @@ final class AmountPresenter {
                                                           symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel()
+        var optionalAmount: Decimal?
+
+        if let amount = payload.receiveInfo.amount {
+            optionalAmount = Decimal(string: amount.value)
+        }
+
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: optionalAmount)
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
                                                               fullName: payload.receiverName,
