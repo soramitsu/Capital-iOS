@@ -166,7 +166,8 @@ class HistoryTests: NetworkBaseTests {
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: NumberFormatter(),
                                                        assets: accountSettings.assets,
-                                                       transactionTypes: WalletTransactionType.required)
+                                                       transactionTypes: WalletTransactionType.required,
+                                                       includesFeeInAmount: false)
 
         let eventCenter = MockWalletEventCenterProtocol()
 

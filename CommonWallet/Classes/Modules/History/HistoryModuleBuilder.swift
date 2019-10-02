@@ -24,12 +24,17 @@ public protocol HistoryModuleBuilderProtocol: class {
 
     @discardableResult
     func with(supportsFilter: Bool) -> Self
+
+    @discardableResult
+    func with(includesFeeInAmount: Bool) -> Self
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
     lazy var walletStyle: WalletStyleProtocol = WalletStyle()
 
     fileprivate var supportsFilter: Bool = true
+
+    fileprivate var includesFeeInAmount: Bool = true
 
     fileprivate weak var emptyStateDelegate: EmptyStateDelegate?
     fileprivate var emptyStateDataSource: EmptyStateDataSource?
@@ -51,6 +56,7 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
                                     cellStyle: transactionCellStyle,
                                     headerStyle: transactionHeaderStyle,
                                     supportsFilter: supportsFilter,
+                                    includesFeeInAmount: includesFeeInAmount,
                                     emptyStateDataSource: emptyStateDataSource,
                                     emptyStateDelegate: emptyStateDelegate)
     }
@@ -84,6 +90,11 @@ extension HistoryModuleBuilder {
 
     func with(supportsFilter: Bool) -> Self {
         self.supportsFilter = supportsFilter
+        return self
+    }
+
+    func with(includesFeeInAmount: Bool) -> Self {
+        self.includesFeeInAmount = includesFeeInAmount
         return self
     }
 }
