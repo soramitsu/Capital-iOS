@@ -138,7 +138,7 @@ final class ConfirmationPresenter {
     func provideAccessoryViewModel() {
         let viewModel = accessoryViewModelFactory.createViewModel(from: payload.receiverName,
                                                                   fullName: payload.receiverName,
-                                                                  action: "Next")
+                                                                  action: "Send")
         view?.didReceive(accessoryViewModel: viewModel)
     }
 }
