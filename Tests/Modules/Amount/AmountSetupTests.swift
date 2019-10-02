@@ -95,6 +95,8 @@ class AmountTests: NetworkBaseTests {
 
             var feeViewModel: FeeViewModelProtocol?
 
+            var amountViewModel: AmountInputViewModelProtocol? = nil
+
             stub(view) { stub in
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
                     assetViewModel.observable.add(observer: assetSelectionObserver)
@@ -102,7 +104,9 @@ class AmountTests: NetworkBaseTests {
                     assetExpectation.fulfill()
                 }
 
-                when(stub).set(amountViewModel: any()).then { _ in
+                when(stub).set(amountViewModel: any()).then { viewModel in
+                    amountViewModel = viewModel
+
                     amountExpectation.fulfill()
                 }
 
@@ -175,6 +179,13 @@ class AmountTests: NetworkBaseTests {
                        accessoryExpectation,
                        feeLoadingCompleteExpectation],
                  timeout: Constants.networkTimeout)
+
+            guard let expectedAmount = recieverInfo.amount else {
+                XCTFail("Unexpected initial amount")
+                return
+            }
+
+            XCTAssertEqual(amountViewModel?.displayAmount, expectedAmount.value)
 
         } catch {
             XCTFail("\(error)")
