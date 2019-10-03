@@ -29,15 +29,18 @@ final class HistoryViewModelFactory {
     private(set) var amountFormatter: NumberFormatter
     private(set) var assets: [String: WalletAsset]
     private(set) var transactionTypes: [String: WalletTransactionType]
+    private(set) var includesFeeInAmount: Bool
 
     weak var delegate: HistoryViewModelFactoryDelegate?
 
     init(dateFormatterProvider: DateFormatterProviderProtocol,
          amountFormatter: NumberFormatter,
          assets: [WalletAsset],
-         transactionTypes: [WalletTransactionType]) {
+         transactionTypes: [WalletTransactionType],
+         includesFeeInAmount: Bool) {
         self.dateFormatterProvider = dateFormatterProvider
         self.amountFormatter = amountFormatter
+        self.includesFeeInAmount = includesFeeInAmount
 
         self.assets = assets.reduce(into: [String: WalletAsset]()) { (result, asset) in
             let key = asset.identifier.identifier()
@@ -60,7 +63,8 @@ final class HistoryViewModelFactory {
 
         var totalAmountValue = amountValue
 
-        if let transactionType = transactionTypes[transaction.type],
+        if  includesFeeInAmount,
+            let transactionType = transactionTypes[transaction.type],
             !transactionType.isIncome,
             let feeString = transaction.fee,
             let feeValue = Decimal(string: feeString) {

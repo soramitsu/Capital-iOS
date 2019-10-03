@@ -11,6 +11,7 @@ protocol HistoryConfigurationProtocol {
     var cellStyle: TransactionCellStyleProtocol { get }
     var headerStyle: TransactionHeaderStyleProtocol { get }
     var supportsFilter: Bool { get }
+    var includesFeeInAmount: Bool { get }
     var emptyStateDataSource: EmptyStateDataSource? { get }
     var emptyStateDelegate: EmptyStateDelegate? { get }
 }
@@ -20,6 +21,7 @@ struct HistoryConfiguration: HistoryConfigurationProtocol {
     var cellStyle: TransactionCellStyleProtocol
     var headerStyle: TransactionHeaderStyleProtocol
     var supportsFilter: Bool
+    var includesFeeInAmount: Bool
     var emptyStateDataSource: EmptyStateDataSource?
     weak var emptyStateDelegate: EmptyStateDelegate?
 }

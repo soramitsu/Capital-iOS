@@ -31,10 +31,12 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         let dateFormatterProvider = DateFormatterProvider(dateFormatterFactory: dateFormatterFactory,
                                                           dayChangeHandler: DayChangeHandler())
 
+        let includesFeeInAmount = resolver.historyConfiguration.includesFeeInAmount
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
                                                        amountFormatter: resolver.amountFormatter,
                                                        assets: assets,
-                                                       transactionTypes: resolver.transactionTypeList)
+                                                       transactionTypes: resolver.transactionTypeList,
+                                                       includesFeeInAmount: includesFeeInAmount)
 
         let walletService = WalletService(networkResolver: resolver.networkResolver,
                                           operationFactory: resolver.networkOperationFactory)
