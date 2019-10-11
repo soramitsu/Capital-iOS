@@ -11,7 +11,7 @@ protocol WalletQRServiceProtocol: class {
     func generate(from info: ReceiveInfo,
                   qrSize: CGSize,
                   runIn queue: DispatchQueue,
-                  completionBlock: @escaping (OperationResult<UIImage>?) -> Void) throws -> Operation
+                  completionBlock: @escaping (Result<UIImage, Error>?) -> Void) throws -> Operation
 }
 
 final class WalletQRService {
@@ -32,7 +32,7 @@ extension WalletQRService: WalletQRServiceProtocol {
     func generate(from info: ReceiveInfo,
                   qrSize: CGSize,
                   runIn queue: DispatchQueue,
-                  completionBlock: @escaping (OperationResult<UIImage>?) -> Void) throws -> Operation {
+                  completionBlock: @escaping (Result<UIImage, Error>?) -> Void) throws -> Operation {
         let payload = try encoder.encode(info)
         let operation = operationFactory.createCreationOperation(for: payload, qrSize: qrSize)
 

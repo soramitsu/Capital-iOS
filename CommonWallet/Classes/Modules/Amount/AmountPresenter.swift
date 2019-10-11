@@ -43,8 +43,8 @@ final class AmountPresenter {
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
 
     private let dataProviderFactory: DataProviderFactoryProtocol
-    private let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
-    private var metadataProvider: SingleValueProvider<TransferMetaData, CDCWSingleValue>
+    private let balanceDataProvider: SingleValueProvider<[BalanceData]>
+    private var metadataProvider: SingleValueProvider<TransferMetaData>
 
     private var balances: [BalanceData]?
     private var metadata: TransferMetaData?
@@ -211,11 +211,11 @@ final class AmountPresenter {
         }
 
         let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
-        balanceDataProvider.addCacheObserver(self,
-                                             deliverOn: .main,
-                                             executing: changesBlock,
-                                             failing: failBlock,
-                                             options: options)
+        balanceDataProvider.addObserver(self,
+                                        deliverOn: .main,
+                                        executing: changesBlock,
+                                        failing: failBlock,
+                                        options: options)
     }
 
     private func handleTransfer(metadata: TransferMetaData?) {
@@ -249,7 +249,7 @@ final class AmountPresenter {
         setupMetadata(provider: metaDataProvider)
     }
 
-    private func setupMetadata(provider: SingleValueProvider<TransferMetaData, CDCWSingleValue>) {
+    private func setupMetadata(provider: SingleValueProvider<TransferMetaData>) {
         let changesBlock = { [weak self] (changes: [DataProviderChange<TransferMetaData>]) -> Void in
             if let change = changes.first {
                 switch change {
@@ -268,11 +268,11 @@ final class AmountPresenter {
         }
 
         let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
-        provider.addCacheObserver(self,
-                                  deliverOn: .main,
-                                  executing: changesBlock,
-                                  failing: failBlock,
-                                  options: options)
+        provider.addObserver(self,
+                             deliverOn: .main,
+                             executing: changesBlock,
+                             failing: failBlock,
+                             options: options)
     }
 
     private func prepareTransferInfo() -> TransferInfo? {
@@ -372,8 +372,8 @@ extension AmountPresenter: AmountPresenterProtocol {
 
         confirmationState = .waiting
 
-        balanceDataProvider.refreshCache()
-        metadataProvider.refreshCache()
+        balanceDataProvider.refresh()
+        metadataProvider.refresh()
     }
     
     func presentAssetSelection() {

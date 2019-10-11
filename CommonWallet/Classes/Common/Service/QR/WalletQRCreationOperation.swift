@@ -29,7 +29,7 @@ final class WalletQRCreationOperation: BaseOperation<UIImage> {
 
         guard let filter = CIFilter(name: "CIQRCodeGenerator") else {
             if !isCancelled {
-                result = .error(WalletQRCreationOperationError.generatorUnavailable)
+                result = .failure(WalletQRCreationOperationError.generatorUnavailable)
             }
 
             return
@@ -40,7 +40,7 @@ final class WalletQRCreationOperation: BaseOperation<UIImage> {
 
         guard let qrImage = filter.outputImage else {
             if !isCancelled {
-                result = .error(WalletQRCreationOperationError.generatedImageInvalid)
+                result = .failure(WalletQRCreationOperationError.generatedImageInvalid)
             }
 
             return
@@ -60,7 +60,7 @@ final class WalletQRCreationOperation: BaseOperation<UIImage> {
 
         guard let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) else {
             if !isCancelled {
-                result = .error(WalletQRCreationOperationError.bitmapImageCreationFailed)
+                result = .failure(WalletQRCreationOperationError.bitmapImageCreationFailed)
             }
 
             return

@@ -128,13 +128,13 @@ final class WithdrawConfirmationPresenter {
         view?.didReceive(accessoryViewModel: accesoryViewModel)
     }
 
-    private func handleWithdraw(result: OperationResult<Void>) {
+    private func handleWithdraw(result: Result<Void, Error>) {
         switch result {
         case .success:
             eventCenter.notify(with: WithdrawCompleteEvent(withdrawInfo: withdrawInfo))
 
             coordinator.showResult(for: withdrawInfo, asset: asset, option: withdrawOption)
-        case .error:
+        case .failure:
             view?.showError(message: "Withdraw failed. Please, try again later.")
         }
     }

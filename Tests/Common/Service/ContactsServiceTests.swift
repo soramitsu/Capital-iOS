@@ -57,7 +57,7 @@ class ContactsServiceTests: NetworkBaseTests {
                     return
                 }
 
-                if case .error(let error) = result {
+                if case .failure(let error) = result {
                     XCTFail("Unexpected error \(error)")
                 }
             }

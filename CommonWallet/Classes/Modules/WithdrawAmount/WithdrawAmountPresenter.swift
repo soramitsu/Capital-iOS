@@ -36,8 +36,8 @@ final class WithdrawAmountPresenter {
     private var balances: [BalanceData]?
     private var metadata: WithdrawMetaData?
     private let dataProviderFactory: DataProviderFactoryProtocol
-    private let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
-    private var metaDataProvider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>
+    private let balanceDataProvider: SingleValueProvider<[BalanceData]>
+    private var metaDataProvider: SingleValueProvider<WithdrawMetaData>
     private let assetTitleFactory: AssetSelectionFactoryProtocol
     private let withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     private let feeCalculationFactory: FeeCalculationFactoryProtocol
@@ -203,11 +203,11 @@ final class WithdrawAmountPresenter {
         }
 
         let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
-        balanceDataProvider.addCacheObserver(self,
-                                             deliverOn: .main,
-                                             executing: changesBlock,
-                                             failing: failBlock,
-                                             options: options)
+        balanceDataProvider.addObserver(self,
+                                        deliverOn: .main,
+                                        executing: changesBlock,
+                                        failing: failBlock,
+                                        options: options)
     }
 
     private func handleWithdraw(metadata: WithdrawMetaData?) {
@@ -243,7 +243,7 @@ final class WithdrawAmountPresenter {
         setupMetadata(provider: metaDataProvider)
     }
 
-    private func setupMetadata(provider: SingleValueProvider<WithdrawMetaData, CDCWSingleValue>) {
+    private func setupMetadata(provider: SingleValueProvider<WithdrawMetaData>) {
         let changesBlock = { [weak self] (changes: [DataProviderChange<WithdrawMetaData>]) -> Void in
             if let change = changes.first {
                 switch change {
@@ -262,11 +262,11 @@ final class WithdrawAmountPresenter {
         }
 
         let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
-        provider.addCacheObserver(self,
-                                  deliverOn: .main,
-                                  executing: changesBlock,
-                                  failing: failBlock,
-                                  options: options)
+        provider.addObserver(self,
+                             deliverOn: .main,
+                             executing: changesBlock,
+                             failing: failBlock,
+                             options: options)
     }
 
     private func prepareWithdrawInfo() -> WithdrawInfo? {
@@ -364,8 +364,8 @@ extension WithdrawAmountPresenter: WithdrawAmountPresenterProtocol {
 
         confirmationState = .waiting
 
-        balanceDataProvider.refreshCache()
-        metaDataProvider.refreshCache()
+        balanceDataProvider.refresh()
+        metaDataProvider.refresh()
     }
 
     func presentAssetSelection() {

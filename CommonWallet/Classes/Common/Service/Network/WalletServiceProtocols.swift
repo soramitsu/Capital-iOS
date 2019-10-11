@@ -7,13 +7,12 @@ import Foundation
 import IrohaCommunication
 import RobinHood
 
-typealias BalanceCompletionBlock = (OperationResult<[BalanceData]>?) -> Void
-typealias TransactionHistoryBlock = (OperationResult<AssetTransactionPageData>?) -> Void
-typealias BoolResultCompletionBlock = (OperationResult<Bool>?) -> Void
-typealias EmptyResultCompletionBlock = (OperationResult<Void>?) -> Void
-typealias SearchCompletionBlock = (OperationResult<[SearchData]>?) -> Void
-typealias WithdrawalMetadataCompletionBlock = (OperationResult<WithdrawMetaData>?) -> Void
-typealias TransferMetadataCompletionBlock = (OperationResult<TransferMetaData>?) -> Void
+typealias BalanceCompletionBlock = (Result<[BalanceData]?, Error>?) -> Void
+typealias TransactionHistoryBlock = (Result<AssetTransactionPageData?, Error>?) -> Void
+typealias EmptyResultCompletionBlock = (Result<Void, Error>?) -> Void
+typealias SearchCompletionBlock = (Result<[SearchData]?, Error>?) -> Void
+typealias WithdrawalMetadataCompletionBlock = (Result<WithdrawMetaData?, Error>?) -> Void
+typealias TransferMetadataCompletionBlock = (Result<TransferMetaData?, Error>?) -> Void
 
 protocol WalletServiceProtocol {
     
@@ -36,7 +35,7 @@ protocol WalletServiceProtocol {
     @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping BoolResultCompletionBlock) -> Operation
+                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation
 
     @discardableResult
     func search(for searchString: String,

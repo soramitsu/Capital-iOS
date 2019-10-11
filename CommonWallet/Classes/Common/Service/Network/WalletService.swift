@@ -96,7 +96,7 @@ extension WalletService: WalletServiceProtocol {
     @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping BoolResultCompletionBlock) -> Operation {
+                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation {
         let urlTemplate = networkResolver.urlTemplate(for: .transfer)
 
         let operation = operationFactory.transferOperation(urlTemplate, info: info)

@@ -79,7 +79,7 @@ class HistoryServiceTests: NetworkBaseTests {
                                                     switch result {
                                                     case .success:
                                                         XCTAssert(!expectsError)
-                                                    case .error:
+                                                    case .failure:
                                                         XCTAssert(expectsError)
                                                     }
             }

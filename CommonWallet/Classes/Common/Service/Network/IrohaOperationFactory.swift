@@ -19,7 +19,7 @@ private struct Constants {
 }
 
 public extension IrohaOperationFactoryProtocol {
-    func fetchBalanceOperation(_ urlTemplate: String, assets: [IRAssetId]) -> NetworkOperation<[BalanceData]> {
+    func fetchBalanceOperation(_ urlTemplate: String, assets: [IRAssetId]) -> NetworkOperation<[BalanceData]?> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
@@ -45,7 +45,7 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<[BalanceData]> { (data) in
+        let resultFactory = AnyNetworkResultFactory<[BalanceData]?> { (data) in
             let resultData = try self.decoder.decode(ResultData<[BalanceData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
@@ -65,7 +65,7 @@ public extension IrohaOperationFactoryProtocol {
 
     func fetchTransactionHistoryOperation(_ urlTemplate: String,
                                           filter: WalletHistoryRequest,
-                                          pagination: OffsetPagination) -> NetworkOperation<AssetTransactionPageData> {
+                                          pagination: OffsetPagination) -> NetworkOperation<AssetTransactionPageData?> {
 
         let requestFactory = BlockNetworkRequestFactory {
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildURL(with: pagination)
@@ -77,7 +77,7 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<AssetTransactionPageData> { (data) in
+        let resultFactory = AnyNetworkResultFactory<AssetTransactionPageData?> { (data) in
             let resultData = try self.decoder.decode(MultifieldResultData<AssetTransactionPageData>.self,
                                                      from: data)
 
@@ -92,7 +92,7 @@ public extension IrohaOperationFactoryProtocol {
                                 resultFactory: resultFactory)
     }
 
-    func transferMetadataOperation(_ urlTemplate: String, assetId: IRAssetId) -> NetworkOperation<TransferMetaData> {
+    func transferMetadataOperation(_ urlTemplate: String, assetId: IRAssetId) -> NetworkOperation<TransferMetaData?> {
         let requestFactory = BlockNetworkRequestFactory {
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
                 .withUrlEncoding(allowedCharset: Constants.queryEncoding)
@@ -103,7 +103,7 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<TransferMetaData> { data in
+        let resultFactory = AnyNetworkResultFactory<TransferMetaData?> { data in
             let resultData = try self.decoder.decode(MultifieldResultData<TransferMetaData>.self, from: data)
 
             guard resultData.status.isSuccess else {
@@ -116,7 +116,7 @@ public extension IrohaOperationFactoryProtocol {
         return NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
     }
 
-    func transferOperation(_ urlTemplate: String, info: TransferInfo) -> NetworkOperation<Bool> {
+    func transferOperation(_ urlTemplate: String, info: TransferInfo) -> NetworkOperation<Void> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
@@ -153,21 +153,19 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<Bool> { (data) in
+        let resultFactory = AnyNetworkResultFactory<Void> { (data) in
             let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
                 throw ResultStatusError(statusData: resultData.status)
             }
-
-            return true
         }
 
         return NetworkOperation(requestFactory: requestFactory,
                                 resultFactory: resultFactory)
     }
 
-    func searchOperation(_ urlTemplate: String, searchString: String) -> NetworkOperation<[SearchData]> {
+    func searchOperation(_ urlTemplate: String, searchString: String) -> NetworkOperation<[SearchData]?> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let encodedString = searchString
                 .addingPercentEncoding(withAllowedCharacters: Constants.queryEncoding) else {
@@ -181,7 +179,7 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<[SearchData]> { (data) in
+        let resultFactory = AnyNetworkResultFactory<[SearchData]?> { (data) in
             let resultData = try self.decoder.decode(ResultData<[SearchData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
@@ -199,7 +197,7 @@ public extension IrohaOperationFactoryProtocol {
                                 resultFactory: resultFactory)
     }
 
-    func contactsOperation(_ urlTemplate: String) -> NetworkOperation<[SearchData]> {
+    func contactsOperation(_ urlTemplate: String) -> NetworkOperation<[SearchData]?> {
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
@@ -210,7 +208,7 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<[SearchData]> { (data) in
+        let resultFactory = AnyNetworkResultFactory<[SearchData]?> { (data) in
             let resultData = try self.decoder.decode(ResultData<[SearchData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
@@ -229,7 +227,7 @@ public extension IrohaOperationFactoryProtocol {
     }
 
     func withdrawalMetadataOperation(_ urlTemplate: String,
-                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawMetaData> {
+                                     info: WithdrawMetadataInfo) -> NetworkOperation<WithdrawMetaData?> {
         let requestFactory = BlockNetworkRequestFactory {
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
                 .withUrlEncoding(allowedCharset: Constants.queryEncoding)
@@ -240,7 +238,7 @@ public extension IrohaOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<WithdrawMetaData> { data in
+        let resultFactory = AnyNetworkResultFactory<WithdrawMetaData?> { data in
             let resultData = try self.decoder.decode(MultifieldResultData<WithdrawMetaData>.self, from: data)
 
             guard resultData.status.isSuccess else {

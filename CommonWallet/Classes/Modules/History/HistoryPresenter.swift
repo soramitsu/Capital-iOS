@@ -20,7 +20,7 @@ final class HistoryPresenter {
 
     weak var view: HistoryViewProtocol?
     let coordinator: HistoryCoordinatorProtocol
-    let dataProvider: SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>
+    let dataProvider: SingleValueProvider<AssetTransactionPageData>
     let walletService: WalletServiceProtocol
     let eventCenter: WalletEventCenterProtocol
     var viewModelFactory: HistoryViewModelFactoryProtocol
@@ -37,7 +37,7 @@ final class HistoryPresenter {
 
     init(view: HistoryViewProtocol,
          coordinator: HistoryCoordinatorProtocol,
-         dataProvider: SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>,
+         dataProvider: SingleValueProvider<AssetTransactionPageData>,
          walletService: WalletServiceProtocol,
          eventCenter: WalletEventCenterProtocol,
          viewModelFactory: HistoryViewModelFactoryProtocol,
@@ -117,15 +117,15 @@ final class HistoryPresenter {
         }
 
         let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
-        dataProvider.addCacheObserver(self,
-                                      deliverOn: .main,
-                                      executing: changesBlock,
-                                      failing: failBlock,
-                                      options: options)
+        dataProvider.addObserver(self,
+                                 deliverOn: .main,
+                                 executing: changesBlock,
+                                 failing: failBlock,
+                                 options: options)
     }
 
     private func clearDataProvider() {
-        dataProvider.removeCacheObserver(self)
+        dataProvider.removeObserver(self)
     }
 
     private func loadTransactions(for pagination: OffsetPagination) {
@@ -135,8 +135,11 @@ final class HistoryPresenter {
                                                     if let result = optionalResult {
                                                         switch result {
                                                         case .success(let pageData):
-                                                            self?.handleNext(transactionData: pageData, for: pagination)
-                                                        case .error(let error):
+                                                            let loadedData = pageData ??
+                                                                AssetTransactionPageData(transactions: [])
+                                                            self?.handleNext(transactionData: loadedData,
+                                                                             for: pagination)
+                                                        case .failure(let error):
                                                             self?.handleNext(error: error, for: pagination)
                                                         }
                                                     }
@@ -279,7 +282,7 @@ extension HistoryPresenter: HistoryPresenterProtocol {
 
     func reloadCache() {
         if case .loaded = dataLoadingState {
-            dataProvider.refreshCache()
+            dataProvider.refresh()
         }
     }
 
@@ -302,7 +305,7 @@ extension HistoryPresenter: HistoryPresenterProtocol {
         dataLoadingState = .loading(page: OffsetPagination(offset: 0, count: transactionsPerPage),
                                     previousPage: nil)
 
-        dataProvider.refreshCache()
+        dataProvider.refresh()
     }
 
     func loadNext() -> Bool {
@@ -410,14 +413,14 @@ extension HistoryPresenter: HistoryViewModelFactoryDelegate {
 
 extension HistoryPresenter: WalletEventVisitorProtocol {
     func processTransferComplete(event: TransferCompleteEvent) {
-        dataProvider.refreshCache()
+        dataProvider.refresh()
     }
 
     func processWithdrawComplete(event: WithdrawCompleteEvent) {
-        dataProvider.refreshCache()
+        dataProvider.refresh()
     }
 
     func processAccountUpdate(event: AccountUpdateEvent) {
-        dataProvider.refreshCache()
+        dataProvider.refresh()
     }
 }
