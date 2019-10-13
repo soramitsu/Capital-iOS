@@ -29,16 +29,13 @@ final class DataProviderFactory {
 
     static let historyItemsPerPage: Int = 100
 
-    let networkResolver: WalletNetworkResolverProtocol
     let accountSettings: WalletAccountSettingsProtocol
     let cacheFacade: CoreDataCacheFacadeProtocol
     let networkOperationFactory: WalletNetworkOperationFactoryProtocol
 
-    init(networkResolver: WalletNetworkResolverProtocol,
-         accountSettings: WalletAccountSettingsProtocol,
+    init(accountSettings: WalletAccountSettingsProtocol,
          cacheFacade: CoreDataCacheFacadeProtocol,
          networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
-        self.networkResolver = networkResolver
         self.accountSettings = accountSettings
         self.cacheFacade = cacheFacade
         self.networkOperationFactory = networkOperationFactory
@@ -78,12 +75,10 @@ final class DataProviderFactory {
 
             let source: AnySingleValueProviderSource<AssetTransactionPageData> =
                 AnySingleValueProviderSource {
-                    let urlTemplate = self.networkResolver.urlTemplate(for: .history)
                     var filter = WalletHistoryRequest()
                     filter.assets = assets
                     let operation = self.networkOperationFactory
-                        .fetchTransactionHistoryOperation(urlTemplate, filter: filter, pagination: pagination)
-                    operation.requestModifier = self.networkResolver.adapter(for: .history)
+                        .fetchTransactionHistoryOperation(filter, pagination: pagination)
                     return operation
             }
 
@@ -103,11 +98,8 @@ final class DataProviderFactory {
 extension DataProviderFactory: DataProviderFactoryProtocol {
     func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData]> {
         let source: AnySingleValueProviderSource<[BalanceData]> = AnySingleValueProviderSource {
-            let urlTemplate = self.networkResolver.urlTemplate(for: .balance)
             let assets = self.accountSettings.assets.map { $0.identifier }
-            let operation = self.networkOperationFactory.fetchBalanceOperation(urlTemplate,
-                                                                               assets: assets)
-            operation.requestModifier = self.networkResolver.adapter(for: .balance)
+            let operation = self.networkOperationFactory.fetchBalanceOperation(assets)
             return operation
         }
 
@@ -131,10 +123,7 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
     
     func createContactsDataProvider() throws -> SingleValueProvider<[SearchData]> {
         let source: AnySingleValueProviderSource<[SearchData]> = AnySingleValueProviderSource {
-            let requestType = WalletRequestType.contacts
-            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
-            let operation = self.networkOperationFactory.contactsOperation(urlTemplate)
-            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+            let operation = self.networkOperationFactory.contactsOperation()
             return operation
         }
         
@@ -154,10 +143,7 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
         throws -> SingleValueProvider<WithdrawMetaData> {
         let info = WithdrawMetadataInfo(assetId: assetId.identifier(), option: option)
         let source: AnySingleValueProviderSource<WithdrawMetaData> = AnySingleValueProviderSource {
-            let requestType = WalletRequestType.withdrawalMetadata
-            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
-            let operation = self.networkOperationFactory.withdrawalMetadataOperation(urlTemplate, info: info)
-            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+            let operation = self.networkOperationFactory.withdrawalMetadataOperation(info)
             return operation
         }
 
@@ -177,10 +163,7 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
     func createTransferMetadataProvider(for assetId: IRAssetId)
         throws -> SingleValueProvider<TransferMetaData> {
         let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource {
-            let requestType = WalletRequestType.transferMetadata
-            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
-            let operation = self.networkOperationFactory.transferMetadataOperation(urlTemplate, assetId: assetId)
-            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+            let operation = self.networkOperationFactory.transferMetadataOperation(assetId)
             return operation
         }
 

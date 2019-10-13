@@ -49,9 +49,9 @@ class InvoiceScanTests: NetworkBaseTests {
 
             let accountSettings = try createRandomAccountSettings(for: 1)
             let networkResolver = MockNetworkResolver()
-            let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
-            let networkService = WalletService(networkResolver: networkResolver,
-                                               operationFactory: networkOperationFactory)
+            let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     networkResolver: networkResolver)
+            let networkService = WalletService(operationFactory: networkOperationFactory)
 
             let view = MockInvoiceScanViewProtocol()
             let coordinator = MockInvoiceScanCoordinatorProtocol()

@@ -8,7 +8,6 @@ import IrohaCommunication
 
 protocol ResolverProtocol: class {
     var account: WalletAccountSettingsProtocol { get }
-    var networkResolver: WalletNetworkResolverProtocol { get }
     var networkOperationFactory: WalletNetworkOperationFactoryProtocol { get }
     var eventCenter: WalletEventCenterProtocol { get }
     var style: WalletStyleProtocol { get }
@@ -32,7 +31,6 @@ protocol ResolverProtocol: class {
 
 final class Resolver: ResolverProtocol {
     var account: WalletAccountSettingsProtocol
-    var networkResolver: WalletNetworkResolverProtocol
     var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     var accountListConfiguration: AccountListConfigurationProtocol
     var historyConfiguration: HistoryConfigurationProtocol
@@ -58,7 +56,6 @@ final class Resolver: ResolverProtocol {
     var commandFactory: WalletCommandFactoryProtocol { return self }
 
     init(account: WalletAccountSettingsProtocol,
-         networkResolver: WalletNetworkResolverProtocol,
          networkOperationFactory: WalletNetworkOperationFactoryProtocol,
          accountListConfiguration: AccountListConfigurationProtocol,
          historyConfiguration: HistoryConfigurationProtocol,
@@ -69,7 +66,6 @@ final class Resolver: ResolverProtocol {
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol) {
         self.account = account
-        self.networkResolver = networkResolver
         self.networkOperationFactory = networkOperationFactory
         self.accountListConfiguration = accountListConfiguration
         self.historyConfiguration = historyConfiguration

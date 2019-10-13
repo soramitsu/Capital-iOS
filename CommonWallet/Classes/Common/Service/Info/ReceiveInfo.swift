@@ -19,6 +19,13 @@ public struct ReceiveInfo {
     public var assetId: IRAssetId?
     public var amount: IRAmount?
     public var details: String?
+
+    public init(accountId: IRAccountId, assetId: IRAssetId?, amount: IRAmount?, details: String?) {
+        self.accountId = accountId
+        self.assetId = assetId
+        self.amount = amount
+        self.details = details
+    }
 }
 
 extension ReceiveInfo: Equatable {

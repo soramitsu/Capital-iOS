@@ -6,7 +6,13 @@
 import Foundation
 
 public struct SearchData: Codable, Equatable {
-    var accountId: String
-    var firstName: String
-    var lastName: String
+    public var accountId: String
+    public var firstName: String
+    public var lastName: String
+
+    public init(accountId: String, firstName: String, lastName: String) {
+        self.accountId = accountId
+        self.firstName = firstName
+        self.lastName = lastName
+    }
 }

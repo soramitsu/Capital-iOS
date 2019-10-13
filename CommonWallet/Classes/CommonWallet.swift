@@ -9,6 +9,10 @@ public protocol CommonWalletBuilderProtocol: class {
     static func builder(with account: WalletAccountSettingsProtocol,
                         networkResolver: WalletNetworkResolverProtocol) -> CommonWalletBuilderProtocol
 
+    static func builder(with account: WalletAccountSettingsProtocol,
+                        networkOperationFactory: WalletNetworkOperationFactoryProtocol)
+        -> CommonWalletBuilderProtocol
+
     var accountListModuleBuilder: AccountListModuleBuilderProtocol { get }
     var historyModuleBuilder: HistoryModuleBuilderProtocol { get }
     var invoiceScanModuleBuilder: InvoiceScanModuleBuilderProtocol { get }
@@ -63,9 +67,7 @@ public final class CommonWalletBuilder {
     fileprivate var privateTransactionDetailsModuleBuilder: TransactionDetailsModuleBuilder
     fileprivate var privateStyleBuilder: WalletStyleBuilder
     fileprivate var account: WalletAccountSettingsProtocol
-    fileprivate var networkResolver: WalletNetworkResolverProtocol
-    fileprivate lazy var networkOperationFactory: WalletNetworkOperationFactoryProtocol =
-        WalletNetworkOperationFactory(accountSettings: account)
+    fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatter: NumberFormatter?
@@ -76,9 +78,9 @@ public final class CommonWalletBuilder {
     fileprivate var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
 
-    init(account: WalletAccountSettingsProtocol, networkResolver: WalletNetworkResolverProtocol) {
+    init(account: WalletAccountSettingsProtocol, networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
         self.account = account
-        self.networkResolver = networkResolver
+        self.networkOperationFactory = networkOperationFactory
         privateAccountModuleBuilder = AccountListModuleBuilder()
         privateHistoryModuleBuilder = HistoryModuleBuilder()
         privateContactsModuleBuilder = ContactsModuleBuilder()
@@ -120,7 +122,15 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
     public static func builder(with account: WalletAccountSettingsProtocol,
                                networkResolver: WalletNetworkResolverProtocol) -> CommonWalletBuilderProtocol {
-        return CommonWalletBuilder(account: account, networkResolver: networkResolver)
+        let networkOperationFactory = MiddlewareOperationFactory(accountSettings: account,
+                                                                 networkResolver: networkResolver)
+        return CommonWalletBuilder(account: account, networkOperationFactory: networkOperationFactory)
+    }
+
+    public static func builder(with account: WalletAccountSettingsProtocol,
+                               networkOperationFactory: WalletNetworkOperationFactoryProtocol)
+        -> CommonWalletBuilderProtocol {
+        return CommonWalletBuilder(account: account, networkOperationFactory: networkOperationFactory)
     }
 
     public func with(networkOperationFactory: WalletNetworkOperationFactoryProtocol) -> Self {
@@ -200,7 +210,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         decorator.underlyingFactory = inputValidatorFactory
 
         let resolver = Resolver(account: account,
-                                networkResolver: networkResolver,
                                 networkOperationFactory: networkOperationFactory,
                                 accountListConfiguration: accountListConfiguration,
                                 historyConfiguration: historyConfiguration,

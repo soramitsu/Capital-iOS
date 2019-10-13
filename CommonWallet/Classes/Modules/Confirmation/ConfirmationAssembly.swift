@@ -17,8 +17,7 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
         
         let coordinator = ConfirmationCoordinator(resolver: resolver)
         
-        let walletService = WalletService(networkResolver: resolver.networkResolver,
-                                          operationFactory: resolver.networkOperationFactory)
+        let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
         let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                          radius: AccessoryView.iconRadius)

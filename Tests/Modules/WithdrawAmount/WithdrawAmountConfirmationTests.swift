@@ -54,10 +54,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             let cacheFacade = CoreDataTestCacheFacade()
 
-            let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
+            let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     networkResolver: networkResolver)
 
-            let dataProviderFactory = DataProviderFactory(networkResolver: networkResolver,
-                                                          accountSettings: accountSettings,
+            let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
 

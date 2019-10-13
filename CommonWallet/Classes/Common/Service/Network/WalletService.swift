@@ -13,12 +13,9 @@ enum WalletServiceError: Error {
 final class WalletService {
     let operationQueue: OperationQueue
     let operationFactory: WalletNetworkOperationFactoryProtocol
-    let networkResolver: WalletNetworkResolverProtocol
 
-    init(networkResolver: WalletNetworkResolverProtocol,
-         operationFactory: WalletNetworkOperationFactoryProtocol,
+    init(operationFactory: WalletNetworkOperationFactoryProtocol,
          operationQueue: OperationQueue = OperationQueue()) {
-        self.networkResolver = networkResolver
         self.operationFactory = operationFactory
         self.operationQueue = operationQueue
     }
@@ -30,10 +27,7 @@ extension WalletService: WalletServiceProtocol {
     func fetchBalance(for assets: [IRAssetId],
                       runCompletionIn queue: DispatchQueue,
                       completionBlock: @escaping BalanceCompletionBlock) -> Operation {
-        let urlTemplate = networkResolver.urlTemplate(for: .balance)
-
-        let operation = operationFactory.fetchBalanceOperation(urlTemplate, assets: assets)
-        operation.requestModifier = networkResolver.adapter(for: .balance)
+        let operation = operationFactory.fetchBalanceOperation(assets)
 
         operation.completionBlock = {
             queue.async {
@@ -52,14 +46,7 @@ extension WalletService: WalletServiceProtocol {
                                  runCompletionIn queue: DispatchQueue,
                                  completionBlock: @escaping TransactionHistoryBlock) -> Operation {
 
-        let urlTemplate = networkResolver.urlTemplate(for: .history)
-
-        let operation = operationFactory.fetchTransactionHistoryOperation(urlTemplate,
-                                                                          filter: filter,
-                                                                          pagination: pagination)
-        operation.requestModifier = networkResolver.adapter(for: .history)
-        operation.networkSession.configuration.urlCache = nil
-        operation.networkSession.configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        let operation = operationFactory.fetchTransactionHistoryOperation(filter, pagination: pagination)
 
         operation.completionBlock = {
             queue.async {
@@ -77,10 +64,7 @@ extension WalletService: WalletServiceProtocol {
                                runCompletionIn queue: DispatchQueue,
                                completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation {
 
-        let urlTemplate = networkResolver.urlTemplate(for: .transferMetadata)
-
-        let operation = operationFactory.transferMetadataOperation(urlTemplate, assetId: assetId)
-        operation.requestModifier = networkResolver.adapter(for: .transferMetadata)
+        let operation = operationFactory.transferMetadataOperation(assetId)
 
         operation.completionBlock = {
             queue.async {
@@ -97,10 +81,8 @@ extension WalletService: WalletServiceProtocol {
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping EmptyResultCompletionBlock) -> Operation {
-        let urlTemplate = networkResolver.urlTemplate(for: .transfer)
 
-        let operation = operationFactory.transferOperation(urlTemplate, info: info)
-        operation.requestModifier = networkResolver.adapter(for: .transfer)
+        let operation = operationFactory.transferOperation(info)
 
         operation.completionBlock = {
             queue.async {
@@ -117,10 +99,8 @@ extension WalletService: WalletServiceProtocol {
     func search(for searchString: String,
                 runCompletionIn queue: DispatchQueue,
                 completionBlock: @escaping SearchCompletionBlock) -> Operation {
-        let urlTemplate = networkResolver.urlTemplate(for: .search)
 
-        let operation = operationFactory.searchOperation(urlTemplate, searchString: searchString)
-        operation.requestModifier = networkResolver.adapter(for: .search)
+        let operation = operationFactory.searchOperation(searchString)
 
         operation.completionBlock = {
             queue.async {
@@ -136,11 +116,7 @@ extension WalletService: WalletServiceProtocol {
     @discardableResult
     func fetchContacts(runCompletionIn queue: DispatchQueue,
                        completionBlock: @escaping SearchCompletionBlock) -> Operation {
-        let requestType = WalletRequestType.contacts
-        let urlTemplate = networkResolver.urlTemplate(for: requestType)
-        
-        let operation = operationFactory.contactsOperation(urlTemplate)
-        operation.requestModifier = networkResolver.adapter(for: requestType)
+        let operation = operationFactory.contactsOperation()
         
         operation.completionBlock = {
             queue.async {
@@ -157,10 +133,7 @@ extension WalletService: WalletServiceProtocol {
     func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
                                  runCompletionIn queue: DispatchQueue,
                                  completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation {
-        let urlTemplate = networkResolver.urlTemplate(for: .withdrawalMetadata)
-
-        let operation = operationFactory.withdrawalMetadataOperation(urlTemplate, info: info)
-        operation.requestModifier = networkResolver.adapter(for: .withdrawalMetadata)
+        let operation = operationFactory.withdrawalMetadataOperation(info)
 
         operation.completionBlock = {
             queue.async {
@@ -177,11 +150,7 @@ extension WalletService: WalletServiceProtocol {
     func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping EmptyResultCompletionBlock) -> Operation {
-        let requestType = WalletRequestType.withdraw
-        let urlTemplate = networkResolver.urlTemplate(for: requestType)
-
-        let operation = operationFactory.withdrawOperation(urlTemplate, info: info)
-        operation.requestModifier = networkResolver.adapter(for: requestType)
+        let operation = operationFactory.withdrawOperation(info)
 
         operation.completionBlock = {
             queue.async {

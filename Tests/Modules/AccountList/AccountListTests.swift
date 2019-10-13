@@ -35,6 +35,7 @@ class AccountListTests: NetworkBaseTests {
 
             let account = try createRandomAccountSettings(for: 4)
             let resolver = try createMockedResolver(for: account)
+            let networkResolver = MockNetworkResolver()
 
             let view = MockAccountListViewProtocol()
             let coordinator = MockAccountListCoordinatorProtocol()
@@ -44,12 +45,13 @@ class AccountListTests: NetworkBaseTests {
             let presenter = try createPresenter(from: view,
                                                 coordinator: coordinator,
                                                 resolver: resolver,
+                                                networkResolver: networkResolver,
                                                 eventCenter: eventCenter)
 
             // when
 
             try FetchBalanceMock.register(mock: .success,
-                                          networkResolver: resolver.networkResolver,
+                                          networkResolver: networkResolver,
                                           requestType: .balance,
                                           httpMethod: .post)
 
@@ -97,6 +99,7 @@ class AccountListTests: NetworkBaseTests {
 
             let account = try createRandomAccountSettings(for: 4)
             let resolver = try createMockedResolver(for: account)
+            let networkResolver = MockNetworkResolver()
 
             let view = MockAccountListViewProtocol()
             let coordinator = MockAccountListCoordinatorProtocol()
@@ -106,12 +109,13 @@ class AccountListTests: NetworkBaseTests {
             let presenter = try createPresenter(from: view,
                                                 coordinator: coordinator,
                                                 resolver: resolver,
+                                                networkResolver: networkResolver,
                                                 eventCenter: eventCenter)
 
             // when
 
             try FetchBalanceMock.register(mock: .error,
-                                          networkResolver: resolver.networkResolver,
+                                          networkResolver: networkResolver,
                                           requestType: .balance,
                                           httpMethod: .post)
 
@@ -158,12 +162,13 @@ class AccountListTests: NetworkBaseTests {
     private func createPresenter(from view: AccountListViewProtocol,
                                  coordinator: AccountListCoordinatorProtocol,
                                  resolver: ResolverProtocol,
+                                 networkResolver: WalletNetworkResolverProtocol,
                                  eventCenter: WalletEventCenterProtocol) throws -> AccountListPresenter {
 
-        let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: resolver.account)
+        let networkOperationFactory = MiddlewareOperationFactory(accountSettings: resolver.account,
+                                                                 networkResolver: networkResolver)
 
-        let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
-                                                      accountSettings: resolver.account,
+        let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataTestCacheFacade(),
                                                       networkOperationFactory: networkOperationFactory)
 
@@ -185,7 +190,6 @@ class AccountListTests: NetworkBaseTests {
     private func createMockedResolver(for account: WalletAccountSettingsProtocol) throws -> ResolverProtocol {
         let resolver = MockResolverProtocol()
 
-        let networkResolver = MockNetworkResolver()
         let networkOperationFactory = MockWalletNetworkOperationFactoryProtocol()
         let eventCenter = MockWalletEventCenterProtocol()
 
@@ -196,7 +200,6 @@ class AccountListTests: NetworkBaseTests {
 
         stub(resolver) { stub in
             when(stub).account.get.thenReturn(account)
-            when(stub).networkResolver.get.thenReturn(networkResolver)
             when(stub).networkOperationFactory.get.thenReturn(networkOperationFactory)
             when(stub).style.get.thenReturn(style)
             when(stub).accountListConfiguration.get.thenReturn(accountListConfiguration)

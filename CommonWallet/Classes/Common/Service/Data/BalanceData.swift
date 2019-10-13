@@ -11,6 +11,11 @@ public struct BalanceData: Codable, Equatable {
         case balance
     }
 
-    var identifier: String
-    var balance: String
+    public var identifier: String
+    public var balance: String
+
+    public init(identifier: String, balance: String) {
+        self.identifier = identifier
+        self.balance = balance
+    }
 }

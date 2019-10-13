@@ -16,8 +16,7 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
 
         let coordinator = HistoryCoordinator(resolver: resolver)
         
-        let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
-                                                      accountSettings: resolver.account,
+        let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
                                                       networkOperationFactory: resolver.networkOperationFactory)
 
@@ -38,8 +37,7 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
                                                        transactionTypes: resolver.transactionTypeList,
                                                        includesFeeInAmount: includesFeeInAmount)
 
-        let walletService = WalletService(networkResolver: resolver.networkResolver,
-                                          operationFactory: resolver.networkOperationFactory)
+        let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
  
         let presenter = HistoryPresenter(view: view,
                                          coordinator: coordinator,

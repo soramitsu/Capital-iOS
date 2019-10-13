@@ -29,9 +29,9 @@ class CoreDataCacheTests: XCTestCase {
 
             let assetsCount = 4
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
-            let operationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
-            let dataProviderFactory = DataProviderFactory(networkResolver: networkResolver,
-                                                          accountSettings: accountSettings,
+            let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                              networkResolver: networkResolver)
+            let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: operationFactory)
 

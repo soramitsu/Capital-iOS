@@ -29,19 +29,47 @@ public struct AssetTransactionData: Codable, Equatable {
         case reason
     }
 
-    var transactionId: String
-    var status: AssetTransactionStatus
-    var assetId: String
-    var peerId: String
-    var peerName: String
-    var details: String
-    var amount: String
-    var fee: String?
-    var timestamp: Int64
-    var type: String
-    var reason: String?
+    public var transactionId: String
+    public var status: AssetTransactionStatus
+    public var assetId: String
+    public var peerId: String
+    public var peerName: String
+    public var details: String
+    public var amount: String
+    public var fee: String?
+    public var timestamp: Int64
+    public var type: String
+    public var reason: String?
+
+    public init(transactionId: String,
+                status: AssetTransactionStatus,
+                assetId: String,
+                peerId: String,
+                peerName: String,
+                details: String,
+                amount: String,
+                fee: String?,
+                timestamp: Int64,
+                type: String,
+                reason: String?) {
+        self.transactionId = transactionId
+        self.status = status
+        self.assetId = assetId
+        self.peerId = peerId
+        self.peerName = peerName
+        self.details = details
+        self.amount = amount
+        self.fee = fee
+        self.timestamp = timestamp
+        self.type = type
+        self.reason = reason
+    }
 }
 
 public struct AssetTransactionPageData: Codable, Equatable {
-    var transactions: [AssetTransactionData]
+    public var transactions: [AssetTransactionData]
+
+    public init(transactions: [AssetTransactionData]) {
+        self.transactions = transactions
+    }
 }

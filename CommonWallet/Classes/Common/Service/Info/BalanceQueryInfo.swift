@@ -5,7 +5,12 @@
 
 import Foundation
 
-struct BalanceQueryInfo: Codable {
-    var assets: [String]
-    var query: Data
+public struct BalanceQueryInfo: Codable {
+    public var assets: [String]
+    public var query: Data
+
+    public init(assets: [String], query: Data) {
+        self.assets = assets
+        self.query = query
+    }
 }
