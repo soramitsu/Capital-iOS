@@ -8,8 +8,7 @@ import Foundation
 
 final class InvoiceScanAssembly: InvoiceScanAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol) -> InvoiceScanViewProtocol? {
-        let networkService = WalletService(networkResolver: resolver.networkResolver,
-                                           operationFactory: resolver.networkOperationFactory)
+        let networkService = WalletService(operationFactory: resolver.networkOperationFactory)
 
         let qrScanServiceFactory = WalletQRCaptureServiceFactory()
 

@@ -10,7 +10,7 @@ final class AccountListPresenter {
     weak var view: AccountListViewProtocol?
     var coordinator: AccountListCoordinatorProtocol
 
-    let balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>
+    let balanceDataProvider: SingleValueProvider<[BalanceData]>
     let viewModelFactory: AccountModuleViewModelFactoryProtocol
     let eventCenter: WalletEventCenterProtocol
 
@@ -18,7 +18,7 @@ final class AccountListPresenter {
 
     init(view: AccountListViewProtocol,
          coordinator: AccountListCoordinatorProtocol,
-         balanceDataProvider: SingleValueProvider<[BalanceData], CDCWSingleValue>,
+         balanceDataProvider: SingleValueProvider<[BalanceData]>,
          viewModelFactory: AccountModuleViewModelFactoryProtocol,
          eventCenter: WalletEventCenterProtocol) {
         self.view = view
@@ -68,11 +68,11 @@ final class AccountListPresenter {
         }
 
         let options = DataProviderObserverOptions(alwaysNotifyOnRefresh: true)
-        balanceDataProvider.addCacheObserver(self,
-                                             deliverOn: .main,
-                                             executing: changesBlock,
-                                             failing: failBlock,
-                                             options: options)
+        balanceDataProvider.addObserver(self,
+                                        deliverOn: .main,
+                                        executing: changesBlock,
+                                        failing: failBlock,
+                                        options: options)
     }
 }
 
@@ -85,11 +85,11 @@ extension AccountListPresenter: AccountListPresenterProtocol {
     }
 
     func reload() {
-        balanceDataProvider.refreshCache()
+        balanceDataProvider.refresh()
     }
 
     func viewDidAppear() {
-        balanceDataProvider.refreshCache()
+        balanceDataProvider.refresh()
     }
 }
 
@@ -102,14 +102,14 @@ extension AccountListPresenter: ShowMoreViewModelDelegate {
 
 extension AccountListPresenter: WalletEventVisitorProtocol {
     func processTransferComplete(event: TransferCompleteEvent) {
-        balanceDataProvider.refreshCache()
+        balanceDataProvider.refresh()
     }
 
     func processWithdrawComplete(event: WithdrawCompleteEvent) {
-        balanceDataProvider.refreshCache()
+        balanceDataProvider.refresh()
     }
 
     func processAccountUpdate(event: AccountUpdateEvent) {
-        balanceDataProvider.refreshCache()
+        balanceDataProvider.refresh()
     }
 }

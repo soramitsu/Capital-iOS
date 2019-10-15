@@ -116,7 +116,7 @@ class WalletQRServiceTests: XCTestCase {
                                         expectation.fulfill()
                                     }
 
-                                    guard let result = optionalResult, case .error(let error) = result else {
+                                    guard let result = optionalResult, case .failure(let error) = result else {
                                         XCTFail()
                                         return
                                     }

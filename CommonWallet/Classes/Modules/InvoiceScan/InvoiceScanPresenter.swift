@@ -147,8 +147,9 @@ final class InvoiceScanPresenter {
                                                 if let result = optionalResult {
                                                     switch result {
                                                     case .success(let searchResult):
-                                                        self?.handleProccessing(searchResult: searchResult)
-                                                    case .error(let error):
+                                                        let loadedResult = searchResult ?? []
+                                                        self?.handleProccessing(searchResult: loadedResult)
+                                                    case .failure(let error):
                                                         self?.handleProcessing(error: error)
                                                     }
                                                 }

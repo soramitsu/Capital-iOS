@@ -24,7 +24,7 @@ final class ContactsPresenter: NSObject {
     var coordinator: ContactsCoordinatorProtocol
     
     private(set) var viewModel = ContactListViewModel()
-    private let dataProvider: SingleValueProvider<[SearchData], CDCWSingleValue>
+    private let dataProvider: SingleValueProvider<[SearchData]>
     private let walletService: WalletServiceProtocol
     private let viewModelFactory: ContactsViewModelFactoryProtocol
     private let currentAccountId: IRAccountId
@@ -47,7 +47,7 @@ final class ContactsPresenter: NSObject {
 
     init(view: ContactsViewProtocol,
          coordinator: ContactsCoordinatorProtocol,
-         dataProvider: SingleValueProvider<[SearchData], CDCWSingleValue>,
+         dataProvider: SingleValueProvider<[SearchData]>,
          walletService: WalletServiceProtocol,
          viewModelFactory: ContactsViewModelFactoryProtocol,
          selectedAsset: WalletAsset,
@@ -81,11 +81,11 @@ final class ContactsPresenter: NSObject {
             self?.logger?.error("Unexpected search data provider error: \(error)")
         }
         
-        dataProvider.addCacheObserver(self,
-                                      deliverOn: .main,
-                                      executing: changesBlock,
-                                      failing: failBlock,
-                                      options: DataProviderObserverOptions(alwaysNotifyOnRefresh: true))
+        dataProvider.addObserver(self,
+                                 deliverOn: .main,
+                                 executing: changesBlock,
+                                 failing: failBlock,
+                                 options: DataProviderObserverOptions(alwaysNotifyOnRefresh: true))
     }
     
     private func handleContacts(with updatedContacts: [SearchData]?) {
@@ -100,7 +100,7 @@ final class ContactsPresenter: NSObject {
         switch contactsLoadingState {
         case .waitingCache:
             contactsLoadingState = .refreshing
-            dataProvider.refreshCache()
+            dataProvider.refresh()
         case .refreshing:
             contactsLoadingState = .refreshed
         case .refreshed:
@@ -175,8 +175,11 @@ final class ContactsPresenter: NSObject {
                 self?.searchOperation = nil
 
                 switch result {
-                case .success(let contacts): self?.handleSearch(with: contacts)
-                case .error(let error):      self?.logger?.error(error.localizedDescription)
+                case .success(let contacts):
+                    let loadedContacts = contacts ?? []
+                    self?.handleSearch(with: loadedContacts)
+                case .failure(let error):
+                    self?.logger?.error(error.localizedDescription)
                 }
             }
         }

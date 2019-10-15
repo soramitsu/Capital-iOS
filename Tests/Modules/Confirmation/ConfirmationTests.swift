@@ -16,15 +16,15 @@ class ConfirmationTests: NetworkBaseTests {
             let accountSettings = try createRandomAccountSettings(for: 1)
             let networkResolver = MockNetworkResolver()
 
-            let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
+            let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     networkResolver: networkResolver)
 
             let view = MockWalletFormViewProtocol()
             let coordinator = MockConfirmationCoordinatorProtocol()
 
             let resolver = MockResolverProtocol()
 
-            let walletService = WalletService(networkResolver: networkResolver,
-                                              operationFactory: networkOperationFactory)
+            let walletService = WalletService(operationFactory: networkOperationFactory)
 
             var transferInfo = try createRandomTransferInfo()
             transferInfo.source = accountSettings.accountId

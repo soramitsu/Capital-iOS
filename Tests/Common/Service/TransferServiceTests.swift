@@ -37,9 +37,9 @@ class TransferServiceTests: NetworkBaseTests {
 
             let assetsCount = 4
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
-            let operationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
-            let walletService = WalletService(networkResolver: networkResolver,
-                                              operationFactory: operationFactory)
+            let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                              networkResolver: networkResolver)
+            let walletService = WalletService(operationFactory: operationFactory)
 
             let transferExpectation = XCTestExpectation()
 
@@ -56,7 +56,7 @@ class TransferServiceTests: NetworkBaseTests {
                     return
                 }
 
-                if case .error(let error) = result {
+                if case .failure(let error) = result {
                     XCTFail("Unexpected error \(error)")
                 }
             }

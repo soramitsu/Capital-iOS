@@ -6,9 +6,15 @@
 import Foundation
 
 public struct TransferMetaData: Codable, Equatable {
-    var feeAccountId: String?
-    var feeType: String
-    var feeRate: String
+    public var feeAccountId: String?
+    public var feeType: String
+    public var feeRate: String
+
+    public init(feeAccountId: String?, feeType: String, feeRate: String) {
+        self.feeAccountId = feeAccountId
+        self.feeType = feeType
+        self.feeRate = feeRate
+    }
 }
 
 public extension TransferMetaData {

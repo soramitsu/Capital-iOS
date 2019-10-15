@@ -17,8 +17,7 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
         
         let coordinator = ContactsCoordinator(resolver: resolver)
         
-        let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
-                                                      accountSettings: resolver.account,
+        let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
                                                       networkOperationFactory: resolver.networkOperationFactory)
 
@@ -26,8 +25,7 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
             return nil
         }
         
-        let walletService = WalletService(networkResolver: resolver.networkResolver,
-                                          operationFactory: resolver.networkOperationFactory)
+        let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
         let viewModelFactory = ContactsViewModelFactory(configuration: config,
                                                         avatarRadius: ContactCell.avatarRadius,

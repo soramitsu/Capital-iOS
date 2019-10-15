@@ -8,14 +8,14 @@ import RobinHood
 import IrohaCommunication
 
 protocol DataProviderFactoryProtocol: class {
-    func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData], CDCWSingleValue>
+    func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData]>
     func createHistoryDataProvider(for assets: [IRAssetId]) throws
-        -> SingleValueProvider<AssetTransactionPageData, CDCWSingleValue>
-    func createContactsDataProvider() throws -> SingleValueProvider<[SearchData], CDCWSingleValue>
+        -> SingleValueProvider<AssetTransactionPageData>
+    func createContactsDataProvider() throws -> SingleValueProvider<[SearchData]>
     func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
-        throws -> SingleValueProvider<WithdrawMetaData, CDCWSingleValue>
+        throws -> SingleValueProvider<WithdrawMetaData>
     func createTransferMetadataProvider(for assetId: IRAssetId)
-        throws -> SingleValueProvider<TransferMetaData, CDCWSingleValue>
+        throws -> SingleValueProvider<TransferMetaData>
 }
 
 final class DataProviderFactory {
@@ -29,16 +29,13 @@ final class DataProviderFactory {
 
     static let historyItemsPerPage: Int = 100
 
-    let networkResolver: WalletNetworkResolverProtocol
     let accountSettings: WalletAccountSettingsProtocol
     let cacheFacade: CoreDataCacheFacadeProtocol
     let networkOperationFactory: WalletNetworkOperationFactoryProtocol
 
-    init(networkResolver: WalletNetworkResolverProtocol,
-         accountSettings: WalletAccountSettingsProtocol,
+    init(accountSettings: WalletAccountSettingsProtocol,
          cacheFacade: CoreDataCacheFacadeProtocol,
          networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
-        self.networkResolver = networkResolver
         self.accountSettings = accountSettings
         self.cacheFacade = cacheFacade
         self.networkOperationFactory = networkOperationFactory
@@ -66,24 +63,22 @@ final class DataProviderFactory {
     }
 
     private func createSingleValueCache()
-        -> CoreDataCache<SingleValueProviderObject, CDCWSingleValue> {
+        -> CoreDataRepository<SingleValueProviderObject, CDCWSingleValue> {
             return cacheFacade.createCoreDataCache(domain: accountSettings.accountId.domain.identifier)
     }
 
     private func createDataProvider(for assets: [IRAssetId],
                                     targetIdentifier: String,
                                     using syncQueue: DispatchQueue) throws
-        -> SingleValueProvider<AssetTransactionPageData, CDCWSingleValue> {
+        -> SingleValueProvider<AssetTransactionPageData> {
             let pagination = OffsetPagination(offset: 0, count: DataProviderFactory.historyItemsPerPage)
 
             let source: AnySingleValueProviderSource<AssetTransactionPageData> =
-                AnySingleValueProviderSource(base: self) {
-                    let urlTemplate = self.networkResolver.urlTemplate(for: .history)
+                AnySingleValueProviderSource {
                     var filter = WalletHistoryRequest()
                     filter.assets = assets
                     let operation = self.networkOperationFactory
-                        .fetchTransactionHistoryOperation(urlTemplate, filter: filter, pagination: pagination)
-                    operation.requestModifier = self.networkResolver.adapter(for: .history)
+                        .fetchTransactionHistoryOperation(filter, pagination: pagination)
                     return operation
             }
 
@@ -93,21 +88,18 @@ final class DataProviderFactory {
 
             return SingleValueProvider(targetIdentifier: targetIdentifier,
                                        source: source,
-                                       cache: cache,
+                                       repository: AnyDataProviderRepository(cache),
                                        updateTrigger: updateTrigger,
                                        executionQueue: DataProviderFactory.executionQueue,
-                                       serialCacheQueue: DataProviderFactory.balanceSyncQueue)
+                                       serialSyncQueue: DataProviderFactory.balanceSyncQueue)
     }
 }
 
 extension DataProviderFactory: DataProviderFactoryProtocol {
-    func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData], CDCWSingleValue> {
-        let source: AnySingleValueProviderSource<[BalanceData]> = AnySingleValueProviderSource(base: self) {
-            let urlTemplate = self.networkResolver.urlTemplate(for: .balance)
+    func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData]> {
+        let source: AnySingleValueProviderSource<[BalanceData]> = AnySingleValueProviderSource {
             let assets = self.accountSettings.assets.map { $0.identifier }
-            let operation = self.networkOperationFactory.fetchBalanceOperation(urlTemplate,
-                                                                               assets: assets)
-            operation.requestModifier = self.networkResolver.adapter(for: .balance)
+            let operation = self.networkOperationFactory.fetchBalanceOperation(assets)
             return operation
         }
 
@@ -117,25 +109,21 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
 
         return SingleValueProvider(targetIdentifier: balanceCacheIdentifier,
                                    source: source,
-                                   cache: cache,
+                                   repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
                                    executionQueue: DataProviderFactory.executionQueue,
-                                   serialCacheQueue: DataProviderFactory.balanceSyncQueue)
+                                   serialSyncQueue: DataProviderFactory.balanceSyncQueue)
     }
 
-    func createHistoryDataProvider(for assets: [IRAssetId]) throws
-        -> SingleValueProvider<AssetTransactionPageData, CDCWSingleValue> {
+    func createHistoryDataProvider(for assets: [IRAssetId]) throws -> SingleValueProvider<AssetTransactionPageData> {
         return try createDataProvider(for: assets,
                                       targetIdentifier: cacheIdentifier(for: assets),
                                       using: DataProviderFactory.assetSyncQueue)
     }
     
-    func createContactsDataProvider() throws -> SingleValueProvider<[SearchData], CDCWSingleValue> {
-        let source: AnySingleValueProviderSource<[SearchData]> = AnySingleValueProviderSource(base: self) {
-            let requestType = WalletRequestType.contacts
-            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
-            let operation = self.networkOperationFactory.contactsOperation(urlTemplate)
-            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+    func createContactsDataProvider() throws -> SingleValueProvider<[SearchData]> {
+        let source: AnySingleValueProviderSource<[SearchData]> = AnySingleValueProviderSource {
+            let operation = self.networkOperationFactory.contactsOperation()
             return operation
         }
         
@@ -145,20 +133,17 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
         
         return SingleValueProvider(targetIdentifier: contactsCacheIdentifier,
                                    source: source,
-                                   cache: cache,
+                                   repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
                                    executionQueue: DataProviderFactory.executionQueue,
-                                   serialCacheQueue: DataProviderFactory.contactsSyncQueue)
+                                   serialSyncQueue: DataProviderFactory.contactsSyncQueue)
     }
 
     func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
-        throws -> SingleValueProvider<WithdrawMetaData, CDCWSingleValue> {
+        throws -> SingleValueProvider<WithdrawMetaData> {
         let info = WithdrawMetadataInfo(assetId: assetId.identifier(), option: option)
-        let source: AnySingleValueProviderSource<WithdrawMetaData> = AnySingleValueProviderSource(base: self) {
-            let requestType = WalletRequestType.withdrawalMetadata
-            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
-            let operation = self.networkOperationFactory.withdrawalMetadataOperation(urlTemplate, info: info)
-            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+        let source: AnySingleValueProviderSource<WithdrawMetaData> = AnySingleValueProviderSource {
+            let operation = self.networkOperationFactory.withdrawalMetadataOperation(info)
             return operation
         }
 
@@ -169,19 +154,16 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
         let identifier = withdrawMetadataIdentifier(for: assetId, optionId: option)
         return SingleValueProvider(targetIdentifier: identifier,
                                    source: source,
-                                   cache: cache,
+                                   repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
                                    executionQueue: DataProviderFactory.executionQueue,
-                                   serialCacheQueue: DataProviderFactory.withdrawalMetadataQueue)
+                                   serialSyncQueue: DataProviderFactory.withdrawalMetadataQueue)
     }
 
     func createTransferMetadataProvider(for assetId: IRAssetId)
-        throws -> SingleValueProvider<TransferMetaData, CDCWSingleValue> {
-        let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource(base: self) {
-            let requestType = WalletRequestType.transferMetadata
-            let urlTemplate = self.networkResolver.urlTemplate(for: requestType)
-            let operation = self.networkOperationFactory.transferMetadataOperation(urlTemplate, assetId: assetId)
-            operation.requestModifier = self.networkResolver.adapter(for: requestType)
+        throws -> SingleValueProvider<TransferMetaData> {
+        let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource {
+            let operation = self.networkOperationFactory.transferMetadataOperation(assetId)
             return operation
         }
 
@@ -192,10 +174,10 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
         let identifier = transferMetadataIdentifier(for: assetId)
         return SingleValueProvider(targetIdentifier: identifier,
                                    source: source,
-                                   cache: cache,
+                                   repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
                                    executionQueue: DataProviderFactory.executionQueue,
-                                   serialCacheQueue: DataProviderFactory.transferMetadataQueue)
+                                   serialSyncQueue: DataProviderFactory.transferMetadataQueue)
     }
 
 }

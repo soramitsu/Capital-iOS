@@ -20,16 +20,15 @@ class ContactsTests: NetworkBaseTests {
 
             let cacheFacade = CoreDataTestCacheFacade()
 
-            let networkOperationFactory = WalletNetworkOperationFactory(accountSettings: accountSettings)
+            let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     networkResolver: networkResolver)
 
-            let dataProviderFactory = DataProviderFactory(networkResolver: networkResolver,
-                                                          accountSettings: accountSettings,
+            let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
             let dataProvider = try dataProviderFactory.createContactsDataProvider()
 
-            let walletService = WalletService(networkResolver: networkResolver,
-                                              operationFactory: networkOperationFactory)
+            let walletService = WalletService(operationFactory: networkOperationFactory)
 
             let contactsConfiguration = ContactsModuleBuilder().build()
 

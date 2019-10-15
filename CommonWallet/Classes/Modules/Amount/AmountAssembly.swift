@@ -19,8 +19,7 @@ final class AmountAssembly: AmountAssemblyProtocol {
 
             let coordinator = AmountCoordinator(resolver: resolver)
 
-            let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
-                                                          accountSettings: resolver.account,
+            let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 

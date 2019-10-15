@@ -36,13 +36,13 @@ final class ConfirmationPresenter {
         self.eventCenter = eventCenter
     }
 
-    private func handleTransfer(result: OperationResult<Bool>) {
+    private func handleTransfer(result: Result<Void, Error>) {
         switch result {
         case .success:
             eventCenter.notify(with: TransferCompleteEvent(payload: payload))
             
             coordinator.showResult(payload: payload)
-        case .error:
+        case .failure:
             view?.showError(message: "Transaction failed. Please, try again later.")
         }
     }

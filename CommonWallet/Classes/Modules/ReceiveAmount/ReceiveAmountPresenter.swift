@@ -87,7 +87,7 @@ final class ReceiveAmountPresenter {
                                                     }
             }
         } catch {
-            processOperation(result: .error(error))
+            processOperation(result: .failure(error))
         }
     }
 
@@ -114,12 +114,12 @@ final class ReceiveAmountPresenter {
         qrOperation = nil
     }
 
-    private func processOperation(result: OperationResult<UIImage>) {
+    private func processOperation(result: Result<UIImage, Error>) {
         switch result {
         case .success(let image):
             currentImage = image
             view?.didReceive(image: image)
-        case .error:
+        case .failure:
             view?.showError(message: "Can't generate QR code")
         }
     }

@@ -16,8 +16,7 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
 
             let coordinator = WithdrawAmountCoordinator(resolver: resolver)
 
-            let dataProviderFactory = DataProviderFactory(networkResolver: resolver.networkResolver,
-                                                          accountSettings: resolver.account,
+            let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
