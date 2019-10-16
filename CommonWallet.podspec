@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CommonWallet'
-  s.version          = '1.4.1'
+  s.version          = '1.4.2'
   s.summary          = 'Soramitsu Common Wallet Implementation'
 
   s.description      = <<-DESC
