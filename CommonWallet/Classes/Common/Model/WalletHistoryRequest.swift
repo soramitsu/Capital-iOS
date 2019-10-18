@@ -9,11 +9,11 @@ import IrohaCommunication
 
 public struct WalletHistoryRequest {
     
-    var assets: [IRAssetId]?
-    var filter: String?
-    var fromDate: Date?
-    var toDate: Date?
-    var type: String?
+    public var assets: [IRAssetId]?
+    public var filter: String?
+    public var fromDate: Date?
+    public var toDate: Date?
+    public var type: String?
     
     public init(assets: [IRAssetId]) {
         self.assets = assets
