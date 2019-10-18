@@ -8,6 +8,11 @@ import IrohaCommunication
 
 
 public struct OffsetPagination: Codable, Equatable {
-    var offset: Int
-    var count: Int
+    public var offset: Int
+    public var count: Int
+
+    init(offset: Int, count: Int) {
+        self.offset = offset
+        self.count = count
+    }
 }
