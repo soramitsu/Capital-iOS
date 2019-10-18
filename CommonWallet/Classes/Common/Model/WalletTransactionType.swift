@@ -8,10 +8,10 @@ import Foundation
 
 public struct WalletTransactionType: Equatable {
     
-    let backendName: String
-    let displayName: String
-    let isIncome: Bool
-    let typeIcon: UIImage?
+    public let backendName: String
+    public let displayName: String
+    public let isIncome: Bool
+    public let typeIcon: UIImage?
     
     public init(backendName: String, displayName: String, isIncome: Bool, typeIcon: UIImage?) {
         self.backendName = backendName
