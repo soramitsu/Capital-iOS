@@ -19,6 +19,8 @@ final class ControllerHideCommand: WalletHideCommandProtocol {
         switch actionType {
         case .pop:
             navigation.pop(animated: animated)
+        case .popToRoot:
+            navigation.popToRoot(animated: animated)
         case .dismiss:
             navigation.dismiss(animated: animated)
         }

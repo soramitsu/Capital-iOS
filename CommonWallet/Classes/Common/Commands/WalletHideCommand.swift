@@ -1,8 +1,9 @@
 import Foundation
 
 public enum WalletHideActionType {
-    case pop
     case dismiss
+    case pop
+    case popToRoot
 }
 
 public protocol WalletHideCommandProtocol: WalletCommandProtocol {
