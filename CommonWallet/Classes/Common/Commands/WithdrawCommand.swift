@@ -17,6 +17,7 @@ final class WithdrawCommand {
     let optionId: String
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
+    var animated: Bool = true
 
     init(resolver: ResolverProtocol, assetId: IRAssetId, optionId: String) {
         self.resolver = resolver
@@ -41,6 +42,6 @@ extension WithdrawCommand: WalletPresentationCommandProtocol {
                 return
         }
 
-        present(view: withdrawView.controller, in: navigation)
+        present(view: withdrawView.controller, in: navigation, animated: animated)
     }
 }

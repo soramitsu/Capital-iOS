@@ -7,6 +7,7 @@ import Foundation
 import IrohaCommunication
 
 extension Resolver: CommonWalletContextProtocol {
+
     func createRootController() throws -> UINavigationController {
         guard let dashboardView = DashboardAssembly.assembleView(with: self) else {
             throw CommonWalletBuilderError.moduleCreationFailed
@@ -44,7 +45,7 @@ extension Resolver: CommonWalletContextProtocol {
         return ControllerPresentationCommand(resolver: self, controller: controller)
     }
 
-    func prepareHideCommand(with actionType: WalletHideActionType) -> WalletCommandProtocol {
+    func prepareHideCommand(with actionType: WalletHideActionType) -> WalletHideCommandProtocol {
         return ControllerHideCommand(resolver: self, actionType: actionType)
     }
 

@@ -19,6 +19,7 @@ final class AssetDetailsCommand {
     let assetId: IRAssetId
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
+    var animated: Bool = true
 
     var ignoredWhenSingleAsset: Bool = true
 
@@ -44,6 +45,6 @@ extension AssetDetailsCommand: AssetDetailsCommadProtocol {
             return
         }
 
-        present(view: assetDetailsView.controller, in: navigation)
+        present(view: assetDetailsView.controller, in: navigation, animated: animated)
     }
 }

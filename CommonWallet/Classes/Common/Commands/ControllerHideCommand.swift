@@ -1,15 +1,10 @@
 import Foundation
 
 
-public enum WalletHideActionType {
-    case pop
-    case dismiss
-}
-
-
-final class ControllerHideCommand: WalletCommandProtocol {
+final class ControllerHideCommand: WalletHideCommandProtocol {
     let resolver: ResolverProtocol
-    let actionType: WalletHideActionType
+    var actionType: WalletHideActionType
+    var animated: Bool = true
 
     init(resolver: ResolverProtocol, actionType: WalletHideActionType) {
         self.resolver = resolver
@@ -23,9 +18,9 @@ final class ControllerHideCommand: WalletCommandProtocol {
 
         switch actionType {
         case .pop:
-            navigation.pop()
+            navigation.pop(animated: animated)
         case .dismiss:
-            navigation.dismiss()
+            navigation.dismiss(animated: animated)
         }
     }
 }
