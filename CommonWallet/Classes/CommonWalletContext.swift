@@ -14,6 +14,7 @@ public protocol WalletCommandFactoryProtocol: class {
     func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String)
         -> WalletPresentationCommandProtocol
     func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol
+    func prepareHideCommand(with actionType: WalletHideActionType) -> WalletCommandProtocol
     func prepareAccountUpdateCommand() -> WalletCommandProtocol
 }
 
