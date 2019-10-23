@@ -44,6 +44,10 @@ extension Resolver: CommonWalletContextProtocol {
         return ControllerPresentationCommand(resolver: self, controller: controller)
     }
 
+    func prepareHideCommand(with actionType: WalletHideActionType) -> WalletCommandProtocol {
+        return ControllerHideCommand(resolver: self, actionType: actionType)
+    }
+
     func prepareAccountUpdateCommand() -> WalletCommandProtocol {
         return AccountUpdateCommand(resolver: self)
     }
