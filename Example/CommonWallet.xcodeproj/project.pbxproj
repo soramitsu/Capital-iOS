@@ -36,6 +36,7 @@
 		8447626F224D4BA4009ADC0E /* AccountSettingsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447626E224D4BA4009ADC0E /* AccountSettingsFactory.swift */; };
 		844D556922A9315500BA99EF /* AccessoryViewFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D556822A9315500BA99EF /* AccessoryViewFactoryTests.swift */; };
 		845D1DA022B539CC000641F9 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
+		847527382360790E0028D871 /* AmountInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847527372360790E0028D871 /* AmountInputViewModelTests.swift */; };
 		84752C5222A5BCA30068188B /* DashboardReloadableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84752C5122A5BCA30068188B /* DashboardReloadableTests.swift */; };
 		84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84752C5322A6A7F90068188B /* AmountInputConfirmationTests.swift */; };
 		84752C5622A7F6490068188B /* searchInvoiceResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84752C5522A7F6490068188B /* searchInvoiceResponse.json */; };
@@ -165,6 +166,7 @@
 		8447626E224D4BA4009ADC0E /* AccountSettingsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsFactory.swift; sourceTree = "<group>"; };
 		844D556822A9315500BA99EF /* AccessoryViewFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryViewFactoryTests.swift; sourceTree = "<group>"; };
 		845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = irohaErrorResponse.json; sourceTree = "<group>"; };
+		847527372360790E0028D871 /* AmountInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountInputViewModelTests.swift; sourceTree = "<group>"; };
 		84752C5122A5BCA30068188B /* DashboardReloadableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardReloadableTests.swift; sourceTree = "<group>"; };
 		84752C5322A6A7F90068188B /* AmountInputConfirmationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountInputConfirmationTests.swift; sourceTree = "<group>"; };
 		84752C5522A7F6490068188B /* searchInvoiceResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = searchInvoiceResponse.json; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */,
+				847527372360790E0028D871 /* AmountInputViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1107,6 +1110,7 @@
 				8425DBB62282B27D008A8B6A /* TransferResultTests.swift in Sources */,
 				848CCE0B22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift in Sources */,
 				841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */,
+				847527382360790E0028D871 /* AmountInputViewModelTests.swift in Sources */,
 				84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */,
 				8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */,
 				844D556922A9315500BA99EF /* AccessoryViewFactoryTests.swift in Sources */,

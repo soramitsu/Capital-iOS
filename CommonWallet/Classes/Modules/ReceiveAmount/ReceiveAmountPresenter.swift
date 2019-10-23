@@ -64,7 +64,7 @@ final class ReceiveAmountPresenter {
                                                           symbol: optionalAsset?.symbol ?? "")
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        amountInputViewModel = AmountInputViewModel(optionalAmount: currentAmount, limit: amountLimit)
+        amountInputViewModel = AmountInputViewModel(amount: currentAmount, limit: amountLimit)
     }
 
     // MARK: QR generation

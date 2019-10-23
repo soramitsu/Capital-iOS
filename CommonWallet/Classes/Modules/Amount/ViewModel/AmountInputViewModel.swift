@@ -41,7 +41,7 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
-    private(set) var amount: String {
+    private(set) var amount: String = "" {
         didSet {
             if amount != oldValue {
                 observable.observers.forEach { $0.observer?.amountInputDidChange() }
@@ -53,21 +53,15 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
 
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver>
 
-    init(optionalAmount: Decimal?, limit: Decimal) {
-        if let amount = optionalAmount {
-            if amount <= limit {
-                self.amount = NumberFormatter.moneyFormatter.string(from: amount as NSNumber)
-                    ?? AmountInputViewModel.zero
-            } else {
-                self.amount = AmountInputViewModel.zero
-            }
-        } else {
-            self.amount = ""
-        }
-
+    init(amount: Decimal?, limit: Decimal) {
         self.limit = limit
 
         observable = WalletViewModelObserverContainer()
+
+        if let amount = amount, amount <= limit,
+            let inputAmount = NumberFormatter.moneyFormatter.string(from: amount as NSNumber) {
+            self.amount = set(inputAmount)
+        }
     }
 
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {

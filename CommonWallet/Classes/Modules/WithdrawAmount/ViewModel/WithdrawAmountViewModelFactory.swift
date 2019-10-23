@@ -54,7 +54,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     }
 
     func createAmountViewModel() -> AmountInputViewModel {
-        return AmountInputViewModel(optionalAmount: nil, limit: amountLimit)
+        return AmountInputViewModel(amount: nil, limit: amountLimit)
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {
