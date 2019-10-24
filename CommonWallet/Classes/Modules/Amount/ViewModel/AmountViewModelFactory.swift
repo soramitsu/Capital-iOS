@@ -45,7 +45,7 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
     }
 
     func createAmountViewModel(with optionalAmount: Decimal?) -> AmountInputViewModel {
-        return AmountInputViewModel(optionalAmount: optionalAmount, limit: amountLimit)
+        return AmountInputViewModel(amount: optionalAmount, limit: amountLimit)
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {
