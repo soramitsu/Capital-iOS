@@ -27,6 +27,7 @@ protocol ResolverProtocol: class {
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol { get }
     var feeCalculationFactory: FeeCalculationFactoryProtocol { get }
+    var qrCoderFactory: WalletQRCoderFactoryProtocol { get }
 }
 
 final class Resolver: ResolverProtocol {
@@ -42,6 +43,8 @@ final class Resolver: ResolverProtocol {
     var feeCalculationFactory: FeeCalculationFactoryProtocol
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     var navigation: NavigationProtocol?
+
+    lazy var qrCoderFactory: WalletQRCoderFactoryProtocol = WalletQRCoderFactory()
 
     lazy var eventCenter: WalletEventCenterProtocol = WalletEventCenter()
 
