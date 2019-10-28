@@ -10,7 +10,7 @@ enum WalletBarShadowType {
     case singleLine
 }
 
-protocol WalletNavigationBarConcealable: class {}
+public protocol WalletNavigationBarConcealable: class {}
 
 protocol WalletDesignableBar: class {
     var shadowType: WalletBarShadowType { get }
