@@ -15,6 +15,7 @@ final class ReceiveCommand {
     let resolver: ResolverProtocol
 
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: true)
+    var animated: Bool = true
 
     let selectedAssetId: IRAssetId?
 
@@ -40,6 +41,6 @@ extension ReceiveCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: contactsView.controller, in: navigation)
+        present(view: contactsView.controller, in: navigation, animated: animated)
     }
 }

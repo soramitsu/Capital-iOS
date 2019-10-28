@@ -10,6 +10,7 @@ final class ControllerPresentationCommand: WalletPresentationCommandProtocol {
     let controller: UIViewController
 
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: false)
+    var animated: Bool = true
 
     init(resolver: ResolverProtocol, controller: UIViewController) {
         self.resolver = resolver
@@ -21,6 +22,6 @@ final class ControllerPresentationCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: controller, in: navigation)
+        present(view: controller, in: navigation, animated: animated)
     }
 }

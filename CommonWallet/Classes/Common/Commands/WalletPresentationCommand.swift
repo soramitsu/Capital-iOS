@@ -12,16 +12,17 @@ public enum WalletPresentationStyle {
 
 public protocol WalletPresentationCommandProtocol: WalletCommandProtocol {
     var presentationStyle: WalletPresentationStyle { get set }
+    var animated: Bool { get set }
 }
 
 extension WalletPresentationCommandProtocol {
-    func present(view: UIViewController, in navigation: NavigationProtocol) {
+    func present(view: UIViewController, in navigation: NavigationProtocol, animated: Bool) {
         switch presentationStyle {
         case .push(let hidesBottomBar):
             view.hidesBottomBarWhenPushed = hidesBottomBar
-            navigation.push(view)
+            navigation.push(view, animated: animated)
         case .modal(let inNavigation):
-            navigation.present(view, inNavigationController: inNavigation)
+            navigation.present(view, inNavigationController: inNavigation, animated: animated)
         }
     }
 }

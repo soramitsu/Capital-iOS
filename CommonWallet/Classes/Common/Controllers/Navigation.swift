@@ -11,24 +11,39 @@ protocol NavigationProtocol {
     var navigationController: WalletNavigationController? { get }
     
     func set(_ viewController: UIViewController, animated: Bool)
-    func push(_ controller: UIViewController)
-    func pop()
-    func dismiss()
-    func present(_ controller: UIViewController, inNavigationController: Bool)
+    func push(_ controller: UIViewController, animated: Bool)
+    func pop(animated: Bool)
+    func popToRoot(animated: Bool)
+    func dismiss(animated: Bool)
+    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool)
     
 }
 
+
 extension NavigationProtocol {
+    
     func set(_ viewController: UIViewController) {
-        set(viewController, animated: false)
+        set(viewController, animated: true)
     }
-}
 
+    func push(_ controller: UIViewController) {
+        push(controller, animated: true)
+    }
 
-extension NavigationProtocol {
-    
-    func present(_ controller: UIViewController) {
-        present(controller, inNavigationController: false)
+    func pop() {
+        pop(animated: true)
+    }
+
+    func popToRoot() {
+        popToRoot(animated: true)
+    }
+
+    func dismiss() {
+        dismiss(animated: true)
+    }
+
+    func present(_ controller: UIViewController, inNavigationController: Bool) {
+        present(controller, inNavigationController: inNavigationController, animated: true)
     }
     
 }
@@ -49,6 +64,16 @@ final class Navigation: NavigationProtocol {
 
         return currentNavigationController
     }
+
+    private var topViewController: UIViewController? {
+        var currentViewController: UIViewController? = navigationController
+
+        while let topViewController = currentViewController?.presentedViewController {
+            currentViewController = topViewController
+        }
+
+        return currentViewController
+    }
     
     init(navigationController: WalletNavigationController, style: WalletStyleProtocol) {
         self.style = style
@@ -61,15 +86,19 @@ final class Navigation: NavigationProtocol {
         activeNavigationController?.setViewControllers([viewController], animated: animated)
     }
     
-    func push(_ controller: UIViewController) {
-        activeNavigationController?.pushViewController(controller, animated: true)
+    func push(_ controller: UIViewController, animated: Bool) {
+        activeNavigationController?.pushViewController(controller, animated: animated)
     }
     
-    func pop() {
-        activeNavigationController?.popViewController(animated: true)
+    func pop(animated: Bool) {
+        activeNavigationController?.popViewController(animated: animated)
+    }
+
+    func popToRoot(animated: Bool) {
+        activeNavigationController?.popToRootViewController(animated: animated)
     }
     
-    func present(_ controller: UIViewController, inNavigationController: Bool) {
+    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool) {
         var presentedController: UIViewController
 
         if inNavigationController {
@@ -80,11 +109,13 @@ final class Navigation: NavigationProtocol {
             presentedController = controller
         }
 
-        activeNavigationController?.present(presentedController, animated: true, completion: nil)
+        topViewController?.present(presentedController, animated: animated, completion: nil)
     }
     
-    func dismiss() {
-        activeNavigationController?.dismiss(animated: true, completion: nil)
+    func dismiss(animated: Bool) {
+        if let presentingController = topViewController?.presentingViewController {
+            presentingController.dismiss(animated: animated, completion: nil)
+        }
     }
     
 }

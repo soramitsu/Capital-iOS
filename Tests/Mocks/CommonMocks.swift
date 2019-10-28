@@ -72,6 +72,30 @@ public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.
         
     }
     
+    
+    
+    public var animated: Bool {
+        get {
+            return cuckoo_manager.getter("animated",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.animated)
+        }
+        
+        set {
+            cuckoo_manager.setter("animated",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.animated = newValue)
+        }
+        
+    }
+    
 
     
 
@@ -110,6 +134,11 @@ public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.
 	    }
 	    
 	    
+	    var animated: Cuckoo.ProtocolToBeStubbedProperty<MockAssetDetailsCommadProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "animated")
+	    }
+	    
+	    
 	    func execute() -> Cuckoo.ProtocolStubNoReturnThrowingFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockAssetDetailsCommadProtocol.self, method: "execute() throws", parameterMatchers: matchers))
@@ -139,6 +168,11 @@ public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.
 	        return .init(manager: cuckoo_manager, name: "presentationStyle", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
+	    
+	    var animated: Cuckoo.VerifyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "animated", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
 	
 	    
 	    @discardableResult
@@ -166,6 +200,16 @@ public class AssetDetailsCommadProtocolStub: AssetDetailsCommadProtocol {
     public var presentationStyle: WalletPresentationStyle {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletPresentationStyle).self)
+        }
+        
+        set { }
+        
+    }
+    
+    
+    public var animated: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
         
         set { }
@@ -285,6 +329,190 @@ import Cuckoo
 import Foundation
 
 
+public class MockWalletHideCommandProtocol: WalletHideCommandProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = WalletHideCommandProtocol
+    
+    public typealias Stubbing = __StubbingProxy_WalletHideCommandProtocol
+    public typealias Verification = __VerificationProxy_WalletHideCommandProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletHideCommandProtocol?
+
+    public func enableDefaultImplementation(_ stub: WalletHideCommandProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+    public var actionType: WalletHideActionType {
+        get {
+            return cuckoo_manager.getter("actionType",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.actionType)
+        }
+        
+        set {
+            cuckoo_manager.setter("actionType",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.actionType = newValue)
+        }
+        
+    }
+    
+    
+    
+    public var animated: Bool {
+        get {
+            return cuckoo_manager.getter("animated",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.animated)
+        }
+        
+        set {
+            cuckoo_manager.setter("animated",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.animated = newValue)
+        }
+        
+    }
+    
+
+    
+
+    
+    
+    
+    public func execute() throws {
+        
+    return try cuckoo_manager.callThrows("execute() throws",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.execute())
+        
+    }
+    
+
+	public struct __StubbingProxy_WalletHideCommandProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var actionType: Cuckoo.ProtocolToBeStubbedProperty<MockWalletHideCommandProtocol, WalletHideActionType> {
+	        return .init(manager: cuckoo_manager, name: "actionType")
+	    }
+	    
+	    
+	    var animated: Cuckoo.ProtocolToBeStubbedProperty<MockWalletHideCommandProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "animated")
+	    }
+	    
+	    
+	    func execute() -> Cuckoo.ProtocolStubNoReturnThrowingFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletHideCommandProtocol.self, method: "execute() throws", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_WalletHideCommandProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var actionType: Cuckoo.VerifyProperty<WalletHideActionType> {
+	        return .init(manager: cuckoo_manager, name: "actionType", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var animated: Cuckoo.VerifyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "animated", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	    @discardableResult
+	    func execute() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("execute() throws", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class WalletHideCommandProtocolStub: WalletHideCommandProtocol {
+    
+    
+    public var actionType: WalletHideActionType {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletHideActionType).self)
+        }
+        
+        set { }
+        
+    }
+    
+    
+    public var animated: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+        set { }
+        
+    }
+    
+
+    
+
+    
+    public func execute() throws  {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
 public class MockWalletPresentationCommandProtocol: WalletPresentationCommandProtocol, Cuckoo.ProtocolMock {
     
     public typealias MocksType = WalletPresentationCommandProtocol
@@ -328,6 +556,30 @@ public class MockWalletPresentationCommandProtocol: WalletPresentationCommandPro
         
     }
     
+    
+    
+    public var animated: Bool {
+        get {
+            return cuckoo_manager.getter("animated",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.animated)
+        }
+        
+        set {
+            cuckoo_manager.setter("animated",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.animated = newValue)
+        }
+        
+    }
+    
 
     
 
@@ -361,6 +613,11 @@ public class MockWalletPresentationCommandProtocol: WalletPresentationCommandPro
 	    }
 	    
 	    
+	    var animated: Cuckoo.ProtocolToBeStubbedProperty<MockWalletPresentationCommandProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "animated")
+	    }
+	    
+	    
 	    func execute() -> Cuckoo.ProtocolStubNoReturnThrowingFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletPresentationCommandProtocol.self, method: "execute() throws", parameterMatchers: matchers))
@@ -385,6 +642,11 @@ public class MockWalletPresentationCommandProtocol: WalletPresentationCommandPro
 	        return .init(manager: cuckoo_manager, name: "presentationStyle", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
+	    
+	    var animated: Cuckoo.VerifyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "animated", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
 	
 	    
 	    @discardableResult
@@ -402,6 +664,16 @@ public class WalletPresentationCommandProtocolStub: WalletPresentationCommandPro
     public var presentationStyle: WalletPresentationStyle {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletPresentationStyle).self)
+        }
+        
+        set { }
+        
+    }
+    
+    
+    public var animated: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
         
         set { }
@@ -2880,6 +3152,21 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
     
     
     
+    public func prepareHideCommand(with actionType: WalletHideActionType) -> WalletHideCommandProtocol {
+        
+    return cuckoo_manager.call("prepareHideCommand(with: WalletHideActionType) -> WalletHideCommandProtocol",
+            parameters: (actionType),
+            escapingParameters: (actionType),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareHideCommand(with: actionType))
+        
+    }
+    
+    
+    
     public func prepareAccountUpdateCommand() -> WalletCommandProtocol {
         
     return cuckoo_manager.call("prepareAccountUpdateCommand() -> WalletCommandProtocol",
@@ -2930,6 +3217,11 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.ProtocolStubFunction<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
 	        let matchers: [Cuckoo.ParameterMatcher<(UIViewController)>] = [wrap(matchable: controller) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareHideCommand<M1: Cuckoo.Matchable>(with actionType: M1) -> Cuckoo.ProtocolStubFunction<(WalletHideActionType), WalletHideCommandProtocol> where M1.MatchedType == WalletHideActionType {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHideActionType)>] = [wrap(matchable: actionType) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareHideCommand(with: WalletHideActionType) -> WalletHideCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	    func prepareAccountUpdateCommand() -> Cuckoo.ProtocolStubFunction<(), WalletCommandProtocol> {
@@ -2990,6 +3282,12 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    }
 	    
 	    @discardableResult
+	    func prepareHideCommand<M1: Cuckoo.Matchable>(with actionType: M1) -> Cuckoo.__DoNotUse<(WalletHideActionType), WalletHideCommandProtocol> where M1.MatchedType == WalletHideActionType {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHideActionType)>] = [wrap(matchable: actionType) { $0 }]
+	        return cuckoo_manager.verify("prepareHideCommand(with: WalletHideActionType) -> WalletHideCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
 	    func prepareAccountUpdateCommand() -> Cuckoo.__DoNotUse<(), WalletCommandProtocol> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return cuckoo_manager.verify("prepareAccountUpdateCommand() -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
@@ -3026,6 +3324,10 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
     
     public func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
+    }
+    
+    public func prepareHideCommand(with actionType: WalletHideActionType) -> WalletHideCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletHideCommandProtocol).self)
     }
     
     public func prepareAccountUpdateCommand() -> WalletCommandProtocol  {
@@ -3166,6 +3468,21 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
     
     
     
+    public func prepareHideCommand(with actionType: WalletHideActionType) -> WalletHideCommandProtocol {
+        
+    return cuckoo_manager.call("prepareHideCommand(with: WalletHideActionType) -> WalletHideCommandProtocol",
+            parameters: (actionType),
+            escapingParameters: (actionType),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareHideCommand(with: actionType))
+        
+    }
+    
+    
+    
     public func prepareAccountUpdateCommand() -> WalletCommandProtocol {
         
     return cuckoo_manager.call("prepareAccountUpdateCommand() -> WalletCommandProtocol",
@@ -3221,6 +3538,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.ProtocolStubFunction<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
 	        let matchers: [Cuckoo.ParameterMatcher<(UIViewController)>] = [wrap(matchable: controller) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "preparePresentationCommand(for: UIViewController) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareHideCommand<M1: Cuckoo.Matchable>(with actionType: M1) -> Cuckoo.ProtocolStubFunction<(WalletHideActionType), WalletHideCommandProtocol> where M1.MatchedType == WalletHideActionType {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHideActionType)>] = [wrap(matchable: actionType) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareHideCommand(with: WalletHideActionType) -> WalletHideCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	    func prepareAccountUpdateCommand() -> Cuckoo.ProtocolStubFunction<(), WalletCommandProtocol> {
@@ -3287,6 +3609,12 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    }
 	    
 	    @discardableResult
+	    func prepareHideCommand<M1: Cuckoo.Matchable>(with actionType: M1) -> Cuckoo.__DoNotUse<(WalletHideActionType), WalletHideCommandProtocol> where M1.MatchedType == WalletHideActionType {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHideActionType)>] = [wrap(matchable: actionType) { $0 }]
+	        return cuckoo_manager.verify("prepareHideCommand(with: WalletHideActionType) -> WalletHideCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
 	    func prepareAccountUpdateCommand() -> Cuckoo.__DoNotUse<(), WalletCommandProtocol> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return cuckoo_manager.verify("prepareAccountUpdateCommand() -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
@@ -3327,6 +3655,10 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
     
     public func preparePresentationCommand(for controller: UIViewController) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
+    }
+    
+    public func prepareHideCommand(with actionType: WalletHideActionType) -> WalletHideCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletHideCommandProtocol).self)
     }
     
     public func prepareAccountUpdateCommand() -> WalletCommandProtocol  {
