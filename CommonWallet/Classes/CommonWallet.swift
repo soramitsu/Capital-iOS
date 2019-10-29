@@ -51,6 +51,9 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(inputValidatorFactory: WalletInputValidatorFactoryProtocol) -> Self
 
+    @discardableResult
+    func with(qrCoderFactory: WalletQRCoderFactoryProtocol) -> Self
+
     func build() throws -> CommonWalletContextProtocol
 }
 
@@ -77,6 +80,7 @@ public final class CommonWalletBuilder {
     fileprivate var transactionTypeList: [WalletTransactionType]?
     fileprivate var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
+    fileprivate var qrCoderFactory: WalletQRCoderFactoryProtocol?
 
     init(account: WalletAccountSettingsProtocol, networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
         self.account = account
@@ -187,6 +191,11 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
+    public func with(qrCoderFactory: WalletQRCoderFactoryProtocol) -> Self {
+        self.qrCoderFactory = qrCoderFactory
+        return self
+    }
+
     public func build() throws -> CommonWalletContextProtocol {
         let style = privateStyleBuilder.build()
 
@@ -249,6 +258,10 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
         } else {
             resolver.transactionTypeList = WalletTransactionType.required
+        }
+
+        if let qrCoderFactory = qrCoderFactory {
+            resolver.qrCoderFactory = qrCoderFactory
         }
 
         return resolver

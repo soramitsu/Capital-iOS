@@ -16,7 +16,8 @@ final class InvoiceScanModuleBuilder {
     }()
 
     func build() -> InvoiceScanConfigurationProtocol {
-        return InvoiceScanConfiguration(viewStyle: viewStyle, supportsUpload: supportsUpload)
+        return InvoiceScanConfiguration(viewStyle: viewStyle,
+                                        supportsUpload: supportsUpload)
     }
 }
 

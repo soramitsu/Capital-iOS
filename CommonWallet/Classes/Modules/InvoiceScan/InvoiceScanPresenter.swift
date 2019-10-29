@@ -26,7 +26,8 @@ final class InvoiceScanPresenter {
     private(set) var scanState: ScanState = .initializing(accessRequested: false)
 
     private let qrScanService: WalletQRCaptureServiceProtocol
-    private let qrScanMatcher = InvoiceScanMatcher()
+    private let qrCoderFactory: WalletQRCoderFactoryProtocol
+    private let qrScanMatcher: InvoiceScanMatcher
 
     var qrExtractionService: WalletQRExtractionServiceProtocol?
 
@@ -34,11 +35,17 @@ final class InvoiceScanPresenter {
          coordinator: InvoiceScanCoordinatorProtocol,
          currentAccountId: IRAccountId,
          networkService: WalletServiceProtocol,
-         qrScanServiceFactory: WalletQRCaptureServiceFactoryProtocol) {
+         qrScanServiceFactory: WalletQRCaptureServiceFactoryProtocol,
+         qrCoderFactory: WalletQRCoderFactoryProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.networkService = networkService
         self.currentAccountId = currentAccountId
+
+        self.qrCoderFactory = qrCoderFactory
+
+        let qrDecoder = qrCoderFactory.createDecoder()
+        self.qrScanMatcher = InvoiceScanMatcher(decoder: qrDecoder)
 
         self.qrScanService = qrScanServiceFactory.createService(with: qrScanMatcher,
                                                                 delegate: nil,
@@ -263,7 +270,8 @@ extension InvoiceScanPresenter: ImageGalleryDelegate {
     func didCompleteImageSelection(from gallery: ImageGalleryPresentable,
                                    with selectedImages: [UIImage]) {
         if let image = selectedImages.first {
-            let matcher = InvoiceScanMatcher()
+            let qrDecoder = qrCoderFactory.createDecoder()
+            let matcher = InvoiceScanMatcher(decoder: qrDecoder)
 
             qrExtractionService?.extract(from: image,
                                          using: matcher,

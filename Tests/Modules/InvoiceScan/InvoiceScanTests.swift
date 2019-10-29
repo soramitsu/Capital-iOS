@@ -105,7 +105,8 @@ class InvoiceScanTests: NetworkBaseTests {
                                                  coordinator: coordinator,
                                                  currentAccountId: accountSettings.accountId,
                                                  networkService: networkService,
-                                                 qrScanServiceFactory: qrScanServiceFactory)
+                                                 qrScanServiceFactory: qrScanServiceFactory,
+                                                 qrCoderFactory: WalletQRCoderFactory())
 
             stub(qrScanService) { (stub) in
                 when(stub).start().then {

@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Cuckoo
 @testable import CommonWallet
 
@@ -1616,6 +1621,20 @@ import IrohaCommunication
         
     }
     
+    
+    
+     var qrCoderFactory: WalletQRCoderFactoryProtocol {
+        get {
+            return cuckoo_manager.getter("qrCoderFactory",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.qrCoderFactory)
+        }
+        
+    }
+    
 
     
 
@@ -1726,6 +1745,11 @@ import IrohaCommunication
 	    
 	    var feeCalculationFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, FeeCalculationFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "feeCalculationFactory")
+	    }
+	    
+	    
+	    var qrCoderFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletQRCoderFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "qrCoderFactory")
 	    }
 	    
 	    
@@ -1841,6 +1865,11 @@ import IrohaCommunication
 	    
 	    var feeCalculationFactory: Cuckoo.VerifyReadOnlyProperty<FeeCalculationFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "feeCalculationFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var qrCoderFactory: Cuckoo.VerifyReadOnlyProperty<WalletQRCoderFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "qrCoderFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -2006,6 +2035,14 @@ import IrohaCommunication
      var feeCalculationFactory: FeeCalculationFactoryProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (FeeCalculationFactoryProtocol).self)
+        }
+        
+    }
+    
+    
+     var qrCoderFactory: WalletQRCoderFactoryProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletQRCoderFactoryProtocol).self)
         }
         
     }
@@ -3025,6 +3062,314 @@ import Foundation
     
      func qrCapture(service: WalletQRCaptureServiceProtocol, didReceive error: Error)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
+public class MockWalletQREncoderProtocol: WalletQREncoderProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = WalletQREncoderProtocol
+    
+    public typealias Stubbing = __StubbingProxy_WalletQREncoderProtocol
+    public typealias Verification = __VerificationProxy_WalletQREncoderProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletQREncoderProtocol?
+
+    public func enableDefaultImplementation(_ stub: WalletQREncoderProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func encode(receiverInfo: ReceiveInfo) throws -> Data {
+        
+    return try cuckoo_manager.callThrows("encode(receiverInfo: ReceiveInfo) throws -> Data",
+            parameters: (receiverInfo),
+            escapingParameters: (receiverInfo),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.encode(receiverInfo: receiverInfo))
+        
+    }
+    
+
+	public struct __StubbingProxy_WalletQREncoderProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func encode<M1: Cuckoo.Matchable>(receiverInfo: M1) -> Cuckoo.ProtocolStubThrowingFunction<(ReceiveInfo), Data> where M1.MatchedType == ReceiveInfo {
+	        let matchers: [Cuckoo.ParameterMatcher<(ReceiveInfo)>] = [wrap(matchable: receiverInfo) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletQREncoderProtocol.self, method: "encode(receiverInfo: ReceiveInfo) throws -> Data", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_WalletQREncoderProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func encode<M1: Cuckoo.Matchable>(receiverInfo: M1) -> Cuckoo.__DoNotUse<(ReceiveInfo), Data> where M1.MatchedType == ReceiveInfo {
+	        let matchers: [Cuckoo.ParameterMatcher<(ReceiveInfo)>] = [wrap(matchable: receiverInfo) { $0 }]
+	        return cuckoo_manager.verify("encode(receiverInfo: ReceiveInfo) throws -> Data", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class WalletQREncoderProtocolStub: WalletQREncoderProtocol {
+    
+
+    
+
+    
+    public func encode(receiverInfo: ReceiveInfo) throws -> Data  {
+        return DefaultValueRegistry.defaultValue(for: (Data).self)
+    }
+    
+}
+
+
+
+public class MockWalletQRDecoderProtocol: WalletQRDecoderProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = WalletQRDecoderProtocol
+    
+    public typealias Stubbing = __StubbingProxy_WalletQRDecoderProtocol
+    public typealias Verification = __VerificationProxy_WalletQRDecoderProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletQRDecoderProtocol?
+
+    public func enableDefaultImplementation(_ stub: WalletQRDecoderProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func decode(data: Data) throws -> ReceiveInfo {
+        
+    return try cuckoo_manager.callThrows("decode(data: Data) throws -> ReceiveInfo",
+            parameters: (data),
+            escapingParameters: (data),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.decode(data: data))
+        
+    }
+    
+
+	public struct __StubbingProxy_WalletQRDecoderProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func decode<M1: Cuckoo.Matchable>(data: M1) -> Cuckoo.ProtocolStubThrowingFunction<(Data), ReceiveInfo> where M1.MatchedType == Data {
+	        let matchers: [Cuckoo.ParameterMatcher<(Data)>] = [wrap(matchable: data) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletQRDecoderProtocol.self, method: "decode(data: Data) throws -> ReceiveInfo", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_WalletQRDecoderProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func decode<M1: Cuckoo.Matchable>(data: M1) -> Cuckoo.__DoNotUse<(Data), ReceiveInfo> where M1.MatchedType == Data {
+	        let matchers: [Cuckoo.ParameterMatcher<(Data)>] = [wrap(matchable: data) { $0 }]
+	        return cuckoo_manager.verify("decode(data: Data) throws -> ReceiveInfo", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class WalletQRDecoderProtocolStub: WalletQRDecoderProtocol {
+    
+
+    
+
+    
+    public func decode(data: Data) throws -> ReceiveInfo  {
+        return DefaultValueRegistry.defaultValue(for: (ReceiveInfo).self)
+    }
+    
+}
+
+
+
+public class MockWalletQRCoderFactoryProtocol: WalletQRCoderFactoryProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = WalletQRCoderFactoryProtocol
+    
+    public typealias Stubbing = __StubbingProxy_WalletQRCoderFactoryProtocol
+    public typealias Verification = __VerificationProxy_WalletQRCoderFactoryProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletQRCoderFactoryProtocol?
+
+    public func enableDefaultImplementation(_ stub: WalletQRCoderFactoryProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func createEncoder() -> WalletQREncoderProtocol {
+        
+    return cuckoo_manager.call("createEncoder() -> WalletQREncoderProtocol",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.createEncoder())
+        
+    }
+    
+    
+    
+    public func createDecoder() -> WalletQRDecoderProtocol {
+        
+    return cuckoo_manager.call("createDecoder() -> WalletQRDecoderProtocol",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.createDecoder())
+        
+    }
+    
+
+	public struct __StubbingProxy_WalletQRCoderFactoryProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func createEncoder() -> Cuckoo.ProtocolStubFunction<(), WalletQREncoderProtocol> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletQRCoderFactoryProtocol.self, method: "createEncoder() -> WalletQREncoderProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func createDecoder() -> Cuckoo.ProtocolStubFunction<(), WalletQRDecoderProtocol> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletQRCoderFactoryProtocol.self, method: "createDecoder() -> WalletQRDecoderProtocol", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_WalletQRCoderFactoryProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func createEncoder() -> Cuckoo.__DoNotUse<(), WalletQREncoderProtocol> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("createEncoder() -> WalletQREncoderProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func createDecoder() -> Cuckoo.__DoNotUse<(), WalletQRDecoderProtocol> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("createDecoder() -> WalletQRDecoderProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class WalletQRCoderFactoryProtocolStub: WalletQRCoderFactoryProtocol {
+    
+
+    
+
+    
+    public func createEncoder() -> WalletQREncoderProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletQREncoderProtocol).self)
+    }
+    
+    public func createDecoder() -> WalletQRDecoderProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletQRDecoderProtocol).self)
     }
     
 }

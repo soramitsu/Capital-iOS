@@ -13,14 +13,18 @@ protocol InvoiceScanMatcherProtocol: WalletQRMatcherProtocol {
 final class InvoiceScanMatcher: InvoiceScanMatcherProtocol {
     private(set) var receiverInfo: ReceiveInfo?
 
-    private lazy var decoder = JSONDecoder()
+    private let decoder: WalletQRDecoderProtocol
+
+    init(decoder: WalletQRDecoderProtocol) {
+        self.decoder = decoder
+    }
 
     func match(code: String) -> Bool {
         guard let data = code.data(using: .utf8) else {
             return false
         }
 
-        guard let info = try? decoder.decode(ReceiveInfo.self, from: data) else {
+        guard let info = try? decoder.decode(data: data) else {
             return false
         }
 
