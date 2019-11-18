@@ -395,6 +395,15 @@ extension AmountViewController: UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count != descriptionInputViewModel?.text.count {
+            /**
+            *  prevent from crashing when text view updates text
+            *  without asking delegate (it can insert padding spacing
+            *  after swiping input on iOS 13).
+            */
+            textView.text = descriptionInputViewModel?.text
+        }
+
         updateDescriptionState()
         updateConfirmationState()
     }
