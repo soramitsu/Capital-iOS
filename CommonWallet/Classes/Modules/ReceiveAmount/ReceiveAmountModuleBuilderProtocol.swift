@@ -9,4 +9,7 @@ import Foundation
 public protocol ReceiveAmountModuleBuilderProtocol: class {
     @discardableResult
     func with(accountShareFactory: AccountShareFactoryProtocol) -> Self
+
+    @discardableResult
+    func with(title: String) -> Self
 }

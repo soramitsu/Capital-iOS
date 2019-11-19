@@ -61,6 +61,8 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
             .with(supportsLiveSearch: true)
 
+        walletBuilder.receiveModuleBuilder.with(title: "Receive tokens")
+
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)
 

@@ -8,9 +8,10 @@ enum ReceiveAmountModuleBuilderError: Error {}
 
 final class ReceiveAmountModuleBuilder {
     fileprivate lazy var accountShareFactory: AccountShareFactoryProtocol = AccountShareFactory()
+    fileprivate var title: String = "Receive assets"
 
     func build() -> ReceiveAmountConfigurationProtocol {
-        return ReceiveAmountConfiguration(accountShareFactory: accountShareFactory)
+        return ReceiveAmountConfiguration(accountShareFactory: accountShareFactory, title: title)
     }
 }
 
@@ -19,6 +20,12 @@ extension ReceiveAmountModuleBuilder: ReceiveAmountModuleBuilderProtocol {
     @discardableResult
     func with(accountShareFactory: AccountShareFactoryProtocol) -> Self {
         self.accountShareFactory = accountShareFactory
+        return self
+    }
+
+    @discardableResult
+    func with(title: String) -> Self {
+        self.title = title
         return self
     }
 }

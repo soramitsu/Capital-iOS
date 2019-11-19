@@ -18,6 +18,8 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
         let view = ReceiveAmountViewController(nibName: "ReceiveAmountViewController", bundle: Bundle(for: self))
         view.style = resolver.style
 
+        view.title = resolver.receiveConfiguration.title
+
         let coordinator = ReceiveAmountCoordinator(resolver: resolver)
 
         let assetSelectionFactory = ReceiveAssetSelectionTitleFactory()
