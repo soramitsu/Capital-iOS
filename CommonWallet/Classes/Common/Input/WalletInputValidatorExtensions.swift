@@ -10,8 +10,9 @@ public extension WalletDefaultInputValidator {
         let format = "0x[A-Fa-f0-9]{40}"
         let predicate = NSPredicate(format: "SELF MATCHES %@", format)
 
-        return WalletDefaultInputValidator(hint: "42 lowercase hex symbols starting with 0x",
-                                           maxLength: 42,
+        let maxLength: UInt8 = 42
+        return WalletDefaultInputValidator(hint: L10n.Common.Input.validatorHint("\(maxLength)"),
+                                           maxLength: maxLength,
                                            validCharset: CharacterSet.hexAddress,
                                            predicate: predicate)
     }

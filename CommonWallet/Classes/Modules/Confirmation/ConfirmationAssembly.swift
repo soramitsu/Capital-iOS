@@ -13,7 +13,7 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
-        view.title = "Confirmation"
+        view.title = L10n.Confirmation.title
         
         let coordinator = ConfirmationCoordinator(resolver: resolver)
         

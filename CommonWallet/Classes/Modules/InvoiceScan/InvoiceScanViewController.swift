@@ -76,6 +76,9 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
 
         configureStyle()
         adjustLayout()
+        
+        titleLabel.text = L10n.InvoiceScan.scan
+        uploadButton.imageWithTitleView?.title = L10n.InvoiceScan.upload
     }
 
     private func configureStyle() {

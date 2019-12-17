@@ -25,14 +25,14 @@ public struct WalletTransactionType: Equatable {
 public extension WalletTransactionType {
     static var incoming: WalletTransactionType {
         return WalletTransactionType(backendName: "INCOMING",
-                                     displayName: "Incoming",
+                                     displayName: L10n.Common.incoming,
                                      isIncome: true,
                                      typeIcon: nil)
     }
 
     static var outgoing: WalletTransactionType {
         return WalletTransactionType(backendName: "OUTGOING",
-                                     displayName: "Outgoing",
+                                     displayName: L10n.Common.outgoing,
                                      isIncome: false,
                                      typeIcon: nil)
     }

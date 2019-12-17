@@ -28,7 +28,7 @@ final class FilterViewController: UIViewController {
                                           target: self,
                                           action: #selector(close))
 
-        let resetButton = UIBarButtonItem(title: "Reset",
+        let resetButton = UIBarButtonItem(title: L10n.Filter.reset,
                                           style: .plain,
                                           target: self,
                                           action: #selector(resetFilter))
@@ -45,7 +45,7 @@ final class FilterViewController: UIViewController {
         navigationItem.leftBarButtonItem = closeButton
         navigationItem.rightBarButtonItem = resetButton
 
-        navigationItem.title = "Set filter"
+        navigationItem.title = L10n.Filter.title
 
         return navigationItem
     }

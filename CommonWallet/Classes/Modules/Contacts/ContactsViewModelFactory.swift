@@ -66,7 +66,7 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
                                             itemHeight: ContactConstants.optionCellHeight,
                                             command: scanCommand)
 
-        viewModel.title = "Scan QR code"
+        viewModel.title =  L10n.Contacts.scan
         viewModel.icon = UIImage(named: "iconQr", in: Bundle(for: type(of: self)), compatibleWith: nil)
         viewModel.style = configuration.sendOptionStyle
 

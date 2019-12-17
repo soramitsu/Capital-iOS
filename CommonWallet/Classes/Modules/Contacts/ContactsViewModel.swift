@@ -92,8 +92,8 @@ struct ContactListViewModel: ContactListViewModelProtocol {
             return nil
         case .contacts:
             switch state {
-            case .full:  return "Contacts"
-            case .search: return "Search results"
+            case .full:  return L10n.Contacts.title
+            case .search: return  L10n.Contacts.searchResults
             }
         }
     }

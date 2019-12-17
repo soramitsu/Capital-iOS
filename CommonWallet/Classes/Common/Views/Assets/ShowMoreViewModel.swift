@@ -25,8 +25,8 @@ public protocol ShowMoreViewModelDelegate: class {
 final class ShowMoreViewModel: ShowMoreViewModelProtocol {
     var cellReuseIdentifier: String
     var itemHeight: CGFloat
-    var collapsedTitle: String = "Show more"
-    var expandedTitle: String = "Show less"
+    var collapsedTitle: String = L10n.Common.showMore
+    var expandedTitle: String = L10n.Common.showLess
 
     var observable = WalletViewModelObserverContainer<ShowMoreViewModelObserver>()
 

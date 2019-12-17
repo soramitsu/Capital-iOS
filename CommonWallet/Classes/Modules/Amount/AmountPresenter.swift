@@ -103,7 +103,7 @@ final class AmountPresenter {
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
                                                               fullName: payload.receiverName,
-                                                              action: "Next")
+                                                              action: L10n.Common.next)
 
         let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
         feeViewModel = FeeViewModel(title: feeTitle)
@@ -166,7 +166,7 @@ final class AmountPresenter {
                 if confirmationState != nil {
                     confirmationState = nil
 
-                    let message = "Sorry, we couldn't find asset information you want to send. Please, try again later."
+                    let message = L10n.Amount.Error.asset
                     view?.showError(message: message)
                 }
 
@@ -187,7 +187,7 @@ final class AmountPresenter {
 
             view?.didStopLoading()
 
-            let message = "Sorry, balance checking request failed. Please, try again later."
+            let message = L10n.Amount.Error.balance
             view?.showError(message: message)
         }
     }
@@ -238,7 +238,7 @@ final class AmountPresenter {
             confirmationState = nil
         }
 
-        let message = "Sorry, we coudn't contact transfer provider. Please, try again later."
+        let message = L10n.Amount.Error.transfer
         view?.showError(message: message)
     }
 
@@ -297,7 +297,7 @@ final class AmountPresenter {
                     .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
                 let currentAmount =  Decimal(string: balanceData.balance),
                 totalAmount <= currentAmount else {
-                    let message = "Sorry, you don't have enough funds to transfer specified amount."
+                    let message = L10n.Amount.Error.noFunds
                     view?.showError(message: message)
                     return nil
             }

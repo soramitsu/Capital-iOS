@@ -45,7 +45,7 @@ final class WithdrawResultPresenter {
         }
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Amount to send",
+                                   title: L10n.Amount.send,
                                    details: details)
     }
 
@@ -64,7 +64,7 @@ final class WithdrawResultPresenter {
         }
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Transaction fee",
+                                   title: L10n.Amount.fee,
                                    details: details)
     }
 
@@ -85,7 +85,7 @@ final class WithdrawResultPresenter {
         let details = "\(asset.symbol)\(totalAmount)"
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Total amount",
+                                   title: L10n.Amount.total,
                                    details: details,
                                    icon: style.amountChangeStyle.decrease)
     }
@@ -104,13 +104,13 @@ final class WithdrawResultPresenter {
         var viewModels: [WalletFormViewModelProtocol] = []
 
         let statusViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                  title: "Status",
-                                                  details: "Pending",
+                                                  title: L10n.Status.title,
+                                                  details: L10n.Status.pending,
                                                   icon: style.statusStyleContainer.pending.icon)
         viewModels.append(statusViewModel)
 
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: "Date and Time",
+                                                title: L10n.Transaction.date,
                                                 details: dateFormatter.string(from: Date()))
         viewModels.append(timeViewModel)
 
@@ -133,8 +133,8 @@ final class WithdrawResultPresenter {
     }
 
     private func provideAccessoryViewModel() {
-        let viewModel = AccessoryViewModel(title: "Funds are being sent",
-                                           action: "Done")
+        let viewModel = AccessoryViewModel(title: L10n.Transaction.pendingDescription,
+                                           action: L10n.Common.done)
         view?.didReceive(accessoryViewModel: viewModel)
     }
 }

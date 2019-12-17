@@ -31,7 +31,7 @@ final class AmountViewModelFactory {
 
 extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String {
-        let title: String = "Transaction fee"
+        let title: String = L10n.Amount.fee
 
         guard let amount = amount, let asset = asset else {
             return title
@@ -53,7 +53,7 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
                 throw AmountViewModelFactoryError.missingValidator
         }
 
-        return DescriptionInputViewModel(title: "Description",
+        return DescriptionInputViewModel(title: L10n.Common.description,
                                          validator: validator)
     }
 }

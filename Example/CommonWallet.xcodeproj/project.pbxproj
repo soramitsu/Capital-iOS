@@ -107,6 +107,7 @@
 		84FA00962269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FA00952269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift */; };
 		84FA00982269BB33005DA950 /* historyEmptyResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84FA00972269BB33005DA950 /* historyEmptyResponse.json */; };
 		8B2D0389227833A900B4BDF7 /* MoneyPresentableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D0388227833A900B4BDF7 /* MoneyPresentableTests.swift */; };
+		8B42312823AA3DB100B106AF /* LocalizedDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B42312723AA3DB100B106AF /* LocalizedDemo.swift */; };
 		8B570D33225726F700459190 /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B570D32225726F600459190 /* HistoryTests.swift */; };
 		8B5E81D22268BBA9001DB674 /* contactsResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B5E81D12268BBA8001DB674 /* contactsResponse.json */; };
 		8B5E81D42268BD5B001DB674 /* searchEmptyResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B5E81D32268BD5B001DB674 /* searchEmptyResponse.json */; };
@@ -223,6 +224,7 @@
 		84FA00952269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultEmptyStateDataSource+Module.swift"; sourceTree = "<group>"; };
 		84FA00972269BB33005DA950 /* historyEmptyResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = historyEmptyResponse.json; sourceTree = "<group>"; };
 		8B2D0388227833A900B4BDF7 /* MoneyPresentableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyPresentableTests.swift; sourceTree = "<group>"; };
+		8B42312723AA3DB100B106AF /* LocalizedDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedDemo.swift; sourceTree = "<group>"; };
 		8B570D32225726F600459190 /* HistoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTests.swift; sourceTree = "<group>"; };
 		8B5E81D12268BBA8001DB674 /* contactsResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = contactsResponse.json; sourceTree = "<group>"; };
 		8B5E81D32268BD5B001DB674 /* searchEmptyResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = searchEmptyResponse.json; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 		84C180572253ACF400F19858 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				8B42312623AA3D9400B106AF /* Localized */,
 				84D8D9A822F730CF00C9B9C7 /* CommandDecorator */,
 				84D8D9A722F730BF00C9B9C7 /* Default */,
 				84C180582253AD0800F19858 /* DemoProtocol.swift */,
@@ -697,6 +700,14 @@
 			path = Money;
 			sourceTree = "<group>";
 		};
+		8B42312623AA3D9400B106AF /* Localized */ = {
+			isa = PBXGroup;
+			children = (
+				8B42312723AA3DB100B106AF /* LocalizedDemo.swift */,
+			);
+			path = Localized;
+			sourceTree = "<group>";
+		};
 		8B570D31225726F600459190 /* History */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,11 +755,12 @@
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "CommonWallet_Example" */;
 			buildPhases = (
 				BD217A4F7116988B81A763DD /* [CP] Check Pods Manifest.lock */,
-				84EFCACF223FC1B6003A88C8 /* ShellScript */,
+				8B77ACAA23A836B500B269A8 /* SwiftGen */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				938ADD3E620FCB0428C8FFCA /* [CP] Embed Pods Frameworks */,
+				84EFCACF223FC1B6003A88C8 /* Lint */,
 				842AD1EE22928BA600EA05C4 /* ShellScript */,
 			);
 			buildRules = (
@@ -977,7 +989,7 @@
 			shellPath = /bin/sh;
 			shellScript = "#! /bin/sh\n# Define output file. Change \"$PROJECT_DIR/${PROJECT_NAME}Tests\" to your test's root source folder, if it's not the default name.\nOUTPUT_FILE=\"${PROJECT_DIR}/../Tests/Mocks/ModuleMocks.swift\"\necho \"Generated Mocks File = $OUTPUT_FILE\"\n\n# Define input directory. Change \"${PROJECT_DIR}/${PROJECT_NAME}\" to your project's root source folder, if it's not the default name.\nINPUT_DIR=\"${PROJECT_DIR}/../CommonWallet\"\necho \"Mocks Input Directory = $INPUT_DIR\"\n\n# Generate mock files, include as many input files as you'd like to create mocks for.\n\"Pods/Cuckoo/run\" generate --no-header --testable \"${PROJECT_NAME}\" \\\n--exclude \"AccountListAssemblyProtocol, HistoryAssemblyProtocol, ContactsAssemblyProtocol, AmountAssemblyProtocol, TransferResultAssemblyProtocol, TransactionDetailsAssemblyProtocol, InvoiceScanAssemblyProtocol, ConfirmationAssemblyProtocol, ReceiveAmountAssemblyProtocol, DashboardAssemblyProtocol, FilterAssemblyProtocol, WithdrawAmountAssemblyProtocol, WithdrawConfirmationAssemblyProtocol, WithdrawResultAssemblyProtocol, FilterViewCellProtocol\" \\\n--output \"${OUTPUT_FILE}\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/LoadableViewProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/AlertPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/PickerPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WalletForm/WalletFormProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/CoordinatorProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/ControllerBackedProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/Containable.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/SharingPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Common/Protocols/ImageGalleryPresentable.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Dashboard/DashboardProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/AccountList/AccountListProtocol.swift\" \\\n\"$INPUT_DIR/Classes/Modules/ReceiveAmount/ReceiveAmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/History/HistoryProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Contacts/ContactsProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Amount/AmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/TransferResult/TransferResultProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/TransactionDetails/TransactionDetailsProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/InvoiceScan/InvoiceScanProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Confirmation/ConfirmationProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/Filter/FilterProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawAmount/WithdrawAmountProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawConfirmation/WithdrawConfirmationProtocols.swift\" \\\n\"$INPUT_DIR/Classes/Modules/WithdrawResult/WithdrawResultProtocols.swift\" \\\n";
 		};
-		84EFCACF223FC1B6003A88C8 /* ShellScript */ = {
+		84EFCACF223FC1B6003A88C8 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -986,6 +998,7 @@
 			);
 			inputPaths = (
 			);
+			name = Lint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -993,6 +1006,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\" --config \".swiftlint.yml\"\n";
+		};
+		8B77ACAA23A836B500B269A8 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT\"/SwiftGen/bin/swiftgen\n";
 		};
 		938ADD3E620FCB0428C8FFCA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1083,6 +1114,7 @@
 				84D8D9AC22F7315900C9B9C7 /* DialogCommandDecorator.swift in Sources */,
 				84D8D9AA22F730F300C9B9C7 /* DialogCommandDecoratorFactory.swift in Sources */,
 				84C1806D22551E0600F19858 /* DemoHeaderViewModel.swift in Sources */,
+				8B42312823AA3DB100B106AF /* LocalizedDemo.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,33 @@
+"common.today" = "ថ្ងៃនេះ";
+"common.yesterday" = "ម្សិលម៉ិញ";
+"common.error" = "បញ្ជាក់";
+"common.ok" = "យល់ព្រម";
+"common.close" = "បិទ";
+"common.send" = "ផ្ទេរប្រាក់";
+"common.receive" = "ទទួលប្រាក់";
+"common.next" = "បន្ទាប់";
+"common.description" = "អត្ថន័យ";
+"common.done" = "រួចរាល់";
+"common.search" = "ស្វែងរក";
+
+"amount.title" = "បរិមាណទឹកប្រាក់";
+
+"confirmation.title" = "បញ្ជាក់";
+"confirmation.hint" = "សូមពិនិត្យនិងបញ្ជាក់ប្រតិបត្តិការលម្អិត";
+
+"status.title" = "ស្ថានការ";
+"status.pending" = "កំពុងធ្វើប្រតិបត្តិការ";
+"status.success" = "ជោគជ័យ";
+
+"transaction.details" = "ព័ត៌មានប្រតិបត្តិការ";
+"transaction.sender" = "អ្នកផ្ទេរប្រាក់";
+"transaction.recipient" = "អ្នកទទួល";
+"transaction.date" = "កាលបរិច្ឆេទ និង ម៉ោង";
+"transaction.done" = "រួចរាល់";
+"transaction.pending_description" = "ទឹកប្រាក់បានផ្ទេរដោយជោគជ័យ";
+
+"contacts.title" = "ទំនាក់ទំនង";
+"contacts.search_results" = "ស្វែងរក";
+"contacts.scan" = "សស្កែនកូដ​ QR";
+
+"history.title" = "ប្រតិបត្តិការថ្មីៗ";

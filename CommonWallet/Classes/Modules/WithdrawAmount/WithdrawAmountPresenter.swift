@@ -158,8 +158,7 @@ final class WithdrawAmountPresenter {
                 if confirmationState != nil {
                    confirmationState = nil
 
-                    let message = "Sorry, we couldn't find asset information you want to send. Please, try again later."
-                    view?.showError(message: message)
+                    view?.showError(message: L10n.Withdraw.Error.noAsset)
                 }
 
                 return
@@ -179,8 +178,7 @@ final class WithdrawAmountPresenter {
 
             view?.didStopLoading()
 
-            let message = "Sorry, balance checking request failed. Please, try again later."
-            view?.showError(message: message)
+            view?.showError(message: L10n.Withdraw.Error.balance)
         }
     }
 
@@ -231,8 +229,7 @@ final class WithdrawAmountPresenter {
             confirmationState = nil
         }
 
-        let message = "Sorry, we coudn't contact withdraw provider. Please, try again later."
-        view?.showError(message: message)
+        view?.showError(message: L10n.Withdraw.Error.connection)
     }
 
     private func updateMetadataProvider(for asset: WalletAsset) throws {
@@ -290,8 +287,7 @@ final class WithdrawAmountPresenter {
                 let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
                 let currentAmount =  Decimal(string: balanceData.balance),
                 totalAmount <= currentAmount else {
-                    let message = "Sorry, you don't have enough funds to transfer specified amount."
-                    view?.showError(message: message)
+                    view?.showError(message: L10n.Withdraw.Error.tooPoor)
                     return nil
             }
 

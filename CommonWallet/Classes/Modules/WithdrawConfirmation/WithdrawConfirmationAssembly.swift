@@ -15,7 +15,7 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
-        view.title = "Confirmation"
+        view.title = L10n.Confirmation.title
 
         let coordinator = WithdrawConfirmationCoordinator(resolver: resolver)
 

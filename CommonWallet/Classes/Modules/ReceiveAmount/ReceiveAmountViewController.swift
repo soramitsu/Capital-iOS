@@ -72,6 +72,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         setupCloseButton()
         adjustLayout()
         applyStyle()
+        
+        amountTitleLabel.text = L10n.Amount.title
 
         presenter.setup(qrSize: calculateQrSize(for: .expanded))
     }

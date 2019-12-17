@@ -38,7 +38,7 @@ final class ContactsModuleBuilder {
     fileprivate weak var searchEmptyStateDelegate: EmptyStateDelegate?
     fileprivate var searchEmptyStateDataSource: EmptyStateDataSource?
 
-    fileprivate var searchPlaceholder: String = "Search"
+    fileprivate var searchPlaceholder: String = L10n.Common.search
 
     fileprivate var supportsLiveSearch: Bool = false
     

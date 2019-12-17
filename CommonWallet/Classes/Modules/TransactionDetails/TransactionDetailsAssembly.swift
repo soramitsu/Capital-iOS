@@ -20,7 +20,7 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
-        view.title = "Transaction details"
+        view.title = L10n.Transaction.details
 
         let coordinator = TransactionDetailsCoordinator(resolver: resolver)
 

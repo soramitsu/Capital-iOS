@@ -26,7 +26,7 @@ final class TransferResultPresenter {
     }
 
     private func prepareSingleAmountViewModel(for amount: String) -> WalletFormViewModel {
-        return WalletFormViewModel(layoutType: .accessory, title: "Amount",
+        return WalletFormViewModel(layoutType: .accessory, title: L10n.Amount.title,
                                    details: amount,
                                    icon: resolver.style.amountChangeStyle.decrease)
     }
@@ -55,13 +55,13 @@ final class TransferResultPresenter {
         let totalAmountDecimal = decimalAmount + decimalFee
 
         let amountViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                  title: "Amount to send",
+                                                  title: L10n.Amount.send,
                                                   details: amount)
 
         let fee = "\(transferPayload.assetSymbol)\(formattedFee)"
 
         let feeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                               title: "Transaction fee",
+                                               title: L10n.Amount.fee,
                                                details: fee)
 
         var viewModels = [amountViewModel, feeViewModel]
@@ -69,7 +69,7 @@ final class TransferResultPresenter {
         if let formattedTotalAmount = resolver.amountFormatter.string(from: totalAmountDecimal as NSNumber) {
             let totalAmount = "\(transferPayload.assetSymbol)\(formattedTotalAmount)"
             let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                           title: "Total amount",
+                                                           title: L10n.Amount.total,
                                                            details: totalAmount,
                                                            icon: resolver.style.amountChangeStyle.decrease)
             viewModels.append(totalAmountViewModel)
@@ -80,14 +80,14 @@ final class TransferResultPresenter {
 
     private func provideMainViewModels() {
         let statusViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                  title: "Status",
-                                                  details: "Pending",
+                                                  title: L10n.Status.title,
+                                                  details: L10n.Status.pending,
                                                   icon: resolver.style.statusStyleContainer.pending.icon)
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: "Date and Time",
+                                                title: L10n.Transaction.date,
                                                 details: resolver.statusDateFormatter.string(from: Date()))
         let receiverViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                    title: "Recipient",
+                                                    title: L10n.Transaction.recipient,
                                                     details: transferPayload.receiverName)
 
         var viewModels = [statusViewModel, timeViewModel, receiverViewModel]
@@ -97,7 +97,7 @@ final class TransferResultPresenter {
 
         if !transferPayload.transferInfo.details.isEmpty {
             let descriptionViewModel = WalletFormViewModel(layoutType: .details,
-                                                           title: "Description",
+                                                           title: L10n.Common.description,
                                                            details: transferPayload.transferInfo.details)
 
             viewModels.append(descriptionViewModel)
@@ -107,8 +107,8 @@ final class TransferResultPresenter {
     }
 
     private func provideAccessoryViewModel() {
-        let viewModel = AccessoryViewModel(title: "Funds are being sent",
-                                           action: "Done")
+        let viewModel = AccessoryViewModel(title: L10n.Transaction.pendingDescription,
+                                           action: L10n.Common.done)
         view?.didReceive(accessoryViewModel: viewModel)
     }
 }

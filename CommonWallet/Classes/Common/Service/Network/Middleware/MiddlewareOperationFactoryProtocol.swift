@@ -144,7 +144,7 @@ public extension MiddlewareOperationFactoryProtocol {
                                amount: info.amount)
 
             if let fee = info.fee, let feeAccountId = info.feeAccountId {
-                let feeDescription = "transfer fee"
+                let feeDescription = L10n.Common.transferFee
                 transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
                                                                       destinationAccount: feeAccountId,
                                                                       assetId: info.asset,
@@ -295,7 +295,7 @@ public extension MiddlewareOperationFactoryProtocol {
                                amount: info.amount)
 
             if let fee = info.fee, let feeAccountId = info.feeAccountId {
-                let feeDescription = "withdrawal fee"
+                let feeDescription = L10n.Common.withdrawalFee
                 transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
                                                                       destinationAccount: feeAccountId,
                                                                       assetId: info.assetId,

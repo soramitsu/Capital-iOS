@@ -82,11 +82,11 @@ final class InvoiceScanPresenter {
 
         switch error {
         case .deviceAccessRestricted:
-            view?.present(message: "Unfortunatelly, access to the camera is restricted.", animated: true)
+            view?.present(message: L10n.InvoiceScan.Error.cameraRestricted, animated: true)
         case .deviceAccessDeniedPreviously:
-            let message = "Unfortunatelly, you denied access to camera previously. Would you like to allow access now?"
-            let title = "Camera Access"
-            coordinator.askOpenApplicationSettins(with: message, title: title, from: view)
+            let message = L10n.InvoiceScan.Error.cameraRestrictedPreviously
+            let title = L10n.InvoiceScan.Error.cameraTitle
+            coordinator.askOpenApplicationSettings(with: message, title: title, from: view)
         default:
             break
         }
@@ -95,20 +95,20 @@ final class InvoiceScanPresenter {
     private func handleQRExtractionService(error: WalletQRExtractionServiceError) {
         switch error {
         case .noFeatures:
-            view?.present(message: "No valid receiver information found", animated: true)
+            view?.present(message: L10n.InvoiceScan.Error.noInfo, animated: true)
         case .detectorUnavailable, .invalidImage:
-            view?.present(message: "Can't process selected image", animated: true)
+            view?.present(message: L10n.InvoiceScan.Error.invalidImage, animated: true)
         }
     }
 
     private func handleImageGallery(error: ImageGalleryError) {
         switch error {
         case .accessRestricted:
-            view?.present(message: "Unfortunatelly, access to the photos is restricted.", animated: true)
+            view?.present(message: L10n.InvoiceScan.Error.galleryRestricted, animated: true)
         case .accessDeniedPreviously:
-            let message = "Unfortunatelly, you denied access to photos previously. Would you like to allow access now?"
-            let title = "Photos Access"
-            coordinator.askOpenApplicationSettins(with: message, title: title, from: view)
+            let message = L10n.InvoiceScan.Error.galleryRestrictedPreviously
+            let title = L10n.InvoiceScan.Error.galleryTitle
+            coordinator.askOpenApplicationSettings(with: message, title: title, from: view)
         default:
             break
         }
@@ -124,7 +124,7 @@ final class InvoiceScanPresenter {
 
     private func handleMatched(receiverInfo: ReceiveInfo) {
         if receiverInfo.accountId.identifier() == currentAccountId.identifier() {
-            let message = "Sender and Receiver must be different"
+            let message = L10n.InvoiceScan.Error.match
             view?.present(message: message, animated: true)
             return
         }
@@ -144,7 +144,7 @@ final class InvoiceScanPresenter {
     }
 
     private func handleFailedMatching(for code: String) {
-        let message = "Can't extract receiver's data"
+        let message = L10n.InvoiceScan.Error.extractFail
         view?.present(message: message, animated: true)
     }
 
@@ -176,7 +176,7 @@ final class InvoiceScanPresenter {
         guard
             let foundAccount = searchResult.first,
             foundAccount.accountId == receiverInfo.accountId.identifier() else {
-                let message = "Receiver couldn't be found"
+                let message = L10n.InvoiceScan.Error.noReceiver
                 view?.present(message: message, animated: true)
                 return
         }
@@ -196,7 +196,7 @@ final class InvoiceScanPresenter {
 
         scanState = .active
 
-        let message = "Please, check internet connection"
+        let message = L10n.InvoiceScan.Error.noInternet
         view?.present(message: message, animated: true)
     }
 }

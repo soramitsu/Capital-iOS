@@ -43,7 +43,7 @@ final class ConfirmationPresenter {
             
             coordinator.showResult(payload: payload)
         case .failure:
-            view?.showError(message: "Transaction failed. Please, try again later.")
+            view?.showError(message: L10n.Transaction.Error.fail)
         }
     }
 
@@ -58,12 +58,12 @@ final class ConfirmationPresenter {
         let details = "\(payload.assetSymbol)\(formattedAmount)"
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Transaction Fee",
+                                   title: L10n.Amount.fee,
                                    details: details)
     }
 
     private func prepareSingleAmountViewModel(for amount: String) -> WalletFormViewModel {
-        return WalletFormViewModel(layoutType: .accessory, title: "Amount",
+        return WalletFormViewModel(layoutType: .accessory, title: L10n.Amount.title,
                                    details: amount,
                                    icon: resolver.style.amountChangeStyle.decrease)
     }
@@ -92,13 +92,13 @@ final class ConfirmationPresenter {
         let totalAmountDecimal = decimalAmount + decimalFee
 
         let amountViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                  title: "Amount to send",
+                                                  title: L10n.Amount.send,
                                                   details: amount)
 
         let fee = "\(payload.assetSymbol)\(formattedFee)"
 
         let feeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                               title: "Transaction fee",
+                                               title: L10n.Amount.fee,
                                                details: fee)
 
         var viewModels = [amountViewModel, feeViewModel]
@@ -106,7 +106,7 @@ final class ConfirmationPresenter {
         if let formattedTotalAmount = resolver.amountFormatter.string(from: totalAmountDecimal as NSNumber) {
             let totalAmount = "\(payload.assetSymbol)\(formattedTotalAmount)"
             let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                           title: "Total amount",
+                                                           title: L10n.Amount.total,
                                                            details: totalAmount,
                                                            icon: resolver.style.amountChangeStyle.decrease)
             viewModels.append(totalAmountViewModel)
@@ -119,7 +119,7 @@ final class ConfirmationPresenter {
         var viewModels: [WalletFormViewModel] = []
 
         viewModels.append(WalletFormViewModel(layoutType: .accessory,
-                                              title: "Please check and confirm details",
+                                              title: L10n.Confirmation.hint,
                                               details: nil))
 
         let amountViewModels = prepareAmountViewModels()
@@ -128,7 +128,7 @@ final class ConfirmationPresenter {
 
         if !payload.transferInfo.details.isEmpty {
             viewModels.append(WalletFormViewModel(layoutType: .details,
-                                                  title: "Description",
+                                                  title: L10n.Common.description,
                                                   details: payload.transferInfo.details))
         }
 
@@ -138,7 +138,7 @@ final class ConfirmationPresenter {
     func provideAccessoryViewModel() {
         let viewModel = accessoryViewModelFactory.createViewModel(from: payload.receiverName,
                                                                   fullName: payload.receiverName,
-                                                                  action: "Send")
+                                                                  action: L10n.Common.send)
         view?.didReceive(accessoryViewModel: viewModel)
     }
 }

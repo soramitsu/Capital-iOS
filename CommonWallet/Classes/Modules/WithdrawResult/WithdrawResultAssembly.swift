@@ -13,7 +13,7 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
-        view.title = "All Done"
+        view.title = L10n.Transaction.done
         
         let coordinator = WithdrawResultCoordinator(resolver: resolver)
 

@@ -8,7 +8,7 @@ enum ReceiveAmountModuleBuilderError: Error {}
 
 final class ReceiveAmountModuleBuilder {
     fileprivate lazy var accountShareFactory: AccountShareFactoryProtocol = AccountShareFactory()
-    fileprivate var title: String = "Receive assets"
+    fileprivate var title: String = L10n.Receive.title
 
     func build() -> ReceiveAmountConfigurationProtocol {
         return ReceiveAmountConfiguration(accountShareFactory: accountShareFactory, title: title)

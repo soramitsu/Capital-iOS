@@ -12,6 +12,6 @@ public protocol AccountShareFactoryProtocol {
 
 struct AccountShareFactory: AccountShareFactoryProtocol {
     func createSources(for receiveInfo: ReceiveInfo, qrImage: UIImage) -> [Any] {
-        return [qrImage, "My account is:", receiveInfo.accountId.identifier()]
+        return [qrImage, L10n.Common.accountShare, receiveInfo.accountId.identifier()]
     }
 }
