@@ -49,7 +49,7 @@ final class WithdrawConfirmationPresenter {
         }
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Amount to send",
+                                   title: L10n.Amount.send,
                                    details: details)
     }
 
@@ -68,7 +68,7 @@ final class WithdrawConfirmationPresenter {
         }
 
         return WalletFormViewModel(layoutType: .accessory,
-                                   title: "Transaction fee",
+                                   title: L10n.Amount.fee,
                                    details: details)
     }
 
@@ -83,7 +83,7 @@ final class WithdrawConfirmationPresenter {
     }
 
     private func createAccessoryViewModel() -> AccessoryViewModelProtocol {
-        let accessoryViewModel = AccessoryViewModel(title: "", action: "Withdraw")
+        let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Withdraw.title)
 
         guard let fee = withdrawInfo.fee,
             let feeDecimal = Decimal(string: fee.value),
@@ -97,7 +97,7 @@ final class WithdrawConfirmationPresenter {
             return accessoryViewModel
         }
 
-        accessoryViewModel.title = "Total amount \(asset.symbol)\(totalAmountString)"
+        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol, totalAmountString)
         accessoryViewModel.numberOfLines = 2
 
         return accessoryViewModel
@@ -107,7 +107,7 @@ final class WithdrawConfirmationPresenter {
         var viewModels: [WalletFormViewModelProtocol] = []
 
         let titleViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                 title: "Please check and confirm details",
+                                                 title: L10n.Confirmation.hint,
                                                  details: nil)
         viewModels.append(titleViewModel)
 
@@ -135,7 +135,7 @@ final class WithdrawConfirmationPresenter {
 
             coordinator.showResult(for: withdrawInfo, asset: asset, option: withdrawOption)
         case .failure:
-            view?.showError(message: "Withdraw failed. Please, try again later.")
+            view?.showError(message: L10n.Withdraw.Error.fail)
         }
     }
 }

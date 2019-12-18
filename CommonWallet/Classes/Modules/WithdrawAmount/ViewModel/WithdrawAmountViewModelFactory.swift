@@ -40,7 +40,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     }
 
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String {
-        let title: String = "Transaction fee"
+        let title: String = L10n.Amount.fee
 
         guard let amount = amount, let asset = asset else {
             return title
@@ -68,7 +68,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     }
 
     func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?) -> AccessoryViewModel {
-        let accessoryViewModel = AccessoryViewModel(title: "", action: "Next")
+        let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Common.next)
 
         guard let amount = totalAmount, let asset = asset else {
             return accessoryViewModel
@@ -78,7 +78,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
             return accessoryViewModel
         }
 
-        accessoryViewModel.title = "Total amount \(asset.symbol)\(amountString)"
+        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol, amountString)
         accessoryViewModel.numberOfLines = 2
 
         return accessoryViewModel

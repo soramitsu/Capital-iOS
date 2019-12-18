@@ -43,6 +43,9 @@ final class WithdrawAmountViewController: AccessoryViewController {
         super.viewDidLoad()
 
         applyStyle()
+        
+        amountLabel.text = L10n.Amount.send
+        
         presenter.setup()
     }
 

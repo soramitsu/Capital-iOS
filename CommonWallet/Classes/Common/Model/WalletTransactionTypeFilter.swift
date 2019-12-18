@@ -12,7 +12,7 @@ struct WalletTransactionTypeFilter: Equatable {
 
 extension WalletTransactionTypeFilter {
     static var all: WalletTransactionTypeFilter {
-        return WalletTransactionTypeFilter(backendName: "ALL", displayName: "All")
+        return WalletTransactionTypeFilter(backendName: "ALL", displayName: L10n.Common.all)
     }
 }
 

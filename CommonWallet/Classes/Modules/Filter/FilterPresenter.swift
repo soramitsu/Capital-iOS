@@ -104,7 +104,7 @@ final class FilterPresenter {
         var filterViewModel: FilterViewModel = []
 
         if assets.count > 1 {
-            filterViewModel.append(FilterSectionViewModel(title: "Assets"))
+            filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.assets))
             filterViewModel.append(contentsOf:
                 zip(0..<assets.count, assets).map { FilterSelectionViewModel(title: $1.details,
                                                                              selected: selectedAssets.contains($1),
@@ -115,19 +115,19 @@ final class FilterPresenter {
             })
         }
         
-        filterViewModel.append(FilterSectionViewModel(title: "Date range"))
-        filterViewModel.append(FilterDateViewModel(title: "From",
+        filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.dateRange))
+        filterViewModel.append(FilterDateViewModel(title: L10n.Filter.from,
                                                    dateString: string(for: fromDate),
                                                    action: { [weak self] in
                                                     self?.selectDate(for: .fromDate)
         }))
-        filterViewModel.append(FilterDateViewModel(title: "To",
+        filterViewModel.append(FilterDateViewModel(title: L10n.Filter.to,
                                                    dateString: string(for: toDate),
                                                    action: { [weak self] in
             self?.selectDate(for: .toDate)
         }))
         
-        filterViewModel.append(FilterSectionViewModel(title: "Type"))
+        filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.type))
         filterViewModel.append(contentsOf:
             zip(0..<typeFilters.count, typeFilters).map {
                 let selected = selectedTypeFilter != nil ? selectedTypeFilter! == $1 : false

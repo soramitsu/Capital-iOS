@@ -1,0 +1,99 @@
+"common.today" = "Today";
+"common.yesterday" = "Yesterday";
+"common.input.validator_hint" = "%@ lowercase hex symbols starting with 0x";
+"common.incoming" = "Incoming";
+"common.outgoing" = "Outgoing";
+"common.input.validator_max_hint" = "Maximum %@ symbols";
+"common.all" = "All";
+"common.error" = "Error";
+"common.ok" = "OK";
+"common.close" = "Close";
+"common.not_now" = "Not now";
+"common.open_settings" = "Open settings";
+"common.transfer_fee" = "transfer fee";
+"common.withdrawal_fee" = "withdrawal fee";
+"common.account_share" = "My account is:";
+"common.show_more" = "Show more";
+"common.show_less" = "Show less";
+"common.send" = "Send";
+"common.receive" = "Receive";
+"common.next" = "Next";
+"common.description" = "Description";
+"common.description_optional" = "Description (optional)";
+"common.done" = "Done";
+"common.search" = "Search";
+
+"account.details_title" = "Account details";
+
+"amount.error.asset" = "Sorry, we couldn't find asset information you want to send. Please, try again later.";
+"amount.error.balance" = "Sorry, balance checking request failed. Please, try again later.";
+"amount.error.transfer" = "Sorry, we coudn't contact transfer provider. Please, try again later.";
+"amount.error.no_funds" = "Sorry, you don't have enough funds to transfer specified amount.";
+"amount.fee" = "Transaction fee";
+"amount.title" = "Amount";
+"amount.send" = "Amount to send";
+"amount.total" = "Total amount";
+
+"asset_selection.no_asset" = "No asset";
+
+"confirmation.title" = "Confirmation";
+"confirmation.hint" = "Please check and confirm details";
+
+"status.title" = "Status";
+"status.pending" = "Pending";
+"status.rejected" = "Rejected";
+"status.success" = "Success";
+
+"transaction.details" = "Transaction details";
+"transaction.sender" = "Sender";
+"transaction.recipient" = "Recipient";
+"transaction.sent" = "Amount sent";
+"transaction.fee" = "Fee";
+"transaction.send_back" = "Send back";
+"transaction.id" = "Identifier";
+"transaction.date" = "Date and time";
+"transaction.reason" = "Reason";
+"transaction.type" = "Type";
+"transaction.done" = "All done";
+"transaction.pending_description" = "Funds are being sent";
+"transaction.error.fail" = "Transaction failed. Please, try again later.";
+
+"contacts.title" = "Contacts";
+"contacts.search_results" = "Search results";
+"contacts.scan" = "Scan QR code";
+
+"filter.title" = "Set filter";
+"filter.assets" = "Assets";
+"filter.dateRange" = "Date range";
+"filter.from" = "From";
+"filter.to" = "To";
+"filter.type" = "Type";
+"filter.reset" = "Reset";
+
+"history.title" = "Recent events";
+
+"invoice_scan.scan" = "Scan code from receiver";
+"invoice_scan.upload" = "Upload from gallery";
+"invoice_scan.error.camera_restricted" = "Unfortunatelly, access to the camera is restricted.";
+"invoice_scan.error.camera_restricted_previously" = "Unfortunatelly, you denied access to camera previously. Would you like to allow access now?";
+"invoice_scan.error.camera_title" = "Camera Access";
+"invoice_scan.error.no_info" = "No valid receiver information found";
+"invoice_scan.error.invalid_image" = "Can't process selected image";
+"invoice_scan.error.gallery_restricted" = "Unfortunatelly, access to the photos is restricted.";
+"invoice_scan.error.gallery_restricted_previously" = "Unfortunatelly, you denied access to photos previously. Would you like to allow access now?";
+"invoice_scan.error.gallery_title" = "Photos Access";
+"invoice_scan.error.match" = "Sender and Receiver must be different";
+"invoice_scan.error.extract_fail" = "Can't extract receiver's data";
+"invoice_scan.error.no_receiver" = "Receiver couldn't be found";
+"invoice_scan.error.no_internet" = "Please, check internet connection";
+
+"receive.title" = "Receive assets";
+"receive.error_qr_generation" = "Can't generate QR code";
+
+"withdraw.title" = "Withdraw";
+"withdraw.total_amount" = "Total amount %@%@";
+"withdraw.error.no_asset" = "Sorry, we couldn't find asset information you want to send. Please, try again later.";
+"withdraw.error.balance" = "Sorry, balance checking request failed. Please, try again later.";
+"withdraw.error.connection" = "Sorry, we couldn't contact withdraw provider. Please, try again later.";
+"withdraw.error.too_poor" = "Sorry, you don't have enough funds to transfer specified amount.";
+"withdraw.error.fail" = "Withdraw failed. Please, try again later.";

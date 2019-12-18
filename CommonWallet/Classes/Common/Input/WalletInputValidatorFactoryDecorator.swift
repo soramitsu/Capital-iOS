@@ -16,7 +16,7 @@ final class WalletInputValidatorFactoryDecorator {
     }
 
     func createDefaultValidator() -> WalletInputValidatorProtocol {
-        let hint = "Maximum \(descriptionMaxLength) symbols"
+        let hint = L10n.Common.Input.validatorMaxHint("\(descriptionMaxLength)")
         return WalletDefaultInputValidator(hint: hint, maxLength: descriptionMaxLength)
     }
 }

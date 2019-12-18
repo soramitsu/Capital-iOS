@@ -9,7 +9,7 @@ import Foundation
 final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol, asset: WalletAsset) -> AccountDetailsViewProtocol? {
         let view = AccountDetailsViewController()
-        view.controller.title = "Account Details"
+        view.controller.title = L10n.Account.detailsTitle
         view.style = resolver.style
 
         guard

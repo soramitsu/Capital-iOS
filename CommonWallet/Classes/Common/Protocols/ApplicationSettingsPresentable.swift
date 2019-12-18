@@ -6,11 +6,11 @@
 import UIKit
 
 protocol ApplicationSettingsPresentable {
-    func askOpenApplicationSettins(with message: String, title: String?, from view: ControllerBackedProtocol?)
+    func askOpenApplicationSettings(with message: String, title: String?, from view: ControllerBackedProtocol?)
 }
 
 extension ApplicationSettingsPresentable {
-    func askOpenApplicationSettins(with message: String, title: String?, from view: ControllerBackedProtocol?) {
+    func askOpenApplicationSettings(with message: String, title: String?, from view: ControllerBackedProtocol?) {
         var currentController = view?.controller
 
         if currentController == nil {
@@ -22,8 +22,8 @@ extension ApplicationSettingsPresentable {
         }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: "Not Now", style: .cancel, handler: nil)
-        let settingsAction = UIAlertAction(title: "Open Settings", style: .default) { _ in
+        let closeAction = UIAlertAction(title: L10n.Common.notNow, style: .cancel, handler: nil)
+        let settingsAction = UIAlertAction(title: L10n.Common.openSettings, style: .default) { _ in
             if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.openURL(url)
             }

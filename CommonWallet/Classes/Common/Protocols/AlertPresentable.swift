@@ -16,9 +16,9 @@ protocol AlertPresentable: class {
 extension AlertPresentable {
 
     func showError(message: String) {
-        showAlert(title: "Error",
+        showAlert(title: L10n.Common.error,
                   message: message,
-                  actions: [("Close", .cancel)],
+                  actions: [(L10n.Common.close, .cancel)],
                   completion: { _ in })
     }
 }

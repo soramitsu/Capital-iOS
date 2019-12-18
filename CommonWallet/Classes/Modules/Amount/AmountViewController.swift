@@ -63,6 +63,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
         configureAccessoryView()
         configureStyle()
+        updateTitles()
 
         presenter.setup()
     }
@@ -158,6 +159,11 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         descriptionPlaceholderLabel.textColor = style.bodyTextColor
             .withAlphaComponent(Constants.placeholderOpacity)
         descriptionPlaceholderLabel.font = style.bodyRegularFont
+    }
+    
+    private func updateTitles() {
+        amountLabel.text = L10n.Amount.title
+        descriptionLabel.text = L10n.Common.descriptionOptional
     }
 
     private func updateConfirmationState() {

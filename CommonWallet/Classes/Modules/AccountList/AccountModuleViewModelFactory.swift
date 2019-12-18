@@ -72,7 +72,7 @@ final class AccountModuleViewModelFactory {
             sendCommand = sendDecorator
         }
 
-        let sendViewModel = ActionViewModel(title: "Send",
+        let sendViewModel = ActionViewModel(title: L10n.Common.send,
                                             style: context.actionsStyle.sendText,
                                             command: sendCommand)
 
@@ -83,7 +83,7 @@ final class AccountModuleViewModelFactory {
             receiveCommand = receiveDecorator
         }
 
-        let receiveViewModel = ActionViewModel(title: "Receive",
+        let receiveViewModel = ActionViewModel(title: L10n.Common.receive,
                                                style: context.actionsStyle.receiveText,
                                                command: receiveCommand)
 

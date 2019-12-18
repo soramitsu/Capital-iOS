@@ -37,20 +37,20 @@ final class TransactionDetailsPresenter {
         switch status {
         case .commited:
             return WalletFormViewModel(layoutType: .accessory,
-                                       title: "Status",
-                                       details: "Success",
+                                       title: L10n.Status.title,
+                                       details: L10n.Status.success,
                                        detailsColor: resolver.style.statusStyleContainer.approved.color,
                                        icon: resolver.style.statusStyleContainer.approved.icon)
         case .pending:
             return WalletFormViewModel(layoutType: .accessory,
-                                       title: "Status",
-                                       details: "Pending",
+                                       title: L10n.Status.title,
+                                       details: L10n.Status.pending,
                                        detailsColor: resolver.style.statusStyleContainer.pending.color,
                                        icon: resolver.style.statusStyleContainer.pending.icon)
         case .rejected:
             return WalletFormViewModel(layoutType: .accessory,
-                                       title: "Status",
-                                       details: "Rejected",
+                                       title: L10n.Status.title,
+                                       details: L10n.Status.rejected,
                                        detailsColor: resolver.style.statusStyleContainer.rejected.color,
                                        icon: resolver.style.statusStyleContainer.rejected.icon)
         }
@@ -82,13 +82,13 @@ final class TransactionDetailsPresenter {
     private func createPeerViewModel() -> WalletFormViewModel? {
         if transactionType.backendName == WalletTransactionType.incoming.backendName {
             return WalletFormViewModel(layoutType: .accessory,
-                                       title: "Sender",
+                                       title: L10n.Transaction.sender,
                                        details: transactionData.peerName)
         }
 
         if transactionType.backendName == WalletTransactionType.outgoing.backendName {
             return WalletFormViewModel(layoutType: .accessory,
-                                       title: "Recipient",
+                                       title: L10n.Transaction.recipient,
                                        details: transactionData.peerName)
         }
 
@@ -107,11 +107,11 @@ final class TransactionDetailsPresenter {
             
             let totalAmount = amount + fee
 
-            return [createAmountViewModel(for: amount, title: "Amount sent", hasIcon: false),
-                    createAmountViewModel(for: fee, title: "Fee", hasIcon: false),
-                    createAmountViewModel(for: totalAmount, title: "Total amount", hasIcon: true)]
+            return [createAmountViewModel(for: amount, title: L10n.Transaction.sent, hasIcon: false),
+                    createAmountViewModel(for: fee, title: L10n.Transaction.fee, hasIcon: false),
+                    createAmountViewModel(for: totalAmount, title: L10n.Amount.total, hasIcon: true)]
         } else {
-            return [createAmountViewModel(for: amount, title: "Amount", hasIcon: true)]
+            return [createAmountViewModel(for: amount, title: L10n.Amount.title, hasIcon: true)]
         }
     }
 
@@ -123,14 +123,14 @@ final class TransactionDetailsPresenter {
         return accessoryViewModelFactory.createViewModel(from: transactionData.peerName,
                                                          firstName: firstName,
                                                          lastName: lastName,
-                                                         action: "Send back")
+                                                         action: L10n.Transaction.sendBack)
     }
 
     private func updateView() {
         var viewModels = [WalletFormViewModel]()
 
         let idViewModel = WalletFormViewModel(layoutType: .accessory,
-                                              title: "Identifier",
+                                              title: L10n.Transaction.id,
                                               details: transactionData.displayIdentifier)
         viewModels.append(idViewModel)
 
@@ -139,20 +139,20 @@ final class TransactionDetailsPresenter {
 
         if transactionData.status == .rejected, let reason = transactionData.reason, !reason.isEmpty {
             let reasonViewModel = WalletFormViewModel(layoutType: .details,
-                                                      title: "Reason",
+                                                      title: L10n.Transaction.reason,
                                                       details: reason)
             viewModels.append(reasonViewModel)
         }
 
         let transactionDate = Date(timeIntervalSince1970: TimeInterval(transactionData.timestamp))
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: "Date and Time",
+                                                title: L10n.Transaction.date,
                                                 details: resolver.statusDateFormatter.string(from: transactionDate))
         viewModels.append(timeViewModel)
 
         if !transactionType.displayName.isEmpty {
             let typeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                    title: "Type",
+                                                    title: L10n.Transaction.type,
                                                     details: transactionType.displayName)
             viewModels.append(typeViewModel)
         }
@@ -165,7 +165,7 @@ final class TransactionDetailsPresenter {
 
         if !transactionData.details.isEmpty {
             let descriptionViewModel = WalletFormViewModel(layoutType: .details,
-                                                           title: "Description",
+                                                           title: L10n.Common.description,
                                                            details: transactionData.details)
 
             viewModels.append(descriptionViewModel)

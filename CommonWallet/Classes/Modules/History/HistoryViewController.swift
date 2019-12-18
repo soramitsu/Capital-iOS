@@ -82,6 +82,8 @@ final class HistoryViewController: UIViewController {
         update(for: draggableState, progress: Constants.draggableProgressFinal, forcesLayoutUpdate: false)
         updateTableViewAfterTransition(to: draggableState, animated: false)
         applyContentInsets(for: draggableState)
+        
+        titleLabel.text = L10n.History.title
 
         presenter.setup()
     }
@@ -320,7 +322,7 @@ final class HistoryViewController: UIViewController {
                                                                   leftBarItem: navigationItem.leftBarButtonItem,
                                                                   rightBarItem: navigationItem.rightBarButtonItem)
 
-                navigationItem.title = "Recent events"
+                navigationItem.title = L10n.History.title
                 let closeBarItem = UIBarButtonItem(image: configuration.viewStyle.closeIcon,
                                                    style: .plain,
                                                    target: self,

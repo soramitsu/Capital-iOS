@@ -5,7 +5,7 @@ PODS:
   - BoringSSL/Implementation (10.0.3):
     - BoringSSL/Interface (= 10.0.3)
   - BoringSSL/Interface (10.0.3)
-  - CommonWallet (1.5.0):
+  - CommonWallet (1.5.3):
     - IrohaCommunication (~> 3.4.1)
     - RobinHood (~> 2.0.0)
     - SoraUI (~> 1.8.7)
@@ -89,6 +89,7 @@ PODS:
   - SoraUI/PinView (1.8.7):
     - SoraUI/Controls
   - SoraUI/Skrull (1.8.7)
+  - SwiftGen (6.1.0)
   - SwiftLint (0.31.0)
 
 DEPENDENCIES:
@@ -97,6 +98,7 @@ DEPENDENCIES:
   - Cuckoo
   - Fabric (= 1.9.0)
   - OHHTTPStubs/Swift
+  - SwiftGen
   - SwiftLint (= 0.31.0)
 
 SPEC REPOS:
@@ -116,6 +118,7 @@ SPEC REPOS:
     - Protobuf
     - RobinHood
     - SoraUI
+    - SwiftGen
     - SwiftLint
 
 EXTERNAL SOURCES:
@@ -124,7 +127,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BoringSSL: c46efb47593135382bc0934196f16d2f726f5f36
-  CommonWallet: 140172f9009dcc54ff51d29bd151ec120b67dea0
+  CommonWallet: f550a127427653d251dfd52304fdee13bce468cd
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Cuckoo: f5f4e7c308c512cc2dedbdce23f5dc6985cb5173
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
@@ -139,8 +142,9 @@ SPEC CHECKSUMS:
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   RobinHood: ed86ee904084d3a3b731dc57f5209c4e45fe33dc
   SoraUI: d497b990f00b33d1b099f73da93fff555f36b722
+  SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 719c3bcb0fc1143cf302fd7dbd459de459cecb8e
+PODFILE CHECKSUM: 0504547bf0d1ed23384920b5bc1424f1db882a77
 
 COCOAPODS: 1.8.4

@@ -120,7 +120,7 @@ final class ReceiveAmountPresenter {
             currentImage = image
             view?.didReceive(image: image)
         case .failure:
-            view?.showError(message: "Can't generate QR code")
+            view?.showError(message: L10n.Receive.errorQrGeneration)
         }
     }
 }
