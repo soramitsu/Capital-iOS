@@ -6,6 +6,7 @@
 import Foundation
 import RobinHood
 import IrohaCommunication
+import SoraFoundation
 
 
 final class ContactsPresenter: NSObject {
@@ -62,7 +63,18 @@ final class ContactsPresenter: NSObject {
         self.currentAccountId = currentAccountId
         self.withdrawOptions = withdrawOptions
     }
-    
+
+    private func setupViewModelActions() {
+        let scanViewModel = viewModelFactory.createScanViewModel(for: selectedAsset.identifier)
+        var actions = [scanViewModel]
+
+        let withdrawViewModels = withdrawOptions.map { viewModelFactory
+            .createWithdrawViewModel(for: $0, assetId: selectedAsset.identifier)}
+        actions.append(contentsOf: withdrawViewModels)
+
+        viewModel.actions = actions
+    }
+
     private func setupDataProvider() {
         let changesBlock = { [weak self] (changes: [DataProviderChange<[SearchData]>]) -> Void in
             if let change = changes.first {
@@ -191,13 +203,7 @@ final class ContactsPresenter: NSObject {
 extension ContactsPresenter: ContactsPresenterProtocol {
     
     func setup() {
-        let scanViewModel = viewModelFactory.createScanViewModel(for: selectedAsset.identifier)
-        viewModel.actions.append(scanViewModel)
-
-        let withdrawViewModels = withdrawOptions.map { viewModelFactory
-            .createWithdrawViewModel(for: $0, assetId: selectedAsset.identifier)}
-        viewModel.actions.append(contentsOf: withdrawViewModels)
-
+        setupViewModelActions()
         view?.set(viewModel: viewModel)
         
         setupDataProvider()
@@ -241,4 +247,13 @@ extension ContactsPresenter: ContactViewModelDelegate {
         coordinator.send(to: payload)
     }
     
+}
+
+extension ContactsPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            setupViewModelActions()
+            view?.set(viewModel: viewModel)
+        }
+    }
 }

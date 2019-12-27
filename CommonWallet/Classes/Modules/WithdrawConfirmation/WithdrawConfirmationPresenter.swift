@@ -5,6 +5,8 @@
 
 import Foundation
 import RobinHood
+import SoraFoundation
+
 
 final class WithdrawConfirmationPresenter {
     weak var view: WalletFormViewProtocol?
@@ -155,6 +157,15 @@ extension WithdrawConfirmationPresenter: WithdrawConfirmationPresenterProtocol {
             if let result = result {
                 self?.handleWithdraw(result: result)
             }
+        }
+    }
+}
+
+
+extension WithdrawConfirmationPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            updateView()
         }
     }
 }

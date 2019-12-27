@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import RobinHood
+import SoraFoundation
 
 class HistoryTests: NetworkBaseTests {
 
@@ -185,6 +186,8 @@ class HistoryTests: NetworkBaseTests {
             when(stub).reloadContent().then {
                 expectation.fulfill()
             }
+
+            when(stub).isSetup.get.thenReturn(false, true)
         }
 
         stub(eventCenter) { stub in
@@ -200,6 +203,8 @@ class HistoryTests: NetworkBaseTests {
                                          viewModelFactory: viewModelFactory,
                                          assets: accountSettings.assets,
                                          transactionsPerPage: 100)
+
+        presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
         presenter.setup()
 

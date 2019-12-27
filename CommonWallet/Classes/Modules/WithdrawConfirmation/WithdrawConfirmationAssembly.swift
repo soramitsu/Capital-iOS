@@ -15,7 +15,13 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
+
         view.title = L10n.Confirmation.title
+
+        let localizationManager = resolver.localizationManager
+        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            view?.title = L10n.Confirmation.title
+        }
 
         let coordinator = WithdrawConfirmationCoordinator(resolver: resolver)
 
@@ -31,6 +37,8 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
                                                       amountFormatter: resolver.amountFormatter,
                                                       eventCenter: resolver.eventCenter)
         view.presenter = presenter
+
+        presenter.localizationManager = localizationManager
 
         return view
     }

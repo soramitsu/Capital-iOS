@@ -6,6 +6,7 @@
 import Foundation
 import RobinHood
 import IrohaCommunication
+import SoraFoundation
 
 
 final class HistoryPresenter {
@@ -422,5 +423,17 @@ extension HistoryPresenter: WalletEventVisitorProtocol {
 
     func processAccountUpdate(event: AccountUpdateEvent) {
         dataProvider.refresh()
+    }
+}
+
+extension HistoryPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            do {
+                try reloadView()
+            } catch {
+                logger?.error("Can't reload after language switch due to error \(error)")
+            }
+        }
     }
 }

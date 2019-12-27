@@ -6,6 +6,7 @@
 import UIKit
 import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 
 final class CommandDecoratorDemo: DemoFactoryProtocol {
     var title: String {
@@ -55,13 +56,15 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
             .with(emptyStateDataSource: DefaultEmptyStateDataSource.history)
             .with(supportsFilter: true)
 
+        let searchPlaceholder = LocalizableResource { _ in "Enter username" }
         walletBuilder.contactsModuleBuilder
-            .with(searchPlaceholder: "Enter username")
+            .with(searchPlaceholder: searchPlaceholder)
             .with(contactsEmptyStateDataSource: DefaultEmptyStateDataSource.contacts)
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
             .with(supportsLiveSearch: true)
 
-        walletBuilder.receiveModuleBuilder.with(title: "Receive tokens")
+        let receiveTitle = LocalizableResource {_ in "Receive tokens"}
+        walletBuilder.receiveModuleBuilder.with(title: receiveTitle)
 
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)

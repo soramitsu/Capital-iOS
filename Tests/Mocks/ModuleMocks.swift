@@ -1105,6 +1105,20 @@ import Foundation
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -1130,6 +1144,11 @@ import Foundation
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockControllerBackedProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockControllerBackedProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -1150,6 +1169,11 @@ import Foundation
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -1160,6 +1184,14 @@ import Foundation
 }
 
  class ControllerBackedProtocolStub: ControllerBackedProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -1929,6 +1961,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -2070,6 +2116,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAccountListViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAccountListViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -2130,6 +2181,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -2184,6 +2240,14 @@ import Cuckoo
 }
 
  class AccountListViewProtocolStub: AccountListViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -2485,6 +2549,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -2658,6 +2736,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAmountViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAmountViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -2728,6 +2811,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -2796,6 +2884,14 @@ import Cuckoo
 }
 
  class AmountViewProtocolStub: AmountViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -3494,6 +3590,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -3564,6 +3674,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -3599,6 +3714,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -3627,6 +3747,14 @@ import Cuckoo
 }
 
  class ContactsViewProtocolStub: ContactsViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -3982,6 +4110,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -4007,6 +4149,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockDashboardViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockDashboardViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -4027,6 +4174,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -4037,6 +4189,14 @@ import Cuckoo
 }
 
  class DashboardViewProtocolStub: DashboardViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -4321,6 +4481,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -4361,6 +4535,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFilterViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFilterViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -4386,6 +4565,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -4402,6 +4586,14 @@ import Cuckoo
 }
 
  class FilterViewProtocolStub: FilterViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -4784,6 +4976,20 @@ import RobinHood
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -4951,6 +5157,11 @@ import RobinHood
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockHistoryViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockHistoryViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -5016,6 +5227,11 @@ import RobinHood
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -5077,6 +5293,14 @@ import RobinHood
 }
 
  class HistoryViewProtocolStub: HistoryViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -5683,6 +5907,20 @@ import AVFoundation
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -5738,6 +5976,11 @@ import AVFoundation
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockInvoiceScanViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockInvoiceScanViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -5768,6 +6011,11 @@ import AVFoundation
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -5790,6 +6038,14 @@ import AVFoundation
 }
 
  class InvoiceScanViewProtocolStub: InvoiceScanViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -6171,6 +6427,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -6256,6 +6526,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockReceiveAmountViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockReceiveAmountViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -6296,6 +6571,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -6330,6 +6610,14 @@ import Cuckoo
 }
 
  class ReceiveAmountViewProtocolStub: ReceiveAmountViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -7211,6 +7499,20 @@ import Cuckoo
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -7339,6 +7641,11 @@ import Cuckoo
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletFormViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletFormViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -7394,6 +7701,11 @@ import Cuckoo
 	
 	    
 	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -7444,6 +7756,14 @@ import Cuckoo
 }
 
  class WalletFormViewProtocolStub: WalletFormViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {
@@ -7644,6 +7964,20 @@ import IrohaCommunication
     
     
     
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
      var controller: UIViewController {
         get {
             return cuckoo_manager.getter("controller",
@@ -7832,6 +8166,11 @@ import IrohaCommunication
 	    }
 	    
 	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWithdrawAmountViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
 	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWithdrawAmountViewProtocol, UIViewController> {
 	        return .init(manager: cuckoo_manager, name: "controller")
 	    }
@@ -7905,6 +8244,11 @@ import IrohaCommunication
 	        self.sourceLocation = sourceLocation
 	    }
 	
+	    
+	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
 	    
 	    
 	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
@@ -7981,6 +8325,14 @@ import IrohaCommunication
 }
 
  class WithdrawAmountViewProtocolStub: WithdrawAmountViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
     
      var controller: UIViewController {

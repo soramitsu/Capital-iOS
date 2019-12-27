@@ -6,6 +6,7 @@
 import Foundation
 import RobinHood
 import IrohaCommunication
+import SoraFoundation
 
 enum AmountPresenterError: Error {
     case missingSelectedAsset
@@ -41,6 +42,7 @@ final class AmountPresenter {
     private var feeCalculationFactory: FeeCalculationFactoryProtocol
     private var transferViewModelFactory: AmountViewModelFactoryProtocol
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
+    private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
 
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData]>
@@ -84,6 +86,7 @@ final class AmountPresenter {
         self.feeCalculationFactory = feeCalculationFactory
         self.transferViewModelFactory = transferViewModelFactory
         self.assetSelectionFactory = assetSelectionFactory
+        self.accessoryFactory = accessoryFactory
         
         descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel()
 
@@ -147,6 +150,26 @@ final class AmountPresenter {
         assetSelectionViewModel.title = title
 
         assetSelectionViewModel.symbol = newAsset.symbol
+    }
+
+    private func updateDescriptionViewModel() {
+        do {
+            let text = descriptionInputViewModel.text
+            descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel()
+            _ = descriptionInputViewModel.didReceiveReplacement(text,
+                                                                for: NSRange(location: 0, length: 0))
+
+            view?.set(descriptionViewModel: descriptionInputViewModel)
+        } catch {
+            logger?.error("Can't update description view model")
+        }
+    }
+
+    private func updateAccessoryViewModel() {
+        accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
+                                                              fullName: payload.receiverName,
+                                                              action: L10n.Common.next)
+        view?.set(accessoryViewModel: accessoryViewModel)
     }
     
     private func handleResponse(with optionalBalances: [BalanceData]?) {
@@ -426,5 +449,16 @@ extension AmountPresenter: ModalPickerViewDelegate {
 extension AmountPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
         updateFeeViewModel(for: selectedAsset)
+    }
+}
+
+extension AmountPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            updateSelectedAssetViewModel(for: selectedAsset)
+            updateFeeViewModel(for: selectedAsset)
+            updateDescriptionViewModel()
+            updateAccessoryViewModel()
+        }
     }
 }

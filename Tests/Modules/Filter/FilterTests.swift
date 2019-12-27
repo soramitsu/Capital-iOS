@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
 
 class FilterTests: XCTestCase {
     static let numberOfDates = 3
@@ -276,11 +277,15 @@ class FilterTests: XCTestCase {
                 filterViewModel = viewModels
                 expectation.fulfill()
             }
+
+            when(stub).isSetup.get.thenReturn(false, true)
         }
 
         stub(resolver) { stub in
             when(stub).style.get.thenReturn(WalletStyle())
         }
+
+        presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
         presenter.setup()
 

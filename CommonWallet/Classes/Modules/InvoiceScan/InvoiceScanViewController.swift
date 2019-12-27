@@ -6,6 +6,7 @@
 import UIKit
 import AVFoundation
 import SoraUI
+import SoraFoundation
 
 
 final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
@@ -76,7 +77,11 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
 
         configureStyle()
         adjustLayout()
-        
+
+        setupLocalization()
+    }
+
+    private func setupLocalization() {
         titleLabel.text = L10n.InvoiceScan.scan
         uploadButton.imageWithTitleView?.title = L10n.InvoiceScan.upload
     }
@@ -173,5 +178,15 @@ extension InvoiceScanViewController: InvoiceScanViewProtocol {
         }
 
         scheduleMessageHide()
+    }
+}
+
+extension InvoiceScanViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+            uploadButton?.invalidateLayout()
+            view.setNeedsLayout()
+        }
     }
 }

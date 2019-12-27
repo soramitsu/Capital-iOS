@@ -4,15 +4,16 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 protocol ReceiveAmountConfigurationProtocol {
     var accountShareFactory: AccountShareFactoryProtocol { get }
-    var title: String { get }
+    var title: LocalizableResource<String> { get }
 }
 
 
 struct ReceiveAmountConfiguration: ReceiveAmountConfigurationProtocol {
     var accountShareFactory: AccountShareFactoryProtocol
-    var title: String
+    var title: LocalizableResource<String>
 }

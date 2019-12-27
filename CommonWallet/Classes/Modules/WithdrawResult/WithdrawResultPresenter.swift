@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 final class WithdrawResultPresenter {
     weak var view: WalletFormViewProtocol?
@@ -148,5 +149,15 @@ extension WithdrawResultPresenter: WithdrawResultPresenterProtocol {
 
     func performAction() {
         coordinator.dismiss()
+    }
+}
+
+
+extension WithdrawResultPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            provideFormViewModels()
+            provideAccessoryViewModel()
+        }
     }
 }

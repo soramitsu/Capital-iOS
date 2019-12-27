@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
@@ -25,6 +26,10 @@ final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
 
         let presenter = AccountDetailsPresenter(view: view, coordinator: coordinator)
         view.presenter = presenter
+
+        resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            view?.controller.title = L10n.Account.detailsTitle
+        }
 
         return view
     }

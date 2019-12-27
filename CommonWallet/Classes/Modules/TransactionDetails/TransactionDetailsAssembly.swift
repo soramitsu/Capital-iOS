@@ -20,7 +20,13 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
+
         view.title = L10n.Transaction.details
+
+        let localizationManager = resolver.localizationManager
+        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            view?.title = L10n.Transaction.details
+        }
 
         let coordinator = TransactionDetailsCoordinator(resolver: resolver)
 
@@ -34,6 +40,8 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
                                                     transactionType: transactionType,
                                                     accessoryViewModelFactory: accessoryViewModelFactory)
         view.presenter = presenter
+
+        presenter.localizationManager = localizationManager
 
         return view
     }

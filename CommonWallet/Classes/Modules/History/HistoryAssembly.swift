@@ -52,6 +52,9 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         
         view.presenter = presenter
 
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
+
         return view
     }
     

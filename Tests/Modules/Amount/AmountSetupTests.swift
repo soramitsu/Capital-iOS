@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
 
 class AmountTests: NetworkBaseTests {
 
@@ -125,6 +126,8 @@ class AmountTests: NetworkBaseTests {
                     feeExpectation.fulfill()
                 }
 
+                when(stub).isSetup.get.thenReturn(false, true)
+
                 if expectsFeeFailure {
                     when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
                         feeLoadingCompleteExpectation.fulfill()
@@ -166,6 +169,8 @@ class AmountTests: NetworkBaseTests {
                                                 transferViewModelFactory: transferViewModelFactory,
                                                 assetSelectionFactory: assetSelectionFactory,
                                                 accessoryFactory: accessoryViewModelFactory)
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

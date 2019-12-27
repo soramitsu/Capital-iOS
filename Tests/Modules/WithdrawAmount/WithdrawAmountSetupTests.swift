@@ -7,6 +7,8 @@ import XCTest
 @testable import CommonWallet
 import IrohaCommunication
 import Cuckoo
+import SoraFoundation
+
 
 class WithdrawAmountSetupTests: NetworkBaseTests {
 
@@ -128,6 +130,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                 accessoryExpectation.fulfill()
             }
 
+            when(stub).isSetup.get.thenReturn(false, true)
+
             if expectsFeeFailure {
                 when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
                     feeLoadingCompleteExpectation.fulfill()
@@ -160,6 +164,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                     feeCalculationFactory: FeeCalculationFactory(),
                                                     withdrawViewModelFactory: viewModelFactory,
                                                     assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
+
+        presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
         presenter.setup()
 

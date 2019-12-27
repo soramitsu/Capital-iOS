@@ -44,6 +44,9 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
 
             view.presenter = presenter
 
+            view.localizationManager = resolver.localizationManager
+            presenter.localizationManager = resolver.localizationManager
+
             return view
         } catch {
             resolver.logger?.error("Did receive unexpected error \(error)")

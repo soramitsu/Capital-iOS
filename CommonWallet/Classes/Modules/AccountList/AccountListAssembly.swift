@@ -34,7 +34,9 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
                                              balanceDataProvider: balanceDataProvider,
                                              viewModelFactory: viewModelFactory,
                                              eventCenter: resolver.eventCenter)
+
         presenter.logger = resolver.logger
+        presenter.localizationManager = resolver.localizationManager
 
         view.presenter = presenter
 

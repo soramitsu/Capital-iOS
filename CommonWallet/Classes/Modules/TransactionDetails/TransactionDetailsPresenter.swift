@@ -5,6 +5,7 @@
 
 import Foundation
 import IrohaCommunication
+import SoraFoundation
 
 
 final class TransactionDetailsPresenter {
@@ -203,5 +204,14 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
                                     receiverName: transactionData.peerName)
 
         coordinator.send(to: payload)
+    }
+}
+
+
+extension TransactionDetailsPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            updateView()
+        }
     }
 }

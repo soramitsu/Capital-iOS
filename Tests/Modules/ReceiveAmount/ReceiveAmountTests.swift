@@ -6,6 +6,8 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
+import SoraFoundation
+
 
 class ReceiveAmountTests: XCTestCase {
 
@@ -100,7 +102,11 @@ class ReceiveAmountTests: XCTestCase {
             when(stub).didReceive(image: any(UIImage.self)).then { _ in
                 imageExpectation.fulfill()
             }
+
+            when(stub).isSetup.get.thenReturn(false, true)
         }
+
+        presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
         presenter.setup(qrSize: CGSize(width: 100.0, height: 100.0))
 

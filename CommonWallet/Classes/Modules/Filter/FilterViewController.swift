@@ -4,6 +4,7 @@
 */
 
 import UIKit
+import SoraFoundation
 
 
 struct FilterConstants {
@@ -21,7 +22,7 @@ final class FilterViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
 
     override var navigationItem: UINavigationItem {
-        let navigationItem = UINavigationItem()
+        let navigationItem = super.navigationItem
 
         let closeButton = UIBarButtonItem(image: style?.closeIcon,
                                           style: .plain,
@@ -46,6 +47,11 @@ final class FilterViewController: UIViewController {
         navigationItem.rightBarButtonItem = resetButton
 
         navigationItem.title = L10n.Filter.title
+
+        localizationManager?.addObserver(with: navigationItem) { [weak navigationItem] (_, _) in
+            navigationItem?.title = L10n.Filter.title
+            navigationItem?.rightBarButtonItem?.title = L10n.Filter.reset
+        }
 
         return navigationItem
     }
@@ -139,4 +145,8 @@ extension FilterViewController: FilterViewProtocol {
         self.filter = filter
     }
     
+}
+
+extension FilterViewController: Localizable {
+    func applyLocalization() {}
 }

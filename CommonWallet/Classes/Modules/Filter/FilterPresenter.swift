@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 private enum DateSelection: Int {
@@ -201,4 +202,12 @@ extension FilterPresenter: ModalDatePickerViewDelegate {
         }
     }
     
+}
+
+extension FilterPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            reload()
+        }
+    }
 }

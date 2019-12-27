@@ -41,6 +41,9 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           withdrawOptions: resolver.account.withdrawOptions)
         view.presenter = presenter
 
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
+
         return view
     }
 }

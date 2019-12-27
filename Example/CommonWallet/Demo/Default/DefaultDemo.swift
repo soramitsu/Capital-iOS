@@ -6,6 +6,7 @@
 import UIKit
 import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 
 final class DefaultDemo: DemoFactoryProtocol {
     var title: String {
@@ -61,8 +62,9 @@ final class DefaultDemo: DemoFactoryProtocol {
             .with(emptyStateDataSource: DefaultEmptyStateDataSource.history)
             .with(supportsFilter: true)
 
+        let searchPlaceholder = LocalizableResource { _ in "Enter username" }
         walletBuilder.contactsModuleBuilder
-            .with(searchPlaceholder: "Enter username")
+            .with(searchPlaceholder: searchPlaceholder)
             .with(contactsEmptyStateDataSource: DefaultEmptyStateDataSource.contacts)
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
             .with(supportsLiveSearch: true)

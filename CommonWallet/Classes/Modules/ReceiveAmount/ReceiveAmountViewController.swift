@@ -5,6 +5,7 @@
 
 import UIKit
 import SoraUI
+import SoraFoundation
 
 
 final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
@@ -72,8 +73,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         setupCloseButton()
         adjustLayout()
         applyStyle()
-        
-        amountTitleLabel.text = L10n.Amount.title
+
+        setupLocalization()
 
         presenter.setup(qrSize: calculateQrSize(for: .expanded))
     }
@@ -88,6 +89,10 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         super.viewDidDisappear(animated)
 
         clearKeyboardHandler()
+    }
+
+    private func setupLocalization() {
+        amountTitleLabel.text = L10n.Amount.title
     }
 
     private func adjustLayout() {
@@ -338,5 +343,15 @@ extension ReceiveAmountViewController: KeyboardHandlerDelegate {
 
     func keyboardWillHide(notification: Notification) {
         keyboardControl.deactivate(animated: true)
+    }
+}
+
+
+extension ReceiveAmountViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+            view.setNeedsLayout()
+        }
     }
 }

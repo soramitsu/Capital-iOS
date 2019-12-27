@@ -6,6 +6,7 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
+import SoraFoundation
 
 class AccountListTests: NetworkBaseTests {
 
@@ -73,12 +74,16 @@ class AccountListTests: NetworkBaseTests {
                 when(stub).didCompleteReload().then {
                     reloadCompletionExpectation.fulfill()
                 }
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             stub(eventCenter) { stub in
                 stub.add(observer: any(), dispatchIn: any()).thenDoNothing()
                 stub.remove(observer: any()).thenDoNothing()
             }
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             // then
 
@@ -137,12 +142,16 @@ class AccountListTests: NetworkBaseTests {
                 when(stub).didCompleteReload().then {
                     reloadCompletionExpectation.fulfill()
                 }
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             stub(eventCenter) { stub in
                 stub.add(observer: any(), dispatchIn: any()).thenDoNothing()
                 stub.remove(observer: any()).thenDoNothing()
             }
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             // then
 
@@ -208,6 +217,9 @@ class AccountListTests: NetworkBaseTests {
             when(stub).amountFormatter.get.thenReturn(NumberFormatter())
             when(stub).commandDecoratorFactory.get.thenReturn(nil)
             when(stub).eventCenter.get.thenReturn(eventCenter)
+            when(stub).localizationManager.get.then {
+                return LocalizationManager(localization: WalletLanguage.english.rawValue)
+            }
         }
 
         return resolver

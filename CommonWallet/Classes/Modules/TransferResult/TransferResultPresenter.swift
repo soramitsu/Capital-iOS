@@ -5,6 +5,7 @@
 
 import Foundation
 import RobinHood
+import SoraFoundation
 
 
 final class TransferResultPresenter {
@@ -122,5 +123,14 @@ extension TransferResultPresenter: TransferResultPresenterProtocol {
 
     func performAction() {
         coordinator.dismiss()
+    }
+}
+
+extension TransferResultPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            provideMainViewModels()
+            provideAccessoryViewModel()
+        }
     }
 }

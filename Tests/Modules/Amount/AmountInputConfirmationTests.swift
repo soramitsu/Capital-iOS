@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
 
 class AmountInputConfirmationTests: NetworkBaseTests {
 
@@ -118,6 +119,8 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                 when(stub).didStopLoading().thenDoNothing()
 
                 when(stub).controller.get.thenReturn(UIViewController())
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             stub(assetSelectionObserver) { stub in
@@ -166,6 +169,8 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                                                 transferViewModelFactory: transferViewModelFactory,
                                                 assetSelectionFactory: assetSelectionFactory,
                                                 accessoryFactory: accessoryViewModelFactory)
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

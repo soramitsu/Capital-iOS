@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 public protocol ReceiveAmountModuleBuilderProtocol: class {
@@ -11,5 +12,5 @@ public protocol ReceiveAmountModuleBuilderProtocol: class {
     func with(accountShareFactory: AccountShareFactoryProtocol) -> Self
 
     @discardableResult
-    func with(title: String) -> Self
+    func with(title: LocalizableResource<String>) -> Self
 }

@@ -7,6 +7,8 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
+
 
 class TransactionDetailsTests: XCTestCase {
 
@@ -59,7 +61,11 @@ class TransactionDetailsTests: XCTestCase {
                 }
 
                 when(stub).didReceive(accessoryViewModel: any()).thenDoNothing()
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

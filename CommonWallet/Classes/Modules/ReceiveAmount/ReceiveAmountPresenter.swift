@@ -6,6 +6,8 @@
 import Foundation
 import RobinHood
 import IrohaCommunication
+import SoraFoundation
+
 
 final class ReceiveAmountPresenter {
     weak var view: ReceiveAmountViewProtocol?
@@ -18,8 +20,8 @@ final class ReceiveAmountPresenter {
     private(set) var assetSelectionViewModel: AssetSelectionViewModel
     private(set) var amountInputViewModel: AmountInputViewModel
     private(set) var preferredQRSize: CGSize?
+    private(set) var selectedAsset: WalletAsset?
 
-    private var balances: [BalanceData]?
     private var currentImage: UIImage?
 
     var logger: WalletLoggerProtocol?
@@ -45,23 +47,22 @@ final class ReceiveAmountPresenter {
         self.account = account
         self.assetSelectionFactory = assetSelectionFactory
 
-        var optionalAsset: WalletAsset?
         var currentAmount: Decimal?
 
         if let assetId = receiveInfo.assetId, let asset = account.asset(for: assetId.identifier()) {
-            optionalAsset = asset
+            selectedAsset = asset
 
             if let amount = receiveInfo.amount {
                 currentAmount = Decimal(string: amount.value) ?? 0
             }
         } else {
-            optionalAsset = account.assets.first
+            selectedAsset = account.assets.first
         }
 
-        let title = assetSelectionFactory.createTitle(for: optionalAsset, balanceData: nil)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: optionalAsset?.identifier,
+        let title = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil)
+        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset?.identifier,
                                                           title: title,
-                                                          symbol: optionalAsset?.symbol ?? "")
+                                                          symbol: selectedAsset?.symbol ?? "")
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
         amountInputViewModel = AmountInputViewModel(amount: currentAmount, limit: amountLimit)
@@ -200,6 +201,8 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
 
         let newAsset = account.assets[index]
 
+        selectedAsset = newAsset
+
         assetSelectionViewModel.assetId = newAsset.identifier
 
         let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: nil)
@@ -211,5 +214,14 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
 
     func close() {
         coordinator.close()
+    }
+}
+
+extension ReceiveAmountPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: selectedAsset,
+                                                                              balanceData: nil)
+        }
     }
 }

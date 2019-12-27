@@ -13,6 +13,11 @@ final class TransferResultAssembly: TransferResultAssemblyProtocol {
         view.style = resolver.style
         view.title = L10n.Transaction.done
 
+        let localizationManager = resolver.localizationManager
+        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            view?.title = L10n.Transaction.done
+        }
+
         let coordinator = TransferResultCoordinator(resolver: resolver)
 
         let presenter = TransferResultPresenter(view: view,
@@ -20,6 +25,8 @@ final class TransferResultAssembly: TransferResultAssemblyProtocol {
                                                 payload: transferPayload,
                                                 resolver: resolver)
         view.presenter = presenter
+
+        presenter.localizationManager = localizationManager
 
         return view
     }

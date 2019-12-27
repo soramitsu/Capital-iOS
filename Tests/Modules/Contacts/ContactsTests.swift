@@ -7,7 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import RobinHood
-
+import SoraFoundation
 
 class ContactsTests: NetworkBaseTests {
 
@@ -53,6 +53,8 @@ class ContactsTests: NetworkBaseTests {
                 when(stub).set(viewModel: any(ContactListViewModelProtocol.self)).then { viewModel in
                     expectation.fulfill()
                 }
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             let presenter = ContactsPresenter(view: view,
@@ -63,6 +65,8 @@ class ContactsTests: NetworkBaseTests {
                                               selectedAsset: accountSettings.assets[0],
                                               currentAccountId: accountSettings.accountId,
                                               withdrawOptions: [])
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

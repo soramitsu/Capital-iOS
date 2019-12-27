@@ -6,6 +6,7 @@
 import Foundation
 import IrohaCommunication
 import RobinHood
+import SoraFoundation
 
 
 final class ConfirmationPresenter {
@@ -160,6 +161,15 @@ extension ConfirmationPresenter: ConfirmationPresenterProtocol {
             if let result = optionalResult {
                 self?.handleTransfer(result: result)
             }
+        }
+    }
+}
+
+extension ConfirmationPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            provideMainViewModels()
+            provideAccessoryViewModel()
         }
     }
 }

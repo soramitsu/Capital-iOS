@@ -7,6 +7,8 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
+
 
 class WithdrawResultTests: NetworkBaseTests {
 
@@ -43,6 +45,8 @@ class WithdrawResultTests: NetworkBaseTests {
                 when(stub).didReceive(accessoryViewModel: any(AccessoryViewModelProtocol?.self)).then { _ in
                     accessoryExpectation.fulfill()
                 }
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             let completionExpectation = XCTestExpectation()
@@ -52,6 +56,8 @@ class WithdrawResultTests: NetworkBaseTests {
                     completionExpectation.fulfill()
                 }
             }
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

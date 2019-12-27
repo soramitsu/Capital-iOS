@@ -6,6 +6,8 @@
 import Foundation
 import RobinHood
 import IrohaCommunication
+import SoraFoundation
+
 
 struct WithdrawCheckingState: OptionSet {
     typealias RawValue = UInt8
@@ -111,6 +113,19 @@ final class WithdrawAmountPresenter {
             feeViewModel.isLoading = true
         }
 
+    }
+
+    private func updateDescriptionViewModel() {
+        do {
+            let text = descriptionInputViewModel.text
+            descriptionInputViewModel = try withdrawViewModelFactory.createDescriptionViewModel()
+            _ = descriptionInputViewModel.didReceiveReplacement(text,
+                                                                for: NSRange(location: 0, length: 0))
+
+            view?.set(descriptionViewModel: descriptionInputViewModel)
+        } catch {
+            logger?.error("Can't update description view model")
+        }
     }
 
     private func updateAccessoryViewModel(for asset: WalletAsset) {
@@ -412,5 +427,18 @@ extension WithdrawAmountPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
         updateFeeViewModel(for: selectedAsset)
         updateAccessoryViewModel(for: selectedAsset)
+    }
+}
+
+extension WithdrawAmountPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            updateFeeViewModel(for: selectedAsset)
+            updateAccessoryViewModel(for: selectedAsset)
+            updateDescriptionViewModel()
+            updateSelectedAssetViewModel(for: selectedAsset)
+
+            view?.set(title: withdrawViewModelFactory.createWithdrawTitle())
+        }
     }
 }
