@@ -4,6 +4,7 @@
 */
 
 import UIKit
+import SoraFoundation
 
 public protocol CommonWalletBuilderProtocol: class {
     static func builder(with account: WalletAccountSettingsProtocol,
@@ -272,8 +273,11 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         if let qrCoderFactory = qrCoderFactory {
             resolver.qrCoderFactory = qrCoderFactory
         }
-        
-        language.save()
+
+        let allLanguages: [String] = WalletLanguage.allCases.map { $0.rawValue }
+        resolver.localizationManager = LocalizationManager(localization: language.rawValue,
+                                                           availableLocalizations: allLanguages)
+        L10n.sharedLanguage = language
 
         return resolver
     }

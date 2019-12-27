@@ -17,6 +17,7 @@ public protocol WalletCommandFactoryProtocol: class {
         -> WalletPresentationCommandProtocol
     func prepareHideCommand(with actionType: WalletHideActionType) -> WalletHideCommandProtocol
     func prepareAccountUpdateCommand() -> WalletCommandProtocol
+    func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol
 }
 
 public protocol CommonWalletContextProtocol: WalletCommandFactoryProtocol {

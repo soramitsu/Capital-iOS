@@ -44,6 +44,8 @@
 		8481A58122FC48710056D3D4 /* EthereumInputValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58022FC48710056D3D4 /* EthereumInputValidatorTests.swift */; };
 		8481A58322FC51060056D3D4 /* DemoInputValidatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58222FC51060056D3D4 /* DemoInputValidatorFactory.swift */; };
 		8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */; };
+		84868E2123B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868E2023B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift */; };
+		84868E2423B5F27200E3CAA4 /* CommonHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */; };
 		84896599225397F100EBAC6D /* CommonWalletBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896598225397F100EBAC6D /* CommonWalletBuilderTests.swift */; };
 		8489659D2253A46900EBAC6D /* ModuleMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8489659B2253A41E00EBAC6D /* ModuleMocks.swift */; };
 		848B6EB4224D5A1100E8A3C9 /* successResultResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 848B6EAB224D5A1100E8A3C9 /* successResultResponse.json */; };
@@ -174,6 +176,8 @@
 		8481A58022FC48710056D3D4 /* EthereumInputValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumInputValidatorTests.swift; sourceTree = "<group>"; };
 		8481A58222FC51060056D3D4 /* DemoInputValidatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoInputValidatorFactory.swift; sourceTree = "<group>"; };
 		8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDefaultInputValidatorTests.swift; sourceTree = "<group>"; };
+		84868E2023B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSwitchCommandTests.swift; sourceTree = "<group>"; };
+		84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHelpers.swift; sourceTree = "<group>"; };
 		84896598225397F100EBAC6D /* CommonWalletBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletBuilderTests.swift; sourceTree = "<group>"; };
 		8489659B2253A41E00EBAC6D /* ModuleMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleMocks.swift; sourceTree = "<group>"; };
 		848B6EAB224D5A1100E8A3C9 /* successResultResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = successResultResponse.json; sourceTree = "<group>"; };
@@ -417,6 +421,7 @@
 		8447621C224CE2FC009ADC0E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				84868E1F23B5F1F900E3CAA4 /* Commands */,
 				842F7671233BAA8600C8D444 /* Events */,
 				8418C57B2330F94800E92394 /* Fee */,
 				8481A57F22FC48400056D3D4 /* InputValidators */,
@@ -504,6 +509,7 @@
 				84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */,
 				84449ED822EC48C60024BE85 /* CommandGenerator.swift */,
 				84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */,
+				84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */,
 			);
 			name = Helpers;
 			path = ../../Tests/Helpers;
@@ -532,6 +538,14 @@
 				8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */,
 			);
 			path = InputValidators;
+			sourceTree = "<group>";
+		};
+		84868E1F23B5F1F900E3CAA4 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				84868E2023B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift */,
+			);
+			path = Commands;
 			sourceTree = "<group>";
 		};
 		848B6EAA224D5A1100E8A3C9 /* Resources */ = {
@@ -1039,6 +1053,8 @@
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RobinHood/RobinHood.framework",
+				"${BUILT_PRODUCTS_DIR}/SoraFoundation/SoraFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/SoraKeystore/SoraKeystore.framework",
 				"${BUILT_PRODUCTS_DIR}/SoraUI/SoraUI.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -1055,6 +1071,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RobinHood.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SoraFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SoraKeystore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SoraUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -1127,6 +1145,7 @@
 				8BB829CD22B2D81700BACD59 /* FilterTests.swift in Sources */,
 				848CB904224E946900B04708 /* CoreDataCacheTests.swift in Sources */,
 				8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */,
+				84868E2123B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift in Sources */,
 				8447625E224D41E0009ADC0E /* BalanceServiceTests.swift in Sources */,
 				848B6ECF224D6EFF00E8A3C9 /* TransferServiceTests.swift in Sources */,
 				840932422344C9A60013C871 /* HistoryViewModelFactoryTests.swift in Sources */,
@@ -1142,6 +1161,7 @@
 				8425DBB62282B27D008A8B6A /* TransferResultTests.swift in Sources */,
 				848CCE0B22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift in Sources */,
 				841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */,
+				84868E2423B5F27200E3CAA4 /* CommonHelpers.swift in Sources */,
 				847527382360790E0028D871 /* AmountInputViewModelTests.swift in Sources */,
 				84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */,
 				8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */,
