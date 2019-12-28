@@ -64,7 +64,6 @@ final class AccountListPresenter {
                     break
                 }
             } else {
-                self?.assets = nil
                 self?.updateView()
             }
         }
