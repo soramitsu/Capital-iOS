@@ -64,7 +64,7 @@ final class AccountListPresenter {
                     break
                 }
             } else {
-                self?.updateView()
+                self?.view?.didCompleteReload()
             }
         }
 
