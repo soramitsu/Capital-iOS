@@ -135,7 +135,7 @@ class FilterTests: XCTestCase {
             }
 
             stub(coordinator) { stub in
-                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any()).then { (_, _, delegate) in
+                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any(), locale: any()).then { (_, _, delegate, _) in
                     delegate?.modalDatePickerView(ModalDatePickerView(), didSelect: firstDate)
                 }
             }
@@ -163,7 +163,7 @@ class FilterTests: XCTestCase {
             }
 
             stub(coordinator) { stub in
-                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any()).then { (_, _, delegate) in
+                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any(), locale: any()).then { (_, _, delegate, _) in
                     delegate?.modalDatePickerView(ModalDatePickerView(), didSelect: secondDate)
                 }
             }

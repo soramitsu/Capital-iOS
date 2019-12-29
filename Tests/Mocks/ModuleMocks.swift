@@ -1760,16 +1760,16 @@ import Foundation
     
     
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)  {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
         
-    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)",
-            parameters: (minDate, maxDate, delegate),
-            escapingParameters: (minDate, maxDate, delegate),
+    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
+            parameters: (minDate, maxDate, delegate, locale),
+            escapingParameters: (minDate, maxDate, delegate, locale),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate))
+            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
         
     }
     
@@ -1787,9 +1787,9 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockPickerPresentable.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockPickerPresentable.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", parameterMatchers: matchers))
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockPickerPresentable.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -1815,9 +1815,9 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -1833,7 +1833,7 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)   {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -3222,16 +3222,16 @@ import Cuckoo
     
     
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)  {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
         
-    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)",
-            parameters: (minDate, maxDate, delegate),
-            escapingParameters: (minDate, maxDate, delegate),
+    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
+            parameters: (minDate, maxDate, delegate, locale),
+            escapingParameters: (minDate, maxDate, delegate, locale),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate))
+            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
         
     }
     
@@ -3264,9 +3264,9 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockAmountCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockAmountCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", parameterMatchers: matchers))
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockAmountCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3309,9 +3309,9 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -3343,7 +3343,7 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)   {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -4835,16 +4835,16 @@ import Cuckoo
     
     
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)  {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
         
-    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)",
-            parameters: (minDate, maxDate, delegate),
-            escapingParameters: (minDate, maxDate, delegate),
+    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
+            parameters: (minDate, maxDate, delegate, locale),
+            escapingParameters: (minDate, maxDate, delegate, locale),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate))
+            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
         
     }
     
@@ -4872,9 +4872,9 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", parameterMatchers: matchers))
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4911,9 +4911,9 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -4941,7 +4941,7 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)   {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -6901,16 +6901,16 @@ import Cuckoo
     
     
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)  {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
         
-    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)",
-            parameters: (minDate, maxDate, delegate),
-            escapingParameters: (minDate, maxDate, delegate),
+    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
+            parameters: (minDate, maxDate, delegate, locale),
+            escapingParameters: (minDate, maxDate, delegate, locale),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate))
+            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
         
     }
     
@@ -6953,9 +6953,9 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockReceiveAmountCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockReceiveAmountCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", parameterMatchers: matchers))
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockReceiveAmountCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
 	    }
 	    
 	    func share<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(sources: M1, from view: M2, with completionHandler: M3) -> Cuckoo.ProtocolStubNoReturnFunction<([Any], ControllerBackedProtocol?, SharingCompletionHandler?)> where M1.MatchedType == [Any], M2.OptionalMatchedType == ControllerBackedProtocol, M3.OptionalMatchedType == SharingCompletionHandler {
@@ -6997,9 +6997,9 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7033,7 +7033,7 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)   {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8622,16 +8622,16 @@ import IrohaCommunication
     
     
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)  {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
         
-    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)",
-            parameters: (minDate, maxDate, delegate),
-            escapingParameters: (minDate, maxDate, delegate),
+    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
+            parameters: (minDate, maxDate, delegate, locale),
+            escapingParameters: (minDate, maxDate, delegate, locale),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate))
+            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
         
     }
     
@@ -8659,9 +8659,9 @@ import IrohaCommunication
 	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawAmountCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawAmountCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", parameterMatchers: matchers))
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawAmountCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -8698,9 +8698,9 @@ import IrohaCommunication
 	    }
 	    
 	    @discardableResult
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for minDate: M1, maxDate: M2, delegate: M3) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -8728,7 +8728,7 @@ import IrohaCommunication
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)   {
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
