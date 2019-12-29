@@ -117,7 +117,7 @@ extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
                 let viewModel = try self.createViewModel(from: event, locale: locale)
 
                 let eventDate = Date(timeIntervalSince1970: TimeInterval(event.timestamp))
-                let sectionTitle = dateFormatterProvider.dateFormatter.string(from: eventDate)
+                let sectionTitle = dateFormatterProvider.dateFormatter.value(for: locale).string(from: eventDate)
 
                 if let searchableSection = searchableSections[sectionTitle] {
                     let itemChange = ListDifference.insert(index: searchableSection.section.items.count, new: viewModel)
