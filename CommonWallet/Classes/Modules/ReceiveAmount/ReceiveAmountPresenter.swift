@@ -39,7 +39,8 @@ final class ReceiveAmountPresenter {
          qrService: WalletQRServiceProtocol,
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
-         amountLimit: Decimal) {
+         amountLimit: Decimal,
+         localizationManager: LocalizationManagerProtocol?) {
         self.view = view
         self.coordinator = coordinator
         self.qrService = qrService
@@ -59,13 +60,16 @@ final class ReceiveAmountPresenter {
             selectedAsset = account.assets.first
         }
 
-        let title = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        let title = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset?.identifier,
                                                           title: title,
                                                           symbol: selectedAsset?.symbol ?? "")
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
         amountInputViewModel = AmountInputViewModel(amount: currentAmount, limit: amountLimit)
+
+        self.localizationManager = localizationManager
     }
 
     // MARK: QR generation
@@ -150,8 +154,10 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
             initialIndex = account.assets.firstIndex(where: { $0.identifier.identifier() == assetId.identifier() }) ?? 0
         }
 
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let titles: [String] = account.assets.map { (asset) in
-            return assetSelectionFactory.createTitle(for: asset, balanceData: nil)
+            return assetSelectionFactory.createTitle(for: asset, balanceData: nil, locale: locale)
         }
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
@@ -205,7 +211,8 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
 
         assetSelectionViewModel.assetId = newAsset.identifier
 
-        let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: nil)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: nil, locale: locale)
 
         assetSelectionViewModel.title = title
 
@@ -220,8 +227,10 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
 extension ReceiveAmountPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
             assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: selectedAsset,
-                                                                              balanceData: nil)
+                                                                              balanceData: nil,
+                                                                              locale: locale)
         }
     }
 }

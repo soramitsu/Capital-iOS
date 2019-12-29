@@ -42,7 +42,7 @@ final class DefaultDemo: DemoFactoryProtocol {
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(amountFormatter: NumberFormatter.amount)
+            .with(amountFormatter: NumberFormatter.amount.localizableResource())
             .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: [withdrawType])
             .with(inputValidatorFactory: DemoInputValidatorFactory())

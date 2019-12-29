@@ -164,7 +164,7 @@ class HistoryTests: NetworkBaseTests {
                                                           dayChangeHandler: DayChangeHandler())
 
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatter: NumberFormatter(),
+                                                       amountFormatter: NumberFormatter().localizableResource(),
                                                        assets: accountSettings.assets,
                                                        transactionTypes: WalletTransactionType.required,
                                                        includesFeeInAmount: false)

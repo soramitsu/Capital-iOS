@@ -1,15 +1,11 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import XCTest
 @testable import CommonWallet
+import SoraFoundation
 
 class CompondDateFormatterTests: XCTestCase {
     func testToday() {
         let baseDate = Date(timeIntervalSince1970: 1525478400)
-        let today = "Today"
+        let today = LocalizableResource { _ in "Today" }
 
         let gmtTimeZone = TimeZone(secondsFromGMT: 0)!
 
@@ -19,20 +15,22 @@ class CompondDateFormatterTests: XCTestCase {
             .withToday(title: today)
             .build(defaultFormat: "dd.MM.yyyy")
 
-        XCTAssertEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1525498400)))
-        XCTAssertEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1525558400)))
-        XCTAssertEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1525564799)))
+        let expected = today.value(for: Locale.current)
 
-        XCTAssertNotEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1525478399)))
-        XCTAssertNotEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1493942400)))
-        XCTAssertNotEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1557014400)))
-        XCTAssertNotEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1522886400)))
-        XCTAssertNotEqual(today, dateFormatter.string(from: Date(timeIntervalSince1970: 1528156800)))
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525498400)))
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525558400)))
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525564799)))
+
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525478399)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1493942400)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1557014400)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1522886400)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1528156800)))
     }
 
     func testYesterday() {
         let baseDate = Date(timeIntervalSince1970: 1525478400)
-        let yesterday = "Yesterday"
+        let yesterday = LocalizableResource { _ in "Yesterday" }
 
         let gmtTimeZone = TimeZone(secondsFromGMT: 0)!
 
@@ -42,20 +40,22 @@ class CompondDateFormatterTests: XCTestCase {
             .withYesterday(title: yesterday)
             .build(defaultFormat: "dd.MM.yyyy")
 
-        XCTAssertEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1525392000)))
-        XCTAssertEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1525471980)))
-        XCTAssertEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1525478340)))
+        let expected = yesterday.value(for: Locale.current)
 
-        XCTAssertNotEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1525482000)))
-        XCTAssertNotEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1493856000)))
-        XCTAssertNotEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1556928000)))
-        XCTAssertNotEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1522800000)))
-        XCTAssertNotEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1528070400)))
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525392000)))
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525471980)))
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525478340)))
+
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1525482000)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1493856000)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1556928000)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1522800000)))
+        XCTAssertNotEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1528070400)))
     }
 
     func testYesterdayWhenFirstMonthDay() {
         let baseDate = Date(timeIntervalSince1970: 1530403200)
-        let yesterday = "Yesterday"
+        let yesterday = LocalizableResource { _ in "Yesterday" }
 
         let gmtTimeZone = TimeZone(secondsFromGMT: 0)!
 
@@ -65,12 +65,14 @@ class CompondDateFormatterTests: XCTestCase {
             .withYesterday(title: yesterday)
             .build(defaultFormat: "dd.MM.yyyy")
 
-        XCTAssertEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1530316800)))
+        let expected = yesterday.value(for: Locale.current)
+
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1530316800)))
     }
 
     func testYesterdayWhenFirstYearDay() {
         let baseDate = Date(timeIntervalSince1970: 1514764800)
-        let yesterday = "Yesterday"
+        let yesterday = LocalizableResource { _ in "Yesterday" }
 
         let gmtTimeZone = TimeZone(secondsFromGMT: 0)!
 
@@ -80,7 +82,9 @@ class CompondDateFormatterTests: XCTestCase {
             .withYesterday(title: yesterday)
             .build(defaultFormat: "dd.MM.yyyy")
 
-        XCTAssertEqual(yesterday, dateFormatter.string(from: Date(timeIntervalSince1970: 1514678400)))
+        let expected = yesterday.value(for: Locale.current)
+
+        XCTAssertEqual(expected, dateFormatter.string(from: Date(timeIntervalSince1970: 1514678400)))
     }
 
     func testThisYear() {
@@ -96,9 +100,9 @@ class CompondDateFormatterTests: XCTestCase {
         thisYearFormatter.timeZone = gmtTimeZone
 
         let dateFormatter = CompoundDateFormatterBuilder(baseDate: baseDate, calendar: calendar)
-            .withToday(title: "Today")
-            .withYesterday(title: "Yesterday")
-            .withThisYear(dateFormatter: thisYearFormatter)
+            .withToday(title: LocalizableResource { _ in "Today" })
+            .withYesterday(title: LocalizableResource { _ in "Yesterday" })
+            .withThisYear(dateFormatter: thisYearFormatter.localizableResource())
             .build(defaultFormat: "dd MM yyyy")
 
         XCTAssertEqual("06.05.2018", dateFormatter.string(from: Date(timeIntervalSince1970: 1525564800)))
@@ -127,9 +131,9 @@ class CompondDateFormatterTests: XCTestCase {
         thisYearFormatter.timeZone = gmtTimeZone
 
         let dateFormatter = CompoundDateFormatterBuilder(baseDate: baseDate, calendar: calendar)
-            .withToday(title: "Today")
-            .withYesterday(title: "Yesterday")
-            .withThisYear(dateFormatter: thisYearFormatter)
+            .withToday(title: LocalizableResource { _ in "Today" })
+            .withYesterday(title: LocalizableResource { _ in "Yesterday" })
+            .withThisYear(dateFormatter: thisYearFormatter.localizableResource())
             .build(defaultFormat: "dd MM yyyy")
 
         XCTAssertEqual("06 05 2015", dateFormatter.string(from: Date(timeIntervalSince1970: 1430870400)))

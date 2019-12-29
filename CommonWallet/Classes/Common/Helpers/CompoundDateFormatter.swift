@@ -1,22 +1,21 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import Foundation
+import SoraFoundation
 
 typealias CompoundDateFormatterItemBlock = (Date) -> Bool
 
 protocol CompoundDateFormatterItemProtocol {
+    var locale: Locale? { get set }
     func canApply(to date: Date) -> Bool
     func apply(to date: Date) -> String
 }
 
 final class CompoundDateFormatterConstantItem: CompoundDateFormatterItemProtocol {
-    private(set) var title: String
+    var locale: Locale?
+
+    private(set) var title: LocalizableResource<String>
     private(set) var checkBlock: CompoundDateFormatterItemBlock
 
-    init(title: String, checkBlock: @escaping CompoundDateFormatterItemBlock) {
+    init(title: LocalizableResource<String>, checkBlock: @escaping CompoundDateFormatterItemBlock) {
         self.title = title
         self.checkBlock = checkBlock
     }
@@ -26,15 +25,17 @@ final class CompoundDateFormatterConstantItem: CompoundDateFormatterItemProtocol
     }
 
     func apply(to date: Date) -> String {
-        return title
+        return title.value(for: locale ?? Locale.current)
     }
 }
 
 final class CompoundDateFormatterItem: CompoundDateFormatterItemProtocol {
-    private(set) var dateFormatter: DateFormatter
+    var locale: Locale?
+
+    private(set) var dateFormatter: LocalizableResource<DateFormatter>
     private(set) var checkBlock: CompoundDateFormatterItemBlock
 
-    init(dateFormatter: DateFormatter, checkBlock: @escaping CompoundDateFormatterItemBlock) {
+    init(dateFormatter: LocalizableResource<DateFormatter>, checkBlock: @escaping CompoundDateFormatterItemBlock) {
         self.dateFormatter = dateFormatter
         self.checkBlock = checkBlock
     }
@@ -44,7 +45,7 @@ final class CompoundDateFormatterItem: CompoundDateFormatterItemProtocol {
     }
 
     func apply(to date: Date) -> String {
-        return dateFormatter.string(from: date)
+        return dateFormatter.value(for: locale ?? Locale.current).string(from: date)
     }
 }
 
@@ -61,6 +62,14 @@ final class CompoundDateFormatter: DateFormatter {
         super.init(coder: aDecoder)
     }
 
+    override var locale: Locale! {
+        didSet {
+            for index in 0..<items.count {
+                items[index].locale = locale
+            }
+        }
+    }
+
     override func string(from date: Date) -> String {
         for item in items {
             if item.canApply(to: date) {
@@ -73,9 +82,9 @@ final class CompoundDateFormatter: DateFormatter {
 }
 
 protocol CompoundDateFormatterBuilderProtocol {
-    func withToday(title: String) -> Self
-    func withYesterday(title: String) -> Self
-    func withThisYear(dateFormatter: DateFormatter) -> Self
+    func withToday(title: LocalizableResource<String>) -> Self
+    func withYesterday(title: LocalizableResource<String>) -> Self
+    func withThisYear(dateFormatter: LocalizableResource<DateFormatter>) -> Self
     func build(defaultFormat: String?) -> CompoundDateFormatter
 }
 
@@ -90,7 +99,7 @@ final class CompoundDateFormatterBuilder: CompoundDateFormatterBuilderProtocol {
         self.calendar = calendar
     }
 
-    func withToday(title: String) -> Self {
+    func withToday(title: LocalizableResource<String>) -> Self {
         let currentCalendar = calendar
         let baseBaseDate = baseDate
 
@@ -105,7 +114,7 @@ final class CompoundDateFormatterBuilder: CompoundDateFormatterBuilderProtocol {
         return self
     }
 
-    func withYesterday(title: String) -> Self {
+    func withYesterday(title: LocalizableResource<String>) -> Self {
         let currentCalendar = calendar
         let baseBaseDate = baseDate
 
@@ -124,7 +133,7 @@ final class CompoundDateFormatterBuilder: CompoundDateFormatterBuilderProtocol {
         return self
     }
 
-    func withThisYear(dateFormatter: DateFormatter) -> Self {
+    func withThisYear(dateFormatter: LocalizableResource<DateFormatter>) -> Self {
         let currentCalendar = calendar
         let baseYear = currentCalendar.component(.year, from: baseDate)
 

@@ -4,9 +4,10 @@
 */
 
 import Foundation
+import SoraFoundation
 
 protocol AmountViewModelFactoryProtocol {
-    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String
+    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String
     func createAmountViewModel(with optionalAmount: Decimal?) -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
 }
@@ -16,11 +17,11 @@ enum AmountViewModelFactoryError: Error {
 }
 
 final class AmountViewModelFactory {
-    let amountFormatter: NumberFormatter
+    let amountFormatter: LocalizableResource<NumberFormatter>
     let amountLimit: Decimal
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
 
-    init(amountFormatter: NumberFormatter,
+    init(amountFormatter: LocalizableResource<NumberFormatter>,
          amountLimit: Decimal,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
         self.amountFormatter = amountFormatter
@@ -30,14 +31,15 @@ final class AmountViewModelFactory {
 }
 
 extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
-    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String {
+    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String {
         let title: String = L10n.Amount.fee
 
         guard let amount = amount, let asset = asset else {
             return title
         }
 
-        guard let amountString = amountFormatter.string(from: amount as NSNumber) else {
+        guard let amountString = amountFormatter.value(for: locale)
+            .string(from: amount as NSNumber) else {
             return title
         }
 

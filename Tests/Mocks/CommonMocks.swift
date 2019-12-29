@@ -1521,7 +1521,7 @@ import SoraFoundation
     
     
     
-     var amountFormatter: NumberFormatter {
+     var amountFormatter: LocalizableResource<NumberFormatter> {
         get {
             return cuckoo_manager.getter("amountFormatter",
                 superclassCall:
@@ -1535,7 +1535,7 @@ import SoraFoundation
     
     
     
-     var statusDateFormatter: DateFormatter {
+     var statusDateFormatter: LocalizableResource<DateFormatter> {
         get {
             return cuckoo_manager.getter("statusDateFormatter",
                 superclassCall:
@@ -1723,12 +1723,12 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var amountFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NumberFormatter> {
+	    var amountFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizableResource<NumberFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "amountFormatter")
 	    }
 	    
 	    
-	    var statusDateFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, DateFormatter> {
+	    var statusDateFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizableResource<DateFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "statusDateFormatter")
 	    }
 	    
@@ -1848,12 +1848,12 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var amountFormatter: Cuckoo.VerifyReadOnlyProperty<NumberFormatter> {
+	    var amountFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<NumberFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "amountFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
-	    var statusDateFormatter: Cuckoo.VerifyReadOnlyProperty<DateFormatter> {
+	    var statusDateFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<DateFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "statusDateFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
@@ -2004,17 +2004,17 @@ import SoraFoundation
     }
     
     
-     var amountFormatter: NumberFormatter {
+     var amountFormatter: LocalizableResource<NumberFormatter> {
         get {
-            return DefaultValueRegistry.defaultValue(for: (NumberFormatter).self)
+            return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
         }
         
     }
     
     
-     var statusDateFormatter: DateFormatter {
+     var statusDateFormatter: LocalizableResource<DateFormatter> {
         get {
-            return DefaultValueRegistry.defaultValue(for: (DateFormatter).self)
+            return DefaultValueRegistry.defaultValue(for: (LocalizableResource<DateFormatter>).self)
         }
         
     }

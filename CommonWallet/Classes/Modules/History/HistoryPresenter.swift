@@ -59,8 +59,12 @@ final class HistoryPresenter {
     }
     
     private func reloadView(with pageData: AssetTransactionPageData, andSwitch newDataLoadingState: DataState) throws {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         var viewModels = [TransactionSectionViewModel]()
-        _ = try viewModelFactory.merge(newItems: pageData.transactions, into: &viewModels)
+        _ = try viewModelFactory.merge(newItems: pageData.transactions,
+                                       into: &viewModels,
+                                       locale: locale)
 
         self.dataLoadingState = newDataLoadingState
         self.pages = [pageData]
@@ -70,10 +74,14 @@ final class HistoryPresenter {
     }
 
     private func reloadView() throws {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         var viewModels = [TransactionSectionViewModel]()
 
         for page in pages {
-            _ = try viewModelFactory.merge(newItems: page.transactions, into: &viewModels)
+            _ = try viewModelFactory.merge(newItems: page.transactions,
+                                           into: &viewModels,
+                                           locale: locale)
         }
 
         self.viewModels = viewModels
@@ -89,8 +97,12 @@ final class HistoryPresenter {
     }
 
     private func appendPage(with pageData: AssetTransactionPageData, andSwitch newDataLoadingState: DataState) throws {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         var viewModels = self.viewModels
-        let viewChanges = try viewModelFactory.merge(newItems: pageData.transactions, into: &viewModels)
+        let viewChanges = try viewModelFactory.merge(newItems: pageData.transactions,
+                                                     into: &viewModels,
+                                                     locale: locale)
 
         self.dataLoadingState = newDataLoadingState
         self.pages.append(pageData)

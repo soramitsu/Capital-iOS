@@ -19,7 +19,7 @@ class CommonWalletBuilderTests: XCTestCase {
 
     func testNumberFormatterSetup() {
         do {
-            let numberFormatter = NumberFormatter()
+            let numberFormatter = NumberFormatter().localizableResource()
             let context = try createDefaultBuilder(with: 4)
                 .with(amountFormatter: numberFormatter)
                 .build()
@@ -29,7 +29,9 @@ class CommonWalletBuilderTests: XCTestCase {
                 return
             }
 
-            XCTAssertTrue(resolver.amountFormatter === numberFormatter)
+            let currentFormatter = resolver.amountFormatter.value(for: Locale.current)
+            let expectedFormatter = numberFormatter.value(for: Locale.current)
+            XCTAssertTrue(currentFormatter === expectedFormatter)
 
         } catch {
             XCTFail("\(error)")

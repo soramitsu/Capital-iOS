@@ -58,7 +58,8 @@ final class WithdrawAmountPresenter {
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          withdrawViewModelFactory: WithdrawAmountViewModelFactoryProtocol,
-         assetTitleFactory: AssetSelectionFactoryProtocol) throws {
+         assetTitleFactory: AssetSelectionFactoryProtocol,
+         localizationManager: LocalizationManagerProtocol?) throws {
 
         self.view = view
         self.coordinator = coordinator
@@ -75,7 +76,9 @@ final class WithdrawAmountPresenter {
 
         descriptionInputViewModel = try withdrawViewModelFactory.createDescriptionViewModel()
 
-        let title = assetTitleFactory.createTitle(for: selectedAsset, balanceData: nil)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        let title = assetTitleFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: title,
                                                           symbol: selectedAsset.symbol)
@@ -83,17 +86,25 @@ final class WithdrawAmountPresenter {
 
         amountInputViewModel = withdrawViewModelFactory.createAmountViewModel()
 
-        let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
+        let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset,
+                                                               amount: nil,
+                                                               locale: locale)
         feeViewModel = FeeViewModel(title: feeTitle)
         feeViewModel.isLoading = true
+
+        self.localizationManager = localizationManager
     }
 
     private func updateFeeViewModel(for asset: WalletAsset) {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         guard
             let amount = amountInputViewModel.decimalAmount,
             let metadata = metadata,
             let feeRate = metadata.feeRateDecimal else {
-                feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: nil)
+                feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
+                                                                             amount: nil,
+                                                                             locale: locale)
                 feeViewModel.isLoading = true
                 return
         }
@@ -106,10 +117,14 @@ final class WithdrawAmountPresenter {
                                            parameters: [feeRate])
             let fee = try calculator.calculate(for: amount)
 
-            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: fee)
+            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
+                                                                         amount: fee,
+                                                                         locale: locale)
             feeViewModel.isLoading = false
         } catch {
-            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset, amount: nil)
+            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
+                                                                         amount: nil,
+                                                                         locale: locale)
             feeViewModel.isLoading = true
         }
 
@@ -129,17 +144,23 @@ final class WithdrawAmountPresenter {
     }
 
     private func updateAccessoryViewModel(for asset: WalletAsset) {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         guard
             let feeRate = metadata?.feeRateDecimal,
             let amount = amountInputViewModel.decimalAmount else {
-                let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset, totalAmount: nil)
+                let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
+                                                                                           totalAmount: nil,
+                                                                                           locale: locale)
                 view?.didChange(accessoryViewModel: accessoryViewModel)
                 return
         }
 
         let totalAmount = (1 + feeRate) * amount
 
-        let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset, totalAmount: totalAmount)
+        let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
+                                                                                   totalAmount: totalAmount,
+                                                                                   locale: locale)
         view?.didChange(accessoryViewModel: accessoryViewModel)
     }
 
@@ -149,7 +170,9 @@ final class WithdrawAmountPresenter {
         assetSelectionViewModel.assetId = newAsset.identifier
 
         let balanceData = balances?.first { $0.identifier == newAsset.identifier.identifier() }
-        let title = assetTitleFactory.createTitle(for: newAsset, balanceData: balanceData)
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        let title = assetTitleFactory.createTitle(for: newAsset, balanceData: balanceData, locale: locale)
 
         assetSelectionViewModel.title = title
 
@@ -179,7 +202,11 @@ final class WithdrawAmountPresenter {
                 return
         }
 
-        assetSelectionViewModel.title = assetTitleFactory.createTitle(for: asset, balanceData: balanceData)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        assetSelectionViewModel.title = assetTitleFactory.createTitle(for: asset,
+                                                                      balanceData: balanceData,
+                                                                      locale: locale)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedAmount)
@@ -388,7 +415,9 @@ extension WithdrawAmountPresenter: WithdrawAmountPresenterProtocol {
 
         let titles: [String] = assets.map { (asset) in
             let balanceData = balances?.first { $0.identifier == asset.identifier.identifier() }
-            return assetTitleFactory.createTitle(for: asset, balanceData: balanceData)
+
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            return assetTitleFactory.createTitle(for: asset, balanceData: balanceData, locale: locale)
         }
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)

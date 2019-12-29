@@ -7,7 +7,7 @@ import Foundation
 
 final class ReceiveAssetSelectionTitleFactory: AssetSelectionFactoryProtocol {
     
-    func createTitle(for asset: WalletAsset?, balanceData: BalanceData?) -> String {
+    func createTitle(for asset: WalletAsset?, balanceData: BalanceData?, locale: Locale) -> String {
         guard let asset = asset else {
             return L10n.AssetSelection.noAsset
         }

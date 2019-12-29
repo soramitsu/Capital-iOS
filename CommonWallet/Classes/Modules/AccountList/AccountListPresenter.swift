@@ -34,8 +34,10 @@ final class AccountListPresenter {
     private func updateView() {
         do {
             if let assets = assets {
-
-                let viewModel = try viewModelFactory.createViewModel(from: assets, delegate: self)
+                let locale = localizationManager?.selectedLocale ?? Locale.current
+                let viewModel = try viewModelFactory.createViewModel(from: assets,
+                                                                     delegate: self,
+                                                                     locale: locale)
 
                 view?.didLoad(viewModels: viewModel.models, collapsingRange: viewModel.collapsingRange)
             }

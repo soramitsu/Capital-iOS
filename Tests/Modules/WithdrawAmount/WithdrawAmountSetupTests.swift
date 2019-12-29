@@ -75,7 +75,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let amountFormatter = NumberFormatter()
+        let amountFormatter = NumberFormatter().localizableResource()
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
                                                               option: withdrawOption,
@@ -163,9 +163,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                     dataProviderFactory: dataProviderFactory,
                                                     feeCalculationFactory: FeeCalculationFactory(),
                                                     withdrawViewModelFactory: viewModelFactory,
-                                                    assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
-
-        presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
+                                                    assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter),
+                                                    localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup()
 

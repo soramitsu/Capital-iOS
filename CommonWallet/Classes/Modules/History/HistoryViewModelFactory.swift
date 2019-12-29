@@ -5,6 +5,8 @@
 
 import Foundation
 import RobinHood
+import SoraFoundation
+
 
 protocol HistoryViewModelFactoryDelegate: class {
     func historyViewModelFactoryDidChange(_ factory: HistoryViewModelFactoryProtocol)
@@ -14,7 +16,8 @@ protocol HistoryViewModelFactoryProtocol {
     var delegate: HistoryViewModelFactoryDelegate? { get set }
 
     func merge(newItems: [AssetTransactionData],
-               into existingViewModels: inout [TransactionSectionViewModel]) throws
+               into existingViewModels: inout [TransactionSectionViewModel],
+               locale: Locale) throws
         -> [SectionedListDifference<TransactionSectionViewModel, TransactionItemViewModel>]
 }
 
@@ -26,7 +29,7 @@ enum HistoryViewModelFactoryError: Error {
 
 final class HistoryViewModelFactory {
     private(set) var dateFormatterProvider: DateFormatterProviderProtocol
-    private(set) var amountFormatter: NumberFormatter
+    private(set) var amountFormatter: LocalizableResource<NumberFormatter>
     private(set) var assets: [String: WalletAsset]
     private(set) var transactionTypes: [String: WalletTransactionType]
     private(set) var includesFeeInAmount: Bool
@@ -34,7 +37,7 @@ final class HistoryViewModelFactory {
     weak var delegate: HistoryViewModelFactoryDelegate?
 
     init(dateFormatterProvider: DateFormatterProviderProtocol,
-         amountFormatter: NumberFormatter,
+         amountFormatter: LocalizableResource<NumberFormatter>,
          assets: [WalletAsset],
          transactionTypes: [WalletTransactionType],
          includesFeeInAmount: Bool) {
@@ -54,7 +57,8 @@ final class HistoryViewModelFactory {
         dateFormatterProvider.delegate = self
     }
 
-    private func createViewModel(from transaction: AssetTransactionData) throws -> TransactionItemViewModel {
+    private func createViewModel(from transaction: AssetTransactionData,
+                                 locale: Locale) throws -> TransactionItemViewModel {
         let viewModel = TransactionItemViewModel(transactionId: transaction.transactionId)
 
         guard let amountValue = Decimal(string: transaction.amount) else {
@@ -72,7 +76,8 @@ final class HistoryViewModelFactory {
             totalAmountValue += feeValue
         }
 
-        guard let amountDisplayString = amountFormatter.string(from: (totalAmountValue as NSNumber)) else {
+        guard let amountDisplayString = amountFormatter.value(for: locale)
+            .string(from: (totalAmountValue as NSNumber)) else {
             throw HistoryViewModelFactoryError.amountFormattingFailed
         }
 
@@ -97,7 +102,8 @@ private typealias SearchableSection = (section: TransactionSectionViewModel, ind
 
 extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
     func merge(newItems: [AssetTransactionData],
-               into existingViewModels: inout [TransactionSectionViewModel]) throws
+               into existingViewModels: inout [TransactionSectionViewModel],
+               locale: Locale) throws
         -> [SectionedListDifference<TransactionSectionViewModel, TransactionItemViewModel>] {
 
             var searchableSections = [String: SearchableSection]()
@@ -108,7 +114,7 @@ extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
             var changes = [SectionedListDifference<TransactionSectionViewModel, TransactionItemViewModel>]()
 
             try newItems.forEach { (event) in
-                let viewModel = try self.createViewModel(from: event)
+                let viewModel = try self.createViewModel(from: event, locale: locale)
 
                 let eventDate = Date(timeIntervalSince1970: TimeInterval(event.timestamp))
                 let sectionTitle = dateFormatterProvider.dateFormatter.string(from: eventDate)

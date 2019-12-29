@@ -52,8 +52,8 @@ class TransferResultTests: NetworkBaseTests {
             }
 
             stub(resolver) { stub in
-                when(stub).amountFormatter.get.thenReturn(NumberFormatter())
-                when(stub).statusDateFormatter.get.thenReturn(DateFormatter())
+                when(stub).amountFormatter.get.thenReturn(NumberFormatter().localizableResource())
+                when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
                 when(stub).style.get.thenReturn(WalletStyle())
             }
 

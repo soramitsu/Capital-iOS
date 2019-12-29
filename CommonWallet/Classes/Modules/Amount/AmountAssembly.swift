@@ -39,11 +39,11 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                  account: resolver.account,
                                                  transferViewModelFactory: transferViewModelFactory,
                                                  assetSelectionFactory: assetSelectionFactory,
-                                                 accessoryFactory: accessoryViewModelFactory)
+                                                 accessoryFactory: accessoryViewModelFactory,
+                                                 localizationManager: resolver.localizationManager)
             view.presenter = presenter
 
             view.localizationManager = resolver.localizationManager
-            presenter.localizationManager = resolver.localizationManager
 
             return view
         } catch {

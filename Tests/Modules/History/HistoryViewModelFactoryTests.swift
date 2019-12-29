@@ -26,7 +26,7 @@ class HistoryViewModelFactoryTests: XCTestCase {
                 var viewModels: [TransactionSectionViewModel] = []
                 let viewModelFactory = createViewModelFactory(for: [asset], includesFee: includesFee)
 
-                _ = try viewModelFactory.merge(newItems: [assetDataWithFee], into: &viewModels)
+                _ = try viewModelFactory.merge(newItems: [assetDataWithFee], into: &viewModels, locale: Locale.current)
 
                 guard let viewModel = viewModels.first?.items.first else {
                     XCTFail("Unexpected empty view model")
@@ -49,7 +49,8 @@ class HistoryViewModelFactoryTests: XCTestCase {
                     expectedAmount += fee
                 }
 
-                guard let currentAmount = viewModelFactory.amountFormatter.number(from: viewModel.amount) else {
+                guard let currentAmount = viewModelFactory.amountFormatter.value(for: Locale.current)
+                    .number(from: viewModel.amount) else {
                     XCTFail("Unexpected current amount")
                     return
                 }
@@ -71,7 +72,7 @@ class HistoryViewModelFactoryTests: XCTestCase {
                                                           dayChangeHandler: DayChangeHandler())
 
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatter: NumberFormatter(),
+                                                       amountFormatter: NumberFormatter().localizableResource(),
                                                        assets: assets,
                                                        transactionTypes: WalletTransactionType.required,
                                                        includesFeeInAmount: includesFee)

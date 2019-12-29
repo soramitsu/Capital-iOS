@@ -5,6 +5,7 @@
 
 import Foundation
 import IrohaCommunication
+import SoraFoundation
 
 typealias AccountModuleViewModel = (models: [WalletViewModelProtocol], collapsingRange: Range<Int>)
 
@@ -12,7 +13,8 @@ protocol AccountModuleViewModelFactoryProtocol: class {
     var assets: [WalletAsset] { get }
 
     func createViewModel(from balances: [BalanceData],
-                         delegate: ShowMoreViewModelDelegate?) throws -> AccountModuleViewModel
+                         delegate: ShowMoreViewModelDelegate?,
+                         locale: Locale) throws -> AccountModuleViewModel
 }
 
 enum AccountModuleViewModelFactoryError: Error {
@@ -25,13 +27,13 @@ final class AccountModuleViewModelFactory {
     let assets: [WalletAsset]
     let commandFactory: WalletCommandFactoryProtocol
     let commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
-    let amountFormatter: NumberFormatter
+    let amountFormatter: LocalizableResource<NumberFormatter>
 
     init(context: AccountListViewModelContextProtocol,
          assets: [WalletAsset],
          commandFactory: WalletCommandFactoryProtocol,
          commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?,
-         amountFormatter: NumberFormatter) {
+         amountFormatter: LocalizableResource<NumberFormatter>) {
         self.context = context
         self.assets = assets
         self.commandFactory = commandFactory
@@ -39,7 +41,9 @@ final class AccountModuleViewModelFactory {
         self.amountFormatter = amountFormatter
     }
 
-    private func createDefaultAssetViewModel(for asset: WalletAsset, balance: BalanceData) -> AssetViewModelProtocol {
+    private func createDefaultAssetViewModel(for asset: WalletAsset,
+                                             balance: BalanceData,
+                                             locale: Locale) -> AssetViewModelProtocol {
         let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
 
         let viewModel = AssetViewModel(cellReuseIdentifier: AccountModuleConstants.assetCellIdentifier,
@@ -50,7 +54,7 @@ final class AccountModuleViewModelFactory {
         viewModel.assetId = asset.identifier.identifier()
 
         if let decimal = Decimal(string: balance.balance),
-            let balanceString = amountFormatter.string(from: decimal as NSNumber) {
+            let balanceString = amountFormatter.value(for: locale).string(from: decimal as NSNumber) {
             viewModel.amount = balanceString
         } else {
             viewModel.amount = balance.balance
@@ -105,7 +109,8 @@ final class AccountModuleViewModelFactory {
 
 extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
     func createViewModel(from balances: [BalanceData],
-                         delegate: ShowMoreViewModelDelegate?) throws -> AccountModuleViewModel {
+                         delegate: ShowMoreViewModelDelegate?,
+                         locale: Locale) throws -> AccountModuleViewModel {
 
         var viewModels = try context.viewModelFactoryContainer.viewModelFactories.map { try $0() }
 
@@ -121,7 +126,7 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                     .createAssetViewModel(for: asset, balance: balance, commandFactory: commandFactory) {
                     return assetViewModel
                 } else {
-                    return createDefaultAssetViewModel(for: asset, balance: balance)
+                    return createDefaultAssetViewModel(for: asset, balance: balance, locale: locale)
                 }
             }
 

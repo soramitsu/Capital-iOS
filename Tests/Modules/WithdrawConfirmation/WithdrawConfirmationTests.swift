@@ -39,7 +39,7 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                                           asset: accountSettings.assets[0],
                                                           withdrawOption: accountSettings.withdrawOptions[0],
                                                           style: WalletStyle(),
-                                                          amountFormatter: NumberFormatter(),
+                                                          amountFormatter: NumberFormatter().localizableResource(),
                                                           eventCenter: eventCenter)
 
             // when

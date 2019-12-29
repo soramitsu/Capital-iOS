@@ -55,7 +55,7 @@ final class AmountPresenter {
     private var payload: AmountPayload
 
     private(set) var confirmationState: TransferCheckingState?
-    
+
     init(view: AmountViewProtocol,
          coordinator: AmountCoordinatorProtocol,
          payload: AmountPayload,
@@ -64,7 +64,8 @@ final class AmountPresenter {
          account: WalletAccountSettingsProtocol,
          transferViewModelFactory: AmountViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
-         accessoryFactory: ContactAccessoryViewModelFactoryProtocol) throws {
+         accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
+         localizationManager: LocalizationManagerProtocol?) throws {
 
         if let assetId = payload.receiveInfo.assetId, let asset = account.asset(for: assetId.identifier()) {
             selectedAsset = asset
@@ -87,10 +88,12 @@ final class AmountPresenter {
         self.transferViewModelFactory = transferViewModelFactory
         self.assetSelectionFactory = assetSelectionFactory
         self.accessoryFactory = accessoryFactory
-        
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel()
 
-        let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil)
+        let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: assetTitle,
                                                           symbol: selectedAsset.symbol)
@@ -108,17 +111,25 @@ final class AmountPresenter {
                                                               fullName: payload.receiverName,
                                                               action: L10n.Common.next)
 
-        let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset, amount: nil)
+        let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset,
+                                                               amount: nil,
+                                                               locale: locale)
         feeViewModel = FeeViewModel(title: feeTitle)
         feeViewModel.isLoading = true
+
+        self.localizationManager = localizationManager
     }
 
     private func updateFeeViewModel(for asset: WalletAsset) {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         guard
             let amount = amountInputViewModel.decimalAmount,
             let metadata = metadata,
             let feeRate = metadata.feeRateDecimal else {
-                feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: nil)
+                feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                             amount: nil,
+                                                                             locale: locale)
                 feeViewModel.isLoading = true
                 return
         }
@@ -131,21 +142,29 @@ final class AmountPresenter {
 
             let fee = try feeCalculator.calculate(for: amount)
 
-            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: fee)
+            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                         amount: fee,
+                                                                         locale: locale)
             feeViewModel.isLoading = false
         } catch {
-            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset, amount: nil)
+            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                         amount: nil,
+                                                                         locale: locale)
             feeViewModel.isLoading = true
         }
     }
 
     private func updateSelectedAssetViewModel(for newAsset: WalletAsset) {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         assetSelectionViewModel.isSelecting = false
 
         assetSelectionViewModel.assetId = newAsset.identifier
 
         let balanceData = balances?.first { $0.identifier == newAsset.identifier.identifier() }
-        let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: balanceData)
+        let title = assetSelectionFactory.createTitle(for: newAsset,
+                                                      balanceData: balanceData,
+                                                      locale: locale)
 
         assetSelectionViewModel.title = title
 
@@ -196,7 +215,11 @@ final class AmountPresenter {
             return
         }
 
-        assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: asset, balanceData: balanceData)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: asset,
+                                                                          balanceData: balanceData,
+                                                                          locale: locale)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedAmount)
@@ -408,7 +431,9 @@ extension AmountPresenter: AmountPresenterProtocol {
 
         let titles: [String] = account.assets.map { (asset) in
             let balanceData = balances?.first { $0.identifier == asset.identifier.identifier() }
-            return assetSelectionFactory.createTitle(for: asset, balanceData: balanceData)
+
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            return assetSelectionFactory.createTitle(for: asset, balanceData: balanceData, locale: locale)
         }
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)

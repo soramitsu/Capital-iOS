@@ -17,7 +17,7 @@ final class WithdrawConfirmationPresenter {
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
-    let amountFormatter: NumberFormatter
+    let amountFormatter: LocalizableResource<NumberFormatter>
     let eventCenter: WalletEventCenterProtocol
 
     init(view: WalletFormViewProtocol,
@@ -27,7 +27,7 @@ final class WithdrawConfirmationPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: NumberFormatter,
+         amountFormatter: LocalizableResource<NumberFormatter>,
          eventCenter: WalletEventCenterProtocol) {
         self.view = view
         self.coordinator = coordinator
@@ -41,10 +41,13 @@ final class WithdrawConfirmationPresenter {
     }
 
     private func createAmountViewModel() -> WalletFormViewModelProtocol {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let details: String
 
         if let amountDecimal = Decimal(string: withdrawInfo.amount.value),
-            let formatterAmount = amountFormatter.string(from: amountDecimal as NSNumber) {
+            let formatterAmount = amountFormatter.value(for: locale)
+                .string(from: amountDecimal as NSNumber) {
             details = "\(asset.symbol)\(formatterAmount)"
         } else {
             details = "\(asset.symbol)\(withdrawInfo.amount.value)"
@@ -62,8 +65,11 @@ final class WithdrawConfirmationPresenter {
 
         let details: String
 
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         if let feeDecimal = Decimal(string: fee.value),
-            let formatterFee = amountFormatter.string(from: feeDecimal as NSNumber) {
+            let formatterFee = amountFormatter.value(for: locale)
+                .string(from: feeDecimal as NSNumber) {
             details = "\(asset.symbol)\(formatterFee)"
         } else {
             details = "\(asset.symbol)\(fee.value)"
@@ -95,7 +101,10 @@ final class WithdrawConfirmationPresenter {
 
         let totalAmount = amountDecimal + feeDecimal
 
-        guard let totalAmountString = amountFormatter.string(from: totalAmount as NSNumber) else {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        guard let totalAmountString = amountFormatter.value(for: locale)
+            .string(from: totalAmount as NSNumber) else {
             return accessoryViewModel
         }
 

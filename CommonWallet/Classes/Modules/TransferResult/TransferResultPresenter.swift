@@ -33,9 +33,12 @@ final class TransferResultPresenter {
     }
 
     private func prepareAmountViewModels() -> [WalletFormViewModel] {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         guard
             let decimalAmount = Decimal(string: transferPayload.transferInfo.amount.value),
-            let formattedAmount = resolver.amountFormatter.string(from: decimalAmount as NSNumber) else {
+            let formattedAmount = resolver.amountFormatter.value(for: locale)
+                .string(from: decimalAmount as NSNumber) else {
                 let amount = "\(transferPayload.assetSymbol)\(transferPayload.transferInfo.amount.value)"
 
                 let viewModel = prepareSingleAmountViewModel(for: amount)
@@ -48,7 +51,8 @@ final class TransferResultPresenter {
         guard
             let feeString = transferPayload.transferInfo.fee?.value,
             let decimalFee = Decimal(string: feeString),
-            let formattedFee = resolver.amountFormatter.string(from: decimalFee as NSNumber) else {
+            let formattedFee = resolver.amountFormatter.value(for: locale)
+                .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
         }
@@ -67,7 +71,8 @@ final class TransferResultPresenter {
 
         var viewModels = [amountViewModel, feeViewModel]
 
-        if let formattedTotalAmount = resolver.amountFormatter.string(from: totalAmountDecimal as NSNumber) {
+        if let formattedTotalAmount = resolver.amountFormatter.value(for: locale)
+            .string(from: totalAmountDecimal as NSNumber) {
             let totalAmount = "\(transferPayload.assetSymbol)\(formattedTotalAmount)"
             let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
                                                            title: L10n.Amount.total,
@@ -80,13 +85,17 @@ final class TransferResultPresenter {
     }
 
     private func provideMainViewModels() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let statusViewModel = WalletFormViewModel(layoutType: .accessory,
                                                   title: L10n.Status.title,
                                                   details: L10n.Status.pending,
                                                   icon: resolver.style.statusStyleContainer.pending.icon)
+
+        let details = resolver.statusDateFormatter.value(for: locale).string(from: Date())
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                 title: L10n.Transaction.date,
-                                                details: resolver.statusDateFormatter.string(from: Date()))
+                                                details: details)
         let receiverViewModel = WalletFormViewModel(layoutType: .accessory,
                                                     title: L10n.Transaction.recipient,
                                                     details: transferPayload.receiverName)
