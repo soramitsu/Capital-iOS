@@ -14,7 +14,6 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		840932422344C9A60013C871 /* HistoryViewModelFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840932412344C9A60013C871 /* HistoryViewModelFactoryTests.swift */; };
-		84146E2222B0339F00F18F1C /* CompondDateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84146E2122B0339F00F18F1C /* CompondDateFormatterTests.swift */; };
 		841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 841550E1228D50DA001F18A7 /* transferFailResponse.json */; };
 		841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */; };
 		8416973E225F278F0015E549 /* StyleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416973D225F278F0015E549 /* StyleBuilderTests.swift */; };
@@ -148,7 +147,6 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72407FA5F4ADF13CE0BE1268 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		840932412344C9A60013C871 /* HistoryViewModelFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelFactoryTests.swift; sourceTree = "<group>"; };
-		84146E2122B0339F00F18F1C /* CompondDateFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompondDateFormatterTests.swift; sourceTree = "<group>"; };
 		841550E1228D50DA001F18A7 /* transferFailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferFailResponse.json; sourceTree = "<group>"; };
 		841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionInputViewModelTests.swift; sourceTree = "<group>"; };
 		8416973D225F278F0015E549 /* StyleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuilderTests.swift; sourceTree = "<group>"; };
@@ -353,14 +351,6 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		84146E2022B0339F00F18F1C /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				84146E2122B0339F00F18F1C /* CompondDateFormatterTests.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		841550E3228D76FF001F18A7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,7 +415,6 @@
 				842F7671233BAA8600C8D444 /* Events */,
 				8418C57B2330F94800E92394 /* Fee */,
 				8481A57F22FC48400056D3D4 /* InputValidators */,
-				84146E2022B0339F00F18F1C /* Helpers */,
 				844D556722A9313800BA99EF /* View */,
 				841550E3228D76FF001F18A7 /* ViewModels */,
 				8B2D03872278338D00B4BDF7 /* Money */,
@@ -1173,7 +1162,6 @@
 				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,
 				8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
-				84146E2222B0339F00F18F1C /* CompondDateFormatterTests.swift in Sources */,
 				848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */,
 				848B6EC9224D67B200E8A3C9 /* HistoryServiceTests.swift in Sources */,
 				84C1807322554BBF00F19858 /* ViewModelGenerator.swift in Sources */,

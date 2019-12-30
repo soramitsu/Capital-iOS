@@ -8,7 +8,9 @@ PODS:
   - CommonWallet (1.6.0):
     - IrohaCommunication (~> 3.4.1)
     - RobinHood (~> 2.0.0)
-    - SoraFoundation/Localization (~> 0.1.0)
+    - SoraFoundation/DateProcessing (~> 0.3.0)
+    - SoraFoundation/Localization (~> 0.3.0)
+    - SoraFoundation/NotificationHandlers (~> 0.3.0)
     - SoraUI (~> 1.8.7)
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
@@ -62,8 +64,11 @@ PODS:
     - OHHTTPStubs/Default
   - Protobuf (3.5.0)
   - RobinHood (2.0.1)
-  - SoraFoundation/Localization (0.1.0):
-    - SoraKeystore
+  - SoraFoundation/DateProcessing (0.3.0):
+    - SoraFoundation/Localization
+  - SoraFoundation/Localization (0.3.0):
+    - SoraKeystore (~> 0.1.5)
+  - SoraFoundation/NotificationHandlers (0.3.0)
   - SoraKeystore (0.1.5)
   - SoraUI (1.8.7):
     - SoraUI/AdaptiveDesign (= 1.8.7)
@@ -133,7 +138,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BoringSSL: c46efb47593135382bc0934196f16d2f726f5f36
-  CommonWallet: d4d8801d43a2f7bccfa316be4576fc448694a2df
+  CommonWallet: e10abc5737acc485a079b86ec95644e41b445243
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Cuckoo: f5f4e7c308c512cc2dedbdce23f5dc6985cb5173
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
@@ -147,7 +152,7 @@ SPEC CHECKSUMS:
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   RobinHood: ed86ee904084d3a3b731dc57f5209c4e45fe33dc
-  SoraFoundation: 5228dfd2faddc60c9aab6a047f5044dde36ccec5
+  SoraFoundation: 14fab4ab538a1995f7d0d6d1d54baf58b170e941
   SoraKeystore: 408a26aafda780fc3005b20ab336791832b5419e
   SoraUI: d497b990f00b33d1b099f73da93fff555f36b722
   SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0

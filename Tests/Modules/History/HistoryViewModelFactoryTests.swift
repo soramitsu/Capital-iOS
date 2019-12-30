@@ -6,6 +6,7 @@
 import XCTest
 @testable import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 
 class HistoryViewModelFactoryTests: XCTestCase {
     func testFeeInclusion() {
