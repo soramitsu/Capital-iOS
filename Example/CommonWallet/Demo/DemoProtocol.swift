@@ -12,7 +12,7 @@ enum DemoFactoryError: Error {
     case signerCreationFailed
 }
 
-typealias DemoCompletionBlock = () -> Void
+typealias DemoCompletionBlock = (UIViewController?) -> Void
 
 protocol DemoFactoryProtocol: class {
     var title: String { get }

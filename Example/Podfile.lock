@@ -64,7 +64,7 @@ PODS:
   - RobinHood (2.0.1)
   - SoraFoundation/Localization (0.1.0):
     - SoraKeystore
-  - SoraKeystore (0.1.4)
+  - SoraKeystore (0.1.5)
   - SoraUI (1.8.7):
     - SoraUI/AdaptiveDesign (= 1.8.7)
     - SoraUI/Animator (= 1.8.7)
@@ -148,7 +148,7 @@ SPEC CHECKSUMS:
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   RobinHood: ed86ee904084d3a3b731dc57f5209c4e45fe33dc
   SoraFoundation: 5228dfd2faddc60c9aab6a047f5044dde36ccec5
-  SoraKeystore: 4abb9c667e5294fcb86961d9c2e9aa38889c653c
+  SoraKeystore: 408a26aafda780fc3005b20ab336791832b5419e
   SoraUI: d497b990f00b33d1b099f73da93fff555f36b722
   SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3

@@ -85,3 +85,5 @@
 "withdraw.error.connection" = "Sorry, we couldn't contact withdraw provider. Please, try again later.";
 "withdraw.error.too_poor" = "Sorry, you don't have enough funds to transfer specified amount.";
 "withdraw.error.fail" = "Withdraw failed. Please, try again later.";
+"amount.module_title" = "Set Amount";
+"contacts.module_title" = "Select recipient";

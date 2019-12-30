@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 final class AmountAssembly: AmountAssemblyProtocol {
     
@@ -42,6 +43,12 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                  accessoryFactory: accessoryViewModelFactory,
                                                  localizationManager: resolver.localizationManager)
             view.presenter = presenter
+
+            view.title = L10n.Amount.moduleTitle
+
+            resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+                view?.title = L10n.Amount.moduleTitle
+            }
 
             view.localizationManager = resolver.localizationManager
 

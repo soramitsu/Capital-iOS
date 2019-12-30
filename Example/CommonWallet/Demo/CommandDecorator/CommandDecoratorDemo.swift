@@ -142,6 +142,6 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
 
 extension CommandDecoratorDemo: DemoHeaderViewModelDelegate {
     func didSelectClose(for viewModel: DemoHeaderViewModelProtocol) {
-        completionBlock?()
+        completionBlock?(nil)
     }
 }

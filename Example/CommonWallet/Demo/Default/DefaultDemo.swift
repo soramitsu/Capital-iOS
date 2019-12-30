@@ -147,6 +147,6 @@ final class DefaultDemo: DemoFactoryProtocol {
 
 extension DefaultDemo: DemoHeaderViewModelDelegate {
     func didSelectClose(for viewModel: DemoHeaderViewModelProtocol) {
-        completionBlock?()
+        completionBlock?(nil)
     }
 }

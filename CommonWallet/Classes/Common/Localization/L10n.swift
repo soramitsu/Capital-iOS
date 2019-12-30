@@ -19,6 +19,8 @@ public enum L10n {
     public enum Amount {
         /// Transaction fee
         public static var fee: String { return localize("amount.fee") }
+        /// Set Amount
+        public static var moduleTitle: String { return localize("amount.module_title") }
         /// Amount to send
         public static var send: String { return localize("amount.send") }
         /// Amount
@@ -109,6 +111,8 @@ public enum L10n {
     }
 
     public enum Contacts {
+        /// Select recipient
+        public static var moduleTitle: String { return localize("contacts.module_title") }
         /// Scan QR code
         public static var scan: String { return localize("contacts.scan") }
         /// Search results
