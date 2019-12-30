@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
 
 class AmountTests: NetworkBaseTests {
 
@@ -72,7 +73,7 @@ class AmountTests: NetworkBaseTests {
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter())
+            let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter().localizableResource())
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
 
@@ -125,6 +126,8 @@ class AmountTests: NetworkBaseTests {
                     feeExpectation.fulfill()
                 }
 
+                when(stub).isSetup.get.thenReturn(false, true)
+
                 if expectsFeeFailure {
                     when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
                         feeLoadingCompleteExpectation.fulfill()
@@ -151,7 +154,7 @@ class AmountTests: NetworkBaseTests {
             let recieverInfo = try createRandomReceiveInfo()
             let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
-            let amountFormatter = NumberFormatter()
+            let amountFormatter = NumberFormatter().localizableResource()
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
             let transferViewModelFactory = AmountViewModelFactory(amountFormatter: amountFormatter,
                                                                   amountLimit: 1e+6,
@@ -165,7 +168,8 @@ class AmountTests: NetworkBaseTests {
                                                 account: accountSettings,
                                                 transferViewModelFactory: transferViewModelFactory,
                                                 assetSelectionFactory: assetSelectionFactory,
-                                                accessoryFactory: accessoryViewModelFactory)
+                                                accessoryFactory: accessoryViewModelFactory,
+                                                localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             presenter.setup()
 

@@ -4,6 +4,7 @@
  */
 
 import UIKit
+import SoraFoundation
 
 class AccessoryViewController: UIViewController {
     var shouldSetupKeyboardHandler: Bool = true

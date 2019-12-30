@@ -5,6 +5,7 @@
 
 import UIKit
 import SoraUI
+import SoraFoundation
 
 
 final class ContactsViewController: UIViewController {
@@ -57,8 +58,8 @@ final class ContactsViewController: UIViewController {
         super.viewDidLoad()
         
         setupDismiss()
-        setupSearchField()
         setupTableView()
+        setupLocalization()
         applyStyle()
         
         presenter.setup()
@@ -91,8 +92,10 @@ final class ContactsViewController: UIViewController {
         tableView.register(nib, forCellReuseIdentifier: ContactConstants.optionCellIdentifier)
     }
 
-    private func setupSearchField() {
-        searchField.placeholder = configuration?.searchPlaceholder
+    private func setupLocalization() {
+        if let locale = localizationManager?.selectedLocale {
+            searchField.placeholder = configuration?.searchPlaceholder.value(for: locale)
+        }
     }
     
     private func applyStyle() {
@@ -326,3 +329,13 @@ extension ContactsViewController: EmptyStateViewOwnerProtocol {
     }
 }
 
+extension ContactsViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+            reloadEmptyState(animated: false)
+
+            view.setNeedsLayout()
+        }
+    }
+}

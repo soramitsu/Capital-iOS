@@ -4,6 +4,7 @@
 */
 
 import UIKit
+import SoraFoundation
 
 public protocol CommonWalletBuilderProtocol: class {
     static func builder(with account: WalletAccountSettingsProtocol,
@@ -28,10 +29,10 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(feeCalculationFactory: FeeCalculationFactoryProtocol) -> Self
 
     @discardableResult
-    func with(amountFormatter: NumberFormatter) -> Self
+    func with(amountFormatter: LocalizableResource<NumberFormatter>) -> Self
 
     @discardableResult
-    func with(statusDateFormatter: DateFormatter) -> Self
+    func with(statusDateFormatter: LocalizableResource<DateFormatter>) -> Self
 
     @discardableResult
     func with(transferDescriptionLimit: UInt8) -> Self
@@ -76,8 +77,8 @@ public final class CommonWalletBuilder {
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
     fileprivate var logger: WalletLoggerProtocol?
-    fileprivate var amountFormatter: NumberFormatter?
-    fileprivate var statusDateFormatter: DateFormatter?
+    fileprivate var amountFormatter: LocalizableResource<NumberFormatter>?
+    fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
     fileprivate var transferDescriptionLimit: UInt8 = 64
     fileprivate var transferAmountLimit: Decimal?
     fileprivate var transactionTypeList: [WalletTransactionType]?
@@ -153,13 +154,13 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    public func with(amountFormatter: NumberFormatter) -> Self {
+    public func with(amountFormatter: LocalizableResource<NumberFormatter>) -> Self {
         self.amountFormatter = amountFormatter
 
         return self
     }
 
-    public func with(statusDateFormatter: DateFormatter) -> Self {
+    public func with(statusDateFormatter: LocalizableResource<DateFormatter>) -> Self {
         self.statusDateFormatter = statusDateFormatter
 
         return self
@@ -272,8 +273,11 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         if let qrCoderFactory = qrCoderFactory {
             resolver.qrCoderFactory = qrCoderFactory
         }
-        
-        language.save()
+
+        let allLanguages: [String] = WalletLanguage.allCases.map { $0.rawValue }
+        resolver.localizationManager = LocalizationManager(localization: language.rawValue,
+                                                           availableLocalizations: allLanguages)
+        L10n.sharedLanguage = language
 
         return resolver
     }

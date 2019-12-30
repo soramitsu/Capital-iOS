@@ -18,8 +18,6 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
         let view = ReceiveAmountViewController(nibName: "ReceiveAmountViewController", bundle: Bundle(for: self))
         view.style = resolver.style
 
-        view.title = resolver.receiveConfiguration.title
-
         let coordinator = ReceiveAmountCoordinator(resolver: resolver)
 
         let assetSelectionFactory = ReceiveAssetSelectionTitleFactory()
@@ -35,8 +33,21 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                                qrService: qrService,
                                                sharingFactory: resolver.receiveConfiguration.accountShareFactory,
                                                receiveInfo: receiveInfo,
-                                               amountLimit: resolver.transferAmountLimit)
+                                               amountLimit: resolver.transferAmountLimit,
+                                               localizationManager: resolver.localizationManager)
         view.presenter = presenter
+
+        let localizationManager = resolver.localizationManager
+        let titleResource = resolver.receiveConfiguration.title
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        view.title = titleResource.value(for: locale)
+
+        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            view?.title = titleResource.value(for: locale)
+        }
+
+        view.localizationManager = localizationManager
 
         return view
     }

@@ -1,3 +1,7 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
 {% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
 {% macro parametersBlock types %}{% filter removeNewlines:"leading" %}
   {% for type in types %}
@@ -30,10 +34,6 @@
 {{sp}}}
 {{sp}}{% endfor %}
 {% endmacro %}
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
 
 import Foundation
 
@@ -41,6 +41,8 @@ import Foundation
 //swiftlint:disable all
 {% set enumName %}{{param.enumName|default:"L10n"}}{% endset %}
 {{accessModifier}} enum {{enumName}} {
+
+    static var sharedLanguage: WalletLanguage = WalletLanguage.defaultLanguage
     {% if tables.count > 1 %}
     {% for table in tables %}
     {{accessModifier}} enum {{table.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
@@ -56,9 +58,20 @@ import Foundation
 extension {{enumName}} {
 
     fileprivate static func localize(_ key: String, _ args: CVarArg...) -> String {
-        let language = WalletLanguage.getLanguage()
-        
-        return String(format: language.getFormat(for: key), arguments: args)
+        let format = getFormat(for: key, localization: sharedLanguage.rawValue)
+        return String(format: format, arguments: args)
+    }
+
+    fileprivate static func getFormat(for key: String, localization: String) -> String {
+        let bundle = Bundle(for: BundleLoadHelper.self)
+
+        guard
+            let path = bundle.path(forResource: localization, ofType: "lproj"),
+            let langBundle = Bundle(path: path) else {
+                return ""
+        }
+
+        return NSLocalizedString(key, tableName: nil, bundle: langBundle, value: "", comment: "")
     }
 
 }

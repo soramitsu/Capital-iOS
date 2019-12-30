@@ -5,6 +5,7 @@
 
 import Foundation
 import IrohaCommunication
+import SoraFoundation
 
 
 final class TransactionDetailsPresenter {
@@ -61,8 +62,11 @@ final class TransactionDetailsPresenter {
             $0.identifier.identifier() == transactionData.assetId
         }
 
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let assetSymbol = asset?.symbol ?? ""
-        let amountString = resolver.amountFormatter.string(from: amount as NSNumber) ?? ""
+        let amountString = resolver.amountFormatter.value(for: locale)
+            .string(from: amount as NSNumber) ?? ""
 
         let details = assetSymbol + amountString
 
@@ -145,9 +149,13 @@ final class TransactionDetailsPresenter {
         }
 
         let transactionDate = Date(timeIntervalSince1970: TimeInterval(transactionData.timestamp))
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        let details = resolver.statusDateFormatter.value(for: locale).string(from: transactionDate)
+
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                 title: L10n.Transaction.date,
-                                                details: resolver.statusDateFormatter.string(from: transactionDate))
+                                                details: details)
         viewModels.append(timeViewModel)
 
         if !transactionType.displayName.isEmpty {
@@ -203,5 +211,14 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
                                     receiverName: transactionData.peerName)
 
         coordinator.send(to: payload)
+    }
+}
+
+
+extension TransactionDetailsPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            updateView()
+        }
     }
 }

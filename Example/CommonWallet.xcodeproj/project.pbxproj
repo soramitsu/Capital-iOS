@@ -14,7 +14,6 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		840932422344C9A60013C871 /* HistoryViewModelFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840932412344C9A60013C871 /* HistoryViewModelFactoryTests.swift */; };
-		84146E2222B0339F00F18F1C /* CompondDateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84146E2122B0339F00F18F1C /* CompondDateFormatterTests.swift */; };
 		841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 841550E1228D50DA001F18A7 /* transferFailResponse.json */; };
 		841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */; };
 		8416973E225F278F0015E549 /* StyleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416973D225F278F0015E549 /* StyleBuilderTests.swift */; };
@@ -44,6 +43,8 @@
 		8481A58122FC48710056D3D4 /* EthereumInputValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58022FC48710056D3D4 /* EthereumInputValidatorTests.swift */; };
 		8481A58322FC51060056D3D4 /* DemoInputValidatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58222FC51060056D3D4 /* DemoInputValidatorFactory.swift */; };
 		8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */; };
+		84868E2123B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868E2023B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift */; };
+		84868E2423B5F27200E3CAA4 /* CommonHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */; };
 		84896599225397F100EBAC6D /* CommonWalletBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896598225397F100EBAC6D /* CommonWalletBuilderTests.swift */; };
 		8489659D2253A46900EBAC6D /* ModuleMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8489659B2253A41E00EBAC6D /* ModuleMocks.swift */; };
 		848B6EB4224D5A1100E8A3C9 /* successResultResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 848B6EAB224D5A1100E8A3C9 /* successResultResponse.json */; };
@@ -146,7 +147,6 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72407FA5F4ADF13CE0BE1268 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		840932412344C9A60013C871 /* HistoryViewModelFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModelFactoryTests.swift; sourceTree = "<group>"; };
-		84146E2122B0339F00F18F1C /* CompondDateFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompondDateFormatterTests.swift; sourceTree = "<group>"; };
 		841550E1228D50DA001F18A7 /* transferFailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferFailResponse.json; sourceTree = "<group>"; };
 		841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionInputViewModelTests.swift; sourceTree = "<group>"; };
 		8416973D225F278F0015E549 /* StyleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuilderTests.swift; sourceTree = "<group>"; };
@@ -174,6 +174,8 @@
 		8481A58022FC48710056D3D4 /* EthereumInputValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumInputValidatorTests.swift; sourceTree = "<group>"; };
 		8481A58222FC51060056D3D4 /* DemoInputValidatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoInputValidatorFactory.swift; sourceTree = "<group>"; };
 		8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDefaultInputValidatorTests.swift; sourceTree = "<group>"; };
+		84868E2023B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSwitchCommandTests.swift; sourceTree = "<group>"; };
+		84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHelpers.swift; sourceTree = "<group>"; };
 		84896598225397F100EBAC6D /* CommonWalletBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletBuilderTests.swift; sourceTree = "<group>"; };
 		8489659B2253A41E00EBAC6D /* ModuleMocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleMocks.swift; sourceTree = "<group>"; };
 		848B6EAB224D5A1100E8A3C9 /* successResultResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = successResultResponse.json; sourceTree = "<group>"; };
@@ -349,14 +351,6 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		84146E2022B0339F00F18F1C /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				84146E2122B0339F00F18F1C /* CompondDateFormatterTests.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		841550E3228D76FF001F18A7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,10 +411,10 @@
 		8447621C224CE2FC009ADC0E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				84868E1F23B5F1F900E3CAA4 /* Commands */,
 				842F7671233BAA8600C8D444 /* Events */,
 				8418C57B2330F94800E92394 /* Fee */,
 				8481A57F22FC48400056D3D4 /* InputValidators */,
-				84146E2022B0339F00F18F1C /* Helpers */,
 				844D556722A9313800BA99EF /* View */,
 				841550E3228D76FF001F18A7 /* ViewModels */,
 				8B2D03872278338D00B4BDF7 /* Money */,
@@ -504,6 +498,7 @@
 				84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */,
 				84449ED822EC48C60024BE85 /* CommandGenerator.swift */,
 				84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */,
+				84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */,
 			);
 			name = Helpers;
 			path = ../../Tests/Helpers;
@@ -532,6 +527,14 @@
 				8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */,
 			);
 			path = InputValidators;
+			sourceTree = "<group>";
+		};
+		84868E1F23B5F1F900E3CAA4 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				84868E2023B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift */,
+			);
+			path = Commands;
 			sourceTree = "<group>";
 		};
 		848B6EAA224D5A1100E8A3C9 /* Resources */ = {
@@ -801,7 +804,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
@@ -821,10 +824,9 @@
 			};
 			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "CommonWallet" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -1039,6 +1041,8 @@
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RobinHood/RobinHood.framework",
+				"${BUILT_PRODUCTS_DIR}/SoraFoundation/SoraFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/SoraKeystore/SoraKeystore.framework",
 				"${BUILT_PRODUCTS_DIR}/SoraUI/SoraUI.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -1055,6 +1059,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RobinHood.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SoraFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SoraKeystore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SoraUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -1127,6 +1133,7 @@
 				8BB829CD22B2D81700BACD59 /* FilterTests.swift in Sources */,
 				848CB904224E946900B04708 /* CoreDataCacheTests.swift in Sources */,
 				8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */,
+				84868E2123B5F20E00E3CAA4 /* LanguageSwitchCommandTests.swift in Sources */,
 				8447625E224D41E0009ADC0E /* BalanceServiceTests.swift in Sources */,
 				848B6ECF224D6EFF00E8A3C9 /* TransferServiceTests.swift in Sources */,
 				840932422344C9A60013C871 /* HistoryViewModelFactoryTests.swift in Sources */,
@@ -1142,6 +1149,7 @@
 				8425DBB62282B27D008A8B6A /* TransferResultTests.swift in Sources */,
 				848CCE0B22F31BBB0094289D /* WithdrawAmountConfirmationTests.swift in Sources */,
 				841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */,
+				84868E2423B5F27200E3CAA4 /* CommonHelpers.swift in Sources */,
 				847527382360790E0028D871 /* AmountInputViewModelTests.swift in Sources */,
 				84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */,
 				8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */,
@@ -1154,7 +1162,6 @@
 				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,
 				8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
-				84146E2222B0339F00F18F1C /* CompondDateFormatterTests.swift in Sources */,
 				848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */,
 				848B6EC9224D67B200E8A3C9 /* HistoryServiceTests.swift in Sources */,
 				84C1807322554BBF00F19858 /* ViewModelGenerator.swift in Sources */,
@@ -1213,12 +1220,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1266,12 +1275,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

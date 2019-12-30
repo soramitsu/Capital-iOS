@@ -6,6 +6,7 @@
 import UIKit
 import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 
 final class DefaultDemo: DemoFactoryProtocol {
     var title: String {
@@ -41,7 +42,7 @@ final class DefaultDemo: DemoFactoryProtocol {
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(amountFormatter: NumberFormatter.amount)
+            .with(amountFormatter: NumberFormatter.amount.localizableResource())
             .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: [withdrawType])
             .with(inputValidatorFactory: DemoInputValidatorFactory())
@@ -61,8 +62,9 @@ final class DefaultDemo: DemoFactoryProtocol {
             .with(emptyStateDataSource: DefaultEmptyStateDataSource.history)
             .with(supportsFilter: true)
 
+        let searchPlaceholder = LocalizableResource { _ in "Enter username" }
         walletBuilder.contactsModuleBuilder
-            .with(searchPlaceholder: "Enter username")
+            .with(searchPlaceholder: searchPlaceholder)
             .with(contactsEmptyStateDataSource: DefaultEmptyStateDataSource.contacts)
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
             .with(supportsLiveSearch: true)
@@ -145,6 +147,6 @@ final class DefaultDemo: DemoFactoryProtocol {
 
 extension DefaultDemo: DemoHeaderViewModelDelegate {
     func didSelectClose(for viewModel: DemoHeaderViewModelProtocol) {
-        completionBlock?()
+        completionBlock?(nil)
     }
 }

@@ -27,6 +27,8 @@ final class FilterAssembly: FilterAssemblyProtocol {
         
         view.style = resolver.style
 
+        presenter.localizationManager = resolver.localizationManager
+
         return view
     }
     

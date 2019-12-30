@@ -45,8 +45,13 @@ extension DemoListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         do {
-            let wallet = try demoList[indexPath.row].setupDemo {
-                self.dismiss(animated: true, completion: nil)
+            let wallet = try demoList[indexPath.row].setupDemo { [weak self] (nextViewController) in
+                self?.dismiss(animated: true, completion: nil)
+
+                if let viewController = nextViewController {
+                    viewController.modalPresentationStyle = .fullScreen
+                    self?.present(viewController, animated: true, completion: nil)
+                }
             }
 
             wallet.modalPresentationStyle = .fullScreen

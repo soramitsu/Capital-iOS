@@ -13,7 +13,13 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
+
         view.title = L10n.Transaction.done
+
+        let localizationManager = resolver.localizationManager
+        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            view?.title = L10n.Transaction.done
+        }
         
         let coordinator = WithdrawResultCoordinator(resolver: resolver)
 
@@ -26,6 +32,8 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
                                                 amountFormatter: resolver.amountFormatter,
                                                 dateFormatter: resolver.statusDateFormatter)
         view.presenter = presenter
+
+        presenter.localizationManager = localizationManager
 
         return view
     }

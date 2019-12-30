@@ -12,7 +12,8 @@ protocol ModalDatePickerViewFactoryProtocol {
     static func createView(with minDate: Date?,
                            maxDate: Date?,
                            delegate: ModalDatePickerViewDelegate?,
-                           style: WalletStyleProtocol?) -> ControllerBackedProtocol?
+                           style: WalletStyleProtocol?,
+                           locale: Locale) -> ControllerBackedProtocol?
 
 }
 
@@ -22,7 +23,8 @@ final class ModalDatePickerViewFactory {
     static func createView(with minDate: Date?,
                            maxDate: Date?,
                            delegate: ModalDatePickerViewDelegate?,
-                           style: WalletStyleProtocol?) -> ControllerBackedProtocol? {
+                           style: WalletStyleProtocol?,
+                           locale: Locale) -> ControllerBackedProtocol? {
         let optionalView = UINib(nibName: "ModalDatePickerView", bundle: Bundle(for: ModalDatePickerView.self))
             .instantiate(withOwner: nil, options: nil).first
 
@@ -34,6 +36,7 @@ final class ModalDatePickerViewFactory {
 
         picker.pickerView.minimumDate = minDate
         picker.pickerView.maximumDate = maxDate
+        picker.pickerView.locale = locale
         picker.delegate = delegate
 
         let configuration: ModalInputPresentationConfiguration

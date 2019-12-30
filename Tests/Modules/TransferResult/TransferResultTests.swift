@@ -7,6 +7,8 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
+
 
 class TransferResultTests: NetworkBaseTests {
 
@@ -45,13 +47,17 @@ class TransferResultTests: NetworkBaseTests {
                 when(stub).didReceive(accessoryViewModel: any(AccessoryViewModelProtocol?.self)).then { _ in
                     accessoryExpectation.fulfill()
                 }
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             stub(resolver) { stub in
-                when(stub).amountFormatter.get.thenReturn(NumberFormatter())
-                when(stub).statusDateFormatter.get.thenReturn(DateFormatter())
+                when(stub).amountFormatter.get.thenReturn(NumberFormatter().localizableResource())
+                when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
                 when(stub).style.get.thenReturn(WalletStyle())
             }
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

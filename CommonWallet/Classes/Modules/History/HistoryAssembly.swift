@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 final class HistoryAssembly: HistoryAssemblyProtocol {
     
@@ -51,6 +52,9 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         coordinator.delegate = presenter
         
         view.presenter = presenter
+
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
 
         return view
     }

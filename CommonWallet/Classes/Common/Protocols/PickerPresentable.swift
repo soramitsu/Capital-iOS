@@ -8,8 +8,14 @@ import Foundation
 
 protocol PickerPresentable: class {
 
-    func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)
-    func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?)
+    func presentPicker(for titles: [String],
+                       initialIndex: Int,
+                       delegate: ModalPickerViewDelegate?)
+
+    func presentDatePicker(for minDate: Date?,
+                           maxDate: Date?,
+                           delegate: ModalDatePickerViewDelegate?,
+                           locale: Locale)
 
 }
 
@@ -27,11 +33,15 @@ extension PickerPresentable where Self: CoordinatorProtocol {
         resolver.navigation?.present(view.controller, inNavigationController: false, animated: true)
     }
     
-    func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?) {
+    func presentDatePicker(for minDate: Date?,
+                           maxDate: Date?,
+                           delegate: ModalDatePickerViewDelegate?,
+                           locale: Locale) {
         guard let view = ModalDatePickerViewFactory.createView(with: minDate,
                                                                maxDate: maxDate,
                                                                delegate: delegate,
-                                                               style: resolver.style) else {
+                                                               style: resolver.style,
+                                                               locale: locale) else {
             return
         }
         

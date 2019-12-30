@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 private enum DateSelection: Int {
@@ -38,7 +39,8 @@ final class FilterPresenter {
         return filter
     }
     
-    private lazy var dateFormatter: DateFormatter = DateFormatter.filterDateFormatter
+    private lazy var dateFormatter: LocalizableResource<DateFormatter> =
+        DateFormatter.filterDateFormatter.localizableResource()
 
     init(view: FilterViewProtocol,
          coordinator: FilterCoordinatorProtocol,
@@ -57,11 +59,20 @@ final class FilterPresenter {
     
     private func selectDate(for dateCase: DateSelection) {
         dateSelection = dateCase
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         switch dateCase {
         case .fromDate:
-            coordinator.presentDatePicker(for: nil, maxDate: toDate, delegate: self)
+            coordinator.presentDatePicker(for: nil,
+                                          maxDate: toDate,
+                                          delegate: self,
+                                          locale: locale)
         case .toDate:
-            coordinator.presentDatePicker(for: fromDate, maxDate: Date(), delegate: self)
+            coordinator.presentDatePicker(for: fromDate,
+                                          maxDate: Date(),
+                                          delegate: self,
+                                          locale: locale)
         }
     }
     
@@ -96,8 +107,10 @@ final class FilterPresenter {
         guard let date = date else {
             return nil
         }
-        
-        return dateFormatter.string(from: date)
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        return dateFormatter.value(for: locale).string(from: date)
     }
     
     private func reload() {
@@ -201,4 +214,12 @@ extension FilterPresenter: ModalDatePickerViewDelegate {
         }
     }
     
+}
+
+extension FilterPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            reload()
+        }
+    }
 }

@@ -19,7 +19,7 @@ class CommonWalletBuilderTests: XCTestCase {
 
     func testNumberFormatterSetup() {
         do {
-            let numberFormatter = NumberFormatter()
+            let numberFormatter = NumberFormatter().localizableResource()
             let context = try createDefaultBuilder(with: 4)
                 .with(amountFormatter: numberFormatter)
                 .build()
@@ -29,7 +29,9 @@ class CommonWalletBuilderTests: XCTestCase {
                 return
             }
 
-            XCTAssertTrue(resolver.amountFormatter === numberFormatter)
+            let currentFormatter = resolver.amountFormatter.value(for: Locale.current)
+            let expectedFormatter = numberFormatter.value(for: Locale.current)
+            XCTAssertTrue(currentFormatter === expectedFormatter)
 
         } catch {
             XCTFail("\(error)")
@@ -58,21 +60,25 @@ class CommonWalletBuilderTests: XCTestCase {
         }
     }
 
-    private func createDefaultBuilder(with assetCount: Int) throws -> CommonWalletBuilderProtocol {
-        let networkResolver = MockNetworkResolver()
-        let account = try createRandomAccountSettings(for: 4)
+    func testLanguageProperInitialized() {
+        do {
+            let context = try createDefaultBuilder(with: 4).with(language: WalletLanguage.khmer).build()
 
-        return CommonWalletBuilder.builder(with: account,
-                                           networkResolver: networkResolver)
-    }
+            XCTAssertEqual(L10n.sharedLanguage, WalletLanguage.khmer)
 
-    private func resolver(from context: CommonWalletContextProtocol) -> ResolverProtocol? {
-        guard let resolver = context as? Resolver else {
-            return nil
+            guard let resolver = resolver(from: context) else {
+                XCTFail()
+                return
+            }
+
+            XCTAssertEqual(resolver.localizationManager?.selectedLocalization, WalletLanguage.khmer.rawValue)
+
+        } catch {
+            XCTFail("Unexpected error \(error)")
         }
-
-        return resolver
     }
+
+    // MARK: Private
 
     private func checkTransactionTypeConsistency(for context: CommonWalletContextProtocol, expectedCount: Int) {
         guard let resolver = resolver(from: context) else {

@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
 
 class FilterTests: XCTestCase {
     static let numberOfDates = 3
@@ -134,7 +135,7 @@ class FilterTests: XCTestCase {
             }
 
             stub(coordinator) { stub in
-                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any()).then { (_, _, delegate) in
+                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any(), locale: any()).then { (_, _, delegate, _) in
                     delegate?.modalDatePickerView(ModalDatePickerView(), didSelect: firstDate)
                 }
             }
@@ -162,7 +163,7 @@ class FilterTests: XCTestCase {
             }
 
             stub(coordinator) { stub in
-                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any()).then { (_, _, delegate) in
+                when(stub).presentDatePicker(for: any(), maxDate: any(), delegate: any(), locale: any()).then { (_, _, delegate, _) in
                     delegate?.modalDatePickerView(ModalDatePickerView(), didSelect: secondDate)
                 }
             }
@@ -276,11 +277,15 @@ class FilterTests: XCTestCase {
                 filterViewModel = viewModels
                 expectation.fulfill()
             }
+
+            when(stub).isSetup.get.thenReturn(false, true)
         }
 
         stub(resolver) { stub in
             when(stub).style.get.thenReturn(WalletStyle())
         }
+
+        presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
         presenter.setup()
 

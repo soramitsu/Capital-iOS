@@ -34,6 +34,10 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
 
         view.presenter = presenter
 
+        resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
+            view?.title = L10n.Confirmation.title
+        }
+
         return view
     }
     

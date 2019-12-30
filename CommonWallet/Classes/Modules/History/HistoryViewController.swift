@@ -6,6 +6,8 @@
 import UIKit
 import SoraUI
 import RobinHood
+import SoraFoundation
+
 
 private struct NavigationItemState {
     var title: String?
@@ -83,7 +85,7 @@ final class HistoryViewController: UIViewController {
         updateTableViewAfterTransition(to: draggableState, animated: false)
         applyContentInsets(for: draggableState)
         
-        titleLabel.text = L10n.History.title
+        setupLocalization()
 
         presenter.setup()
     }
@@ -126,6 +128,10 @@ final class HistoryViewController: UIViewController {
         if let cellStyle = configuration?.cellStyle {
             tableView.separatorColor = cellStyle.separatorColor
         }
+    }
+
+    private func setupLocalization() {
+        titleLabel.text = L10n.History.title
     }
 
     private func configureFilter() {
@@ -648,4 +654,20 @@ extension HistoryViewController: Reloadable {
         presenter.reload()
     }
 
+}
+
+extension HistoryViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+
+            reloadEmptyState(animated: false)
+
+            if draggableState == .full, let navigationItem = delegate?.presentationNavigationItem {
+                navigationItem.title = L10n.History.title
+            }
+
+            view.setNeedsLayout()
+        }
+    }
 }

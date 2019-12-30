@@ -7,6 +7,8 @@ import XCTest
 @testable import CommonWallet
 import IrohaCommunication
 import Cuckoo
+import SoraFoundation
+
 
 class WithdrawAmountSetupTests: NetworkBaseTests {
 
@@ -73,7 +75,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let amountFormatter = NumberFormatter()
+        let amountFormatter = NumberFormatter().localizableResource()
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
                                                               option: withdrawOption,
@@ -128,6 +130,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                 accessoryExpectation.fulfill()
             }
 
+            when(stub).isSetup.get.thenReturn(false, true)
+
             if expectsFeeFailure {
                 when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
                     feeLoadingCompleteExpectation.fulfill()
@@ -159,7 +163,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                     dataProviderFactory: dataProviderFactory,
                                                     feeCalculationFactory: FeeCalculationFactory(),
                                                     withdrawViewModelFactory: viewModelFactory,
-                                                    assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
+                                                    assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter),
+                                                    localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup()
 

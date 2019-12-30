@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 final class WithdrawResultPresenter {
     weak var view: WalletFormViewProtocol?
@@ -13,8 +14,8 @@ final class WithdrawResultPresenter {
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
-    let amountFormatter: NumberFormatter
-    let dateFormatter: DateFormatter
+    let amountFormatter: LocalizableResource<NumberFormatter>
+    let dateFormatter: LocalizableResource<DateFormatter>
 
     init(view: WalletFormViewProtocol,
          coordinator: WithdrawResultCoordinatorProtocol,
@@ -22,8 +23,8 @@ final class WithdrawResultPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: NumberFormatter,
-         dateFormatter: DateFormatter) {
+         amountFormatter: LocalizableResource<NumberFormatter>,
+         dateFormatter: LocalizableResource<DateFormatter>) {
         self.view = view
         self.coordinator = coordinator
         self.withdrawInfo = withdrawInfo
@@ -35,10 +36,13 @@ final class WithdrawResultPresenter {
     }
 
     private func createAmountViewModel() -> WalletFormViewModelProtocol {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let details: String
 
         if let amountDecimal = Decimal(string: withdrawInfo.amount.value),
-            let formatterAmount = amountFormatter.string(from: amountDecimal as NSNumber) {
+            let formatterAmount = amountFormatter.value(for: locale)
+                .string(from: amountDecimal as NSNumber) {
             details = "\(asset.symbol)\(formatterAmount)"
         } else {
             details = "\(asset.symbol)\(withdrawInfo.amount.value)"
@@ -56,8 +60,10 @@ final class WithdrawResultPresenter {
 
         let details: String
 
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         if let feeDecimal = Decimal(string: fee.value),
-            let formatterFee = amountFormatter.string(from: feeDecimal as NSNumber) {
+            let formatterFee = amountFormatter.value(for: locale).string(from: feeDecimal as NSNumber) {
             details = "\(asset.symbol)\(formatterFee)"
         } else {
             details = "\(asset.symbol)\(fee.value)"
@@ -78,7 +84,10 @@ final class WithdrawResultPresenter {
 
         let totalAmountDecimal = amountDecimal + feeDecimal
 
-        guard let totalAmount = amountFormatter.string(from: totalAmountDecimal as NSNumber) else {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        guard let totalAmount = amountFormatter.value(for: locale)
+            .string(from: totalAmountDecimal as NSNumber) else {
             return nil
         }
 
@@ -109,9 +118,12 @@ final class WithdrawResultPresenter {
                                                   icon: style.statusStyleContainer.pending.icon)
         viewModels.append(statusViewModel)
 
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        let details = dateFormatter.value(for: locale).string(from: Date())
         let timeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                 title: L10n.Transaction.date,
-                                                details: dateFormatter.string(from: Date()))
+                                                details: details)
         viewModels.append(timeViewModel)
 
         let amountViewModel = createAmountViewModel()
@@ -148,5 +160,15 @@ extension WithdrawResultPresenter: WithdrawResultPresenterProtocol {
 
     func performAction() {
         coordinator.dismiss()
+    }
+}
+
+
+extension WithdrawResultPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            provideFormViewModels()
+            provideAccessoryViewModel()
+        }
     }
 }

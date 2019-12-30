@@ -5,6 +5,7 @@
 
 import UIKit
 import SoraUI
+import SoraFoundation
 
 final class AmountViewController: UIViewController, AdaptiveDesignable {
     private struct Constants {
@@ -63,7 +64,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
         configureAccessoryView()
         configureStyle()
-        updateTitles()
+        setupLocalization()
 
         presenter.setup()
     }
@@ -161,7 +162,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         descriptionPlaceholderLabel.font = style.bodyRegularFont
     }
     
-    private func updateTitles() {
+    private func setupLocalization() {
         amountLabel.text = L10n.Amount.title
         descriptionLabel.text = L10n.Common.descriptionOptional
     }
@@ -412,5 +413,14 @@ extension AmountViewController: UITextViewDelegate {
 
         updateDescriptionState()
         updateConfirmationState()
+    }
+}
+
+extension AmountViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+            view.setNeedsLayout()
+        }
     }
 }

@@ -7,6 +7,7 @@ import XCTest
 @testable import CommonWallet
 import IrohaCommunication
 import Cuckoo
+import SoraFoundation
 
 class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
@@ -61,7 +62,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
 
-            let amountFormatter = NumberFormatter()
+            let amountFormatter = NumberFormatter().localizableResource()
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
             let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
                                                                   option: selectionOption,
@@ -139,6 +140,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                     errorExpectation.fulfill()
                 }
 
+                when(stub).isSetup.get.thenReturn(false, true)
+
                 when(stub).didStartLoading().thenDoNothing()
                 when(stub).didStopLoading().thenDoNothing()
             }
@@ -178,7 +181,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                         dataProviderFactory: dataProviderFactory,
                                                         feeCalculationFactory: FeeCalculationFactory(),
                                                         withdrawViewModelFactory: viewModelFactory,
-                                                        assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter))
+                                                        assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter),
+                                                        localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             // then
 

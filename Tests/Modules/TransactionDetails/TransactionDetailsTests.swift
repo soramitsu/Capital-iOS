@@ -7,6 +7,8 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
+
 
 class TransactionDetailsTests: XCTestCase {
 
@@ -22,8 +24,8 @@ class TransactionDetailsTests: XCTestCase {
             let resolver = MockResolverProtocol()
 
             stub(resolver) { stub in
-                when(stub).amountFormatter.get.thenReturn(NumberFormatter())
-                when(stub).statusDateFormatter.get.thenReturn(DateFormatter())
+                when(stub).amountFormatter.get.thenReturn(NumberFormatter().localizableResource())
+                when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
                 when(stub).style.get.thenReturn(WalletStyle())
                 when(stub).account.get.thenReturn(accountSettings)
             }
@@ -59,7 +61,11 @@ class TransactionDetailsTests: XCTestCase {
                 }
 
                 when(stub).didReceive(accessoryViewModel: any()).thenDoNothing()
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

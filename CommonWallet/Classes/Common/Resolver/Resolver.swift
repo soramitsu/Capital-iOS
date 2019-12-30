@@ -5,6 +5,7 @@
 
 import Foundation
 import IrohaCommunication
+import SoraFoundation
 
 protocol ResolverProtocol: class {
     var account: WalletAccountSettingsProtocol { get }
@@ -19,8 +20,9 @@ protocol ResolverProtocol: class {
     var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol { get }
     var navigation: NavigationProtocol? { get }
     var logger: WalletLoggerProtocol? { get }
-    var amountFormatter: NumberFormatter { get }
-    var statusDateFormatter: DateFormatter { get }
+    var localizationManager: LocalizationManagerProtocol? { get }
+    var amountFormatter: LocalizableResource<NumberFormatter> { get }
+    var statusDateFormatter: LocalizableResource<DateFormatter> { get }
     var transferAmountLimit: Decimal { get }
     var transactionTypeList: [WalletTransactionType] { get }
     var commandFactory: WalletCommandFactoryProtocol { get }
@@ -49,12 +51,17 @@ final class Resolver: ResolverProtocol {
     lazy var eventCenter: WalletEventCenterProtocol = WalletEventCenter()
 
     lazy var style: WalletStyleProtocol = WalletStyle()
-    lazy var amountFormatter: NumberFormatter = NumberFormatter()
-    lazy var statusDateFormatter: DateFormatter = DateFormatter.statusDateFormatter
+    lazy var amountFormatter: LocalizableResource<NumberFormatter> = NumberFormatter().localizableResource()
+    
+    lazy var statusDateFormatter: LocalizableResource<DateFormatter> =
+        DateFormatter.statusDateFormatter.localizableResource()
+
     var transferAmountLimit: Decimal = 1e+7
     var transactionTypeList: [WalletTransactionType] = []
 
     var logger: WalletLoggerProtocol?
+
+    var localizationManager: LocalizationManagerProtocol?
 
     var commandFactory: WalletCommandFactoryProtocol { return self }
 

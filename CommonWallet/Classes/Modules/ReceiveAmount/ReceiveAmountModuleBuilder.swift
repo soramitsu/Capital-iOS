@@ -3,12 +3,14 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
+import SoraFoundation
+
 enum ReceiveAmountModuleBuilderError: Error {}
 
 
 final class ReceiveAmountModuleBuilder {
     fileprivate lazy var accountShareFactory: AccountShareFactoryProtocol = AccountShareFactory()
-    fileprivate var title: String = L10n.Receive.title
+    fileprivate var title: LocalizableResource<String> = LocalizableResource { _ in L10n.Receive.title }
 
     func build() -> ReceiveAmountConfigurationProtocol {
         return ReceiveAmountConfiguration(accountShareFactory: accountShareFactory, title: title)
@@ -24,7 +26,7 @@ extension ReceiveAmountModuleBuilder: ReceiveAmountModuleBuilderProtocol {
     }
 
     @discardableResult
-    func with(title: String) -> Self {
+    func with(title: LocalizableResource<String>) -> Self {
         self.title = title
         return self
     }

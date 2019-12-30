@@ -34,6 +34,8 @@ final class InvoiceScanAssembly: InvoiceScanAssemblyProtocol {
 
         view.presenter = presenter
 
+        view.localizationManager = resolver.localizationManager
+
         return view
     }
 }

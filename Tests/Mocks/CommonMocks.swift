@@ -1315,6 +1315,7 @@ import Cuckoo
 
 import Foundation
 import IrohaCommunication
+import SoraFoundation
 
 
  class MockResolverProtocol: ResolverProtocol, Cuckoo.ProtocolMock {
@@ -1506,7 +1507,21 @@ import IrohaCommunication
     
     
     
-     var amountFormatter: NumberFormatter {
+     var localizationManager: LocalizationManagerProtocol? {
+        get {
+            return cuckoo_manager.getter("localizationManager",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.localizationManager)
+        }
+        
+    }
+    
+    
+    
+     var amountFormatter: LocalizableResource<NumberFormatter> {
         get {
             return cuckoo_manager.getter("amountFormatter",
                 superclassCall:
@@ -1520,7 +1535,7 @@ import IrohaCommunication
     
     
     
-     var statusDateFormatter: DateFormatter {
+     var statusDateFormatter: LocalizableResource<DateFormatter> {
         get {
             return cuckoo_manager.getter("statusDateFormatter",
                 superclassCall:
@@ -1703,12 +1718,17 @@ import IrohaCommunication
 	    }
 	    
 	    
-	    var amountFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NumberFormatter> {
+	    var localizationManager: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizationManagerProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "localizationManager")
+	    }
+	    
+	    
+	    var amountFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizableResource<NumberFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "amountFormatter")
 	    }
 	    
 	    
-	    var statusDateFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, DateFormatter> {
+	    var statusDateFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizableResource<DateFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "statusDateFormatter")
 	    }
 	    
@@ -1823,12 +1843,17 @@ import IrohaCommunication
 	    }
 	    
 	    
-	    var amountFormatter: Cuckoo.VerifyReadOnlyProperty<NumberFormatter> {
+	    var localizationManager: Cuckoo.VerifyReadOnlyProperty<LocalizationManagerProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "localizationManager", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var amountFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<NumberFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "amountFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
-	    var statusDateFormatter: Cuckoo.VerifyReadOnlyProperty<DateFormatter> {
+	    var statusDateFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<DateFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "statusDateFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
@@ -1971,17 +1996,25 @@ import IrohaCommunication
     }
     
     
-     var amountFormatter: NumberFormatter {
+     var localizationManager: LocalizationManagerProtocol? {
         get {
-            return DefaultValueRegistry.defaultValue(for: (NumberFormatter).self)
+            return DefaultValueRegistry.defaultValue(for: (LocalizationManagerProtocol?).self)
         }
         
     }
     
     
-     var statusDateFormatter: DateFormatter {
+     var amountFormatter: LocalizableResource<NumberFormatter> {
         get {
-            return DefaultValueRegistry.defaultValue(for: (DateFormatter).self)
+            return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
+        }
+        
+    }
+    
+    
+     var statusDateFormatter: LocalizableResource<DateFormatter> {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (LocalizableResource<DateFormatter>).self)
         }
         
     }
@@ -3520,6 +3553,21 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
         
     }
     
+    
+    
+    public func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol {
+        
+    return cuckoo_manager.call("prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol",
+            parameters: (newLanguage),
+            escapingParameters: (newLanguage),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareLanguageSwitchCommand(with: newLanguage))
+        
+    }
+    
 
 	public struct __StubbingProxy_WalletCommandFactoryProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -3567,6 +3615,11 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    func prepareAccountUpdateCommand() -> Cuckoo.ProtocolStubFunction<(), WalletCommandProtocol> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareAccountUpdateCommand() -> WalletCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareLanguageSwitchCommand<M1: Cuckoo.Matchable>(with newLanguage: M1) -> Cuckoo.ProtocolStubFunction<(WalletLanguage), WalletCommandProtocol> where M1.MatchedType == WalletLanguage {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletLanguage)>] = [wrap(matchable: newLanguage) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3633,6 +3686,12 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	        return cuckoo_manager.verify("prepareAccountUpdateCommand() -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func prepareLanguageSwitchCommand<M1: Cuckoo.Matchable>(with newLanguage: M1) -> Cuckoo.__DoNotUse<(WalletLanguage), WalletCommandProtocol> where M1.MatchedType == WalletLanguage {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletLanguage)>] = [wrap(matchable: newLanguage) { $0 }]
+	        return cuckoo_manager.verify("prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -3671,6 +3730,10 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
     }
     
     public func prepareAccountUpdateCommand() -> WalletCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
+    }
+    
+    public func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
     }
     
@@ -3836,6 +3899,21 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
         
     }
     
+    
+    
+    public func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol {
+        
+    return cuckoo_manager.call("prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol",
+            parameters: (newLanguage),
+            escapingParameters: (newLanguage),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareLanguageSwitchCommand(with: newLanguage))
+        
+    }
+    
 
 	public struct __StubbingProxy_CommonWalletContextProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -3888,6 +3966,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    func prepareAccountUpdateCommand() -> Cuckoo.ProtocolStubFunction<(), WalletCommandProtocol> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareAccountUpdateCommand() -> WalletCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareLanguageSwitchCommand<M1: Cuckoo.Matchable>(with newLanguage: M1) -> Cuckoo.ProtocolStubFunction<(WalletLanguage), WalletCommandProtocol> where M1.MatchedType == WalletLanguage {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletLanguage)>] = [wrap(matchable: newLanguage) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3960,6 +4043,12 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        return cuckoo_manager.verify("prepareAccountUpdateCommand() -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func prepareLanguageSwitchCommand<M1: Cuckoo.Matchable>(with newLanguage: M1) -> Cuckoo.__DoNotUse<(WalletLanguage), WalletCommandProtocol> where M1.MatchedType == WalletLanguage {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletLanguage)>] = [wrap(matchable: newLanguage) { $0 }]
+	        return cuckoo_manager.verify("prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -4002,6 +4091,10 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
     }
     
     public func prepareAccountUpdateCommand() -> WalletCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
+    }
+    
+    public func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
     }
     

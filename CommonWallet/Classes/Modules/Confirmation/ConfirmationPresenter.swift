@@ -6,6 +6,7 @@
 import Foundation
 import IrohaCommunication
 import RobinHood
+import SoraFoundation
 
 
 final class ConfirmationPresenter {
@@ -48,10 +49,13 @@ final class ConfirmationPresenter {
     }
 
     private func prepareFeeViewModel() -> WalletFormViewModel? {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         guard
             let feeString = payload.transferInfo.fee?.value,
             let feeDecimal = Decimal(string: feeString),
-            let formattedAmount = resolver.amountFormatter.string(from: feeDecimal as NSNumber) else {
+            let formattedAmount = resolver.amountFormatter.value(for: locale)
+                .string(from: feeDecimal as NSNumber) else {
             return nil
         }
 
@@ -69,9 +73,12 @@ final class ConfirmationPresenter {
     }
 
     private func prepareAmountViewModels() -> [WalletFormViewModel] {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         guard
             let decimalAmount = Decimal(string: payload.transferInfo.amount.value),
-            let formattedAmount = resolver.amountFormatter.string(from: decimalAmount as NSNumber) else {
+            let formattedAmount = resolver.amountFormatter.value(for: locale)
+                .string(from: decimalAmount as NSNumber) else {
                 let amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.value)"
 
                 let viewModel = prepareSingleAmountViewModel(for: amount)
@@ -84,7 +91,8 @@ final class ConfirmationPresenter {
         guard
             let feeString = payload.transferInfo.fee?.value,
             let decimalFee = Decimal(string: feeString),
-            let formattedFee = resolver.amountFormatter.string(from: decimalFee as NSNumber) else {
+            let formattedFee = resolver.amountFormatter.value(for: locale)
+                .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
         }
@@ -103,7 +111,8 @@ final class ConfirmationPresenter {
 
         var viewModels = [amountViewModel, feeViewModel]
 
-        if let formattedTotalAmount = resolver.amountFormatter.string(from: totalAmountDecimal as NSNumber) {
+        if let formattedTotalAmount = resolver.amountFormatter.value(for: locale)
+            .string(from: totalAmountDecimal as NSNumber) {
             let totalAmount = "\(payload.assetSymbol)\(formattedTotalAmount)"
             let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
                                                            title: L10n.Amount.total,
@@ -160,6 +169,15 @@ extension ConfirmationPresenter: ConfirmationPresenterProtocol {
             if let result = optionalResult {
                 self?.handleTransfer(result: result)
             }
+        }
+    }
+}
+
+extension ConfirmationPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            provideMainViewModels()
+            provideAccessoryViewModel()
         }
     }
 }

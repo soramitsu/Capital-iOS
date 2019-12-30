@@ -5,6 +5,7 @@
 
 import Contacts
 import SoraUI
+import SoraFoundation
 
 enum ContactsModuleBuilderError: Error {
     case contactIsInvalidError
@@ -38,7 +39,7 @@ final class ContactsModuleBuilder {
     fileprivate weak var searchEmptyStateDelegate: EmptyStateDelegate?
     fileprivate var searchEmptyStateDataSource: EmptyStateDataSource?
 
-    fileprivate var searchPlaceholder: String = L10n.Common.search
+    fileprivate var searchPlaceholder: LocalizableResource<String> = LocalizableResource { _ in L10n.Common.search }
 
     fileprivate var supportsLiveSearch: Bool = false
     
@@ -81,7 +82,7 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
         return self
     }
 
-    func with(searchPlaceholder: String) -> Self {
+    func with(searchPlaceholder: LocalizableResource<String>) -> Self {
         self.searchPlaceholder = searchPlaceholder
         return self
     }

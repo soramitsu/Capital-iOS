@@ -38,11 +38,14 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
                                                         dataProviderFactory: dataProviderFactory,
                                                         feeCalculationFactory: resolver.feeCalculationFactory,
                                                         withdrawViewModelFactory: withdrawViewModelFactory,
-                                                        assetTitleFactory: assetTitleFactory)
+                                                        assetTitleFactory: assetTitleFactory,
+                                                        localizationManager: resolver.localizationManager)
 
             presenter.logger = resolver.logger
 
             view.presenter = presenter
+
+            view.localizationManager = resolver.localizationManager
 
             return view
         } catch {

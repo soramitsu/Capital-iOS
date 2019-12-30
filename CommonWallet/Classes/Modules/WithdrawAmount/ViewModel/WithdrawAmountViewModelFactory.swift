@@ -4,13 +4,14 @@
  */
 
 import Foundation
+import SoraFoundation
 
 protocol WithdrawAmountViewModelFactoryProtocol {
     func createWithdrawTitle() -> String
-    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String
+    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String
     func createAmountViewModel() -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
-    func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?) -> AccessoryViewModel
+    func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?, locale: Locale) -> AccessoryViewModel
 }
 
 enum WithdrawAmountViewModelFactoryError: Error {
@@ -19,11 +20,11 @@ enum WithdrawAmountViewModelFactoryError: Error {
 
 final class WithdrawAmountViewModelFactory {
     let option: WalletWithdrawOption
-    let amountFormatter: NumberFormatter
+    let amountFormatter: LocalizableResource<NumberFormatter>
     let amountLimit: Decimal
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
 
-    init(amountFormatter: NumberFormatter,
+    init(amountFormatter: LocalizableResource<NumberFormatter>,
          option: WalletWithdrawOption,
          amountLimit: Decimal,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
@@ -39,14 +40,15 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         return option.shortTitle
     }
 
-    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?) -> String {
+    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String {
         let title: String = L10n.Amount.fee
 
         guard let amount = amount, let asset = asset else {
             return title
         }
 
-        guard let amountString = amountFormatter.string(from: amount as NSNumber) else {
+        guard let amountString = amountFormatter.value(for: locale)
+            .string(from: amount as NSNumber) else {
             return title
         }
 
@@ -67,14 +69,16 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
                                          validator: validator)
     }
 
-    func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?) -> AccessoryViewModel {
+    func createAccessoryViewModel(for asset: WalletAsset?,
+                                  totalAmount: Decimal?,
+                                  locale: Locale) -> AccessoryViewModel {
         let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Common.next)
 
         guard let amount = totalAmount, let asset = asset else {
             return accessoryViewModel
         }
 
-        guard let amountString = amountFormatter.string(from: amount as NSNumber) else {
+        guard let amountString = amountFormatter.value(for: locale).string(from: amount as NSNumber) else {
             return accessoryViewModel
         }
 

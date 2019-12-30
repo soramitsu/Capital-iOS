@@ -6,6 +6,7 @@
 import UIKit
 import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 
 final class LocalizedDemo: DemoFactoryProtocol {
     var title: String {
@@ -14,7 +15,7 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
     var completionBlock: DemoCompletionBlock?
 
-    func setupDemo(with completionBlock: @escaping DemoCompletionBlock) throws -> UIViewController {
+    private func createWallet(for language: WalletLanguage) throws -> UIViewController {
         let accountId = try IRAccountIdFactory.account(withIdentifier: "julio@demo")
         let assets = try createAssets()
 
@@ -41,10 +42,10 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(amountFormatter: NumberFormatter.amount)
+            .with(amountFormatter: NumberFormatter.amount.localizableResource())
             .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: [withdrawType])
-            .with(language: .khmer)
+            .with(language: language)
             .with(inputValidatorFactory: DemoInputValidatorFactory())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
@@ -62,8 +63,9 @@ final class LocalizedDemo: DemoFactoryProtocol {
             .with(emptyStateDataSource: DefaultEmptyStateDataSource.history)
             .with(supportsFilter: true)
 
+        let searchPlaceholder = LocalizableResource { _ in "Enter username" }
         walletBuilder.contactsModuleBuilder
-            .with(searchPlaceholder: "Enter username")
+            .with(searchPlaceholder: searchPlaceholder)
             .with(contactsEmptyStateDataSource: DefaultEmptyStateDataSource.contacts)
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
             .with(supportsLiveSearch: true)
@@ -72,7 +74,7 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)
-        
+
         walletBuilder.styleBuilder
             .with(header1: .demoHeader1)
             .with(header2: .demoHeader2)
@@ -85,11 +87,36 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
         try mock(networkResolver: networkResolver, with: assets)
 
-        self.completionBlock = completionBlock
-
         let rootController = try walletContext.createRootController()
 
         return rootController
+    }
+
+    func setupDemo(with completionBlock: @escaping DemoCompletionBlock) throws -> UIViewController {
+        self.completionBlock = completionBlock
+
+        let alertController = UIAlertController(title: "Select language",
+                                                message: nil,
+                                                preferredStyle: .actionSheet)
+
+        WalletLanguage.allCases.forEach { language in
+            let title = Locale.current.localizedString(forLanguageCode: language.rawValue)
+            let action = UIAlertAction(title: title, style: .default) { _ in
+                if let walletController = try? self.createWallet(for: language) {
+                    self.completionBlock?(walletController)
+                }
+            }
+
+            alertController.addAction(action)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            self.completionBlock?(nil)
+        }
+
+        alertController.addAction(cancelAction)
+
+        return alertController
     }
 
     func createAssets() throws -> [WalletAsset] {
@@ -146,6 +173,6 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
 extension LocalizedDemo: DemoHeaderViewModelDelegate {
     func didSelectClose(for viewModel: DemoHeaderViewModelProtocol) {
-        completionBlock?()
+        completionBlock?(nil)
     }
 }

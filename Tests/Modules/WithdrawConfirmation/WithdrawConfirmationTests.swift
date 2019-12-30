@@ -6,6 +6,8 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
+import SoraFoundation
+
 
 class WithdrawConfirmationTests: NetworkBaseTests {
 
@@ -37,7 +39,7 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                                           asset: accountSettings.assets[0],
                                                           withdrawOption: accountSettings.withdrawOptions[0],
                                                           style: WalletStyle(),
-                                                          amountFormatter: NumberFormatter(),
+                                                          amountFormatter: NumberFormatter().localizableResource(),
                                                           eventCenter: eventCenter)
 
             // when
@@ -55,6 +57,8 @@ class WithdrawConfirmationTests: NetworkBaseTests {
 
                 when(stub).didStartLoading().thenDoNothing()
                 when(stub).didStopLoading().thenDoNothing()
+
+                when(stub).isSetup.get.thenReturn(false, true)
             }
 
             stub(coordinator) { stub in
@@ -77,6 +81,8 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                       httpMethod: .post)
 
             eventCenter.add(observer: withdrawObserver, dispatchIn: .main)
+
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 

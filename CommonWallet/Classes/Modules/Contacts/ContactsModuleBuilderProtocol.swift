@@ -5,6 +5,7 @@
 
 import Foundation
 import SoraUI
+import SoraFoundation
 
 public protocol ContactsModuleBuilderProtocol: class {
     
@@ -21,7 +22,7 @@ public protocol ContactsModuleBuilderProtocol: class {
     func with(sectionHeaderStyle: WalletTextStyleProtocol) -> Self
 
     @discardableResult
-    func with(searchPlaceholder: String) -> Self
+    func with(searchPlaceholder: LocalizableResource<String>) -> Self
 
     @discardableResult
     func with(contactsEmptyStateDataSource: EmptyStateDataSource) -> Self

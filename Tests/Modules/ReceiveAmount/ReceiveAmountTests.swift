@@ -6,6 +6,8 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
+import SoraFoundation
+
 
 class ReceiveAmountTests: XCTestCase {
 
@@ -71,18 +73,9 @@ class ReceiveAmountTests: XCTestCase {
                                       details: nil)
         let qrService = WalletQRService(operationFactory: WalletQROperationFactory())
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter())
+        let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter().localizableResource())
 
         // when
-
-        let presenter = ReceiveAmountPresenter(view: view,
-                                               coordinator: coordinator,
-                                               account: accountSettings,
-                                               assetSelectionFactory: assetSelectionFactory,
-                                               qrService: qrService,
-                                               sharingFactory: AccountShareFactory(),
-                                               receiveInfo: receiveInfo,
-                                               amountLimit: Decimal(1e+6))
 
         let imageExpectation = XCTestExpectation()
         let assetExpectation = XCTestExpectation()
@@ -100,7 +93,19 @@ class ReceiveAmountTests: XCTestCase {
             when(stub).didReceive(image: any(UIImage.self)).then { _ in
                 imageExpectation.fulfill()
             }
+
+            when(stub).isSetup.get.thenReturn(false, true)
         }
+
+        let presenter = ReceiveAmountPresenter(view: view,
+                                               coordinator: coordinator,
+                                               account: accountSettings,
+                                               assetSelectionFactory: assetSelectionFactory,
+                                               qrService: qrService,
+                                               sharingFactory: AccountShareFactory(),
+                                               receiveInfo: receiveInfo,
+                                               amountLimit: Decimal(1e+6),
+                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup(qrSize: CGSize(width: 100.0, height: 100.0))
 

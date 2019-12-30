@@ -5,6 +5,7 @@
 
 import Foundation
 import RobinHood
+import SoraFoundation
 
 final class AccountListPresenter {
     weak var view: AccountListViewProtocol?
@@ -15,6 +16,8 @@ final class AccountListPresenter {
     let eventCenter: WalletEventCenterProtocol
 
     var logger: WalletLoggerProtocol?
+
+    private(set) var assets: [BalanceData]?
 
     init(view: AccountListViewProtocol,
          coordinator: AccountListCoordinatorProtocol,
@@ -28,10 +31,13 @@ final class AccountListPresenter {
         self.eventCenter = eventCenter
     }
 
-    private func updateView(with assets: [BalanceData]?) {
+    private func updateView() {
         do {
             if let assets = assets {
-                let viewModel = try viewModelFactory.createViewModel(from: assets, delegate: self)
+                let locale = localizationManager?.selectedLocale ?? Locale.current
+                let viewModel = try viewModelFactory.createViewModel(from: assets,
+                                                                     delegate: self,
+                                                                     locale: locale)
 
                 view?.didLoad(viewModels: viewModel.models, collapsingRange: viewModel.collapsingRange)
             }
@@ -54,12 +60,13 @@ final class AccountListPresenter {
             if let change = changes.first {
                 switch change {
                 case .insert(let items), .update(let items):
-                    self?.updateView(with: items)
+                    self?.assets = items
+                    self?.updateView()
                 default:
                     break
                 }
             } else {
-                self?.updateView(with: nil)
+                self?.view?.didCompleteReload()
             }
         }
 
@@ -78,7 +85,9 @@ final class AccountListPresenter {
 
 extension AccountListPresenter: AccountListPresenterProtocol {
     func setup() {
-        updateView(with: [])
+        assets = []
+        updateView()
+
         setupBalanceDataProvider()
 
         eventCenter.add(observer: self)
@@ -111,5 +120,13 @@ extension AccountListPresenter: WalletEventVisitorProtocol {
 
     func processAccountUpdate(event: AccountUpdateEvent) {
         balanceDataProvider.refresh()
+    }
+}
+
+extension AccountListPresenter: Localizable {
+    func applyLocalization() {
+        if view?.isSetup == true {
+            updateView()
+        }
     }
 }

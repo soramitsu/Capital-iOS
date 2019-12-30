@@ -5,6 +5,8 @@
 
 import UIKit
 import SoraUI
+import SoraFoundation
+
 
 final class WithdrawAmountViewController: AccessoryViewController {
     private struct Constants {
@@ -44,12 +46,16 @@ final class WithdrawAmountViewController: AccessoryViewController {
 
         applyStyle()
         
-        amountLabel.text = L10n.Amount.send
+        setupLocalization()
         
         presenter.setup()
     }
 
     // MARK: Style
+
+    private func setupLocalization() {
+        amountLabel.text = L10n.Amount.send
+    }
 
     private func applyStyle() {
         guard let style = style else {
@@ -322,5 +328,14 @@ extension WithdrawAmountViewController: UITextViewDelegate {
 
         updateDescriptionState()
         updateConfirmationState()
+    }
+}
+
+extension WithdrawAmountViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+            view.setNeedsLayout()
+        }
     }
 }
