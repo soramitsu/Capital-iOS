@@ -6,26 +6,11 @@
 import Foundation
 
 
-extension NumberFormatter {
-    
-    static var moneyFormatter: NumberFormatter {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.groupingSeparator = Locale.current.groupingSeparator
-        numberFormatter.groupingSize = 3
-        numberFormatter.usesGroupingSeparator = true
-        numberFormatter.decimalSeparator = Locale.current.decimalSeparator
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.maximumFractionDigits = 2
-        return numberFormatter
-    }
-    
-}
-
-
 protocol MoneyPresentable {
-    
+    var formatter: NumberFormatter { get }
     var amount: String { get }
-    
+
+    func transform(input: String, from locale: Locale) -> String
 }
 
 private struct MoneyPresentableConstants {
@@ -40,12 +25,12 @@ extension MoneyPresentable {
             return ""
         }
 
-        guard let decimalAmount = Decimal(string: amount, locale: Locale.current) else {
+        guard let decimalAmount = Decimal(string: amount, locale: formatter.locale) else {
             return nil
         }
 
-        var amountFormatted = NumberFormatter.moneyFormatter.string(from: decimalAmount as NSDecimalNumber)
-        let separator = self.separator()
+        var amountFormatted = formatter.string(from: decimalAmount as NSDecimalNumber)
+        let separator = decimalSeparator()
 
         if amount.hasSuffix(separator) {
             amountFormatted?.append(separator)
@@ -63,67 +48,76 @@ extension MoneyPresentable {
         return amountFormatted
     }
 
-    private func separator() -> String {
-        return Locale.current.decimalSeparator!
+    private func decimalSeparator() -> String {
+        return formatter.decimalSeparator!
     }
     
     private func groupingSeparator() -> String {
-        return Locale.current.groupingSeparator!
+        return formatter.groupingSeparator!
     }
     
     private func notEligibleSet() -> CharacterSet {
         return CharacterSet.decimalDigits
-            .union(CharacterSet(charactersIn: "\(separator()) \(groupingSeparator())")).inverted
+            .union(CharacterSet(charactersIn: "\(decimalSeparator())\(groupingSeparator())")).inverted
     }
-    
+
     func add(_ amount: String) -> String {
         guard amount.rangeOfCharacter(from: notEligibleSet()) == nil else {
             return self.amount
         }
 
-        var newAmount = self.amount + amount
+        var newAmount = (self.amount + amount).replacingOccurrences(of: groupingSeparator(),
+                                                                    with: "")
 
-        if newAmount.hasPrefix(separator()) {
+        if newAmount.hasPrefix(decimalSeparator()) {
             newAmount = "\(MoneyPresentableConstants.singleZero)\(newAmount)"
         }
 
-        let newAmountComponents = newAmount.components(separatedBy: separator())
+        let newAmountComponents = newAmount.components(separatedBy: decimalSeparator())
 
         if newAmountComponents.count > 2 || (newAmountComponents.count == 2 && newAmountComponents[1].count > 2) {
             return self.amount
         }
 
-        newAmount = newAmount.replacingOccurrences(of: Locale.current.groupingSeparator!, with: "")
-
         return newAmount
     }
-    
+
     func set(_ amount: String) -> String {
-        var settingAmount = amount
-
-        if settingAmount.contains(".") && separator() != "." {
-            settingAmount = settingAmount.replacingOccurrences(of: ".", with: separator())
-        }
-
-        guard settingAmount.rangeOfCharacter(from: notEligibleSet()) == nil else {
+        guard amount.rangeOfCharacter(from: notEligibleSet()) == nil else {
             return self.amount
         }
 
-        if settingAmount.hasPrefix(separator()) {
+        var settingAmount = amount.replacingOccurrences(of: groupingSeparator(),
+                                                        with: "")
+
+        if settingAmount.hasPrefix(decimalSeparator()) {
             settingAmount = "\(MoneyPresentableConstants.singleZero)\(settingAmount)"
         }
 
-        let settingAmountComponents = settingAmount.components(separatedBy: separator())
+        let settingAmountComponents = settingAmount.components(separatedBy: decimalSeparator())
 
         if settingAmountComponents.count > 2 ||
             (settingAmountComponents.count == 2 && settingAmountComponents[1].count > 2) {
             return self.amount
         }
         
-        let newAmount = settingAmount.replacingOccurrences(of: Locale.current.groupingSeparator!, with: "")
-        
-        return newAmount
+        return settingAmount
     }
-    
+
+    func transform(input: String, from locale: Locale) -> String {
+        var result = input
+
+        if let localeGroupingSeparator = locale.groupingSeparator {
+            result = result.replacingOccurrences(of: localeGroupingSeparator, with: "")
+        }
+
+        if let localeDecimalSeparator = locale.decimalSeparator,
+            localeDecimalSeparator != decimalSeparator() {
+            result = result.replacingOccurrences(of: localeDecimalSeparator,
+                                                 with: decimalSeparator())
+        }
+
+        return result
+    }
 }
 

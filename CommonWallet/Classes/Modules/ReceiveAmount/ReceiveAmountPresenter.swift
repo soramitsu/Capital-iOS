@@ -21,6 +21,8 @@ final class ReceiveAmountPresenter {
     private(set) var amountInputViewModel: AmountInputViewModel
     private(set) var preferredQRSize: CGSize?
     private(set) var selectedAsset: WalletAsset?
+    private(set) var amountLimit: Decimal
+    private(set) var inputFormatter: LocalizableResource<NumberFormatter>
 
     private var currentImage: UIImage?
 
@@ -40,6 +42,7 @@ final class ReceiveAmountPresenter {
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
          amountLimit: Decimal,
+         inputFormatter: LocalizableResource<NumberFormatter>,
          localizationManager: LocalizationManagerProtocol?) {
         self.view = view
         self.coordinator = coordinator
@@ -47,6 +50,8 @@ final class ReceiveAmountPresenter {
         self.sharingFactory = sharingFactory
         self.account = account
         self.assetSelectionFactory = assetSelectionFactory
+        self.inputFormatter = inputFormatter
+        self.amountLimit = amountLimit
 
         var currentAmount: Decimal?
 
@@ -67,7 +72,9 @@ final class ReceiveAmountPresenter {
                                                           symbol: selectedAsset?.symbol ?? "")
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        amountInputViewModel = AmountInputViewModel(amount: currentAmount, limit: amountLimit)
+        amountInputViewModel = AmountInputViewModel(amount: currentAmount,
+                                                    limit: amountLimit,
+                                                    formatter: inputFormatter.value(for: locale))
 
         self.localizationManager = localizationManager
     }
@@ -127,6 +134,19 @@ final class ReceiveAmountPresenter {
         case .failure:
             view?.showError(message: L10n.Receive.errorQrGeneration)
         }
+    }
+
+    private func updateAmountInputViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        let amount = amountInputViewModel.decimalAmount
+
+        amountInputViewModel = AmountInputViewModel(amount: amount,
+                                                    limit: amountLimit,
+                                                    formatter: inputFormatter.value(for: locale))
+
+        amountInputViewModel.observable.add(observer: self)
+
+        view?.didReceive(amountInputViewModel: amountInputViewModel)
     }
 }
 
@@ -231,6 +251,8 @@ extension ReceiveAmountPresenter: Localizable {
             assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: selectedAsset,
                                                                               balanceData: nil,
                                                                               locale: locale)
+
+            updateAmountInputViewModel()
         }
     }
 }

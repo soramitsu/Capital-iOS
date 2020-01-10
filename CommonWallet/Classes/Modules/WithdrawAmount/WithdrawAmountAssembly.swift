@@ -24,7 +24,9 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
 
             let limit = resolver.transferAmountLimit
             let validatorFactory = resolver.inputValidatorFactory
-            let withdrawViewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
+            let inputFormatter = NumberFormatter.money.localizableResource()
+            let withdrawViewModelFactory = WithdrawAmountViewModelFactory(inputFormatter: inputFormatter,
+                                                                          amountFormatter: amountFormatter,
                                                                           option: option,
                                                                           amountLimit: limit,
                                                                           descriptionValidatorFactory: validatorFactory)

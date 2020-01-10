@@ -84,7 +84,8 @@ final class WithdrawAmountPresenter {
                                                           symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = assets.count > 1
 
-        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel()
+        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(with: nil,
+                                                                              locale: locale)
 
         let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset,
                                                                amount: nil,
@@ -93,6 +94,19 @@ final class WithdrawAmountPresenter {
         feeViewModel.isLoading = true
 
         self.localizationManager = localizationManager
+    }
+
+    private func updateAmountInputViewModel() {
+        let amount = amountInputViewModel.decimalAmount
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(with: amount,
+                                                                              locale: locale)
+
+        amountInputViewModel.observable.add(observer: self)
+
+        view?.set(amountViewModel: amountInputViewModel)
     }
 
     private func updateFeeViewModel(for asset: WalletAsset) {
@@ -462,6 +476,7 @@ extension WithdrawAmountPresenter: AmountInputViewModelObserver {
 extension WithdrawAmountPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
+            updateAmountInputViewModel()
             updateFeeViewModel(for: selectedAsset)
             updateAccessoryViewModel(for: selectedAsset)
             updateDescriptionViewModel()

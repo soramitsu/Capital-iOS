@@ -9,7 +9,7 @@ import SoraFoundation
 protocol WithdrawAmountViewModelFactoryProtocol {
     func createWithdrawTitle() -> String
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String
-    func createAmountViewModel() -> AmountInputViewModel
+    func createAmountViewModel(with optionalAmount: Decimal?, locale: Locale) -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
     func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?, locale: Locale) -> AccessoryViewModel
 }
@@ -20,14 +20,17 @@ enum WithdrawAmountViewModelFactoryError: Error {
 
 final class WithdrawAmountViewModelFactory {
     let option: WalletWithdrawOption
+    let inputFormatter: LocalizableResource<NumberFormatter>
     let amountFormatter: LocalizableResource<NumberFormatter>
     let amountLimit: Decimal
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
 
-    init(amountFormatter: LocalizableResource<NumberFormatter>,
+    init(inputFormatter: LocalizableResource<NumberFormatter>,
+         amountFormatter: LocalizableResource<NumberFormatter>,
          option: WalletWithdrawOption,
          amountLimit: Decimal,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
+        self.inputFormatter = inputFormatter
         self.amountFormatter = amountFormatter
         self.option = option
         self.amountLimit = amountLimit
@@ -55,8 +58,10 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         return title + " \(asset.symbol)\(amountString)"
     }
 
-    func createAmountViewModel() -> AmountInputViewModel {
-        return AmountInputViewModel(amount: nil, limit: amountLimit)
+    func createAmountViewModel(with optionalAmount: Decimal?, locale: Locale) -> AmountInputViewModel {
+        return AmountInputViewModel(amount: optionalAmount,
+                                    limit: amountLimit,
+                                    formatter: inputFormatter.value(for: locale))
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {

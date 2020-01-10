@@ -105,7 +105,8 @@ final class AmountPresenter {
             decimalAmount = Decimal(string: amount.value)
         }
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: decimalAmount)
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: decimalAmount,
+                                                                              locale: locale)
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
                                                               fullName: payload.receiverName,
@@ -118,6 +119,19 @@ final class AmountPresenter {
         feeViewModel.isLoading = true
 
         self.localizationManager = localizationManager
+    }
+
+    private func updateAmountInputViewModel() {
+        let amount = amountInputViewModel.decimalAmount
+
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: amount,
+                                                                              locale: locale)
+
+        amountInputViewModel.observable.add(observer: self)
+
+        view?.set(amountViewModel: amountInputViewModel)
     }
 
     private func updateFeeViewModel(for asset: WalletAsset) {
@@ -480,6 +494,7 @@ extension AmountPresenter: AmountInputViewModelObserver {
 extension AmountPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
+            updateAmountInputViewModel()
             updateSelectedAssetViewModel(for: selectedAsset)
             updateFeeViewModel(for: selectedAsset)
             updateDescriptionViewModel()

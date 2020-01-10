@@ -7,13 +7,6 @@ import XCTest
 @testable import CommonWallet
 
 
-final class MoneyPresenter: MoneyPresentable {
-    
-    var amount: String = ""
-    
-}
-
-
 class MoneyPresentableTests: XCTestCase {
     
     private let separator = Locale.current.decimalSeparator!
