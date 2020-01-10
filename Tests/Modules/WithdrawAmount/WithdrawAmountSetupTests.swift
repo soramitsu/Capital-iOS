@@ -77,7 +77,9 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
         let amountFormatter = NumberFormatter().localizableResource()
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-        let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatter: amountFormatter,
+        let inputFormatter = NumberFormatter.money.localizableResource()
+        let viewModelFactory = WithdrawAmountViewModelFactory(inputFormatter: inputFormatter,
+                                                              amountFormatter: amountFormatter,
                                                               option: withdrawOption,
                                                               amountLimit: 100,
                                                               descriptionValidatorFactory: inputValidatorFactory)

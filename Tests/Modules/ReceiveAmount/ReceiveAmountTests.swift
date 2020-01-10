@@ -97,6 +97,8 @@ class ReceiveAmountTests: XCTestCase {
             when(stub).isSetup.get.thenReturn(false, true)
         }
 
+        let inputFormatter = NumberFormatter.money.localizableResource()
+
         let presenter = ReceiveAmountPresenter(view: view,
                                                coordinator: coordinator,
                                                account: accountSettings,
@@ -105,6 +107,7 @@ class ReceiveAmountTests: XCTestCase {
                                                sharingFactory: AccountShareFactory(),
                                                receiveInfo: receiveInfo,
                                                amountLimit: Decimal(1e+6),
+                                               inputFormatter: inputFormatter,
                                                localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup(qrSize: CGSize(width: 100.0, height: 100.0))

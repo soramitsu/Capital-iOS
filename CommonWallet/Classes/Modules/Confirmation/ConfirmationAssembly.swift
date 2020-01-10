@@ -38,6 +38,8 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
             view?.title = L10n.Confirmation.title
         }
 
+        presenter.localizationManager = resolver.localizationManager
+
         return view
     }
     

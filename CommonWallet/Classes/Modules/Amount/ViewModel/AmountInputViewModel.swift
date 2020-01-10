@@ -30,11 +30,11 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
             return Decimal(0)
         }
 
-        return Decimal(string: amount, locale: Locale.current)
+        return Decimal(string: amount, locale: formatter.locale)
     }
 
     var isValid: Bool {
-        if let value = Decimal(string: amount, locale: Locale.current), value > 0 {
+        if let value = Decimal(string: amount, locale: formatter.locale), value > 0 {
             return true
         } else {
             return false
@@ -49,33 +49,45 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
+    let formatter: NumberFormatter
+
+    let inputLocale: Locale
+
     let limit: Decimal
 
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver>
 
-    init(amount: Decimal?, limit: Decimal) {
+    init(amount: Decimal?,
+         limit: Decimal,
+         formatter: NumberFormatter,
+         inputLocale: Locale = Locale.current) {
         self.limit = limit
+        self.formatter = formatter
+        self.inputLocale = inputLocale
 
         observable = WalletViewModelObserverContainer()
 
         if let amount = amount, amount <= limit,
-            let inputAmount = NumberFormatter.moneyFormatter.string(from: amount as NSNumber) {
+            let inputAmount = formatter.string(from: amount as NSNumber) {
             self.amount = set(inputAmount)
         }
     }
 
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
+        let replacement = transform(input: string, from: inputLocale)
+
         var newAmount = displayAmount
 
-        if range.location == newAmount.count, string.count > 0 {
-            newAmount = add(string)
+        if range.location == newAmount.count {
+            newAmount = add(replacement)
         } else {
-            newAmount = (newAmount as NSString).replacingCharacters(in: range, with: string)
-
+            newAmount = (newAmount as NSString).replacingCharacters(in: range, with: replacement)
             newAmount = set(newAmount)
         }
 
-        let optionalAmountDecimal = !newAmount.isEmpty ? Decimal(string: newAmount, locale: Locale.current) : Decimal(0)
+        let optionalAmountDecimal = !newAmount.isEmpty ?
+            Decimal(string: newAmount, locale: formatter.locale) :
+            Decimal.zero
 
         guard
             let receivedAmountDecimal = optionalAmountDecimal,

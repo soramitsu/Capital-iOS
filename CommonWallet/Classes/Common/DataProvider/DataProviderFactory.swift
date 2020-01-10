@@ -64,7 +64,7 @@ final class DataProviderFactory {
 
     private func createSingleValueCache()
         -> CoreDataRepository<SingleValueProviderObject, CDCWSingleValue> {
-            return cacheFacade.createCoreDataCache(domain: accountSettings.accountId.domain.identifier)
+            return cacheFacade.createCoreDataCache(filter: nil)
     }
 
     private func createDataProvider(for assets: [IRAssetId],

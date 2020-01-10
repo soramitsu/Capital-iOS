@@ -156,7 +156,9 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
             let amountFormatter = NumberFormatter().localizableResource()
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-            let transferViewModelFactory = AmountViewModelFactory(amountFormatter: amountFormatter,
+            let inputFormatter = NumberFormatter.money.localizableResource()
+            let transferViewModelFactory = AmountViewModelFactory(inputFormatter: inputFormatter,
+                                                                  amountFormatter: amountFormatter,
                                                                   amountLimit: 1e+6,
                                                                   descriptionValidatorFactory: inputValidatorFactory)
 
