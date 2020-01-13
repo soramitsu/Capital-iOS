@@ -10,11 +10,11 @@ private let kDefaultsKeyName = "l10n_lang"
 
 
 public enum WalletLanguage: String, CaseIterable {
-    
     case english = "en"
-    case khmer = "km"
     case russian = "ru"
-
+    case spanish = "es-CO"
+    case khmer = "km"
+    case bashkir = "ba-RU"
 }
 
 

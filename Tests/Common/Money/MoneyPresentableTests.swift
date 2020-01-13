@@ -161,7 +161,7 @@ class MoneyPresentableTests: XCTestCase {
 
     func testAllowSetWithTrallingSeparator() {
         // act
-        let amount = presenter.set("123.")
+        let amount = presenter.set("123\(separator)")
 
         // asset
         XCTAssertEqual(amount, "123\(separator)")
@@ -169,7 +169,7 @@ class MoneyPresentableTests: XCTestCase {
 
     func testAllowSetWithLeadingSeparator() {
         // act
-        let amount = presenter.set(".12")
+        let amount = presenter.set("\(separator)12")
 
         // asset
         XCTAssertEqual(amount, "0\(separator)12")
@@ -200,7 +200,7 @@ class MoneyPresentableTests: XCTestCase {
     
     func testFormattedAmountWithZeroInFraction() {
         // arrange
-        presenter.amount = "1234."
+        presenter.amount = "1234\(separator)"
         
         // act
         presenter.amount = presenter.add("0")
@@ -212,7 +212,7 @@ class MoneyPresentableTests: XCTestCase {
     
     func testFormattedAmountWithTwoZerosInFraction() {
         // arrange
-        presenter.amount = "1234.0"
+        presenter.amount = "1234\(separator)0"
         
         // act
         presenter.amount = presenter.add("0")
@@ -224,7 +224,7 @@ class MoneyPresentableTests: XCTestCase {
 
     func testFormattedAmountWithSuffixZero() {
         // arrange
-        presenter.amount = "1234.1"
+        presenter.amount = "1234\(separator)1"
 
         // act
         presenter.amount = presenter.add("0")
