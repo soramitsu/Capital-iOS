@@ -1,0 +1,102 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Building the application"
+  lane :build do |options|
+    unlock_keychain(path: "~/Library/Keychains/login.keychain-db", set_default: true)
+    app_id = ENV["CI_FASTLANE_APP_ID"]
+    t_id = ENV["CI_FASTLANE_TEAM_ID"]
+    adhoc_enable = ENV["CI_FASTLANE_ADHOC_ENABLE"]
+    exp_method = ENV["CI_FASTLANE_EXP_METHOD"]
+    prov_name = ENV["CI_FASTLANE_PROVISIONING_PROFILE"]
+    code_sign_id = ENV["CI_FASTLANE_CODE_SIGN_ID"]
+    #build_config = ENV["CI_FASTLANE_BUILD_CONFIG"]
+    team_id(t_id)
+    update_app_identifier(
+      xcodeproj: "CommonWallet.xcodeproj",
+      plist_path: "CommonWallet/Info.plist",
+      app_identifier: app_id
+    )
+    if ENV["CI_FASTLANE_SET_FULL_VERSION"] == 'true'
+      increment_version_number(xcodeproj: "CommonWallet.xcodeproj", version_number: ENV["CI_FASTLANE_FULL_VERSION"])
+    end
+    increment_build_number(xcodeproj: "CommonWallet.xcodeproj", build_number: ENV["CI_FASTLANE_BUILD_ID"])
+    disable_automatic_code_signing
+    get_provisioning_profile(
+      team_id: t_id,
+      app_identifier: app_id,
+      provisioning_name: prov_name,
+      adhoc: adhoc_enable,
+      readonly: true,
+      filename: prov_name + ".mobileprovision",
+      skip_certificate_verification: true
+    )
+    update_project_provisioning(
+      xcodeproj: "CommonWallet.xcodeproj",
+      profile: "./" + prov_name + ".mobileprovision",
+      #build_configuration: build_config,
+      code_signing_identity: code_sign_id
+    )
+    build_ios_app(
+      workspace: "CommonWallet.xcworkspace",
+      #configuration: build_config,
+      scheme: "CommonWallet",
+      clean: true,
+      export_method: exp_method,
+      export_options: {
+        provisioningProfiles: {
+          app_id => prov_name
+        }
+      }
+    )
+    enable_automatic_code_signing(team_id: t_id)
+  end
+
+  lane :update_cocoapods do |options|
+    cocoapods(repo_update: true)
+  end
+
+  lane :tests do |options|
+    run_tests(workspace: "CommonWallet.xcworkspace", clean: true, force_quit_simulator: true, prelaunch_simulator: true)
+  end
+
+  lane :deploy_on_fabric do |options|
+    commit = last_git_commit
+    crashlytics(notes: 'Hash: ' + commit[:abbreviated_commit_hash] + ' Author: ' + commit[:author] + ' Message: ' + commit[:message], groups: ENV["CI_FASTLANE_FABRIC_GROUP"])
+  end
+
+  lane :deploy_on_testflight do |options|
+    upload_to_testflight(
+      skip_submission: true,
+      skip_waiting_for_build_processing: true,
+      team_id: ENV["CI_FASTLANE_APPSTORE_TEAM_ID"]
+    )
+  end
+
+  lane :deploy_on_appstore do |options|
+    upload_to_app_store(
+      skip_screenshots: true,
+      skip_metadata: true,
+      skip_app_version_update: true,
+      precheck_include_in_app_purchases: false,
+      run_precheck_before_submit: false,
+      force: true,
+      team_id: ENV["CI_FASTLANE_APPSTORE_TEAM_ID"]
+    )
+  end
+end
