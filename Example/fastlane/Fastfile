@@ -16,26 +16,27 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Building the application"
+  desc "Description of what the lane does"
   lane :build do |options|
     unlock_keychain(path: "~/Library/Keychains/login.keychain-db", set_default: true)
+    base_name = ENV["CI_FASTLANE_BASE_NAME"]
     app_id = ENV["CI_FASTLANE_APP_ID"]
     t_id = ENV["CI_FASTLANE_TEAM_ID"]
     adhoc_enable = ENV["CI_FASTLANE_ADHOC_ENABLE"]
     exp_method = ENV["CI_FASTLANE_EXP_METHOD"]
     prov_name = ENV["CI_FASTLANE_PROVISIONING_PROFILE"]
     code_sign_id = ENV["CI_FASTLANE_CODE_SIGN_ID"]
-    #build_config = ENV["CI_FASTLANE_BUILD_CONFIG"]
+    build_config = ENV["CI_FASTLANE_BUILD_CONFIG"]
     team_id(t_id)
     update_app_identifier(
-      xcodeproj: "CommonWallet.xcodeproj",
-      plist_path: "CommonWallet/Info.plist",
+      xcodeproj: base_name + ".xcodeproj",
+      plist_path: base_name + "/Info.plist",
       app_identifier: app_id
     )
     if ENV["CI_FASTLANE_SET_FULL_VERSION"] == 'true'
-      increment_version_number(xcodeproj: "CommonWallet.xcodeproj", version_number: ENV["CI_FASTLANE_FULL_VERSION"])
+      increment_version_number(xcodeproj: base_name + ".xcodeproj", version_number: ENV["CI_FASTLANE_FULL_VERSION"])
     end
-    increment_build_number(xcodeproj: "CommonWallet.xcodeproj", build_number: ENV["CI_FASTLANE_BUILD_ID"])
+    increment_build_number(xcodeproj: base_name + ".xcodeproj", build_number: ENV["CI_FASTLANE_BUILD_ID"])
     disable_automatic_code_signing
     get_provisioning_profile(
       team_id: t_id,
@@ -47,15 +48,15 @@ platform :ios do
       skip_certificate_verification: true
     )
     update_project_provisioning(
-      xcodeproj: "CommonWallet.xcodeproj",
+      xcodeproj: base_name + ".xcodeproj",
       profile: "./" + prov_name + ".mobileprovision",
-      #build_configuration: build_config,
+      build_configuration: build_config,
       code_signing_identity: code_sign_id
     )
     build_ios_app(
-      workspace: "CommonWallet.xcworkspace",
-      #configuration: build_config,
-      scheme: "CommonWallet",
+      workspace: base_name + ".xcworkspace",
+      configuration: build_config,
+      scheme: base_name,
       clean: true,
       export_method: exp_method,
       export_options: {
@@ -72,7 +73,7 @@ platform :ios do
   end
 
   lane :tests do |options|
-    run_tests(workspace: "CommonWallet.xcworkspace", clean: true, force_quit_simulator: true, prelaunch_simulator: true)
+    run_tests(workspace: ENV["CI_FASTLANE_BASE_NAME"] + ".xcworkspace", clean: true, force_quit_simulator: true, prelaunch_simulator: true)
   end
 
   lane :deploy_on_fabric do |options|
