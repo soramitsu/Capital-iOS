@@ -16,6 +16,7 @@ node('mac-ios-1') {
                     def scmVars = checkout scm
                     env.GIT_BRANCH = scmVars.GIT_BRANCH
                     env.GIT_COMMIT = scmVars.GIT_COMMIT
+                    sh "echo -e '#!/bin/bash\\necho username=\$GIT_USERNAME\\necho password=\$GIT_PASSWORD' > credential-helper.sh"
                     sh 'git config --global credential.helper "/bin/bash ' + env.WORKSPACE + '/credential-helper.sh"'
                     env.LC_ALL = 'en_US.UTF-8'
                     env.LANG = 'en_US.UTF-8'
