@@ -17,9 +17,9 @@ node('mac-ios-1') {
                     env.GIT_BRANCH = scmVars.GIT_BRANCH
                     env.GIT_COMMIT = scmVars.GIT_COMMIT
                     sh 'git config --global credential.helper "/bin/bash ' + env.WORKSPACE + '/credential-helper.sh"'
-                    env.FASTLANE_DISABLE_COLORS = '1'
                     env.LC_ALL = 'en_US.UTF-8'
                     env.LANG = 'en_US.UTF-8'
+                    env.FASTLANE_DISABLE_COLORS = '1'
                 }
                 stage('Add cocoapods repo') {
                     sh 'pod repo remove soramitsu || true'
@@ -40,6 +40,7 @@ node('mac-ios-1') {
                         }
                     }
                     stage('Set environment variables for app') {
+                        env.CI_FASTLANE_BASE_NAME = 'CommonWallet'
                         env.CI_FASTLANE_APP_ID = 'co.jp.soramitsu.capital'
                         env.CI_FASTLANE_TEAM_ID = 'YLWWUD25VZ'
                         env.CI_FASTLANE_ADHOC_ENABLE = 'true'
