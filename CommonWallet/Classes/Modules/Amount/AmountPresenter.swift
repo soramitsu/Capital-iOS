@@ -96,7 +96,7 @@ final class AmountPresenter {
         let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: assetTitle,
-                                                          symbol: selectedAsset.symbol.value(for: locale))
+                                                          symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
         var decimalAmount: Decimal?
@@ -182,7 +182,7 @@ final class AmountPresenter {
 
         assetSelectionViewModel.title = title
 
-        assetSelectionViewModel.symbol = newAsset.symbol.value(for: locale)
+        assetSelectionViewModel.symbol = newAsset.symbol
     }
 
     private func updateDescriptionViewModel() {

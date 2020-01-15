@@ -45,7 +45,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
             let walletAsset = WalletAsset(identifier: assetId,
-                                          symbol: LocalizableResource { _ in "A" },
+                                          symbol: "A",
                                           details: LocalizableResource { _ in UUID().uuidString })
             let withdrawOption = createRandomWithdrawOption()
 

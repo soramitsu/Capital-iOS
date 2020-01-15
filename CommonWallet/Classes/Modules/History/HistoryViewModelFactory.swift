@@ -89,7 +89,7 @@ final class HistoryViewModelFactory {
         }
 
         if let asset = assets[transaction.assetId] {
-            viewModel.amount = asset.symbol.value(for: locale) + amountDisplayString
+            viewModel.amount = asset.symbol + amountDisplayString
         } else {
             viewModel.amount = amountDisplayString
         }

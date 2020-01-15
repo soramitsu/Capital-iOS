@@ -9,12 +9,12 @@ import SoraFoundation
 
 public struct WalletAsset {
     
-    public let symbol: LocalizableResource<String>
+    public let symbol: String
     public let details: LocalizableResource<String>
     public let identifier: IRAssetId
 
     public init(identifier: IRAssetId,
-                symbol: LocalizableResource<String>,
+                symbol: String,
                 details: LocalizableResource<String>) {
         self.identifier = identifier
         self.symbol = symbol

@@ -61,7 +61,7 @@ final class AccountModuleViewModelFactory {
         }
 
         viewModel.details = asset.details.value(for: locale)
-        viewModel.symbol = asset.symbol.value(for: locale)
+        viewModel.symbol = asset.symbol
 
         return viewModel
     }

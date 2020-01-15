@@ -15,7 +15,7 @@ class HistoryViewModelFactoryTests: XCTestCase {
 
             let assetId = try IRAssetIdFactory.asset(withIdentifier: assetDataWithFee.assetId)
             let asset = WalletAsset(identifier: assetId,
-                                    symbol: LocalizableResource { _ in "" },
+                                    symbol: "",
                                     details: LocalizableResource { _ in "" })
 
             guard let type = WalletTransactionType.required.first(where: { !$0.isIncome })?.backendName else {

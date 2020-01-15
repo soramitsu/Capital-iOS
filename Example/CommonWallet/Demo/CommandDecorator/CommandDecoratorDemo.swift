@@ -91,22 +91,22 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
     func createAssets() throws -> [WalletAsset] {
         let soraAssetId = try IRAssetIdFactory.asset(withIdentifier: "sora#demo")
         let soraAsset = WalletAsset(identifier: soraAssetId,
-                                    symbol: LocalizableResource { _ in "ラ" },
+                                    symbol: "ラ",
                                     details: LocalizableResource { _ in "Sora economy" })
 
         let d3AssetId = try IRAssetIdFactory.asset(withIdentifier: "d3#demo")
         let d3Asset = WalletAsset(identifier: d3AssetId,
-                                  symbol: LocalizableResource { _ in "元" },
+                                  symbol: "元",
                                   details: LocalizableResource { _ in "Digital identity" })
 
         let vinceraAssetId = try IRAssetIdFactory.asset(withIdentifier: "vincera#demo")
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
-                                       symbol: LocalizableResource { _ in "る" },
+                                       symbol: "る",
                                        details: LocalizableResource { _ in "Pay for vine" })
 
         let moneaAssetId = try IRAssetIdFactory.asset(withIdentifier: "monea#demo")
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
-                                     symbol: LocalizableResource { _ in "金" },
+                                     symbol: "金",
                                      details: LocalizableResource { _ in "Fast money transfer" })
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]

@@ -81,7 +81,7 @@ final class WithdrawAmountPresenter {
         let title = assetTitleFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: title,
-                                                          symbol: selectedAsset.symbol.value(for: locale))
+                                                          symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = assets.count > 1
 
         amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(with: nil,
@@ -190,7 +190,7 @@ final class WithdrawAmountPresenter {
 
         assetSelectionViewModel.title = title
 
-        assetSelectionViewModel.symbol = newAsset.symbol.value(for: locale)
+        assetSelectionViewModel.symbol = newAsset.symbol
     }
 
     private func handleBalanceResponse(with optionalBalances: [BalanceData]?) {

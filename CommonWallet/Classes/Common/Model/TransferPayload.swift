@@ -10,5 +10,5 @@ import SoraFoundation
 struct TransferPayload {
     var transferInfo: TransferInfo
     var receiverName: String
-    var assetSymbol: LocalizableResource<String>
+    var assetSymbol: String
 }
