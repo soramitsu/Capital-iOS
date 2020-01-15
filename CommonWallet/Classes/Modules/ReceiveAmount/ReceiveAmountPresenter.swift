@@ -69,7 +69,7 @@ final class ReceiveAmountPresenter {
         let title = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset?.identifier,
                                                           title: title,
-                                                          symbol: selectedAsset?.symbol ?? "")
+                                                          symbol: selectedAsset?.symbol.value(for: locale) ?? "")
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
         amountInputViewModel = AmountInputViewModel(amount: currentAmount,
@@ -236,7 +236,7 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
 
         assetSelectionViewModel.title = title
 
-        assetSelectionViewModel.symbol = newAsset.symbol
+        assetSelectionViewModel.symbol = newAsset.symbol.value(for: locale)
     }
 
     func close() {

@@ -4,10 +4,11 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 struct TransferPayload {
     var transferInfo: TransferInfo
     var receiverName: String
-    var assetSymbol: String
+    var assetSymbol: LocalizableResource<String>
 }

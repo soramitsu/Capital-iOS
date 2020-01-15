@@ -108,7 +108,8 @@ final class WithdrawConfirmationPresenter {
             return accessoryViewModel
         }
 
-        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol, totalAmountString)
+        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol.value(for: locale),
+                                                             totalAmountString)
         accessoryViewModel.numberOfLines = 2
 
         return accessoryViewModel

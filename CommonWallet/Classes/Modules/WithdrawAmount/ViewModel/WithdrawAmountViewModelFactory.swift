@@ -87,7 +87,8 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
             return accessoryViewModel
         }
 
-        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol, amountString)
+        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol.value(for: locale),
+                                                             amountString)
         accessoryViewModel.numberOfLines = 2
 
         return accessoryViewModel

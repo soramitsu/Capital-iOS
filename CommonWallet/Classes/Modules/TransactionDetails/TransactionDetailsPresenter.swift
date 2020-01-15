@@ -64,7 +64,7 @@ final class TransactionDetailsPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let assetSymbol = asset?.symbol ?? ""
+        let assetSymbol = asset?.symbol.value(for: locale) ?? ""
         let amountString = resolver.amountFormatter.value(for: locale)
             .string(from: amount as NSNumber) ?? ""
 
