@@ -60,7 +60,7 @@ final class AccountModuleViewModelFactory {
             viewModel.amount = balance.balance
         }
 
-        viewModel.details = asset.details
+        viewModel.details = asset.details.value(for: locale)
         viewModel.symbol = asset.symbol
 
         return viewModel

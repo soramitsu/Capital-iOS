@@ -14,7 +14,9 @@ class HistoryViewModelFactoryTests: XCTestCase {
             var assetDataWithFee = try createRandomAssetTransactionData(includeFee: true)
 
             let assetId = try IRAssetIdFactory.asset(withIdentifier: assetDataWithFee.assetId)
-            let asset = WalletAsset(identifier: assetId, symbol: "", details: "")
+            let asset = WalletAsset(identifier: assetId,
+                                    symbol: "",
+                                    details: LocalizableResource { _ in "" })
 
             guard let type = WalletTransactionType.required.first(where: { !$0.isIncome })?.backendName else {
                 XCTFail("Unexpected type")

@@ -123,22 +123,22 @@ final class LocalizedDemo: DemoFactoryProtocol {
         let soraAssetId = try IRAssetIdFactory.asset(withIdentifier: "sora#demo")
         let soraAsset = WalletAsset(identifier: soraAssetId,
                                     symbol: "ラ",
-                                    details: "Sora economy")
+                                    details: LocalizableResource { _ in "Sora economy" })
 
         let d3AssetId = try IRAssetIdFactory.asset(withIdentifier: "d3#demo")
         let d3Asset = WalletAsset(identifier: d3AssetId,
                                   symbol: "元",
-                                  details: "Digital identity")
+                                  details: LocalizableResource { _ in "Digital identity" })
 
         let vinceraAssetId = try IRAssetIdFactory.asset(withIdentifier: "vincera#demo")
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
                                        symbol: "る",
-                                       details: "Pay for vine")
+                                       details: LocalizableResource { _ in "Pay for vine" })
 
         let moneaAssetId = try IRAssetIdFactory.asset(withIdentifier: "monea#demo")
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
                                      symbol: "金",
-                                     details: "Fast money transfer")
+                                     details: LocalizableResource { _ in "Fast money transfer" })
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]
     }

@@ -5,15 +5,17 @@
 
 import Foundation
 import IrohaCommunication
-
+import SoraFoundation
 
 public struct WalletAsset {
     
     public let symbol: String
-    public let details: String
+    public let details: LocalizableResource<String>
     public let identifier: IRAssetId
 
-    public init(identifier: IRAssetId, symbol: String, details: String) {
+    public init(identifier: IRAssetId,
+                symbol: String,
+                details: LocalizableResource<String>) {
         self.identifier = identifier
         self.symbol = symbol
         self.details = details
@@ -25,14 +27,10 @@ public struct WalletAsset {
 extension WalletAsset: Hashable {
     
     public static func == (lhs: WalletAsset, rhs: WalletAsset) -> Bool {
-        return lhs.symbol == rhs.symbol
-            && lhs.details == rhs.details
-            && lhs.identifier.identifier() == rhs.identifier.identifier()
+        return lhs.identifier.identifier() == rhs.identifier.identifier()
     }
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(symbol)
-        hasher.combine(details)
         hasher.combine(identifier.identifier())
     }
     

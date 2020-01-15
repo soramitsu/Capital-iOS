@@ -6,6 +6,7 @@
 import Foundation
 import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 import Cuckoo
 
 func createRandomAccountId() throws -> String {
@@ -35,7 +36,7 @@ func createRandomAccountSettings(for assetsCount: Int, withdrawOptionsCount: Int
         let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
         return WalletAsset(identifier: assetId,
                            symbol: String(index + 1),
-                           details: UUID().uuidString)
+                           details: LocalizableResource { _ in UUID().uuidString })
     }
 
     let withdrawOptions: [WalletWithdrawOption]

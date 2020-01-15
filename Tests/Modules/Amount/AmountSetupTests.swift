@@ -60,7 +60,9 @@ class AmountTests: NetworkBaseTests {
             // given
 
             let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
-            let walletAsset = WalletAsset(identifier: assetId, symbol: "A", details: UUID().uuidString)
+            let walletAsset = WalletAsset(identifier: assetId,
+                                          symbol: "A",
+                                          details: LocalizableResource { _ in UUID().uuidString })
             let accountSettings = try createRandomAccountSettings(for: [walletAsset],
                                                                   withdrawOptions: [])
 
