@@ -12,7 +12,7 @@ final class ReceiveAssetSelectionTitleFactory: AssetSelectionFactoryProtocol {
             return L10n.AssetSelection.noAsset
         }
 
-        return "\(asset.identifier.name.uppercased()), \(asset.symbol)"
+        return "\(asset.details), \(asset.symbol)"
     }
     
 }
