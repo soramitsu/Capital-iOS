@@ -4,8 +4,6 @@
 */
 
 import Foundation
-import SoraFoundation
-
 
 struct TransferPayload {
     var transferInfo: TransferInfo
