@@ -22,7 +22,8 @@ final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
             return L10n.AssetSelection.noAsset
         }
 
-        var title = "\(asset.details) - \(asset.symbol)"
+        let details = asset.details.value(for: locale)
+        var title = "\(details) - \(asset.symbol)"
 
         if let balanceData = balanceData,
             let value = Decimal(string: balanceData.balance),

@@ -12,7 +12,9 @@ final class ReceiveAssetSelectionTitleFactory: AssetSelectionFactoryProtocol {
             return L10n.AssetSelection.noAsset
         }
 
-        return "\(asset.details), \(asset.symbol)"
+        let details = asset.details.value(for: locale)
+
+        return "\(details), \(asset.symbol)"
     }
     
 }
