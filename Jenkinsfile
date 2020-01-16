@@ -22,15 +22,13 @@ node('mac-ios-1') {
                     env.LANG = 'en_US.UTF-8'
                     env.FASTLANE_DISABLE_COLORS = '1'
                 }
-                stage('Add cocoapods repo') {
-                    sh 'pod repo remove soramitsu || true'
-                    sh 'pod repo add soramitsu https://github.com/soramitsu/podspec-ios.git master || true'
-                }
                 stage('Test library') {
                     sh 'pod lib lint --verbose --allow-warnings'
                 }
                 if (env.TAG_NAME) {
                     stage('Push library to podspec-ios') {
+                        sh 'pod repo remove soramitsu || true'
+                        sh 'pod repo add soramitsu https://github.com/soramitsu/podspec-ios.git master || true'
                         sh 'pod repo push --verbose soramitsu CommonWallet.podspec'
                     }
                 }
