@@ -70,7 +70,7 @@ node('mac-ios-1') {
             } catch (e) {
                 currentBuild.result = 'FAILURE'
             } finally {
-                junit allowEmptyResults: true, keepLongStdio: true, testResults: 'fastlane/test_output/report.junit'
+                junit allowEmptyResults: true, keepLongStdio: true, testResults: 'Example/fastlane/test_output/report.junit'
                 sh 'git config --global --unset credential.helper || true'
                 cleanWs()
             }
