@@ -27,7 +27,7 @@ node('mac-ios-1') {
                     sh 'pod repo add soramitsu https://github.com/soramitsu/podspec-ios.git master || true'
                 }
                 stage('Test library') {
-                    sh 'pod lib lint --sources=soramitsu,master --verbose'
+                    sh 'pod lib lint --verbose --allow-warnings'
                 }
                 if (env.TAG_NAME) {
                     stage('Push library to podspec-ios') {
