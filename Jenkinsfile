@@ -26,10 +26,8 @@ node('mac-ios-1') {
                     sh 'pod lib lint --verbose --allow-warnings'
                 }
                 if (env.TAG_NAME) {
-                    stage('Push library to podspec-ios') {
-                        sh 'pod repo remove soramitsu || true'
-                        sh 'pod repo add soramitsu https://github.com/soramitsu/podspec-ios.git master || true'
-                        sh 'pod repo push --verbose soramitsu CommonWallet.podspec'
+                    stage('Push library') {
+                        sh 'pod trunk push --verbose'
                     }
                 }
                 if (!env.TAG_NAME) {
