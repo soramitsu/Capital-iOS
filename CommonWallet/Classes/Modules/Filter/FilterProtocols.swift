@@ -32,14 +32,11 @@ protocol FilterPresenterProtocol: class {
     
     func setup()
     func reset()
-    func dismiss()
-    
+    func apply()
 }
 
 
-protocol FilterCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
-    func dismiss()
-}
+protocol FilterCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {}
 
 
 protocol FilterAssemblyProtocol: class {

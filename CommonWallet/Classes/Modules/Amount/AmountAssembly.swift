@@ -9,12 +9,10 @@ import SoraFoundation
 final class AmountAssembly: AmountAssemblyProtocol {
     
     static func assembleView(with resolver: ResolverProtocol,
-                             payload: AmountPayload,
-                             shouldPrepareModalPresentation: Bool) -> AmountViewProtocol? {
+                             payload: AmountPayload) -> AmountViewProtocol? {
         do {
             let view = AmountViewController(nibName: "AmountViewController", bundle: Bundle(for: self))
 
-            view.shouldShowModalPresentationItems = shouldPrepareModalPresentation
             view.style = resolver.style
             view.accessoryFactory = AccessoryViewFactory.self
 

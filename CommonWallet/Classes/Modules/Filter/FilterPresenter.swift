@@ -190,12 +190,10 @@ extension FilterPresenter: FilterPresenterProtocol {
         selectedTypeFilter = typeFilters.first
         reload()
     }
-    
-    func dismiss() {
+
+    func apply() {
         filteringInstance.set(filter: finalFilter)
-        coordinator.dismiss()
     }
-    
 }
 
 

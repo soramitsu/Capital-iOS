@@ -246,10 +246,55 @@ class FilterTests: XCTestCase {
         }
     }
 
+    func testFilterApply() {
+        do {
+            // given
+
+            let assetsCount = 1
+            let accountSettings = try createRandomAccountSettings(for: assetsCount)
+
+            let transactionTypesCount = 4
+            let transactionTypes = (0..<transactionTypesCount).map { _ in createRandomTransactionType() }
+
+            let typeFilters = WalletTransactionTypeFilter.createAllFilters(from: transactionTypes)
+
+            let expectedViewModelCount = FilterTests.numberOfDates + typeFilters.count + 1
+
+            let filterable = MockFilterable()
+
+            let (presenter, _) = performSetupTest(filterable: filterable,
+                                                  accountSettings: accountSettings,
+                                                  typeFilters: typeFilters,
+                                                  filter: nil,
+                                                  expectedViewModelCount: expectedViewModelCount)
+
+            let expectation = XCTestExpectation()
+
+            stub(filterable) { stub in
+                when(stub).set(filter: any()).then { _ in
+                    expectation.fulfill()
+                }
+            }
+
+            // when
+
+            presenter.apply()
+
+            // then
+
+            wait(for: [expectation], timeout: Constants.networkTimeout)
+
+        } catch {
+            XCTFail("Unexpected error \(error)")
+        }
+
+    }
+
     // MARK: Private
 
     func performSetupTest(for view: MockFilterViewProtocol = MockFilterViewProtocol(),
                           coordinator: MockFilterCoordinatorProtocol = MockFilterCoordinatorProtocol(),
+                          filterable: Filterable = MockFilterable(),
                           accountSettings: WalletAccountSettingsProtocol,
                           typeFilters: [WalletTransactionTypeFilter],
                           filter: WalletHistoryRequest?,
@@ -257,8 +302,6 @@ class FilterTests: XCTestCase {
         // given
 
         let resolver = MockResolverProtocol()
-
-        let filterable = MockFilterable()
 
         let presenter = FilterPresenter(view: view,
                                         coordinator: coordinator,

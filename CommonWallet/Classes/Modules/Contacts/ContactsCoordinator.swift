@@ -16,8 +16,7 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
     
     func send(to payload: AmountPayload) {
         guard let amountView = AmountAssembly.assembleView(with: resolver,
-                                                           payload: payload,
-                                                           shouldPrepareModalPresentation: false) else {
+                                                           payload: payload) else {
             return
         }
         
@@ -30,9 +29,5 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
         }
 
         resolver.navigation?.push(scanView.controller)
-    }
-    
-    func dismiss() {
-        resolver.navigation?.dismiss()
     }
 }

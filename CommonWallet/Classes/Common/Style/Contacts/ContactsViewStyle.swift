@@ -12,7 +12,6 @@ public protocol ContactsViewStyleProtocol {
     var searchTextStyle: WalletTextStyleProtocol { get }
     var searchIndicatorStyle: UIColor { get }
     var searchFieldColor: UIColor { get }
-    var closeIcon: UIImage? { get }
     var searchIcon: UIImage? { get }
     var separatorColor: UIColor { get }
     var actionsSeparator: WalletStrokeStyleProtocol { get }
@@ -25,7 +24,6 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
     public var searchTextStyle: WalletTextStyleProtocol
     public var searchFieldColor: UIColor
     public var searchIndicatorStyle: UIColor
-    public var closeIcon: UIImage?
     public var searchIcon: UIImage?
     public var separatorColor: UIColor
     public var actionsSeparator: WalletStrokeStyleProtocol
@@ -35,7 +33,6 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
                 searchTextStyle: WalletTextStyleProtocol,
                 searchFieldColor: UIColor,
                 searchIndicatorStyle: UIColor,
-                closeIcon: UIImage?,
                 searchIcon: UIImage?,
                 separatorColor: UIColor,
                 actionsSeparator: WalletStrokeStyleProtocol) {
@@ -44,7 +41,6 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
         self.searchHeaderBackgroundColor = searchHeaderBackgroundColor
         self.searchFieldColor = searchFieldColor
         self.searchIndicatorStyle = searchIndicatorStyle
-        self.closeIcon = closeIcon
         self.searchIcon = searchIcon
         self.separatorColor = separatorColor
         self.actionsSeparator = actionsSeparator
@@ -63,7 +59,6 @@ extension ContactsViewStyle {
                                  searchTextStyle: searchTextStyle,
                                  searchFieldColor: .search,
                                  searchIndicatorStyle: .greyText,
-                                 closeIcon: style.closeIcon,
                                  searchIcon: searchIcon,
                                  separatorColor: style.thinBorderColor,
                                  actionsSeparator: WalletStrokeStyle(color: style.accentColor))
