@@ -79,7 +79,7 @@ public final class CommonWalletBuilder {
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
-    fileprivate lazy var feeDisplayStrategy: FeeDisplayStrategyProtocol = FeeDisplayStrategyAlways()
+    fileprivate lazy var feeDisplayStrategy: FeeDisplayStrategyProtocol = FeedDisplayStrategyNonzero()
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatter: LocalizableResource<NumberFormatter>?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
