@@ -38,7 +38,8 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
                                                     resolver: resolver,
                                                     transactionData: transactionDetails,
                                                     transactionType: transactionType,
-                                                    accessoryViewModelFactory: accessoryViewModelFactory)
+                                                    accessoryViewModelFactory: accessoryViewModelFactory,
+                                                    feeDisplayStrategy: resolver.feeDisplayStrategy)
         view.presenter = presenter
 
         presenter.localizationManager = localizationManager

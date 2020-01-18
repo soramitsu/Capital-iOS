@@ -47,7 +47,8 @@ class ConfirmationTests: NetworkBaseTests {
                                                   resolver: resolver,
                                                   payload: transferPayload,
                                                   accessoryViewModelFactory: accessoryViewModelFactory,
-                                                  eventCenter: eventCenter)
+                                                  eventCenter: eventCenter,
+                                                  feeDisplayStrategy: FeedDisplayStrategyNonzero())
 
             // when
 

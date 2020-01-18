@@ -32,7 +32,8 @@ class TransferResultTests: NetworkBaseTests {
             let presenter = TransferResultPresenter(view: view,
                                                     coordinator: coordinator,
                                                     payload: transferPayload,
-                                                    resolver: resolver)
+                                                    resolver: resolver,
+                                                    feeDisplayStrategy: FeedDisplayStrategyNonzero())
 
             // when
 

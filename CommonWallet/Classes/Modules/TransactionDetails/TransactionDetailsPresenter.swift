@@ -17,6 +17,7 @@ final class TransactionDetailsPresenter {
     let transactionData: AssetTransactionData
     let transactionType: WalletTransactionType
     let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
+    let feeDisplayStrategy: FeeDisplayStrategyProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
@@ -24,7 +25,8 @@ final class TransactionDetailsPresenter {
          resolver: ResolverProtocol,
          transactionData: AssetTransactionData,
          transactionType: WalletTransactionType,
-         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol) {
+         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
+         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.configuration = configuration
@@ -32,6 +34,7 @@ final class TransactionDetailsPresenter {
         self.transactionData = transactionData
         self.transactionType = transactionType
         self.accessoryViewModelFactory = accessoryViewModelFactory
+        self.feeDisplayStrategy = feeDisplayStrategy
     }
 
     private func createStatusViewModel(for status: AssetTransactionStatus) -> WalletFormViewModel {
@@ -99,15 +102,13 @@ final class TransactionDetailsPresenter {
         return nil
     }
 
-    private func createAmountFactorViewModels() -> [WalletFormViewModel] {
+    private func createAmountViewModels() -> [WalletFormViewModel] {
         guard let amount = Decimal(string: transactionData.amount) else {
             return []
         }
 
         if !transactionType.isIncome,
-            let feeString = transactionData.fee,
-            let fee = Decimal(string: feeString),
-            fee > 0.0 {
+            let fee = feeDisplayStrategy.decimalValue(from: transactionData.fee) {
             
             let totalAmount = amount + fee
 
@@ -169,7 +170,7 @@ final class TransactionDetailsPresenter {
             viewModels.append(peerViewModel)
         }
 
-        viewModels.append(contentsOf: createAmountFactorViewModels())
+        viewModels.append(contentsOf: createAmountViewModels())
 
         if !transactionData.details.isEmpty {
             let descriptionViewModel = WalletFormViewModel(layoutType: .details,

@@ -35,7 +35,8 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
                                                       withdrawOption: option,
                                                       style: resolver.style,
                                                       amountFormatter: resolver.amountFormatter,
-                                                      eventCenter: resolver.eventCenter)
+                                                      eventCenter: resolver.eventCenter,
+                                                      feeDisplayStrategy: resolver.feeDisplayStrategy)
         view.presenter = presenter
 
         presenter.localizationManager = localizationManager
