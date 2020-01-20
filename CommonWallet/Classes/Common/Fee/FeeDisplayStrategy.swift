@@ -4,7 +4,7 @@ public protocol FeeDisplayStrategyProtocol {
     func decimalValue(from feeString: String?) -> Decimal?
 }
 
-public struct FeedDisplayStrategyNonzero: FeeDisplayStrategyProtocol {
+public struct FeedDisplayStrategyIfNonzero: FeeDisplayStrategyProtocol {
 
     public init() {}
 

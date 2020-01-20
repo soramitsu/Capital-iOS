@@ -31,7 +31,7 @@ class WithdrawResultTests: NetworkBaseTests {
                                                     style: WalletStyle(),
                                                     amountFormatter: NumberFormatter().localizableResource(),
                                                     dateFormatter: DateFormatter().localizableResource(),
-                                                    feeDisplayStrategy: FeedDisplayStrategyNonzero())
+                                                    feeDisplayStrategy: FeedDisplayStrategyIfNonzero())
 
             // when
 

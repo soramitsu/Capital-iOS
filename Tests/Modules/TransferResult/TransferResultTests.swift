@@ -33,7 +33,7 @@ class TransferResultTests: NetworkBaseTests {
                                                     coordinator: coordinator,
                                                     payload: transferPayload,
                                                     resolver: resolver,
-                                                    feeDisplayStrategy: FeedDisplayStrategyNonzero())
+                                                    feeDisplayStrategy: FeedDisplayStrategyIfNonzero())
 
             // when
 

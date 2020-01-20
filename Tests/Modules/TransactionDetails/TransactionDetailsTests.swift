@@ -50,7 +50,7 @@ class TransactionDetailsTests: XCTestCase {
                                                         transactionData: transactionData,
                                                         transactionType: transactionType,
                                                         accessoryViewModelFactory: accessoryViewModelFactory,
-                                                        feeDisplayStrategy: FeedDisplayStrategyNonzero())
+                                                        feeDisplayStrategy: FeedDisplayStrategyIfNonzero())
 
             // when
 
