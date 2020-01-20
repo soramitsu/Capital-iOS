@@ -30,7 +30,8 @@ class WithdrawResultTests: NetworkBaseTests {
                                                     withdrawOption: accountSettings.withdrawOptions[0],
                                                     style: WalletStyle(),
                                                     amountFormatter: NumberFormatter().localizableResource(),
-                                                    dateFormatter: DateFormatter().localizableResource())
+                                                    dateFormatter: DateFormatter().localizableResource(),
+                                                    feeDisplayStrategy: FeedDisplayStrategyIfNonzero())
 
             // when
 

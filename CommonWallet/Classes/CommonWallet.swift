@@ -29,6 +29,9 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(feeCalculationFactory: FeeCalculationFactoryProtocol) -> Self
 
     @discardableResult
+    func with(feeDisplayStrategy: FeeDisplayStrategyProtocol) -> Self
+
+    @discardableResult
     func with(amountFormatter: LocalizableResource<NumberFormatter>) -> Self
 
     @discardableResult
@@ -76,6 +79,7 @@ public final class CommonWalletBuilder {
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
+    fileprivate lazy var feeDisplayStrategy: FeeDisplayStrategyProtocol = FeedDisplayStrategyIfNonzero()
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatter: LocalizableResource<NumberFormatter>?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
@@ -150,6 +154,12 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
     public func with(feeCalculationFactory: FeeCalculationFactoryProtocol) -> Self {
         self.feeCalculationFactory = feeCalculationFactory
+
+        return self
+    }
+
+    public func with(feeDisplayStrategy: FeeDisplayStrategyProtocol) -> Self {
+        self.feeDisplayStrategy = feeDisplayStrategy
 
         return self
     }
@@ -237,7 +247,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 receiveConfiguration: receiveConfiguration,
                                 transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 inputValidatorFactory: decorator,
-                                feeCalculationFactory: feeCalculationFactory)
+                                feeCalculationFactory: feeCalculationFactory,
+                                feeDisplayStrategy: feeDisplayStrategy)
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
 

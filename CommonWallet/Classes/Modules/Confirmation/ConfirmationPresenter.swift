@@ -18,6 +18,7 @@ final class ConfirmationPresenter {
     let resolver: ResolverProtocol
     let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
     let eventCenter: WalletEventCenterProtocol
+    let feeDisplayStrategy: FeeDisplayStrategyProtocol
 
     var logger: WalletLoggerProtocol?
 
@@ -27,7 +28,8 @@ final class ConfirmationPresenter {
          resolver: ResolverProtocol,
          payload: TransferPayload,
          accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
-         eventCenter: WalletEventCenterProtocol) {
+         eventCenter: WalletEventCenterProtocol,
+         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.service = service
@@ -35,6 +37,7 @@ final class ConfirmationPresenter {
         self.resolver = resolver
         self.accessoryViewModelFactory = accessoryViewModelFactory
         self.eventCenter = eventCenter
+        self.feeDisplayStrategy = feeDisplayStrategy
     }
 
     private func handleTransfer(result: Result<Void, Error>) {
@@ -46,24 +49,6 @@ final class ConfirmationPresenter {
         case .failure:
             view?.showError(message: L10n.Transaction.Error.fail)
         }
-    }
-
-    private func prepareFeeViewModel() -> WalletFormViewModel? {
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-
-        guard
-            let feeString = payload.transferInfo.fee?.value,
-            let feeDecimal = Decimal(string: feeString),
-            let formattedAmount = resolver.amountFormatter.value(for: locale)
-                .string(from: feeDecimal as NSNumber) else {
-            return nil
-        }
-
-        let details = "\(payload.assetSymbol)\(formattedAmount)"
-
-        return WalletFormViewModel(layoutType: .accessory,
-                                   title: L10n.Amount.fee,
-                                   details: details)
     }
 
     private func prepareSingleAmountViewModel(for amount: String) -> WalletFormViewModel {
@@ -89,8 +74,8 @@ final class ConfirmationPresenter {
         let amount = "\(payload.assetSymbol)\(formattedAmount)"
 
         guard
-            let feeString = payload.transferInfo.fee?.value,
-            let decimalFee = Decimal(string: feeString),
+            let decimalFee = feeDisplayStrategy
+                .decimalValue(from: payload.transferInfo.fee?.value),
             let formattedFee = resolver.amountFormatter.value(for: locale)
                 .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)

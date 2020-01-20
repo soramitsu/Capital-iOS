@@ -1100,6 +1100,102 @@ import Cuckoo
 import Foundation
 
 
+public class MockFeeDisplayStrategyProtocol: FeeDisplayStrategyProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = FeeDisplayStrategyProtocol
+    
+    public typealias Stubbing = __StubbingProxy_FeeDisplayStrategyProtocol
+    public typealias Verification = __VerificationProxy_FeeDisplayStrategyProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: FeeDisplayStrategyProtocol?
+
+    public func enableDefaultImplementation(_ stub: FeeDisplayStrategyProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func decimalValue(from feeString: String?) -> Decimal? {
+        
+    return cuckoo_manager.call("decimalValue(from: String?) -> Decimal?",
+            parameters: (feeString),
+            escapingParameters: (feeString),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.decimalValue(from: feeString))
+        
+    }
+    
+
+	public struct __StubbingProxy_FeeDisplayStrategyProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func decimalValue<M1: Cuckoo.OptionalMatchable>(from feeString: M1) -> Cuckoo.ProtocolStubFunction<(String?), Decimal?> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: feeString) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockFeeDisplayStrategyProtocol.self, method: "decimalValue(from: String?) -> Decimal?", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_FeeDisplayStrategyProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func decimalValue<M1: Cuckoo.OptionalMatchable>(from feeString: M1) -> Cuckoo.__DoNotUse<(String?), Decimal?> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: feeString) { $0 }]
+	        return cuckoo_manager.verify("decimalValue(from: String?) -> Decimal?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class FeeDisplayStrategyProtocolStub: FeeDisplayStrategyProtocol {
+    
+
+    
+
+    
+    public func decimalValue(from feeString: String?) -> Decimal?  {
+        return DefaultValueRegistry.defaultValue(for: (Decimal?).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
 public class MockWalletLoggerProtocol: WalletLoggerProtocol, Cuckoo.ProtocolMock {
     
     public typealias MocksType = WalletLoggerProtocol
@@ -1633,6 +1729,20 @@ import SoraFoundation
     
     
     
+     var feeDisplayStrategy: FeeDisplayStrategyProtocol {
+        get {
+            return cuckoo_manager.getter("feeDisplayStrategy",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.feeDisplayStrategy)
+        }
+        
+    }
+    
+    
+    
      var qrCoderFactory: WalletQRCoderFactoryProtocol {
         get {
             return cuckoo_manager.getter("qrCoderFactory",
@@ -1763,6 +1873,11 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var feeDisplayStrategy: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, FeeDisplayStrategyProtocol> {
+	        return .init(manager: cuckoo_manager, name: "feeDisplayStrategy")
+	    }
+	    
+	    
 	    var qrCoderFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletQRCoderFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "qrCoderFactory")
 	    }
@@ -1885,6 +2000,11 @@ import SoraFoundation
 	    
 	    var feeCalculationFactory: Cuckoo.VerifyReadOnlyProperty<FeeCalculationFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "feeCalculationFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var feeDisplayStrategy: Cuckoo.VerifyReadOnlyProperty<FeeDisplayStrategyProtocol> {
+	        return .init(manager: cuckoo_manager, name: "feeDisplayStrategy", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2063,6 +2183,14 @@ import SoraFoundation
      var feeCalculationFactory: FeeCalculationFactoryProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (FeeCalculationFactoryProtocol).self)
+        }
+        
+    }
+    
+    
+     var feeDisplayStrategy: FeeDisplayStrategyProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (FeeDisplayStrategyProtocol).self)
         }
         
     }

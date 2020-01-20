@@ -30,7 +30,8 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
                                                 withdrawOption: option,
                                                 style: resolver.style,
                                                 amountFormatter: resolver.amountFormatter,
-                                                dateFormatter: resolver.statusDateFormatter)
+                                                dateFormatter: resolver.statusDateFormatter,
+                                                feeDisplayStrategy: resolver.feeDisplayStrategy)
         view.presenter = presenter
 
         presenter.localizationManager = localizationManager

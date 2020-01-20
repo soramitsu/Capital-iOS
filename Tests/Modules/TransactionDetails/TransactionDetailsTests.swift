@@ -49,7 +49,8 @@ class TransactionDetailsTests: XCTestCase {
                                                         resolver: resolver,
                                                         transactionData: transactionData,
                                                         transactionType: transactionType,
-                                                        accessoryViewModelFactory: accessoryViewModelFactory)
+                                                        accessoryViewModelFactory: accessoryViewModelFactory,
+                                                        feeDisplayStrategy: FeedDisplayStrategyIfNonzero())
 
             // when
 

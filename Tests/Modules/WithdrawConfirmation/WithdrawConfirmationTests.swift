@@ -40,7 +40,8 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                                           withdrawOption: accountSettings.withdrawOptions[0],
                                                           style: WalletStyle(),
                                                           amountFormatter: NumberFormatter().localizableResource(),
-                                                          eventCenter: eventCenter)
+                                                          eventCenter: eventCenter,
+                                                          feeDisplayStrategy: FeedDisplayStrategyIfNonzero())
 
             // when
 

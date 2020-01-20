@@ -16,6 +16,7 @@ final class WithdrawResultPresenter {
     let style: WalletStyleProtocol
     let amountFormatter: LocalizableResource<NumberFormatter>
     let dateFormatter: LocalizableResource<DateFormatter>
+    let feeDisplayStrategy: FeeDisplayStrategyProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: WithdrawResultCoordinatorProtocol,
@@ -24,7 +25,8 @@ final class WithdrawResultPresenter {
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
          amountFormatter: LocalizableResource<NumberFormatter>,
-         dateFormatter: LocalizableResource<DateFormatter>) {
+         dateFormatter: LocalizableResource<DateFormatter>,
+         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.withdrawInfo = withdrawInfo
@@ -33,6 +35,7 @@ final class WithdrawResultPresenter {
         self.withdrawOption = withdrawOption
         self.amountFormatter = amountFormatter
         self.dateFormatter = dateFormatter
+        self.feeDisplayStrategy = feeDisplayStrategy
     }
 
     private func createAmountViewModel() -> WalletFormViewModelProtocol {
@@ -54,7 +57,7 @@ final class WithdrawResultPresenter {
     }
 
     private func createFeeViewModel() -> WalletFormViewModelProtocol? {
-        guard let fee = withdrawInfo.fee else {
+        guard let fee = feeDisplayStrategy.decimalValue(from: withdrawInfo.fee?.value) else {
             return nil
         }
 
@@ -62,11 +65,10 @@ final class WithdrawResultPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        if let feeDecimal = Decimal(string: fee.value),
-            let formatterFee = amountFormatter.value(for: locale).string(from: feeDecimal as NSNumber) {
+        if let formatterFee = amountFormatter.value(for: locale).string(from: fee as NSNumber) {
             details = "\(asset.symbol)\(formatterFee)"
         } else {
-            details = "\(asset.symbol)\(fee.value)"
+            details = "\(asset.symbol)\(fee)"
         }
 
         return WalletFormViewModel(layoutType: .accessory,
@@ -76,8 +78,7 @@ final class WithdrawResultPresenter {
 
     private func createTotalAmountViewModel() -> WalletFormViewModelProtocol? {
         guard
-            let fee = withdrawInfo.fee,
-            let feeDecimal = Decimal(string: fee.value),
+            let feeDecimal = feeDisplayStrategy.decimalValue(from: withdrawInfo.fee?.value),
             let amountDecimal = Decimal(string: withdrawInfo.amount.value) else {
                 return nil
         }
