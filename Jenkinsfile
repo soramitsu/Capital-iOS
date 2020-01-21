@@ -27,7 +27,7 @@ node('mac-ios-1') {
                 }
                 if (env.TAG_NAME) {
                     stage('Push library') {
-                        sh 'pod trunk push --verbose'
+                        sh 'pod trunk push --verbose --allow-warnings'
                     }
                 }
                 if (!env.TAG_NAME) {
