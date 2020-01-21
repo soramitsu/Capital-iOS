@@ -56,8 +56,7 @@ final class ContactsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupDismiss()
+
         setupTableView()
         setupLocalization()
         applyStyle()
@@ -69,14 +68,6 @@ final class ContactsViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         searchField.resignFirstResponder()
-    }
-    
-    private func setupDismiss() {
-        let dismissItem = UIBarButtonItem(image: configuration?.viewStyle.closeIcon,
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(close))
-        self.navigationItem.leftBarButtonItem = dismissItem
     }
     
     private func setupTableView() {
@@ -112,10 +103,6 @@ final class ContactsViewController: UIViewController {
         if let caretColor = style?.caretColor {
             searchField.tintColor = caretColor
         }
-    }
-    
-    @objc private func close() {
-        presenter.dismiss()
     }
 
 }

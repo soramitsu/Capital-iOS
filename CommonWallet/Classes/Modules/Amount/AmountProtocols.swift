@@ -28,6 +28,5 @@ protocol AmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
 
 protocol AmountAssemblyProtocol: class {
     static func assembleView(with resolver: ResolverProtocol,
-                             payload: AmountPayload,
-                             shouldPrepareModalPresentation: Bool) -> AmountViewProtocol?
+                             payload: AmountPayload) -> AmountViewProtocol?
 }

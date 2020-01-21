@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Cuckoo
 @testable import CommonWallet
 
@@ -3837,21 +3842,6 @@ import Cuckoo
         
     }
     
-    
-    
-     func dismiss()  {
-        
-    return cuckoo_manager.call("dismiss()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.dismiss())
-        
-    }
-    
 
 	 struct __StubbingProxy_ContactsPresenterProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -3869,11 +3859,6 @@ import Cuckoo
 	    func search<M1: Cuckoo.Matchable>(_ pattern: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
 	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: pattern) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockContactsPresenterProtocol.self, method: "search(_: String)", parameterMatchers: matchers))
-	    }
-	    
-	    func dismiss() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockContactsPresenterProtocol.self, method: "dismiss()", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3904,12 +3889,6 @@ import Cuckoo
 	        return cuckoo_manager.verify("search(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
-	    @discardableResult
-	    func dismiss() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("dismiss()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
 	}
 }
 
@@ -3924,10 +3903,6 @@ import Cuckoo
     }
     
      func search(_ pattern: String)   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func dismiss()   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -3988,21 +3963,6 @@ import Cuckoo
         
     }
     
-    
-    
-     func dismiss()  {
-        
-    return cuckoo_manager.call("dismiss()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.dismiss())
-        
-    }
-    
 
 	 struct __StubbingProxy_ContactsCoordinatorProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -4020,11 +3980,6 @@ import Cuckoo
 	    func scanInvoice() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockContactsCoordinatorProtocol.self, method: "scanInvoice()", parameterMatchers: matchers))
-	    }
-	    
-	    func dismiss() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockContactsCoordinatorProtocol.self, method: "dismiss()", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4055,12 +4010,6 @@ import Cuckoo
 	        return cuckoo_manager.verify("scanInvoice()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
-	    @discardableResult
-	    func dismiss() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("dismiss()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
 	}
 }
 
@@ -4075,10 +4024,6 @@ import Cuckoo
     }
     
      func scanInvoice()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func dismiss()   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -4670,16 +4615,16 @@ import Cuckoo
     
     
     
-     func dismiss()  {
+     func apply()  {
         
-    return cuckoo_manager.call("dismiss()",
+    return cuckoo_manager.call("apply()",
             parameters: (),
             escapingParameters: (),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.dismiss())
+            defaultCall: __defaultImplStub!.apply())
         
     }
     
@@ -4702,9 +4647,9 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockFilterPresenterProtocol.self, method: "reset()", parameterMatchers: matchers))
 	    }
 	    
-	    func dismiss() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	    func apply() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterPresenterProtocol.self, method: "dismiss()", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockFilterPresenterProtocol.self, method: "apply()", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4736,9 +4681,9 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func dismiss() -> Cuckoo.__DoNotUse<(), Void> {
+	    func apply() -> Cuckoo.__DoNotUse<(), Void> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("dismiss()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("apply()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -4758,7 +4703,7 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func dismiss()   {
+     func apply()   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -4805,21 +4750,6 @@ import Cuckoo
     
     
     
-     func dismiss()  {
-        
-    return cuckoo_manager.call("dismiss()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.dismiss())
-        
-    }
-    
-    
-    
      func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)  {
         
     return cuckoo_manager.call("presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)",
@@ -4862,11 +4792,6 @@ import Cuckoo
 	    }
 	    
 	    
-	    func dismiss() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "dismiss()", parameterMatchers: matchers))
-	    }
-	    
 	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<([String], Int, ModalPickerViewDelegate?)> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
 	        let matchers: [Cuckoo.ParameterMatcher<([String], Int, ModalPickerViewDelegate?)>] = [wrap(matchable: titles) { $0.0 }, wrap(matchable: initialIndex) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
@@ -4899,12 +4824,6 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func dismiss() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("dismiss()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
 	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.__DoNotUse<([String], Int, ModalPickerViewDelegate?), Void> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
 	        let matchers: [Cuckoo.ParameterMatcher<([String], Int, ModalPickerViewDelegate?)>] = [wrap(matchable: titles) { $0.0 }, wrap(matchable: initialIndex) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
 	        return cuckoo_manager.verify("presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
@@ -4932,10 +4851,6 @@ import Cuckoo
 
     
 
-    
-     func dismiss()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
     
      func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)

@@ -105,6 +105,8 @@ final class Navigation: NavigationProtocol {
             let navigationController = WalletNavigationController(rootViewController: controller)
             navigationController.navigationBarStyle = style.navigationBarStyle
             presentedController = navigationController
+
+            setupCloseButton(into: controller)
         } else {
             presentedController = controller
         }
@@ -117,5 +119,19 @@ final class Navigation: NavigationProtocol {
             presentingController.dismiss(animated: animated, completion: nil)
         }
     }
-    
+
+    // MARK: Private
+
+    private func setupCloseButton(into viewController: UIViewController) {
+        let closeButtonItem = UIBarButtonItem(image: style.closeIcon,
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(closeModalController))
+
+        viewController.navigationItem.leftBarButtonItem = closeButtonItem
+    }
+
+    @objc private func closeModalController() {
+        dismiss(animated: true)
+    }
 }

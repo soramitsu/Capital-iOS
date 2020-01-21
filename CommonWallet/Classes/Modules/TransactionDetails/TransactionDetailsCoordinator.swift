@@ -15,8 +15,7 @@ final class TransactionDetailsCoordinator: TransactionDetailsCoordinatorProtocol
 
     func send(to payload: AmountPayload) {
         guard let amountView = AmountAssembly.assembleView(with: resolver,
-                                                           payload: payload,
-                                                           shouldPrepareModalPresentation: true) else {
+                                                           payload: payload) else {
             return
         }
 

@@ -70,7 +70,6 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupCloseButton()
         adjustLayout()
         applyStyle()
 
@@ -97,14 +96,6 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private func adjustLayout() {
         updateLayoutConstraints(for: layoutState)
-    }
-
-    private func setupCloseButton() {
-        let closeBarItem = UIBarButtonItem(image: style?.closeIcon,
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(actionClose))
-        navigationItem.leftBarButtonItem = closeBarItem
     }
 
     private func applyStyle() {
@@ -244,10 +235,6 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     @IBAction private func actionAssetControlDidChange() {
         presenter.presentAssetSelection()
-    }
-
-    @objc private func actionClose() {
-        presenter.close()
     }
 }
 

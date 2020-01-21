@@ -14,8 +14,4 @@ final class FilterCoordinator: FilterCoordinatorProtocol {
         self.resolver = resolver
     }
     
-    func dismiss() {
-        resolver.navigation?.dismiss()
-    }
-    
 }

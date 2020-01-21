@@ -223,10 +223,6 @@ extension ContactsPresenter: ContactsPresenterProtocol {
         scheduleSearch()
     }
     
-    func dismiss() {
-        coordinator.dismiss()
-    }
-    
 }
 
 extension ContactsPresenter: ContactViewModelDelegate {

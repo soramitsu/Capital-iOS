@@ -24,11 +24,6 @@ final class FilterViewController: UIViewController {
     override var navigationItem: UINavigationItem {
         let navigationItem = super.navigationItem
 
-        let closeButton = UIBarButtonItem(image: style?.closeIcon,
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(close))
-
         let resetButton = UIBarButtonItem(title: L10n.Filter.reset,
                                           style: .plain,
                                           target: self,
@@ -43,7 +38,6 @@ final class FilterViewController: UIViewController {
 
         resetButton.tintColor = style?.accentColor
 
-        navigationItem.leftBarButtonItem = closeButton
         navigationItem.rightBarButtonItem = resetButton
 
         navigationItem.title = L10n.Filter.title
@@ -76,6 +70,12 @@ final class FilterViewController: UIViewController {
 
         presenter.setup()
     }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        presenter.apply()
+    }
     
     private func setupTable() {
         let tableFooterFrame = CGRect(origin: .zero, size: CGSize(width: tableView.bounds.size.width, height: 1.0))
@@ -97,10 +97,6 @@ final class FilterViewController: UIViewController {
     
     @objc private func resetFilter() {
         presenter.reset()
-    }
-    
-    @objc private func close() {
-        presenter.dismiss()
     }
     
 }
