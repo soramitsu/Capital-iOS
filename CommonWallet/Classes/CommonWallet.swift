@@ -61,6 +61,9 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(language: WalletLanguage) -> Self
 
+    @discardableResult
+    func with(amountInputPrecision: UInt8) -> Self
+
     func build() throws -> CommonWalletContextProtocol
 }
 
@@ -90,6 +93,7 @@ public final class CommonWalletBuilder {
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
     fileprivate var qrCoderFactory: WalletQRCoderFactoryProtocol?
     fileprivate var language: WalletLanguage = .english
+    fileprivate var amountInputPrecision: UInt8 = 2
 
     init(account: WalletAccountSettingsProtocol, networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
         self.account = account
@@ -216,6 +220,12 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
+    @discardableResult
+    public func with(amountInputPrecision: UInt8) -> Self {
+        self.amountInputPrecision = amountInputPrecision
+        return self
+    }
+
     public func build() throws -> CommonWalletContextProtocol {
         let style = privateStyleBuilder.build()
 
@@ -248,7 +258,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplayStrategy: feeDisplayStrategy)
+                                feeDisplayStrategy: feeDisplayStrategy,
+                                amountInputPrecision: amountInputPrecision)
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
 

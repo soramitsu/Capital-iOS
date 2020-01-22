@@ -26,7 +26,7 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
         let qrService = WalletQRService(operationFactory: WalletQROperationFactory(),
                                         encoder: qrEncoder)
 
-        let moneyFormatter = NumberFormatter.money.localizableResource()
+        let moneyFormatter = NumberFormatter.money(with: resolver.amountInputPrecision).localizableResource()
         let presenter = ReceiveAmountPresenter(view: view,
                                                coordinator: coordinator,
                                                account: resolver.account,
@@ -35,6 +35,7 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                                sharingFactory: resolver.receiveConfiguration.accountShareFactory,
                                                receiveInfo: receiveInfo,
                                                amountLimit: resolver.transferAmountLimit,
+                                               amountPrecision: resolver.amountInputPrecision,
                                                inputFormatter: moneyFormatter,
                                                localizationManager: resolver.localizationManager)
         view.presenter = presenter

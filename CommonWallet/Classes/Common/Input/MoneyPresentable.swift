@@ -9,12 +9,12 @@ import Foundation
 protocol MoneyPresentable {
     var formatter: NumberFormatter { get }
     var amount: String { get }
+    var precision: UInt8 { get }
 
     func transform(input: String, from locale: Locale) -> String
 }
 
 private struct MoneyPresentableConstants {
-    static let doubleZero = "00"
     static let singleZero = "0"
 }
 
@@ -35,13 +35,26 @@ extension MoneyPresentable {
         if amount.hasSuffix(separator) {
             amountFormatted?.append(separator)
         } else {
-            let parts = amount.components(separatedBy: separator)
-            if parts.count == 2 && parts[1] == MoneyPresentableConstants.doubleZero {
-                amountFormatted?.append("\(separator)\(MoneyPresentableConstants.doubleZero)")
-            } else if parts.count == 2 && parts[1] == MoneyPresentableConstants.singleZero {
-                amountFormatted?.append("\(separator)\(MoneyPresentableConstants.singleZero)")
-            } else if parts.count == 2 && parts[1].hasSuffix("\(MoneyPresentableConstants.singleZero)") {
-                amountFormatted?.append("\(MoneyPresentableConstants.singleZero)")
+            let amountParts = amount.components(separatedBy: separator)
+            let formattedParts = amountFormatted?.components(separatedBy: separator)
+
+            if amountParts.count == 2 && formattedParts?.count == 1 {
+                // add tralling zeros including decimal separator
+                let trallingZeros = String((0..<amountParts[1].count).map { _ in
+                    Character(MoneyPresentableConstants.singleZero)
+                })
+
+                amountFormatted?.append("\(separator)\(trallingZeros)")
+            } else if amountParts.count == 2 && formattedParts?.count == 2 {
+                // check whether tralling decimal zeros were cut during formatting
+                if let decimalCount = formattedParts?[1].count, decimalCount < amountParts[1].count {
+                    let zerosCount = amountParts[1].count - decimalCount
+                    let trallingZeros = String((0..<zerosCount).map { _ in
+                        Character(MoneyPresentableConstants.singleZero)
+                    })
+
+                    amountFormatted?.append("\(trallingZeros)")
+                }
             }
         }
         
@@ -61,6 +74,14 @@ extension MoneyPresentable {
             .union(CharacterSet(charactersIn: "\(decimalSeparator())\(groupingSeparator())")).inverted
     }
 
+    private func isValid(amount: String) -> Bool {
+        let components = amount.components(separatedBy: decimalSeparator())
+
+        return !((precision == 0 && components.count > 1) ||
+                 components.count > 2 ||
+                 (components.count == 2 && components[1].count > precision))
+    }
+
     func add(_ amount: String) -> String {
         guard amount.rangeOfCharacter(from: notEligibleSet()) == nil else {
             return self.amount
@@ -73,13 +94,7 @@ extension MoneyPresentable {
             newAmount = "\(MoneyPresentableConstants.singleZero)\(newAmount)"
         }
 
-        let newAmountComponents = newAmount.components(separatedBy: decimalSeparator())
-
-        if newAmountComponents.count > 2 || (newAmountComponents.count == 2 && newAmountComponents[1].count > 2) {
-            return self.amount
-        }
-
-        return newAmount
+        return isValid(amount: newAmount) ? newAmount : self.amount
     }
 
     func set(_ amount: String) -> String {
@@ -93,15 +108,8 @@ extension MoneyPresentable {
         if settingAmount.hasPrefix(decimalSeparator()) {
             settingAmount = "\(MoneyPresentableConstants.singleZero)\(settingAmount)"
         }
-
-        let settingAmountComponents = settingAmount.components(separatedBy: decimalSeparator())
-
-        if settingAmountComponents.count > 2 ||
-            (settingAmountComponents.count == 2 && settingAmountComponents[1].count > 2) {
-            return self.amount
-        }
         
-        return settingAmount
+        return isValid(amount: settingAmount) ? settingAmount : self.amount
     }
 
     func transform(input: String, from locale: Locale) -> String {

@@ -6,11 +6,11 @@
 import Foundation
 
 extension NumberFormatter {
-    static var money: NumberFormatter {
+    static func money(with precision: UInt8) -> NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.numberStyle = .decimal
-        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = Int(precision)
         return numberFormatter
     }
 }

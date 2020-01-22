@@ -79,12 +79,14 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
         let amountFormatter = NumberFormatter().localizableResource()
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-        let inputFormatter = NumberFormatter.money.localizableResource()
+        let inputPrecision: UInt8 = 2
+        let inputFormatter = NumberFormatter.money(with: inputPrecision).localizableResource()
         let viewModelFactory = WithdrawAmountViewModelFactory(inputFormatter: inputFormatter,
                                                               amountFormatter: amountFormatter,
                                                               option: withdrawOption,
                                                               amountLimit: 100,
-                                                              descriptionValidatorFactory: inputValidatorFactory)
+                                                              descriptionValidatorFactory: inputValidatorFactory,
+                                                              inputPrecision: inputPrecision)
 
         let view = MockWithdrawAmountViewProtocol()
         let coordinator = MockWithdrawAmountCoordinatorProtocol()

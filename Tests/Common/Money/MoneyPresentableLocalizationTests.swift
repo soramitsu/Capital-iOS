@@ -26,7 +26,7 @@ class MoneyPresentableLocalizationTests: XCTestCase {
     func testAmountSetInvalid() {
         let inputLocale = Locale.us
         let outputLocale = Locale.russia
-        let formatter = NumberFormatter.money.localizableResource()
+        let formatter = NumberFormatter.money(with: 2).localizableResource()
 
         performPresentableTest(
             bySetting: "1234\(inputLocale.decimalSeparator!)56",
@@ -48,7 +48,7 @@ class MoneyPresentableLocalizationTests: XCTestCase {
     func testAmountSetAndAddValid() {
         let inputLocale = Locale.us
         let outputLocale = Locale.russia
-        let formatter = NumberFormatter.money.localizableResource()
+        let formatter = NumberFormatter.money(with: 2).localizableResource()
 
         performPresentableTest(
             bySetting: "1234\(inputLocale.decimalSeparator!)",
@@ -86,7 +86,7 @@ class MoneyPresentableLocalizationTests: XCTestCase {
     // MARK: Private
 
     private func performAmountSetValidTest(for value: Decimal, inputLocale: Locale, outputLocale: Locale) {
-        let formatter = NumberFormatter.money.localizableResource()
+        let formatter = NumberFormatter.money(with: 2).localizableResource()
         let settingValue = formatter.value(for: inputLocale).string(from: value as NSNumber)!
         let expectedValue = formatter.value(for: outputLocale).string(from: value as NSNumber)!
 
