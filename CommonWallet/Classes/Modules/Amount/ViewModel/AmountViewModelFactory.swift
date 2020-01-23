@@ -21,15 +21,18 @@ final class AmountViewModelFactory {
     let amountFormatter: LocalizableResource<NumberFormatter>
     let amountLimit: Decimal
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
+    let inputPrecision: UInt8
 
     init(inputFormatter: LocalizableResource<NumberFormatter>,
          amountFormatter: LocalizableResource<NumberFormatter>,
          amountLimit: Decimal,
-         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
+         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
+         inputPrecision: UInt8) {
         self.inputFormatter = inputFormatter
         self.amountFormatter = amountFormatter
         self.amountLimit = amountLimit
         self.descriptionValidatorFactory = descriptionValidatorFactory
+        self.inputPrecision = inputPrecision
     }
 }
 
@@ -52,7 +55,8 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
     func createAmountViewModel(with optionalAmount: Decimal?, locale: Locale) -> AmountInputViewModel {
         return AmountInputViewModel(amount: optionalAmount,
                                     limit: amountLimit,
-                                    formatter: inputFormatter.value(for: locale))
+                                    formatter: inputFormatter.value(for: locale),
+                                    precision: inputPrecision)
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {

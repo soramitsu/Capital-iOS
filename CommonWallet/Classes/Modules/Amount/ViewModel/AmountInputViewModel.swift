@@ -41,6 +41,8 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
+    var precision: UInt8
+
     private(set) var amount: String = "" {
         didSet {
             if amount != oldValue {
@@ -60,10 +62,12 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
     init(amount: Decimal?,
          limit: Decimal,
          formatter: NumberFormatter,
-         inputLocale: Locale = Locale.current) {
+         inputLocale: Locale = Locale.current,
+         precision: UInt8 = 2) {
         self.limit = limit
         self.formatter = formatter
         self.inputLocale = inputLocale
+        self.precision = precision
 
         observable = WalletViewModelObserverContainer()
 

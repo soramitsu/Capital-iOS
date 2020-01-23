@@ -73,6 +73,7 @@
 		848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CCE0E22F4330F0094289D /* WithdrawConfirmationTests.swift */; };
 		848CCE1322F4973D0094289D /* WithdrawResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CCE1122F497370094289D /* WithdrawResultTests.swift */; };
 		848CFA392278DF1600B74536 /* WalletQRServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */; };
+		849CCCF123D866080032AE78 /* MoneyPresenterPrecisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849CCCF023D866080032AE78 /* MoneyPresenterPrecisionTests.swift */; };
 		84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */; };
 		84AF3DCF22967405008725C3 /* ContactsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF3DCE22967405008725C3 /* ContactsServiceTests.swift */; };
 		84AF3DD022967639008725C3 /* contactsResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B5E81D12268BBA8001DB674 /* contactsResponse.json */; };
@@ -199,6 +200,7 @@
 		848CCE0E22F4330F0094289D /* WithdrawConfirmationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawConfirmationTests.swift; sourceTree = "<group>"; };
 		848CCE1122F497370094289D /* WithdrawResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawResultTests.swift; sourceTree = "<group>"; };
 		848CFA382278DF1600B74536 /* WalletQRServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletQRServiceTests.swift; sourceTree = "<group>"; };
+		849CCCF023D866080032AE78 /* MoneyPresenterPrecisionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyPresenterPrecisionTests.swift; sourceTree = "<group>"; };
 		84AF3DCB2295ECC6008725C3 /* CoreDataTestCacheFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCacheFacade.swift; sourceTree = "<group>"; };
 		84AF3DCE22967405008725C3 /* ContactsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsServiceTests.swift; sourceTree = "<group>"; };
 		84AF3DD22296E892008725C3 /* ConfirmationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationTests.swift; sourceTree = "<group>"; };
@@ -708,6 +710,7 @@
 				8B2D0388227833A900B4BDF7 /* MoneyPresentableTests.swift */,
 				84EBF57B23C760D900E609FF /* MoneyPresenter.swift */,
 				84EBF57E23C7617100E609FF /* MoneyPresentableLocalizationTests.swift */,
+				849CCCF023D866080032AE78 /* MoneyPresenterPrecisionTests.swift */,
 			);
 			path = Money;
 			sourceTree = "<group>";
@@ -1166,6 +1169,7 @@
 				84C180712255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift in Sources */,
 				84AF3DD32296E892008725C3 /* ConfirmationTests.swift in Sources */,
 				848B6ECB224D6B2500E8A3C9 /* ModelGenerator.swift in Sources */,
+				849CCCF123D866080032AE78 /* MoneyPresenterPrecisionTests.swift in Sources */,
 				84AF3DCD2295ECE1008725C3 /* CoreDataTestCacheFacade.swift in Sources */,
 				8418C5702330049700E92394 /* TransferMetadataServiceTests.swift in Sources */,
 				84F77F1D22EF882F00152FE2 /* WithdrawalMetadataServiceTests.swift in Sources */,

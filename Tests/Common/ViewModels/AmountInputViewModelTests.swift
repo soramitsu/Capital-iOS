@@ -31,7 +31,7 @@ class AmountInputViewModelTests: XCTestCase {
     // MARK: Private
 
     func performAmountInput(for inputLocale: Locale, outputLocale: Locale) {
-        let formatter = NumberFormatter.money.localizableResource()
+        let formatter = NumberFormatter.money(with: 2).localizableResource()
 
         let limit: Decimal = 1e+6
         let initialAmount: Decimal = 12
@@ -55,7 +55,7 @@ class AmountInputViewModelTests: XCTestCase {
     }
 
     func performAmountRemove(for inputLocale: Locale, outputLocale: Locale) {
-        let formatter = NumberFormatter.money.localizableResource()
+        let formatter = NumberFormatter.money(with: 2).localizableResource()
 
         let limit: Decimal = 1e+6
         let initialAmount: Decimal = 12.25
@@ -80,7 +80,7 @@ class AmountInputViewModelTests: XCTestCase {
                                          limit: Decimal) {
         let amountInputViewModel = AmountInputViewModel(amount: inputAmount,
                                                         limit: limit,
-                                                        formatter: NumberFormatter.money)
+                                                        formatter: NumberFormatter.money(with: 2))
         XCTAssertEqual(expectedAmount, amountInputViewModel.decimalAmount)
     }
 }

@@ -1,8 +1,3 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import Cuckoo
 @testable import CommonWallet
 
@@ -1636,6 +1631,20 @@ import SoraFoundation
     
     
     
+     var amountInputPrecision: UInt8 {
+        get {
+            return cuckoo_manager.getter("amountInputPrecision",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.amountInputPrecision)
+        }
+        
+    }
+    
+    
+    
      var statusDateFormatter: LocalizableResource<DateFormatter> {
         get {
             return cuckoo_manager.getter("statusDateFormatter",
@@ -1843,6 +1852,11 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var amountInputPrecision: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, UInt8> {
+	        return .init(manager: cuckoo_manager, name: "amountInputPrecision")
+	    }
+	    
+	    
 	    var statusDateFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizableResource<DateFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "statusDateFormatter")
 	    }
@@ -1970,6 +1984,11 @@ import SoraFoundation
 	    
 	    var amountFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<NumberFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "amountFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var amountInputPrecision: Cuckoo.VerifyReadOnlyProperty<UInt8> {
+	        return .init(manager: cuckoo_manager, name: "amountInputPrecision", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2132,6 +2151,14 @@ import SoraFoundation
      var amountFormatter: LocalizableResource<NumberFormatter> {
         get {
             return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
+        }
+        
+    }
+    
+    
+     var amountInputPrecision: UInt8 {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (UInt8).self)
         }
         
     }

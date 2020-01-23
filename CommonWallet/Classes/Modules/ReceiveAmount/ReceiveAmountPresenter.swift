@@ -42,6 +42,7 @@ final class ReceiveAmountPresenter {
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
          amountLimit: Decimal,
+         amountPrecision: UInt8,
          inputFormatter: LocalizableResource<NumberFormatter>,
          localizationManager: LocalizationManagerProtocol?) {
         self.view = view
@@ -74,7 +75,8 @@ final class ReceiveAmountPresenter {
 
         amountInputViewModel = AmountInputViewModel(amount: currentAmount,
                                                     limit: amountLimit,
-                                                    formatter: inputFormatter.value(for: locale))
+                                                    formatter: inputFormatter.value(for: locale),
+                                                    precision: amountPrecision)
 
         self.localizationManager = localizationManager
     }
@@ -139,10 +141,12 @@ final class ReceiveAmountPresenter {
     private func updateAmountInputViewModel() {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let amount = amountInputViewModel.decimalAmount
+        let precision = amountInputViewModel.precision
 
         amountInputViewModel = AmountInputViewModel(amount: amount,
                                                     limit: amountLimit,
-                                                    formatter: inputFormatter.value(for: locale))
+                                                    formatter: inputFormatter.value(for: locale),
+                                                    precision: precision)
 
         amountInputViewModel.observable.add(observer: self)
 
