@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CommonWallet'
-  s.version          = '1.8.0'
+  s.version          = '1.8.1'
 
   s.summary          = 'Soramitsu Common Wallet Implementation'
 
@@ -30,7 +30,7 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
   s.test_spec do |ts|
     ts.source_files = 'Tests/**/*'
     ts.dependency 'Cuckoo'
-    ts.dependency 'OHHTTPStubs/Swift'
+    ts.dependency 'OHHTTPStubs/Swift', '~> 8.0.0'
     ts.resources = ['Tests/**/*.json']
   end
 

@@ -5,7 +5,7 @@ PODS:
   - BoringSSL/Implementation (10.0.3):
     - BoringSSL/Interface (= 10.0.3)
   - BoringSSL/Interface (10.0.3)
-  - CommonWallet (1.6.2):
+  - CommonWallet (1.8.1):
     - IrohaCommunication (~> 3.4.1)
     - RobinHood (~> 2.3.0)
     - SoraFoundation/DateProcessing (~> 0.4.0)
@@ -14,9 +14,9 @@ PODS:
     - SoraUI (~> 1.8.7)
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
-  - Cuckoo (1.2.0):
-    - Cuckoo/Swift (= 1.2.0)
-  - Cuckoo/Swift (1.2.0)
+  - Cuckoo (1.3.0):
+    - Cuckoo/Swift (= 1.3.0)
+  - Cuckoo/Swift (1.3.0)
   - Fabric (1.9.0)
   - gRPC (1.11.0):
     - gRPC-RxLibrary (= 1.11.0)
@@ -70,34 +70,34 @@ PODS:
     - SoraKeystore (~> 0.1.5)
   - SoraFoundation/NotificationHandlers (0.4.0)
   - SoraKeystore (0.1.5)
-  - SoraUI (1.8.7):
-    - SoraUI/AdaptiveDesign (= 1.8.7)
-    - SoraUI/Animator (= 1.8.7)
-    - SoraUI/Camera (= 1.8.7)
-    - SoraUI/Controls (= 1.8.7)
-    - SoraUI/DetailsView (= 1.8.7)
-    - SoraUI/EmptyState (= 1.8.7)
-    - SoraUI/LoadingView (= 1.8.7)
-    - SoraUI/ModalInputPresentation (= 1.8.7)
-    - SoraUI/PageLoader (= 1.8.7)
-    - SoraUI/PinView (= 1.8.7)
-    - SoraUI/Skrull (= 1.8.7)
-  - SoraUI/AdaptiveDesign (1.8.7)
-  - SoraUI/Animator (1.8.7)
-  - SoraUI/Camera (1.8.7)
-  - SoraUI/Controls (1.8.7)
-  - SoraUI/DetailsView (1.8.7):
+  - SoraUI (1.8.9):
+    - SoraUI/AdaptiveDesign (= 1.8.9)
+    - SoraUI/Animator (= 1.8.9)
+    - SoraUI/Camera (= 1.8.9)
+    - SoraUI/Controls (= 1.8.9)
+    - SoraUI/DetailsView (= 1.8.9)
+    - SoraUI/EmptyState (= 1.8.9)
+    - SoraUI/LoadingView (= 1.8.9)
+    - SoraUI/ModalInputPresentation (= 1.8.9)
+    - SoraUI/PageLoader (= 1.8.9)
+    - SoraUI/PinView (= 1.8.9)
+    - SoraUI/Skrull (= 1.8.9)
+  - SoraUI/AdaptiveDesign (1.8.9)
+  - SoraUI/Animator (1.8.9)
+  - SoraUI/Camera (1.8.9)
+  - SoraUI/Controls (1.8.9)
+  - SoraUI/DetailsView (1.8.9):
     - SoraUI/Controls
-  - SoraUI/EmptyState (1.8.7):
+  - SoraUI/EmptyState (1.8.9):
     - SoraUI/Animator
-  - SoraUI/LoadingView (1.8.7):
+  - SoraUI/LoadingView (1.8.9):
     - SoraUI/Controls
-  - SoraUI/ModalInputPresentation (1.8.7):
+  - SoraUI/ModalInputPresentation (1.8.9):
     - SoraUI/Animator
-  - SoraUI/PageLoader (1.8.7)
-  - SoraUI/PinView (1.8.7):
+  - SoraUI/PageLoader (1.8.9)
+  - SoraUI/PinView (1.8.9):
     - SoraUI/Controls
-  - SoraUI/Skrull (1.8.7)
+  - SoraUI/Skrull (1.8.9)
   - SwiftGen (6.1.0)
   - SwiftLint (0.31.0)
 
@@ -138,9 +138,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BoringSSL: c46efb47593135382bc0934196f16d2f726f5f36
-  CommonWallet: 455350266a85153d598826a9011140da3c0b1c0c
+  CommonWallet: d8731fd6e9b0d024d103c7969490deac92a3796d
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
-  Cuckoo: f5f4e7c308c512cc2dedbdce23f5dc6985cb5173
+  Cuckoo: 4045c5a8ce378c919c20c5ff3d6dd11ded0ec699
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   gRPC: 70703dc9ba31c72341fc7f37745cc1c379edee96
   gRPC-Core: 164639cd8ae18ca8b65477fafb2efbaecf4f181a
@@ -154,7 +154,7 @@ SPEC CHECKSUMS:
   RobinHood: 73a108285ad4149c86d12839bbf209a296cfa542
   SoraFoundation: da4ffd1bc5556eff9cf283f55cbc24e1b4a4ec1b
   SoraKeystore: 408a26aafda780fc3005b20ab336791832b5419e
-  SoraUI: d497b990f00b33d1b099f73da93fff555f36b722
+  SoraUI: 9bad0ba56d2f3cf67eb812f2d2fc56b8fd0aa39b
   SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
