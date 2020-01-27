@@ -56,7 +56,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         let listViewModelFactory = accountContext.accountListViewModelFactory
         let detailsContext = AccountListViewModelContext(viewModelFactoryContainer: emptyViewModelFactoryContainer,
                                                          accountListViewModelFactory: listViewModelFactory,
-                                                         assetCellStyle: accountContext.assetCellStyle,
+                                                         assetCellStyleFactory: accountContext.assetCellStyleFactory,
                                                          actionsStyle: accountContext.actionsStyle,
                                                          showMoreCellStyle: accountContext.showMoreCellStyle,
                                                          minimumVisibleAssets: accountContext.minimumVisibleAssets)

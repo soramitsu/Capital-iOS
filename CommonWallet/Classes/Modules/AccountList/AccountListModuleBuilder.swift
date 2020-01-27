@@ -21,9 +21,8 @@ final class AccountListModuleBuilder {
         return WalletTextStyle(font: walletStyle.bodyRegularFont, color: .greyText)
     }()
 
-    private lazy var assetCellStyle: AssetCellStyle = {
-        let cardStyle = CardAssetStyle.createDefaultCardStyle(with: walletStyle)
-        return .card(cardStyle)
+    private lazy var assetCellStyleFactory: AssetCellStyleFactoryProtocol = {
+        return AssetCellStyleFactory(style: walletStyle)
     }()
 
     private lazy var actionsCellStyle: ActionsCellStyle = {
@@ -70,7 +69,7 @@ final class AccountListModuleBuilder {
     func build() throws -> AccountListConfigurationProtocol {
         let viewModelContext = AccountListViewModelContext(viewModelFactoryContainer: viewModelFactoryContainer,
                                                            accountListViewModelFactory: accountListViewModelFactory,
-                                                           assetCellStyle: assetCellStyle,
+                                                           assetCellStyleFactory: assetCellStyleFactory,
                                                            actionsStyle: actionsCellStyle,
                                                            showMoreCellStyle: showMoreCellStyle,
                                                            minimumVisibleAssets: minimumVisibleAssets)
@@ -141,8 +140,8 @@ extension AccountListModuleBuilder: AccountListModuleBuilderProtocol {
         return self
     }
 
-    func with(assetCellStyle: AssetCellStyle) throws -> Self {
-        self.assetCellStyle = assetCellStyle
+    func with(assetCellStyleFactory: AssetCellStyleFactoryProtocol) throws -> Self {
+        self.assetCellStyleFactory = assetCellStyleFactory
         return self
     }
 

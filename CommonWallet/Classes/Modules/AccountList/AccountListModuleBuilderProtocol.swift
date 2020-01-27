@@ -39,7 +39,7 @@ public protocol AccountListModuleBuilderProtocol: class {
     func with(viewStyle: AccountListViewStyleProtocol) throws -> Self
 
     @discardableResult
-    func with(assetCellStyle: AssetCellStyle) throws -> Self
+    func with(assetCellStyleFactory: AssetCellStyleFactoryProtocol) throws -> Self
 
     @discardableResult
     func withShowMore<Cell>(cellClass: Cell.Type) -> Self where Cell: UICollectionViewCell & WalletViewProtocol
