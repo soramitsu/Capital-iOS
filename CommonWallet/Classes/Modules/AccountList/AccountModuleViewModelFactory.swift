@@ -46,9 +46,11 @@ final class AccountModuleViewModelFactory {
                                              locale: Locale) -> AssetViewModelProtocol {
         let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
 
+        let assetCellStyle = context.assetCellStyleFactory.createCellStyle(for: asset)
+
         let viewModel = AssetViewModel(cellReuseIdentifier: AccountModuleConstants.assetCellIdentifier,
                                        itemHeight: AccountModuleConstants.assetCellHeight,
-                                       style: context.assetCellStyle,
+                                       style: assetCellStyle,
                                        command: assetDetailsCommand)
 
         viewModel.assetId = asset.identifier.identifier()
