@@ -105,7 +105,8 @@ final class AmountPresenter {
             decimalAmount = Decimal(string: amount.value)
         }
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: decimalAmount,
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              amount: decimalAmount,
                                                                               locale: locale)
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
@@ -126,7 +127,10 @@ final class AmountPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: amount,
+        amountInputViewModel.observable.remove(observer: self)
+
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              amount: amount,
                                                                               locale: locale)
 
         amountInputViewModel.observable.add(observer: self)
@@ -478,6 +482,7 @@ extension AmountPresenter: ModalPickerViewDelegate {
 
                 updateSelectedAssetViewModel(for: newAsset)
                 updateFeeViewModel(for: newAsset)
+                updateAmountInputViewModel()
             }
         } catch {
             logger?.error("Unexpected error when new asset selected \(error)")

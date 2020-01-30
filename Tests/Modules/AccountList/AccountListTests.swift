@@ -187,7 +187,7 @@ class AccountListTests: NetworkBaseTests {
                                                              assets: resolver.account.assets,
                                                              commandFactory: resolver.commandFactory,
                                                              commandDecoratorFactory: nil,
-                                                             amountFormatter: NumberFormatter().localizableResource())
+                                                             amountFormatterFactory: NumberFormatterFactory())
 
         return AccountListPresenter(view: view,
                                     coordinator: coordinator,
@@ -214,7 +214,7 @@ class AccountListTests: NetworkBaseTests {
             when(stub).accountListConfiguration.get.thenReturn(accountListConfiguration)
             when(stub).logger.get.thenReturn(nil)
             when(stub).commandFactory.get.thenReturn(commandFactory)
-            when(stub).amountFormatter.get.thenReturn(NumberFormatter().localizableResource())
+            when(stub).amountFormatterFactory.get.thenReturn(NumberFormatterFactory())
             when(stub).commandDecoratorFactory.get.thenReturn(nil)
             when(stub).eventCenter.get.thenReturn(eventCenter)
             when(stub).localizationManager.get.then {

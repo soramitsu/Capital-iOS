@@ -19,7 +19,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
                                                              assets: resolver.account.assets,
                                                              commandFactory: resolver.commandFactory,
                                                              commandDecoratorFactory: resolver.commandDecoratorFactory,
-                                                             amountFormatter: resolver.amountFormatter)
+                                                             amountFormatterFactory: resolver.amountFormatterFactory)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                      cacheFacade: CoreDataCacheFacade.shared,
@@ -65,7 +65,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
                                                              assets: [detailsAsset],
                                                              commandFactory: resolver.commandFactory,
                                                              commandDecoratorFactory: resolver.commandDecoratorFactory,
-                                                             amountFormatter: resolver.amountFormatter)
+                                                             amountFormatterFactory: resolver.amountFormatterFactory)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,

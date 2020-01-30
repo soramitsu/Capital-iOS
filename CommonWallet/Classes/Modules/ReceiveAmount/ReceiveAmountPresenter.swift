@@ -22,7 +22,7 @@ final class ReceiveAmountPresenter {
     private(set) var preferredQRSize: CGSize?
     private(set) var selectedAsset: WalletAsset?
     private(set) var amountLimit: Decimal
-    private(set) var inputFormatter: LocalizableResource<NumberFormatter>
+    private(set) var amountFormatterFactory: NumberFormatterFactoryProtocol
 
     private var currentImage: UIImage?
 
@@ -42,8 +42,7 @@ final class ReceiveAmountPresenter {
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
          amountLimit: Decimal,
-         amountPrecision: UInt8,
-         inputFormatter: LocalizableResource<NumberFormatter>,
+         amountFormatterFactory: NumberFormatterFactoryProtocol,
          localizationManager: LocalizationManagerProtocol?) {
         self.view = view
         self.coordinator = coordinator
@@ -51,7 +50,7 @@ final class ReceiveAmountPresenter {
         self.sharingFactory = sharingFactory
         self.account = account
         self.assetSelectionFactory = assetSelectionFactory
-        self.inputFormatter = inputFormatter
+        self.amountFormatterFactory = amountFormatterFactory
         self.amountLimit = amountLimit
 
         var currentAmount: Decimal?
@@ -73,10 +72,12 @@ final class ReceiveAmountPresenter {
                                                           symbol: selectedAsset?.symbol ?? "")
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
+        let inputFormatter = amountFormatterFactory.createInputFormatter(for: selectedAsset).value(for: locale)
+
         amountInputViewModel = AmountInputViewModel(amount: currentAmount,
                                                     limit: amountLimit,
-                                                    formatter: inputFormatter.value(for: locale),
-                                                    precision: amountPrecision)
+                                                    formatter: inputFormatter,
+                                                    precision: UInt8(inputFormatter.maximumFractionDigits))
 
         self.localizationManager = localizationManager
     }
@@ -141,12 +142,15 @@ final class ReceiveAmountPresenter {
     private func updateAmountInputViewModel() {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let amount = amountInputViewModel.decimalAmount
-        let precision = amountInputViewModel.precision
+
+        let inputFormatter = amountFormatterFactory.createInputFormatter(for: selectedAsset).value(for: locale)
+
+        amountInputViewModel.observable.remove(observer: self)
 
         amountInputViewModel = AmountInputViewModel(amount: amount,
                                                     limit: amountLimit,
-                                                    formatter: inputFormatter.value(for: locale),
-                                                    precision: precision)
+                                                    formatter: inputFormatter,
+                                                    precision: UInt8(inputFormatter.maximumFractionDigits))
 
         amountInputViewModel.observable.add(observer: self)
 
@@ -241,6 +245,8 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
         assetSelectionViewModel.title = title
 
         assetSelectionViewModel.symbol = newAsset.symbol
+
+        updateAmountInputViewModel()
     }
 
     func close() {

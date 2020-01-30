@@ -11,16 +11,18 @@ protocol AssetSelectionFactoryProtocol: class {
 }
 
 final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
-    var amountFormatter: LocalizableResource<NumberFormatter>
+    let amountFormatterFactory: NumberFormatterFactoryProtocol
 
-    init(amountFormatter: LocalizableResource<NumberFormatter>) {
-        self.amountFormatter = amountFormatter
+    init(amountFormatterFactory: NumberFormatterFactoryProtocol) {
+        self.amountFormatterFactory = amountFormatterFactory
     }
 
     func createTitle(for asset: WalletAsset?, balanceData: BalanceData?, locale: Locale) -> String {
         guard let asset = asset else {
             return L10n.AssetSelection.noAsset
         }
+
+        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
         let details = asset.details.value(for: locale)
         var title = "\(details) - \(asset.symbol)"

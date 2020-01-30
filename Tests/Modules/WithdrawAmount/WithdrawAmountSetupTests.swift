@@ -62,7 +62,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
         let walletAsset = WalletAsset(identifier: assetId,
                                       symbol: "A",
-                                      details: LocalizableResource { _ in UUID().uuidString })
+                                      details: LocalizableResource { _ in UUID().uuidString },
+                                      precision: 2)
         let withdrawOption = createRandomWithdrawOption()
 
         let accountSettings = try createRandomAccountSettings(for: [walletAsset],
@@ -77,16 +78,11 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let amountFormatter = NumberFormatter().localizableResource()
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-        let inputPrecision: UInt8 = 2
-        let inputFormatter = NumberFormatter.money(with: inputPrecision).localizableResource()
-        let viewModelFactory = WithdrawAmountViewModelFactory(inputFormatter: inputFormatter,
-                                                              amountFormatter: amountFormatter,
+        let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                               option: withdrawOption,
                                                               amountLimit: 100,
-                                                              descriptionValidatorFactory: inputValidatorFactory,
-                                                              inputPrecision: inputPrecision)
+                                                              descriptionValidatorFactory: inputValidatorFactory)
 
         let view = MockWithdrawAmountViewProtocol()
         let coordinator = MockWithdrawAmountCoordinatorProtocol()
@@ -161,6 +157,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             }
         }
 
+        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
+
         let presenter = try WithdrawAmountPresenter(view: view,
                                                     coordinator: coordinator,
                                                     assets: accountSettings.assets,
@@ -169,7 +167,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                     dataProviderFactory: dataProviderFactory,
                                                     feeCalculationFactory: FeeCalculationFactory(),
                                                     withdrawViewModelFactory: viewModelFactory,
-                                                    assetTitleFactory: AssetSelectionFactory(amountFormatter: amountFormatter),
+                                                    assetTitleFactory: assetSelectionFactory,
                                                     localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup()

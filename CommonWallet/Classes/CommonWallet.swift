@@ -32,7 +32,7 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(feeDisplayStrategy: FeeDisplayStrategyProtocol) -> Self
 
     @discardableResult
-    func with(amountFormatter: LocalizableResource<NumberFormatter>) -> Self
+    func with(amountFormatterFactory: NumberFormatterFactoryProtocol) -> Self
 
     @discardableResult
     func with(statusDateFormatter: LocalizableResource<DateFormatter>) -> Self
@@ -61,9 +61,6 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(language: WalletLanguage) -> Self
 
-    @discardableResult
-    func with(amountInputPrecision: UInt8) -> Self
-
     func build() throws -> CommonWalletContextProtocol
 }
 
@@ -84,7 +81,7 @@ public final class CommonWalletBuilder {
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
     fileprivate lazy var feeDisplayStrategy: FeeDisplayStrategyProtocol = FeedDisplayStrategyIfNonzero()
     fileprivate var logger: WalletLoggerProtocol?
-    fileprivate var amountFormatter: LocalizableResource<NumberFormatter>?
+    fileprivate var amountFormatterFactory: NumberFormatterFactoryProtocol?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
     fileprivate var transferDescriptionLimit: UInt8 = 64
     fileprivate var transferAmountLimit: Decimal?
@@ -93,7 +90,6 @@ public final class CommonWalletBuilder {
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
     fileprivate var qrCoderFactory: WalletQRCoderFactoryProtocol?
     fileprivate var language: WalletLanguage = .english
-    fileprivate var amountInputPrecision: UInt8 = 2
 
     init(account: WalletAccountSettingsProtocol, networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
         self.account = account
@@ -168,8 +164,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    public func with(amountFormatter: LocalizableResource<NumberFormatter>) -> Self {
-        self.amountFormatter = amountFormatter
+    public func with(amountFormatterFactory: NumberFormatterFactoryProtocol) -> Self {
+        self.amountFormatterFactory = amountFormatterFactory
 
         return self
     }
@@ -220,12 +216,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    @discardableResult
-    public func with(amountInputPrecision: UInt8) -> Self {
-        self.amountInputPrecision = amountInputPrecision
-        return self
-    }
-
     public func build() throws -> CommonWalletContextProtocol {
         let style = privateStyleBuilder.build()
 
@@ -258,8 +248,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplayStrategy: feeDisplayStrategy,
-                                amountInputPrecision: amountInputPrecision)
+                                feeDisplayStrategy: feeDisplayStrategy)
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
 
@@ -267,8 +256,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
         resolver.logger = logger
 
-        if let amountFormatter = amountFormatter {
-            resolver.amountFormatter = amountFormatter
+        if let amountFormatterFactory = amountFormatterFactory {
+            resolver.amountFormatterFactory = amountFormatterFactory
         }
 
         if let statusDateFormatter = statusDateFormatter {

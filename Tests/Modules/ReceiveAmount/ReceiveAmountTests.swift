@@ -73,7 +73,7 @@ class ReceiveAmountTests: XCTestCase {
                                       details: nil)
         let qrService = WalletQRService(operationFactory: WalletQROperationFactory())
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter().localizableResource())
+        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
 
         // when
 
@@ -97,10 +97,6 @@ class ReceiveAmountTests: XCTestCase {
             when(stub).isSetup.get.thenReturn(false, true)
         }
 
-        let amountPrecision: UInt8 = 2
-
-        let inputFormatter = NumberFormatter.money(with: amountPrecision).localizableResource()
-
         let presenter = ReceiveAmountPresenter(view: view,
                                                coordinator: coordinator,
                                                account: accountSettings,
@@ -109,8 +105,7 @@ class ReceiveAmountTests: XCTestCase {
                                                sharingFactory: AccountShareFactory(),
                                                receiveInfo: receiveInfo,
                                                amountLimit: Decimal(1e+6),
-                                               amountPrecision: amountPrecision,
-                                               inputFormatter: inputFormatter,
+                                               amountFormatterFactory: NumberFormatterFactory(),
                                                localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup(qrSize: CGSize(width: 100.0, height: 100.0))

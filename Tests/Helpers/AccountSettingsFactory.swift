@@ -36,7 +36,8 @@ func createRandomAccountSettings(for assetsCount: Int, withdrawOptionsCount: Int
         let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
         return WalletAsset(identifier: assetId,
                            symbol: String(index + 1),
-                           details: LocalizableResource { _ in UUID().uuidString })
+                           details: LocalizableResource { _ in UUID().uuidString },
+                           precision: (0..<10).randomElement()!)
     }
 
     let withdrawOptions: [WalletWithdrawOption]
