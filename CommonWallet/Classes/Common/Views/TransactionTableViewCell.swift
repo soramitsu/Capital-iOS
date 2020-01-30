@@ -6,10 +6,17 @@
 import UIKit
 
 final class TransactionTableViewCell: UITableViewCell {
+    private struct Constants {
+        static let leadingEmptyImage: CGFloat = 20.0
+        static let leadingNonEmptyImage: CGFloat = 10.0
+    }
+
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var amountLabel: UILabel!
     @IBOutlet private var signImageView: UIImageView!
     @IBOutlet private var statusImageView: UIImageView!
+    @IBOutlet private var titleLeading: NSLayoutConstraint!
+    private var iconImageView: UIImageView?
 
     private(set) var viewModel: TransactionItemViewModelProtocol?
 
@@ -42,6 +49,7 @@ final class TransactionTableViewCell: UITableViewCell {
             titleLabel.text = viewModel.title
             amountLabel.text = viewModel.amount
 
+            apply(icon: viewModel.icon)
             applyIncomingIcon()
             applyStatusStyle()
         }
@@ -83,5 +91,38 @@ final class TransactionTableViewCell: UITableViewCell {
             applyIncomingIcon()
             applyStatusStyle()
         }
+    }
+
+    private func apply(icon: UIImage?) {
+        if let icon = icon {
+            if iconImageView == nil {
+                let iconImageView = UIImageView()
+                iconImageView.translatesAutoresizingMaskIntoConstraints = false
+
+                contentView.addSubview(iconImageView)
+
+                let leading = iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                                     constant: Constants.leadingNonEmptyImage)
+                leading.isActive = true
+
+                let center = iconImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+                center.isActive = true
+
+                self.iconImageView = iconImageView
+            }
+
+            titleLeading.constant = icon.size.width + 2 * Constants.leadingNonEmptyImage
+
+            iconImageView?.image = icon
+        } else {
+            iconImageView?.removeFromSuperview()
+            iconImageView = nil
+
+            titleLeading.constant = Constants.leadingEmptyImage
+        }
+
+        var currentInsets = self.separatorInset
+        currentInsets.left = titleLeading.constant
+        self.separatorInset = currentInsets
     }
 }

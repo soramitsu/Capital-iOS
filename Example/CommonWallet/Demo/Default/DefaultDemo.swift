@@ -38,7 +38,7 @@ final class DefaultDemo: DemoFactoryProtocol {
         let withdrawType = WalletTransactionType(backendName: "WITHDRAW",
                                                  displayName: "Withdraw",
                                                  isIncome: false,
-                                                 typeIcon: nil)
+                                                 typeIcon: UIImage(named: "iconEth"))
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
