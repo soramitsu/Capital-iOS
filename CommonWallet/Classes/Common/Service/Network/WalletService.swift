@@ -60,11 +60,11 @@ extension WalletService: WalletServiceProtocol {
     }
 
     @discardableResult
-    func fetchTransferMetadata(for assetId: IRAssetId,
+    func fetchTransferMetadata(for info: TransferMetadataInfo,
                                runCompletionIn queue: DispatchQueue,
                                completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation {
 
-        let operation = operationFactory.transferMetadataOperation(assetId)
+        let operation = operationFactory.transferMetadataOperation(info)
 
         operation.completionBlock = {
             queue.async {

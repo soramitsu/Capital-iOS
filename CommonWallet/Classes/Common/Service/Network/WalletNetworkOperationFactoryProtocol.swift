@@ -11,7 +11,7 @@ public protocol WalletNetworkOperationFactoryProtocol {
     func fetchBalanceOperation(_ assets: [IRAssetId]) -> BaseOperation<[BalanceData]?>
     func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest,
                                           pagination: OffsetPagination) -> BaseOperation<AssetTransactionPageData?>
-    func transferMetadataOperation(_ assetId: IRAssetId) -> BaseOperation<TransferMetaData?>
+    func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>
     func transferOperation(_ info: TransferInfo) -> BaseOperation<Void>
     func searchOperation(_ searchString: String) -> BaseOperation<[SearchData]?>
     func contactsOperation() -> BaseOperation<[SearchData]?>

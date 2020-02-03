@@ -14,7 +14,7 @@ protocol DataProviderFactoryProtocol: class {
     func createContactsDataProvider() throws -> SingleValueProvider<[SearchData]>
     func createWithdrawMetadataProvider(for assetId: IRAssetId, option: String)
         throws -> SingleValueProvider<WithdrawMetaData>
-    func createTransferMetadataProvider(for assetId: IRAssetId)
+    func createTransferMetadataProvider(for assetId: IRAssetId, destination: IRAccountId)
         throws -> SingleValueProvider<TransferMetaData>
 }
 
@@ -160,10 +160,13 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
                                    serialSyncQueue: DataProviderFactory.withdrawalMetadataQueue)
     }
 
-    func createTransferMetadataProvider(for assetId: IRAssetId)
+    func createTransferMetadataProvider(for assetId: IRAssetId, destination: IRAccountId)
         throws -> SingleValueProvider<TransferMetaData> {
+        let info = TransferMetadataInfo(assetId: assetId,
+                                        source: accountSettings.accountId,
+                                        destination: destination)
         let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource {
-            let operation = self.networkOperationFactory.transferMetadataOperation(assetId)
+            let operation = self.networkOperationFactory.transferMetadataOperation(info)
             return operation
         }
 
