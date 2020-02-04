@@ -99,13 +99,13 @@ public extension MiddlewareOperationFactoryProtocol {
         return operation
     }
 
-    func transferMetadataOperation(_ assetId: IRAssetId) -> BaseOperation<TransferMetaData?> {
+    func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?> {
         let urlTemplate = networkResolver.urlTemplate(for: .transferMetadata)
 
         let requestFactory = BlockNetworkRequestFactory {
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
                 .withUrlEncoding(allowedCharset: Constants.queryEncoding)
-                .buildParameterURL(assetId.identifier())
+                .buildParameterURL(info.assetId.identifier())
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.get.rawValue

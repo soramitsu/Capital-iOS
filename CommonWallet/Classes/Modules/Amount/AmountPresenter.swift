@@ -82,7 +82,9 @@ final class AmountPresenter {
 
         self.dataProviderFactory = dataProviderFactory
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
-        self.metadataProvider = try dataProviderFactory.createTransferMetadataProvider(for: selectedAsset.identifier)
+        self.metadataProvider = try dataProviderFactory
+            .createTransferMetadataProvider(for: selectedAsset.identifier,
+                                            destination: payload.receiveInfo.accountId)
 
         self.feeCalculationFactory = feeCalculationFactory
         self.transferViewModelFactory = transferViewModelFactory
@@ -307,7 +309,9 @@ final class AmountPresenter {
     }
 
     private func updateMetadataProvider(for asset: WalletAsset) throws {
-        let metaDataProvider = try dataProviderFactory.createTransferMetadataProvider(for: asset.identifier)
+        let metaDataProvider = try dataProviderFactory
+            .createTransferMetadataProvider(for: asset.identifier,
+                                            destination: payload.receiveInfo.accountId)
         self.metadataProvider = metaDataProvider
 
         setupMetadata(provider: metaDataProvider)

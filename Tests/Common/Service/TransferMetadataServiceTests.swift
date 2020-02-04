@@ -50,7 +50,13 @@ class TransferMetadataServiceTests: NetworkBaseTests {
             // when
 
             let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
-            walletService.fetchTransferMetadata(for: assetId, runCompletionIn: .main) { (optionalResult) in
+            let destination = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
+
+            let info = TransferMetadataInfo(assetId: assetId,
+                                            source: accountSettings.accountId,
+                                            destination: destination)
+
+            walletService.fetchTransferMetadata(for: info, runCompletionIn: .main) { (optionalResult) in
                 defer {
                     completionExpectation.fulfill()
                 }

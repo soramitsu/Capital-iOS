@@ -2405,16 +2405,16 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
     
     
     
-    public func transferMetadataOperation(_ assetId: IRAssetId) -> BaseOperation<TransferMetaData?> {
+    public func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?> {
         
-    return cuckoo_manager.call("transferMetadataOperation(_: IRAssetId) -> BaseOperation<TransferMetaData?>",
-            parameters: (assetId),
-            escapingParameters: (assetId),
+    return cuckoo_manager.call("transferMetadataOperation(_: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>",
+            parameters: (info),
+            escapingParameters: (info),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.transferMetadataOperation(assetId))
+            defaultCall: __defaultImplStub!.transferMetadataOperation(info))
         
     }
     
@@ -2512,9 +2512,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: OffsetPagination) -> BaseOperation<AssetTransactionPageData?>", parameterMatchers: matchers))
 	    }
 	    
-	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId), BaseOperation<TransferMetaData?>> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferMetadataOperation(_: IRAssetId) -> BaseOperation<TransferMetaData?>", parameterMatchers: matchers))
+	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferMetadataInfo), BaseOperation<TransferMetaData?>> where M1.MatchedType == TransferMetadataInfo {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferMetadataInfo)>] = [wrap(matchable: info) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferMetadataOperation(_: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>", parameterMatchers: matchers))
 	    }
 	    
 	    func transferOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferInfo), BaseOperation<Void>> where M1.MatchedType == TransferInfo {
@@ -2571,9 +2571,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	    }
 	    
 	    @discardableResult
-	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId), BaseOperation<TransferMetaData?>> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("transferMetadataOperation(_: IRAssetId) -> BaseOperation<TransferMetaData?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.__DoNotUse<(TransferMetadataInfo), BaseOperation<TransferMetaData?>> where M1.MatchedType == TransferMetadataInfo {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferMetadataInfo)>] = [wrap(matchable: info) { $0 }]
+	        return cuckoo_manager.verify("transferMetadataOperation(_: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -2623,7 +2623,7 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
         return DefaultValueRegistry.defaultValue(for: (BaseOperation<AssetTransactionPageData?>).self)
     }
     
-    public func transferMetadataOperation(_ assetId: IRAssetId) -> BaseOperation<TransferMetaData?>  {
+    public func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>  {
         return DefaultValueRegistry.defaultValue(for: (BaseOperation<TransferMetaData?>).self)
     }
     
