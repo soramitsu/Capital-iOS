@@ -96,6 +96,7 @@ final class HistoryViewModelFactory {
 
         if let transactionType = transactionTypes[transaction.type] {
             viewModel.incoming = transactionType.isIncome
+            viewModel.icon = transactionType.typeIcon
         }
 
         if let asset = assets[transaction.assetId] {

@@ -11,6 +11,7 @@ public protocol TransactionItemViewModelProtocol: class {
     var title: String { get }
     var incoming: Bool { get }
     var status: AssetTransactionStatus { get }
+    var icon: UIImage? { get }
 }
 
 final class TransactionItemViewModel: TransactionItemViewModelProtocol {
@@ -19,6 +20,7 @@ final class TransactionItemViewModel: TransactionItemViewModelProtocol {
     var title: String = ""
     var incoming: Bool = false
     var status: AssetTransactionStatus = .commited
+    var icon: UIImage?
     
     init(transactionId: String) {
         self.transactionId = transactionId
