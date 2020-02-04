@@ -24,7 +24,7 @@ class TransactionDetailsTests: XCTestCase {
             let resolver = MockResolverProtocol()
 
             stub(resolver) { stub in
-                when(stub).amountFormatter.get.thenReturn(NumberFormatter().localizableResource())
+                when(stub).amountFormatterFactory.get.thenReturn(NumberFormatterFactory())
                 when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
                 when(stub).style.get.thenReturn(WalletStyle())
                 when(stub).account.get.thenReturn(accountSettings)

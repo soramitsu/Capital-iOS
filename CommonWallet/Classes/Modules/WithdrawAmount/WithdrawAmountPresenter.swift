@@ -84,7 +84,8 @@ final class WithdrawAmountPresenter {
                                                           symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = assets.count > 1
 
-        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(with: nil,
+        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              amount: nil,
                                                                               locale: locale)
 
         let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset,
@@ -101,7 +102,10 @@ final class WithdrawAmountPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(with: amount,
+        amountInputViewModel.observable.remove(observer: self)
+
+        amountInputViewModel = withdrawViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              amount: amount,
                                                                               locale: locale)
 
         amountInputViewModel.observable.add(observer: self)
@@ -459,6 +463,7 @@ extension WithdrawAmountPresenter: ModalPickerViewDelegate {
                 updateSelectedAssetViewModel(for: newAsset)
                 updateFeeViewModel(for: newAsset)
                 updateAccessoryViewModel(for: newAsset)
+                updateAmountInputViewModel()
             }
         } catch {
             logger?.error("Unexpected error when new asset selected \(error)")

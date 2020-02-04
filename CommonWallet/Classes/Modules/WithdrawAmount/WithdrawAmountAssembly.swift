@@ -20,18 +20,14 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let amountFormatter = resolver.amountFormatter
-
             let limit = resolver.transferAmountLimit
             let validatorFactory = resolver.inputValidatorFactory
-            let inputFormatter = NumberFormatter.money(with: resolver.amountInputPrecision).localizableResource()
-            let withdrawViewModelFactory = WithdrawAmountViewModelFactory(inputFormatter: inputFormatter,
-                                                                          amountFormatter: amountFormatter,
+            let formatterFactory = resolver.amountFormatterFactory
+            let withdrawViewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: formatterFactory,
                                                                           option: option,
                                                                           amountLimit: limit,
-                                                                          descriptionValidatorFactory: validatorFactory,
-                                                                          inputPrecision: resolver.amountInputPrecision)
-            let assetTitleFactory = AssetSelectionFactory(amountFormatter: amountFormatter)
+                                                                          descriptionValidatorFactory: validatorFactory)
+            let assetTitleFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
 
             let presenter = try WithdrawAmountPresenter(view: view,
                                                         coordinator: coordinator,

@@ -35,7 +35,8 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
             let walletAsset = WalletAsset(identifier: assetId,
                                           symbol: "A",
-                                          details: LocalizableResource { _ in UUID().uuidString })
+                                          details: LocalizableResource { _ in UUID().uuidString },
+                                          precision: 2)
             let accountSettings = try createRandomAccountSettings(for: [walletAsset],
                                                                   withdrawOptions: [])
 
@@ -48,7 +49,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatter: NumberFormatter().localizableResource())
+            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
 
@@ -156,15 +157,10 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
             let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
-            let amountFormatter = NumberFormatter().localizableResource()
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-            let inputPrecision: UInt8 = 2
-            let inputFormatter = NumberFormatter.money(with: inputPrecision).localizableResource()
-            let transferViewModelFactory = AmountViewModelFactory(inputFormatter: inputFormatter,
-                                                                  amountFormatter: amountFormatter,
+            let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                                   amountLimit: 1e+6,
-                                                                  descriptionValidatorFactory: inputValidatorFactory,
-                                                                  inputPrecision: 2)
+                                                                  descriptionValidatorFactory: inputValidatorFactory)
 
             let presenter = try AmountPresenter(view: view,
                                                 coordinator: coordinator,

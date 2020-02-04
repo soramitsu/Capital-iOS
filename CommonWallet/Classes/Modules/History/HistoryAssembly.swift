@@ -33,7 +33,7 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
 
         let includesFeeInAmount = resolver.historyConfiguration.includesFeeInAmount
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatter: resolver.amountFormatter,
+                                                       amountFormatterFactory: resolver.amountFormatterFactory,
                                                        assets: assets,
                                                        transactionTypes: resolver.transactionTypeList,
                                                        includesFeeInAmount: includesFeeInAmount)

@@ -12,13 +12,16 @@ public struct WalletAsset {
     public let symbol: String
     public let details: LocalizableResource<String>
     public let identifier: IRAssetId
+    public let precision: UInt8
 
     public init(identifier: IRAssetId,
                 symbol: String,
-                details: LocalizableResource<String>) {
+                details: LocalizableResource<String>,
+                precision: UInt8) {
         self.identifier = identifier
         self.symbol = symbol
         self.details = details
+        self.precision = precision
     }
     
 }

@@ -27,6 +27,8 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
 
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
+        let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
+
         let presenter = WithdrawConfirmationPresenter(view: view,
                                                       coordinator: coordinator,
                                                       walletService: walletService,
@@ -34,7 +36,7 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
                                                       asset: asset,
                                                       withdrawOption: option,
                                                       style: resolver.style,
-                                                      amountFormatter: resolver.amountFormatter,
+                                                      amountFormatter: amountFormatter,
                                                       eventCenter: resolver.eventCenter,
                                                       feeDisplayStrategy: resolver.feeDisplayStrategy)
         view.presenter = presenter

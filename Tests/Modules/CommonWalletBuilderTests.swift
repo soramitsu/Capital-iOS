@@ -8,6 +8,9 @@ import XCTest
 import Cuckoo
 
 class CommonWalletBuilderTests: XCTestCase {
+
+    private struct TestNumberFormatterFactory: NumberFormatterFactoryProtocol {}
+
     func testDefaultCommonWalletBuilder() {
         do {
             let commonWalletBuilder = try createDefaultBuilder(with: 4)
@@ -17,11 +20,11 @@ class CommonWalletBuilderTests: XCTestCase {
         }
     }
 
-    func testNumberFormatterSetup() {
+    func testNumberFormatterFactorySetup() {
         do {
-            let numberFormatter = NumberFormatter().localizableResource()
+            let numberFormatterFactory = TestNumberFormatterFactory()
             let context = try createDefaultBuilder(with: 4)
-                .with(amountFormatter: numberFormatter)
+                .with(amountFormatterFactory: numberFormatterFactory)
                 .build()
 
             guard let resolver = resolver(from: context) else {
@@ -29,9 +32,7 @@ class CommonWalletBuilderTests: XCTestCase {
                 return
             }
 
-            let currentFormatter = resolver.amountFormatter.value(for: Locale.current)
-            let expectedFormatter = numberFormatter.value(for: Locale.current)
-            XCTAssertTrue(currentFormatter === expectedFormatter)
+            XCTAssertTrue(resolver.amountFormatterFactory is TestNumberFormatterFactory)
 
         } catch {
             XCTFail("\(error)")
