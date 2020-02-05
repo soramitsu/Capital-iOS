@@ -38,3 +38,6 @@ Pods/
 
 # generamba templates
 Templates/
+
+# Fastlane
+Example/fastlane/
