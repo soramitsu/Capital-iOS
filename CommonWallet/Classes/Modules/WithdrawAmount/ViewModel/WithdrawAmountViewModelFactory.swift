@@ -9,7 +9,7 @@ import SoraFoundation
 protocol WithdrawAmountViewModelFactoryProtocol {
     func createWithdrawTitle() -> String
     func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String
-    func createAmountViewModel(with optionalAmount: Decimal?, locale: Locale) -> AmountInputViewModel
+    func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
     func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?, locale: Locale) -> AccessoryViewModel
 }
@@ -19,25 +19,19 @@ enum WithdrawAmountViewModelFactoryError: Error {
 }
 
 final class WithdrawAmountViewModelFactory {
+    let amountFormatterFactory: NumberFormatterFactoryProtocol
     let option: WalletWithdrawOption
-    let inputFormatter: LocalizableResource<NumberFormatter>
-    let amountFormatter: LocalizableResource<NumberFormatter>
     let amountLimit: Decimal
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
-    let inputPrecision: UInt8
 
-    init(inputFormatter: LocalizableResource<NumberFormatter>,
-         amountFormatter: LocalizableResource<NumberFormatter>,
+    init(amountFormatterFactory: NumberFormatterFactoryProtocol,
          option: WalletWithdrawOption,
          amountLimit: Decimal,
-         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
-         inputPrecision: UInt8) {
-        self.inputFormatter = inputFormatter
-        self.amountFormatter = amountFormatter
+         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
+        self.amountFormatterFactory = amountFormatterFactory
         self.option = option
         self.amountLimit = amountLimit
         self.descriptionValidatorFactory = descriptionValidatorFactory
-        self.inputPrecision = inputPrecision
     }
 }
 
@@ -53,6 +47,8 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
             return title
         }
 
+        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+
         guard let amountString = amountFormatter.value(for: locale)
             .string(from: amount as NSNumber) else {
             return title
@@ -61,11 +57,15 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         return title + " \(asset.symbol)\(amountString)"
     }
 
-    func createAmountViewModel(with optionalAmount: Decimal?, locale: Locale) -> AmountInputViewModel {
-        return AmountInputViewModel(amount: optionalAmount,
+    func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel {
+        let inputFormatter = amountFormatterFactory.createInputFormatter(for: asset)
+
+        let localizedFormatter = inputFormatter.value(for: locale)
+
+        return AmountInputViewModel(amount: amount,
                                     limit: amountLimit,
-                                    formatter: inputFormatter.value(for: locale),
-                                    precision: inputPrecision)
+                                    formatter: localizedFormatter,
+                                    precision: UInt8(localizedFormatter.maximumFractionDigits))
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {
@@ -86,6 +86,8 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         guard let amount = totalAmount, let asset = asset else {
             return accessoryViewModel
         }
+
+        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
         guard let amountString = amountFormatter.value(for: locale).string(from: amount as NSNumber) else {
             return accessoryViewModel

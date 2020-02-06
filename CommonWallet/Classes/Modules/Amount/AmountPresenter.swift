@@ -82,7 +82,9 @@ final class AmountPresenter {
 
         self.dataProviderFactory = dataProviderFactory
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
-        self.metadataProvider = try dataProviderFactory.createTransferMetadataProvider(for: selectedAsset.identifier)
+        self.metadataProvider = try dataProviderFactory
+            .createTransferMetadataProvider(for: selectedAsset.identifier,
+                                            destination: payload.receiveInfo.accountId)
 
         self.feeCalculationFactory = feeCalculationFactory
         self.transferViewModelFactory = transferViewModelFactory
@@ -105,7 +107,8 @@ final class AmountPresenter {
             decimalAmount = Decimal(string: amount.value)
         }
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: decimalAmount,
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              amount: decimalAmount,
                                                                               locale: locale)
 
         accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
@@ -126,7 +129,10 @@ final class AmountPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(with: amount,
+        amountInputViewModel.observable.remove(observer: self)
+
+        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              amount: amount,
                                                                               locale: locale)
 
         amountInputViewModel.observable.add(observer: self)
@@ -303,7 +309,9 @@ final class AmountPresenter {
     }
 
     private func updateMetadataProvider(for asset: WalletAsset) throws {
-        let metaDataProvider = try dataProviderFactory.createTransferMetadataProvider(for: asset.identifier)
+        let metaDataProvider = try dataProviderFactory
+            .createTransferMetadataProvider(for: asset.identifier,
+                                            destination: payload.receiveInfo.accountId)
         self.metadataProvider = metaDataProvider
 
         setupMetadata(provider: metaDataProvider)
@@ -478,6 +486,7 @@ extension AmountPresenter: ModalPickerViewDelegate {
 
                 updateSelectedAssetViewModel(for: newAsset)
                 updateFeeViewModel(for: newAsset)
+                updateAmountInputViewModel()
             }
         } catch {
             logger?.error("Unexpected error when new asset selected \(error)")

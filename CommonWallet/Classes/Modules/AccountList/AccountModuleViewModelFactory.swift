@@ -27,18 +27,18 @@ final class AccountModuleViewModelFactory {
     let assets: [WalletAsset]
     let commandFactory: WalletCommandFactoryProtocol
     let commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
-    let amountFormatter: LocalizableResource<NumberFormatter>
+    let amountFormatterFactory: NumberFormatterFactoryProtocol
 
     init(context: AccountListViewModelContextProtocol,
          assets: [WalletAsset],
          commandFactory: WalletCommandFactoryProtocol,
          commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?,
-         amountFormatter: LocalizableResource<NumberFormatter>) {
+         amountFormatterFactory: NumberFormatterFactoryProtocol) {
         self.context = context
         self.assets = assets
         self.commandFactory = commandFactory
         self.commandDecoratorFactory = commandDecoratorFactory
-        self.amountFormatter = amountFormatter
+        self.amountFormatterFactory = amountFormatterFactory
     }
 
     private func createDefaultAssetViewModel(for asset: WalletAsset,
@@ -46,12 +46,16 @@ final class AccountModuleViewModelFactory {
                                              locale: Locale) -> AssetViewModelProtocol {
         let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
 
+        let assetCellStyle = context.assetCellStyleFactory.createCellStyle(for: asset)
+
         let viewModel = AssetViewModel(cellReuseIdentifier: AccountModuleConstants.assetCellIdentifier,
                                        itemHeight: AccountModuleConstants.assetCellHeight,
-                                       style: context.assetCellStyle,
+                                       style: assetCellStyle,
                                        command: assetDetailsCommand)
 
         viewModel.assetId = asset.identifier.identifier()
+
+        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
         if let decimal = Decimal(string: balance.balance),
             let balanceString = amountFormatter.value(for: locale).string(from: decimal as NSNumber) {

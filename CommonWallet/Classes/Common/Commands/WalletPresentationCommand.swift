@@ -8,6 +8,7 @@ import Foundation
 public enum WalletPresentationStyle {
     case push(hidesBottomBar: Bool)
     case modal(inNavigation: Bool)
+    case setRoot
 }
 
 public protocol WalletPresentationCommandProtocol: WalletCommandProtocol {
@@ -23,6 +24,8 @@ extension WalletPresentationCommandProtocol {
             navigation.push(view, animated: animated)
         case .modal(let inNavigation):
             navigation.present(view, inNavigationController: inNavigation, animated: animated)
+        case .setRoot:
+            navigation.set(view, animated: animated)
         }
     }
 }

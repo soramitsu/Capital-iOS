@@ -1,3 +1,8 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+
 import Cuckoo
 @testable import CommonWallet
 
@@ -1194,6 +1199,133 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
+import SoraFoundation
+
+
+public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = NumberFormatterFactoryProtocol
+    
+    public typealias Stubbing = __StubbingProxy_NumberFormatterFactoryProtocol
+    public typealias Verification = __VerificationProxy_NumberFormatterFactoryProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: NumberFormatterFactoryProtocol?
+
+    public func enableDefaultImplementation(_ stub: NumberFormatterFactoryProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func createInputFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter> {
+        
+    return cuckoo_manager.call("createInputFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>",
+            parameters: (asset),
+            escapingParameters: (asset),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.createInputFormatter(for: asset))
+        
+    }
+    
+    
+    
+    public func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter> {
+        
+    return cuckoo_manager.call("createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>",
+            parameters: (asset),
+            escapingParameters: (asset),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.createDisplayFormatter(for: asset))
+        
+    }
+    
+
+	public struct __StubbingProxy_NumberFormatterFactoryProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func createInputFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<NumberFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createInputFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", parameterMatchers: matchers))
+	    }
+	    
+	    func createDisplayFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<NumberFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_NumberFormatterFactoryProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func createInputFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<NumberFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
+	        return cuckoo_manager.verify("createInputFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func createDisplayFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<NumberFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
+	        return cuckoo_manager.verify("createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class NumberFormatterFactoryProtocolStub: NumberFormatterFactoryProtocol {
+    
+
+    
+
+    
+    public func createInputFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>  {
+        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
+    }
+    
+    public func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>  {
+        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
 
 
 public class MockWalletLoggerProtocol: WalletLoggerProtocol, Cuckoo.ProtocolMock {
@@ -1617,28 +1749,14 @@ import SoraFoundation
     
     
     
-     var amountFormatter: LocalizableResource<NumberFormatter> {
+     var amountFormatterFactory: NumberFormatterFactoryProtocol {
         get {
-            return cuckoo_manager.getter("amountFormatter",
+            return cuckoo_manager.getter("amountFormatterFactory",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.amountFormatter)
-        }
-        
-    }
-    
-    
-    
-     var amountInputPrecision: UInt8 {
-        get {
-            return cuckoo_manager.getter("amountInputPrecision",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.amountInputPrecision)
+                defaultCall: __defaultImplStub!.amountFormatterFactory)
         }
         
     }
@@ -1847,13 +1965,8 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var amountFormatter: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, LocalizableResource<NumberFormatter>> {
-	        return .init(manager: cuckoo_manager, name: "amountFormatter")
-	    }
-	    
-	    
-	    var amountInputPrecision: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, UInt8> {
-	        return .init(manager: cuckoo_manager, name: "amountInputPrecision")
+	    var amountFormatterFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NumberFormatterFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "amountFormatterFactory")
 	    }
 	    
 	    
@@ -1982,13 +2095,8 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var amountFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<NumberFormatter>> {
-	        return .init(manager: cuckoo_manager, name: "amountFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
-	    var amountInputPrecision: Cuckoo.VerifyReadOnlyProperty<UInt8> {
-	        return .init(manager: cuckoo_manager, name: "amountInputPrecision", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var amountFormatterFactory: Cuckoo.VerifyReadOnlyProperty<NumberFormatterFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "amountFormatterFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2148,17 +2256,9 @@ import SoraFoundation
     }
     
     
-     var amountFormatter: LocalizableResource<NumberFormatter> {
+     var amountFormatterFactory: NumberFormatterFactoryProtocol {
         get {
-            return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
-        }
-        
-    }
-    
-    
-     var amountInputPrecision: UInt8 {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (UInt8).self)
+            return DefaultValueRegistry.defaultValue(for: (NumberFormatterFactoryProtocol).self)
         }
         
     }
@@ -2305,16 +2405,16 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
     
     
     
-    public func transferMetadataOperation(_ assetId: IRAssetId) -> BaseOperation<TransferMetaData?> {
+    public func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?> {
         
-    return cuckoo_manager.call("transferMetadataOperation(_: IRAssetId) -> BaseOperation<TransferMetaData?>",
-            parameters: (assetId),
-            escapingParameters: (assetId),
+    return cuckoo_manager.call("transferMetadataOperation(_: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>",
+            parameters: (info),
+            escapingParameters: (info),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.transferMetadataOperation(assetId))
+            defaultCall: __defaultImplStub!.transferMetadataOperation(info))
         
     }
     
@@ -2412,9 +2512,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: OffsetPagination) -> BaseOperation<AssetTransactionPageData?>", parameterMatchers: matchers))
 	    }
 	    
-	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId), BaseOperation<TransferMetaData?>> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferMetadataOperation(_: IRAssetId) -> BaseOperation<TransferMetaData?>", parameterMatchers: matchers))
+	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferMetadataInfo), BaseOperation<TransferMetaData?>> where M1.MatchedType == TransferMetadataInfo {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferMetadataInfo)>] = [wrap(matchable: info) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferMetadataOperation(_: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>", parameterMatchers: matchers))
 	    }
 	    
 	    func transferOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferInfo), BaseOperation<Void>> where M1.MatchedType == TransferInfo {
@@ -2471,9 +2571,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	    }
 	    
 	    @discardableResult
-	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId), BaseOperation<TransferMetaData?>> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("transferMetadataOperation(_: IRAssetId) -> BaseOperation<TransferMetaData?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.__DoNotUse<(TransferMetadataInfo), BaseOperation<TransferMetaData?>> where M1.MatchedType == TransferMetadataInfo {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferMetadataInfo)>] = [wrap(matchable: info) { $0 }]
+	        return cuckoo_manager.verify("transferMetadataOperation(_: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -2523,7 +2623,7 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
         return DefaultValueRegistry.defaultValue(for: (BaseOperation<AssetTransactionPageData?>).self)
     }
     
-    public func transferMetadataOperation(_ assetId: IRAssetId) -> BaseOperation<TransferMetaData?>  {
+    public func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>  {
         return DefaultValueRegistry.defaultValue(for: (BaseOperation<TransferMetaData?>).self)
     }
     

@@ -7,7 +7,7 @@ import Foundation
 
 protocol AccountListViewModelContextProtocol {
     var viewModelFactoryContainer: AccountListViewModelFactoryContainer { get }
-    var assetCellStyle: AssetCellStyle { get }
+    var assetCellStyleFactory: AssetCellStyleFactoryProtocol { get }
     var actionsStyle: ActionsCellStyle { get }
     var showMoreCellStyle: WalletTextStyle { get }
     var accountListViewModelFactory: AccountListViewModelFactoryProtocol? { get }
@@ -105,7 +105,7 @@ struct AccountListViewModelFactoryContainer {
 struct AccountListViewModelContext: AccountListViewModelContextProtocol {
     var viewModelFactoryContainer: AccountListViewModelFactoryContainer
     var accountListViewModelFactory: AccountListViewModelFactoryProtocol?
-    var assetCellStyle: AssetCellStyle
+    var assetCellStyleFactory: AssetCellStyleFactoryProtocol
     var actionsStyle: ActionsCellStyle
     var showMoreCellStyle: WalletTextStyle
     var minimumVisibleAssets: UInt

@@ -28,7 +28,7 @@ protocol WalletServiceProtocol {
                                  completionBlock: @escaping TransactionHistoryBlock) -> Operation
 
     @discardableResult
-    func fetchTransferMetadata(for assetId: IRAssetId,
+    func fetchTransferMetadata(for info: TransferMetadataInfo,
                                runCompletionIn queue: DispatchQueue,
                                completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation
 

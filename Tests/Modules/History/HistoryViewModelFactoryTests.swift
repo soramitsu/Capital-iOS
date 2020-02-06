@@ -16,7 +16,8 @@ class HistoryViewModelFactoryTests: XCTestCase {
             let assetId = try IRAssetIdFactory.asset(withIdentifier: assetDataWithFee.assetId)
             let asset = WalletAsset(identifier: assetId,
                                     symbol: "",
-                                    details: LocalizableResource { _ in "" })
+                                    details: LocalizableResource { _ in "" },
+                                    precision: 2)
 
             guard let type = WalletTransactionType.required.first(where: { !$0.isIncome })?.backendName else {
                 XCTFail("Unexpected type")
@@ -52,7 +53,9 @@ class HistoryViewModelFactoryTests: XCTestCase {
                     expectedAmount += fee
                 }
 
-                guard let currentAmount = viewModelFactory.amountFormatter.value(for: Locale.current)
+                let amountFormatter = viewModelFactory.amountFormatterFactory.createDisplayFormatter(for: asset)
+
+                guard let currentAmount = amountFormatter.value(for: Locale.current)
                     .number(from: viewModel.amount) else {
                     XCTFail("Unexpected current amount")
                     return
@@ -75,7 +78,7 @@ class HistoryViewModelFactoryTests: XCTestCase {
                                                           dayChangeHandler: DayChangeHandler())
 
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatter: NumberFormatter().localizableResource(),
+                                                       amountFormatterFactory: NumberFormatterFactory(),
                                                        assets: assets,
                                                        transactionTypes: WalletTransactionType.required,
                                                        includesFeeInAmount: includesFee)

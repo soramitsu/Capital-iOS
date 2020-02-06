@@ -22,17 +22,14 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatter: resolver.amountFormatter)
+            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
             let inputValidatorFactory = resolver.inputValidatorFactory
 
-            let inputFormatter = NumberFormatter.money(with: resolver.amountInputPrecision).localizableResource()
-            let transferViewModelFactory = AmountViewModelFactory(inputFormatter: inputFormatter,
-                                                                  amountFormatter: resolver.amountFormatter,
+            let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: resolver.amountFormatterFactory,
                                                                   amountLimit: resolver.transferAmountLimit,
-                                                                  descriptionValidatorFactory: inputValidatorFactory,
-                                                                  inputPrecision: resolver.amountInputPrecision)
+                                                                  descriptionValidatorFactory: inputValidatorFactory)
 
             let presenter = try  AmountPresenter(view: view,
                                                  coordinator: coordinator,

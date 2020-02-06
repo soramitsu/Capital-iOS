@@ -23,13 +23,15 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
         
         let coordinator = WithdrawResultCoordinator(resolver: resolver)
 
+        let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
+
         let presenter = WithdrawResultPresenter(view: view,
                                                 coordinator: coordinator,
                                                 withdrawInfo: info,
                                                 asset: asset,
                                                 withdrawOption: option,
                                                 style: resolver.style,
-                                                amountFormatter: resolver.amountFormatter,
+                                                amountFormatter: amountFormatter,
                                                 dateFormatter: resolver.statusDateFormatter,
                                                 feeDisplayStrategy: resolver.feeDisplayStrategy)
         view.presenter = presenter

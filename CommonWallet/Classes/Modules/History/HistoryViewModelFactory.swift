@@ -29,7 +29,7 @@ enum HistoryViewModelFactoryError: Error {
 
 final class HistoryViewModelFactory {
     private(set) var dateFormatterProvider: DateFormatterProviderProtocol
-    private(set) var amountFormatter: LocalizableResource<NumberFormatter>
+    private(set) var amountFormatterFactory: NumberFormatterFactoryProtocol
     private(set) var assets: [String: WalletAsset]
     private(set) var transactionTypes: [String: WalletTransactionType]
     private(set) var includesFeeInAmount: Bool
@@ -37,12 +37,12 @@ final class HistoryViewModelFactory {
     weak var delegate: HistoryViewModelFactoryDelegate?
 
     init(dateFormatterProvider: DateFormatterProviderProtocol,
-         amountFormatter: LocalizableResource<NumberFormatter>,
+         amountFormatterFactory: NumberFormatterFactoryProtocol,
          assets: [WalletAsset],
          transactionTypes: [WalletTransactionType],
          includesFeeInAmount: Bool) {
         self.dateFormatterProvider = dateFormatterProvider
-        self.amountFormatter = amountFormatter
+        self.amountFormatterFactory = amountFormatterFactory
         self.includesFeeInAmount = includesFeeInAmount
 
         self.assets = assets.reduce(into: [String: WalletAsset]()) { (result, asset) in
@@ -76,9 +76,19 @@ final class HistoryViewModelFactory {
             totalAmountValue += feeValue
         }
 
-        guard let amountDisplayString = amountFormatter.value(for: locale)
-            .string(from: (totalAmountValue as NSNumber)) else {
-            throw HistoryViewModelFactoryError.amountFormattingFailed
+        let amountDisplayString: String
+
+        if let asset = assets[transaction.assetId] {
+            let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+
+            guard let displayString = amountFormatter.value(for: locale)
+                .string(from: (totalAmountValue as NSNumber)) else {
+                throw HistoryViewModelFactoryError.amountFormattingFailed
+            }
+
+            amountDisplayString = displayString
+        } else {
+            amountDisplayString = transaction.amount
         }
 
         viewModel.title = transaction.peerName
@@ -86,6 +96,7 @@ final class HistoryViewModelFactory {
 
         if let transactionType = transactionTypes[transaction.type] {
             viewModel.incoming = transactionType.isIncome
+            viewModel.icon = transactionType.typeIcon
         }
 
         if let asset = assets[transaction.assetId] {

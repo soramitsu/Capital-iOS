@@ -42,7 +42,6 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(amountFormatter: NumberFormatter.amount.localizableResource())
             .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: [withdrawType])
             .with(language: language)
@@ -123,22 +122,26 @@ final class LocalizedDemo: DemoFactoryProtocol {
         let soraAssetId = try IRAssetIdFactory.asset(withIdentifier: "sora#demo")
         let soraAsset = WalletAsset(identifier: soraAssetId,
                                     symbol: "ラ",
-                                    details: LocalizableResource { _ in "Sora economy" })
+                                    details: LocalizableResource { _ in "Sora economy" },
+                                    precision: 2)
 
         let d3AssetId = try IRAssetIdFactory.asset(withIdentifier: "d3#demo")
         let d3Asset = WalletAsset(identifier: d3AssetId,
                                   symbol: "元",
-                                  details: LocalizableResource { _ in "Digital identity" })
+                                  details: LocalizableResource { _ in "Digital identity" },
+                                  precision: 2)
 
         let vinceraAssetId = try IRAssetIdFactory.asset(withIdentifier: "vincera#demo")
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
                                        symbol: "る",
-                                       details: LocalizableResource { _ in "Pay for vine" })
+                                       details: LocalizableResource { _ in "Pay for vine" },
+                                       precision: 2)
 
         let moneaAssetId = try IRAssetIdFactory.asset(withIdentifier: "monea#demo")
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
                                      symbol: "金",
-                                     details: LocalizableResource { _ in "Fast money transfer" })
+                                     details: LocalizableResource { _ in "Fast money transfer" },
+                                     precision: 2)
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]
     }

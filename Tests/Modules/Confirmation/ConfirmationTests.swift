@@ -75,7 +75,8 @@ class ConfirmationTests: NetworkBaseTests {
             }
 
             stub(resolver) { stub in
-                when(stub).amountFormatter.get.thenReturn(NumberFormatter().localizableResource())
+                when(stub).account.get.thenReturn(accountSettings)
+                when(stub).amountFormatterFactory.get.thenReturn(NumberFormatterFactory())
                 when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
                 when(stub).style.get.thenReturn(WalletStyle())
             }
