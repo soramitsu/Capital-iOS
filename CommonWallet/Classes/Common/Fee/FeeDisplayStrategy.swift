@@ -6,17 +6,15 @@
 import Foundation
 
 public protocol FeeDisplayStrategyProtocol {
-    func decimalValue(from feeString: String?) -> Decimal?
+    func decimalValue(from fee: Decimal?) -> Decimal?
 }
 
 public struct FeedDisplayStrategyIfNonzero: FeeDisplayStrategyProtocol {
 
     public init() {}
 
-    public func decimalValue(from feeString: String?) -> Decimal? {
-        if let feeString = feeString,
-            let fee = Decimal(string: feeString),
-            fee > 0.0 {
+    public func decimalValue(from fee: Decimal?) -> Decimal? {
+        if let fee = fee, fee > 0.0 {
             return fee
         } else {
             return nil
@@ -28,8 +26,8 @@ public struct FeeDisplayStrategyAlways: FeeDisplayStrategyProtocol {
 
     public init() {}
 
-    public func decimalValue(from feeString: String?) -> Decimal? {
-        if let feeString = feeString, let fee = Decimal(string: feeString) {
+    public func decimalValue(from fee: Decimal?) -> Decimal? {
+        if let fee = fee {
             return fee
         } else {
             return 0.0

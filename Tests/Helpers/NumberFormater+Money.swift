@@ -6,7 +6,7 @@
 import Foundation
 
 extension NumberFormatter {
-    static func money(with precision: UInt8) -> NumberFormatter {
+    static func money(with precision: Int16) -> NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.numberStyle = .decimal

@@ -9,7 +9,7 @@ import Foundation
 protocol MoneyPresentable {
     var formatter: NumberFormatter { get }
     var amount: String { get }
-    var precision: UInt8 { get }
+    var precision: Int16 { get }
 
     func transform(input: String, from locale: Locale) -> String
 }

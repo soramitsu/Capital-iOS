@@ -42,7 +42,7 @@ final class AccountModuleViewModelFactory {
     }
 
     private func createDefaultAssetViewModel(for asset: WalletAsset,
-                                             balance: BalanceData,
+                                             balanceData: BalanceData,
                                              locale: Locale) -> AssetViewModelProtocol {
         let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
 
@@ -57,11 +57,12 @@ final class AccountModuleViewModelFactory {
 
         let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
-        if let decimal = Decimal(string: balance.balance),
-            let balanceString = amountFormatter.value(for: locale).string(from: decimal as NSNumber) {
+        let decimalBalance = balanceData.balance.decimalValue
+
+        if let balanceString = amountFormatter.value(for: locale).string(from: decimalBalance as NSNumber) {
             viewModel.amount = balanceString
         } else {
-            viewModel.amount = balance.balance
+            viewModel.amount = balanceData.balance.stringValue
         }
 
         viewModel.details = asset.details.value(for: locale)
@@ -130,7 +131,7 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                     .createAssetViewModel(for: asset, balance: balance, commandFactory: commandFactory) {
                     return assetViewModel
                 } else {
-                    return createDefaultAssetViewModel(for: asset, balance: balance, locale: locale)
+                    return createDefaultAssetViewModel(for: asset, balanceData: balance, locale: locale)
                 }
             }
 

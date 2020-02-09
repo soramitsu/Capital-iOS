@@ -41,7 +41,7 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
-    var precision: UInt8
+    var precision: Int16
 
     private(set) var amount: String = "" {
         didSet {
@@ -63,7 +63,7 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
          limit: Decimal,
          formatter: NumberFormatter,
          inputLocale: Locale = Locale.current,
-         precision: UInt8 = 2) {
+         precision: Int16 = 2) {
         self.limit = limit
         self.formatter = formatter
         self.inputLocale = inputLocale

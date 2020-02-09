@@ -8,12 +8,12 @@ import IrohaCommunication
 
 public struct TransferMetadataInfo {
     public var assetId: IRAssetId
-    public var source: IRAccountId
-    public var destination: IRAccountId
+    public var sender: IRAccountId
+    public var receiver: IRAccountId
 
-    public init(assetId: IRAssetId, source: IRAccountId, destination: IRAccountId) {
+    public init(assetId: IRAssetId, sender: IRAccountId, receiver: IRAccountId) {
         self.assetId = assetId
-        self.source = source
-        self.destination = destination
+        self.sender = sender
+        self.receiver = receiver
     }
 }

@@ -191,7 +191,7 @@ class AmountTests: NetworkBaseTests {
                 return
             }
 
-            XCTAssertEqual(amountViewModel?.displayAmount, expectedAmount.value)
+            XCTAssertEqual(amountViewModel?.displayAmount, expectedAmount.stringValue)
 
         } catch {
             XCTFail("\(error)")

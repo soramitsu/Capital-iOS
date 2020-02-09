@@ -136,20 +136,24 @@ public extension MiddlewareOperationFactoryProtocol {
                 throw NetworkBaseError.invalidUrl
             }
 
+            let amount = try IRAmountFactory.amount(from: info.amount.stringValue)
+
             var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
                 .transferAsset(info.source,
                                destinationAccount: info.destination,
                                assetId: info.asset,
                                description: info.details,
-                               amount: info.amount)
+                               amount: amount)
 
             if let fee = info.fee, let feeAccountId = info.feeAccountId {
                 let feeDescription = L10n.Common.transferFee
+                let feeAmount = try IRAmountFactory.amount(from: fee.stringValue)
+
                 transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
                                                                       destinationAccount: feeAccountId,
                                                                       assetId: info.asset,
                                                                       description: feeDescription,
-                                                                      amount: fee)
+                                                                      amount: feeAmount)
             }
 
             let transaction = try transactionBuilder.withQuorum(self.accountSettings.transactionQuorum)
@@ -287,20 +291,24 @@ public extension MiddlewareOperationFactoryProtocol {
                 throw NetworkBaseError.invalidUrl
             }
 
+            let amount = try IRAmountFactory.amount(from: info.amount.stringValue)
+
             var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
                 .transferAsset(self.accountSettings.accountId,
                                destinationAccount: info.destinationAccountId,
                                assetId: info.assetId,
                                description: info.details,
-                               amount: info.amount)
+                               amount: amount)
 
             if let fee = info.fee, let feeAccountId = info.feeAccountId {
                 let feeDescription = L10n.Common.withdrawalFee
+                let feeAmount = try IRAmountFactory.amount(from: fee.stringValue)
+
                 transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
                                                                       destinationAccount: feeAccountId,
                                                                       assetId: info.assetId,
                                                                       description: feeDescription,
-                                                                      amount: fee)
+                                                                      amount: feeAmount)
             }
 
             let transaction = try transactionBuilder

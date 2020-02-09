@@ -66,12 +66,11 @@ final class ConfirmationPresenter {
 
         let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
 
-        guard
-            let decimalAmount = Decimal(string: payload.transferInfo.amount.value),
-            let formattedAmount = amountFormatter.value(for: locale)
-                .string(from: decimalAmount as NSNumber) else {
-                let amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.value)"
+        let decimalAmount = payload.transferInfo.amount.decimalValue
 
+        guard let formattedAmount = amountFormatter.value(for: locale)
+                .string(from: decimalAmount as NSNumber) else {
+                let amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.stringValue)"
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
 
@@ -81,7 +80,7 @@ final class ConfirmationPresenter {
 
         guard
             let decimalFee = feeDisplayStrategy
-                .decimalValue(from: payload.transferInfo.fee?.value),
+                .decimalValue(from: payload.transferInfo.fee?.decimalValue),
             let formattedFee = amountFormatter.value(for: locale)
                 .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)

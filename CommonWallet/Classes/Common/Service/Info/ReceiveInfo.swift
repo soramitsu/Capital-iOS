@@ -17,10 +17,10 @@ public struct ReceiveInfo {
 
     public var accountId: IRAccountId
     public var assetId: IRAssetId?
-    public var amount: IRAmount?
+    public var amount: AmountDecimal?
     public var details: String?
 
-    public init(accountId: IRAccountId, assetId: IRAssetId?, amount: IRAmount?, details: String?) {
+    public init(accountId: IRAccountId, assetId: IRAssetId?, amount: AmountDecimal?, details: String?) {
         self.accountId = accountId
         self.assetId = assetId
         self.amount = amount
@@ -31,7 +31,7 @@ public struct ReceiveInfo {
 extension ReceiveInfo: Equatable {
     public static func == (lhs: ReceiveInfo, rhs: ReceiveInfo) -> Bool {
         return lhs.accountId.identifier() == rhs.accountId.identifier() &&
-            lhs.amount?.value == rhs.amount?.value &&
+            lhs.amount == rhs.amount &&
             lhs.assetId?.identifier() == rhs.assetId?.identifier() &&
             lhs.details == rhs.details
     }
@@ -47,9 +47,7 @@ extension ReceiveInfo: Codable {
         let assetString = try container.decode(String.self, forKey: .assetId)
         assetId = try IRAssetIdFactory.asset(withIdentifier: assetString)
 
-        if let amountString = try container.decodeIfPresent(String.self, forKey: .amount) {
-            amount = try IRAmountFactory.amount(from: amountString)
-        }
+        amount = try container.decodeIfPresent(AmountDecimal.self, forKey: .amount)
 
         details = try container.decodeIfPresent(String.self, forKey: .details)
     }
@@ -64,7 +62,7 @@ extension ReceiveInfo: Codable {
         }
 
         if let amount = amount {
-            try container.encode(amount.value, forKey: .amount)
+            try container.encode(amount, forKey: .amount)
         }
 
         if let details = details {

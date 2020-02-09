@@ -22,7 +22,6 @@ protocol HistoryViewModelFactoryProtocol {
 }
 
 enum HistoryViewModelFactoryError: Error {
-    case invalidEventAmount
     case amountFormattingFailed
     case timestampFormattingFailed
 }
@@ -61,17 +60,14 @@ final class HistoryViewModelFactory {
                                  locale: Locale) throws -> TransactionItemViewModel {
         let viewModel = TransactionItemViewModel(transactionId: transaction.transactionId)
 
-        guard let amountValue = Decimal(string: transaction.amount) else {
-            throw HistoryViewModelFactoryError.invalidEventAmount
-        }
+        let amountValue = transaction.amount.decimalValue
 
         var totalAmountValue = amountValue
 
         if  includesFeeInAmount,
             let transactionType = transactionTypes[transaction.type],
             !transactionType.isIncome,
-            let feeString = transaction.fee,
-            let feeValue = Decimal(string: feeString) {
+            let feeValue = transaction.fee?.decimalValue {
 
             totalAmountValue += feeValue
         }
@@ -88,7 +84,7 @@ final class HistoryViewModelFactory {
 
             amountDisplayString = displayString
         } else {
-            amountDisplayString = transaction.amount
+            amountDisplayString = AmountDecimal(value: totalAmountValue).stringValue
         }
 
         viewModel.title = transaction.peerName

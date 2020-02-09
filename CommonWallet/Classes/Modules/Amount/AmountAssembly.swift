@@ -27,7 +27,8 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                                              radius: AccessoryView.iconRadius)
             let inputValidatorFactory = resolver.inputValidatorFactory
 
-            let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: resolver.amountFormatterFactory,
+            let amountFormatterFactory = resolver.amountFormatterFactory
+            let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: amountFormatterFactory,
                                                                   amountLimit: resolver.transferAmountLimit,
                                                                   descriptionValidatorFactory: inputValidatorFactory)
 

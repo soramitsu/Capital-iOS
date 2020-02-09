@@ -48,12 +48,11 @@ final class WithdrawConfirmationPresenter {
 
         let details: String
 
-        if let amountDecimal = Decimal(string: withdrawInfo.amount.value),
-            let formatterAmount = amountFormatter.value(for: locale)
-                .string(from: amountDecimal as NSNumber) {
+        if let formatterAmount = amountFormatter.value(for: locale)
+                .string(from: withdrawInfo.amount.decimalValue as NSNumber) {
             details = "\(asset.symbol)\(formatterAmount)"
         } else {
-            details = "\(asset.symbol)\(withdrawInfo.amount.value)"
+            details = "\(asset.symbol)\(withdrawInfo.amount.stringValue)"
         }
 
         return WalletFormViewModel(layoutType: .accessory,
@@ -62,7 +61,7 @@ final class WithdrawConfirmationPresenter {
     }
 
     private func createFeeViewModel() -> WalletFormViewModelProtocol? {
-        guard let fee = feeDisplayStrategy.decimalValue(from: withdrawInfo.fee?.value) else {
+        guard let fee = feeDisplayStrategy.decimalValue(from: withdrawInfo.fee?.decimalValue) else {
             return nil
         }
 
@@ -95,10 +94,11 @@ final class WithdrawConfirmationPresenter {
     private func createAccessoryViewModel() -> AccessoryViewModelProtocol {
         let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Withdraw.title)
 
-        guard let feeDecimal = feeDisplayStrategy.decimalValue(from: withdrawInfo.fee?.value),
-            let amountDecimal = Decimal(string: withdrawInfo.amount.value) else {
+        guard let feeDecimal = feeDisplayStrategy.decimalValue(from: withdrawInfo.fee?.decimalValue) else {
             return accessoryViewModel
         }
+
+        let amountDecimal = withdrawInfo.amount.decimalValue
 
         let totalAmount = amountDecimal + feeDecimal
 

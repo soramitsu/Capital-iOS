@@ -37,15 +37,12 @@ class HistoryViewModelFactoryTests: XCTestCase {
                     return
                 }
 
-                guard let amount = Decimal(string: assetDataWithFee.amount) else {
-                        XCTFail("Unexpected amount")
-                        return
-                }
+                let amount = assetDataWithFee.amount.decimalValue
 
                 var expectedAmount = amount
 
                 if includesFee {
-                    guard let feeString = assetDataWithFee.fee, let fee = Decimal(string: feeString) else {
+                    guard let fee = assetDataWithFee.fee?.decimalValue else {
                         XCTFail("Unexpected missing fee")
                         return
                     }

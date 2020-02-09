@@ -10,9 +10,9 @@ final class MoneyPresenter: MoneyPresentable {
 
     var amount: String = ""
     var formatter: NumberFormatter
-    var precision: UInt8
+    var precision: Int16
 
-    init(formatter: NumberFormatter = NumberFormatter.money(with: 2), precision: UInt8 = 2) {
+    init(formatter: NumberFormatter = NumberFormatter.money(with: 2), precision: Int16 = 2) {
         self.formatter = formatter
         self.precision = precision
     }

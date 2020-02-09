@@ -59,7 +59,7 @@ final class ReceiveAmountPresenter {
             selectedAsset = asset
 
             if let amount = receiveInfo.amount {
-                currentAmount = Decimal(string: amount.value) ?? 0
+                currentAmount = amount.decimalValue
             }
         } else {
             selectedAsset = account.assets.first
@@ -77,7 +77,7 @@ final class ReceiveAmountPresenter {
         amountInputViewModel = AmountInputViewModel(amount: currentAmount,
                                                     limit: amountLimit,
                                                     formatter: inputFormatter,
-                                                    precision: UInt8(inputFormatter.maximumFractionDigits))
+                                                    precision: Int16(inputFormatter.maximumFractionDigits))
 
         self.localizationManager = localizationManager
     }
@@ -112,10 +112,10 @@ final class ReceiveAmountPresenter {
             return nil
         }
 
-        var amount: IRAmount?
+        var amount: AmountDecimal?
 
         if let decimalAmount = amountInputViewModel.decimalAmount, decimalAmount > 0 {
-            amount = try? IRAmountFactory.amount(from: (decimalAmount as NSNumber).stringValue)
+            amount = AmountDecimal(value: decimalAmount)
         }
 
         return ReceiveInfo(accountId: account.accountId,
@@ -150,7 +150,7 @@ final class ReceiveAmountPresenter {
         amountInputViewModel = AmountInputViewModel(amount: amount,
                                                     limit: amountLimit,
                                                     formatter: inputFormatter,
-                                                    precision: UInt8(inputFormatter.maximumFractionDigits))
+                                                    precision: Int16(inputFormatter.maximumFractionDigits))
 
         amountInputViewModel.observable.add(observer: self)
 

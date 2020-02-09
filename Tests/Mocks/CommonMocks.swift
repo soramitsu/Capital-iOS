@@ -1,8 +1,3 @@
-/**
-* Copyright Soramitsu Co., Ltd. All Rights Reserved.
-* SPDX-License-Identifier: GPL-3.0
-*/
-
 import Cuckoo
 @testable import CommonWallet
 
@@ -1130,16 +1125,16 @@ public class MockFeeDisplayStrategyProtocol: FeeDisplayStrategyProtocol, Cuckoo.
     
     
     
-    public func decimalValue(from feeString: String?) -> Decimal? {
+    public func decimalValue(from fee: Decimal?) -> Decimal? {
         
-    return cuckoo_manager.call("decimalValue(from: String?) -> Decimal?",
-            parameters: (feeString),
-            escapingParameters: (feeString),
+    return cuckoo_manager.call("decimalValue(from: Decimal?) -> Decimal?",
+            parameters: (fee),
+            escapingParameters: (fee),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.decimalValue(from: feeString))
+            defaultCall: __defaultImplStub!.decimalValue(from: fee))
         
     }
     
@@ -1152,9 +1147,9 @@ public class MockFeeDisplayStrategyProtocol: FeeDisplayStrategyProtocol, Cuckoo.
 	    }
 	    
 	    
-	    func decimalValue<M1: Cuckoo.OptionalMatchable>(from feeString: M1) -> Cuckoo.ProtocolStubFunction<(String?), Decimal?> where M1.OptionalMatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: feeString) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockFeeDisplayStrategyProtocol.self, method: "decimalValue(from: String?) -> Decimal?", parameterMatchers: matchers))
+	    func decimalValue<M1: Cuckoo.OptionalMatchable>(from fee: M1) -> Cuckoo.ProtocolStubFunction<(Decimal?), Decimal?> where M1.OptionalMatchedType == Decimal {
+	        let matchers: [Cuckoo.ParameterMatcher<(Decimal?)>] = [wrap(matchable: fee) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockFeeDisplayStrategyProtocol.self, method: "decimalValue(from: Decimal?) -> Decimal?", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -1174,9 +1169,9 @@ public class MockFeeDisplayStrategyProtocol: FeeDisplayStrategyProtocol, Cuckoo.
 	
 	    
 	    @discardableResult
-	    func decimalValue<M1: Cuckoo.OptionalMatchable>(from feeString: M1) -> Cuckoo.__DoNotUse<(String?), Decimal?> where M1.OptionalMatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: feeString) { $0 }]
-	        return cuckoo_manager.verify("decimalValue(from: String?) -> Decimal?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func decimalValue<M1: Cuckoo.OptionalMatchable>(from fee: M1) -> Cuckoo.__DoNotUse<(Decimal?), Decimal?> where M1.OptionalMatchedType == Decimal {
+	        let matchers: [Cuckoo.ParameterMatcher<(Decimal?)>] = [wrap(matchable: fee) { $0 }]
+	        return cuckoo_manager.verify("decimalValue(from: Decimal?) -> Decimal?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -1188,7 +1183,7 @@ public class FeeDisplayStrategyProtocolStub: FeeDisplayStrategyProtocol {
     
 
     
-    public func decimalValue(from feeString: String?) -> Decimal?  {
+    public func decimalValue(from fee: Decimal?) -> Decimal?  {
         return DefaultValueRegistry.defaultValue(for: (Decimal?).self)
     }
     

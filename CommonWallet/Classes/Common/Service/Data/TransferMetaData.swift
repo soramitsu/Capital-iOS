@@ -8,17 +8,11 @@ import Foundation
 public struct TransferMetaData: Codable, Equatable {
     public var feeAccountId: String?
     public var feeType: String
-    public var feeRate: String
+    public var feeRate: AmountDecimal
 
-    public init(feeAccountId: String?, feeType: String, feeRate: String) {
+    public init(feeAccountId: String?, feeType: String, feeRate: AmountDecimal) {
         self.feeAccountId = feeAccountId
         self.feeType = feeType
         self.feeRate = feeRate
-    }
-}
-
-public extension TransferMetaData {
-    var feeRateDecimal: Decimal? {
-        return Decimal(string: feeRate)
     }
 }

@@ -84,7 +84,7 @@ final class AmountPresenter {
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
         self.metadataProvider = try dataProviderFactory
             .createTransferMetadataProvider(for: selectedAsset.identifier,
-                                            destination: payload.receiveInfo.accountId)
+                                            receiver: payload.receiveInfo.accountId)
 
         self.feeCalculationFactory = feeCalculationFactory
         self.transferViewModelFactory = transferViewModelFactory
@@ -101,11 +101,7 @@ final class AmountPresenter {
                                                           symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        var decimalAmount: Decimal?
-
-        if let amount = payload.receiveInfo.amount {
-            decimalAmount = Decimal(string: amount.value)
-        }
+        let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
         amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
                                                                               amount: decimalAmount,
@@ -145,8 +141,7 @@ final class AmountPresenter {
 
         guard
             let amount = amountInputViewModel.decimalAmount,
-            let metadata = metadata,
-            let feeRate = metadata.feeRateDecimal else {
+            let metadata = metadata else {
                 feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
                                                                              amount: nil,
                                                                              locale: locale)
@@ -154,16 +149,19 @@ final class AmountPresenter {
                 return
         }
 
+        let feeRate = metadata.feeRate.decimalValue
+
         do {
             let feeCalculator = try feeCalculationFactory
                 .createTransferFeeStrategy(for: metadata.feeType,
                                            assetId: selectedAsset.identifier,
+                                           precision: selectedAsset.precision,
                                            parameters: [feeRate])
 
-            let fee = try feeCalculator.calculate(for: amount)
+            let result = try feeCalculator.calculate(for: amount)
 
             feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                         amount: fee,
+                                                                         amount: result.fee,
                                                                          locale: locale)
             feeViewModel.isLoading = false
         } catch {
@@ -311,7 +309,7 @@ final class AmountPresenter {
     private func updateMetadataProvider(for asset: WalletAsset) throws {
         let metaDataProvider = try dataProviderFactory
             .createTransferMetadataProvider(for: asset.identifier,
-                                            destination: payload.receiveInfo.accountId)
+                                            receiver: payload.receiveInfo.accountId)
         self.metadataProvider = metaDataProvider
 
         setupMetadata(provider: metaDataProvider)
@@ -347,41 +345,44 @@ final class AmountPresenter {
         do {
             guard
                 let sendingAmount = amountInputViewModel.decimalAmount,
-                let metadata = metadata,
-                let feeRate = metadata.feeRateDecimal else {
+                let metadata = metadata else {
                     logger?.error("Either amount or metadata missing to complete transfer")
                     return nil
             }
 
-            let feeCalculator = try feeCalculationFactory.createTransferFeeStrategy(for: metadata.feeType,
-                                                                                    assetId: selectedAsset.identifier,
-                                                                                    parameters: [feeRate])
-            let fee = try feeCalculator.calculate(for: sendingAmount)
+            let feeRate = metadata.feeRate.decimalValue
 
-            let totalAmount = sendingAmount + fee
+            let feeCalculator = try feeCalculationFactory
+                .createTransferFeeStrategy(for: metadata.feeType,
+                                           assetId: selectedAsset.identifier,
+                                           precision: selectedAsset.precision,
+                                           parameters: [feeRate])
+
+            let result = try feeCalculator.calculate(for: sendingAmount)
+
+            let totalAmount = result.total
 
             guard
                 let balanceData = balances?
                     .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
-                let currentAmount =  Decimal(string: balanceData.balance),
-                totalAmount <= currentAmount else {
+                totalAmount <= balanceData.balance.decimalValue else {
                     let message = L10n.Amount.Error.noFunds
                     view?.showError(message: message)
                     return nil
             }
 
             var feeAccountId: IRAccountId?
-            var feeAmount: IRAmount?
+            var feeAmount: AmountDecimal?
 
-            if fee > 0.0 {
+            if result.fee > 0.0 {
                 if let accountIdString = metadata.feeAccountId {
                     feeAccountId = try IRAccountIdFactory.account(withIdentifier: accountIdString)
                 }
 
-                feeAmount = try IRAmountFactory.amount(from: (fee as NSNumber).stringValue)
+                feeAmount = AmountDecimal(value: result.fee)
             }
 
-            let amount = try IRAmountFactory.amount(from: (sendingAmount as NSNumber).stringValue)
+            let amount = AmountDecimal(value: result.sending)
 
             return TransferInfo(source: account.accountId,
                                 destination: payload.receiveInfo.accountId,

@@ -9,17 +9,17 @@ import IrohaCommunication
 public struct WithdrawInfo {
     public var destinationAccountId: IRAccountId
     public var assetId: IRAssetId
-    public var amount: IRAmount
+    public var amount: AmountDecimal
     public var details: String
     public var feeAccountId: IRAccountId?
-    public var fee: IRAmount?
+    public var fee: AmountDecimal?
 
     public init(destinationAccountId: IRAccountId,
                 assetId: IRAssetId,
-                amount: IRAmount,
+                amount: AmountDecimal,
                 details: String,
                 feeAccountId: IRAccountId?,
-                fee: IRAmount?) {
+                fee: AmountDecimal?) {
         self.destinationAccountId = destinationAccountId
         self.assetId = assetId
         self.amount = amount

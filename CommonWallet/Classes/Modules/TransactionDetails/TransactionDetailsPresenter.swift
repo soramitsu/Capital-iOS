@@ -110,12 +110,10 @@ final class TransactionDetailsPresenter {
     }
 
     private func createAmountViewModels() -> [WalletFormViewModel] {
-        guard let amount = Decimal(string: transactionData.amount) else {
-            return []
-        }
+        let amount = transactionData.amount.decimalValue
 
         if !transactionType.isIncome,
-            let fee = feeDisplayStrategy.decimalValue(from: transactionData.fee) {
+            let fee = feeDisplayStrategy.decimalValue(from: transactionData.fee?.decimalValue) {
             
             let totalAmount = amount + fee
 

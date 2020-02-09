@@ -51,7 +51,7 @@ class MoneyPresenterPrecisionTests: XCTestCase {
 
     func performTest(for setAmount: String?, addAmounts: [String], formatter: NumberFormatter, expectedResult: String) {
         let presenter = MoneyPresenter(formatter: formatter,
-                                       precision: UInt8(formatter.maximumFractionDigits))
+                                       precision: Int16(formatter.maximumFractionDigits))
 
         var result: String = ""
 

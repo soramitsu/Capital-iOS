@@ -12,9 +12,9 @@ public struct BalanceData: Codable, Equatable {
     }
 
     public var identifier: String
-    public var balance: String
+    public var balance: AmountDecimal
 
-    public init(identifier: String, balance: String) {
+    public init(identifier: String, balance: AmountDecimal) {
         self.identifier = identifier
         self.balance = balance
     }

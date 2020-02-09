@@ -215,7 +215,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             if expectsSuccess {
                 wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
                 
-                XCTAssertEqual(infoToConfirm?.amount.value, inputAmount)
+                XCTAssertEqual(infoToConfirm?.amount.stringValue, inputAmount)
             } else {
                 wait(for: [errorExpectation], timeout: Constants.networkTimeout)
             }

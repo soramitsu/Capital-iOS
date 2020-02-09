@@ -212,7 +212,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             if expectsSuccess {
                 wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
 
-                XCTAssertEqual(payloadToConfirm?.transferInfo.amount.value, inputAmount)
+                XCTAssertEqual(payloadToConfirm?.transferInfo.amount.stringValue, inputAmount)
             } else {
                 wait(for: [errorExpectation], timeout: Constants.networkTimeout)
             }

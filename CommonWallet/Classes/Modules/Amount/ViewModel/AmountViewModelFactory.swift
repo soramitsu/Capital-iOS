@@ -56,7 +56,7 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
         return AmountInputViewModel(amount: amount,
                                     limit: amountLimit,
                                     formatter: localizedFormatter,
-                                    precision: UInt8(localizedFormatter.maximumFractionDigits))
+                                    precision: Int16(localizedFormatter.maximumFractionDigits))
     }
 
     func createDescriptionViewModel() throws -> DescriptionInputViewModel {
