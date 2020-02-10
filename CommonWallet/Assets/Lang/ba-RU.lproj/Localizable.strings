@@ -85,3 +85,4 @@
 "withdraw.error.fail" = "Аҡса алыу хатаһы. Зинһар, һуңыраҡ ҡабатлап ҡарағыҙ.";
 "amount.module_title" = "Сумманы индерегеҙ";
 "contacts.module_title" = "Алыусыны һайлағыҙ";
+"amount.error.operation_min_limit" = "Ҡыҙғанысҡа ҡаршы, %@ минималь сумма тәшкил тәржемә.";

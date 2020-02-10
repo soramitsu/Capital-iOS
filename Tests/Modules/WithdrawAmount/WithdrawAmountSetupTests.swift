@@ -81,8 +81,8 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                               option: withdrawOption,
-                                                              amountLimit: 100,
                                                               descriptionValidatorFactory: inputValidatorFactory,
+                                                              transactionSettingsFactory: WalletTransactionSettingsFactory(),
                                                               feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
         let view = MockWithdrawAmountViewProtocol()

@@ -26,13 +26,13 @@ final class AmountAssembly: AmountAssemblyProtocol {
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
             let inputValidatorFactory = resolver.inputValidatorFactory
-
             let amountFormatterFactory = resolver.amountFormatterFactory
-
             let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
+            let transactionFactory = resolver.transactionSettingsFactory
+
             let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: amountFormatterFactory,
-                                                                  amountLimit: resolver.transferAmountLimit,
                                                                   descriptionValidatorFactory: inputValidatorFactory,
+                                                                  transactionSettingsFactory: transactionFactory,
                                                                   feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
             let presenter = try  AmountPresenter(view: view,

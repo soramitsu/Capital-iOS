@@ -1772,14 +1772,14 @@ import SoraFoundation
     
     
     
-     var transferAmountLimit: Decimal {
+     var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol {
         get {
-            return cuckoo_manager.getter("transferAmountLimit",
+            return cuckoo_manager.getter("transactionSettingsFactory",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.transferAmountLimit)
+                defaultCall: __defaultImplStub!.transactionSettingsFactory)
         }
         
     }
@@ -1970,8 +1970,8 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var transferAmountLimit: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, Decimal> {
-	        return .init(manager: cuckoo_manager, name: "transferAmountLimit")
+	    var transactionSettingsFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletTransactionSettingsFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transactionSettingsFactory")
 	    }
 	    
 	    
@@ -2100,8 +2100,8 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var transferAmountLimit: Cuckoo.VerifyReadOnlyProperty<Decimal> {
-	        return .init(manager: cuckoo_manager, name: "transferAmountLimit", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var transactionSettingsFactory: Cuckoo.VerifyReadOnlyProperty<WalletTransactionSettingsFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transactionSettingsFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2267,9 +2267,9 @@ import SoraFoundation
     }
     
     
-     var transferAmountLimit: Decimal {
+     var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol {
         get {
-            return DefaultValueRegistry.defaultValue(for: (Decimal).self)
+            return DefaultValueRegistry.defaultValue(for: (WalletTransactionSettingsFactoryProtocol).self)
         }
         
     }
@@ -3653,6 +3653,102 @@ public class WalletQRCoderFactoryProtocolStub: WalletQRCoderFactoryProtocol {
     
     public func createDecoder() -> WalletQRDecoderProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletQRDecoderProtocol).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
+public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSettingsFactoryProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = WalletTransactionSettingsFactoryProtocol
+    
+    public typealias Stubbing = __StubbingProxy_WalletTransactionSettingsFactoryProtocol
+    public typealias Verification = __VerificationProxy_WalletTransactionSettingsFactoryProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletTransactionSettingsFactoryProtocol?
+
+    public func enableDefaultImplementation(_ stub: WalletTransactionSettingsFactoryProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func createSettings(for asset: WalletAsset) -> WalletTransactionSettings {
+        
+    return cuckoo_manager.call("createSettings(for: WalletAsset) -> WalletTransactionSettings",
+            parameters: (asset),
+            escapingParameters: (asset),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.createSettings(for: asset))
+        
+    }
+    
+
+	public struct __StubbingProxy_WalletTransactionSettingsFactoryProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func createSettings<M1: Cuckoo.Matchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset), WalletTransactionSettings> where M1.MatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset)>] = [wrap(matchable: asset) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletTransactionSettingsFactoryProtocol.self, method: "createSettings(for: WalletAsset) -> WalletTransactionSettings", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_WalletTransactionSettingsFactoryProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func createSettings<M1: Cuckoo.Matchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset), WalletTransactionSettings> where M1.MatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset)>] = [wrap(matchable: asset) { $0 }]
+	        return cuckoo_manager.verify("createSettings(for: WalletAsset) -> WalletTransactionSettings", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class WalletTransactionSettingsFactoryProtocolStub: WalletTransactionSettingsFactoryProtocol {
+    
+
+    
+
+    
+    public func createSettings(for asset: WalletAsset) -> WalletTransactionSettings  {
+        return DefaultValueRegistry.defaultValue(for: (WalletTransactionSettings).self)
     }
     
 }

@@ -104,7 +104,7 @@ class ReceiveAmountTests: XCTestCase {
                                                qrService: qrService,
                                                sharingFactory: AccountShareFactory(),
                                                receiveInfo: receiveInfo,
-                                               amountLimit: Decimal(1e+6),
+                                               transactionSettingsFactory: WalletTransactionSettingsFactory(),
                                                amountFormatterFactory: NumberFormatterFactory(),
                                                localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 

@@ -37,7 +37,6 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(transferAmountLimit: 1e+12)
             .with(commandDecoratorFactory: DialogCommandDecoratorFactory())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,

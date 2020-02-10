@@ -85,3 +85,4 @@
 "withdraw.error.fail" = "Withdraw failed. Please, try again later.";
 "amount.module_title" = "Set Amount";
 "contacts.module_title" = "Select recipient";
+"amount.error.operation_min_limit" = "Sorry, minimal operation amount is %@.";

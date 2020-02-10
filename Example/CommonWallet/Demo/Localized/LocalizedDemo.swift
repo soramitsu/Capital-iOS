@@ -42,7 +42,6 @@ final class LocalizedDemo: DemoFactoryProtocol {
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: [withdrawType])
             .with(language: language)
             .with(inputValidatorFactory: DemoInputValidatorFactory())

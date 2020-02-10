@@ -85,3 +85,4 @@
 "withdraw.error.fail" = "ដនបរាជ័យ។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។";
 "amount.module_title" = "កំណត់ចំនួនទឹកប្រាក់";
 "contacts.module_title" = "ជ្រើសរើសអ្នកទទួល";
+"amount.error.operation_min_limit" = "សូមទោសចំនួនប្រតិបត្តិការតិចបំផុតគឺ %@ ។";

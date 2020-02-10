@@ -20,8 +20,8 @@ final class ReceiveAmountPresenter {
     private(set) var assetSelectionViewModel: AssetSelectionViewModel
     private(set) var amountInputViewModel: AmountInputViewModel
     private(set) var preferredQRSize: CGSize?
-    private(set) var selectedAsset: WalletAsset?
-    private(set) var amountLimit: Decimal
+    private(set) var selectedAsset: WalletAsset
+    private(set) var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
     private(set) var amountFormatterFactory: NumberFormatterFactoryProtocol
 
     private var currentImage: UIImage?
@@ -41,7 +41,7 @@ final class ReceiveAmountPresenter {
          qrService: WalletQRServiceProtocol,
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
-         amountLimit: Decimal,
+         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
          amountFormatterFactory: NumberFormatterFactoryProtocol,
          localizationManager: LocalizationManagerProtocol?) {
         self.view = view
@@ -51,7 +51,7 @@ final class ReceiveAmountPresenter {
         self.account = account
         self.assetSelectionFactory = assetSelectionFactory
         self.amountFormatterFactory = amountFormatterFactory
-        self.amountLimit = amountLimit
+        self.transactionSettingsFactory = transactionSettingsFactory
 
         var currentAmount: Decimal?
 
@@ -62,20 +62,22 @@ final class ReceiveAmountPresenter {
                 currentAmount = amount.decimalValue
             }
         } else {
-            selectedAsset = account.assets.first
+            selectedAsset = account.assets[0]
         }
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let title = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset?.identifier,
+        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
                                                           title: title,
-                                                          symbol: selectedAsset?.symbol ?? "")
+                                                          symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
         let inputFormatter = amountFormatterFactory.createInputFormatter(for: selectedAsset).value(for: locale)
 
+        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset)
+
         amountInputViewModel = AmountInputViewModel(amount: currentAmount,
-                                                    limit: amountLimit,
+                                                    limit: transactionSettings.transferLimit.maximum,
                                                     formatter: inputFormatter,
                                                     precision: Int16(inputFormatter.maximumFractionDigits))
 
@@ -147,8 +149,10 @@ final class ReceiveAmountPresenter {
 
         amountInputViewModel.observable.remove(observer: self)
 
+        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset)
+
         amountInputViewModel = AmountInputViewModel(amount: amount,
-                                                    limit: amountLimit,
+                                                    limit: transactionSettings.transferLimit.maximum,
                                                     formatter: inputFormatter,
                                                     precision: Int16(inputFormatter.maximumFractionDigits))
 

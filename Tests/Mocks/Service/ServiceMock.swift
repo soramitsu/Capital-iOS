@@ -61,12 +61,21 @@ enum SearchMock: ServiceMockProtocol {
 
 enum TransferMetadataMock: ServiceMockProtocol {
     case success
+    case factor
+    case fixed
+    case tax
     case notAvailable
 
     var mockFile: String {
         switch self {
         case .success:
             return "transferMetadataResponse.json"
+        case .factor:
+            return "transferMetadataFactorResponse.json"
+        case .fixed:
+            return "transferMetadataFixedResponse.json"
+        case .tax:
+            return "transferMetadataTaxResponse.json"
         case .notAvailable:
             return "feeNotAvailable.json"
         }

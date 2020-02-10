@@ -85,3 +85,4 @@
 "withdraw.error.fail" = "出金しに失敗しました。後でもう一度やり直してください。";
 "amount.module_title" = "金額を入力";
 "contacts.module_title" = "受取人を選択";
+"amount.error.operation_min_limit" = "申し訳ありませんが、最小操作量は%@です。";

@@ -85,3 +85,4 @@
 "withdraw.error.fail" = "Retiro fallido. Por favor, inténtelo de nuevo más tarde.";
 "amount.module_title" = "Monto a enviar";
 "contacts.module_title" = "Seleccionar destinatario";
+"amount.error.operation_min_limit" = "Lo sentimos, la cantidad mínima de operación es %@ .";

@@ -358,6 +358,10 @@ final class AmountPresenter {
                     return nil
             }
 
+            guard validateAndReportLimitConstraints(for: sendingAmount) else {
+                return nil
+            }
+
             let feeRate = metadata.feeRate.decimalValue
 
             let feeCalculator = try feeCalculationFactory
@@ -368,15 +372,8 @@ final class AmountPresenter {
 
             let result = try feeCalculator.calculate(for: sendingAmount)
 
-            let totalAmount = result.total
-
-            guard
-                let balanceData = balances?
-                    .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
-                totalAmount <= balanceData.balance.decimalValue else {
-                    let message = L10n.Amount.Error.noFunds
-                    view?.showError(message: message)
-                    return nil
+            guard validateAndReportBalanceConstraints(for: result.total) else {
+                return nil
             }
 
             var feeAccountId: IRAccountId?
@@ -403,6 +400,31 @@ final class AmountPresenter {
             logger?.error("Did recieve unexpected error \(error) while preparing transfer")
             return nil
         }
+    }
+
+    private func validateAndReportLimitConstraints(for amount: Decimal) -> Bool {
+        guard amount >= transferViewModelFactory.minimumLimit(for: selectedAsset) else {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            let message = transferViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
+                                                                                  locale: locale)
+            view?.showError(message: message)
+            return false
+        }
+
+        return true
+    }
+
+    private func validateAndReportBalanceConstraints(for amount: Decimal) -> Bool {
+        guard
+            let balanceData = balances?
+                .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
+            amount <= balanceData.balance.decimalValue else {
+                let message = L10n.Amount.Error.noFunds
+                view?.showError(message: message)
+                return false
+        }
+
+        return true
     }
 
     private func completeConfirmation() {

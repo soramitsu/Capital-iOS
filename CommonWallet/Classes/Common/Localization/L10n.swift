@@ -35,6 +35,10 @@ public enum L10n {
             public static var balance: String { return localize("amount.error.balance") }
             /// Sorry, you don't have enough funds to transfer specified amount.
             public static var noFunds: String { return localize("amount.error.no_funds") }
+            /// Sorry, minimal operation amount is %@.
+            public static func operationMinLimit(_ p1: String) -> String {
+                return localize("amount.error.operation_min_limit", p1)
+            }
             /// Sorry, we couldn't contact transfer provider. Please, try again later.
             public static var transfer: String { return localize("amount.error.transfer") }
         }

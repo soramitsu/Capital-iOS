@@ -337,6 +337,10 @@ final class WithdrawAmountPresenter {
                     return nil
             }
 
+            guard validateAndReportLimitConstraints(for: sendingAmount) else {
+                return nil
+            }
+
             let feeRate = metadata.feeRate.decimalValue
 
             let feeCalculator = try feeCalculationFactory
@@ -347,12 +351,8 @@ final class WithdrawAmountPresenter {
                                            parameters: [feeRate])
 
             let result = try feeCalculator.calculate(for: sendingAmount)
-            let totalAmount = result.total
 
-            guard
-                let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
-                totalAmount <= balanceData.balance.decimalValue else {
-                    view?.showError(message: L10n.Withdraw.Error.tooPoor)
+            guard validateAndReportBalanceConstraints(for: result.total) else {
                     return nil
             }
 
@@ -383,6 +383,30 @@ final class WithdrawAmountPresenter {
             logger?.error("Did receive unexpected error \(error)")
             return nil
         }
+    }
+
+    private func validateAndReportLimitConstraints(for amount: Decimal) -> Bool {
+        guard amount >= withdrawViewModelFactory.minimumLimit(for: selectedAsset) else {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            let message = withdrawViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
+                                                                                  locale: locale)
+            view?.showError(message: message)
+            return false
+        }
+
+        return true
+    }
+
+    private func validateAndReportBalanceConstraints(for amount: Decimal) -> Bool {
+        guard
+            let balanceData = balances?
+                .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
+            amount <= balanceData.balance.decimalValue else {
+                view?.showError(message: L10n.Withdraw.Error.tooPoor)
+                return false
+        }
+
+        return true
     }
 
     private func completeConfirmation() {

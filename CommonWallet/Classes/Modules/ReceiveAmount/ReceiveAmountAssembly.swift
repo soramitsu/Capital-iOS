@@ -33,7 +33,7 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                                qrService: qrService,
                                                sharingFactory: resolver.receiveConfiguration.accountShareFactory,
                                                receiveInfo: receiveInfo,
-                                               amountLimit: resolver.transferAmountLimit,
+                                               transactionSettingsFactory: resolver.transactionSettingsFactory,
                                                amountFormatterFactory: resolver.amountFormatterFactory,
                                                localizationManager: resolver.localizationManager)
         view.presenter = presenter

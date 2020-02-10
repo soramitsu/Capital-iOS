@@ -23,7 +23,7 @@ protocol ResolverProtocol: class {
     var localizationManager: LocalizationManagerProtocol? { get }
     var amountFormatterFactory: NumberFormatterFactoryProtocol { get }
     var statusDateFormatter: LocalizableResource<DateFormatter> { get }
-    var transferAmountLimit: Decimal { get }
+    var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol { get }
     var transactionTypeList: [WalletTransactionType] { get }
     var commandFactory: WalletCommandFactoryProtocol { get }
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
@@ -58,7 +58,7 @@ final class Resolver: ResolverProtocol {
     lazy var statusDateFormatter: LocalizableResource<DateFormatter> =
         DateFormatter.statusDateFormatter.localizableResource()
 
-    var transferAmountLimit: Decimal = 1e+7
+    var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
     var transactionTypeList: [WalletTransactionType] = []
 
     var logger: WalletLoggerProtocol?
@@ -77,7 +77,8 @@ final class Resolver: ResolverProtocol {
          transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
-         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
+         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol,
+         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) {
         self.account = account
         self.networkOperationFactory = networkOperationFactory
         self.accountListConfiguration = accountListConfiguration
@@ -89,5 +90,6 @@ final class Resolver: ResolverProtocol {
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
+        self.transactionSettingsFactory = transactionSettingsFactory
     }
 }

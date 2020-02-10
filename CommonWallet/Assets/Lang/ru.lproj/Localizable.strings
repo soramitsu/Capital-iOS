@@ -85,3 +85,4 @@
 "withdraw.error.fail" = "Ошибка при попытке вывода средств. Пожалуйста, попробуйте позже.";
 "amount.module_title" = "Введите сумму";
 "contacts.module_title" = "Выберите получателя";
+"amount.error.operation_min_limit" = "Извините, минимальная сумма операции составляет %@.";

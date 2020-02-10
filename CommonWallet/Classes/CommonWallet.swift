@@ -41,7 +41,7 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(transferDescriptionLimit: UInt8) -> Self
 
     @discardableResult
-    func with(transferAmountLimit: Decimal) -> Self
+    func with(transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) -> Self
 
     @discardableResult
     func with(logger: WalletLoggerProtocol) -> Self
@@ -84,7 +84,8 @@ public final class CommonWalletBuilder {
     fileprivate var amountFormatterFactory: NumberFormatterFactoryProtocol?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
     fileprivate var transferDescriptionLimit: UInt8 = 64
-    fileprivate var transferAmountLimit: Decimal?
+    fileprivate var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol =
+        WalletTransactionSettingsFactory()
     fileprivate var transactionTypeList: [WalletTransactionType]?
     fileprivate var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
@@ -186,8 +187,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    public func with(transferAmountLimit: Decimal) -> Self {
-        self.transferAmountLimit = transferAmountLimit
+    public func with(transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) -> Self {
+        self.transactionSettingsFactory = transactionSettingsFactory
         return self
     }
     
@@ -248,7 +249,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplaySettingsFactory: feeDisplaySettingsFactory)
+                                feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                transactionSettingsFactory: transactionSettingsFactory)
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
 
@@ -262,10 +264,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
         if let statusDateFormatter = statusDateFormatter {
             resolver.statusDateFormatter = statusDateFormatter
-        }
-
-        if let transferAmountLimit = transferAmountLimit {
-            resolver.transferAmountLimit = transferAmountLimit
         }
 
         if let transactionTypeList = transactionTypeList {
