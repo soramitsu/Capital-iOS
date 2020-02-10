@@ -28,9 +28,12 @@ final class AmountAssembly: AmountAssemblyProtocol {
             let inputValidatorFactory = resolver.inputValidatorFactory
 
             let amountFormatterFactory = resolver.amountFormatterFactory
+
+            let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
             let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: amountFormatterFactory,
                                                                   amountLimit: resolver.transferAmountLimit,
-                                                                  descriptionValidatorFactory: inputValidatorFactory)
+                                                                  descriptionValidatorFactory: inputValidatorFactory,
+                                                                  feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
             let presenter = try  AmountPresenter(view: view,
                                                  coordinator: coordinator,

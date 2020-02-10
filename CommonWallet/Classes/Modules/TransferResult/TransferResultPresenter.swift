@@ -15,18 +15,18 @@ final class TransferResultPresenter {
 
     let transferPayload: TransferPayload
     let resolver: ResolverProtocol
-    let feeDisplayStrategy: FeeDisplayStrategyProtocol
+    let feeDisplaySettings: FeeDisplaySettingsProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: TransferResultCoordinatorProtocol,
          payload: TransferPayload,
          resolver: ResolverProtocol,
-         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
+         feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.resolver = resolver
         self.transferPayload = payload
-        self.feeDisplayStrategy = feeDisplayStrategy
+        self.feeDisplaySettings = feeDisplaySettings
     }
 
     private func prepareSingleAmountViewModel(for amount: String) -> WalletFormViewModel {
@@ -57,7 +57,7 @@ final class TransferResultPresenter {
         let amount = "\(transferPayload.assetSymbol)\(formattedAmount)"
 
         guard
-            let decimalFee = feeDisplayStrategy
+            let decimalFee = feeDisplaySettings.displayStrategy
                 .decimalValue(from: transferPayload.transferInfo.fee?.decimalValue),
             let formattedFee = amountFormatter.value(for: locale)
                 .string(from: decimalFee as NSNumber) else {
@@ -73,8 +73,10 @@ final class TransferResultPresenter {
 
         let fee = "\(transferPayload.assetSymbol)\(formattedFee)"
 
+        let feeTitle = feeDisplaySettings.displayName.value(for: locale)
+
         let feeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                               title: L10n.Amount.fee,
+                                               title: feeTitle,
                                                details: fee)
 
         var viewModels = [amountViewModel, feeViewModel]

@@ -23,10 +23,14 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
             let limit = resolver.transferAmountLimit
             let validatorFactory = resolver.inputValidatorFactory
             let formatterFactory = resolver.amountFormatterFactory
+            let feeSettingsFactory = resolver.feeDisplaySettingsFactory
+
             let withdrawViewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: formatterFactory,
                                                                           option: option,
                                                                           amountLimit: limit,
-                                                                          descriptionValidatorFactory: validatorFactory)
+                                                                          descriptionValidatorFactory: validatorFactory,
+                                                                          feeDisplaySettingsFactory: feeSettingsFactory)
+
             let assetTitleFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
 
             let presenter = try WithdrawAmountPresenter(view: view,

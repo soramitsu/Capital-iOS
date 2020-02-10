@@ -1856,14 +1856,14 @@ import SoraFoundation
     
     
     
-     var feeDisplayStrategy: FeeDisplayStrategyProtocol {
+     var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol {
         get {
-            return cuckoo_manager.getter("feeDisplayStrategy",
+            return cuckoo_manager.getter("feeDisplaySettingsFactory",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.feeDisplayStrategy)
+                defaultCall: __defaultImplStub!.feeDisplaySettingsFactory)
         }
         
     }
@@ -2000,8 +2000,8 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var feeDisplayStrategy: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, FeeDisplayStrategyProtocol> {
-	        return .init(manager: cuckoo_manager, name: "feeDisplayStrategy")
+	    var feeDisplaySettingsFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, FeeDisplaySettingsFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "feeDisplaySettingsFactory")
 	    }
 	    
 	    
@@ -2130,8 +2130,8 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var feeDisplayStrategy: Cuckoo.VerifyReadOnlyProperty<FeeDisplayStrategyProtocol> {
-	        return .init(manager: cuckoo_manager, name: "feeDisplayStrategy", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var feeDisplaySettingsFactory: Cuckoo.VerifyReadOnlyProperty<FeeDisplaySettingsFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "feeDisplaySettingsFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2315,9 +2315,9 @@ import SoraFoundation
     }
     
     
-     var feeDisplayStrategy: FeeDisplayStrategyProtocol {
+     var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol {
         get {
-            return DefaultValueRegistry.defaultValue(for: (FeeDisplayStrategyProtocol).self)
+            return DefaultValueRegistry.defaultValue(for: (FeeDisplaySettingsFactoryProtocol).self)
         }
         
     }

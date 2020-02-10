@@ -29,7 +29,7 @@ protocol ResolverProtocol: class {
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol { get }
     var feeCalculationFactory: FeeCalculationFactoryProtocol { get }
-    var feeDisplayStrategy: FeeDisplayStrategyProtocol { get }
+    var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol { get }
     var qrCoderFactory: WalletQRCoderFactoryProtocol { get }
 }
 
@@ -44,7 +44,7 @@ final class Resolver: ResolverProtocol {
     var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol
     var feeCalculationFactory: FeeCalculationFactoryProtocol
-    var feeDisplayStrategy: FeeDisplayStrategyProtocol
+    var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     var navigation: NavigationProtocol?
 
@@ -77,7 +77,7 @@ final class Resolver: ResolverProtocol {
          transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
-         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
+         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
         self.account = account
         self.networkOperationFactory = networkOperationFactory
         self.accountListConfiguration = accountListConfiguration
@@ -88,6 +88,6 @@ final class Resolver: ResolverProtocol {
         self.transactionDetailsConfiguration = transactionDetailsConfiguration
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
-        self.feeDisplayStrategy = feeDisplayStrategy
+        self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
     }
 }

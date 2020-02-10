@@ -69,7 +69,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                                   option: selectionOption,
                                                                   amountLimit: 1e+6,
-                                                                  descriptionValidatorFactory: inputValidatorFactory)
+                                                                  descriptionValidatorFactory: inputValidatorFactory,
+                                                                  feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
             let view = MockWithdrawAmountViewProtocol()
             let coordinator = MockWithdrawAmountCoordinatorProtocol()

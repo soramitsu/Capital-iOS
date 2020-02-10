@@ -29,7 +29,7 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(feeCalculationFactory: FeeCalculationFactoryProtocol) -> Self
 
     @discardableResult
-    func with(feeDisplayStrategy: FeeDisplayStrategyProtocol) -> Self
+    func with(feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) -> Self
 
     @discardableResult
     func with(amountFormatterFactory: NumberFormatterFactoryProtocol) -> Self
@@ -79,7 +79,7 @@ public final class CommonWalletBuilder {
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
-    fileprivate lazy var feeDisplayStrategy: FeeDisplayStrategyProtocol = FeedDisplayStrategyIfNonzero()
+    fileprivate lazy var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol = FeeDisplaySettingsFactory()
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatterFactory: NumberFormatterFactoryProtocol?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
@@ -158,8 +158,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
-    public func with(feeDisplayStrategy: FeeDisplayStrategyProtocol) -> Self {
-        self.feeDisplayStrategy = feeDisplayStrategy
+    public func with(feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) -> Self {
+        self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
 
         return self
     }
@@ -248,7 +248,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplayStrategy: feeDisplayStrategy)
+                                feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
 

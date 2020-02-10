@@ -5,9 +5,15 @@
 
 import Foundation
 import SoraFoundation
+import IrohaCommunication
 
 protocol AmountViewModelFactoryProtocol {
-    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String
+    func createFeeTitle(for asset: WalletAsset?,
+                        sender: IRAccountId?,
+                        receiver: IRAccountId?,
+                        amount: Decimal?,
+                        locale: Locale) -> String
+
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
 }
@@ -20,21 +26,36 @@ final class AmountViewModelFactory {
     let amountFormatterFactory: NumberFormatterFactoryProtocol
     let amountLimit: Decimal
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
+    let feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
 
     init(amountFormatterFactory: NumberFormatterFactoryProtocol,
          amountLimit: Decimal,
-         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol) {
+         descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
+         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
         self.amountFormatterFactory = amountFormatterFactory
         self.amountLimit = amountLimit
         self.descriptionValidatorFactory = descriptionValidatorFactory
+        self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
     }
 }
 
 extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
-    func createFeeTitle(for asset: WalletAsset?, amount: Decimal?, locale: Locale) -> String {
-        let title: String = L10n.Amount.fee
+    func createFeeTitle(for asset: WalletAsset?,
+                        sender: IRAccountId?,
+                        receiver: IRAccountId?,
+                        amount: Decimal?,
+                        locale: Locale) -> String {
 
-        guard let amount = amount, let asset = asset else {
+        guard let asset = asset else {
+            return L10n.Amount.fee
+        }
+
+        let feeDisplaySettings = feeDisplaySettingsFactory
+            .createFeeSettings(asset: asset, senderId: sender?.identifier(), receiverId: receiver?.identifier())
+
+        let title = feeDisplaySettings.amountDetails.value(for: locale)
+
+        guard let amount = amount else {
             return title
         }
 

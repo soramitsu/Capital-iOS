@@ -112,6 +112,8 @@ final class AmountPresenter {
                                                               action: L10n.Common.next)
 
         let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset,
+                                                               sender: account.accountId,
+                                                               receiver: payload.receiveInfo.accountId,
                                                                amount: nil,
                                                                locale: locale)
         feeViewModel = FeeViewModel(title: feeTitle)
@@ -143,6 +145,8 @@ final class AmountPresenter {
             let amount = amountInputViewModel.decimalAmount,
             let metadata = metadata else {
                 feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                             sender: account.accountId,
+                                                                             receiver: payload.receiveInfo.accountId,
                                                                              amount: nil,
                                                                              locale: locale)
                 feeViewModel.isLoading = true
@@ -161,11 +165,15 @@ final class AmountPresenter {
             let result = try feeCalculator.calculate(for: amount)
 
             feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                         sender: account.accountId,
+                                                                         receiver: payload.receiveInfo.accountId,
                                                                          amount: result.fee,
                                                                          locale: locale)
             feeViewModel.isLoading = false
         } catch {
             feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                         sender: account.accountId,
+                                                                         receiver: payload.receiveInfo.accountId,
                                                                          amount: nil,
                                                                          locale: locale)
             feeViewModel.isLoading = true

@@ -25,6 +25,11 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
 
         let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
 
+        let feeDisplaySettings = resolver.feeDisplaySettingsFactory
+            .createFeeSettings(asset: asset,
+                               senderId: resolver.account.accountId.identifier(),
+                               receiverId: info.destinationAccountId.identifier())
+
         let presenter = WithdrawResultPresenter(view: view,
                                                 coordinator: coordinator,
                                                 withdrawInfo: info,
@@ -33,7 +38,7 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
                                                 style: resolver.style,
                                                 amountFormatter: amountFormatter,
                                                 dateFormatter: resolver.statusDateFormatter,
-                                                feeDisplayStrategy: resolver.feeDisplayStrategy)
+                                                feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
         presenter.localizationManager = localizationManager
