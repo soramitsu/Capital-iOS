@@ -46,6 +46,12 @@
 		847596EC23F1AA3000D00238 /* transferMetadataTaxResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596E923F1AA2700D00238 /* transferMetadataTaxResponse.json */; };
 		847596EE23F1AC3100D00238 /* transferMetadataFactorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596ED23F1AC3100D00238 /* transferMetadataFactorResponse.json */; };
 		847596EF23F1AC3100D00238 /* transferMetadataFactorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596ED23F1AC3100D00238 /* transferMetadataFactorResponse.json */; };
+		847596F123F1B55000D00238 /* withdrawalMetadataFactorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596F023F1B55000D00238 /* withdrawalMetadataFactorResponse.json */; };
+		847596F223F1B55000D00238 /* withdrawalMetadataFactorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596F023F1B55000D00238 /* withdrawalMetadataFactorResponse.json */; };
+		847596F423F1B58100D00238 /* withdrawalMetadataFixedResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596F323F1B58100D00238 /* withdrawalMetadataFixedResponse.json */; };
+		847596F523F1B58100D00238 /* withdrawalMetadataFixedResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596F323F1B58100D00238 /* withdrawalMetadataFixedResponse.json */; };
+		847596F723F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596F623F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json */; };
+		847596F823F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 847596F623F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json */; };
 		8481A58122FC48710056D3D4 /* EthereumInputValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58022FC48710056D3D4 /* EthereumInputValidatorTests.swift */; };
 		8481A58322FC51060056D3D4 /* DemoInputValidatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58222FC51060056D3D4 /* DemoInputValidatorFactory.swift */; };
 		8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */; };
@@ -184,6 +190,9 @@
 		847596E723F1AA0400D00238 /* transferMetadataFixedResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataFixedResponse.json; sourceTree = "<group>"; };
 		847596E923F1AA2700D00238 /* transferMetadataTaxResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataTaxResponse.json; sourceTree = "<group>"; };
 		847596ED23F1AC3100D00238 /* transferMetadataFactorResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataFactorResponse.json; sourceTree = "<group>"; };
+		847596F023F1B55000D00238 /* withdrawalMetadataFactorResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataFactorResponse.json; sourceTree = "<group>"; };
+		847596F323F1B58100D00238 /* withdrawalMetadataFixedResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataFixedResponse.json; sourceTree = "<group>"; };
+		847596F623F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = withdrawalMetadataTaxResponse.json; sourceTree = "<group>"; };
 		8481A58022FC48710056D3D4 /* EthereumInputValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumInputValidatorTests.swift; sourceTree = "<group>"; };
 		8481A58222FC51060056D3D4 /* DemoInputValidatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoInputValidatorFactory.swift; sourceTree = "<group>"; };
 		8481A58422FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDefaultInputValidatorTests.swift; sourceTree = "<group>"; };
@@ -577,6 +586,9 @@
 				847596ED23F1AC3100D00238 /* transferMetadataFactorResponse.json */,
 				847596E723F1AA0400D00238 /* transferMetadataFixedResponse.json */,
 				847596E923F1AA2700D00238 /* transferMetadataTaxResponse.json */,
+				847596F023F1B55000D00238 /* withdrawalMetadataFactorResponse.json */,
+				847596F323F1B58100D00238 /* withdrawalMetadataFixedResponse.json */,
+				847596F623F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -866,8 +878,10 @@
 				848B6EB4224D5A1100E8A3C9 /* successResultResponse.json in Resources */,
 				8B8B4C8122AEC4C500D77443 /* sora-ExtraBold.otf in Resources */,
 				8B8B4C8022AEC4C500D77443 /* sora-Bold.otf in Resources */,
+				847596F123F1B55000D00238 /* withdrawalMetadataFactorResponse.json in Resources */,
 				8B5E81D42268BD5B001DB674 /* searchEmptyResponse.json in Resources */,
 				84AF3DD92297D442008725C3 /* accountBalanceSingleResponse.json in Resources */,
+				847596F723F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json in Resources */,
 				8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */,
 				847596EE23F1AC3100D00238 /* transferMetadataFactorResponse.json in Resources */,
 				847596E823F1AA0400D00238 /* transferMetadataFixedResponse.json in Resources */,
@@ -883,6 +897,7 @@
 				845D1DA022B539CC000641F9 /* irohaErrorResponse.json in Resources */,
 				84AFF10C22B291550062FD3D /* historySmallResponse.json in Resources */,
 				8B8B4C7F22AEC4C500D77443 /* sora-Regular.otf in Resources */,
+				847596F423F1B58100D00238 /* withdrawalMetadataFixedResponse.json in Resources */,
 				8B8B4C8222AEC4C500D77443 /* sora-SemiBold.otf in Resources */,
 				8B7DC34022B6F952004BFE79 /* historyFilteredResponse.json in Resources */,
 				848B6EB6224D5A1100E8A3C9 /* searchResponse.json in Resources */,
@@ -899,7 +914,9 @@
 			files = (
 				84F622BC2310017200D5D6BA /* feeNotAvailable.json in Resources */,
 				84AF3DD022967639008725C3 /* contactsResponse.json in Resources */,
+				847596F523F1B58100D00238 /* withdrawalMetadataFixedResponse.json in Resources */,
 				848B6ED5224D7B2300E8A3C9 /* searchResponse.json in Resources */,
+				847596F223F1B55000D00238 /* withdrawalMetadataFactorResponse.json in Resources */,
 				848B6ED4224D7B2300E8A3C9 /* successResultResponse.json in Resources */,
 				847596EC23F1AA3000D00238 /* transferMetadataTaxResponse.json in Resources */,
 				84752C5722A804B70068188B /* searchInvoiceResponse.json in Resources */,
@@ -909,6 +926,7 @@
 				8B7DC34122B6F952004BFE79 /* historyFilteredResponse.json in Resources */,
 				84AF3DDA2297D442008725C3 /* accountBalanceSingleResponse.json in Resources */,
 				848B6ED7224D7B2300E8A3C9 /* historyResponse.json in Resources */,
+				847596F823F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json in Resources */,
 				84E048A222C209E700F0CA66 /* irohaErrorResponse.json in Resources */,
 				847596EF23F1AC3100D00238 /* transferMetadataFactorResponse.json in Resources */,
 				848B6ED6224D7B2300E8A3C9 /* accounBalanceResponse.json in Resources */,

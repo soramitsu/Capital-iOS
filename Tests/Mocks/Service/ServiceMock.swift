@@ -113,12 +113,21 @@ enum ContactsMock: ServiceMockProtocol {
 
 enum WithdrawalMetadataMock: ServiceMockProtocol {
     case success
+    case factor
+    case fixed
+    case tax
     case notAvailable
 
     var mockFile: String {
         switch self {
         case .success:
             return "withdrawalMetadataResponse.json"
+        case .factor:
+            return "withdrawalMetadataFactorResponse.json"
+        case .fixed:
+            return "withdrawalMetadataFixedResponse.json"
+        case .tax:
+            return "withdrawalMetadataTaxResponse.json"
         case .notAvailable:
             return "feeNotAvailable.json"
         }
