@@ -36,7 +36,7 @@ final class LocalizedDemo: DemoFactoryProtocol {
         let networkResolver = DemoNetworkResolver()
 
         let withdrawType = WalletTransactionType(backendName: "WITHDRAW",
-                                                 displayName: "Withdraw",
+                                                 displayName: LocalizableResource { _ in "Withdraw" },
                                                  isIncome: false,
                                                  typeIcon: nil)
 

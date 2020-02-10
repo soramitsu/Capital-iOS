@@ -6,6 +6,7 @@
 import Foundation
 @testable import CommonWallet
 import IrohaCommunication
+import SoraFoundation
 
 enum BytesGeneratorError: Error {
     case bytesGenerationFailed
@@ -101,7 +102,7 @@ func createRandomAssetTransactionData(includeFee: Bool = true) throws -> AssetTr
 
 func createRandomTransactionType() -> WalletTransactionType {
     return WalletTransactionType(backendName: UUID().uuidString,
-                                 displayName: UUID().uuidString,
+                                 displayName: LocalizableResource { _ in UUID().uuidString },
                                  isIncome: [false, true].randomElement()!,
                                  typeIcon: nil)
 }

@@ -4,15 +4,20 @@
 */
 
 import Foundation
+import SoraFoundation
 
 struct WalletTransactionTypeFilter: Equatable {
     let backendName: String
-    let displayName: String
+    let displayName: LocalizableResource<String>
+
+    static func == (lhs: WalletTransactionTypeFilter, rhs: WalletTransactionTypeFilter) -> Bool {
+        return lhs.backendName == rhs.backendName
+    }
 }
 
 extension WalletTransactionTypeFilter {
     static var all: WalletTransactionTypeFilter {
-        return WalletTransactionTypeFilter(backendName: "ALL", displayName: L10n.Common.all)
+        return WalletTransactionTypeFilter(backendName: "ALL", displayName: LocalizableResource { _ in L10n.Common.all})
     }
 }
 

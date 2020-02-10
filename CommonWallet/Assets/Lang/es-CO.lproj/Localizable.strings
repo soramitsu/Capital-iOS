@@ -10,8 +10,6 @@
 "common.close" = "Cerrar";
 "common.not_now" = "Ahora no";
 "common.open_settings" = "Abrir Configuración";
-"common.transfer_fee" = "tarifa de transferencia";
-"common.withdrawal_fee" = "Cargo por retiro";
 "common.account_share" = "Mi cuenta es:";
 "common.show_more" = "Mostrar más";
 "common.show_less" = "Mostrar menos";

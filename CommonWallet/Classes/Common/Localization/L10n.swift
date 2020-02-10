@@ -84,10 +84,6 @@ public enum L10n {
         public static var showMore: String { return localize("common.show_more") }
         /// Today
         public static var today: String { return localize("common.today") }
-        /// transfer fee
-        public static var transferFee: String { return localize("common.transfer_fee") }
-        /// withdrawal fee
-        public static var withdrawalFee: String { return localize("common.withdrawal_fee") }
         /// Yesterday
         public static var yesterday: String { return localize("common.yesterday") }
 

@@ -164,10 +164,11 @@ final class TransactionDetailsPresenter {
                                                 details: details)
         viewModels.append(timeViewModel)
 
-        if !transactionType.displayName.isEmpty {
+        let typeDisplayName = transactionType.displayName.value(for: locale)
+        if !typeDisplayName.isEmpty {
             let typeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                     title: L10n.Transaction.type,
-                                                    details: transactionType.displayName)
+                                                    details: typeDisplayName)
             viewModels.append(typeViewModel)
         }
 
