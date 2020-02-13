@@ -57,7 +57,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
         let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
 
         stub(settingsMock) { stub in
-            when(stub).createSettings(for: any()).then { _ in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
                 WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
                                           withdrawLimit: WalletTransactionLimit(minimum: 10, maximum: 1e+6))
             }
@@ -76,7 +76,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
         let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
 
         stub(settingsMock) { stub in
-            when(stub).createSettings(for: any()).then { _ in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
                 WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
                                           withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
             }
@@ -98,7 +98,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
         let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
 
         stub(settingsMock) { stub in
-            when(stub).createSettings(for: any()).then { _ in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
                 WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
                                           withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
             }
@@ -120,7 +120,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
         let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
 
         stub(settingsMock) { stub in
-            when(stub).createSettings(for: any()).then { _ in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
                 WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
                                           withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
             }

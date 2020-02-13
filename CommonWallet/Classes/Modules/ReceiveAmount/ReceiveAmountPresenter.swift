@@ -74,7 +74,9 @@ final class ReceiveAmountPresenter {
 
         let inputFormatter = amountFormatterFactory.createInputFormatter(for: selectedAsset).value(for: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset)
+        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset,
+                                                                            senderId: nil,
+                                                                            receiverId: nil)
 
         amountInputViewModel = AmountInputViewModel(amount: currentAmount,
                                                     limit: transactionSettings.transferLimit.maximum,
@@ -149,7 +151,9 @@ final class ReceiveAmountPresenter {
 
         amountInputViewModel.observable.remove(observer: self)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset)
+        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset,
+                                                                            senderId: nil,
+                                                                            receiverId: nil)
 
         amountInputViewModel = AmountInputViewModel(amount: amount,
                                                     limit: transactionSettings.transferLimit.maximum,

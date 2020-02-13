@@ -83,7 +83,9 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
         let localizedFormatter = inputFormatter.value(for: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: asset)
+        let transactionSettings = transactionSettingsFactory.createSettings(for: asset,
+                                                                            senderId: nil,
+                                                                            receiverId: nil)
 
         return AmountInputViewModel(amount: amount,
                                     limit: transactionSettings.withdrawLimit.maximum,
@@ -124,7 +126,9 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     }
 
     func minimumLimit(for asset: WalletAsset) -> Decimal {
-        return transactionSettingsFactory.createSettings(for: asset).withdrawLimit.minimum
+        return transactionSettingsFactory.createSettings(for: asset,
+                                                         senderId: nil,
+                                                         receiverId: nil).withdrawLimit.minimum
     }
 
     func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String {

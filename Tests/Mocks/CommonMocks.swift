@@ -3689,16 +3689,16 @@ public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSett
     
     
     
-    public func createSettings(for asset: WalletAsset) -> WalletTransactionSettings {
+    public func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings {
         
-    return cuckoo_manager.call("createSettings(for: WalletAsset) -> WalletTransactionSettings",
-            parameters: (asset),
-            escapingParameters: (asset),
+    return cuckoo_manager.call("createSettings(for: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings",
+            parameters: (asset, senderId, receiverId),
+            escapingParameters: (asset, senderId, receiverId),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.createSettings(for: asset))
+            defaultCall: __defaultImplStub!.createSettings(for: asset, senderId: senderId, receiverId: receiverId))
         
     }
     
@@ -3711,9 +3711,9 @@ public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSett
 	    }
 	    
 	    
-	    func createSettings<M1: Cuckoo.Matchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset), WalletTransactionSettings> where M1.MatchedType == WalletAsset {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset)>] = [wrap(matchable: asset) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletTransactionSettingsFactoryProtocol.self, method: "createSettings(for: WalletAsset) -> WalletTransactionSettings", parameterMatchers: matchers))
+	    func createSettings<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for asset: M1, senderId: M2, receiverId: M3) -> Cuckoo.ProtocolStubFunction<(WalletAsset, String?, String?), WalletTransactionSettings> where M1.MatchedType == WalletAsset, M2.OptionalMatchedType == String, M3.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset, String?, String?)>] = [wrap(matchable: asset) { $0.0 }, wrap(matchable: senderId) { $0.1 }, wrap(matchable: receiverId) { $0.2 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletTransactionSettingsFactoryProtocol.self, method: "createSettings(for: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3733,9 +3733,9 @@ public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSett
 	
 	    
 	    @discardableResult
-	    func createSettings<M1: Cuckoo.Matchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset), WalletTransactionSettings> where M1.MatchedType == WalletAsset {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset)>] = [wrap(matchable: asset) { $0 }]
-	        return cuckoo_manager.verify("createSettings(for: WalletAsset) -> WalletTransactionSettings", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func createSettings<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for asset: M1, senderId: M2, receiverId: M3) -> Cuckoo.__DoNotUse<(WalletAsset, String?, String?), WalletTransactionSettings> where M1.MatchedType == WalletAsset, M2.OptionalMatchedType == String, M3.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset, String?, String?)>] = [wrap(matchable: asset) { $0.0 }, wrap(matchable: senderId) { $0.1 }, wrap(matchable: receiverId) { $0.2 }]
+	        return cuckoo_manager.verify("createSettings(for: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -3747,7 +3747,7 @@ public class WalletTransactionSettingsFactoryProtocolStub: WalletTransactionSett
     
 
     
-    public func createSettings(for asset: WalletAsset) -> WalletTransactionSettings  {
+    public func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings  {
         return DefaultValueRegistry.defaultValue(for: (WalletTransactionSettings).self)
     }
     

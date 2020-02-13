@@ -104,6 +104,8 @@ final class AmountPresenter {
         let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
         amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              sender: account.accountId,
+                                                                              receiver: payload.receiveInfo.accountId,
                                                                               amount: decimalAmount,
                                                                               locale: locale)
 
@@ -130,6 +132,8 @@ final class AmountPresenter {
         amountInputViewModel.observable.remove(observer: self)
 
         amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              sender: account.accountId,
+                                                                              receiver: payload.receiveInfo.accountId,
                                                                               amount: amount,
                                                                               locale: locale)
 
@@ -403,9 +407,13 @@ final class AmountPresenter {
     }
 
     private func validateAndReportLimitConstraints(for amount: Decimal) -> Bool {
-        guard amount >= transferViewModelFactory.minimumLimit(for: selectedAsset) else {
+        guard amount >= transferViewModelFactory.minimumLimit(for: selectedAsset,
+                                                              sender: account.accountId,
+                                                              receiver: payload.receiveInfo.accountId) else {
             let locale = localizationManager?.selectedLocale ?? Locale.current
             let message = transferViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
+                                                                                  sender: account.accountId,
+                                                                                  receiver: payload.receiveInfo.accountId,
                                                                                   locale: locale)
             view?.showError(message: message)
             return false

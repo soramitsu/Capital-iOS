@@ -25,11 +25,11 @@ public struct WalletTransactionSettings {
 }
 
 public protocol WalletTransactionSettingsFactoryProtocol {
-    func createSettings(for asset: WalletAsset) -> WalletTransactionSettings
+    func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings
 }
 
 public extension WalletTransactionSettingsFactoryProtocol {
-    func createSettings(for asset: WalletAsset) -> WalletTransactionSettings {
+    func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings {
         let limit: Decimal = WalletTransactionLimitConstants.defaultMaxLimit
 
         return WalletTransactionSettings(transferLimit: WalletTransactionLimit(maximum: limit),

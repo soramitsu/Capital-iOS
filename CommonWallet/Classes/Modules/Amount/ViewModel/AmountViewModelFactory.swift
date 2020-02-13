@@ -14,10 +14,19 @@ protocol AmountViewModelFactoryProtocol {
                         amount: Decimal?,
                         locale: Locale) -> String
 
-    func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
+    func createAmountViewModel(for asset: WalletAsset,
+                               sender: IRAccountId?,
+                               receiver: IRAccountId?,
+                               amount: Decimal?,
+                               locale: Locale) -> AmountInputViewModel
+
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
-    func minimumLimit(for asset: WalletAsset) -> Decimal
-    func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String
+    func minimumLimit(for asset: WalletAsset, sender: IRAccountId?, receiver: IRAccountId?) -> Decimal
+
+    func createMinimumLimitErrorDetails(for asset: WalletAsset,
+                                        sender: IRAccountId?,
+                                        receiver: IRAccountId?,
+                                        locale: Locale) -> String
 }
 
 enum AmountViewModelFactoryError: Error {
@@ -71,12 +80,19 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
         return title + " \(asset.symbol)\(amountString)"
     }
 
-    func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel {
+    func createAmountViewModel(for asset: WalletAsset,
+                               sender: IRAccountId?,
+                               receiver: IRAccountId?,
+                               amount: Decimal?,
+                               locale: Locale) -> AmountInputViewModel {
+
         let inputFormatter = amountFormatterFactory.createInputFormatter(for: asset)
 
         let localizedFormatter = inputFormatter.value(for: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: asset)
+        let transactionSettings = transactionSettingsFactory.createSettings(for: asset,
+                                                                            senderId: sender?.identifier(),
+                                                                            receiverId: receiver?.identifier())
 
         return AmountInputViewModel(amount: amount,
                                     limit: transactionSettings.transferLimit.maximum,
@@ -84,12 +100,17 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
                                     precision: Int16(localizedFormatter.maximumFractionDigits))
     }
 
-    func minimumLimit(for asset: WalletAsset) -> Decimal {
-        return transactionSettingsFactory.createSettings(for: asset).transferLimit.minimum
+    func minimumLimit(for asset: WalletAsset, sender: IRAccountId?, receiver: IRAccountId?) -> Decimal {
+        return transactionSettingsFactory
+            .createSettings(for: asset, senderId: sender?.identifier(), receiverId: receiver?.identifier())
+            .transferLimit.minimum
     }
 
-    func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String {
-        let amount = minimumLimit(for: asset)
+    func createMinimumLimitErrorDetails(for asset: WalletAsset,
+                                        sender: IRAccountId?,
+                                        receiver: IRAccountId?,
+                                        locale: Locale) -> String {
+        let amount = minimumLimit(for: asset, sender: sender, receiver: receiver)
 
         let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
