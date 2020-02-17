@@ -19,6 +19,6 @@ final class TransactionDetailsCoordinator: TransactionDetailsCoordinatorProtocol
             return
         }
 
-        resolver.navigation?.present(amountView.controller, inNavigationController: true)
+        resolver.navigation?.push(amountView.controller, animated: true)
     }
 }

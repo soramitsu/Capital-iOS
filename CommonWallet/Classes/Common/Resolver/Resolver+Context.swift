@@ -56,4 +56,8 @@ extension Resolver: CommonWalletContextProtocol {
     func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol {
         return LanguageSwitchCommand(resolver: self, language: newLanguage)
     }
+
+    func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol {
+        return TransactionDetailsCommand(resolver: self, transaction: transaction)
+    }
 }
