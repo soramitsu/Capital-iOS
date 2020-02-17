@@ -3919,6 +3919,21 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
         
     }
     
+    
+    
+    public func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol {
+        
+    return cuckoo_manager.call("prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol",
+            parameters: (transaction),
+            escapingParameters: (transaction),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareTransactionDetailsCommand(with: transaction))
+        
+    }
+    
 
 	public struct __StubbingProxy_WalletCommandFactoryProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -3971,6 +3986,11 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    func prepareLanguageSwitchCommand<M1: Cuckoo.Matchable>(with newLanguage: M1) -> Cuckoo.ProtocolStubFunction<(WalletLanguage), WalletCommandProtocol> where M1.MatchedType == WalletLanguage {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletLanguage)>] = [wrap(matchable: newLanguage) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareTransactionDetailsCommand<M1: Cuckoo.Matchable>(with transaction: M1) -> Cuckoo.ProtocolStubFunction<(AssetTransactionData), WalletPresentationCommandProtocol> where M1.MatchedType == AssetTransactionData {
+	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4043,6 +4063,12 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	        return cuckoo_manager.verify("prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func prepareTransactionDetailsCommand<M1: Cuckoo.Matchable>(with transaction: M1) -> Cuckoo.__DoNotUse<(AssetTransactionData), WalletPresentationCommandProtocol> where M1.MatchedType == AssetTransactionData {
+	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
+	        return cuckoo_manager.verify("prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -4086,6 +4112,10 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
     
     public func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
+    }
+    
+    public func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
 }
@@ -4265,6 +4295,21 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
         
     }
     
+    
+    
+    public func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol {
+        
+    return cuckoo_manager.call("prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol",
+            parameters: (transaction),
+            escapingParameters: (transaction),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareTransactionDetailsCommand(with: transaction))
+        
+    }
+    
 
 	public struct __StubbingProxy_CommonWalletContextProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -4322,6 +4367,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    func prepareLanguageSwitchCommand<M1: Cuckoo.Matchable>(with newLanguage: M1) -> Cuckoo.ProtocolStubFunction<(WalletLanguage), WalletCommandProtocol> where M1.MatchedType == WalletLanguage {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletLanguage)>] = [wrap(matchable: newLanguage) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareTransactionDetailsCommand<M1: Cuckoo.Matchable>(with transaction: M1) -> Cuckoo.ProtocolStubFunction<(AssetTransactionData), WalletPresentationCommandProtocol> where M1.MatchedType == AssetTransactionData {
+	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4400,6 +4450,12 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        return cuckoo_manager.verify("prepareLanguageSwitchCommand(with: WalletLanguage) -> WalletCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func prepareTransactionDetailsCommand<M1: Cuckoo.Matchable>(with transaction: M1) -> Cuckoo.__DoNotUse<(AssetTransactionData), WalletPresentationCommandProtocol> where M1.MatchedType == AssetTransactionData {
+	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
+	        return cuckoo_manager.verify("prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -4447,6 +4503,10 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
     
     public func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
+    }
+    
+    public func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
 }

@@ -411,9 +411,10 @@ final class AmountPresenter {
                                                               sender: account.accountId,
                                                               receiver: payload.receiveInfo.accountId) else {
             let locale = localizationManager?.selectedLocale ?? Locale.current
+            let receiverId = payload.receiveInfo.accountId
             let message = transferViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
                                                                                   sender: account.accountId,
-                                                                                  receiver: payload.receiveInfo.accountId,
+                                                                                  receiver: receiverId,
                                                                                   locale: locale)
             view?.showError(message: message)
             return false

@@ -15,14 +15,12 @@ final class HistoryCoordinator: HistoryCoordinatorProtocol {
     weak var delegate: HistoryCoordinatorDelegate?
 
     func presentDetails(for transaction: AssetTransactionData) {
-        guard let view = TransactionDetailsAssembly
-            .assembleView(resolver: resolver, transactionDetails: transaction) else {
-                return
+        do {
+            let command = resolver.commandFactory.prepareTransactionDetailsCommand(with: transaction)
+            try command.execute()
+        } catch {
+            resolver.logger?.error("Transaction details presentation failed: \(error)")
         }
-
-        view.controller.hidesBottomBarWhenPushed = true
-
-        resolver.navigation?.push(view.controller)
     }
     
     func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset]) {
