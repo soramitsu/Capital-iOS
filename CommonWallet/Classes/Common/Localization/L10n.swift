@@ -35,6 +35,10 @@ public enum L10n {
             public static var balance: String { return localize("amount.error.balance") }
             /// Sorry, you don't have enough funds to transfer specified amount.
             public static var noFunds: String { return localize("amount.error.no_funds") }
+            /// Sorry, minimal operation amount is %@.
+            public static func operationMinLimit(_ p1: String) -> String {
+                return localize("amount.error.operation_min_limit", p1)
+            }
             /// Sorry, we couldn't contact transfer provider. Please, try again later.
             public static var transfer: String { return localize("amount.error.transfer") }
         }
@@ -84,10 +88,6 @@ public enum L10n {
         public static var showMore: String { return localize("common.show_more") }
         /// Today
         public static var today: String { return localize("common.today") }
-        /// transfer fee
-        public static var transferFee: String { return localize("common.transfer_fee") }
-        /// withdrawal fee
-        public static var withdrawalFee: String { return localize("common.withdrawal_fee") }
         /// Yesterday
         public static var yesterday: String { return localize("common.yesterday") }
 

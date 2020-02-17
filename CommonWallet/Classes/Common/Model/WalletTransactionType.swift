@@ -4,35 +4,39 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 public struct WalletTransactionType: Equatable {
-    
+
     public let backendName: String
-    public let displayName: String
+    public let displayName: LocalizableResource<String>
     public let isIncome: Bool
     public let typeIcon: UIImage?
     
-    public init(backendName: String, displayName: String, isIncome: Bool, typeIcon: UIImage?) {
+    public init(backendName: String, displayName: LocalizableResource<String>, isIncome: Bool, typeIcon: UIImage?) {
         self.backendName = backendName
         self.displayName = displayName
         self.isIncome = isIncome
         self.typeIcon = typeIcon
     }
-    
+
+    public static func == (lhs: WalletTransactionType, rhs: WalletTransactionType) -> Bool {
+        return lhs.backendName == rhs.backendName
+    }
 }
 
 public extension WalletTransactionType {
     static var incoming: WalletTransactionType {
         return WalletTransactionType(backendName: "INCOMING",
-                                     displayName: L10n.Common.incoming,
+                                     displayName: LocalizableResource { _ in L10n.Common.incoming },
                                      isIncome: true,
                                      typeIcon: nil)
     }
 
     static var outgoing: WalletTransactionType {
         return WalletTransactionType(backendName: "OUTGOING",
-                                     displayName: L10n.Common.outgoing,
+                                     displayName: LocalizableResource { _ in L10n.Common.outgoing },
                                      isIncome: false,
                                      typeIcon: nil)
     }

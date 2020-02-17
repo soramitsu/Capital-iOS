@@ -35,8 +35,8 @@ public struct AssetTransactionData: Codable, Equatable {
     public var peerId: String
     public var peerName: String
     public var details: String
-    public var amount: String
-    public var fee: String?
+    public var amount: AmountDecimal
+    public var fee: AmountDecimal?
     public var timestamp: Int64
     public var type: String
     public var reason: String?
@@ -47,8 +47,8 @@ public struct AssetTransactionData: Codable, Equatable {
                 peerId: String,
                 peerName: String,
                 details: String,
-                amount: String,
-                fee: String?,
+                amount: AmountDecimal,
+                fee: AmountDecimal?,
                 timestamp: Int64,
                 type: String,
                 reason: String?) {

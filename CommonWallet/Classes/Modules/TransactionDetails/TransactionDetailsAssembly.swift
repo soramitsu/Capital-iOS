@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
     static func assembleView(resolver: ResolverProtocol,
                              transactionDetails: AssetTransactionData) -> WalletFormViewProtocol? {
@@ -15,6 +14,12 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
                 .first(where: { $0.backendName == transactionDetails.type }) else {
                     resolver.logger?.error("Can't find transaction type for value \(transactionDetails.type)")
                     return nil
+        }
+
+        guard let asset = resolver.account.assets
+            .first(where: { $0.identifier.identifier() == transactionDetails.assetId }) else {
+                resolver.logger?.error("Can't find transaction asset for value \(transactionDetails.assetId)")
+                return nil
         }
 
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
@@ -32,6 +37,15 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
 
         let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                          radius: AccessoryView.iconRadius)
+
+        let senderId = transactionType.isIncome ? transactionDetails.peerId : resolver.account.accountId.identifier()
+        let receiverId = transactionType.isIncome ? resolver.account.accountId.identifier() : transactionDetails.peerId
+
+        let feeDisplaySettings = resolver.feeDisplaySettingsFactory
+            .createFeeSettings(asset: asset,
+                               senderId: senderId,
+                               receiverId: receiverId)
+
         let presenter = TransactionDetailsPresenter(view: view,
                                                     coordinator: coordinator,
                                                     configuration: resolver.transactionDetailsConfiguration,
@@ -39,7 +53,7 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
                                                     transactionData: transactionDetails,
                                                     transactionType: transactionType,
                                                     accessoryViewModelFactory: accessoryViewModelFactory,
-                                                    feeDisplayStrategy: resolver.feeDisplayStrategy)
+                                                    feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
         presenter.localizationManager = localizationManager

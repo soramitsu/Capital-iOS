@@ -29,6 +29,11 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
 
         let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
 
+        let feeDisplaySettings = resolver.feeDisplaySettingsFactory
+            .createFeeSettings(asset: asset,
+                               senderId: resolver.account.accountId.identifier(),
+                               receiverId: info.destinationAccountId.identifier())
+
         let presenter = WithdrawConfirmationPresenter(view: view,
                                                       coordinator: coordinator,
                                                       walletService: walletService,
@@ -38,7 +43,7 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
                                                       style: resolver.style,
                                                       amountFormatter: amountFormatter,
                                                       eventCenter: resolver.eventCenter,
-                                                      feeDisplayStrategy: resolver.feeDisplayStrategy)
+                                                      feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
         presenter.localizationManager = localizationManager

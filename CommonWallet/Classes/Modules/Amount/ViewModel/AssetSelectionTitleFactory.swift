@@ -28,9 +28,8 @@ final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
         var title = "\(details) - \(asset.symbol)"
 
         if let balanceData = balanceData,
-            let value = Decimal(string: balanceData.balance),
             let formattedBalance = amountFormatter.value(for: locale)
-                .string(from: value as NSNumber) {
+                .string(from: balanceData.balance.decimalValue as NSNumber) {
             title += formattedBalance
         }
 

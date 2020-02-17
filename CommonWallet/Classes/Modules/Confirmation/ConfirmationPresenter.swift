@@ -18,7 +18,7 @@ final class ConfirmationPresenter {
     let resolver: ResolverProtocol
     let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
     let eventCenter: WalletEventCenterProtocol
-    let feeDisplayStrategy: FeeDisplayStrategyProtocol
+    let feeDisplaySettings: FeeDisplaySettingsProtocol
 
     var logger: WalletLoggerProtocol?
 
@@ -29,7 +29,7 @@ final class ConfirmationPresenter {
          payload: TransferPayload,
          accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
          eventCenter: WalletEventCenterProtocol,
-         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
+         feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.service = service
@@ -37,7 +37,7 @@ final class ConfirmationPresenter {
         self.resolver = resolver
         self.accessoryViewModelFactory = accessoryViewModelFactory
         self.eventCenter = eventCenter
-        self.feeDisplayStrategy = feeDisplayStrategy
+        self.feeDisplaySettings = feeDisplaySettings
     }
 
     private func handleTransfer(result: Result<Void, Error>) {
@@ -66,12 +66,11 @@ final class ConfirmationPresenter {
 
         let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
 
-        guard
-            let decimalAmount = Decimal(string: payload.transferInfo.amount.value),
-            let formattedAmount = amountFormatter.value(for: locale)
-                .string(from: decimalAmount as NSNumber) else {
-                let amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.value)"
+        let decimalAmount = payload.transferInfo.amount.decimalValue
 
+        guard let formattedAmount = amountFormatter.value(for: locale)
+                .string(from: decimalAmount as NSNumber) else {
+                let amount = "\(payload.assetSymbol)\(payload.transferInfo.amount.stringValue)"
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
 
@@ -80,8 +79,8 @@ final class ConfirmationPresenter {
         let amount = "\(payload.assetSymbol)\(formattedAmount)"
 
         guard
-            let decimalFee = feeDisplayStrategy
-                .decimalValue(from: payload.transferInfo.fee?.value),
+            let decimalFee = feeDisplaySettings.displayStrategy
+                .decimalValue(from: payload.transferInfo.fee?.decimalValue),
             let formattedFee = amountFormatter.value(for: locale)
                 .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)
@@ -96,8 +95,10 @@ final class ConfirmationPresenter {
 
         let fee = "\(payload.assetSymbol)\(formattedFee)"
 
+        let feeTitle = feeDisplaySettings.displayName.value(for: locale)
+
         let feeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                               title: L10n.Amount.fee,
+                                               title: feeTitle,
                                                details: fee)
 
         var viewModels = [amountViewModel, feeViewModel]

@@ -9,19 +9,19 @@ import IrohaCommunication
 public struct TransferInfo {
     public var source: IRAccountId
     public var destination: IRAccountId
-    public var amount: IRAmount
+    public var amount: AmountDecimal
     public var asset: IRAssetId
     public var details: String
     public var feeAccountId: IRAccountId?
-    public var fee: IRAmount?
+    public var fee: AmountDecimal?
 
     public init(source: IRAccountId,
                 destination: IRAccountId,
-                amount: IRAmount,
+                amount: AmountDecimal,
                 asset: IRAssetId,
                 details: String,
                 feeAccountId: IRAccountId?,
-                fee: IRAmount?) {
+                fee: AmountDecimal?) {
         self.source = source
         self.destination = destination
         self.amount = amount

@@ -17,7 +17,7 @@ final class TransactionDetailsPresenter {
     let transactionData: AssetTransactionData
     let transactionType: WalletTransactionType
     let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
-    let feeDisplayStrategy: FeeDisplayStrategyProtocol
+    let feeDisplaySettings: FeeDisplaySettingsProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
@@ -26,7 +26,7 @@ final class TransactionDetailsPresenter {
          transactionData: AssetTransactionData,
          transactionType: WalletTransactionType,
          accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
-         feeDisplayStrategy: FeeDisplayStrategyProtocol) {
+         feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.configuration = configuration
@@ -34,7 +34,7 @@ final class TransactionDetailsPresenter {
         self.transactionData = transactionData
         self.transactionType = transactionType
         self.accessoryViewModelFactory = accessoryViewModelFactory
-        self.feeDisplayStrategy = feeDisplayStrategy
+        self.feeDisplaySettings = feeDisplaySettings
     }
 
     private func createStatusViewModel(for status: AssetTransactionStatus) -> WalletFormViewModel {
@@ -110,17 +110,18 @@ final class TransactionDetailsPresenter {
     }
 
     private func createAmountViewModels() -> [WalletFormViewModel] {
-        guard let amount = Decimal(string: transactionData.amount) else {
-            return []
-        }
+        let amount = transactionData.amount.decimalValue
 
         if !transactionType.isIncome,
-            let fee = feeDisplayStrategy.decimalValue(from: transactionData.fee) {
+            let fee = feeDisplaySettings.displayStrategy.decimalValue(from: transactionData.fee?.decimalValue) {
             
             let totalAmount = amount + fee
 
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            let feeTitle = feeDisplaySettings.displayName.value(for: locale)
+
             return [createAmountViewModel(for: amount, title: L10n.Transaction.sent, hasIcon: false),
-                    createAmountViewModel(for: fee, title: L10n.Transaction.fee, hasIcon: false),
+                    createAmountViewModel(for: fee, title: feeTitle, hasIcon: false),
                     createAmountViewModel(for: totalAmount, title: L10n.Amount.total, hasIcon: true)]
         } else {
             return [createAmountViewModel(for: amount, title: L10n.Amount.title, hasIcon: true)]
@@ -166,10 +167,11 @@ final class TransactionDetailsPresenter {
                                                 details: details)
         viewModels.append(timeViewModel)
 
-        if !transactionType.displayName.isEmpty {
+        let typeDisplayName = transactionType.displayName.value(for: locale)
+        if !typeDisplayName.isEmpty {
             let typeViewModel = WalletFormViewModel(layoutType: .accessory,
                                                     title: L10n.Transaction.type,
-                                                    details: transactionType.displayName)
+                                                    details: typeDisplayName)
             viewModels.append(typeViewModel)
         }
 

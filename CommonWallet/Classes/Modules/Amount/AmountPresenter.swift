@@ -84,7 +84,7 @@ final class AmountPresenter {
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
         self.metadataProvider = try dataProviderFactory
             .createTransferMetadataProvider(for: selectedAsset.identifier,
-                                            destination: payload.receiveInfo.accountId)
+                                            receiver: payload.receiveInfo.accountId)
 
         self.feeCalculationFactory = feeCalculationFactory
         self.transferViewModelFactory = transferViewModelFactory
@@ -101,13 +101,11 @@ final class AmountPresenter {
                                                           symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        var decimalAmount: Decimal?
-
-        if let amount = payload.receiveInfo.amount {
-            decimalAmount = Decimal(string: amount.value)
-        }
+        let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
         amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              sender: account.accountId,
+                                                                              receiver: payload.receiveInfo.accountId,
                                                                               amount: decimalAmount,
                                                                               locale: locale)
 
@@ -116,6 +114,8 @@ final class AmountPresenter {
                                                               action: L10n.Common.next)
 
         let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset,
+                                                               sender: account.accountId,
+                                                               receiver: payload.receiveInfo.accountId,
                                                                amount: nil,
                                                                locale: locale)
         feeViewModel = FeeViewModel(title: feeTitle)
@@ -132,6 +132,8 @@ final class AmountPresenter {
         amountInputViewModel.observable.remove(observer: self)
 
         amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                              sender: account.accountId,
+                                                                              receiver: payload.receiveInfo.accountId,
                                                                               amount: amount,
                                                                               locale: locale)
 
@@ -145,29 +147,37 @@ final class AmountPresenter {
 
         guard
             let amount = amountInputViewModel.decimalAmount,
-            let metadata = metadata,
-            let feeRate = metadata.feeRateDecimal else {
+            let metadata = metadata else {
                 feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                             sender: account.accountId,
+                                                                             receiver: payload.receiveInfo.accountId,
                                                                              amount: nil,
                                                                              locale: locale)
                 feeViewModel.isLoading = true
                 return
         }
 
+        let feeRate = metadata.feeRate.decimalValue
+
         do {
             let feeCalculator = try feeCalculationFactory
                 .createTransferFeeStrategy(for: metadata.feeType,
                                            assetId: selectedAsset.identifier,
+                                           precision: selectedAsset.precision,
                                            parameters: [feeRate])
 
-            let fee = try feeCalculator.calculate(for: amount)
+            let result = try feeCalculator.calculate(for: amount)
 
             feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                         amount: fee,
+                                                                         sender: account.accountId,
+                                                                         receiver: payload.receiveInfo.accountId,
+                                                                         amount: result.fee,
                                                                          locale: locale)
             feeViewModel.isLoading = false
         } catch {
             feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
+                                                                         sender: account.accountId,
+                                                                         receiver: payload.receiveInfo.accountId,
                                                                          amount: nil,
                                                                          locale: locale)
             feeViewModel.isLoading = true
@@ -311,7 +321,7 @@ final class AmountPresenter {
     private func updateMetadataProvider(for asset: WalletAsset) throws {
         let metaDataProvider = try dataProviderFactory
             .createTransferMetadataProvider(for: asset.identifier,
-                                            destination: payload.receiveInfo.accountId)
+                                            receiver: payload.receiveInfo.accountId)
         self.metadataProvider = metaDataProvider
 
         setupMetadata(provider: metaDataProvider)
@@ -347,41 +357,41 @@ final class AmountPresenter {
         do {
             guard
                 let sendingAmount = amountInputViewModel.decimalAmount,
-                let metadata = metadata,
-                let feeRate = metadata.feeRateDecimal else {
+                let metadata = metadata else {
                     logger?.error("Either amount or metadata missing to complete transfer")
                     return nil
             }
 
-            let feeCalculator = try feeCalculationFactory.createTransferFeeStrategy(for: metadata.feeType,
-                                                                                    assetId: selectedAsset.identifier,
-                                                                                    parameters: [feeRate])
-            let fee = try feeCalculator.calculate(for: sendingAmount)
+            guard validateAndReportLimitConstraints(for: sendingAmount) else {
+                return nil
+            }
 
-            let totalAmount = sendingAmount + fee
+            let feeRate = metadata.feeRate.decimalValue
 
-            guard
-                let balanceData = balances?
-                    .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
-                let currentAmount =  Decimal(string: balanceData.balance),
-                totalAmount <= currentAmount else {
-                    let message = L10n.Amount.Error.noFunds
-                    view?.showError(message: message)
-                    return nil
+            let feeCalculator = try feeCalculationFactory
+                .createTransferFeeStrategy(for: metadata.feeType,
+                                           assetId: selectedAsset.identifier,
+                                           precision: selectedAsset.precision,
+                                           parameters: [feeRate])
+
+            let result = try feeCalculator.calculate(for: sendingAmount)
+
+            guard validateAndReportBalanceConstraints(for: result.total) else {
+                return nil
             }
 
             var feeAccountId: IRAccountId?
-            var feeAmount: IRAmount?
+            var feeAmount: AmountDecimal?
 
-            if fee > 0.0 {
+            if result.fee > 0.0 {
                 if let accountIdString = metadata.feeAccountId {
                     feeAccountId = try IRAccountIdFactory.account(withIdentifier: accountIdString)
                 }
 
-                feeAmount = try IRAmountFactory.amount(from: (fee as NSNumber).stringValue)
+                feeAmount = AmountDecimal(value: result.fee)
             }
 
-            let amount = try IRAmountFactory.amount(from: (sendingAmount as NSNumber).stringValue)
+            let amount = AmountDecimal(value: result.sending)
 
             return TransferInfo(source: account.accountId,
                                 destination: payload.receiveInfo.accountId,
@@ -394,6 +404,35 @@ final class AmountPresenter {
             logger?.error("Did recieve unexpected error \(error) while preparing transfer")
             return nil
         }
+    }
+
+    private func validateAndReportLimitConstraints(for amount: Decimal) -> Bool {
+        guard amount >= transferViewModelFactory.minimumLimit(for: selectedAsset,
+                                                              sender: account.accountId,
+                                                              receiver: payload.receiveInfo.accountId) else {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            let message = transferViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
+                                                                                  sender: account.accountId,
+                                                                                  receiver: payload.receiveInfo.accountId,
+                                                                                  locale: locale)
+            view?.showError(message: message)
+            return false
+        }
+
+        return true
+    }
+
+    private func validateAndReportBalanceConstraints(for amount: Decimal) -> Bool {
+        guard
+            let balanceData = balances?
+                .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
+            amount <= balanceData.balance.decimalValue else {
+                let message = L10n.Amount.Error.noFunds
+                view?.showError(message: message)
+                return false
+        }
+
+        return true
     }
 
     private func completeConfirmation() {

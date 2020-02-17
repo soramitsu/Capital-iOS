@@ -159,8 +159,9 @@ class AmountTests: NetworkBaseTests {
 
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
             let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
-                                                                  amountLimit: 1e+6,
-                                                                  descriptionValidatorFactory: inputValidatorFactory)
+                                                                  descriptionValidatorFactory: inputValidatorFactory,
+                                                                  transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                                                  feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
             let presenter = try AmountPresenter(view: view,
                                                 coordinator: coordinator,
@@ -191,7 +192,7 @@ class AmountTests: NetworkBaseTests {
                 return
             }
 
-            XCTAssertEqual(amountViewModel?.displayAmount, expectedAmount.value)
+            XCTAssertEqual(amountViewModel?.displayAmount, expectedAmount.stringValue)
 
         } catch {
             XCTFail("\(error)")

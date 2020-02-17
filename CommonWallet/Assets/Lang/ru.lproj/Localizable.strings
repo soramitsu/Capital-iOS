@@ -10,8 +10,6 @@
 "common.close" = "Закрыть";
 "common.not_now" = "Не сейчас";
 "common.open_settings" = "Открыть настройки";
-"common.transfer_fee" = "комиссия за перевод";
-"common.withdrawal_fee" = "комиссия за вывод";
 "common.account_share" = "Мой аккаунт:";
 "common.show_more" = "Показать все";
 "common.show_less" = "Свернуть";
@@ -87,3 +85,4 @@
 "withdraw.error.fail" = "Ошибка при попытке вывода средств. Пожалуйста, попробуйте позже.";
 "amount.module_title" = "Введите сумму";
 "contacts.module_title" = "Выберите получателя";
+"amount.error.operation_min_limit" = "Извините, минимальная сумма операции составляет %@.";

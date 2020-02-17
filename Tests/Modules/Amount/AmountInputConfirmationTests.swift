@@ -13,21 +13,125 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
     func testSuccessfullAmountInput() {
         let networkResolver = MockNetworkResolver()
-        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "", expectsSuccess: true)
-        performConfirmationTest(for: networkResolver, inputAmount: "100", inputDescription: "Description", expectsSuccess: true)
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                inputAmount: "100",
+                                inputDescription: "",
+                                expectsSuccess: true)
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                inputAmount: "100",
+                                inputDescription: "Description",
+                                expectsSuccess: true)
     }
 
     func testUnsufficientFundsInput() {
         let networkResolver = MockNetworkResolver()
-        performConfirmationTest(for: networkResolver, inputAmount: "100000", inputDescription: "", expectsSuccess: false)
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                inputAmount: "100000",
+                                inputDescription: "",
+                                expectsSuccess: false)
+    }
+
+    func testMinimumAmountInput() {
+        let networkResolver = MockNetworkResolver()
+
+        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
+
+        stub(settingsMock) { stub in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
+                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 10, maximum: 1e+6),
+                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
+            }
+        }
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: settingsMock,
+                                inputAmount: "1",
+                                inputDescription: "",
+                                expectsSuccess: false)
+    }
+
+    func testFixedFeeTransfer() {
+        let networkResolver = MockNetworkResolver()
+
+        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
+
+        stub(settingsMock) { stub in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
+                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
+                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
+            }
+        }
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: settingsMock,
+                                inputAmount: "100",
+                                inputDescription: "",
+                                expectsSuccess: true,
+                                metadataMock: .fixed,
+                                expectedAmount: Decimal(string: "100")!,
+                                expectedFee: Decimal(string: "1.0")!)
+    }
+
+    func testFactorFeeTransfer() {
+        let networkResolver = MockNetworkResolver()
+
+        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
+
+        stub(settingsMock) { stub in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
+                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
+                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
+            }
+        }
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: settingsMock,
+                                inputAmount: "90",
+                                inputDescription: "",
+                                expectsSuccess: true,
+                                metadataMock: .factor,
+                                expectedAmount: Decimal(string: "90")!,
+                                expectedFee: Decimal(string: "0.9")!)
+    }
+
+    func testTaxFeeTransfer() {
+        let networkResolver = MockNetworkResolver()
+
+        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
+
+        stub(settingsMock) { stub in
+            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
+                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
+                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
+            }
+        }
+
+        performConfirmationTest(for: networkResolver,
+                                transactionSettingsFactory: settingsMock,
+                                inputAmount: "80",
+                                inputDescription: "",
+                                expectsSuccess: true,
+                                metadataMock: .tax,
+                                expectedAmount: Decimal(string: "72")!,
+                                expectedFee: Decimal(string: "8")!)
     }
 
     // MARK: Private
 
     private func performConfirmationTest(for networkResolver: WalletNetworkResolverProtocol,
+                                         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
                                          inputAmount: String,
                                          inputDescription: String,
                                          expectsSuccess: Bool,
+                                         metadataMock: TransferMetadataMock = .success,
+                                         expectedAmount: Decimal? = nil,
+                                         expectedFee: Decimal? = nil,
                                          beforeConfirmationBlock: (() -> Void)? = nil) {
         do {
             // given
@@ -64,7 +168,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                                           requestType: .balance,
                                           httpMethod: .post)
 
-            try TransferMetadataMock.register(mock: .success,
+            try TransferMetadataMock.register(mock: metadataMock,
                                               networkResolver: networkResolver,
                                               requestType: .transferMetadata,
                                               httpMethod: .get,
@@ -159,8 +263,9 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
             let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
-                                                                  amountLimit: 1e+6,
-                                                                  descriptionValidatorFactory: inputValidatorFactory)
+                                                                  descriptionValidatorFactory: inputValidatorFactory,
+                                                                  transactionSettingsFactory: transactionSettingsFactory,
+                                                                  feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
             let presenter = try AmountPresenter(view: view,
                                                 coordinator: coordinator,
@@ -212,7 +317,13 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             if expectsSuccess {
                 wait(for: [confirmExpectation], timeout: Constants.networkTimeout)
 
-                XCTAssertEqual(payloadToConfirm?.transferInfo.amount.value, inputAmount)
+                if let expectedAmount = expectedAmount {
+                    XCTAssertEqual(expectedAmount, payloadToConfirm?.transferInfo.amount.decimalValue)
+                }
+
+                if let expectedFee = expectedFee {
+                    XCTAssertEqual(expectedFee, payloadToConfirm?.transferInfo.fee?.decimalValue)
+                }
             } else {
                 wait(for: [errorExpectation], timeout: Constants.networkTimeout)
             }

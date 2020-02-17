@@ -118,8 +118,7 @@ final class WithdrawAmountPresenter {
 
         guard
             let amount = amountInputViewModel.decimalAmount,
-            let metadata = metadata,
-            let feeRate = metadata.feeRateDecimal else {
+            let metadata = metadata else {
                 feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
                                                                              amount: nil,
                                                                              locale: locale)
@@ -127,16 +126,19 @@ final class WithdrawAmountPresenter {
                 return
         }
 
+        let feeRate = metadata.feeRate.decimalValue
+
         do {
             let calculator = try feeCalculationFactory
                 .createWithdrawFeeStrategy(for: metadata.feeType,
                                            assetId: selectedAsset.identifier,
                                            optionId: selectedOption.identifier,
+                                           precision: selectedAsset.precision,
                                            parameters: [feeRate])
-            let fee = try calculator.calculate(for: amount)
+            let result = try calculator.calculate(for: amount)
 
             feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
-                                                                         amount: fee,
+                                                                         amount: result.fee,
                                                                          locale: locale)
             feeViewModel.isLoading = false
         } catch {
@@ -165,7 +167,7 @@ final class WithdrawAmountPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard
-            let feeRate = metadata?.feeRateDecimal,
+            let feeRate = metadata?.feeRate.decimalValue,
             let amount = amountInputViewModel.decimalAmount else {
                 let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
                                                                                            totalAmount: nil,
@@ -330,41 +332,44 @@ final class WithdrawAmountPresenter {
         do {
             guard
                 let sendingAmount = amountInputViewModel.decimalAmount,
-                let metadata = metadata,
-                let feeRate = metadata.feeRateDecimal else {
+                let metadata = metadata else {
                     logger?.error("Either amount or metadata missing to complete withdraw")
                     return nil
             }
 
-            let feeCalculator = try feeCalculationFactory.createWithdrawFeeStrategy(for: metadata.feeType,
-                                                                                    assetId: selectedAsset.identifier,
-                                                                                    optionId: selectedOption.identifier,
-                                                                                    parameters: [feeRate])
-            let fee = try feeCalculator.calculate(for: sendingAmount)
-            let totalAmount = sendingAmount + fee
+            guard validateAndReportLimitConstraints(for: sendingAmount) else {
+                return nil
+            }
 
-            guard
-                let balanceData = balances?.first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
-                let currentAmount =  Decimal(string: balanceData.balance),
-                totalAmount <= currentAmount else {
-                    view?.showError(message: L10n.Withdraw.Error.tooPoor)
+            let feeRate = metadata.feeRate.decimalValue
+
+            let feeCalculator = try feeCalculationFactory
+                .createWithdrawFeeStrategy(for: metadata.feeType,
+                                           assetId: selectedAsset.identifier,
+                                           optionId: selectedOption.identifier,
+                                           precision: selectedAsset.precision,
+                                           parameters: [feeRate])
+
+            let result = try feeCalculator.calculate(for: sendingAmount)
+
+            guard validateAndReportBalanceConstraints(for: result.total) else {
                     return nil
             }
 
             let destinationAccountId = try IRAccountIdFactory.account(withIdentifier: metadata.providerAccountId)
 
             var feeAccountId: IRAccountId?
-            var feeAmount: IRAmount?
+            var feeAmount: AmountDecimal?
 
-            if fee > 0.0 {
+            if result.fee > 0.0 {
                 if let accountIdString = metadata.feeAccountId {
                     feeAccountId = try IRAccountIdFactory.account(withIdentifier: accountIdString)
                 }
 
-                feeAmount = try IRAmountFactory.amount(from: (fee as NSNumber).stringValue)
+                feeAmount = AmountDecimal(value: result.fee)
             }
 
-            let amount = try IRAmountFactory.amount(from: (sendingAmount as NSNumber).stringValue)
+            let amount = AmountDecimal(value: result.sending)
 
             let info = WithdrawInfo(destinationAccountId: destinationAccountId,
                                     assetId: selectedAsset.identifier,
@@ -378,6 +383,30 @@ final class WithdrawAmountPresenter {
             logger?.error("Did receive unexpected error \(error)")
             return nil
         }
+    }
+
+    private func validateAndReportLimitConstraints(for amount: Decimal) -> Bool {
+        guard amount >= withdrawViewModelFactory.minimumLimit(for: selectedAsset) else {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            let message = withdrawViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
+                                                                                  locale: locale)
+            view?.showError(message: message)
+            return false
+        }
+
+        return true
+    }
+
+    private func validateAndReportBalanceConstraints(for amount: Decimal) -> Bool {
+        guard
+            let balanceData = balances?
+                .first(where: { $0.identifier == selectedAsset.identifier.identifier()}),
+            amount <= balanceData.balance.decimalValue else {
+                view?.showError(message: L10n.Withdraw.Error.tooPoor)
+                return false
+        }
+
+        return true
     }
 
     private func completeConfirmation() {

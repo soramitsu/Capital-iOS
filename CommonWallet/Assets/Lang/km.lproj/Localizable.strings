@@ -10,8 +10,6 @@
 "common.close" = "បិទ";
 "common.not_now" = "មិនមែន​ឥឡូវ​ទេ";
 "common.open_settings" = "បើកការកំណត់";
-"common.transfer_fee" = "ថ្លៃសេវាផ្ទេរប្រាក់";
-"common.withdrawal_fee" = "ថ្លៃដកប្រាក់";
 "common.account_share" = "គណនីរបស់ខ្ញុំគឺ៖";
 "common.show_more" = "បង្ហាញច្រើនទៀត";
 "common.show_less" = "បង្ហាញតិចជាង";
@@ -87,3 +85,4 @@
 "withdraw.error.fail" = "ដនបរាជ័យ។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។";
 "amount.module_title" = "កំណត់ចំនួនទឹកប្រាក់";
 "contacts.module_title" = "ជ្រើសរើសអ្នកទទួល";
+"amount.error.operation_min_limit" = "សូមទោសចំនួនប្រតិបត្តិការតិចបំផុតគឺ %@ ។";

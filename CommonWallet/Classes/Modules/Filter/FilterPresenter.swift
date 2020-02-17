@@ -116,8 +116,9 @@ final class FilterPresenter {
     private func reload() {
         var filterViewModel: FilterViewModel = []
 
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         if assets.count > 1 {
-            let locale = localizationManager?.selectedLocale ?? Locale.current
 
             filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.assets))
             filterViewModel.append(contentsOf:
@@ -146,7 +147,7 @@ final class FilterPresenter {
         filterViewModel.append(contentsOf:
             zip(0..<typeFilters.count, typeFilters).map {
                 let selected = selectedTypeFilter != nil ? selectedTypeFilter! == $1 : false
-                return FilterSelectionViewModel(title: $1.displayName,
+                return FilterSelectionViewModel(title: $1.displayName.value(for: locale),
                                                 selected: selected,
                                                 index: $0,
                                                 action: { [weak self] (index) in

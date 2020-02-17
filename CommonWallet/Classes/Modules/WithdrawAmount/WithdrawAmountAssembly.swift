@@ -20,13 +20,17 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let limit = resolver.transferAmountLimit
             let validatorFactory = resolver.inputValidatorFactory
             let formatterFactory = resolver.amountFormatterFactory
-            let withdrawViewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: formatterFactory,
-                                                                          option: option,
-                                                                          amountLimit: limit,
-                                                                          descriptionValidatorFactory: validatorFactory)
+            let feeSettingsFactory = resolver.feeDisplaySettingsFactory
+            let transactionFactory = resolver.transactionSettingsFactory
+
+            let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: formatterFactory,
+                                                                  option: option,
+                                                                  descriptionValidatorFactory: validatorFactory,
+                                                                  transactionSettingsFactory: transactionFactory,
+                                                                  feeDisplaySettingsFactory: feeSettingsFactory)
+
             let assetTitleFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
 
             let presenter = try WithdrawAmountPresenter(view: view,
@@ -36,7 +40,7 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
                                                         selectedOption: option,
                                                         dataProviderFactory: dataProviderFactory,
                                                         feeCalculationFactory: resolver.feeCalculationFactory,
-                                                        withdrawViewModelFactory: withdrawViewModelFactory,
+                                                        withdrawViewModelFactory: viewModelFactory,
                                                         assetTitleFactory: assetTitleFactory,
                                                         localizationManager: resolver.localizationManager)
 

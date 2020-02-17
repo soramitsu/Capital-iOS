@@ -10,8 +10,6 @@
 "common.close" = "Ябырға";
 "common.not_now" = "Хәҙер түгел";
 "common.open_settings" = "Көйләүҙәрҙе асыу";
-"common.transfer_fee" = "аҡса ебәреү хаҡы";
-"common.withdrawal_fee" = "аҡсаны алыу хаҡы";
 "common.account_share" = "Минең аккаунт:";
 "common.show_more" = "Күберәк күрһәтергә";
 "common.show_less" = "Әҙерәк күрһәтергә";
@@ -87,3 +85,4 @@
 "withdraw.error.fail" = "Аҡса алыу хатаһы. Зинһар, һуңыраҡ ҡабатлап ҡарағыҙ.";
 "amount.module_title" = "Сумманы индерегеҙ";
 "contacts.module_title" = "Алыусыны һайлағыҙ";
+"amount.error.operation_min_limit" = "Ҡыҙғанысҡа ҡаршы, %@ минималь сумма тәшкил тәржемә.";

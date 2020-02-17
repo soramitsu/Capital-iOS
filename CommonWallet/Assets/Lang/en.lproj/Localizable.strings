@@ -10,8 +10,6 @@
 "common.close" = "Close";
 "common.not_now" = "Not now";
 "common.open_settings" = "Open settings";
-"common.transfer_fee" = "transfer fee";
-"common.withdrawal_fee" = "withdrawal fee";
 "common.account_share" = "My account is:";
 "common.show_more" = "Show more";
 "common.show_less" = "Show less";
@@ -87,3 +85,4 @@
 "withdraw.error.fail" = "Withdraw failed. Please, try again later.";
 "amount.module_title" = "Set Amount";
 "contacts.module_title" = "Select recipient";
+"amount.error.operation_min_limit" = "Sorry, minimal operation amount is %@.";

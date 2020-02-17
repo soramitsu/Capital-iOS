@@ -36,16 +36,14 @@ final class DefaultDemo: DemoFactoryProtocol {
         let networkResolver = DemoNetworkResolver()
 
         let withdrawType = WalletTransactionType(backendName: "WITHDRAW",
-                                                 displayName: "Withdraw",
+                                                 displayName: LocalizableResource { _ in "Withdraw" },
                                                  isIncome: false,
                                                  typeIcon: UIImage(named: "iconEth"))
 
         let walletBuilder =  CommonWalletBuilder
             .builder(with: account, networkResolver: networkResolver)
-            .with(transferAmountLimit: 1e+12)
             .with(transactionTypeList: [withdrawType])
             .with(inputValidatorFactory: DemoInputValidatorFactory())
-            .with(feeDisplayStrategy: FeeDisplayStrategyAlways())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
                                              color: .black)
