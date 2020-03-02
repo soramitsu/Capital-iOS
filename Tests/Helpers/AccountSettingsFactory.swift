@@ -55,9 +55,9 @@ func createRandomAccountSettings(for assets: [WalletAsset], withdrawOptions: [Wa
     throws -> WalletAccountSettings {
     let account = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
 
-    let keypair = IREd25519KeyFactory().createRandomKeypair()!
+    let keypair = try IRIrohaKeyFactory().createRandomKeypair()
 
-    let signer = IREd25519Sha512Signer(privateKey: keypair.privateKey())!
+    let signer = IRIrohaSigner(privateKey: keypair.privateKey())
 
     var settings = WalletAccountSettings(accountId: account,
                                          assets: assets,

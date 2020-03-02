@@ -19,13 +19,9 @@ final class LocalizedDemo: DemoFactoryProtocol {
         let accountId = try IRAccountIdFactory.account(withIdentifier: "julio@demo")
         let assets = try createAssets()
 
-        guard let keypair = IREd25519KeyFactory().createRandomKeypair() else {
-            throw DemoFactoryError.keypairGenerationFailed
-        }
+        let keypair = try IRIrohaKeyFactory().createRandomKeypair()
 
-        guard let signer = IREd25519Sha512Signer(privateKey: keypair.privateKey()) else {
-            throw DemoFactoryError.signerCreationFailed
-        }
+        let signer = IRIrohaSigner(privateKey: keypair.privateKey())
 
         var account = WalletAccountSettings(accountId: accountId,
                                             assets: assets,

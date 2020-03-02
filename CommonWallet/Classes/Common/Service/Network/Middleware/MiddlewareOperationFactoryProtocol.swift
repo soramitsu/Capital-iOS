@@ -136,7 +136,7 @@ public extension MiddlewareOperationFactoryProtocol {
                 throw NetworkBaseError.invalidUrl
             }
 
-            let amount = try IRAmountFactory.amount(from: info.amount.stringValue)
+            let amount = try IRAmountFactory.transferAmount(from: info.amount.stringValue)
 
             var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
                 .transferAsset(info.source,
@@ -147,7 +147,7 @@ public extension MiddlewareOperationFactoryProtocol {
 
             if let fee = info.fee, let feeAccountId = info.feeAccountId {
                 let feeDescription = "transfer fee"
-                let feeAmount = try IRAmountFactory.amount(from: fee.stringValue)
+                let feeAmount = try IRAmountFactory.transferAmount(from: fee.stringValue)
 
                 transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
                                                                       destinationAccount: feeAccountId,
@@ -291,7 +291,7 @@ public extension MiddlewareOperationFactoryProtocol {
                 throw NetworkBaseError.invalidUrl
             }
 
-            let amount = try IRAmountFactory.amount(from: info.amount.stringValue)
+            let amount = try IRAmountFactory.transferAmount(from: info.amount.stringValue)
 
             var transactionBuilder = IRTransactionBuilder(creatorAccountId: self.accountSettings.accountId)
                 .transferAsset(self.accountSettings.accountId,
@@ -302,7 +302,7 @@ public extension MiddlewareOperationFactoryProtocol {
 
             if let fee = info.fee, let feeAccountId = info.feeAccountId {
                 let feeDescription = "withdrawal fee"
-                let feeAmount = try IRAmountFactory.amount(from: fee.stringValue)
+                let feeAmount = try IRAmountFactory.transferAmount(from: fee.stringValue)
 
                 transactionBuilder = transactionBuilder.transferAsset(self.accountSettings.accountId,
                                                                       destinationAccount: feeAccountId,
