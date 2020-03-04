@@ -7,11 +7,6 @@ import UIKit
 import CommonWallet
 import IrohaCommunication
 
-enum DemoFactoryError: Error {
-    case keypairGenerationFailed
-    case signerCreationFailed
-}
-
 typealias DemoCompletionBlock = (UIViewController?) -> Void
 
 protocol DemoFactoryProtocol: class {

@@ -15,7 +15,7 @@ extension HashPagination {
     var irPagination: IRPagination? {
 
         if let pageHash = pageHash {
-            guard let hashData = NSData(hexString: pageHash) else {
+            guard let hashData = try? NSData(hexString: pageHash) else {
                 return nil
             }
 
