@@ -5,7 +5,7 @@ import SoraFoundation
 public protocol FeeDisplaySettingsProtocol {
     var displayStrategy: FeeDisplayStrategyProtocol { get }
     var displayName: LocalizableResource<String> { get }
-    var amountDetails: LocalizableResource<String> { get }
+    var amountDetailsClosure: (String, Locale) -> String { get }
 }
 
 public protocol FeeDisplaySettingsFactoryProtocol {
@@ -17,22 +17,26 @@ public protocol FeeDisplaySettingsFactoryProtocol {
 public struct FeeDisplaySettings: FeeDisplaySettingsProtocol {
     public let displayStrategy: FeeDisplayStrategyProtocol
     public let displayName: LocalizableResource<String>
-    public let amountDetails: LocalizableResource<String>
+    public let amountDetailsClosure: (String, Locale) -> String
 
     public init(displayStrategy: FeeDisplayStrategyProtocol,
                 displayName: LocalizableResource<String>,
-                amountDetails: LocalizableResource<String>) {
+                amountDetailsClosure: @escaping (String, Locale) -> String) {
         self.displayStrategy = displayStrategy
         self.displayName = displayName
-        self.amountDetails = amountDetails
+        self.amountDetailsClosure = amountDetailsClosure
     }
 }
 
 extension FeeDisplaySettings {
     static var defaultSettings: FeeDisplaySettings {
-        FeeDisplaySettings(displayStrategy: FeedDisplayStrategyIfNonzero(),
-                           displayName: LocalizableResource { _ in L10n.Transaction.fee },
-                           amountDetails: LocalizableResource { _ in L10n.Amount.fee })
+        let closure = { (formattedAmount: String, locale: Locale) -> String in
+            L10n.Amount.fee(formattedAmount)
+        }
+
+        return FeeDisplaySettings(displayStrategy: FeedDisplayStrategyIfNonzero(),
+                                  displayName: LocalizableResource { _ in L10n.Transaction.fee },
+                                  amountDetailsClosure: closure)
     }
 }
 

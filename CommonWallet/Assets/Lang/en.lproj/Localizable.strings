@@ -25,7 +25,7 @@
 "amount.error.balance" = "Sorry, balance checking request failed. Please, try again later.";
 "amount.error.transfer" = "Sorry, we couldn't contact transfer provider. Please, try again later.";
 "amount.error.no_funds" = "Sorry, you don't have enough funds to transfer specified amount.";
-"amount.fee" = "Transaction fee";
+"amount.fee" = "Transaction fee %@";
 "amount.title" = "Amount";
 "amount.send" = "Amount to send";
 "amount.total" = "Total amount";
@@ -86,3 +86,6 @@
 "amount.module_title" = "Set Amount";
 "contacts.module_title" = "Select recipient";
 "amount.error.operation_min_limit" = "Sorry, minimal operation amount is %@.";
+"invoice_scan.title" = "Scan QR";
+"common.full_name" = "%1$@ %2$@";
+"amount.defaultFee" = "Transaction fee";
