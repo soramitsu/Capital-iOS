@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
@@ -16,12 +17,7 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
 
-        view.title = L10n.Confirmation.title
-
-        let localizationManager = resolver.localizationManager
-        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.title = L10n.Confirmation.title
-        }
+        view.localizableTitle = LocalizableResource { _ in L10n.Confirmation.title }
 
         let coordinator = WithdrawConfirmationCoordinator(resolver: resolver)
 
@@ -46,7 +42,8 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
                                                       feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
-        presenter.localizationManager = localizationManager
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
 
         return view
     }

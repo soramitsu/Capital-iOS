@@ -42,12 +42,6 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           withdrawOptions: resolver.account.withdrawOptions)
         view.presenter = presenter
 
-        view.title = L10n.Contacts.moduleTitle
-
-        resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.title = L10n.Contacts.moduleTitle
-        }
-
         view.localizationManager = resolver.localizationManager
         presenter.localizationManager = resolver.localizationManager
 

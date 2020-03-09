@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
@@ -19,7 +20,7 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
-        view.title = L10n.Confirmation.title
+        view.localizableTitle = LocalizableResource { _ in L10n.Confirmation.title }
         
         let coordinator = ConfirmationCoordinator(resolver: resolver)
         
@@ -46,10 +47,7 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
 
         view.presenter = presenter
 
-        resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.title = L10n.Confirmation.title
-        }
-
+        view.localizationManager = resolver.localizationManager
         presenter.localizationManager = resolver.localizationManager
 
         return view

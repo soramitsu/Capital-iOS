@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 
 final class TransferResultAssembly: TransferResultAssemblyProtocol {
@@ -17,12 +18,7 @@ final class TransferResultAssembly: TransferResultAssemblyProtocol {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
-        view.title = L10n.Transaction.done
-
-        let localizationManager = resolver.localizationManager
-        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.title = L10n.Transaction.done
-        }
+        view.localizableTitle = LocalizableResource { _ in L10n.Transaction.done }
 
         let coordinator = TransferResultCoordinator(resolver: resolver)
 
@@ -38,7 +34,8 @@ final class TransferResultAssembly: TransferResultAssemblyProtocol {
                                                 feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
-        presenter.localizationManager = localizationManager
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
 
         return view
     }

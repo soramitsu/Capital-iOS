@@ -5,6 +5,7 @@
 
 import UIKit
 import SoraUI
+import SoraFoundation
 
 
 final class WalletFormViewController: UIViewController, AdaptiveDesignable {
@@ -24,6 +25,8 @@ final class WalletFormViewController: UIViewController, AdaptiveDesignable {
 
     @IBOutlet private var tableView: UITableView!
 
+    var localizableTitle: LocalizableResource<String>?
+
     private(set) var models: [WalletFormViewModelProtocol] = []
     private(set) var heights: [CGFloat] = []
     private var preferredWidth: CGFloat {
@@ -36,6 +39,8 @@ final class WalletFormViewController: UIViewController, AdaptiveDesignable {
         configureTableView()
 
         configureStyle()
+
+        setupLocalization()
 
         presenter.setup()
     }
@@ -81,6 +86,13 @@ final class WalletFormViewController: UIViewController, AdaptiveDesignable {
         if let style = style {
             view.backgroundColor = style.backgroundColor
             tableView.separatorColor = style.formCellStyle.separator
+        }
+    }
+
+    private func setupLocalization() {
+        if let localizableTitle = localizableTitle {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            title = localizableTitle.value(for: locale)
         }
     }
 
@@ -187,5 +199,13 @@ extension WalletFormViewController: WalletFormViewProtocol {
         }
 
         adjustContentInsets()
+    }
+}
+
+extension WalletFormViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+        }
     }
 }

@@ -84,6 +84,8 @@ final class ContactsViewController: UIViewController {
     }
 
     private func setupLocalization() {
+        title = L10n.Contacts.moduleTitle
+
         if let locale = localizationManager?.selectedLocale {
             searchField.placeholder = configuration?.searchPlaceholder.value(for: locale)
         }

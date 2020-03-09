@@ -4,6 +4,8 @@
 */
 
 import Foundation
+import SoraFoundation
+
 
 final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
     static func assembleView(for resolver: ResolverProtocol,
@@ -14,12 +16,7 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
 
-        view.title = L10n.Transaction.done
-
-        let localizationManager = resolver.localizationManager
-        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.title = L10n.Transaction.done
-        }
+        view.localizableTitle = LocalizableResource { _ in L10n.Transaction.done }
         
         let coordinator = WithdrawResultCoordinator(resolver: resolver)
 
@@ -41,7 +38,8 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
                                                 feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
-        presenter.localizationManager = localizationManager
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
 
         return view
     }

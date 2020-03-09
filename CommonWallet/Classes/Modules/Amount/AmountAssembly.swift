@@ -47,12 +47,6 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                  localizationManager: resolver.localizationManager)
             view.presenter = presenter
 
-            view.title = L10n.Amount.moduleTitle
-
-            resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-                view?.title = L10n.Amount.moduleTitle
-            }
-
             view.localizationManager = resolver.localizationManager
 
             return view

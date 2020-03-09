@@ -39,15 +39,8 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
         view.presenter = presenter
 
         let localizationManager = resolver.localizationManager
-        let titleResource = resolver.receiveConfiguration.title
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-        view.title = titleResource.value(for: locale)
 
-        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            let locale = localizationManager?.selectedLocale ?? Locale.current
-            view?.title = titleResource.value(for: locale)
-        }
-
+        view.localizableTitle = resolver.receiveConfiguration.title
         view.localizationManager = localizationManager
 
         return view
