@@ -91,6 +91,8 @@ func createRandomAssetTransactionData(includeFee: Bool = true) throws -> AssetTr
                                 status: status,
                                 assetId: assetId,
                                 peerId: UUID().uuidString,
+                                peerFirstName: nil,
+                                peerLastName: nil,
                                 peerName: UUID().uuidString,
                                 details: UUID().uuidString,
                                 amount: amount,
