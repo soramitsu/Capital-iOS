@@ -8,8 +8,12 @@ import UIKit
 
 
 extension UIImage {
-    static func createAvatar(firstName: String, lastName: String, radius: CGFloat,
+    static func createAvatar(fullName: String, radius: CGFloat,
                              style: WalletNameIconStyleProtocol) -> UIImage? {
+        let nameComponents = fullName.components(separatedBy: .whitespaces)
+        let firstName = nameComponents.first ?? ""
+        let lastName = nameComponents.last ?? ""
+
         let firstLetter = String(firstName.prefix(1)).uppercased()
         let secondLetter = String(lastName.prefix(1)).uppercased()
 

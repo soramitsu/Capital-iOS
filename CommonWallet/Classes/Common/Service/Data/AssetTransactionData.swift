@@ -21,6 +21,8 @@ public struct AssetTransactionData: Codable, Equatable {
         case assetId
         case peerId
         case peerName
+        case peerFirstName
+        case peerLastName
         case details
         case amount
         case fee
@@ -33,7 +35,9 @@ public struct AssetTransactionData: Codable, Equatable {
     public var status: AssetTransactionStatus
     public var assetId: String
     public var peerId: String
-    public var peerName: String
+    public var peerFirstName: String?
+    public var peerLastName: String?
+    public var peerName: String?
     public var details: String
     public var amount: AmountDecimal
     public var fee: AmountDecimal?

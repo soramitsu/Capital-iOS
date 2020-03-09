@@ -44,8 +44,8 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
     func createContactViewModel(from contact: SearchData,
                                 delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol {
 
-        let image = UIImage.createAvatar(firstName: contact.firstName,
-                                         lastName: contact.lastName,
+        let fullName = L10n.Common.fullName(contact.firstName, contact.lastName)
+        let image = UIImage.createAvatar(fullName: fullName,
                                          radius: avatarRadius,
                                          style: configuration.contactCellStyle.nameIcon)
 

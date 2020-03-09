@@ -37,6 +37,17 @@ final class TransactionDetailsPresenter {
         self.feeDisplaySettings = feeDisplaySettings
     }
 
+    private func createPeerName() -> String {
+        if transactionData.peerFirstName != nil || transactionData.peerLastName != nil {
+            let firstName = transactionData.peerFirstName ?? ""
+            let lastName = transactionData.peerLastName ?? ""
+
+            return L10n.Common.fullName(firstName, lastName)
+        } else {
+            return transactionData.peerName ?? ""
+        }
+    }
+
     private func createStatusViewModel(for status: AssetTransactionStatus) -> WalletFormViewModel {
         switch status {
         case .commited:
@@ -97,13 +108,13 @@ final class TransactionDetailsPresenter {
         if transactionType.backendName == WalletTransactionType.incoming.backendName {
             return WalletFormViewModel(layoutType: .accessory,
                                        title: L10n.Transaction.sender,
-                                       details: transactionData.peerName)
+                                       details: createPeerName())
         }
 
         if transactionType.backendName == WalletTransactionType.outgoing.backendName {
             return WalletFormViewModel(layoutType: .accessory,
                                        title: L10n.Transaction.recipient,
-                                       details: transactionData.peerName)
+                                       details: createPeerName())
         }
 
         return nil
@@ -129,13 +140,10 @@ final class TransactionDetailsPresenter {
     }
 
     private func createAccessoryViewModel() -> AccessoryViewModel {
-        let nameComponents = transactionData.peerName.components(separatedBy: " ")
-        let firstName = nameComponents.first ?? ""
-        let lastName = nameComponents.last ?? ""
+        let peerName = createPeerName()
 
-        return accessoryViewModelFactory.createViewModel(from: transactionData.peerName,
-                                                         firstName: firstName,
-                                                         lastName: lastName,
+        return accessoryViewModelFactory.createViewModel(from: peerName,
+                                                         fullName: peerName,
                                                          action: L10n.Transaction.sendBack)
     }
 
@@ -217,8 +225,10 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
                                        amount: nil,
                                        details: nil)
 
+        let receiverName: String = createPeerName()
+
         let payload = AmountPayload(receiveInfo: receiverInfo,
-                                    receiverName: transactionData.peerName)
+                                    receiverName: receiverName)
 
         coordinator.send(to: payload)
     }
