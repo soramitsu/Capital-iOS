@@ -10,7 +10,6 @@ import SoraFoundation
 final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol, asset: WalletAsset) -> AccountDetailsViewProtocol? {
         let view = AccountDetailsViewController()
-        view.controller.title = L10n.Account.detailsTitle
         view.style = resolver.style
 
         guard
@@ -27,9 +26,7 @@ final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
         let presenter = AccountDetailsPresenter(view: view, coordinator: coordinator)
         view.presenter = presenter
 
-        resolver.localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.controller.title = L10n.Account.detailsTitle
-        }
+        view.localizationManager = resolver.localizationManager
 
         return view
     }

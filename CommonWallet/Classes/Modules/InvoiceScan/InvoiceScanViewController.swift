@@ -82,6 +82,7 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func setupLocalization() {
+        title = L10n.InvoiceScan.title
         titleLabel.text = L10n.InvoiceScan.scan
         uploadButton.imageWithTitleView?.title = L10n.InvoiceScan.upload
     }

@@ -41,7 +41,7 @@ final class ContactViewModel: ContactViewModelProtocol {
     private(set) var image: UIImage?
     
     var name: String {
-        return "\(firstName) \(lastName)"
+        return L10n.Common.fullName(firstName, lastName)
     }
     
     init(cellReuseIdentifier: String, itemHeight: CGFloat, contact: SearchData, image: UIImage?) {

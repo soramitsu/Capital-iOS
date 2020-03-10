@@ -147,6 +147,7 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
     }
     
     private func setupLocalization() {
+        title = L10n.Amount.moduleTitle
         amountLabel.text = L10n.Amount.title
         descriptionLabel.text = L10n.Common.descriptionOptional
     }

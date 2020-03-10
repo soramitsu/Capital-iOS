@@ -87,7 +87,15 @@ final class HistoryViewModelFactory {
             amountDisplayString = AmountDecimal(value: totalAmountValue).stringValue
         }
 
-        viewModel.title = transaction.peerName
+        if transaction.peerFirstName != nil || transaction.peerLastName != nil {
+            let firstName = transaction.peerFirstName ?? ""
+            let lastName = transaction.peerLastName ?? ""
+            
+            viewModel.title = L10n.Common.fullName(firstName, lastName)
+        } else {
+            viewModel.title = transaction.peerName ?? ""
+        }
+
         viewModel.status = transaction.status
 
         if let transactionType = transactionTypes[transaction.type] {

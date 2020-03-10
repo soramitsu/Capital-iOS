@@ -25,7 +25,7 @@
 "amount.error.balance" = "Баланс тикшереү хатаһы. Зинһар, һуңыраҡ ҡабатлап ҡарағыҙ.";
 "amount.error.transfer" = "Ғәфү итегеҙ, тәьмин итеүсе менән бәйләнеш юҡ. Һуңыраҡ ҡабатлап ҡарағыҙ.";
 "amount.error.no_funds" = "Ғәфү итегеҙ, кәрәккән сумманы ебәреү өсөн етерлек аҡса юҡ";
-"amount.fee" = "Транзакцияның хаҡы";
+"amount.fee" = "Транзакцияның хаҡы %@";
 "amount.title" = "Сумма";
 "amount.send" = "Ебәреү өсөн дөйөм сумма";
 "amount.total" = "Дөйөм сумма";
@@ -86,3 +86,6 @@
 "amount.module_title" = "Сумманы индерегеҙ";
 "contacts.module_title" = "Алыусыны һайлағыҙ";
 "amount.error.operation_min_limit" = "Ҡыҙғанысҡа ҡаршы, %@ минималь сумма тәшкил тәржемә.";
+"invoice_scan.title" = "QR код уҡырға";
+"common.full_name" = "%1$@ %2$@";
+"amount.defaultFee" = "Транзакцияның хаҡы";

@@ -18,7 +18,11 @@ public enum L10n {
 
     public enum Amount {
         /// Transaction fee
-        public static var fee: String { return localize("amount.fee") }
+        public static var defaultFee: String { return localize("amount.defaultFee") }
+        /// Transaction fee %@
+        public static func fee(_ p1: String) -> String {
+            return localize("amount.fee", p1)
+        }
         /// Set Amount
         public static var moduleTitle: String { return localize("amount.module_title") }
         /// Amount to send
@@ -64,6 +68,10 @@ public enum L10n {
         public static var done: String { return localize("common.done") }
         /// Error
         public static var error: String { return localize("common.error") }
+        /// %1$@ %2$@
+        public static func fullName(_ p1: String, _ p2: String) -> String {
+            return localize("common.full_name", p1, p2)
+        }
         /// Incoming
         public static var incoming: String { return localize("common.incoming") }
         /// Next
@@ -146,6 +154,8 @@ public enum L10n {
     public enum InvoiceScan {
         /// Scan code from receiver
         public static var scan: String { return localize("invoice_scan.scan") }
+        /// Scan QR
+        public static var title: String { return localize("invoice_scan.title") }
         /// Upload from gallery
         public static var upload: String { return localize("invoice_scan.upload") }
 

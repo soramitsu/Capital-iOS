@@ -26,6 +26,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     var style: WalletStyleProtocol?
 
+    var localizableTitle: LocalizableResource<String>?
+
     private(set) var layoutState: LayoutState = .expanded {
         didSet {
             if layoutState != oldValue {
@@ -91,6 +93,12 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func setupLocalization() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        if let localizableTitle = localizableTitle {
+            title = localizableTitle.value(for: locale)
+        }
+
         amountTitleLabel.text = L10n.Amount.title
     }
 

@@ -58,26 +58,26 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
                         locale: Locale) -> String {
 
         guard let asset = asset else {
-            return L10n.Amount.fee
+            return L10n.Amount.defaultFee
         }
 
         let feeDisplaySettings = feeDisplaySettingsFactory
             .createFeeSettings(asset: asset, senderId: sender?.identifier(), receiverId: receiver?.identifier())
 
-        let title = feeDisplaySettings.amountDetails.value(for: locale)
-
         guard let amount = amount else {
-            return title
+            return L10n.Amount.defaultFee
         }
 
         let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
         guard let amountString = amountFormatter.value(for: locale)
             .string(from: amount as NSNumber) else {
-            return title
+            return L10n.Amount.defaultFee
         }
 
-        return title + " \(asset.symbol)\(amountString)"
+        let title = feeDisplaySettings.amountDetailsClosure("\(asset.symbol)\(amountString)", locale)
+
+        return title
     }
 
     func createAmountViewModel(for asset: WalletAsset,

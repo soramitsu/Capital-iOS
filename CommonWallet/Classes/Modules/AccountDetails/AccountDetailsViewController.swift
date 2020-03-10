@@ -4,7 +4,7 @@
 */
 
 import UIKit
-
+import SoraFoundation
 
 final class AccountDetailsViewController: ContainerViewController {
     private struct Constants {
@@ -31,8 +31,13 @@ final class AccountDetailsViewController: ContainerViewController {
         super.viewDidLoad()
 
         configure()
+        setupLocalization()
 
         presenter.setup()
+    }
+
+    private func setupLocalization() {
+        title = L10n.Account.detailsTitle
     }
 
     private func configure() {
@@ -41,3 +46,11 @@ final class AccountDetailsViewController: ContainerViewController {
 }
 
 extension AccountDetailsViewController: AccountDetailsViewProtocol {}
+
+extension AccountDetailsViewController: Localizable {
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+        }
+    }
+}

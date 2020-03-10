@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import SoraFoundation
 
 final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
     static func assembleView(resolver: ResolverProtocol,
@@ -26,12 +27,7 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style
 
-        view.title = L10n.Transaction.details
-
-        let localizationManager = resolver.localizationManager
-        localizationManager?.addObserver(with: view) { [weak view] (_, _) in
-            view?.title = L10n.Transaction.details
-        }
+        view.localizableTitle = LocalizableResource { _ in L10n.Transaction.details }
 
         let coordinator = TransactionDetailsCoordinator(resolver: resolver)
 
@@ -56,7 +52,8 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
                                                     feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter
 
-        presenter.localizationManager = localizationManager
+        view.localizationManager = resolver.localizationManager
+        presenter.localizationManager = resolver.localizationManager
 
         return view
     }

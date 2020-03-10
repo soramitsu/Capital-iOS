@@ -21,6 +21,8 @@ public struct AssetTransactionData: Codable, Equatable {
         case assetId
         case peerId
         case peerName
+        case peerFirstName
+        case peerLastName
         case details
         case amount
         case fee
@@ -33,7 +35,9 @@ public struct AssetTransactionData: Codable, Equatable {
     public var status: AssetTransactionStatus
     public var assetId: String
     public var peerId: String
-    public var peerName: String
+    public var peerFirstName: String?
+    public var peerLastName: String?
+    public var peerName: String?
     public var details: String
     public var amount: AmountDecimal
     public var fee: AmountDecimal?
@@ -45,7 +49,9 @@ public struct AssetTransactionData: Codable, Equatable {
                 status: AssetTransactionStatus,
                 assetId: String,
                 peerId: String,
-                peerName: String,
+                peerFirstName: String?,
+                peerLastName: String?,
+                peerName: String?,
                 details: String,
                 amount: AmountDecimal,
                 fee: AmountDecimal?,
@@ -56,6 +62,8 @@ public struct AssetTransactionData: Codable, Equatable {
         self.status = status
         self.assetId = assetId
         self.peerId = peerId
+        self.peerFirstName = peerFirstName
+        self.peerLastName = peerLastName
         self.peerName = peerName
         self.details = details
         self.amount = amount
