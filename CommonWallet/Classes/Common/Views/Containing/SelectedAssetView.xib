@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SelectedAssetView" customModule="CommonWallet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YpN-GE-qYE" customClass="BorderedContainerView" customModule="SoraUI">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topBorder" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_leftBorder" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomBorder" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_rightBorder" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aEl-Hp-mFE" customClass="ActionTitleControl" customModule="SoraUI">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <viewLayoutGuide key="safeArea" id="2Pa-Vi-Dum"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="_title" value="Main card — ¥20,000"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="_titleColor">
+                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="image" keyPath="_icon" value="iconArrowDown"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="_titleFontName" value="HelveticaNeue"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="_titleFontSize">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="_layoutType">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="actionDidToggleActivation" destination="iN0-l3-epB" eventType="valueChanged" id="5mo-OV-sCw"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="YpN-GE-qYE" secondAttribute="bottom" id="9LM-IB-qRh"/>
+                <constraint firstAttribute="top" secondItem="aEl-Hp-mFE" secondAttribute="top" id="9NJ-YP-2Fn"/>
+                <constraint firstAttribute="trailing" secondItem="aEl-Hp-mFE" secondAttribute="trailing" id="KTf-o9-ohQ"/>
+                <constraint firstItem="aEl-Hp-mFE" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="MAD-W6-Qpa"/>
+                <constraint firstItem="aEl-Hp-mFE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Pwz-cI-aEb"/>
+                <constraint firstItem="YpN-GE-qYE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aXL-1v-D6J"/>
+                <constraint firstItem="YpN-GE-qYE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="oaC-LN-T7Z"/>
+                <constraint firstAttribute="trailing" secondItem="YpN-GE-qYE" secondAttribute="trailing" id="rpX-WB-Jto"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="borderedView" destination="YpN-GE-qYE" id="A5u-xv-cVR"/>
+                <outlet property="titleControl" destination="aEl-Hp-mFE" id="Abh-ma-cBy"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="135"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="iconArrowDown" width="12" height="12"/>
+    </resources>
+</document>

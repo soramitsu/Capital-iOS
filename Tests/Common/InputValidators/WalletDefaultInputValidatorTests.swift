@@ -37,4 +37,26 @@ class WalletDefaultInputValidatorTests: XCTestCase {
         XCTAssertEqual(input, validatorInput.input)
         XCTAssertTrue(validatorInput.isValid)
     }
+
+    func testLengthValidation() {
+        let input = "Привет"
+        let invalidInput = "Приветこ"
+
+        let byteValidator = WalletDefaultInputValidator(hint: "Some testing",
+                                                        maxLength: UInt8(input.lengthOfBytes(using: .utf8)),
+                                                        lengthMetric: .utf8byte)
+
+        let characterValidator = WalletDefaultInputValidator(hint: "Some testing",
+                                                             maxLength: UInt8(input.count),
+                                                             lengthMetric: .character)
+
+        let range = NSRange(location: 0, length: 0)
+        XCTAssertFalse(byteValidator.didReceiveReplacement(invalidInput, for: range))
+        XCTAssertFalse(characterValidator.didReceiveReplacement(invalidInput, for: range))
+        XCTAssertTrue(byteValidator.didReceiveReplacement(input, for: range))
+        XCTAssertTrue(characterValidator.didReceiveReplacement(input, for: range))
+
+        XCTAssertEqual(byteValidator.input, input)
+        XCTAssertEqual(characterValidator.input, input)
+    }
 }

@@ -20,7 +20,7 @@ protocol AmountViewModelFactoryProtocol {
                                amount: Decimal?,
                                locale: Locale) -> AmountInputViewModel
 
-    func createDescriptionViewModel() throws -> DescriptionInputViewModel
+    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModel
     func minimumLimit(for asset: WalletAsset, sender: IRAccountId?, receiver: IRAccountId?) -> Decimal
 
     func createMinimumLimitErrorDetails(for asset: WalletAsset,
@@ -125,12 +125,16 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
         return L10n.Amount.Error.operationMinLimit("\(asset.symbol)\(amountString)")
     }
 
-    func createDescriptionViewModel() throws -> DescriptionInputViewModel {
+    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModel {
         guard let validator = descriptionValidatorFactory.createTransferDescriptionValidator() else {
                 throw AmountViewModelFactoryError.missingValidator
         }
 
-        return DescriptionInputViewModel(title: L10n.Common.description,
+        if let details = details {
+            _ = validator.didReceiveReplacement(details, for: NSRange(location: 0, length: 0))
+        }
+
+        return DescriptionInputViewModel(title: L10n.Common.descriptionOptional,
                                          validator: validator)
     }
 }

@@ -93,7 +93,8 @@ final class AmountPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel()
+        descriptionInputViewModel = try transferViewModelFactory
+            .createDescriptionViewModel(for: payload.receiveInfo.details)
 
         let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
         assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
@@ -204,9 +205,7 @@ final class AmountPresenter {
     private func updateDescriptionViewModel() {
         do {
             let text = descriptionInputViewModel.text
-            descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel()
-            _ = descriptionInputViewModel.didReceiveReplacement(text,
-                                                                for: NSRange(location: 0, length: 0))
+            descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel(for: text)
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
         } catch {

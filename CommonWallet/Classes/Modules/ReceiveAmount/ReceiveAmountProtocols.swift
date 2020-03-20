@@ -7,6 +7,7 @@ protocol ReceiveAmountViewProtocol: ControllerBackedProtocol, AlertPresentable {
     func didReceive(image: UIImage)
     func didReceive(assetSelectionViewModel: AssetSelectionViewModelProtocol)
     func didReceive(amountInputViewModel: AmountInputViewModelProtocol)
+    func didReceive(descriptionViewModel: DescriptionInputViewModelProtocol)
 }
 
 

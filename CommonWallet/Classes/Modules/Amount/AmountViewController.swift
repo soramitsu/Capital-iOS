@@ -149,7 +149,6 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
     private func setupLocalization() {
         title = L10n.Amount.moduleTitle
         amountLabel.text = L10n.Amount.title
-        descriptionLabel.text = L10n.Common.descriptionOptional
     }
 
     private func updateConfirmationState() {
@@ -282,6 +281,7 @@ extension AmountViewController: AmountViewProtocol {
     func set(descriptionViewModel: DescriptionInputViewModelProtocol) {
         self.descriptionInputViewModel = descriptionViewModel
 
+        descriptionLabel.text = descriptionViewModel.title
         descriptionTextView.text = descriptionViewModel.text
         descriptionPlaceholderLabel.text = descriptionViewModel.placeholder
 

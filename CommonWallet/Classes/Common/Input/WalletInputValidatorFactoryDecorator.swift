@@ -37,4 +37,12 @@ extension WalletInputValidatorFactoryDecorator: WalletInputValidatorFactoryProto
 
         return validator
     }
+
+    func createReceiveDescriptionValidator() -> WalletInputValidatorProtocol? {
+        guard let validator = underlyingFactory?.createReceiveDescriptionValidator() else {
+                return createDefaultValidator()
+        }
+
+        return validator
+    }
 }

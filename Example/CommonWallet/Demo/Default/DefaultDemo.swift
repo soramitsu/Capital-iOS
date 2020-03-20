@@ -16,7 +16,7 @@ final class DefaultDemo: DemoFactoryProtocol {
     var completionBlock: DemoCompletionBlock?
 
     func setupDemo(with completionBlock: @escaping DemoCompletionBlock) throws -> UIViewController {
-        let accountId = try IRAccountIdFactory.account(withIdentifier: "julio@demo")
+        let accountId = try IRAccountIdFactory.account(withIdentifier: "john@demo")
         let assets = try createAssets()
 
         let keypair = try IRIrohaKeyFactory().createRandomKeypair()
@@ -62,6 +62,9 @@ final class DefaultDemo: DemoFactoryProtocol {
             .with(contactsEmptyStateDataSource: DefaultEmptyStateDataSource.contacts)
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
             .with(supportsLiveSearch: true)
+
+        walletBuilder.receiveModuleBuilder
+            .with(shouldIncludeDescription: true)
 
         walletBuilder.transactionDetailsModuleBuilder.with(sendBackTransactionTypes: ["INCOMING"])
 
