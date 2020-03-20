@@ -8,7 +8,6 @@ import RobinHood
 import IrohaCommunication
 import SoraFoundation
 
-
 final class ReceiveAmountPresenter {
     weak var view: ReceiveAmountViewProtocol?
     var coordinator: ReceiveAmountCoordinatorProtocol
@@ -19,10 +18,10 @@ final class ReceiveAmountPresenter {
     private(set) var assetSelectionFactory: AssetSelectionFactoryProtocol
     private(set) var assetSelectionViewModel: AssetSelectionViewModel
     private(set) var amountInputViewModel: AmountInputViewModel
+    private(set) var descriptionViewModel: DescriptionInputViewModel?
     private(set) var preferredQRSize: CGSize?
     private(set) var selectedAsset: WalletAsset
-    private(set) var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
-    private(set) var amountFormatterFactory: NumberFormatterFactoryProtocol
+    private(set) var viewModelFactory: ReceiveViewModelFactoryProtocol
 
     private var currentImage: UIImage?
 
@@ -41,17 +40,16 @@ final class ReceiveAmountPresenter {
          qrService: WalletQRServiceProtocol,
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
-         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
-         amountFormatterFactory: NumberFormatterFactoryProtocol,
-         localizationManager: LocalizationManagerProtocol?) {
+         viewModelFactory: ReceiveViewModelFactoryProtocol,
+         shouldIncludeDescription: Bool,
+         localizationManager: LocalizationManagerProtocol?) throws {
         self.view = view
         self.coordinator = coordinator
         self.qrService = qrService
         self.sharingFactory = sharingFactory
         self.account = account
         self.assetSelectionFactory = assetSelectionFactory
-        self.amountFormatterFactory = amountFormatterFactory
-        self.transactionSettingsFactory = transactionSettingsFactory
+        self.viewModelFactory = viewModelFactory
 
         var currentAmount: Decimal?
 
@@ -72,16 +70,14 @@ final class ReceiveAmountPresenter {
                                                           symbol: selectedAsset.symbol)
         assetSelectionViewModel.canSelect = account.assets.count > 1
 
-        let inputFormatter = amountFormatterFactory.createInputFormatter(for: selectedAsset).value(for: locale)
+        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                      amount: currentAmount,
+                                                                      locale: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset,
-                                                                            senderId: nil,
-                                                                            receiverId: nil)
-
-        amountInputViewModel = AmountInputViewModel(amount: currentAmount,
-                                                    limit: transactionSettings.transferLimit.maximum,
-                                                    formatter: inputFormatter,
-                                                    precision: Int16(inputFormatter.maximumFractionDigits))
+        if shouldIncludeDescription {
+            descriptionViewModel = try viewModelFactory
+                .createDescriptionViewModel(for: receiveInfo.details)
+        }
 
         self.localizationManager = localizationManager
     }
@@ -125,7 +121,7 @@ final class ReceiveAmountPresenter {
         return ReceiveInfo(accountId: account.accountId,
                            assetId: assetId,
                            amount: amount,
-                           details: nil)
+                           details: descriptionViewModel?.text)
     }
 
     private func cancelQRGeneration() {
@@ -147,22 +143,35 @@ final class ReceiveAmountPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let amount = amountInputViewModel.decimalAmount
 
-        let inputFormatter = amountFormatterFactory.createInputFormatter(for: selectedAsset).value(for: locale)
-
         amountInputViewModel.observable.remove(observer: self)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: selectedAsset,
-                                                                            senderId: nil,
-                                                                            receiverId: nil)
-
-        amountInputViewModel = AmountInputViewModel(amount: amount,
-                                                    limit: transactionSettings.transferLimit.maximum,
-                                                    formatter: inputFormatter,
-                                                    precision: Int16(inputFormatter.maximumFractionDigits))
+        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                      amount: amount,
+                                                                      locale: locale)
 
         amountInputViewModel.observable.add(observer: self)
 
         view?.didReceive(amountInputViewModel: amountInputViewModel)
+    }
+
+    private func updateDescriptionViewModel() {
+        guard let descriptionViewModel = descriptionViewModel else {
+            return
+        }
+
+        do {
+            descriptionViewModel.observable.remove(observer: self)
+
+            let text = descriptionViewModel.text
+            let newViewModel = try viewModelFactory.createDescriptionViewModel(for: text)
+            self.descriptionViewModel = newViewModel
+
+            newViewModel.observable.add(observer: self)
+
+            view?.didReceive(descriptionViewModel: newViewModel)
+        } catch {
+            logger?.error("Can't update description view model")
+        }
     }
 }
 
@@ -177,6 +186,13 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
 
         view?.didReceive(assetSelectionViewModel: assetSelectionViewModel)
         view?.didReceive(amountInputViewModel: amountInputViewModel)
+
+        if let descriptionViewModel = descriptionViewModel {
+            descriptionViewModel.observable.remove(observer: self)
+            descriptionViewModel.observable.add(observer: self)
+
+            view?.didReceive(descriptionViewModel: descriptionViewModel)
+        }
 
         self.preferredQRSize = qrSize
 
@@ -233,6 +249,14 @@ extension ReceiveAmountPresenter: AmountInputViewModelObserver {
     }
 }
 
+extension ReceiveAmountPresenter: DescriptionInputViewModelObserver {
+    func descriptionInputDidChangeText() {
+        if let qrSize = preferredQRSize {
+            generateQR(with: qrSize)
+        }
+    }
+}
+
 extension ReceiveAmountPresenter: ModalPickerViewDelegate {
     func modalPickerViewDidCancel(_ view: ModalPickerView) {
         assetSelectionViewModel.isSelecting = false
@@ -271,6 +295,7 @@ extension ReceiveAmountPresenter: Localizable {
                                                                               locale: locale)
 
             updateAmountInputViewModel()
+            updateDescriptionViewModel()
         }
     }
 }

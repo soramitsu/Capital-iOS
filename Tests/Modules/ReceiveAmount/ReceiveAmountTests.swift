@@ -80,6 +80,7 @@ class ReceiveAmountTests: XCTestCase {
         let imageExpectation = XCTestExpectation()
         let assetExpectation = XCTestExpectation()
         let amountExpectation = XCTestExpectation()
+        let descriptionExpectation = XCTestExpectation()
 
         stub(view) { stub in
             when(stub).didReceive(assetSelectionViewModel: any(AssetSelectionViewModelProtocol.self)).then { _ in
@@ -94,25 +95,39 @@ class ReceiveAmountTests: XCTestCase {
                 imageExpectation.fulfill()
             }
 
+            when(stub).didReceive(descriptionViewModel: any(DescriptionInputViewModelProtocol.self)).then { _ in
+                descriptionExpectation.fulfill()
+            }
+
             when(stub).isSetup.get.thenReturn(false, true)
         }
 
-        let presenter = ReceiveAmountPresenter(view: view,
-                                               coordinator: coordinator,
-                                               account: accountSettings,
-                                               assetSelectionFactory: assetSelectionFactory,
-                                               qrService: qrService,
-                                               sharingFactory: AccountShareFactory(),
-                                               receiveInfo: receiveInfo,
-                                               transactionSettingsFactory: WalletTransactionSettingsFactory(),
-                                               amountFormatterFactory: NumberFormatterFactory(),
-                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
+        let amountFormatterFactory = NumberFormatterFactory()
+        let transactionFactory = WalletTransactionSettingsFactory()
+        let descriptionFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
+
+        let viewModelFactory = ReceiveViewModelFactory(amountFormatterFactory: amountFormatterFactory,
+                                                       descriptionValidatorFactory: descriptionFactory,
+                                                       transactionSettingsFactory: transactionFactory)
+
+        let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
+        let presenter = try ReceiveAmountPresenter(view: view,
+                                                   coordinator: coordinator,
+                                                   account: accountSettings,
+                                                   assetSelectionFactory: assetSelectionFactory,
+                                                   qrService: qrService,
+                                                   sharingFactory: AccountShareFactory(),
+                                                   receiveInfo: receiveInfo,
+                                                   viewModelFactory: viewModelFactory,
+                                                   shouldIncludeDescription: true,
+                                                   localizationManager: localizationManager)
 
         presenter.setup(qrSize: CGSize(width: 100.0, height: 100.0))
 
         // then
 
-        wait(for: [imageExpectation, assetExpectation, amountExpectation], timeout: Constants.networkTimeout)
+        wait(for: [imageExpectation, assetExpectation, amountExpectation, descriptionExpectation],
+             timeout: Constants.networkTimeout)
 
         return presenter
     }

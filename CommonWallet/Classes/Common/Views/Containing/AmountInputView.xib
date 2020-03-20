@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AmountInputView" customModule="CommonWallet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QYg-rG-di7" customClass="BorderedContainerView" customModule="SoraUI">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <gestureRecognizers/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topBorder" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_leftBorder" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomBorder" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_rightBorder" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="msd-dg-Wag" appends="YES" id="Zz7-Lz-lOi"/>
+                    </connections>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QjP-33-SYd">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="19"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="£" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulX-7x-4h2">
+                    <rect key="frame" x="0.0" y="33" width="10.5" height="21"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hT1-D4-oQO">
+                    <rect key="frame" x="10.5" y="33" width="332.5" height="21"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                    <connections>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="hfj-Ot-pvd"/>
+                    </connections>
+                </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MLM-Hn-drg" customClass="ActionTitleControl" customModule="SoraUI">
+                    <rect key="frame" x="343" y="33.5" width="32" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="image" keyPath="_icon" value="iconKeyboardControl"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="_horizontalSpacing">
+                            <real key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="actionControlDidChange" destination="iN0-l3-epB" eventType="valueChanged" id="HGr-Ow-2bz"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="QYg-rG-di7" secondAttribute="trailing" id="2z4-PQ-K5U"/>
+                <constraint firstAttribute="trailing" secondItem="MLM-Hn-drg" secondAttribute="trailing" id="Bbp-HN-dO0"/>
+                <constraint firstItem="MLM-Hn-drg" firstAttribute="leading" secondItem="hT1-D4-oQO" secondAttribute="trailing" id="Els-nK-q2d"/>
+                <constraint firstAttribute="trailing" secondItem="QjP-33-SYd" secondAttribute="trailing" id="Ff4-bf-tYN"/>
+                <constraint firstItem="MLM-Hn-drg" firstAttribute="centerY" secondItem="hT1-D4-oQO" secondAttribute="centerY" id="HDk-Vd-7Ld"/>
+                <constraint firstItem="hT1-D4-oQO" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Jbq-9x-JVg"/>
+                <constraint firstItem="QjP-33-SYd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="OFQ-K3-vX9"/>
+                <constraint firstAttribute="bottom" secondItem="QYg-rG-di7" secondAttribute="bottom" id="Sw0-30-bTc"/>
+                <constraint firstItem="QYg-rG-di7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="V21-VJ-CCT"/>
+                <constraint firstItem="QYg-rG-di7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YEd-d4-262"/>
+                <constraint firstItem="hT1-D4-oQO" firstAttribute="leading" secondItem="ulX-7x-4h2" secondAttribute="trailing" id="jf2-J2-dug"/>
+                <constraint firstItem="ulX-7x-4h2" firstAttribute="centerY" secondItem="hT1-D4-oQO" secondAttribute="centerY" id="mXW-l6-hrj"/>
+                <constraint firstItem="ulX-7x-4h2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ogl-G9-Az7"/>
+                <constraint firstItem="QjP-33-SYd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="wQj-M0-E0Y"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="amountField" destination="hT1-D4-oQO" id="XXz-eZ-tEj"/>
+                <outlet property="assetLabel" destination="ulX-7x-4h2" id="5W7-H3-SD0"/>
+                <outlet property="borderedView" destination="QYg-rG-di7" id="xsG-ZP-H0a"/>
+                <outlet property="bottomConstraint" destination="Jbq-9x-JVg" id="FWt-iV-e6X"/>
+                <outlet property="keyboardIndicator" destination="MLM-Hn-drg" id="sFL-Qx-MaF"/>
+                <outlet property="titleLabel" destination="QjP-33-SYd" id="7VR-lk-Cf1"/>
+                <outlet property="topConstraint" destination="wQj-M0-E0Y" id="JeA-9l-f0b"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="135"/>
+        </view>
+        <tapGestureRecognizer id="msd-dg-Wag">
+            <connections>
+                <action selector="actionTap:" destination="iN0-l3-epB" id="4Qp-pK-5pv"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="iconKeyboardControl" width="24" height="20"/>
+    </resources>
+</document>
