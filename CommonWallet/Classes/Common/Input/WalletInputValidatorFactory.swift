@@ -8,6 +8,7 @@ import Foundation
 public protocol WalletInputValidatorFactoryProtocol: class {
     func createTransferDescriptionValidator() -> WalletInputValidatorProtocol?
     func createWithdrawDescriptionValidator(optionId: String) -> WalletInputValidatorProtocol?
+    func createReceiveDescriptionValidator() -> WalletInputValidatorProtocol?
 }
 
 public extension WalletInputValidatorFactoryProtocol {
@@ -16,6 +17,10 @@ public extension WalletInputValidatorFactoryProtocol {
     }
 
     func createWithdrawDescriptionValidator(optionId: String) -> WalletInputValidatorProtocol? {
+        return nil
+    }
+
+    func createReceiveDescriptionValidator() -> WalletInputValidatorProtocol? {
         return nil
     }
 }

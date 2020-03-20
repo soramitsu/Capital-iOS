@@ -45,7 +45,7 @@ final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
     }
 
     func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModel {
-        guard let validator = descriptionValidatorFactory.createTransferDescriptionValidator() else {
+        guard let validator = descriptionValidatorFactory.createReceiveDescriptionValidator() else {
                 throw ReceiveViewModelFactoryError.missingValidator
         }
 
