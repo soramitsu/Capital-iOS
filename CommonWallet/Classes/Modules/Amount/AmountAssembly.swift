@@ -11,10 +11,10 @@ final class AmountAssembly: AmountAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: AmountPayload) -> AmountViewProtocol? {
         do {
-            let view = AmountViewController(nibName: "AmountViewController", bundle: Bundle(for: self))
-
-            view.style = resolver.style
-            view.accessoryFactory = AccessoryViewFactory.self
+            let containingFactory = ContainingViewFactory(style: resolver.style)
+            let view = AmountViewController(containingFactory: containingFactory,
+                                            style: resolver.style,
+                                            accessoryFactory: AccessoryViewFactory.self)
 
             let coordinator = AmountCoordinator(resolver: resolver)
 

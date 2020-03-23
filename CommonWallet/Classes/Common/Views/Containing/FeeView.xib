@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="FeeView" customModule="CommonWallet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W3H-fQ-ILF" customClass="BorderedContainerView" customModule="SoraUI">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topBorder" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_rightBorder" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomBorder" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="_leftBorder" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction Fee" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRV-6a-x0K">
+                    <rect key="frame" x="0.0" y="39.5" width="122" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wiQ-xS-fXR">
+                    <rect key="frame" x="132" y="40" width="20" height="20"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="XRV-6a-x0K" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0gh-nb-Zf1"/>
+                <constraint firstAttribute="bottom" secondItem="W3H-fQ-ILF" secondAttribute="bottom" id="4rQ-K3-byC"/>
+                <constraint firstItem="W3H-fQ-ILF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JO5-ZK-AsW"/>
+                <constraint firstAttribute="trailing" secondItem="W3H-fQ-ILF" secondAttribute="trailing" id="Si0-sq-9ty"/>
+                <constraint firstItem="W3H-fQ-ILF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VYC-Ic-8ji"/>
+                <constraint firstItem="wiQ-xS-fXR" firstAttribute="leading" secondItem="XRV-6a-x0K" secondAttribute="trailing" constant="10" id="VZY-Ig-IrQ"/>
+                <constraint firstItem="XRV-6a-x0K" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Zer-Vh-f2a"/>
+                <constraint firstItem="wiQ-xS-fXR" firstAttribute="centerY" secondItem="XRV-6a-x0K" secondAttribute="centerY" id="bPK-mY-gQS"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="activityIndicator" destination="wiQ-xS-fXR" id="MBm-da-1n4"/>
+                <outlet property="borderedView" destination="W3H-fQ-ILF" id="ekc-UU-t45"/>
+                <outlet property="titleLabel" destination="XRV-6a-x0K" id="Of3-O3-9Ex"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="144"/>
+        </view>
+    </objects>
+</document>
