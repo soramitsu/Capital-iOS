@@ -460,6 +460,7 @@ extension AmountPresenter: AmountPresenterProtocol {
     func setup() {
         amountInputViewModel.observable.add(observer: self)
 
+        view?.set(title: L10n.Amount.moduleTitle)
         view?.set(assetViewModel: assetSelectionViewModel)
         view?.set(amountViewModel: amountInputViewModel)
         view?.set(descriptionViewModel: descriptionInputViewModel)
@@ -501,10 +502,6 @@ extension AmountPresenter: AmountPresenterProtocol {
 
         assetSelectionViewModel.isSelecting = true
     }
-
-    func close() {
-        coordinator.close()
-    }
 }
 
 extension AmountPresenter: ModalPickerViewDelegate {
@@ -542,6 +539,7 @@ extension AmountPresenter: AmountInputViewModelObserver {
 extension AmountPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
+            view?.set(title: L10n.Amount.moduleTitle)
             updateAmountInputViewModel()
             updateSelectedAssetViewModel(for: selectedAsset)
             updateFeeViewModel(for: selectedAsset)

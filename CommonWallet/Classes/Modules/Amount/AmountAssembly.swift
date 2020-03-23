@@ -12,9 +12,7 @@ final class AmountAssembly: AmountAssemblyProtocol {
                              payload: AmountPayload) -> AmountViewProtocol? {
         do {
             let containingFactory = ContainingViewFactory(style: resolver.style)
-            let view = AmountViewController(containingFactory: containingFactory,
-                                            style: resolver.style,
-                                            accessoryFactory: AccessoryViewFactory.self)
+            let view = AmountViewController(containingFactory: containingFactory, style: resolver.style)
 
             let coordinator = AmountCoordinator(resolver: resolver)
 

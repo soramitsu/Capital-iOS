@@ -26,7 +26,7 @@ struct WithdrawCheckingState: OptionSet {
 
 final class WithdrawAmountPresenter {
 
-    weak var view: WithdrawAmountViewProtocol?
+    weak var view: AmountViewProtocol?
     var coordinator: WithdrawAmountCoordinatorProtocol
     var logger: WalletLoggerProtocol?
 
@@ -50,7 +50,7 @@ final class WithdrawAmountPresenter {
 
     private(set) var confirmationState: WithdrawCheckingState?
 
-    init(view: WithdrawAmountViewProtocol,
+    init(view: AmountViewProtocol,
          coordinator: WithdrawAmountCoordinatorProtocol,
          assets: [WalletAsset],
          selectedAsset: WalletAsset,
@@ -172,7 +172,7 @@ final class WithdrawAmountPresenter {
                 let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
                                                                                            totalAmount: nil,
                                                                                            locale: locale)
-                view?.didChange(accessoryViewModel: accessoryViewModel)
+                view?.set(accessoryViewModel: accessoryViewModel)
                 return
         }
 
@@ -181,7 +181,7 @@ final class WithdrawAmountPresenter {
         let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
                                                                                    totalAmount: totalAmount,
                                                                                    locale: locale)
-        view?.didChange(accessoryViewModel: accessoryViewModel)
+        view?.set(accessoryViewModel: accessoryViewModel)
     }
 
     private func updateSelectedAssetViewModel(for newAsset: WalletAsset) {
@@ -424,7 +424,7 @@ final class WithdrawAmountPresenter {
     }
 }
 
-extension WithdrawAmountPresenter: WithdrawAmountPresenterProtocol {
+extension WithdrawAmountPresenter: AmountPresenterProtocol {
     func setup() {
         amountInputViewModel.observable.add(observer: self)
 

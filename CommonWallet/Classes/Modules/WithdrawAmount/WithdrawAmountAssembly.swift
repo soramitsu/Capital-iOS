@@ -8,11 +8,11 @@ import Foundation
 final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              asset: WalletAsset,
-                             option: WalletWithdrawOption) -> WithdrawAmountViewProtocol? {
+                             option: WalletWithdrawOption) -> AmountViewProtocol? {
 
         do {
-            let view = WithdrawAmountViewController(nibName: "WithdrawAmountViewController", bundle: Bundle(for: self))
-            view.style = resolver.style
+            let containingFactory = ContainingViewFactory(style: resolver.style)
+            let view = AmountViewController(containingFactory: containingFactory, style: resolver.style)
 
             let coordinator = WithdrawAmountCoordinator(resolver: resolver)
 

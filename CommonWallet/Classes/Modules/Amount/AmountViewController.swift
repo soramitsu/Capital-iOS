@@ -7,7 +7,7 @@ import UIKit
 import SoraUI
 import SoraFoundation
 
-final class AmountViewController: UIViewController, AdaptiveDesignable {
+final class AmountViewController: AccessoryViewController {
     private struct Constants {
         static let horizontalMargin: CGFloat = 20.0
         static let assetHeight: CGFloat = 54.0
@@ -21,7 +21,10 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
     let containingFactory: ContainingViewFactoryProtocol
     let style: WalletStyleProtocol
-    let accessoryFactory: AccessoryViewFactoryProtocol.Type
+
+    override var accessoryStyle: WalletAccessoryStyleProtocol? {
+        style.accessoryStyle
+    }
 
     private var containerView = ScrollableContainerView()
 
@@ -30,17 +33,9 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
     private var feeView: FeeView!
     private var descriptionInputView: DescriptionInputView!
 
-    private var accessoryView: AccessoryViewProtocol?
-    private var accessoryBottom: NSLayoutConstraint?
-
-    private var keyboardHandler: KeyboardHandler?
-
-    init(containingFactory: ContainingViewFactoryProtocol,
-         style: WalletStyleProtocol,
-         accessoryFactory: AccessoryViewFactoryProtocol.Type) {
+    init(containingFactory: ContainingViewFactoryProtocol, style: WalletStyleProtocol) {
         self.containingFactory = containingFactory
         self.style = style
-        self.accessoryFactory = accessoryFactory
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,7 +48,6 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         self.view = containerView
 
         configureContentView()
-        configureAccessoryView()
 
         configureStyle()
     }
@@ -64,24 +58,6 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         setupLocalization()
 
         presenter.setup()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        setupKeyboardHandler()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        clearKeyboardHandler()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        setupContentInsets()
     }
 
     private func configureContentView() {
@@ -114,40 +90,12 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
                                       constant: -2 * Constants.horizontalMargin).isActive = true
         }
     }
-
-    private func configureAccessoryView() {
-        let accessoryView = accessoryFactory.createAccessoryView(from: style.accessoryStyle, target: self,
-                                                                 completionSelector: #selector(actionNext))
-
-        let contentView = accessoryView.contentView
-
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contentView)
-
-        if #available(iOS 11.0, *) {
-            accessoryBottom = contentView.bottomAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
-        } else {
-            accessoryBottom = contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0)
-        }
-
-        accessoryBottom?.isActive = true
-
-        contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0).isActive = true
-
-        contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0).isActive = true
-
-        contentView.heightAnchor.constraint(equalToConstant: contentView.frame.size.height).isActive = true
-
-        self.accessoryView = accessoryView
-    }
     
     private func configureStyle() {
         view.backgroundColor = style.backgroundColor
     }
     
     private func setupLocalization() {
-        title = L10n.Amount.moduleTitle
         amountInputView.titleLabel.text = L10n.Amount.title
     }
 
@@ -157,50 +105,6 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
             (descriptionInputView.viewModel?.isValid ?? false)
 
         accessoryView?.isActionEnabled = isEnabled
-    }
-
-    // MARK: Keyboard Handling
-
-    private func setupContentInsets() {
-        let accessoryHeight = accessoryView?.contentView.frame.height ?? 0.0
-        let accessoryBottomOffset = accessoryBottom?.constant ?? 0.0
-
-        var currentInsets = containerView.scrollView.contentInset
-        currentInsets.bottom = accessoryBottomOffset +  accessoryHeight
-        containerView.scrollView.contentInset = currentInsets
-    }
-
-    private func setupKeyboardHandler() {
-        keyboardHandler = KeyboardHandler()
-        keyboardHandler?.animateOnFrameChange = animateKeyboardBoundsChange(for:)
-    }
-
-    private func clearKeyboardHandler() {
-        keyboardHandler = nil
-    }
-
-    private func animateKeyboardBoundsChange(for keyboardFrame: CGRect) {
-        let localKeyboardFrame = view.convert(keyboardFrame, from: nil)
-        let safeAreaHeight = view.bounds.height - containerView.scrollView.frame.maxY
-        let accessoryInset = max(view.bounds.height - safeAreaHeight - localKeyboardFrame.minY, 0.0)
-        let accessoryHeight = accessoryView?.contentView.frame.height ?? 0.0
-
-        accessoryBottom?.constant = -accessoryInset
-
-        var currentInsets = containerView.scrollView.contentInset
-        currentInsets.bottom = accessoryInset + accessoryHeight
-
-        containerView.scrollView.contentInset = currentInsets
-
-        view.layoutIfNeeded()
-
-        if amountInputView.amountField.isFirstResponder {
-            scrollToAmount(animated: false)
-        }
-
-        if descriptionInputView.textView.isFirstResponder {
-            scrollToDescription(animated: false)
-        }
     }
 
     private func scrollToAmount(animated: Bool) {
@@ -220,9 +124,30 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
         }
     }
 
-    // MARK: Action
-    
-    @objc private func actionNext() {
+    // MARK: Override Superclass
+
+    override func updateBottom(inset: CGFloat) {
+        super.updateBottom(inset: inset)
+
+        var currentInsets = containerView.scrollView.contentInset
+        currentInsets.bottom = inset
+
+        containerView.scrollView.contentInset = currentInsets
+
+        view.layoutIfNeeded()
+
+        if amountInputView.amountField.isFirstResponder {
+            scrollToAmount(animated: false)
+        }
+
+        if descriptionInputView.textView.isFirstResponder {
+            scrollToDescription(animated: false)
+        }
+    }
+
+    @objc override func actionAccessory() {
+        super.actionAccessory()
+
         amountInputView.amountField.resignFirstResponder()
         descriptionInputView.textView.resignFirstResponder()
 
@@ -232,6 +157,10 @@ final class AmountViewController: UIViewController, AdaptiveDesignable {
 
 
 extension AmountViewController: AmountViewProtocol {
+    func set(title: String) {
+        self.title = title
+    }
+
     func set(assetViewModel: AssetSelectionViewModelProtocol) {
         selectedAssetView.viewModel?.observable.remove(observer: self)
 
