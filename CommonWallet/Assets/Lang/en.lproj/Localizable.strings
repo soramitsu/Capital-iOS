@@ -42,7 +42,7 @@
 "transaction.sent" = "Amount sent";
 "transaction.fee" = "Fee";
 "transaction.send_back" = "Send back";
-"transaction.id" = "Identifier";
+"transaction.id" = "Transaction Id";
 "transaction.date" = "Date and time";
 "transaction.reason" = "Reason";
 "transaction.type" = "Type";
@@ -89,3 +89,8 @@
 "invoice_scan.title" = "Scan QR";
 "common.full_name" = "%1$@ %2$@";
 "amount.defaultFee" = "Transaction fee";
+"transaction.sender_id" = "Sender ID";
+"common.options_title" = "Select an option";
+"common.copy" = "Copy";
+"common.cancel" = "Cancel";
+"transaction.recipient_id" = "Recipient ID";

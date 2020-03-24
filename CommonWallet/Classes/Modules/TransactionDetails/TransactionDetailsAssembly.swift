@@ -34,22 +34,16 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                          radius: AccessoryView.iconRadius)
 
-        let senderId = transactionType.isIncome ? transactionDetails.peerId : resolver.account.accountId.identifier()
-        let receiverId = transactionType.isIncome ? resolver.account.accountId.identifier() : transactionDetails.peerId
+        let viewModelFactory = WalletTransactionDetailsFactory(resolver: resolver)
 
-        let feeDisplaySettings = resolver.feeDisplaySettingsFactory
-            .createFeeSettings(asset: asset,
-                               senderId: senderId,
-                               receiverId: receiverId)
 
         let presenter = TransactionDetailsPresenter(view: view,
                                                     coordinator: coordinator,
                                                     configuration: resolver.transactionDetailsConfiguration,
-                                                    resolver: resolver,
-                                                    transactionData: transactionDetails,
-                                                    transactionType: transactionType,
+                                                    detailsViewModelFactory: viewModelFactory,
                                                     accessoryViewModelFactory: accessoryViewModelFactory,
-                                                    feeDisplaySettings: feeDisplaySettings)
+                                                    transactionData: transactionDetails,
+                                                    transactionType: transactionType, asset: asset)
         view.presenter = presenter
 
         view.localizationManager = resolver.localizationManager

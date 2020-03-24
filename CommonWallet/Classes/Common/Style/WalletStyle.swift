@@ -175,9 +175,12 @@ final class WalletStyle: WalletStyleProtocol {
                                         color: captionTextColor)
             let details = WalletTextStyle(font: bodyRegularFont,
                                           color: bodyTextColor)
+            let link = WalletLinkStyle(normal: .normalLinkColor,
+                                       highlighted: .highlightedLinkColor)
 
             return WalletFormCellStyle(title: title,
                                       details: details,
+                                      link: link,
                                       separator: thinBorderColor)
         }
     }

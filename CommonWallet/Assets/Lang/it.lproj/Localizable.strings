@@ -80,7 +80,7 @@
 "withdraw.total_amount" = "Importo totale %@ %@";
 "withdraw.error.no_asset" = "Siamo spiacenti, non siamo riusciti a trovare le informazioni sull'asset che volete inviare. Per favore, riprova più tardi.";
 "withdraw.error.balance" = "Spiacenti, la richiesta per la verifica del saldo non è riuscita. Per favore riprova più tardi.";
-"withdraw.error.connection" = "Mi dispiace, non siamo riusciti a contattare il fornitore di prelievo. Per favore, riprova più tardi.";
+"withdraw.error.connection" = "Mi dispiace, errore di connessione per il prelievo. Per favore, riprova più tardi.";
 "withdraw.error.too_poor" = "Siamo spiacenti, non hai fondi sufficienti per trasferire l'importo specificato.";
 "withdraw.error.fail" = "Prelievo fallito. Per favore, riprova più tardi.";
 "amount.module_title" = "Imposta quantità";
@@ -89,3 +89,8 @@
 "invoice_scan.title" = "Scansiona il codice QR";
 "common.full_name" = "%1$@ %2$@";
 "amount.defaultFee" = "Commissione della transazione";
+"transaction.sender_id" = "ID mittente";
+"common.options_title" = "Seleziona un'opzione";
+"common.copy" = "Copia";
+"common.cancel" = "Annulla";
+"transaction.recipient_id" = "ID ricevitore";

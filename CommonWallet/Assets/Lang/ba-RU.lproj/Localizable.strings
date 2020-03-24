@@ -89,3 +89,8 @@
 "invoice_scan.title" = "QR код уҡырға";
 "common.full_name" = "%1$@ %2$@";
 "amount.defaultFee" = "Транзакцияның хаҡы";
+"transaction.sender_id" = "Идентификатор отправителя";
+"common.options_title" = "Hайлағыҙ";
+"common.copy" = "Копировать";
+"common.cancel" = "Кире ҡағыу";
+"transaction.recipient_id" = "Идентификатор получателя";

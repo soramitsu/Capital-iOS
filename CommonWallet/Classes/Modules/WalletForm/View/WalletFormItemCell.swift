@@ -18,12 +18,25 @@ final class WalletFormItemCell: UITableViewCell, WalletFormCellProtocol {
         }
     }
 
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+
+        detailsLabel.isHighlighted = highlighted
+    }
+
     func bind(viewModel: WalletFormViewModelProtocol) {
         self.viewModel = viewModel
 
         titleLabel.text = viewModel.title
-        detailsLabel.text = viewModel.details
         iconImageView.image = viewModel.icon
+
+        if viewModel.command != nil, let details = viewModel.details {
+            let text = NSAttributedString(string: details,
+                                          attributes: [NSAttributedString.Key.underlineStyle: 1])
+            detailsLabel.attributedText = text
+        } else {
+            detailsLabel.text = viewModel.details
+        }
 
         applyDetailsColor()
     }
@@ -40,7 +53,14 @@ final class WalletFormItemCell: UITableViewCell, WalletFormCellProtocol {
 
     private func applyDetailsColor() {
         if let style = style, let viewModel = viewModel {
-            detailsLabel.textColor = viewModel.detailsColor ?? style.details.color
+            if viewModel.command != nil {
+                detailsLabel.textColor = style.link.normal
+                detailsLabel.highlightedTextColor = style.link.highlighted
+            } else {
+                let color = viewModel.detailsColor ?? style.details.color
+                detailsLabel.textColor = color
+                detailsLabel.highlightedTextColor = color
+            }
         }
     }
 

@@ -22,6 +22,11 @@ public protocol WalletStrokeStyleProtocol {
     var lineWidth: CGFloat { get }
 }
 
+public protocol WalletLinkStyleProtocol {
+    var normal: UIColor { get }
+    var highlighted: UIColor { get }
+}
+
 public protocol WalletRoundedButtonStyleProtocol {
     var background: UIColor { get }
     var title: WalletTextStyleProtocol { get }
@@ -37,6 +42,7 @@ public protocol WalletNameIconStyleProtocol {
 public protocol WalletFormCellStyleProtocol {
     var title: WalletTextStyleProtocol { get }
     var details: WalletTextStyleProtocol { get }
+    var link: WalletLinkStyleProtocol { get }
     var separator: UIColor { get }
 }
 
@@ -135,16 +141,29 @@ public struct WalletNameIconStyle: WalletNameIconStyleProtocol {
     }
 }
 
+public struct WalletLinkStyle: WalletLinkStyleProtocol {
+    public var normal: UIColor
+    public var highlighted: UIColor
+
+    public init(normal: UIColor, highlighted: UIColor) {
+        self.normal = normal
+        self.highlighted = highlighted
+    }
+}
+
 public struct WalletFormCellStyle: WalletFormCellStyleProtocol {
     public var title: WalletTextStyleProtocol
     public var details: WalletTextStyleProtocol
+    public var link: WalletLinkStyleProtocol
     public var separator: UIColor
 
     public init(title: WalletTextStyleProtocol,
                 details: WalletTextStyleProtocol,
+                link: WalletLinkStyleProtocol,
                 separator: UIColor) {
         self.title = title
         self.details = details
+        self.link = link
         self.separator = separator
     }
 }

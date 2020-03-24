@@ -31,6 +31,12 @@ class TransactionDetailsTests: XCTestCase {
             }
 
             let transactionData = try createRandomAssetTransactionData()
+            let assetId = try IRAssetIdFactory.asset(withIdentifier: transactionData.assetId)
+            let asset = WalletAsset(identifier: assetId,
+                                    symbol: "$",
+                                    details: LocalizableResource { _  in "Dollar" },
+                                    precision: 2)
+
             let transactionType: WalletTransactionType
 
             if transactionData.type == WalletTransactionType.incoming.backendName {
@@ -42,15 +48,18 @@ class TransactionDetailsTests: XCTestCase {
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
 
-            let configuration = TransactionDetailsConfiguration(sendBackTransactionTypes: [])
+            let viewModelFactory = WalletTransactionDetailsFactory(resolver: resolver)
+
+            let configuration = TransactionDetailsConfiguration(sendBackTransactionTypes: [],
+                                                                fieldActionFactory: WalletFieldActionFactory())
             let presenter = TransactionDetailsPresenter(view: view,
                                                         coordinator: coordinator,
                                                         configuration:  configuration,
-                                                        resolver: resolver,
+                                                        detailsViewModelFactory: viewModelFactory,
+                                                        accessoryViewModelFactory: accessoryViewModelFactory,
                                                         transactionData: transactionData,
                                                         transactionType: transactionType,
-                                                        accessoryViewModelFactory: accessoryViewModelFactory,
-                                                        feeDisplaySettings: FeeDisplaySettings.defaultSettings)
+                                                        asset: asset)
 
             // when
 
