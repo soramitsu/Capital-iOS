@@ -17,6 +17,7 @@ protocol ContainingViewFactoryProtocol {
     func createSelectedAssetView() -> SelectedAssetView
     func createAmountInputView(for display: AmountInputViewDisplay) -> AmountInputView
     func createDescriptionInputView() -> DescriptionInputView
+    func createFeeView() -> FeeView
     func createSeparatorView() -> BorderedContainerView
 }
 
@@ -120,6 +121,24 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
         view.backgroundColor = .white
         view.borderedView.strokeColor = style.thinBorderColor
         view.imageView.backgroundColor = .clear
+
+        return view
+    }
+
+    func createFeeView() -> FeeView {
+        let optionalView = UINib(nibName: "FeeView", bundle: Bundle(for: FeeView.self))
+            .instantiate(withOwner: nil, options: nil)
+            .first
+
+        guard let view = optionalView as? FeeView else {
+            fatalError("Unexpected view returned from nib")
+        }
+
+        view.backgroundColor = .clear
+        view.borderedView.strokeColor = style.thinBorderColor
+        view.activityIndicator.tintColor = style.captionTextColor
+        view.titleLabel.textColor = style.captionTextColor
+        view.titleLabel.font = style.bodyRegularFont
 
         return view
     }

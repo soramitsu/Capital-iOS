@@ -179,7 +179,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                                   transactionSettingsFactory: transactionSettingsFactory,
                                                                   feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
-            let view = MockWithdrawAmountViewProtocol()
+            let view = MockAmountViewProtocol()
             let coordinator = MockWithdrawAmountCoordinatorProtocol()
 
             let assetViewModelObserver = MockAssetSelectionViewModelObserver()
@@ -242,7 +242,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                     descriptionExpectation.fulfill()
                 }
 
-                when(stub).didChange(accessoryViewModel: any()).then { _ in
+                when(stub).set(accessoryViewModel: any()).then { _ in
                     accessoryExpectation.fulfill()
                 }
 

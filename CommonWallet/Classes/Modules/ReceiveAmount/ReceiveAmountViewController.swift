@@ -30,7 +30,9 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     var presenter: ReceiveAmountPresenterProtocol!
 
-    var style: WalletStyleProtocol?
+    let containingFactory: ContainingViewFactoryProtocol
+
+    let style: WalletStyleProtocol
 
     var localizableTitle: LocalizableResource<String>?
 
@@ -41,8 +43,6 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
             }
         }
     }
-
-    let containingFactory: ContainingViewFactoryProtocol
 
     private var containerView = ScrollableContainerView()
 
@@ -59,7 +59,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     override var navigationItem: UINavigationItem {
         let navigationItem = super.navigationItem
 
-        let shareItem = UIBarButtonItem(image: style?.shareIcon,
+        let shareItem = UIBarButtonItem(image: style.shareIcon,
                                         style: .plain,
                                         target: self,
                                         action: #selector(actionShare))
@@ -68,8 +68,9 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         return navigationItem
     }
 
-    init(containingFactory: ContainingViewFactoryProtocol) {
+    init(containingFactory: ContainingViewFactoryProtocol, style: WalletStyleProtocol) {
         self.containingFactory = containingFactory
+        self.style = style
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -192,9 +193,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func applyStyle() {
-        if let style = style {
-            view.backgroundColor = style.backgroundColor
-        }
+        view.backgroundColor = style.backgroundColor
     }
 
     private func updateLayoutConstraints(for state: LayoutState) {

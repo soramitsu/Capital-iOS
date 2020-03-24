@@ -17,8 +17,8 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                           details: nil)
 
             let containingFactory = ContainingViewFactory(style: resolver.style)
-            let view = ReceiveAmountViewController(containingFactory: containingFactory)
-            view.style = resolver.style
+            let view = ReceiveAmountViewController(containingFactory: containingFactory,
+                                                   style: resolver.style)
 
             let coordinator = ReceiveAmountCoordinator(resolver: resolver)
 

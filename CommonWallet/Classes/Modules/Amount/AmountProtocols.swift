@@ -4,6 +4,7 @@
 */
 
 protocol AmountViewProtocol: ControllerBackedProtocol, LoadableViewProtocol, AlertPresentable {
+    func set(title: String)
     func set(assetViewModel: AssetSelectionViewModelProtocol)
     func set(amountViewModel: AmountInputViewModelProtocol)
     func set(descriptionViewModel: DescriptionInputViewModelProtocol)
@@ -16,13 +17,11 @@ protocol AmountPresenterProtocol: class {
     func setup()
     func confirm()
     func presentAssetSelection()
-    func close()
 }
 
 
 protocol AmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
     func confirm(with payload: TransferPayload)
-    func close()
 }
 
 

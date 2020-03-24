@@ -176,6 +176,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
             // when
 
+            let titleExpectation = XCTestExpectation()
             let assetExpectation = XCTestExpectation()
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
@@ -191,6 +192,10 @@ class AmountInputConfirmationTests: NetworkBaseTests {
             var descriptionViewModel: DescriptionInputViewModelProtocol?
 
             stub(view) { stub in
+                when(stub).set(title: any(String.self)).then { _ in
+                    titleExpectation.fulfill()
+                }
+
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
                     assetViewModel.observable.add(observer: assetSelectionObserver)
                     assetExpectation.fulfill()
@@ -280,7 +285,8 @@ class AmountInputConfirmationTests: NetworkBaseTests {
 
             presenter.setup()
 
-            wait(for: [assetExpectation,
+            wait(for: [titleExpectation,
+                       assetExpectation,
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,
