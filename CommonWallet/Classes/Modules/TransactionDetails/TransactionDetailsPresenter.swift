@@ -37,12 +37,12 @@ final class TransactionDetailsPresenter {
         self.accessoryViewModelFactory = accessoryViewModelFactory
     }
 
-    private func createAccessoryViewModel() -> AccessoryViewModel {
+    private func createAccessoryViewModel(actionTitle: String) -> AccessoryViewModel {
         let peerName = transactionData.localizedPeerName
 
         return accessoryViewModelFactory.createViewModel(from: peerName,
                                                          fullName: peerName,
-                                                         action: L10n.Transaction.sendBack)
+                                                         action: actionTitle)
     }
 
     private func updateView() {
@@ -54,7 +54,13 @@ final class TransactionDetailsPresenter {
 
         if transactionType.isIncome,
             configuration.sendBackTransactionTypes.contains(transactionType.backendName) {
-            let accessoryViewModel = createAccessoryViewModel()
+            let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendBack)
+            view?.didReceive(accessoryViewModel: accessoryViewModel)
+        }
+
+        if !transactionType.isIncome,
+            configuration.sendAgainTransactionTypes.contains(transactionType.backendName) {
+            let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendAgain)
             view?.didReceive(accessoryViewModel: accessoryViewModel)
         }
     }

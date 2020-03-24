@@ -230,6 +230,8 @@ public enum L10n {
         public static var recipient: String { return localize("transaction.recipient") }
         /// Recipient ID
         public static var recipientId: String { return localize("transaction.recipient_id") }
+        /// Send again
+        public static var sendAgain: String { return localize("transaction.send_again") }
         /// Send back
         public static var sendBack: String { return localize("transaction.send_back") }
         /// Sender

@@ -94,3 +94,4 @@
 "common.copy" = "コピー";
 "common.cancel" = "キャンセル";
 "transaction.recipient_id" = "受信者 ID";
+"transaction.send_again" = "もう一度送信";

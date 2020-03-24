@@ -10,5 +10,8 @@ public protocol TransactionDetailsModuleBuilderProtocol: class {
     func with(sendBackTransactionTypes: [String]) -> Self
 
     @discardableResult
+    func with(sendAgainTransactionTypes: [String]) -> Self
+
+    @discardableResult
     func with(fieldActionFactory: WalletFieldActionFactoryProtocol) -> Self
 }

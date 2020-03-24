@@ -94,3 +94,4 @@
 "common.copy" = "Copia";
 "common.cancel" = "Annulla";
 "transaction.recipient_id" = "ID ricevitore";
+"transaction.send_again" = "Invia di nuovo";

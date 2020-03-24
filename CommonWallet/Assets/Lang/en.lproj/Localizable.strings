@@ -94,3 +94,4 @@
 "common.copy" = "Copy";
 "common.cancel" = "Cancel";
 "transaction.recipient_id" = "Recipient ID";
+"transaction.send_again" = "Send again";

@@ -94,3 +94,4 @@
 "common.copy" = "ចម្លង";
 "common.cancel" = "បោះបង់";
 "transaction.recipient_id" = "លេខសម្គាល់អ្នកទទួល";
+"transaction.send_again" = "ផ្ញើម្តងទៀត";

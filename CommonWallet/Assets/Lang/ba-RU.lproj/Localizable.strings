@@ -94,3 +94,4 @@
 "common.copy" = "Копировать";
 "common.cancel" = "Кире ҡағыу";
 "transaction.recipient_id" = "Идентификатор получателя";
+"transaction.send_again" = "Кире ебәрергә";
