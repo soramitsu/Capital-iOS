@@ -28,13 +28,7 @@ final class WalletFormDetailsCell: UITableViewCell, WalletFormCellProtocol {
 
         titleLabel.text = viewModel.title
 
-        if viewModel.command != nil, let details = viewModel.details {
-            let text = NSAttributedString(string: details,
-                                          attributes: [NSAttributedString.Key.underlineStyle: 1])
-            detailsLabel.attributedText = text
-        } else {
-            detailsLabel.text = viewModel.details
-        }
+        detailsLabel.text = viewModel.details
 
         applyDetailsColor()
     }

@@ -42,7 +42,7 @@
 "transaction.sent" = "Amount sent";
 "transaction.fee" = "Fee";
 "transaction.send_back" = "Send back";
-"transaction.id" = "Transaction Id";
+"transaction.id" = "Transaction ID";
 "transaction.date" = "Date and time";
 "transaction.reason" = "Reason";
 "transaction.type" = "Type";

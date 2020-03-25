@@ -220,7 +220,7 @@ public enum L10n {
         public static var done: String { return localize("transaction.done") }
         /// Fee
         public static var fee: String { return localize("transaction.fee") }
-        /// Transaction Id
+        /// Transaction ID
         public static var id: String { return localize("transaction.id") }
         /// Funds are being sent
         public static var pendingDescription: String { return localize("transaction.pending_description") }

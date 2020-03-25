@@ -23,7 +23,7 @@ final class WalletTransactionDetailsFactory {
     private func populateTransactionId(into viewModelList: inout [WalletFormViewModelProtocol],
                                        data: AssetTransactionData) {
         let actionsFactory = resolver.transactionDetailsConfiguration.fieldActionFactory
-        var command: WalletCommandProtocol? = nil
+        var command: WalletCommandProtocol?
 
         if let actions = actionsFactory.createActions(for: .transactionId, data: data), actions.count > 0 {
             command = ActionSheetCommand(resolver: resolver,
@@ -106,7 +106,7 @@ final class WalletTransactionDetailsFactory {
                               peerNameTitle: String) {
         if !data.peerId.isEmpty {
             let fieldActionFactory = resolver.transactionDetailsConfiguration.fieldActionFactory
-            var command: WalletCommandProtocol? = nil
+            var command: WalletCommandProtocol?
 
             if let actions = fieldActionFactory.createActions(for: .peerId, data: data), actions.count > 0 {
                 command = ActionSheetCommand(resolver: resolver,
@@ -119,7 +119,7 @@ final class WalletTransactionDetailsFactory {
                                              title: peerIdTitle,
                                              details: data.peerId,
                                              command: command)
-            viewModelList.append(peerId)
+            viewModelList.insert(peerId, at: 0)
         }
 
         let peerName = WalletFormViewModel(layoutType: .accessory,
