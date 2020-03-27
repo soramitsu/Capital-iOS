@@ -115,3 +115,13 @@ func createRandomWithdrawMetadataInfo() throws -> WithdrawMetadataInfo {
 
     return WithdrawMetadataInfo(assetId: assetId, option: option)
 }
+
+func createRandomTransferMetadataInfo() throws -> TransferMetadataInfo {
+    let assetId = try createRandomAssetId()
+    let sender = try createRandomAccountId()
+    let receiver = try createRandomAccountId()
+
+    return TransferMetadataInfo(assetId: try IRAssetIdFactory.asset(withIdentifier: assetId),
+                                sender: try IRAccountIdFactory.account(withIdentifier: sender),
+                                receiver: try IRAccountIdFactory.account(withIdentifier: receiver))
+}

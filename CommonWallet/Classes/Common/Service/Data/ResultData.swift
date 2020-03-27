@@ -50,7 +50,7 @@ extension ResultData: Decodable {
 
 struct MultifieldResultData<ResultType> where ResultType: Decodable {
     var status: StatusData
-    var result: ResultType
+    var result: ResultType?
 }
 
 extension MultifieldResultData: Decodable {
@@ -67,6 +67,8 @@ extension MultifieldResultData: Decodable {
 
         status = try container.decode(StatusData.self, forKey: statusKey)
 
-        result = try ResultType(from: decoder)
+        if container.allKeys.count > 1 {
+            result = try ResultType(from: decoder)
+        }
     }
 }

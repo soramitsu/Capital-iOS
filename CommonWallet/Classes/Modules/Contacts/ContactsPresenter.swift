@@ -179,8 +179,13 @@ final class ContactsPresenter: NSObject {
         isWaitingSearch = false
 
         searchOperation = walletService.search(for: searchPattern, runCompletionIn: .main) { [weak self] (result) in
-            if self?.isWaitingSearch == false {
-                self?.view?.didStopSearch()
+
+            guard let strongSelf = self else {
+                return
+            }
+
+            if !strongSelf.isWaitingSearch {
+                strongSelf.view?.didStopSearch()
             }
 
             if let result = result {
@@ -189,11 +194,23 @@ final class ContactsPresenter: NSObject {
                 switch result {
                 case .success(let contacts):
                     let loadedContacts = contacts ?? []
-                    self?.handleSearch(with: loadedContacts)
+                    strongSelf.handleSearch(with: loadedContacts)
                 case .failure(let error):
-                    self?.logger?.error(error.localizedDescription)
+                    strongSelf.handleSearchError(error)
                 }
             }
+        }
+    }
+
+    private func handleSearchError(_ error: Error) {
+        guard let view = view else {
+            logger?.error(error.localizedDescription)
+            return
+        }
+
+        let locale = localizationManager?.selectedLocale
+        if !view.attemptShowError(error, locale: locale) {
+            logger?.error(error.localizedDescription)
         }
     }
     

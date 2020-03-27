@@ -27,6 +27,7 @@ enum FetchHistoryMock: ServiceMockProtocol {
     case empty
     case small
     case filter
+    case error
 
     var mockFile: String {
         switch self {
@@ -38,6 +39,8 @@ enum FetchHistoryMock: ServiceMockProtocol {
             return "historyEmptyResponse.json"
         case .filter:
             return "historyFilteredResponse.json"
+        case .error:
+            return "irohaErrorResponse.json"
         }
     }
 }
@@ -46,6 +49,7 @@ enum SearchMock: ServiceMockProtocol {
     case success
     case empty
     case invoice
+    case error
 
     var mockFile: String {
         switch self {
@@ -55,6 +59,8 @@ enum SearchMock: ServiceMockProtocol {
             return "searchEmptyResponse.json"
         case .invoice:
             return "searchInvoiceResponse.json"
+        case .error:
+            return "irohaErrorResponse.json"
         }
     }
 }
@@ -65,6 +71,7 @@ enum TransferMetadataMock: ServiceMockProtocol {
     case fixed
     case tax
     case notAvailable
+    case error
 
     var mockFile: String {
         switch self {
@@ -78,6 +85,8 @@ enum TransferMetadataMock: ServiceMockProtocol {
             return "transferMetadataTaxResponse.json"
         case .notAvailable:
             return "feeNotAvailable.json"
+        case .error:
+            return "irohaErrorResponse.json"
         }
     }
 }
@@ -99,6 +108,7 @@ enum TransferMock: ServiceMockProtocol {
 enum ContactsMock: ServiceMockProtocol {
     case success
     case empty
+    case error
     
     var mockFile: String {
         switch self {
@@ -106,6 +116,8 @@ enum ContactsMock: ServiceMockProtocol {
             return "contactsResponse.json"
         case .empty:
             return "searchEmptyResponse.json"
+        case .error:
+            return "irohaErrorResponse.json"
         }
 
     }
@@ -136,11 +148,14 @@ enum WithdrawalMetadataMock: ServiceMockProtocol {
 
 enum WithdrawMock: ServiceMockProtocol {
     case success
+    case invalidFormat
 
     var mockFile: String {
         switch self {
         case .success:
             return "successResultResponse.json"
+        case .invalidFormat:
+            return "transferFailResponse.json"
         }
     }
 }

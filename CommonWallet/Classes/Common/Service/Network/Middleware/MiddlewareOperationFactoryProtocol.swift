@@ -52,7 +52,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(ResultData<[BalanceData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .balance) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
 
             guard let balances = resultData.result else {
@@ -87,7 +91,11 @@ public extension MiddlewareOperationFactoryProtocol {
                                                      from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .history) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
 
             return resultData.result
@@ -116,7 +124,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(MultifieldResultData<TransferMetaData>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .transferMetadata) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
 
             return resultData.result
@@ -175,7 +187,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .transfer) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
         }
 
@@ -205,7 +221,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(ResultData<[SearchData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .search) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
 
             guard let searchData = resultData.result else {
@@ -238,7 +258,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(ResultData<[SearchData]>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .contacts) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
 
             guard let searchData = resultData.result else {
@@ -271,7 +295,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(MultifieldResultData<WithdrawMetaData>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .withdrawalMetadata) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
 
             return resultData.result
@@ -332,7 +360,11 @@ public extension MiddlewareOperationFactoryProtocol {
             let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
-                throw ResultStatusError(statusData: resultData.status)
+                if let errorFactory = self.networkResolver.errorFactory(for: .withdraw) {
+                    throw errorFactory.createErrorFromStatus(resultData.status.code)
+                } else {
+                    throw ResultStatusError(statusData: resultData.status)
+                }
             }
         }
 

@@ -3,7 +3,7 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
-protocol ContactsViewProtocol: ControllerBackedProtocol {
+protocol ContactsViewProtocol: ControllerBackedProtocol, AlertPresentable {
     
     func set(viewModel: ContactListViewModelProtocol)
     func didStartSearch()
