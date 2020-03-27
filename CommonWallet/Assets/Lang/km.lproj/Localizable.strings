@@ -65,12 +65,12 @@
 "invoice_scan.error.camera_restricted" = "ជាអកុសលការចូលប្រើកាមេរ៉ាត្រូវបានដាក់កម្រិត។";
 "invoice_scan.error.camera_restricted_previously" = "ជាអកុសលអ្នកបានបដិសេធការចូលប្រើកាមេរ៉ាពីមុន។ តើអ្នកចង់អនុញ្ញាតការចូលប្រើឥឡូវនេះទេ?";
 "invoice_scan.error.camera_title" = "ការចូលប្រើកាមេរ៉ា";
-"invoice_scan.error.no_info" = "រកមិនឃើញព័ត៌មានអ្នកទទួលត្រឹមត្រូវ";
+"invoice_scan.error.no_info" = "QR មិនអាចត្រូវបានឌិកូដបានទេ";
 "invoice_scan.error.invalid_image" = "មិនអាចដំណើរការរូបភាពដែលបានជ្រើសរើសទេ";
 "invoice_scan.error.gallery_restricted" = "ជាអកុសលការចូលប្រើរូបថតត្រូវបានដាក់កម្រិត។";
 "invoice_scan.error.gallery_restricted_previously" = "ជាអកុសលអ្នកបានបដិសេធការចូលប្រើរូបថតពីមុន។ តើអ្នកចង់អនុញ្ញាតការចូលប្រើឥឡូវនេះទេ?";
 "invoice_scan.error.gallery_title" = "ការចូលប្រើរូបថត";
-"invoice_scan.error.match" = "អ្នកផ្ញើនិងអ្នកទទួលត្រូវតែខុសគ្នា";
+"invoice_scan.error.match" = "អ្នកមិនអាចផ្ញើទៅខ្លួនអ្នកបានទេ";
 "invoice_scan.error.extract_fail" = "មិនអាចដកស្រង់ទិន្នន័យរបស់អ្នកទទួល";
 "invoice_scan.error.no_receiver" = "អ្នកទទួលមិនអាចរកឃើញទេ";
 "invoice_scan.error.no_internet" = "សូមពិនិត្យការភ្ជាប់អ៊ីនធឺណិត";
@@ -95,3 +95,4 @@
 "common.cancel" = "បោះបង់";
 "transaction.recipient_id" = "លេខសម្គាល់អ្នកទទួល";
 "transaction.send_again" = "ផ្ញើម្តងទៀត";
+"invoice_scan.error.user_not_found" = "មិនអាចរកឃើញអ្នកប្រើប្រាស់ពី QR";

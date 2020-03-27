@@ -21,7 +21,8 @@ final class InvoiceScanAssembly: InvoiceScanAssemblyProtocol {
                                              currentAccountId: resolver.account.accountId,
                                              networkService: networkService,
                                              qrScanServiceFactory: qrScanServiceFactory,
-                                             qrCoderFactory: resolver.qrCoderFactory)
+                                             qrCoderFactory: resolver.qrCoderFactory,
+                                             localizationManager: resolver.localizationManager)
 
         if resolver.invoiceScanConfiguration.supportsUpload {
             view.showsUpload = true

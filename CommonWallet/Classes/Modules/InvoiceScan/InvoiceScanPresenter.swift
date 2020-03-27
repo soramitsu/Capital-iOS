@@ -6,6 +6,7 @@
 import Foundation
 import AVFoundation
 import IrohaCommunication
+import SoraFoundation
 
 final class InvoiceScanPresenter {
     enum ScanState {
@@ -31,12 +32,15 @@ final class InvoiceScanPresenter {
 
     var qrExtractionService: WalletQRExtractionServiceProtocol?
 
+    private var localizationManager: LocalizationManagerProtocol?
+
     init(view: InvoiceScanViewProtocol,
          coordinator: InvoiceScanCoordinatorProtocol,
          currentAccountId: IRAccountId,
          networkService: WalletServiceProtocol,
          qrScanServiceFactory: WalletQRCaptureServiceFactoryProtocol,
-         qrCoderFactory: WalletQRCoderFactoryProtocol) {
+         qrCoderFactory: WalletQRCoderFactoryProtocol,
+         localizationManager: LocalizationManagerProtocol?) {
         self.view = view
         self.coordinator = coordinator
         self.networkService = networkService
@@ -46,6 +50,8 @@ final class InvoiceScanPresenter {
 
         let qrDecoder = qrCoderFactory.createDecoder()
         self.qrScanMatcher = InvoiceScanMatcher(decoder: qrDecoder)
+
+        self.localizationManager = localizationManager
 
         self.qrScanService = qrScanServiceFactory.createService(with: qrScanMatcher,
                                                                 delegate: nil,
@@ -173,9 +179,13 @@ final class InvoiceScanPresenter {
 
         scanState = .active
 
-        guard
-            let foundAccount = searchResult.first,
-            foundAccount.accountId == receiverInfo.accountId.identifier() else {
+        guard let foundAccount = searchResult.first else {
+            let message = L10n.InvoiceScan.Error.userNotFound
+            view?.present(message: message, animated: true)
+            return
+        }
+
+        guard foundAccount.accountId == receiverInfo.accountId.identifier() else {
                 let message = L10n.InvoiceScan.Error.noReceiver
                 view?.present(message: message, animated: true)
                 return
@@ -196,8 +206,15 @@ final class InvoiceScanPresenter {
 
         scanState = .active
 
-        let message = L10n.InvoiceScan.Error.noInternet
-        view?.present(message: message, animated: true)
+        if let contentConvertible = error as? WalletErrorContentConvertible {
+            let locale = localizationManager?.selectedLocale
+            let content = contentConvertible.toErrorContent(for: locale)
+            view?.present(message: content.message, animated: true)
+        } else {
+            let message = L10n.InvoiceScan.Error.noInternet
+            view?.present(message: message, animated: true)
+        }
+
     }
 }
 

@@ -65,12 +65,12 @@
 "invoice_scan.error.camera_restricted" = "К сожалению, доступ к камере ограничен.";
 "invoice_scan.error.camera_restricted_previously" = "К сожалению, вы ранее отказали в доступе к камере. Вы хотите разрешить доступ сейчас?";
 "invoice_scan.error.camera_title" = "Доступ к камере";
-"invoice_scan.error.no_info" = "Информация о получателе не найдена";
+"invoice_scan.error.no_info" = "Не удается декодировать QR";
 "invoice_scan.error.invalid_image" = "Не удалось обработать выбранное изображение";
 "invoice_scan.error.gallery_restricted" = "К сожалению, доступ к фотографиям ограничен.";
 "invoice_scan.error.gallery_restricted_previously" = "К сожалению, вы ранее отказали в доступе к фотографиям. Вы хотите разрешить доступ сейчас?";
 "invoice_scan.error.gallery_title" = "Доступ к фотографиям";
-"invoice_scan.error.match" = "Отправитель и получатель не должны совпадать";
+"invoice_scan.error.match" = "Вы не можете отправить самому себе";
 "invoice_scan.error.extract_fail" = "Не удалось извлечь данные получателя";
 "invoice_scan.error.no_receiver" = "Не удалось найти получателя";
 "invoice_scan.error.no_internet" = "Пожалуйста, проверьте подключение к Интернету";
@@ -95,3 +95,4 @@
 "common.cancel" = "Отмена";
 "transaction.recipient_id" = "Идентификатор получателя";
 "transaction.send_again" = "Отправить";
+"invoice_scan.error.user_not_found" = "Не удается найти пользователя";

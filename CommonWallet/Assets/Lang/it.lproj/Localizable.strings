@@ -65,12 +65,12 @@
 "invoice_scan.error.camera_restricted" = "Purtroppo, l'accesso alla fotocamera è limitato.";
 "invoice_scan.error.camera_restricted_previously" = "Sfortunatamente hai negato l'accesso alla videocamera in precedenza. Desideri consentire l'accesso ora?";
 "invoice_scan.error.camera_title" = "Accesso alla fotocamera";
-"invoice_scan.error.no_info" = "Non sono state trovate informazioni valide sul destinatario";
+"invoice_scan.error.no_info" = "Il QR non può essere decodificato";
 "invoice_scan.error.invalid_image" = "Non è possibile elaborare l'immagine selezionata";
 "invoice_scan.error.gallery_restricted" = "Purtroppo l'accesso alle foto è limitato.";
 "invoice_scan.error.gallery_restricted_previously" = "Sfortunatamente hai negato l'accesso alle foto in precedenza. Desideri consentire l'accesso ora?";
 "invoice_scan.error.gallery_title" = "Accesso alle foto";
-"invoice_scan.error.match" = "Il mittente e il destinatario devono essere diversi";
+"invoice_scan.error.match" = "Non puoi inviare a te stesso";
 "invoice_scan.error.extract_fail" = "Impossibile estrarre i dati del destinatario";
 "invoice_scan.error.no_receiver" = "Destinatario non trovato";
 "invoice_scan.error.no_internet" = "Per favore, controlla la connessione internet";
@@ -95,3 +95,4 @@
 "common.cancel" = "Annulla";
 "transaction.recipient_id" = "ID ricevitore";
 "transaction.send_again" = "Invia di nuovo";
+"invoice_scan.error.user_not_found" = "Impossibile trovare un utente da QR";
