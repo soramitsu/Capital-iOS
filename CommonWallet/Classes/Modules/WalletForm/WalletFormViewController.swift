@@ -179,6 +179,14 @@ extension WalletFormViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return heights[indexPath.row]
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        if let command = models[indexPath.row].command {
+            try? command.execute()
+        }
+    }
 }
 
 extension WalletFormViewController: WalletFormViewProtocol {

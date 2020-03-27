@@ -89,3 +89,9 @@
 "invoice_scan.title" = "QRスキャン";
 "common.full_name" = "%2$@ %1$@";
 "amount.defaultFee" = "取引手数料";
+"transaction.sender_id" = "送信者ID";
+"common.options_title" = "選択肢一つを選択してください";
+"common.copy" = "コピー";
+"common.cancel" = "キャンセル";
+"transaction.recipient_id" = "受信者 ID";
+"transaction.send_again" = "もう一度送信";

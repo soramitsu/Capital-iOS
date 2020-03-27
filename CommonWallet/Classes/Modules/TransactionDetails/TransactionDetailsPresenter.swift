@@ -12,196 +12,55 @@ final class TransactionDetailsPresenter {
     weak var view: WalletFormViewProtocol?
     var coordinator: TransactionDetailsCoordinatorProtocol
 
-    let resolver: ResolverProtocol
     let configuration: TransactionDetailsConfigurationProtocol
     let transactionData: AssetTransactionData
     let transactionType: WalletTransactionType
+    let asset: WalletAsset
     let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
-    let feeDisplaySettings: FeeDisplaySettingsProtocol
+    let viewModelFactory: WalletTransactionDetailsFactoryProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
          configuration: TransactionDetailsConfigurationProtocol,
-         resolver: ResolverProtocol,
+         detailsViewModelFactory: WalletTransactionDetailsFactoryProtocol,
+         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
          transactionData: AssetTransactionData,
          transactionType: WalletTransactionType,
-         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
-         feeDisplaySettings: FeeDisplaySettingsProtocol) {
+         asset: WalletAsset) {
         self.view = view
         self.coordinator = coordinator
         self.configuration = configuration
-        self.resolver = resolver
         self.transactionData = transactionData
         self.transactionType = transactionType
+        self.asset = asset
+        self.viewModelFactory = detailsViewModelFactory
         self.accessoryViewModelFactory = accessoryViewModelFactory
-        self.feeDisplaySettings = feeDisplaySettings
     }
 
-    private func createPeerName() -> String {
-        if transactionData.peerFirstName != nil || transactionData.peerLastName != nil {
-            let firstName = transactionData.peerFirstName ?? ""
-            let lastName = transactionData.peerLastName ?? ""
-
-            return L10n.Common.fullName(firstName, lastName)
-        } else {
-            return transactionData.peerName ?? ""
-        }
-    }
-
-    private func createStatusViewModel(for status: AssetTransactionStatus) -> WalletFormViewModel {
-        switch status {
-        case .commited:
-            return WalletFormViewModel(layoutType: .accessory,
-                                       title: L10n.Status.title,
-                                       details: L10n.Status.success,
-                                       detailsColor: resolver.style.statusStyleContainer.approved.color,
-                                       icon: resolver.style.statusStyleContainer.approved.icon)
-        case .pending:
-            return WalletFormViewModel(layoutType: .accessory,
-                                       title: L10n.Status.title,
-                                       details: L10n.Status.pending,
-                                       detailsColor: resolver.style.statusStyleContainer.pending.color,
-                                       icon: resolver.style.statusStyleContainer.pending.icon)
-        case .rejected:
-            return WalletFormViewModel(layoutType: .accessory,
-                                       title: L10n.Status.title,
-                                       details: L10n.Status.rejected,
-                                       detailsColor: resolver.style.statusStyleContainer.rejected.color,
-                                       icon: resolver.style.statusStyleContainer.rejected.icon)
-        }
-    }
-
-    private func createAmountViewModel(for amount: Decimal, title: String, hasIcon: Bool) -> WalletFormViewModel {
-        let asset = resolver.account.assets.first {
-            $0.identifier.identifier() == transactionData.assetId
-        }
-
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-
-        let assetSymbol = asset?.symbol ?? ""
-
-        let amountString: String
-
-        if let asset = asset {
-            let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
-            amountString = amountFormatter.value(for: locale).string(from: amount as NSNumber) ?? ""
-        } else {
-            amountString = ""
-        }
-
-        let details = assetSymbol + amountString
-
-        var icon: UIImage?
-
-        if hasIcon {
-            icon = transactionType.isIncome ? resolver.style.amountChangeStyle.increase
-                : resolver.style.amountChangeStyle.decrease
-        }
-
-        return WalletFormViewModel(layoutType: .accessory,
-                                   title: title,
-                                   details: details,
-                                   icon: icon)
-    }
-
-    private func createPeerViewModel() -> WalletFormViewModel? {
-        if transactionType.backendName == WalletTransactionType.incoming.backendName {
-            return WalletFormViewModel(layoutType: .accessory,
-                                       title: L10n.Transaction.sender,
-                                       details: createPeerName())
-        }
-
-        if transactionType.backendName == WalletTransactionType.outgoing.backendName {
-            return WalletFormViewModel(layoutType: .accessory,
-                                       title: L10n.Transaction.recipient,
-                                       details: createPeerName())
-        }
-
-        return nil
-    }
-
-    private func createAmountViewModels() -> [WalletFormViewModel] {
-        let amount = transactionData.amount.decimalValue
-
-        if !transactionType.isIncome,
-            let fee = feeDisplaySettings.displayStrategy.decimalValue(from: transactionData.fee?.decimalValue) {
-            
-            let totalAmount = amount + fee
-
-            let locale = localizationManager?.selectedLocale ?? Locale.current
-            let feeTitle = feeDisplaySettings.displayName.value(for: locale)
-
-            return [createAmountViewModel(for: amount, title: L10n.Transaction.sent, hasIcon: false),
-                    createAmountViewModel(for: fee, title: feeTitle, hasIcon: false),
-                    createAmountViewModel(for: totalAmount, title: L10n.Amount.total, hasIcon: true)]
-        } else {
-            return [createAmountViewModel(for: amount, title: L10n.Amount.title, hasIcon: true)]
-        }
-    }
-
-    private func createAccessoryViewModel() -> AccessoryViewModel {
-        let peerName = createPeerName()
+    private func createAccessoryViewModel(actionTitle: String) -> AccessoryViewModel {
+        let peerName = transactionData.localizedPeerName
 
         return accessoryViewModelFactory.createViewModel(from: peerName,
                                                          fullName: peerName,
-                                                         action: L10n.Transaction.sendBack)
+                                                         action: actionTitle)
     }
 
     private func updateView() {
-        var viewModels = [WalletFormViewModel]()
+        let mainViewModels = viewModelFactory.createForm(from: transactionData,
+                                                         type: transactionType,
+                                                         asset: asset)
 
-        let idViewModel = WalletFormViewModel(layoutType: .accessory,
-                                              title: L10n.Transaction.id,
-                                              details: transactionData.displayIdentifier)
-        viewModels.append(idViewModel)
-
-        let statusViewModel: WalletFormViewModel = createStatusViewModel(for: transactionData.status)
-        viewModels.append(statusViewModel)
-
-        if transactionData.status == .rejected, let reason = transactionData.reason, !reason.isEmpty {
-            let reasonViewModel = WalletFormViewModel(layoutType: .details,
-                                                      title: L10n.Transaction.reason,
-                                                      details: reason)
-            viewModels.append(reasonViewModel)
-        }
-
-        let transactionDate = Date(timeIntervalSince1970: TimeInterval(transactionData.timestamp))
-
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-        let details = resolver.statusDateFormatter.value(for: locale).string(from: transactionDate)
-
-        let timeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: L10n.Transaction.date,
-                                                details: details)
-        viewModels.append(timeViewModel)
-
-        let typeDisplayName = transactionType.displayName.value(for: locale)
-        if !typeDisplayName.isEmpty {
-            let typeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                    title: L10n.Transaction.type,
-                                                    details: typeDisplayName)
-            viewModels.append(typeViewModel)
-        }
-
-        if let peerViewModel = createPeerViewModel() {
-            viewModels.append(peerViewModel)
-        }
-
-        viewModels.append(contentsOf: createAmountViewModels())
-
-        if !transactionData.details.isEmpty {
-            let descriptionViewModel = WalletFormViewModel(layoutType: .details,
-                                                           title: L10n.Common.description,
-                                                           details: transactionData.details)
-
-            viewModels.append(descriptionViewModel)
-        }
-
-        view?.didReceive(viewModels: viewModels)
+        view?.didReceive(viewModels: mainViewModels)
 
         if transactionType.isIncome,
             configuration.sendBackTransactionTypes.contains(transactionType.backendName) {
-            let accessoryViewModel = createAccessoryViewModel()
+            let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendBack)
+            view?.didReceive(accessoryViewModel: accessoryViewModel)
+        }
+
+        if !transactionType.isIncome,
+            configuration.sendAgainTransactionTypes.contains(transactionType.backendName) {
+            let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendAgain)
             view?.didReceive(accessoryViewModel: accessoryViewModel)
         }
     }
@@ -225,7 +84,7 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
                                        amount: nil,
                                        details: nil)
 
-        let receiverName: String = createPeerName()
+        let receiverName: String = transactionData.localizedPeerName
 
         let payload = AmountPayload(receiveInfo: receiverInfo,
                                     receiverName: receiverName)

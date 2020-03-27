@@ -23,14 +23,31 @@ class TransactionDetailsTests: XCTestCase {
 
             let resolver = MockResolverProtocol()
 
+            let feeSettingsFactory = FeeDisplaySettingsFactory()
+
+            let configuration = TransactionDetailsConfiguration(sendBackTransactionTypes: [],
+                                                                sendAgainTransactionTypes: [],
+                                                                fieldActionFactory: WalletFieldActionFactory())
+
+            let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
+
             stub(resolver) { stub in
                 when(stub).amountFormatterFactory.get.thenReturn(NumberFormatterFactory())
                 when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
                 when(stub).style.get.thenReturn(WalletStyle())
                 when(stub).account.get.thenReturn(accountSettings)
+                when(stub).feeDisplaySettingsFactory.get.thenReturn(feeSettingsFactory)
+                when(stub).transactionDetailsConfiguration.get.thenReturn(configuration)
+                when(stub).localizationManager.get.thenReturn(localizationManager)
             }
 
             let transactionData = try createRandomAssetTransactionData()
+            let assetId = try IRAssetIdFactory.asset(withIdentifier: transactionData.assetId)
+            let asset = WalletAsset(identifier: assetId,
+                                    symbol: "$",
+                                    details: LocalizableResource { _  in "Dollar" },
+                                    precision: 2)
+
             let transactionType: WalletTransactionType
 
             if transactionData.type == WalletTransactionType.incoming.backendName {
@@ -42,15 +59,16 @@ class TransactionDetailsTests: XCTestCase {
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
 
-            let configuration = TransactionDetailsConfiguration(sendBackTransactionTypes: [])
+            let viewModelFactory = WalletTransactionDetailsFactory(resolver: resolver)
+
             let presenter = TransactionDetailsPresenter(view: view,
                                                         coordinator: coordinator,
                                                         configuration:  configuration,
-                                                        resolver: resolver,
+                                                        detailsViewModelFactory: viewModelFactory,
+                                                        accessoryViewModelFactory: accessoryViewModelFactory,
                                                         transactionData: transactionData,
                                                         transactionType: transactionType,
-                                                        accessoryViewModelFactory: accessoryViewModelFactory,
-                                                        feeDisplaySettings: FeeDisplaySettings.defaultSettings)
+                                                        asset: asset)
 
             // when
 
@@ -66,7 +84,7 @@ class TransactionDetailsTests: XCTestCase {
                 when(stub).isSetup.get.thenReturn(false, true)
             }
 
-            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
+            presenter.localizationManager = localizationManager
 
             presenter.setup()
 

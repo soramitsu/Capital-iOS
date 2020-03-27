@@ -89,3 +89,9 @@
 "invoice_scan.title" = "Сканирование QR";
 "common.full_name" = "%1$@ %2$@";
 "amount.defaultFee" = "Комиссия за транзакцию";
+"transaction.sender_id" = "Идентификатор отправителя";
+"common.options_title" = "Выберите опцию";
+"common.copy" = "Копировать";
+"common.cancel" = "Отмена";
+"transaction.recipient_id" = "Идентификатор получателя";
+"transaction.send_again" = "Отправить";

@@ -58,8 +58,12 @@ public enum L10n {
         public static var accountShare: String { return localize("common.account_share") }
         /// All
         public static var all: String { return localize("common.all") }
+        /// Cancel
+        public static var cancel: String { return localize("common.cancel") }
         /// Close
         public static var close: String { return localize("common.close") }
+        /// Copy
+        public static var copy: String { return localize("common.copy") }
         /// Description
         public static var description: String { return localize("common.description") }
         /// Description (optional)
@@ -82,6 +86,8 @@ public enum L10n {
         public static var ok: String { return localize("common.ok") }
         /// Open settings
         public static var openSettings: String { return localize("common.open_settings") }
+        /// Select an option
+        public static var optionsTitle: String { return localize("common.options_title") }
         /// Outgoing
         public static var outgoing: String { return localize("common.outgoing") }
         /// Receive
@@ -214,7 +220,7 @@ public enum L10n {
         public static var done: String { return localize("transaction.done") }
         /// Fee
         public static var fee: String { return localize("transaction.fee") }
-        /// Identifier
+        /// Transaction ID
         public static var id: String { return localize("transaction.id") }
         /// Funds are being sent
         public static var pendingDescription: String { return localize("transaction.pending_description") }
@@ -222,10 +228,16 @@ public enum L10n {
         public static var reason: String { return localize("transaction.reason") }
         /// Recipient
         public static var recipient: String { return localize("transaction.recipient") }
+        /// Recipient ID
+        public static var recipientId: String { return localize("transaction.recipient_id") }
+        /// Send again
+        public static var sendAgain: String { return localize("transaction.send_again") }
         /// Send back
         public static var sendBack: String { return localize("transaction.send_back") }
         /// Sender
         public static var sender: String { return localize("transaction.sender") }
+        /// Sender ID
+        public static var senderId: String { return localize("transaction.sender_id") }
         /// Amount sent
         public static var sent: String { return localize("transaction.sent") }
         /// Type

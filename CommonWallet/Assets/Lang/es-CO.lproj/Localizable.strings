@@ -89,3 +89,9 @@
 "invoice_scan.title" = "Escanear código QR";
 "common.full_name" = "%1$@ %2$@";
 "amount.defaultFee" = "Tarifa de transacción";
+"transaction.sender_id" = "ID de remitente";
+"common.options_title" = "Seleccione una opción";
+"common.copy" = "Copiar";
+"common.cancel" = "Cancelar";
+"transaction.recipient_id" = "ID del receptor";
+"transaction.send_again" = "Enviar de nuevo";

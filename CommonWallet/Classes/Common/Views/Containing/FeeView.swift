@@ -29,7 +29,7 @@ final class FeeView: UIView {
     }
 
     func bind(viewModel: FeeViewModelProtocol) {
-        viewModel.observable.remove(observer: self)
+        self.viewModel?.observable.remove(observer: self)
 
         self.viewModel = viewModel
 
