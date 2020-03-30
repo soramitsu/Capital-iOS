@@ -30,6 +30,10 @@ struct MockNetworkResolver: WalletNetworkResolverProtocol {
     }
 
     func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol? {
-        return nil
+        nil
+    }
+
+    func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol? {
+        nil
     }
 }

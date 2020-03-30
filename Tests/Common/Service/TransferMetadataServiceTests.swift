@@ -9,74 +9,116 @@ import Cuckoo
 import IrohaCommunication
 
 class TransferMetadataServiceTests: NetworkBaseTests {
-    func testWithdrawalMetadataSuccess() {
-        do {
-            // given
-            let networkResolver = MockWalletNetworkResolverProtocol()
+    func testTransferMetadataSuccess() throws {
+        let info = try createRandomTransferMetadataInfo()
 
-            let urlTemplateGetExpectation = XCTestExpectation()
-            let adapterExpectation = XCTestExpectation()
+        let optionalResult = try performFetch(for: .success,
+                                              info: info,
+                                              errorFactory: nil)
 
-            stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { type in
-                    XCTAssertEqual(type, .transferMetadata)
-
-                    urlTemplateGetExpectation.fulfill()
-
-                    return Constants.transferMetadataUrlTemplate
-                }
-
-                when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
-                    adapterExpectation.fulfill()
-
-                    return nil
-                }
-            }
-
-            try TransferMetadataMock.register(mock: .success,
-                                              networkResolver: networkResolver,
-                                              requestType: .transferMetadata,
-                                              httpMethod: .get,
-                                              urlMockType: .regex)
-
-            let assetsCount = 4
-            let accountSettings = try createRandomAccountSettings(for: assetsCount)
-            let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
-                                                              networkResolver: networkResolver)
-            let walletService = WalletService(operationFactory: operationFactory)
-
-            let completionExpectation = XCTestExpectation()
-
-            // when
-
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
-            let destination = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
-
-            let info = TransferMetadataInfo(assetId: assetId,
-                                            sender: accountSettings.accountId,
-                                            receiver: destination)
-
-            walletService.fetchTransferMetadata(for: info, runCompletionIn: .main) { (optionalResult) in
-                defer {
-                    completionExpectation.fulfill()
-                }
-
-                guard let result = optionalResult else {
-                    XCTFail("Unexpected nil result")
-                    return
-                }
-
-                if case .failure(let error) = result {
-                    XCTFail("Unexpected error \(error)")
-                }
-            }
-
-            // then
-
-            wait(for: [urlTemplateGetExpectation, adapterExpectation, completionExpectation],
-                 timeout: Constants.networkTimeout)
-        } catch {
-            XCTFail("\(error)")
+        guard let result = optionalResult else {
+            XCTFail("Unexpected nil result")
+            return
         }
+
+        if case .failure(let error) = result {
+            XCTFail("Unexpected error \(error)")
+        }
+    }
+
+    func testTransferMetadataWithDefaultErrorHandling() throws {
+        let info = try createRandomTransferMetadataInfo()
+        let optionalResult = try performFetch(for: .error,
+                                              info: info,
+                                              errorFactory: nil)
+
+        guard let result = optionalResult else {
+            XCTFail("Unexpected nil result")
+            return
+        }
+
+        guard case .failure(let error) = result, error is ResultStatusError else {
+            XCTFail("Unexpected result \(result)")
+            return
+        }
+    }
+
+    func testTransferWithCustomErrorHandling() throws {
+        let expectedError = MockNetworkError.transferMetadataError
+        let info = try createRandomTransferMetadataInfo()
+        let optionalResult = try performFetch(for: .notAvailable,
+                                              info: info,
+                                              errorFactory: MockNetworkErrorFactory(defaultError: expectedError))
+
+        guard let result = optionalResult else {
+            XCTFail("Unexpected nil result")
+            return
+        }
+
+        guard case .failure(let error) = result, let mockError = error as? MockNetworkError, mockError == expectedError else {
+            XCTFail("Unexpected result \(result)")
+            return
+        }
+    }
+
+    // MARK: Private
+
+    private func performFetch(for mock: TransferMetadataMock,
+                              info: TransferMetadataInfo,
+                              errorFactory: WalletNetworkErrorFactoryProtocol?) throws -> Result<TransferMetaData?, Error>? {
+        let networkResolver = MockWalletNetworkResolverProtocol()
+
+        let urlTemplateGetExpectation = XCTestExpectation()
+        let adapterExpectation = XCTestExpectation()
+
+        stub(networkResolver) { stub in
+            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { requestType in
+                XCTAssertEqual(requestType, .transferMetadata)
+
+                urlTemplateGetExpectation.fulfill()
+
+                return Constants.transferMetadataUrlTemplate
+            }
+
+            when(stub).adapter(for: any(WalletRequestType.self)).then { requestType in
+                XCTAssertEqual(requestType, .transferMetadata)
+
+                adapterExpectation.fulfill()
+
+                return nil
+            }
+
+            when(stub).errorFactory(for: any(WalletRequestType.self)).then { requestType in
+                XCTAssertEqual(requestType, .transferMetadata)
+
+                return errorFactory
+            }
+        }
+
+        try TransferMetadataMock.register(mock: mock,
+                                          networkResolver: networkResolver,
+                                          requestType: .transferMetadata,
+                                          httpMethod: .get,
+                                          urlMockType: .regex)
+
+        let assetsCount = 4
+        let accountSettings = try createRandomAccountSettings(for: assetsCount)
+        let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                          networkResolver: networkResolver)
+        let walletService = WalletService(operationFactory: operationFactory)
+
+        let completionExpectation = XCTestExpectation()
+
+        var result: Result<TransferMetaData?, Error>?
+
+        walletService.fetchTransferMetadata(for: info, runCompletionIn: .main) { (optionalResult) in
+            result = optionalResult
+            completionExpectation.fulfill()
+        }
+
+        wait(for: [urlTemplateGetExpectation, adapterExpectation, completionExpectation],
+             timeout: Constants.networkTimeout)
+
+        return result
     }
 }

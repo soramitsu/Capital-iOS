@@ -65,12 +65,12 @@
 "invoice_scan.error.camera_restricted" = "Ҡыҙғанысҡа ҡаршы, камераға инеү сикләнгән.";
 "invoice_scan.error.camera_restricted_previously" = "Ҡыҙғанысҡа ҡаршы, элек һеҙ камераға инергә рөхсәт бирмәнегеҙ. Хәҙер рөхсәт бирергә теләйһегеҙ?";
 "invoice_scan.error.camera_title" = "Камераға инеү";
-"invoice_scan.error.no_info" = "Алыусы мәғлүмәте табылмаған";
+"invoice_scan.error.no_info" = "QR уҡырға мөмкин түгел";
 "invoice_scan.error.invalid_image" = "Һайланған һүрәтте эшкәртеү мөмкин түгел";
 "invoice_scan.error.gallery_restricted" = "Ҡыҙғанысҡа ҡаршы, фотоға инеү сикләнгән.";
 "invoice_scan.error.gallery_restricted_previously" = "Ҡыҙғанысҡа ҡаршы, элек һеҙ фотоға инергә рөхсәт бирмәнегеҙ. Хәҙер рөхсәт бирергә теләйһегеҙ?";
 "invoice_scan.error.gallery_title" = "Фотоға инеү";
-"invoice_scan.error.match" = "Ебәреүсе һәм алыусы төрлө булырға тейеш";
+"invoice_scan.error.match" = "Һеҙ уҙегеҙгә ебәрә алмайһығыҙ";
 "invoice_scan.error.extract_fail" = "Алыусы мәғлүмәтен алыу мөмкин түгел";
 "invoice_scan.error.no_receiver" = "Алыусы табылманы";
 "invoice_scan.error.no_internet" = "Зинһар, интернет селтәрен тикшерегеҙ";
@@ -95,3 +95,4 @@
 "common.cancel" = "Кире ҡағыу";
 "transaction.recipient_id" = "Идентификатор получателя";
 "transaction.send_again" = "Отправить";
+"invoice_scan.error.user_not_found" = "Не удается найти пользователя";

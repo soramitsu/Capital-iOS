@@ -65,12 +65,12 @@
 "invoice_scan.error.camera_restricted" = "カメラへのアクセスは制限されています。";
 "invoice_scan.error.camera_restricted_previously" = "写真へのアクセスが拒否されています。今すぐアクセスを許可しますか？";
 "invoice_scan.error.camera_title" = "カメラにアクセス";
-"invoice_scan.error.no_info" = "受取人の情報が見つかりませんでした。";
+"invoice_scan.error.no_info" = "QR をデコードできません";
 "invoice_scan.error.invalid_image" = "選択した画像を処理できません。";
 "invoice_scan.error.gallery_restricted" = "写真へのアクセスは制限されています。";
 "invoice_scan.error.gallery_restricted_previously" = "写真へのアクセスが拒否されています。今すぐアクセスを許可しますか？";
 "invoice_scan.error.gallery_title" = "写真へアクセス";
-"invoice_scan.error.match" = "差出人と受取人は異なる必要があります。";
+"invoice_scan.error.match" = "自分に送ることはできません";
 "invoice_scan.error.extract_fail" = "受取人の情報を参照できません。";
 "invoice_scan.error.no_receiver" = "受取人が見つかりませんでした。";
 "invoice_scan.error.no_internet" = "インターネット接続を確認してください。";
@@ -95,3 +95,4 @@
 "common.cancel" = "キャンセル";
 "transaction.recipient_id" = "受信者 ID";
 "transaction.send_again" = "もう一度送信";
+"invoice_scan.error.user_not_found" = "QR からユーザーを見つけることができません。";

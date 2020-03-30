@@ -2705,6 +2705,21 @@ public class MockWalletNetworkResolverProtocol: WalletNetworkResolverProtocol, C
         
     }
     
+    
+    
+    public func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol? {
+        
+    return cuckoo_manager.call("errorFactory(for: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?",
+            parameters: (type),
+            escapingParameters: (type),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.errorFactory(for: type))
+        
+    }
+    
 
 	public struct __StubbingProxy_WalletNetworkResolverProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -2722,6 +2737,11 @@ public class MockWalletNetworkResolverProtocol: WalletNetworkResolverProtocol, C
 	    func adapter<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(WalletRequestType), NetworkRequestModifierProtocol?> where M1.MatchedType == WalletRequestType {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkResolverProtocol.self, method: "adapter(for: WalletRequestType) -> NetworkRequestModifierProtocol?", parameterMatchers: matchers))
+	    }
+	    
+	    func errorFactory<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(WalletRequestType), WalletNetworkErrorFactoryProtocol?> where M1.MatchedType == WalletRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkResolverProtocol.self, method: "errorFactory(for: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -2752,6 +2772,12 @@ public class MockWalletNetworkResolverProtocol: WalletNetworkResolverProtocol, C
 	        return cuckoo_manager.verify("adapter(for: WalletRequestType) -> NetworkRequestModifierProtocol?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func errorFactory<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(WalletRequestType), WalletNetworkErrorFactoryProtocol?> where M1.MatchedType == WalletRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return cuckoo_manager.verify("errorFactory(for: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -2767,6 +2793,10 @@ public class WalletNetworkResolverProtocolStub: WalletNetworkResolverProtocol {
     
     public func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol?  {
         return DefaultValueRegistry.defaultValue(for: (NetworkRequestModifierProtocol?).self)
+    }
+    
+    public func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?  {
+        return DefaultValueRegistry.defaultValue(for: (WalletNetworkErrorFactoryProtocol?).self)
     }
     
 }

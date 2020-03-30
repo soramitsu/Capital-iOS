@@ -182,14 +182,16 @@ public enum L10n {
             public static var galleryTitle: String { return localize("invoice_scan.error.gallery_title") }
             /// Can't process selected image
             public static var invalidImage: String { return localize("invoice_scan.error.invalid_image") }
-            /// Sender and Receiver must be different
+            /// You can't send to yourself
             public static var match: String { return localize("invoice_scan.error.match") }
-            /// No valid receiver information found
+            /// QR can't be decoded
             public static var noInfo: String { return localize("invoice_scan.error.no_info") }
             /// Please, check internet connection
             public static var noInternet: String { return localize("invoice_scan.error.no_internet") }
             /// Receiver couldn't be found
             public static var noReceiver: String { return localize("invoice_scan.error.no_receiver") }
+            /// Can't find a user from QR
+            public static var userNotFound: String { return localize("invoice_scan.error.user_not_found") }
         }
     }
 

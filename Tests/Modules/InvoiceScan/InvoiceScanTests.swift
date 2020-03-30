@@ -7,48 +7,69 @@ import XCTest
 @testable import CommonWallet
 import Cuckoo
 import IrohaCommunication
+import SoraFoundation
 import AVFoundation
+import RobinHood
 
 class InvoiceScanTests: NetworkBaseTests {
 
-    func testSuccessfullProcessing() {
-        do {
-            let accountId = try IRAccountIdFactory.account(withIdentifier: Constants.invoiceAccountId)
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
-            let receiverInfo = ReceiveInfo(accountId: accountId, assetId: assetId, amount: nil, details: nil)
-            let receiverData = try JSONEncoder().encode(receiverInfo)
-            let receiverDataString = String(data: receiverData, encoding: .utf8)!
+    func testSuccessfullProcessing() throws {
+        let accountId = try IRAccountIdFactory.account(withIdentifier: Constants.invoiceAccountId)
+        let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
+        let receiverInfo = ReceiveInfo(accountId: accountId, assetId: assetId, amount: nil, details: nil)
+        let receiverData = try JSONEncoder().encode(receiverInfo)
+        let receiverDataString = String(data: receiverData, encoding: .utf8)!
 
-            performProcessingTest(for: receiverDataString, shouldMatch: true, networkMock: .invoice, expectsSuccess: true)
-        } catch {
-            XCTFail("\(error)")
-        }
+        performProcessingTest(for: receiverDataString,
+                              networkResolver: MockNetworkResolver(),
+                              shouldMatch: true,
+                              networkMock: .invoice,
+                              expectsSuccess: true)
     }
 
-    func testUnknownReceiverProcessing() {
-        do {
-            let receiverInfo = try createRandomReceiveInfo()
-            let receiverData = try JSONEncoder().encode(receiverInfo)
-            let receiverDataString = String(data: receiverData, encoding: .utf8)!
+    func testUnknownReceiverProcessing() throws {
+        let receiverInfo = try createRandomReceiveInfo()
+        let receiverData = try JSONEncoder().encode(receiverInfo)
+        let receiverDataString = String(data: receiverData, encoding: .utf8)!
 
-            performProcessingTest(for: receiverDataString, shouldMatch: true, networkMock: .invoice, expectsSuccess: false)
-        } catch {
-            XCTFail("\(error)")
-        }
+        performProcessingTest(for: receiverDataString,
+                              networkResolver: MockNetworkResolver(),
+                              shouldMatch: true,
+                              networkMock: .invoice,
+                              expectsSuccess: false)
     }
 
     func testBrokenQrCode() {
-        performProcessingTest(for: UUID().uuidString, shouldMatch: false, networkMock: .invoice, expectsSuccess: false)
+        performProcessingTest(for: UUID().uuidString,
+                              networkResolver: MockNetworkResolver(),
+                              shouldMatch: false,
+                              networkMock: .invoice,
+                              expectsSuccess: false)
+    }
+
+    func testSearchError() throws {
+        let receiverInfo = try createRandomReceiveInfo()
+        let receiverData = try JSONEncoder().encode(receiverInfo)
+        let receiverDataString = String(data: receiverData, encoding: .utf8)!
+
+        performProcessingTest(for: receiverDataString,
+                              networkResolver: MockErrorHandlingNetworkResolver(),
+                              shouldMatch: true,
+                              networkMock: .error,
+                              expectsSuccess: false)
     }
 
     // MARK: Private
 
-    private func performProcessingTest(for code: String, shouldMatch: Bool, networkMock: SearchMock, expectsSuccess: Bool) {
+    private func performProcessingTest(for code: String,
+                                       networkResolver: WalletNetworkResolverProtocol,
+                                       shouldMatch: Bool,
+                                       networkMock: SearchMock,
+                                       expectsSuccess: Bool) {
         do {
             // given
 
             let accountSettings = try createRandomAccountSettings(for: 1)
-            let networkResolver = MockNetworkResolver()
             let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
                                                                      networkResolver: networkResolver)
             let networkService = WalletService(operationFactory: networkOperationFactory)
@@ -101,12 +122,15 @@ class InvoiceScanTests: NetworkBaseTests {
                 when(stub).stop().thenDoNothing()
             }
 
+            let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
+
             let presenter = InvoiceScanPresenter(view: view,
                                                  coordinator: coordinator,
                                                  currentAccountId: accountSettings.accountId,
                                                  networkService: networkService,
                                                  qrScanServiceFactory: qrScanServiceFactory,
-                                                 qrCoderFactory: WalletQRCoderFactory())
+                                                 qrCoderFactory: WalletQRCoderFactory(),
+                                                 localizationManager: localizationManager)
 
             stub(qrScanService) { (stub) in
                 when(stub).start().then {

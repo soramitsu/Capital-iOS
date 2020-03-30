@@ -35,6 +35,8 @@
 		8447626F224D4BA4009ADC0E /* AccountSettingsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447626E224D4BA4009ADC0E /* AccountSettingsFactory.swift */; };
 		844D556922A9315500BA99EF /* AccessoryViewFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D556822A9315500BA99EF /* AccessoryViewFactoryTests.swift */; };
 		845D1DA022B539CC000641F9 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
+		84739FAD242DE38900B070B2 /* MockErrorNetworkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84739FAB242DE2D500B070B2 /* MockErrorNetworkFactory.swift */; };
+		84739FAE242E32BD00B070B2 /* transferFailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 841550E1228D50DA001F18A7 /* transferFailResponse.json */; };
 		847527382360790E0028D871 /* AmountInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847527372360790E0028D871 /* AmountInputViewModelTests.swift */; };
 		84752C5222A5BCA30068188B /* DashboardReloadableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84752C5122A5BCA30068188B /* DashboardReloadableTests.swift */; };
 		84752C5422A6A7F90068188B /* AmountInputConfirmationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84752C5322A6A7F90068188B /* AmountInputConfirmationTests.swift */; };
@@ -183,6 +185,7 @@
 		8447626E224D4BA4009ADC0E /* AccountSettingsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsFactory.swift; sourceTree = "<group>"; };
 		844D556822A9315500BA99EF /* AccessoryViewFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryViewFactoryTests.swift; sourceTree = "<group>"; };
 		845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = irohaErrorResponse.json; sourceTree = "<group>"; };
+		84739FAB242DE2D500B070B2 /* MockErrorNetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockErrorNetworkFactory.swift; sourceTree = "<group>"; };
 		847527372360790E0028D871 /* AmountInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountInputViewModelTests.swift; sourceTree = "<group>"; };
 		84752C5122A5BCA30068188B /* DashboardReloadableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardReloadableTests.swift; sourceTree = "<group>"; };
 		84752C5322A6A7F90068188B /* AmountInputConfirmationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountInputConfirmationTests.swift; sourceTree = "<group>"; };
@@ -526,6 +529,7 @@
 				84868E2223B5F27200E3CAA4 /* CommonHelpers.swift */,
 				84EBF58023C7670900E609FF /* Locale+Regions.swift */,
 				84CB804C23E20D130000DF97 /* NumberFormater+Money.swift */,
+				84739FAB242DE2D500B070B2 /* MockErrorNetworkFactory.swift */,
 			);
 			name = Helpers;
 			path = ../../Tests/Helpers;
@@ -924,6 +928,7 @@
 				8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */,
 				847596EB23F1AA2E00D00238 /* transferMetadataFixedResponse.json in Resources */,
 				8B7DC34122B6F952004BFE79 /* historyFilteredResponse.json in Resources */,
+				84739FAE242E32BD00B070B2 /* transferFailResponse.json in Resources */,
 				84AF3DDA2297D442008725C3 /* accountBalanceSingleResponse.json in Resources */,
 				848B6ED7224D7B2300E8A3C9 /* historyResponse.json in Resources */,
 				847596F823F1B5BB00D00238 /* withdrawalMetadataTaxResponse.json in Resources */,
@@ -1206,6 +1211,7 @@
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
 				848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */,
 				848B6EC9224D67B200E8A3C9 /* HistoryServiceTests.swift in Sources */,
+				84739FAD242DE38900B070B2 /* MockErrorNetworkFactory.swift in Sources */,
 				84EBF57F23C7617100E609FF /* MoneyPresentableLocalizationTests.swift in Sources */,
 				84C1807322554BBF00F19858 /* ViewModelGenerator.swift in Sources */,
 				848CFA392278DF1600B74536 /* WalletQRServiceTests.swift in Sources */,
