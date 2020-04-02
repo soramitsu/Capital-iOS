@@ -56,18 +56,6 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private var keyboardHandler: KeyboardHandler?
 
-    override var navigationItem: UINavigationItem {
-        let navigationItem = super.navigationItem
-
-        let shareItem = UIBarButtonItem(image: style.shareIcon,
-                                        style: .plain,
-                                        target: self,
-                                        action: #selector(actionShare))
-        navigationItem.rightBarButtonItem = shareItem
-
-        return navigationItem
-    }
-
     init(containingFactory: ContainingViewFactoryProtocol, style: WalletStyleProtocol) {
         self.containingFactory = containingFactory
         self.style = style
@@ -82,6 +70,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     override func loadView() {
         self.view = containerView
 
+        configureNavigationItems()
         configureContentView()
 
         adjustLayout()
@@ -146,6 +135,15 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
             $0.widthAnchor.constraint(equalTo: view.widthAnchor,
                                       constant: -2 * Constants.horizontalMargin).isActive = true
         }
+    }
+
+    private func configureNavigationItems() {
+        let shareItem = UIBarButtonItem(image: style.shareIcon,
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(actionShare))
+
+        navigationItem.rightBarButtonItem = shareItem
     }
 
     private func createSeparatorView() -> BorderedContainerView {
