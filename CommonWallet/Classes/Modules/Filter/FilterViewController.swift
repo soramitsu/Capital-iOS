@@ -20,35 +20,6 @@ final class FilterViewController: UIViewController {
     var presenter: FilterPresenterProtocol!
     
     @IBOutlet private var tableView: UITableView!
-
-    override var navigationItem: UINavigationItem {
-        let navigationItem = super.navigationItem
-
-        let resetButton = UIBarButtonItem(title: L10n.Filter.reset,
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(resetFilter))
-
-        if let regularFont = style?.bodyRegularFont {
-            resetButton.setTitleTextAttributes([.font: regularFont],
-                                               for: .normal)
-            resetButton.setTitleTextAttributes([.font: regularFont],
-                                               for: .highlighted)
-        }
-
-        resetButton.tintColor = style?.accentColor
-
-        navigationItem.rightBarButtonItem = resetButton
-
-        navigationItem.title = L10n.Filter.title
-
-        localizationManager?.addObserver(with: navigationItem) { [weak navigationItem] (_, _) in
-            navigationItem?.title = L10n.Filter.title
-            navigationItem?.rightBarButtonItem?.title = L10n.Filter.reset
-        }
-
-        return navigationItem
-    }
     
     private var filter: FilterViewModel = [] {
         didSet {
@@ -64,8 +35,10 @@ final class FilterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        setupNavigationItems()
         setupTable()
+        setupLocalization()
         applyStyle()
 
         presenter.setup()
@@ -84,6 +57,29 @@ final class FilterViewController: UIViewController {
         tableView.register(FilterSelectionCell.self, forCellReuseIdentifier: FilterConstants.selectableCellIdentifier)
         tableView.register(FilterDateCell.self, forCellReuseIdentifier: FilterConstants.dateCellIdentifier)
         tableView.register(FilterSectionHeaderCell.self, forCellReuseIdentifier: FilterConstants.headerIdentifier)
+    }
+
+    private func setupNavigationItems() {
+        let resetButton = UIBarButtonItem(title: L10n.Filter.reset,
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(resetFilter))
+
+        if let regularFont = style?.bodyRegularFont {
+            resetButton.setTitleTextAttributes([.font: regularFont],
+                                               for: .normal)
+            resetButton.setTitleTextAttributes([.font: regularFont],
+                                               for: .highlighted)
+        }
+
+        resetButton.tintColor = style?.accentColor
+
+        navigationItem.rightBarButtonItem = resetButton
+    }
+
+    private func setupLocalization() {
+        navigationItem.title = L10n.Filter.title
+        navigationItem.rightBarButtonItem?.title = L10n.Filter.reset
     }
     
     private func applyStyle() {
@@ -144,5 +140,9 @@ extension FilterViewController: FilterViewProtocol {
 }
 
 extension FilterViewController: Localizable {
-    func applyLocalization() {}
+    func applyLocalization() {
+        if isViewLoaded {
+            setupLocalization()
+        }
+    }
 }
