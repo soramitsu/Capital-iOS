@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CommonWallet'
-  s.version          = '1.12.0'
+  s.version          = '1.13.0'
 
   s.summary          = 'Soramitsu Common Wallet Implementation'
 
@@ -23,9 +23,9 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
   s.dependency 'IrohaCommunication', '~> 4.0.0'
   s.dependency 'RobinHood', '~> 2.3.0'
   s.dependency 'SoraUI', '~> 1.8.7'
-  s.dependency 'SoraFoundation/DateProcessing', '~> 0.4.0'
-  s.dependency 'SoraFoundation/NotificationHandlers', '~> 0.4.0'
-  s.dependency 'SoraFoundation/Localization', '~> 0.4.0'
+  s.dependency 'SoraFoundation/DateProcessing', '~> 0.7.0'
+  s.dependency 'SoraFoundation/NotificationHandlers', '~> 0.7.0'
+  s.dependency 'SoraFoundation/Localization', '~> 0.7.0'
 
   s.test_spec do |ts|
     ts.source_files = 'Tests/**/*'
