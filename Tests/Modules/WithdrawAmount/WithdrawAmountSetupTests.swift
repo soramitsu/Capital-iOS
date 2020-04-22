@@ -5,7 +5,6 @@
 
 import XCTest
 @testable import CommonWallet
-import IrohaCommunication
 import Cuckoo
 import SoraFoundation
 
@@ -56,11 +55,10 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
     // MARK: Private
 
-    private func performTestSetup(for networkResolver: WalletNetworkResolverProtocol, expectsFeeFailure: Bool) throws {
+    private func performTestSetup(for networkResolver: MiddlewareNetworkResolverProtocol, expectsFeeFailure: Bool) throws {
         // given
 
-        let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
-        let walletAsset = WalletAsset(identifier: assetId,
+        let walletAsset = WalletAsset(identifier: Constants.soraAssetId,
                                       symbol: "A",
                                       details: LocalizableResource { _ in UUID().uuidString },
                                       precision: 2)
@@ -71,7 +69,10 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
         let cacheFacade = CoreDataTestCacheFacade()
 
+        let operationSettings = try createRandomOperationSettings()
+
         let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                 operationSettings: operationSettings,
                                                                  networkResolver: networkResolver)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,

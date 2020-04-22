@@ -42,7 +42,7 @@ extension MockNetworkError: WalletErrorContentConvertible {
     }
 }
 
-struct MockNetworkErrorFactory: WalletNetworkErrorFactoryProtocol {
+struct MockNetworkErrorFactory: MiddlewareNetworkErrorFactoryProtocol {
     let errorMapping: [String: Error] = [:]
     let defaultError: Error
 
@@ -51,8 +51,8 @@ struct MockNetworkErrorFactory: WalletNetworkErrorFactoryProtocol {
     }
 }
 
-struct MockErrorHandlingNetworkResolver: WalletNetworkResolverProtocol {
-    func urlTemplate(for type: WalletRequestType) -> String {
+struct MockErrorHandlingNetworkResolver: MiddlewareNetworkResolverProtocol {
+    func urlTemplate(for type: MiddlewareRequestType) -> String {
         switch type {
         case .balance:
             return Constants.balanceUrlTemplate
@@ -73,11 +73,11 @@ struct MockErrorHandlingNetworkResolver: WalletNetworkResolverProtocol {
         }
     }
 
-    func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol? {
+    func adapter(for type: MiddlewareRequestType) -> NetworkRequestModifierProtocol? {
         nil
     }
 
-    func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol? {
+    func errorFactory(for type: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol? {
         switch type {
         case .balance:
             return MockNetworkErrorFactory(defaultError: MockNetworkError.balanceError)

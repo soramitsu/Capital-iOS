@@ -6,7 +6,6 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
-import IrohaCommunication
 import SoraFoundation
 
 class FilterTests: XCTestCase {

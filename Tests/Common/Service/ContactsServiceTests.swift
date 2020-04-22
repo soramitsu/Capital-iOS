@@ -53,15 +53,15 @@ class ContactsServiceTests: NetworkBaseTests {
 
     // MARK: Private
 
-    private func performFetch(for mock: ContactsMock,
-                              errorFactory: WalletNetworkErrorFactoryProtocol?) throws -> Result<[SearchData]?, Error>? {
-        let networkResolver = MockWalletNetworkResolverProtocol()
+    private func performFetch(for mock: ContactsMock, errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws
+        -> Result<[SearchData]?, Error>? {
+        let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
         let urlTemplateGetExpectation = XCTestExpectation()
         let adapterExpectation = XCTestExpectation()
 
         stub(networkResolver) { stub in
-            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).urlTemplate(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .contacts)
 
                 urlTemplateGetExpectation.fulfill()
@@ -69,7 +69,7 @@ class ContactsServiceTests: NetworkBaseTests {
                 return Constants.contactsUrlTemplate
             }
 
-            when(stub).adapter(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).adapter(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .contacts)
 
                 adapterExpectation.fulfill()
@@ -77,7 +77,7 @@ class ContactsServiceTests: NetworkBaseTests {
                 return nil
             }
 
-            when(stub).errorFactory(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).errorFactory(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .contacts)
 
                 return errorFactory
@@ -91,7 +91,9 @@ class ContactsServiceTests: NetworkBaseTests {
 
         let assetsCount = 4
         let accountSettings = try createRandomAccountSettings(for: assetsCount)
+        let operationSettings = try createRandomOperationSettings()
         let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                          operationSettings: operationSettings,
                                                           networkResolver: networkResolver)
         let walletService = WalletService(operationFactory: operationFactory)
 

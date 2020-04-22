@@ -5,7 +5,6 @@
 
 import UIKit
 import CommonWallet
-import IrohaCommunication
 
 typealias DemoCompletionBlock = (UIViewController?) -> Void
 
@@ -23,7 +22,7 @@ extension DemoFactoryProtocol {
         return try encoder.encode(filter)
     }
     
-    func mock(networkResolver: WalletNetworkResolverProtocol, with assets: [WalletAsset]) throws {
+    func mock(networkResolver: MiddlewareNetworkResolverProtocol, with assets: [WalletAsset]) throws {
         NetworkMockManager.shared.enable()
 
         try FetchBalanceMock.register(mock: .success,

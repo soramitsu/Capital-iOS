@@ -5,7 +5,6 @@
 
 import XCTest
 @testable import CommonWallet
-import IrohaCommunication
 import SoraFoundation
 
 class HistoryViewModelFactoryTests: XCTestCase {
@@ -13,8 +12,7 @@ class HistoryViewModelFactoryTests: XCTestCase {
         do {
             var assetDataWithFee = try createRandomAssetTransactionData(includeFee: true)
 
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: assetDataWithFee.assetId)
-            let asset = WalletAsset(identifier: assetId,
+            let asset = WalletAsset(identifier: assetDataWithFee.assetId,
                                     symbol: "",
                                     details: LocalizableResource { _ in "" },
                                     precision: 2)

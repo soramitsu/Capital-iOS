@@ -16,16 +16,26 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
   s.ios.deployment_target = '9.0'
   s.swift_version = '5.0'
 
-  s.source_files = 'CommonWallet/Classes/**/*.swift'
-  s.resources = ['CommonWallet/**/*.xcdatamodeld', 'CommonWallet/**/*.xib','CommonWallet/Assets/**/*']
+  s.subspec 'Core' do |core|
+      core.source_files = 'CommonWallet/Core/Classes/**/*.swift'
+      core.resources = ['CommonWallet/Core/**/*.xcdatamodeld', 'CommonWallet/Core/**/*.xib','CommonWallet/Core/Assets/**/*']
 
-  s.frameworks = 'UIKit', 'CoreImage'
-  s.dependency 'IrohaCommunication', '~> 4.0.0'
-  s.dependency 'RobinHood', '~> 2.4.0'
-  s.dependency 'SoraUI', '~> 1.8.7'
-  s.dependency 'SoraFoundation/DateProcessing', '~> 0.8.0'
-  s.dependency 'SoraFoundation/NotificationHandlers', '~> 0.8.0'
-  s.dependency 'SoraFoundation/Localization', '~> 0.8.0'
+      core.frameworks = 'UIKit', 'CoreImage'
+
+      core.dependency 'RobinHood', '~> 2.4.0'
+      core.dependency 'SoraUI', '~> 1.8.7'
+      core.dependency 'SoraFoundation/DateProcessing', '~> 0.8.0'
+      core.dependency 'SoraFoundation/NotificationHandlers', '~> 0.8.0'
+      core.dependency 'SoraFoundation/Localization', '~> 0.8.0'
+  end
+
+  s.subspec 'IrohaMiddleware' do |im|
+      im.source_files = 'CommonWallet/IrohaMiddleware/**/*.swift'
+
+      im.dependency 'CommonWallet/Core'
+      im.dependency 'IrohaCommunication', '~> 4.0.0'
+      im.dependency 'RobinHood', '~> 2.4.0'
+  end
 
   s.test_spec do |ts|
     ts.source_files = 'Tests/**/*'

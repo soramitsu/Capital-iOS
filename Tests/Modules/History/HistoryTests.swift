@@ -143,13 +143,16 @@ class HistoryTests: NetworkBaseTests {
 
     private func performSetup(view: MockHistoryViewProtocol,
                               coordinator: MockHistoryCoordinatorProtocol,
-                              networkResolver: WalletNetworkResolverProtocol,
+                              networkResolver: MiddlewareNetworkResolverProtocol,
                               accountSettings: WalletAccountSettings) throws -> HistoryPresenter {
         // given
 
         let cacheFacade = CoreDataTestCacheFacade()
 
+        let operationSettings = try createRandomOperationSettings()
+
         let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                 operationSettings: operationSettings,
                                                                  networkResolver: networkResolver)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,

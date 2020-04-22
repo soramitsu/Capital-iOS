@@ -2,7 +2,6 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
-import IrohaCommunication
 
 
 public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.ProtocolMock {
@@ -1537,7 +1536,6 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
-import IrohaCommunication
 import SoraFoundation
 
 
@@ -2341,7 +2339,6 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
-import IrohaCommunication
 import RobinHood
 
 
@@ -2370,9 +2367,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
     
     
     
-    public func fetchBalanceOperation(_ assets: [IRAssetId]) -> BaseOperation<[BalanceData]?> {
+    public func fetchBalanceOperation(_ assets: [String]) -> BaseOperation<[BalanceData]?> {
         
-    return cuckoo_manager.call("fetchBalanceOperation(_: [IRAssetId]) -> BaseOperation<[BalanceData]?>",
+    return cuckoo_manager.call("fetchBalanceOperation(_: [String]) -> BaseOperation<[BalanceData]?>",
             parameters: (assets),
             escapingParameters: (assets),
             superclassCall:
@@ -2497,9 +2494,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	    }
 	    
 	    
-	    func fetchBalanceOperation<M1: Cuckoo.Matchable>(_ assets: M1) -> Cuckoo.ProtocolStubFunction<([IRAssetId]), BaseOperation<[BalanceData]?>> where M1.MatchedType == [IRAssetId] {
-	        let matchers: [Cuckoo.ParameterMatcher<([IRAssetId])>] = [wrap(matchable: assets) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchBalanceOperation(_: [IRAssetId]) -> BaseOperation<[BalanceData]?>", parameterMatchers: matchers))
+	    func fetchBalanceOperation<M1: Cuckoo.Matchable>(_ assets: M1) -> Cuckoo.ProtocolStubFunction<([String]), BaseOperation<[BalanceData]?>> where M1.MatchedType == [String] {
+	        let matchers: [Cuckoo.ParameterMatcher<([String])>] = [wrap(matchable: assets) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchBalanceOperation(_: [String]) -> BaseOperation<[BalanceData]?>", parameterMatchers: matchers))
 	    }
 	    
 	    func fetchTransactionHistoryOperation<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ filter: M1, pagination: M2) -> Cuckoo.ProtocolStubFunction<(WalletHistoryRequest, OffsetPagination), BaseOperation<AssetTransactionPageData?>> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == OffsetPagination {
@@ -2554,9 +2551,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	
 	    
 	    @discardableResult
-	    func fetchBalanceOperation<M1: Cuckoo.Matchable>(_ assets: M1) -> Cuckoo.__DoNotUse<([IRAssetId]), BaseOperation<[BalanceData]?>> where M1.MatchedType == [IRAssetId] {
-	        let matchers: [Cuckoo.ParameterMatcher<([IRAssetId])>] = [wrap(matchable: assets) { $0 }]
-	        return cuckoo_manager.verify("fetchBalanceOperation(_: [IRAssetId]) -> BaseOperation<[BalanceData]?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func fetchBalanceOperation<M1: Cuckoo.Matchable>(_ assets: M1) -> Cuckoo.__DoNotUse<([String]), BaseOperation<[BalanceData]?>> where M1.MatchedType == [String] {
+	        let matchers: [Cuckoo.ParameterMatcher<([String])>] = [wrap(matchable: assets) { $0 }]
+	        return cuckoo_manager.verify("fetchBalanceOperation(_: [String]) -> BaseOperation<[BalanceData]?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -2610,7 +2607,7 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
     
 
     
-    public func fetchBalanceOperation(_ assets: [IRAssetId]) -> BaseOperation<[BalanceData]?>  {
+    public func fetchBalanceOperation(_ assets: [String]) -> BaseOperation<[BalanceData]?>  {
         return DefaultValueRegistry.defaultValue(for: (BaseOperation<[BalanceData]?>).self)
     }
     
@@ -2640,163 +2637,6 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
     
     public func withdrawOperation(_ info: WithdrawInfo) -> BaseOperation<Void>  {
         return DefaultValueRegistry.defaultValue(for: (BaseOperation<Void>).self)
-    }
-    
-}
-
-
-import Cuckoo
-@testable import CommonWallet
-
-import Foundation
-import RobinHood
-
-
-public class MockWalletNetworkResolverProtocol: WalletNetworkResolverProtocol, Cuckoo.ProtocolMock {
-    
-    public typealias MocksType = WalletNetworkResolverProtocol
-    
-    public typealias Stubbing = __StubbingProxy_WalletNetworkResolverProtocol
-    public typealias Verification = __VerificationProxy_WalletNetworkResolverProtocol
-
-    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: WalletNetworkResolverProtocol?
-
-    public func enableDefaultImplementation(_ stub: WalletNetworkResolverProtocol) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
-
-    
-
-    
-
-    
-    
-    
-    public func urlTemplate(for type: WalletRequestType) -> String {
-        
-    return cuckoo_manager.call("urlTemplate(for: WalletRequestType) -> String",
-            parameters: (type),
-            escapingParameters: (type),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.urlTemplate(for: type))
-        
-    }
-    
-    
-    
-    public func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol? {
-        
-    return cuckoo_manager.call("adapter(for: WalletRequestType) -> NetworkRequestModifierProtocol?",
-            parameters: (type),
-            escapingParameters: (type),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.adapter(for: type))
-        
-    }
-    
-    
-    
-    public func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol? {
-        
-    return cuckoo_manager.call("errorFactory(for: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?",
-            parameters: (type),
-            escapingParameters: (type),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.errorFactory(for: type))
-        
-    }
-    
-
-	public struct __StubbingProxy_WalletNetworkResolverProtocol: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	    public init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    func urlTemplate<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(WalletRequestType), String> where M1.MatchedType == WalletRequestType {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkResolverProtocol.self, method: "urlTemplate(for: WalletRequestType) -> String", parameterMatchers: matchers))
-	    }
-	    
-	    func adapter<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(WalletRequestType), NetworkRequestModifierProtocol?> where M1.MatchedType == WalletRequestType {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkResolverProtocol.self, method: "adapter(for: WalletRequestType) -> NetworkRequestModifierProtocol?", parameterMatchers: matchers))
-	    }
-	    
-	    func errorFactory<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(WalletRequestType), WalletNetworkErrorFactoryProtocol?> where M1.MatchedType == WalletRequestType {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkResolverProtocol.self, method: "errorFactory(for: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	public struct __VerificationProxy_WalletNetworkResolverProtocol: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	
-	    
-	    @discardableResult
-	    func urlTemplate<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(WalletRequestType), String> where M1.MatchedType == WalletRequestType {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
-	        return cuckoo_manager.verify("urlTemplate(for: WalletRequestType) -> String", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func adapter<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(WalletRequestType), NetworkRequestModifierProtocol?> where M1.MatchedType == WalletRequestType {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
-	        return cuckoo_manager.verify("adapter(for: WalletRequestType) -> NetworkRequestModifierProtocol?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func errorFactory<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(WalletRequestType), WalletNetworkErrorFactoryProtocol?> where M1.MatchedType == WalletRequestType {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletRequestType)>] = [wrap(matchable: type) { $0 }]
-	        return cuckoo_manager.verify("errorFactory(for: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
-public class WalletNetworkResolverProtocolStub: WalletNetworkResolverProtocol {
-    
-
-    
-
-    
-    public func urlTemplate(for type: WalletRequestType) -> String  {
-        return DefaultValueRegistry.defaultValue(for: (String).self)
-    }
-    
-    public func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol?  {
-        return DefaultValueRegistry.defaultValue(for: (NetworkRequestModifierProtocol?).self)
-    }
-    
-    public func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol?  {
-        return DefaultValueRegistry.defaultValue(for: (WalletNetworkErrorFactoryProtocol?).self)
     }
     
 }
@@ -3788,7 +3628,6 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
-import IrohaCommunication
 
 
 public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuckoo.ProtocolMock {
@@ -3816,9 +3655,9 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
     
     
     
-    public func prepareSendCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol {
+    public func prepareSendCommand(for assetId: String?) -> WalletPresentationCommandProtocol {
         
-    return cuckoo_manager.call("prepareSendCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol",
+    return cuckoo_manager.call("prepareSendCommand(for: String?) -> WalletPresentationCommandProtocol",
             parameters: (assetId),
             escapingParameters: (assetId),
             superclassCall:
@@ -3831,9 +3670,9 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
     
     
     
-    public func prepareReceiveCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol {
+    public func prepareReceiveCommand(for assetId: String?) -> WalletPresentationCommandProtocol {
         
-    return cuckoo_manager.call("prepareReceiveCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol",
+    return cuckoo_manager.call("prepareReceiveCommand(for: String?) -> WalletPresentationCommandProtocol",
             parameters: (assetId),
             escapingParameters: (assetId),
             superclassCall:
@@ -3846,9 +3685,9 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
     
     
     
-    public func prepareAssetDetailsCommand(for assetId: IRAssetId) -> AssetDetailsCommadProtocol {
+    public func prepareAssetDetailsCommand(for assetId: String) -> AssetDetailsCommadProtocol {
         
-    return cuckoo_manager.call("prepareAssetDetailsCommand(for: IRAssetId) -> AssetDetailsCommadProtocol",
+    return cuckoo_manager.call("prepareAssetDetailsCommand(for: String) -> AssetDetailsCommadProtocol",
             parameters: (assetId),
             escapingParameters: (assetId),
             superclassCall:
@@ -3876,9 +3715,9 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
     
     
     
-    public func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol {
+    public func prepareWithdrawCommand(for assetId: String, optionId: String) -> WalletPresentationCommandProtocol {
         
-    return cuckoo_manager.call("prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol",
+    return cuckoo_manager.call("prepareWithdrawCommand(for: String, optionId: String) -> WalletPresentationCommandProtocol",
             parameters: (assetId, optionId),
             escapingParameters: (assetId, optionId),
             superclassCall:
@@ -3973,19 +3812,19 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    }
 	    
 	    
-	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareSendCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareSendCommand(for: String?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareReceiveCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareReceiveCommand(for: String?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId), AssetDetailsCommadProtocol> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareAssetDetailsCommand(for: IRAssetId) -> AssetDetailsCommadProtocol", parameterMatchers: matchers))
+	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(String), AssetDetailsCommadProtocol> where M1.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: assetId) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareAssetDetailsCommand(for: String) -> AssetDetailsCommadProtocol", parameterMatchers: matchers))
 	    }
 	    
 	    func prepareScanReceiverCommand() -> Cuckoo.ProtocolStubFunction<(), WalletPresentationCommandProtocol> {
@@ -3993,9 +3832,9 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareScanReceiverCommand() -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.ProtocolStubFunction<(IRAssetId, String), WalletPresentationCommandProtocol> where M1.MatchedType == IRAssetId, M2.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.ProtocolStubFunction<(String, String), WalletPresentationCommandProtocol> where M1.MatchedType == String, M2.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareWithdrawCommand(for: String, optionId: String) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.ProtocolStubFunction<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
@@ -4040,21 +3879,21 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	
 	    
 	    @discardableResult
-	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("prepareSendCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return cuckoo_manager.verify("prepareSendCommand(for: String?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("prepareReceiveCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return cuckoo_manager.verify("prepareReceiveCommand(for: String?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId), AssetDetailsCommadProtocol> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("prepareAssetDetailsCommand(for: IRAssetId) -> AssetDetailsCommadProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(String), AssetDetailsCommadProtocol> where M1.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: assetId) { $0 }]
+	        return cuckoo_manager.verify("prepareAssetDetailsCommand(for: String) -> AssetDetailsCommadProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -4064,9 +3903,9 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    }
 	    
 	    @discardableResult
-	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.__DoNotUse<(IRAssetId, String), WalletPresentationCommandProtocol> where M1.MatchedType == IRAssetId, M2.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
-	        return cuckoo_manager.verify("prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.__DoNotUse<(String, String), WalletPresentationCommandProtocol> where M1.MatchedType == String, M2.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
+	        return cuckoo_manager.verify("prepareWithdrawCommand(for: String, optionId: String) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -4108,15 +3947,15 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
     
 
     
-    public func prepareSendCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol  {
+    public func prepareSendCommand(for assetId: String?) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
-    public func prepareReceiveCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol  {
+    public func prepareReceiveCommand(for assetId: String?) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
-    public func prepareAssetDetailsCommand(for assetId: IRAssetId) -> AssetDetailsCommadProtocol  {
+    public func prepareAssetDetailsCommand(for assetId: String) -> AssetDetailsCommadProtocol  {
         return DefaultValueRegistry.defaultValue(for: (AssetDetailsCommadProtocol).self)
     }
     
@@ -4124,7 +3963,7 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
-    public func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol  {
+    public func prepareWithdrawCommand(for assetId: String, optionId: String) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
@@ -4192,9 +4031,9 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
     
     
     
-    public func prepareSendCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol {
+    public func prepareSendCommand(for assetId: String?) -> WalletPresentationCommandProtocol {
         
-    return cuckoo_manager.call("prepareSendCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol",
+    return cuckoo_manager.call("prepareSendCommand(for: String?) -> WalletPresentationCommandProtocol",
             parameters: (assetId),
             escapingParameters: (assetId),
             superclassCall:
@@ -4207,9 +4046,9 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
     
     
     
-    public func prepareReceiveCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol {
+    public func prepareReceiveCommand(for assetId: String?) -> WalletPresentationCommandProtocol {
         
-    return cuckoo_manager.call("prepareReceiveCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol",
+    return cuckoo_manager.call("prepareReceiveCommand(for: String?) -> WalletPresentationCommandProtocol",
             parameters: (assetId),
             escapingParameters: (assetId),
             superclassCall:
@@ -4222,9 +4061,9 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
     
     
     
-    public func prepareAssetDetailsCommand(for assetId: IRAssetId) -> AssetDetailsCommadProtocol {
+    public func prepareAssetDetailsCommand(for assetId: String) -> AssetDetailsCommadProtocol {
         
-    return cuckoo_manager.call("prepareAssetDetailsCommand(for: IRAssetId) -> AssetDetailsCommadProtocol",
+    return cuckoo_manager.call("prepareAssetDetailsCommand(for: String) -> AssetDetailsCommadProtocol",
             parameters: (assetId),
             escapingParameters: (assetId),
             superclassCall:
@@ -4252,9 +4091,9 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
     
     
     
-    public func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol {
+    public func prepareWithdrawCommand(for assetId: String, optionId: String) -> WalletPresentationCommandProtocol {
         
-    return cuckoo_manager.call("prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol",
+    return cuckoo_manager.call("prepareWithdrawCommand(for: String, optionId: String) -> WalletPresentationCommandProtocol",
             parameters: (assetId, optionId),
             escapingParameters: (assetId, optionId),
             superclassCall:
@@ -4354,19 +4193,19 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "createRootController() throws -> UINavigationController", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareSendCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareSendCommand(for: String?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareReceiveCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareReceiveCommand(for: String?) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(IRAssetId), AssetDetailsCommadProtocol> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareAssetDetailsCommand(for: IRAssetId) -> AssetDetailsCommadProtocol", parameterMatchers: matchers))
+	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.ProtocolStubFunction<(String), AssetDetailsCommadProtocol> where M1.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: assetId) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareAssetDetailsCommand(for: String) -> AssetDetailsCommadProtocol", parameterMatchers: matchers))
 	    }
 	    
 	    func prepareScanReceiverCommand() -> Cuckoo.ProtocolStubFunction<(), WalletPresentationCommandProtocol> {
@@ -4374,9 +4213,9 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareScanReceiverCommand() -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
-	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.ProtocolStubFunction<(IRAssetId, String), WalletPresentationCommandProtocol> where M1.MatchedType == IRAssetId, M2.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.ProtocolStubFunction<(String, String), WalletPresentationCommandProtocol> where M1.MatchedType == String, M2.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareWithdrawCommand(for: String, optionId: String) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	    func preparePresentationCommand<M1: Cuckoo.Matchable>(for controller: M1) -> Cuckoo.ProtocolStubFunction<(UIViewController), WalletPresentationCommandProtocol> where M1.MatchedType == UIViewController {
@@ -4427,21 +4266,21 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    }
 	    
 	    @discardableResult
-	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("prepareSendCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareSendCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return cuckoo_manager.verify("prepareSendCommand(for: String?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId?)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("prepareReceiveCommand(for: IRAssetId?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareReceiveCommand<M1: Cuckoo.OptionalMatchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(String?), WalletPresentationCommandProtocol> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: assetId) { $0 }]
+	        return cuckoo_manager.verify("prepareReceiveCommand(for: String?) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(IRAssetId), AssetDetailsCommadProtocol> where M1.MatchedType == IRAssetId {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId)>] = [wrap(matchable: assetId) { $0 }]
-	        return cuckoo_manager.verify("prepareAssetDetailsCommand(for: IRAssetId) -> AssetDetailsCommadProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareAssetDetailsCommand<M1: Cuckoo.Matchable>(for assetId: M1) -> Cuckoo.__DoNotUse<(String), AssetDetailsCommadProtocol> where M1.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: assetId) { $0 }]
+	        return cuckoo_manager.verify("prepareAssetDetailsCommand(for: String) -> AssetDetailsCommadProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -4451,9 +4290,9 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    }
 	    
 	    @discardableResult
-	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.__DoNotUse<(IRAssetId, String), WalletPresentationCommandProtocol> where M1.MatchedType == IRAssetId, M2.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(IRAssetId, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
-	        return cuckoo_manager.verify("prepareWithdrawCommand(for: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func prepareWithdrawCommand<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(for assetId: M1, optionId: M2) -> Cuckoo.__DoNotUse<(String, String), WalletPresentationCommandProtocol> where M1.MatchedType == String, M2.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: optionId) { $0.1 }]
+	        return cuckoo_manager.verify("prepareWithdrawCommand(for: String, optionId: String) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -4499,15 +4338,15 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
         return DefaultValueRegistry.defaultValue(for: (UINavigationController).self)
     }
     
-    public func prepareSendCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol  {
+    public func prepareSendCommand(for assetId: String?) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
-    public func prepareReceiveCommand(for assetId: IRAssetId?) -> WalletPresentationCommandProtocol  {
+    public func prepareReceiveCommand(for assetId: String?) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
-    public func prepareAssetDetailsCommand(for assetId: IRAssetId) -> AssetDetailsCommadProtocol  {
+    public func prepareAssetDetailsCommand(for assetId: String) -> AssetDetailsCommadProtocol  {
         return DefaultValueRegistry.defaultValue(for: (AssetDetailsCommadProtocol).self)
     }
     
@@ -4515,7 +4354,7 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
-    public func prepareWithdrawCommand(for assetId: IRAssetId, optionId: String) -> WalletPresentationCommandProtocol  {
+    public func prepareWithdrawCommand(for assetId: String, optionId: String) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
@@ -4829,7 +4668,6 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
-import IrohaCommunication
 
 
  class MockAssetSelectionViewModelObserver: AssetSelectionViewModelObserver, Cuckoo.ProtocolMock {
@@ -5514,6 +5352,163 @@ import Foundation
 
     
 
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+import RobinHood
+
+
+public class MockMiddlewareNetworkResolverProtocol: MiddlewareNetworkResolverProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = MiddlewareNetworkResolverProtocol
+    
+    public typealias Stubbing = __StubbingProxy_MiddlewareNetworkResolverProtocol
+    public typealias Verification = __VerificationProxy_MiddlewareNetworkResolverProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: MiddlewareNetworkResolverProtocol?
+
+    public func enableDefaultImplementation(_ stub: MiddlewareNetworkResolverProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func urlTemplate(for type: MiddlewareRequestType) -> String {
+        
+    return cuckoo_manager.call("urlTemplate(for: MiddlewareRequestType) -> String",
+            parameters: (type),
+            escapingParameters: (type),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.urlTemplate(for: type))
+        
+    }
+    
+    
+    
+    public func adapter(for type: MiddlewareRequestType) -> NetworkRequestModifierProtocol? {
+        
+    return cuckoo_manager.call("adapter(for: MiddlewareRequestType) -> NetworkRequestModifierProtocol?",
+            parameters: (type),
+            escapingParameters: (type),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.adapter(for: type))
+        
+    }
+    
+    
+    
+    public func errorFactory(for type: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol? {
+        
+    return cuckoo_manager.call("errorFactory(for: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol?",
+            parameters: (type),
+            escapingParameters: (type),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.errorFactory(for: type))
+        
+    }
+    
+
+	public struct __StubbingProxy_MiddlewareNetworkResolverProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func urlTemplate<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(MiddlewareRequestType), String> where M1.MatchedType == MiddlewareRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(MiddlewareRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockMiddlewareNetworkResolverProtocol.self, method: "urlTemplate(for: MiddlewareRequestType) -> String", parameterMatchers: matchers))
+	    }
+	    
+	    func adapter<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(MiddlewareRequestType), NetworkRequestModifierProtocol?> where M1.MatchedType == MiddlewareRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(MiddlewareRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockMiddlewareNetworkResolverProtocol.self, method: "adapter(for: MiddlewareRequestType) -> NetworkRequestModifierProtocol?", parameterMatchers: matchers))
+	    }
+	    
+	    func errorFactory<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.ProtocolStubFunction<(MiddlewareRequestType), MiddlewareNetworkErrorFactoryProtocol?> where M1.MatchedType == MiddlewareRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(MiddlewareRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockMiddlewareNetworkResolverProtocol.self, method: "errorFactory(for: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol?", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_MiddlewareNetworkResolverProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func urlTemplate<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(MiddlewareRequestType), String> where M1.MatchedType == MiddlewareRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(MiddlewareRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return cuckoo_manager.verify("urlTemplate(for: MiddlewareRequestType) -> String", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func adapter<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(MiddlewareRequestType), NetworkRequestModifierProtocol?> where M1.MatchedType == MiddlewareRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(MiddlewareRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return cuckoo_manager.verify("adapter(for: MiddlewareRequestType) -> NetworkRequestModifierProtocol?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func errorFactory<M1: Cuckoo.Matchable>(for type: M1) -> Cuckoo.__DoNotUse<(MiddlewareRequestType), MiddlewareNetworkErrorFactoryProtocol?> where M1.MatchedType == MiddlewareRequestType {
+	        let matchers: [Cuckoo.ParameterMatcher<(MiddlewareRequestType)>] = [wrap(matchable: type) { $0 }]
+	        return cuckoo_manager.verify("errorFactory(for: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class MiddlewareNetworkResolverProtocolStub: MiddlewareNetworkResolverProtocol {
+    
+
+    
+
+    
+    public func urlTemplate(for type: MiddlewareRequestType) -> String  {
+        return DefaultValueRegistry.defaultValue(for: (String).self)
+    }
+    
+    public func adapter(for type: MiddlewareRequestType) -> NetworkRequestModifierProtocol?  {
+        return DefaultValueRegistry.defaultValue(for: (NetworkRequestModifierProtocol?).self)
+    }
+    
+    public func errorFactory(for type: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol?  {
+        return DefaultValueRegistry.defaultValue(for: (MiddlewareNetworkErrorFactoryProtocol?).self)
+    }
     
 }
 

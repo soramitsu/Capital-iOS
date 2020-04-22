@@ -6,7 +6,6 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
-import IrohaCommunication
 
 class TransferMetadataServiceTests: NetworkBaseTests {
     func testTransferMetadataSuccess() throws {
@@ -65,14 +64,14 @@ class TransferMetadataServiceTests: NetworkBaseTests {
 
     private func performFetch(for mock: TransferMetadataMock,
                               info: TransferMetadataInfo,
-                              errorFactory: WalletNetworkErrorFactoryProtocol?) throws -> Result<TransferMetaData?, Error>? {
-        let networkResolver = MockWalletNetworkResolverProtocol()
+                              errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws -> Result<TransferMetaData?, Error>? {
+        let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
         let urlTemplateGetExpectation = XCTestExpectation()
         let adapterExpectation = XCTestExpectation()
 
         stub(networkResolver) { stub in
-            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).urlTemplate(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .transferMetadata)
 
                 urlTemplateGetExpectation.fulfill()
@@ -80,7 +79,7 @@ class TransferMetadataServiceTests: NetworkBaseTests {
                 return Constants.transferMetadataUrlTemplate
             }
 
-            when(stub).adapter(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).adapter(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .transferMetadata)
 
                 adapterExpectation.fulfill()
@@ -88,7 +87,7 @@ class TransferMetadataServiceTests: NetworkBaseTests {
                 return nil
             }
 
-            when(stub).errorFactory(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).errorFactory(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .transferMetadata)
 
                 return errorFactory
@@ -103,7 +102,9 @@ class TransferMetadataServiceTests: NetworkBaseTests {
 
         let assetsCount = 4
         let accountSettings = try createRandomAccountSettings(for: assetsCount)
+        let operationSettings = try createRandomOperationSettings()
         let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                          operationSettings: operationSettings,
                                                           networkResolver: networkResolver)
         let walletService = WalletService(operationFactory: operationFactory)
 

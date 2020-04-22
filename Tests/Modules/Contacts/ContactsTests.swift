@@ -96,12 +96,14 @@ class ContactsTests: NetworkBaseTests {
     // MARK: Private
 
     private func performSetup(for view: MockContactsViewProtocol,
-                              networkResolver: WalletNetworkResolverProtocol) throws -> ContactsPresenterProtocol {
+                              networkResolver: MiddlewareNetworkResolverProtocol) throws -> ContactsPresenterProtocol {
         let accountSettings = try createRandomAccountSettings(for: 1)
+        let operationSettings = try createRandomOperationSettings()
 
         let cacheFacade = CoreDataTestCacheFacade()
 
         let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                 operationSettings: operationSettings,
                                                                  networkResolver: networkResolver)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,

@@ -63,14 +63,14 @@ class WithdrawServiceTests: NetworkBaseTests {
 
     private func performRequest(for mock: WithdrawMock,
                                 info: WithdrawInfo,
-                                errorFactory: WalletNetworkErrorFactoryProtocol?) throws -> Result<Void, Error>? {
-        let networkResolver = MockWalletNetworkResolverProtocol()
+                                errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws -> Result<Void, Error>? {
+        let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
         let urlTemplateGetExpectation = XCTestExpectation()
         let adapterExpectation = XCTestExpectation()
 
         stub(networkResolver) { stub in
-            when(stub).urlTemplate(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).urlTemplate(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .withdraw)
 
                 urlTemplateGetExpectation.fulfill()
@@ -78,7 +78,7 @@ class WithdrawServiceTests: NetworkBaseTests {
                 return Constants.withdrawUrlTemplate
             }
 
-            when(stub).adapter(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).adapter(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .withdraw)
 
                 adapterExpectation.fulfill()
@@ -86,7 +86,7 @@ class WithdrawServiceTests: NetworkBaseTests {
                 return nil
             }
 
-            when(stub).errorFactory(for: any(WalletRequestType.self)).then { requestType in
+            when(stub).errorFactory(for: any(MiddlewareRequestType.self)).then { requestType in
                 XCTAssertEqual(requestType, .withdraw)
 
                 return errorFactory
@@ -100,7 +100,9 @@ class WithdrawServiceTests: NetworkBaseTests {
 
         let assetsCount = 4
         let accountSettings = try createRandomAccountSettings(for: assetsCount)
+        let operationSettings = try createRandomOperationSettings()
         let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                          operationSettings:  operationSettings,
                                                           networkResolver: networkResolver)
         let walletService = WalletService(operationFactory: operationFactory)
 

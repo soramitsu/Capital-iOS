@@ -17,7 +17,11 @@ func resolver(from context: CommonWalletContextProtocol) -> ResolverProtocol? {
 func createDefaultBuilder(with assetCount: Int) throws -> CommonWalletBuilderProtocol {
     let networkResolver = MockNetworkResolver()
     let account = try createRandomAccountSettings(for: 4)
+    let operationSettings = try createRandomOperationSettings()
 
-    return CommonWalletBuilder.builder(with: account,
-                                       networkResolver: networkResolver)
+    let networkFactory = MiddlewareOperationFactory(accountSettings: account,
+                                                    operationSettings: operationSettings,
+                                                    networkResolver: networkResolver)
+
+    return CommonWalletBuilder.builder(with: account, networkOperationFactory: networkFactory)
 }

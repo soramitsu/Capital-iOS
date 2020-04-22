@@ -3,8 +3,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'CommonWallet_Example' do
-  pod 'CommonWallet', :path => '../'
-  pod 'SwiftLint', '= 0.31.0'
+  pod 'CommonWallet/Core', :path => '../'
+  pod 'CommonWallet/IrohaMiddleware', :path => '../'
+  pod 'SwiftLint', '~> 0.39'
   pod 'OHHTTPStubs/Swift'
   pod 'Fabric', '= 1.9.0'
   pod 'Crashlytics', '= 3.12.0'

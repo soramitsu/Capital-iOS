@@ -1,8 +1,8 @@
 strings:
-  inputs: ../CommonWallet/Assets/Lang/en.lproj/Localizable.strings
+  inputs: ../CommonWallet/Core/Assets/Lang/en.lproj/Localizable.strings
   outputs:
-    templatePath: ../CommonWallet/Assets/Templates/L10n.stencil
-    output: ../CommonWallet/Classes/Common/Localization/L10n.swift
+    templatePath: Templates/L10n.stencil
+    output: ../CommonWallet/Core/Classes/Common/Localization/L10n.swift
     params:
       enumName: L10n
       publicAccess: 1

@@ -16,8 +16,10 @@ class ConfirmationTests: NetworkBaseTests {
 
             let accountSettings = try createRandomAccountSettings(for: 1)
             let networkResolver = MockNetworkResolver()
+            let operationSettings = try createRandomOperationSettings()
 
             let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     operationSettings: operationSettings,
                                                                      networkResolver: networkResolver)
 
             let view = MockWalletFormViewProtocol()

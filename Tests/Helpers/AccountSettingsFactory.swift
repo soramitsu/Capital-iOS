@@ -5,9 +5,9 @@
 
 import Foundation
 import CommonWallet
-import IrohaCommunication
 import SoraFoundation
 import Cuckoo
+import IrohaCrypto
 
 func createRandomAccountId() throws -> String {
     let accountData = try createRandomData(with: 16)
@@ -33,7 +33,7 @@ func createRandomWithdrawOption() -> WalletWithdrawOption {
 func createRandomAccountSettings(for assetsCount: Int, withdrawOptionsCount: Int = 0)
     throws -> WalletAccountSettings {
     let assets = try (0..<assetsCount).map { (index) -> WalletAsset in
-        let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+        let assetId = try createRandomAssetId()
         return WalletAsset(identifier: assetId,
                            symbol: String(index + 1),
                            details: LocalizableResource { _ in UUID().uuidString },
@@ -51,19 +51,15 @@ func createRandomAccountSettings(for assetsCount: Int, withdrawOptionsCount: Int
     return try createRandomAccountSettings(for: assets, withdrawOptions: withdrawOptions)
 }
 
-func createRandomAccountSettings(for assets: [WalletAsset], withdrawOptions: [WalletWithdrawOption])
-    throws -> WalletAccountSettings {
-    let account = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
+func createRandomAccountSettings(for assets: [WalletAsset], withdrawOptions: [WalletWithdrawOption]) throws -> WalletAccountSettings {
+    let account = try createRandomAccountId()
 
+    return WalletAccountSettings(accountId: account, assets: assets, withdrawOptions: withdrawOptions)
+}
+
+func createRandomOperationSettings() throws -> MiddlewareOperationSettings {
     let keypair = try IRIrohaKeyFactory().createRandomKeypair()
-
     let signer = IRIrohaSigner(privateKey: keypair.privateKey())
 
-    var settings = WalletAccountSettings(accountId: account,
-                                         assets: assets,
-                                         signer: signer,
-                                         publicKey: keypair.publicKey())
-    settings.withdrawOptions = withdrawOptions
-
-    return settings
+    return MiddlewareOperationSettings(signer: signer, publicKey: keypair.publicKey())
 }
