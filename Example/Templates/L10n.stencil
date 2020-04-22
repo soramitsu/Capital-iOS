@@ -1,0 +1,81 @@
+/**
+* Copyright Soramitsu Co., Ltd. All Rights Reserved.
+* SPDX-License-Identifier: GPL-3.0
+*/
+{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+{% macro parametersBlock types %}{% filter removeNewlines:"leading" %}
+  {% for type in types %}
+    _ p{{forloop.counter}}: {{type}}{% if not forloop.last %}, {% endif %}
+  {% endfor %}
+{% endfilter %}{% endmacro %}
+{% macro argumentsBlock types %}{% filter removeNewlines:"leading" %}
+  {% for type in types %}
+    p{{forloop.counter}}{% if not forloop.last %}, {% endif %}
+  {% endfor %}
+{% endfilter %}{% endmacro %}
+{% macro recursiveBlock table item sp %}
+{{sp}}{% for string in item.strings %}
+{{sp}}{% if not param.noComments %}
+{{sp}}/// {{string.translation}}
+{{sp}}{% endif %}
+{{sp}}{% if string.types %}
+{{sp}}{{accessModifier}} static func {{string.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}({% call parametersBlock string.types %}) -> String {
+{{sp}}    return localize("{{string.key}}", {% call argumentsBlock string.types %})
+{{sp}}}
+{{sp}}{% else %}
+{{sp}}{{accessModifier}} static var {{string.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: String { return localize("{{string.key}}") }
+{{sp}}{% endif %}
+{{sp}}{% endfor %}
+{{sp}}{% for child in item.children %}
+
+{{sp}}{{accessModifier}} enum {{child.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+{{sp}}{% set sp2 %}{{sp}}    {% endset %}
+{{sp}}{% call recursiveBlock table child sp2 %}
+{{sp}}}
+{{sp}}{% endfor %}
+{% endmacro %}
+
+import Foundation
+
+
+//swiftlint:disable all
+{% set enumName %}{{param.enumName|default:"L10n"}}{% endset %}
+{{accessModifier}} enum {{enumName}} {
+
+    static var sharedLanguage: WalletLanguage = WalletLanguage.defaultLanguage
+    {% if tables.count > 1 %}
+    {% for table in tables %}
+    {{accessModifier}} enum {{table.name|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+        {% call recursiveBlock table.name table.levels "    " %}
+    }
+    {% endfor %}
+    {% else %}
+    {% call recursiveBlock tables.first.name tables.first.levels "    " %}
+    {% endif %}
+}
+
+
+extension {{enumName}} {
+
+    fileprivate static func localize(_ key: String, _ args: CVarArg...) -> String {
+        let format = getFormat(for: key, localization: sharedLanguage.rawValue)
+        return String(format: format, arguments: args)
+    }
+
+    fileprivate static func getFormat(for key: String, localization: String) -> String {
+        let bundle = Bundle(for: BundleLoadHelper.self)
+
+        guard
+            let path = bundle.path(forResource: localization, ofType: "lproj"),
+            let langBundle = Bundle(path: path) else {
+                return ""
+        }
+
+        return NSLocalizedString(key, tableName: nil, bundle: langBundle, value: "", comment: "")
+    }
+
+}
+
+
+private final class BundleLoadHelper {}
+//swiftlint:enable all

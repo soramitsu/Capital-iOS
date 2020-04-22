@@ -37,7 +37,7 @@ Carthage/Build
 Pods/
 
 # generamba templates
-Templates/
+/Templates/
 
 # Fastlane
 Example/fastlane/
