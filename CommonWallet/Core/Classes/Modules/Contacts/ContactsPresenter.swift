@@ -27,10 +27,10 @@ final class ContactsPresenter: NSObject {
     private let dataProvider: SingleValueProvider<[SearchData]>
     private let walletService: WalletServiceProtocol
     private let viewModelFactory: ContactsViewModelFactoryProtocol
+    private let actionViewModelFactory: ContactsActionViewModelFactoryProtocol
     private let currentAccountId: String
 
     private let selectedAsset: WalletAsset
-    private let withdrawOptions: [WalletWithdrawOption]
 
     private var searchPattern = ""
 
@@ -50,26 +50,22 @@ final class ContactsPresenter: NSObject {
          dataProvider: SingleValueProvider<[SearchData]>,
          walletService: WalletServiceProtocol,
          viewModelFactory: ContactsViewModelFactoryProtocol,
+         actionViewModelFactory: ContactsActionViewModelFactoryProtocol,
          selectedAsset: WalletAsset,
-         currentAccountId: String,
-         withdrawOptions: [WalletWithdrawOption]) {
+         currentAccountId: String) {
         self.view = view
         self.coordinator = coordinator
         self.dataProvider = dataProvider
         self.walletService = walletService
         self.viewModelFactory = viewModelFactory
+        self.actionViewModelFactory = actionViewModelFactory
         self.selectedAsset = selectedAsset
         self.currentAccountId = currentAccountId
-        self.withdrawOptions = withdrawOptions
     }
 
     private func setupViewModelActions() {
-        let scanViewModel = viewModelFactory.createScanViewModel(for: selectedAsset.identifier)
-        var actions = [scanViewModel]
-
-        let withdrawViewModels = withdrawOptions.map { viewModelFactory
-            .createWithdrawViewModel(for: $0, assetId: selectedAsset.identifier)}
-        actions.append(contentsOf: withdrawViewModels)
+        let actions = actionViewModelFactory.createViewModelsForAccountId(currentAccountId,
+                                                                          assetId: selectedAsset.identifier)
 
         viewModel.actions = actions
     }

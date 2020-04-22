@@ -5,37 +5,20 @@
 
 import Foundation
 
-public struct ContactConstants {
-    static let contactCellIdentifier: String = "co.jp.capital.contact.cell.identifier"
-    static let contactCellHeight: CGFloat = 56
-    static let optionCellIdentifier: String = "co.jp.capital.contact.option.cell.identifier"
-    static let optionCellHeight: CGFloat = 56
-}
-
-
 protocol ContactsViewModelFactoryProtocol {
-    
-    func createContactViewModel(from contact: SearchData,
-                                delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
-    func createScanViewModel(for assetId: String) -> SendOptionViewModelProtocol
-    func createWithdrawViewModel(for option: WalletWithdrawOption,
-                                 assetId: String) -> SendOptionViewModelProtocol
-    
+    func createContactViewModel(from contact: SearchData, delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
 }
 
 
 final class ContactsViewModelFactory {
-    
-    let configuration: ContactsConfigurationProtocol
     let avatarRadius: CGFloat
     let commandFactory: WalletCommandFactoryProtocol
+    let nameIconStyle: WalletNameIconStyleProtocol
 
-    init(configuration: ContactsConfigurationProtocol,
-         avatarRadius: CGFloat,
-         commandFactory: WalletCommandFactoryProtocol) {
-        self.configuration = configuration
-        self.avatarRadius = avatarRadius
+    init(commandFactory: WalletCommandFactoryProtocol, avatarRadius: CGFloat, nameIconStyle: WalletNameIconStyleProtocol) {
         self.commandFactory = commandFactory
+        self.avatarRadius = avatarRadius
+        self.nameIconStyle = nameIconStyle
     }
 }
 
@@ -46,7 +29,7 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
         let fullName = L10n.Common.fullName(contact.firstName, contact.lastName)
         let image = UIImage.createAvatar(fullName: fullName,
                                          radius: avatarRadius,
-                                         style: configuration.contactCellStyle.nameIcon)
+                                         style: nameIconStyle)
 
         let viewModel = ContactViewModel(cellReuseIdentifier: ContactConstants.contactCellIdentifier,
                                          itemHeight: ContactConstants.contactCellHeight,
@@ -54,36 +37,6 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
                                          image: image)
 
         viewModel.delegate = delegate
-        viewModel.style = configuration.contactCellStyle
-
-        return viewModel
-    }
-
-    func createScanViewModel(for assetId: String) -> SendOptionViewModelProtocol {
-        let scanCommand = commandFactory.prepareScanReceiverCommand()
-        let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.optionCellIdentifier,
-                                            itemHeight: ContactConstants.optionCellHeight,
-                                            command: scanCommand)
-
-        viewModel.title =  L10n.Contacts.scan
-        viewModel.icon = UIImage(named: "iconQr", in: Bundle(for: type(of: self)), compatibleWith: nil)
-        viewModel.style = configuration.sendOptionStyle
-
-        return viewModel
-    }
-
-    func createWithdrawViewModel(for option: WalletWithdrawOption,
-                                 assetId: String) -> SendOptionViewModelProtocol {
-        let withdrawCommand = commandFactory.prepareWithdrawCommand(for: assetId,
-                                                                    optionId: option.identifier)
-
-        let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.optionCellIdentifier,
-                                            itemHeight: ContactConstants.optionCellHeight,
-                                            command: withdrawCommand)
-
-        viewModel.title = option.longTitle
-        viewModel.icon = option.icon
-        viewModel.style = configuration.sendOptionStyle
 
         return viewModel
     }

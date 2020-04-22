@@ -117,7 +117,13 @@ class ContactsTests: NetworkBaseTests {
 
         let commandFactory = createMockedCommandFactory()
 
-        let viewModelFactory = ContactsViewModelFactory(configuration: contactsConfiguration, avatarRadius: 10.0, commandFactory: commandFactory)
+        let viewModelFactory = ContactsViewModelFactory(commandFactory: commandFactory,
+                                                        avatarRadius: 10.0,
+                                                        nameIconStyle: contactsConfiguration.cellStyle.contactStyle.nameIcon)
+
+        let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: commandFactory,
+                                                                    shouldIncludeScan: true,
+                                                                    withdrawOptions: [])
 
         let coordinator = MockContactsCoordinatorProtocol()
 
@@ -142,9 +148,9 @@ class ContactsTests: NetworkBaseTests {
                                           dataProvider: dataProvider,
                                           walletService: walletService,
                                           viewModelFactory: viewModelFactory,
+                                          actionViewModelFactory: actionViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
-                                          currentAccountId: accountSettings.accountId,
-                                          withdrawOptions: [])
+                                          currentAccountId: accountSettings.accountId)
 
         presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 

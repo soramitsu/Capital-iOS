@@ -128,6 +128,11 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
         
         //swiftlint:disable:next force_cast
         let contactCell = cell as! WalletViewProtocol
+
+        if var stylableCell = cell as? ContactsCellStylable, stylableCell.style == nil {
+            stylableCell.style = configuration?.cellStyle
+        }
+
         contactCell.bind(viewModel: viewModel)
         
         return cell

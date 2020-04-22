@@ -8,9 +8,8 @@ import SoraUI
 import SoraFoundation
 
 protocol ContactsConfigurationProtocol {
-    var contactCellStyle: ContactCellStyleProtocol { get }
+    var cellStyle: ContactsCellStyle { get }
     var viewStyle: ContactsViewStyleProtocol { get }
-    var sendOptionStyle: SendOptionCellStyleProtocol { get }
     var sectionStyle: WalletTextStyleProtocol { get }
     var searchPlaceholder: LocalizableResource<String> { get }
     var contactsEmptyStateDataSource: EmptyStateDataSource? { get }
@@ -22,9 +21,8 @@ protocol ContactsConfigurationProtocol {
 
 
 struct ContactsConfiguration: ContactsConfigurationProtocol {
-    var contactCellStyle: ContactCellStyleProtocol
+    var cellStyle: ContactsCellStyle
     var viewStyle: ContactsViewStyleProtocol
-    var sendOptionStyle: SendOptionCellStyleProtocol
     var sectionStyle: WalletTextStyleProtocol
     var searchPlaceholder: LocalizableResource<String>
     var contactsEmptyStateDataSource: EmptyStateDataSource?

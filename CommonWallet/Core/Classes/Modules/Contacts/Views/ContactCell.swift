@@ -7,7 +7,7 @@ import Foundation
 import UIKit
 
 
-final class ContactCell: UITableViewCell {
+final class ContactCell: UITableViewCell, ContactsCellStylable {
     static let avatarRadius: CGFloat = 17.5
 
     @IBOutlet private var nameLabel: UILabel!
@@ -15,7 +15,13 @@ final class ContactCell: UITableViewCell {
     @IBOutlet private var accessoryImageView: UIImageView!
     
     private(set) var contactViewModel: ContactViewModelProtocol?
-    
+
+    var style: ContactsCellStyle? {
+        didSet {
+            applyStyle()
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -27,6 +33,14 @@ final class ContactCell: UITableViewCell {
         
         contactViewModel = nil
     }
+
+    private func applyStyle() {
+        if let style = style?.contactStyle {
+            nameLabel.font = style.title.font
+            nameLabel.textColor = style.title.color
+            accessoryImageView.image = style.accessoryIcon
+        }
+    }
     
     private func updateContent() {
         if let contactViewModel = contactViewModel {
@@ -34,15 +48,6 @@ final class ContactCell: UITableViewCell {
             avatarView.image = contactViewModel.image
         }
     }
-    
-    private func applyStyle() {
-        if let contactViewModel = contactViewModel, let style = contactViewModel.style {
-            nameLabel.font = style.title.font
-            nameLabel.textColor = style.title.color
-            accessoryImageView.image = style.accessoryIcon
-        }
-    }
-    
 }
 
 
@@ -58,8 +63,7 @@ extension ContactCell: WalletViewProtocol {
         }
         
         self.contactViewModel = contactViewModel
-        
-        applyStyle()
+
         updateContent()
     }
     
