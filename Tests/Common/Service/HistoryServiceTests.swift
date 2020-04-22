@@ -6,7 +6,6 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
-import IrohaCommunication
 
 class HistoryServiceTests: NetworkBaseTests {
 
@@ -69,16 +68,16 @@ class HistoryServiceTests: NetworkBaseTests {
 
     private func performFetch(for mock: FetchHistoryMock,
                               pagination: OffsetPagination,
-                              errorFactory: WalletNetworkErrorFactoryProtocol?) throws
+                              errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws
         -> Result<AssetTransactionPageData?, Error>? {
 
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
             let urlTemplateGetExpectation = XCTestExpectation()
             let adapterExpectation = XCTestExpectation()
 
             stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { requestType in
+                when(stub).urlTemplate(for: any(MiddlewareRequestType.self)).then { requestType in
                     XCTAssertEqual(requestType, .history)
 
                     urlTemplateGetExpectation.fulfill()
@@ -86,7 +85,7 @@ class HistoryServiceTests: NetworkBaseTests {
                     return Constants.historyUrlTemplate
                 }
 
-                when(stub).adapter(for: any(WalletRequestType.self)).then { requestType in
+                when(stub).adapter(for: any(MiddlewareRequestType.self)).then { requestType in
                     XCTAssertEqual(requestType, .history)
 
                     adapterExpectation.fulfill()
@@ -94,7 +93,7 @@ class HistoryServiceTests: NetworkBaseTests {
                     return nil
                 }
 
-                when(stub).errorFactory(for: any(WalletRequestType.self)).then { requestType in
+                when(stub).errorFactory(for: any(MiddlewareRequestType.self)).then { requestType in
                     XCTAssertEqual(requestType, .history)
 
                     return errorFactory
@@ -109,7 +108,9 @@ class HistoryServiceTests: NetworkBaseTests {
 
             let assetsCount = 4
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
+            let operationSettings = try createRandomOperationSettings()
             let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                              operationSettings: operationSettings,
                                                               networkResolver: networkResolver)
             let walletService = WalletService(operationFactory: operationFactory)
 

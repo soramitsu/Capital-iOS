@@ -7880,7 +7880,7 @@ import Cuckoo
 import Cuckoo
 @testable import CommonWallet
 
-import IrohaCommunication
+import Foundation
 
 
  class MockWithdrawAmountCoordinatorProtocol: WithdrawAmountCoordinatorProtocol, Cuckoo.ProtocolMock {

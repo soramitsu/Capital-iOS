@@ -15,21 +15,23 @@ class CoreDataCacheTests: XCTestCase {
 
     func testDataProviderFactory() {
         do {
-            let networkResolver = MockWalletNetworkResolverProtocol()
+            let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
             stub(networkResolver) { stub in
-                when(stub).urlTemplate(for: any(WalletRequestType.self)).then { _ in
+                when(stub).urlTemplate(for: any(MiddlewareRequestType.self)).then { _ in
                     return Constants.balanceUrlTemplate
                 }
 
-                when(stub).adapter(for: any(WalletRequestType.self)).then { _ in
+                when(stub).adapter(for: any(MiddlewareRequestType.self)).then { _ in
                     return nil
                 }
             }
 
             let assetsCount = 4
             let accountSettings = try createRandomAccountSettings(for: assetsCount)
+            let operationSettings = try createRandomOperationSettings()
             let operationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                              operationSettings: operationSettings,
                                                               networkResolver: networkResolver)
             let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                           cacheFacade: CoreDataCacheFacade.shared,

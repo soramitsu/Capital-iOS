@@ -30,8 +30,8 @@ extension ServiceMockProtocol {
     }
 
     static func register(mock: Self,
-                         networkResolver: WalletNetworkResolverProtocol,
-                         requestType: WalletRequestType,
+                         networkResolver: MiddlewareNetworkResolverProtocol,
+                         requestType: MiddlewareRequestType,
                          httpMethod: HttpMethod,
                          urlMockType: UrlMockType = .full,
                          body: Data? = nil) throws {

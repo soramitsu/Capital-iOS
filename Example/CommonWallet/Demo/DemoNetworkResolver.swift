@@ -7,8 +7,8 @@ import Foundation
 import CommonWallet
 import RobinHood
 
-final class DemoNetworkResolver: WalletNetworkResolverProtocol {
-    func urlTemplate(for type: WalletRequestType) -> String {
+final class DemoNetworkResolver: MiddlewareNetworkResolverProtocol {
+    func urlTemplate(for type: MiddlewareRequestType) -> String {
         switch type {
         case .balance:
             return "https://demowallet.com/balance"
@@ -29,11 +29,11 @@ final class DemoNetworkResolver: WalletNetworkResolverProtocol {
         }
     }
 
-    func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol? {
+    func adapter(for type: MiddlewareRequestType) -> NetworkRequestModifierProtocol? {
         nil
     }
 
-    func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol? {
+    func errorFactory(for type: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol? {
         nil
     }
 }

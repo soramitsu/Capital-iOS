@@ -171,10 +171,12 @@ class AccountListTests: NetworkBaseTests {
     private func createPresenter(from view: AccountListViewProtocol,
                                  coordinator: AccountListCoordinatorProtocol,
                                  resolver: ResolverProtocol,
-                                 networkResolver: WalletNetworkResolverProtocol,
+                                 networkResolver: MiddlewareNetworkResolverProtocol,
                                  eventCenter: WalletEventCenterProtocol) throws -> AccountListPresenter {
 
+        let operationSettings = try createRandomOperationSettings()
         let networkOperationFactory = MiddlewareOperationFactory(accountSettings: resolver.account,
+                                                                 operationSettings: operationSettings,
                                                                  networkResolver: networkResolver)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,

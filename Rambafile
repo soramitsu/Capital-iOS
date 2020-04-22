@@ -10,10 +10,10 @@ xcodeproj_path: _Pods.xcodeproj
 project_target: CommonWallet
 
 # The file path for new modules
-project_file_path: CommonWallet/Classes/Modules/
+project_file_path: CommonWallet/Core/Classes/Modules/
 
 # The Xcode group path to new modules
-project_group_path: CommonWallet/Classes/Modules/
+project_group_path: CommonWallet/Core/Classes/Modules/
 
 ### Tests generation settings section
 # The tests target name

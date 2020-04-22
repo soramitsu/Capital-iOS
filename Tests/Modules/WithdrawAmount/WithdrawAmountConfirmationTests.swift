@@ -5,7 +5,6 @@
 
 import XCTest
 @testable import CommonWallet
-import IrohaCommunication
 import Cuckoo
 import SoraFoundation
 
@@ -138,7 +137,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
     // MARK: Private
 
-    private func performConfirmationTest(for networkResolver: WalletNetworkResolverProtocol,
+    private func performConfirmationTest(for networkResolver: MiddlewareNetworkResolverProtocol,
                                          transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
                                          inputAmount: String,
                                          inputDescription: String,
@@ -150,8 +149,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
         do {
             // given
 
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
-            let walletAsset = WalletAsset(identifier: assetId,
+            let walletAsset = WalletAsset(identifier: Constants.soraAssetId,
                                           symbol: "A",
                                           details: LocalizableResource { _ in UUID().uuidString },
                                           precision: 2)
@@ -165,7 +163,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             let cacheFacade = CoreDataTestCacheFacade()
 
+            let operationSettings = try createRandomOperationSettings()
+
             let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     operationSettings: operationSettings,
                                                                      networkResolver: networkResolver)
 
             let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,

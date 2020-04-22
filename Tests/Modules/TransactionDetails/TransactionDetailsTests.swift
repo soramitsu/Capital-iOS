@@ -6,7 +6,6 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
-import IrohaCommunication
 import SoraFoundation
 
 
@@ -42,8 +41,7 @@ class TransactionDetailsTests: XCTestCase {
             }
 
             let transactionData = try createRandomAssetTransactionData()
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: transactionData.assetId)
-            let asset = WalletAsset(identifier: assetId,
+            let asset = WalletAsset(identifier: transactionData.assetId,
                                     symbol: "$",
                                     details: LocalizableResource { _  in "Dollar" },
                                     precision: 2)

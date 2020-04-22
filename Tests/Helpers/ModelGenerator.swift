@@ -5,7 +5,6 @@
 
 import Foundation
 @testable import CommonWallet
-import IrohaCommunication
 import SoraFoundation
 
 enum BytesGeneratorError: Error {
@@ -35,12 +34,12 @@ func createRandomTransactionHash() throws -> Data {
 }
 
 func createRandomTransferInfo() throws -> TransferInfo {
-    let source = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
-    let destination = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
+    let source = try createRandomAccountId()
+    let destination = try createRandomAccountId()
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
-    let asset = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+    let asset = try createRandomAssetId()
     let details = UUID().uuidString
-    let feeAccountId: IRAccountId = try IRAccountIdFactory.account(withIdentifier: createRandomAccountId())
+    let feeAccountId = try createRandomAccountId()
     let fee = AmountDecimal(value: Decimal(UInt.random(in: 1...10000)))
 
     return TransferInfo(source: source,
@@ -53,11 +52,11 @@ func createRandomTransferInfo() throws -> TransferInfo {
 }
 
 func createRandomWithdrawInfo() throws -> WithdrawInfo {
-    let destinationAccount = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
-    let feeAccount = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
+    let destinationAccount = try createRandomAccountId()
+    let feeAccount = try createRandomAccountId()
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
     let fee = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
-    let asset = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+    let asset = try createRandomAssetId()
     let details = UUID().uuidString
 
     return WithdrawInfo(destinationAccountId: destinationAccount,
@@ -69,9 +68,9 @@ func createRandomWithdrawInfo() throws -> WithdrawInfo {
 }
 
 func createRandomReceiveInfo() throws -> ReceiveInfo {
-    let accountId = try IRAccountIdFactory.account(withIdentifier: try createRandomAccountId())
+    let accountId = try createRandomAccountId()
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
-    let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+    let assetId = try createRandomAssetId()
     let details = UUID().uuidString
 
     return ReceiveInfo(accountId: accountId,
@@ -121,7 +120,7 @@ func createRandomTransferMetadataInfo() throws -> TransferMetadataInfo {
     let sender = try createRandomAccountId()
     let receiver = try createRandomAccountId()
 
-    return TransferMetadataInfo(assetId: try IRAssetIdFactory.asset(withIdentifier: assetId),
-                                sender: try IRAccountIdFactory.account(withIdentifier: sender),
-                                receiver: try IRAccountIdFactory.account(withIdentifier: receiver))
+    return TransferMetadataInfo(assetId: assetId,
+                                sender: sender,
+                                receiver: receiver)
 }

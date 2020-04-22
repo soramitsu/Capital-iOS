@@ -7,8 +7,8 @@ import Foundation
 @testable import CommonWallet
 import RobinHood
 
-struct MockNetworkResolver: WalletNetworkResolverProtocol {
-    func urlTemplate(for type: WalletRequestType) -> String {
+struct MockNetworkResolver: MiddlewareNetworkResolverProtocol {
+    func urlTemplate(for type:MiddlewareRequestType) -> String {
         switch type {
         case .balance:
             return Constants.balanceUrlTemplate
@@ -29,11 +29,11 @@ struct MockNetworkResolver: WalletNetworkResolverProtocol {
         }
     }
 
-    func adapter(for type: WalletRequestType) -> NetworkRequestModifierProtocol? {
+    func adapter(for type: MiddlewareRequestType) -> NetworkRequestModifierProtocol? {
         nil
     }
 
-    func errorFactory(for type: WalletRequestType) -> WalletNetworkErrorFactoryProtocol? {
+    func errorFactory(for type: MiddlewareRequestType) -> MiddlewareNetworkErrorFactoryProtocol? {
         nil
     }
 }

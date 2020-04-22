@@ -6,7 +6,6 @@
 import XCTest
 @testable import CommonWallet
 import Cuckoo
-import IrohaCommunication
 import SoraFoundation
 import AVFoundation
 import RobinHood
@@ -14,9 +13,11 @@ import RobinHood
 class InvoiceScanTests: NetworkBaseTests {
 
     func testSuccessfullProcessing() throws {
-        let accountId = try IRAccountIdFactory.account(withIdentifier: Constants.invoiceAccountId)
-        let assetId = try IRAssetIdFactory.asset(withIdentifier: Constants.soraAssetId)
-        let receiverInfo = ReceiveInfo(accountId: accountId, assetId: assetId, amount: nil, details: nil)
+        let receiverInfo = ReceiveInfo(accountId: Constants.invoiceAccountId,
+                                       assetId: Constants.soraAssetId,
+                                       amount: nil,
+                                       details: nil)
+
         let receiverData = try JSONEncoder().encode(receiverInfo)
         let receiverDataString = String(data: receiverData, encoding: .utf8)!
 
@@ -62,7 +63,7 @@ class InvoiceScanTests: NetworkBaseTests {
     // MARK: Private
 
     private func performProcessingTest(for code: String,
-                                       networkResolver: WalletNetworkResolverProtocol,
+                                       networkResolver: MiddlewareNetworkResolverProtocol,
                                        shouldMatch: Bool,
                                        networkMock: SearchMock,
                                        expectsSuccess: Bool) {
@@ -70,7 +71,9 @@ class InvoiceScanTests: NetworkBaseTests {
             // given
 
             let accountSettings = try createRandomAccountSettings(for: 1)
+            let operationSettings = try createRandomOperationSettings()
             let networkOperationFactory = MiddlewareOperationFactory(accountSettings: accountSettings,
+                                                                     operationSettings: operationSettings,
                                                                      networkResolver: networkResolver)
             let networkService = WalletService(operationFactory: networkOperationFactory)
 

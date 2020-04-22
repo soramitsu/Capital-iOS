@@ -5,8 +5,8 @@
 
 import UIKit
 import CommonWallet
-import IrohaCommunication
 import SoraFoundation
+import IrohaCrypto
 
 final class CommandDecoratorDemo: DemoFactoryProtocol {
     var title: String {
@@ -16,23 +16,26 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
     var completionBlock: DemoCompletionBlock?
 
     func setupDemo(with completionBlock: @escaping DemoCompletionBlock) throws -> UIViewController {
-        let accountId = try IRAccountIdFactory.account(withIdentifier: "julio@demo")
+        let accountId = "julio@demo"
         let assets = try createAssets()
 
         let keypair = try IRIrohaKeyFactory().createRandomKeypair()
 
         let signer = IRIrohaSigner(privateKey: keypair.privateKey())
 
-        var account = WalletAccountSettings(accountId: accountId,
-                                            assets: assets,
-                                            signer: signer,
-                                            publicKey: keypair.publicKey())
+        var account = WalletAccountSettings(accountId: accountId, assets: assets)
         account.withdrawOptions = createWithdrawOptions()
 
         let networkResolver = DemoNetworkResolver()
 
+        let operationSettings = MiddlewareOperationSettings(signer: signer, publicKey: keypair.publicKey())
+
+        let networkFactory = MiddlewareOperationFactory(accountSettings: account,
+                                                        operationSettings: operationSettings,
+                                                        networkResolver: networkResolver)
+
         let walletBuilder =  CommonWalletBuilder
-            .builder(with: account, networkResolver: networkResolver)
+            .builder(with: account, networkOperationFactory: networkFactory)
             .with(commandDecoratorFactory: DialogCommandDecoratorFactory())
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
@@ -83,25 +86,25 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
     }
 
     func createAssets() throws -> [WalletAsset] {
-        let soraAssetId = try IRAssetIdFactory.asset(withIdentifier: "sora#demo")
+        let soraAssetId = "sora#demo"
         let soraAsset = WalletAsset(identifier: soraAssetId,
                                     symbol: "ラ",
                                     details: LocalizableResource { _ in "Sora economy" },
                                     precision: 2)
 
-        let d3AssetId = try IRAssetIdFactory.asset(withIdentifier: "d3#demo")
+        let d3AssetId = "d3#demo"
         let d3Asset = WalletAsset(identifier: d3AssetId,
                                   symbol: "元",
                                   details: LocalizableResource { _ in "Digital identity" },
                                   precision: 2)
 
-        let vinceraAssetId = try IRAssetIdFactory.asset(withIdentifier: "vincera#demo")
+        let vinceraAssetId = "vincera#demo"
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
                                        symbol: "る",
                                        details: LocalizableResource { _ in "Pay for vine" },
                                        precision: 2)
 
-        let moneaAssetId = try IRAssetIdFactory.asset(withIdentifier: "monea#demo")
+        let moneaAssetId = "monea#demo"
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
                                      symbol: "金",
                                      details: LocalizableResource { _ in "Fast money transfer" },

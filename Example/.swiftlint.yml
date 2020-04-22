@@ -11,3 +11,4 @@ disabled_rules:
   - opening_brace
   - trailing_comma
   - vertical_whitespace
+  - orphaned_doc_comment

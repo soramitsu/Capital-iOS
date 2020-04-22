@@ -5,7 +5,6 @@
 
 import XCTest
 @testable import CommonWallet
-import IrohaCommunication
 
 class FeeCalculationTests: XCTestCase {
 
@@ -244,7 +243,7 @@ class FeeCalculationTests: XCTestCase {
         do {
             let feeFactory = FeeCalculationFactory()
 
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+            let assetId = try createRandomAssetId()
 
             _ = try feeFactory.createTransferFeeStrategy(for: FeeType.fixed.rawValue,
                                                          assetId: assetId,
@@ -262,7 +261,7 @@ class FeeCalculationTests: XCTestCase {
         do {
             let feeFactory = FeeCalculationFactory()
 
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+            let assetId = try createRandomAssetId()
             let option = createRandomWithdrawOption()
 
             _ = try feeFactory.createWithdrawFeeStrategy(for: FeeType.fixed.rawValue,
@@ -288,7 +287,7 @@ class FeeCalculationTests: XCTestCase {
         do {
             let feeFactory = FeeCalculationFactory()
 
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+            let assetId = try createRandomAssetId()
 
             for (index, parameter) in parameters.enumerated() {
                 let strategy = try feeFactory.createTransferFeeStrategy(for: type,
@@ -315,7 +314,7 @@ class FeeCalculationTests: XCTestCase {
         do {
             let feeFactory = FeeCalculationFactory()
 
-            let assetId = try IRAssetIdFactory.asset(withIdentifier: createRandomAssetId())
+            let assetId = try createRandomAssetId()
             let option = createRandomWithdrawOption()
 
             for (index, parameter) in parameters.enumerated() {
