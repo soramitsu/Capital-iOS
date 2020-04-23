@@ -174,7 +174,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard section == 0 else {
+        guard !contactsViewModel.actions.isEmpty, section == 0 else {
             return nil
         }
 
@@ -186,7 +186,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        guard section == 0 else {
+        guard !contactsViewModel.actions.isEmpty, section == 0 else {
             return 0.0
         }
 
@@ -254,9 +254,15 @@ extension ContactsViewController: ContactsViewProtocol {
 
         switch barViewModel.displayType {
         case .icon(let image):
-            barButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(actionRightBarButtonItem))
+            barButtonItem = UIBarButtonItem(image: image,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(actionRightBarButtonItem))
         case .title(let title):
-            barButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(actionRightBarButtonItem))
+            barButtonItem = UIBarButtonItem(title: title,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(actionRightBarButtonItem))
         }
 
         navigationItem.rightBarButtonItem = barButtonItem

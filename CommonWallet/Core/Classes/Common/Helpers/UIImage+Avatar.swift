@@ -21,11 +21,18 @@ extension UIImage {
                             radius: radius,
                             fillColor: style.background,
                             textFont: style.title.font,
-                            textColor: style.title.color)
+                            textColor: style.title.color,
+                            strokeColor: style.stroke?.color,
+                            strokeWidth: style.stroke?.lineWidth ?? 0.0)
     }
 
-    static func createAvatar(symbols: String, radius: CGFloat, fillColor: UIColor,
-                             textFont: UIFont, textColor: UIColor) -> UIImage? {
+    static func createAvatar(symbols: String,
+                             radius: CGFloat,
+                             fillColor: UIColor,
+                             textFont: UIFont,
+                             textColor: UIColor,
+                             strokeColor: UIColor? = nil,
+                             strokeWidth: CGFloat = 0.0) -> UIImage? {
         let size = CGSize(width: 2.0 * radius, height: 2.0 * radius)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
 
@@ -42,6 +49,19 @@ extension UIImage {
                                       clockwise: true)
 
         bezierPath.fill()
+
+        if let strokeColor = strokeColor, strokeWidth > 0.0 {
+            context.setStrokeColor(strokeColor.cgColor)
+            context.setLineWidth(strokeWidth)
+
+            let strokePath = UIBezierPath(arcCenter: CGPoint(x: radius, y: radius),
+                                          radius: radius - strokeWidth / 2.0,
+                                          startAngle: 0.0,
+                                          endAngle: 2.0 * CGFloat.pi,
+                                          clockwise: true)
+
+            strokePath.stroke()
+        }
 
         let attributes: [NSAttributedString.Key: Any] = [.font: textFont, .foregroundColor: textColor]
 

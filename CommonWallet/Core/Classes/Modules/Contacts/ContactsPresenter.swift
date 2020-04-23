@@ -71,7 +71,8 @@ final class ContactsPresenter: NSObject {
     }
 
     private func provideBarActionViewModel() {
-        if let viewModel = actionViewModelFactory.createBarActionForAccountId(currentAccountId, assetId: selectedAsset.identifier) {
+        if let viewModel = actionViewModelFactory
+            .createBarActionForAccountId(currentAccountId, assetId: selectedAsset.identifier) {
             view?.set(barViewModel: viewModel)
         }
     }

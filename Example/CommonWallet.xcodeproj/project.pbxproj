@@ -17,6 +17,7 @@
 		841550E2228D50DA001F18A7 /* transferFailResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 841550E1228D50DA001F18A7 /* transferFailResponse.json */; };
 		841550E5228D7751001F18A7 /* DescriptionInputViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */; };
 		84156227245214BA002400F2 /* ContactsActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84156226245214B9002400F2 /* ContactsActionTests.swift */; };
+		8415622A245219BF002400F2 /* SidechainDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84156229245219BF002400F2 /* SidechainDemo.swift */; };
 		8416973E225F278F0015E549 /* StyleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416973D225F278F0015E549 /* StyleBuilderTests.swift */; };
 		8418C5702330049700E92394 /* TransferMetadataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */; };
 		8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
@@ -169,6 +170,7 @@
 		841550E1228D50DA001F18A7 /* transferFailResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferFailResponse.json; sourceTree = "<group>"; };
 		841550E4228D7751001F18A7 /* DescriptionInputViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionInputViewModelTests.swift; sourceTree = "<group>"; };
 		84156226245214B9002400F2 /* ContactsActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsActionTests.swift; sourceTree = "<group>"; };
+		84156229245219BF002400F2 /* SidechainDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainDemo.swift; sourceTree = "<group>"; };
 		8416973D225F278F0015E549 /* StyleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuilderTests.swift; sourceTree = "<group>"; };
 		8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMetadataServiceTests.swift; sourceTree = "<group>"; };
 		8418C5712330052200E92394 /* transferMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataResponse.json; sourceTree = "<group>"; };
@@ -388,6 +390,14 @@
 				847527372360790E0028D871 /* AmountInputViewModelTests.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		841562282452199D002400F2 /* Sidechain */ = {
+			isa = PBXGroup;
+			children = (
+				84156229245219BF002400F2 /* SidechainDemo.swift */,
+			);
+			path = Sidechain;
 			sourceTree = "<group>";
 		};
 		8416973C225F276E0015E549 /* StyleBuilder */ = {
@@ -661,6 +671,7 @@
 		84C180572253ACF400F19858 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				841562282452199D002400F2 /* Sidechain */,
 				8B42312623AA3D9400B106AF /* Localized */,
 				84D8D9A822F730CF00C9B9C7 /* CommandDecorator */,
 				84D8D9A722F730BF00C9B9C7 /* Default */,
@@ -1161,6 +1172,7 @@
 				84D8D9A622F72C8B00C9B9C7 /* CommandDecoratorDemo.swift in Sources */,
 				607FACD81AFB9204008FA782 /* DemoListViewController.swift in Sources */,
 				84C1806922551D4000F19858 /* DemoHeaderCell.swift in Sources */,
+				8415622A245219BF002400F2 /* SidechainDemo.swift in Sources */,
 				848B6EC2224D5A1100E8A3C9 /* NetworkMockManager.swift in Sources */,
 				848B6EC0224D5A1100E8A3C9 /* BaseServiceMock.swift in Sources */,
 				84C1805B2253AD8600F19858 /* DefaultDemo.swift in Sources */,

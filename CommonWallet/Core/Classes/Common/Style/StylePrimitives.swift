@@ -36,6 +36,7 @@ public protocol WalletRoundedButtonStyleProtocol {
 
 public protocol WalletNameIconStyleProtocol {
     var background: UIColor { get }
+    var stroke: WalletStrokeStyleProtocol? { get }
     var title: WalletTextStyleProtocol { get }
 }
 
@@ -134,10 +135,12 @@ public struct WalletRoundedButtonStyle: WalletRoundedButtonStyleProtocol {
 public struct WalletNameIconStyle: WalletNameIconStyleProtocol {
     public var background: UIColor
     public var title: WalletTextStyleProtocol
+    public var stroke: WalletStrokeStyleProtocol?
 
-    public init(background: UIColor, title: WalletTextStyleProtocol) {
+    public init(background: UIColor, title: WalletTextStyleProtocol, stroke: WalletStrokeStyleProtocol? = nil) {
         self.background = background
         self.title = title
+        self.stroke = stroke
     }
 }
 
