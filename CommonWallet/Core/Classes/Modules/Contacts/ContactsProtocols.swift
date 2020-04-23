@@ -5,7 +5,8 @@
 
 protocol ContactsViewProtocol: ControllerBackedProtocol, AlertPresentable {
     
-    func set(viewModel: ContactListViewModelProtocol)
+    func set(listViewModel: ContactListViewModelProtocol)
+    func set(barViewModel: WalletBarActionViewModelProtocol)
     func didStartSearch()
     func didStopSearch()
 }

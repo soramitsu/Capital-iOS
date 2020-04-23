@@ -3592,16 +3592,31 @@ import Cuckoo
     
     
     
-     func set(viewModel: ContactListViewModelProtocol)  {
+     func set(listViewModel: ContactListViewModelProtocol)  {
         
-    return cuckoo_manager.call("set(viewModel: ContactListViewModelProtocol)",
-            parameters: (viewModel),
-            escapingParameters: (viewModel),
+    return cuckoo_manager.call("set(listViewModel: ContactListViewModelProtocol)",
+            parameters: (listViewModel),
+            escapingParameters: (listViewModel),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.set(viewModel: viewModel))
+            defaultCall: __defaultImplStub!.set(listViewModel: listViewModel))
+        
+    }
+    
+    
+    
+     func set(barViewModel: WalletBarActionViewModelProtocol)  {
+        
+    return cuckoo_manager.call("set(barViewModel: WalletBarActionViewModelProtocol)",
+            parameters: (barViewModel),
+            escapingParameters: (barViewModel),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.set(barViewModel: barViewModel))
         
     }
     
@@ -3669,9 +3684,14 @@ import Cuckoo
 	    }
 	    
 	    
-	    func set<M1: Cuckoo.Matchable>(viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ContactListViewModelProtocol)> where M1.MatchedType == ContactListViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(ContactListViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockContactsViewProtocol.self, method: "set(viewModel: ContactListViewModelProtocol)", parameterMatchers: matchers))
+	    func set<M1: Cuckoo.Matchable>(listViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ContactListViewModelProtocol)> where M1.MatchedType == ContactListViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(ContactListViewModelProtocol)>] = [wrap(matchable: listViewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactsViewProtocol.self, method: "set(listViewModel: ContactListViewModelProtocol)", parameterMatchers: matchers))
+	    }
+	    
+	    func set<M1: Cuckoo.Matchable>(barViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletBarActionViewModelProtocol)> where M1.MatchedType == WalletBarActionViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletBarActionViewModelProtocol)>] = [wrap(matchable: barViewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactsViewProtocol.self, method: "set(barViewModel: WalletBarActionViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
 	    func didStartSearch() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
@@ -3716,9 +3736,15 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func set<M1: Cuckoo.Matchable>(viewModel: M1) -> Cuckoo.__DoNotUse<(ContactListViewModelProtocol), Void> where M1.MatchedType == ContactListViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(ContactListViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("set(viewModel: ContactListViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func set<M1: Cuckoo.Matchable>(listViewModel: M1) -> Cuckoo.__DoNotUse<(ContactListViewModelProtocol), Void> where M1.MatchedType == ContactListViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(ContactListViewModelProtocol)>] = [wrap(matchable: listViewModel) { $0 }]
+	        return cuckoo_manager.verify("set(listViewModel: ContactListViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func set<M1: Cuckoo.Matchable>(barViewModel: M1) -> Cuckoo.__DoNotUse<(WalletBarActionViewModelProtocol), Void> where M1.MatchedType == WalletBarActionViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletBarActionViewModelProtocol)>] = [wrap(matchable: barViewModel) { $0 }]
+	        return cuckoo_manager.verify("set(barViewModel: WalletBarActionViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -3764,7 +3790,11 @@ import Cuckoo
     
 
     
-     func set(viewModel: ContactListViewModelProtocol)   {
+     func set(listViewModel: ContactListViewModelProtocol)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+     func set(barViewModel: WalletBarActionViewModelProtocol)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     

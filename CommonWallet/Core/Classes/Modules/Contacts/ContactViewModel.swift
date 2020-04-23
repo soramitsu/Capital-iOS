@@ -7,9 +7,6 @@ import Foundation
 import Contacts
 
 
-typealias ContactViewModelFactory = (SearchData, ContactViewModelDelegate?) -> ContactViewModelProtocol
-
-
 public protocol ContactViewModelDelegate: class {
     
     func didSelect(contact: ContactViewModelProtocol)

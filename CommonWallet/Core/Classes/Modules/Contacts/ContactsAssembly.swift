@@ -28,13 +28,25 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
         
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
-        let viewModelFactory = ContactsViewModelFactory(commandFactory: resolver.commandFactory,
+        let viewModelFactory: ContactsViewModelFactoryProtocol
+
+        if let customViewModelFactory = config.viewModelFactoryWrapper {
+            let defaultFactory = ContactsViewModelFactory(commandFactory: resolver.commandFactory,
+                                                          avatarRadius: ContactCell.avatarRadius,
+                                                          nameIconStyle: config.cellStyle.contactStyle.nameIcon)
+            viewModelFactory = ContactsFactoryWrapper(customFactory: customViewModelFactory,
+                                                      defaultFactory: defaultFactory)
+        } else {
+            viewModelFactory = ContactsViewModelFactory(commandFactory: resolver.commandFactory,
                                                         avatarRadius: ContactCell.avatarRadius,
                                                         nameIconStyle: config.cellStyle.contactStyle.nameIcon)
+        }
+
+        let withdrawOptions = config.withdrawOptionsPosition == .tableAction ? resolver.account.withdrawOptions : []
 
         let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
-                                                                    shouldIncludeScan: true,
-                                                                    withdrawOptions: resolver.account.withdrawOptions)
+                                                                    scanPosition: config.scanPosition,
+                                                                    withdrawOptions: withdrawOptions)
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,

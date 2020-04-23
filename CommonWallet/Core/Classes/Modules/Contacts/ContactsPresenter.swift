@@ -64,10 +64,16 @@ final class ContactsPresenter: NSObject {
     }
 
     private func setupViewModelActions() {
-        let actions = actionViewModelFactory.createViewModelsForAccountId(currentAccountId,
+        let actions = actionViewModelFactory.createOptionListForAccountId(currentAccountId,
                                                                           assetId: selectedAsset.identifier)
 
         viewModel.actions = actions
+    }
+
+    private func provideBarActionViewModel() {
+        if let viewModel = actionViewModelFactory.createBarActionForAccountId(currentAccountId, assetId: selectedAsset.identifier) {
+            view?.set(barViewModel: viewModel)
+        }
     }
 
     private func setupDataProvider() {
@@ -100,7 +106,10 @@ final class ContactsPresenter: NSObject {
             viewModel.contacts = contacts.filter {
                 $0.accountId != currentAccountId
             }.map {
-                viewModelFactory.createContactViewModel(from: $0, delegate: self)
+                viewModelFactory.createContactViewModelFromContact($0,
+                                                                   accountId: currentAccountId,
+                                                                   assetId: selectedAsset.identifier,
+                                                                   delegate: self)
             }
         }
 
@@ -123,7 +132,10 @@ final class ContactsPresenter: NSObject {
         viewModel.found = foundData.filter {
             $0.accountId != currentAccountId
         }.map {
-            viewModelFactory.createContactViewModel(from: $0, delegate: self)
+            viewModelFactory.createContactViewModelFromContact($0,
+                                                               accountId: currentAccountId,
+                                                               assetId: selectedAsset.identifier,
+                                                               delegate: self)
         }
 
         switchViewModel(to: .search)
@@ -139,7 +151,7 @@ final class ContactsPresenter: NSObject {
             viewModel.shouldDisplayEmptyState = contactsLoadingState == .refreshed
         }
 
-        view?.set(viewModel: viewModel)
+        view?.set(listViewModel: viewModel)
     }
     
     private func cancelSearch() {
@@ -216,7 +228,9 @@ extension ContactsPresenter: ContactsPresenterProtocol {
     
     func setup() {
         setupViewModelActions()
-        view?.set(viewModel: viewModel)
+        view?.set(listViewModel: viewModel)
+
+        provideBarActionViewModel()
         
         setupDataProvider()
     }
@@ -257,7 +271,9 @@ extension ContactsPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
             setupViewModelActions()
-            view?.set(viewModel: viewModel)
+            view?.set(listViewModel: viewModel)
+
+            provideBarActionViewModel()
         }
     }
 }

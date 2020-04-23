@@ -8,7 +8,10 @@ import SoraUI
 import SoraFoundation
 
 public protocol ContactsModuleBuilderProtocol: class {
-    
+
+    @discardableResult
+    func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self
+
     @discardableResult
     func with(contactCellStyle: ContactCellStyleProtocol) -> Self
 
@@ -38,4 +41,10 @@ public protocol ContactsModuleBuilderProtocol: class {
 
     @discardableResult
     func with(supportsLiveSearch: Bool) -> Self
+
+    @discardableResult
+    func with(scanPosition: WalletContactsScanPosition) -> Self
+
+    @discardableResult
+    func with(withdrawOptionsPosition: WalletContactsWithdrawPosition) -> Self
 }

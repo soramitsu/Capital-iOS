@@ -42,6 +42,12 @@ final class ContactsModuleBuilder {
     fileprivate var searchPlaceholder: LocalizableResource<String> = LocalizableResource { _ in L10n.Common.search }
 
     fileprivate var supportsLiveSearch: Bool = false
+
+    fileprivate var scanPosition: WalletContactsScanPosition = .tableAction
+
+    fileprivate var withdrawOptionsPosition: WalletContactsWithdrawPosition = .tableAction
+
+    fileprivate var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
     
     func build() -> ContactsConfigurationProtocol {
         let cellStyle = ContactsCellStyle(contactStyle: contactStyle, sendOptionStyle: sendOptionStyle)
@@ -53,6 +59,8 @@ final class ContactsModuleBuilder {
                                      contactsEmptyStateDelegate: contactsEmptyStateDelegate,
                                      searchEmptyStateDataSource: searchEmptyStateDataSource,
                                      searchEmptyStateDelegate: searchEmptyStateDelegate,
+                                     scanPosition: scanPosition,
+                                     withdrawOptionsPosition: withdrawOptionsPosition,
                                      supportsLiveSearch: supportsLiveSearch)
     }
     
@@ -60,13 +68,17 @@ final class ContactsModuleBuilder {
 
 
 extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
-    
+
+    func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self {
+        self.viewModelFactoryWrapper = viewModelFactoryWrapper
+        return self
+    }
+
     func with(contactCellStyle: ContactCellStyleProtocol) -> Self {
         self.contactStyle = contactCellStyle
         return self
     }
 
-    @discardableResult
     func with(sendOptionCellStyle: SendOptionCellStyleProtocol) -> Self {
         self.sendOptionStyle = sendOptionStyle
         return self
@@ -107,7 +119,16 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
         return self
     }
 
-    @discardableResult
+    func with(scanPosition: WalletContactsScanPosition) -> Self {
+        self.scanPosition = scanPosition
+        return self
+    }
+
+    func with(withdrawOptionsPosition: WalletContactsWithdrawPosition) -> Self {
+        self.withdrawOptionsPosition = withdrawOptionsPosition
+        return self
+    }
+
     func with(supportsLiveSearch: Bool) -> Self {
         self.supportsLiveSearch = supportsLiveSearch
         return self

@@ -36,6 +36,8 @@ final class ContactsViewController: UIViewController {
         }
     }
 
+    private var barViewModel: WalletBarActionViewModelProtocol?
+
     private var configurationDelegate: EmptyStateDelegate? {
         switch contactsViewModel.state {
         case .full:
@@ -107,6 +109,11 @@ final class ContactsViewController: UIViewController {
         }
     }
 
+    // MARK: Action
+
+    @objc private func actionRightBarButtonItem() {
+        try? barViewModel?.command.execute()
+    }
 }
 
 
@@ -235,9 +242,24 @@ extension ContactsViewController: UITextFieldDelegate {
 
 extension ContactsViewController: ContactsViewProtocol {
 
-    func set(viewModel: ContactListViewModelProtocol) {
-        contactsViewModel = viewModel
+    func set(listViewModel: ContactListViewModelProtocol) {
+        contactsViewModel = listViewModel
         reloadEmptyState(animated: false)
+    }
+
+    func set(barViewModel: WalletBarActionViewModelProtocol) {
+        self.barViewModel = barViewModel
+
+        let barButtonItem: UIBarButtonItem
+
+        switch barViewModel.displayType {
+        case .icon(let image):
+            barButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(actionRightBarButtonItem))
+        case .title(let title):
+            barButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(actionRightBarButtonItem))
+        }
+
+        navigationItem.rightBarButtonItem = barButtonItem
     }
 
     func didStartSearch() {

@@ -26,7 +26,7 @@ class ContactsTests: NetworkBaseTests {
         let stopSearchExpectation = XCTestExpectation()
 
         stub(view) { stub in
-            when(stub).set(viewModel: any(ContactListViewModelProtocol.self)).then { _ in
+            when(stub).set(listViewModel: any(ContactListViewModelProtocol.self)).then { _ in
                 completedExpectation.fulfill()
             }
 
@@ -122,7 +122,7 @@ class ContactsTests: NetworkBaseTests {
                                                         nameIconStyle: contactsConfiguration.cellStyle.contactStyle.nameIcon)
 
         let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: commandFactory,
-                                                                    shouldIncludeScan: true,
+                                                                    scanPosition: .tableAction,
                                                                     withdrawOptions: [])
 
         let coordinator = MockContactsCoordinatorProtocol()
@@ -136,7 +136,7 @@ class ContactsTests: NetworkBaseTests {
                                   httpMethod: .get)
 
         stub(view) { stub in
-            when(stub).set(viewModel: any(ContactListViewModelProtocol.self)).then { viewModel in
+            when(stub).set(listViewModel: any(ContactListViewModelProtocol.self)).then { viewModel in
                 expectation.fulfill()
             }
 
