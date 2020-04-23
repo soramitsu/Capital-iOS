@@ -6,7 +6,8 @@
 import Foundation
 
 protocol ContactsViewModelFactoryProtocol {
-    func createContactViewModel(from contact: SearchData, delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
+    func createContactViewModel(from contact: SearchData,
+                                delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
 }
 
 
@@ -15,7 +16,9 @@ final class ContactsViewModelFactory {
     let commandFactory: WalletCommandFactoryProtocol
     let nameIconStyle: WalletNameIconStyleProtocol
 
-    init(commandFactory: WalletCommandFactoryProtocol, avatarRadius: CGFloat, nameIconStyle: WalletNameIconStyleProtocol) {
+    init(commandFactory: WalletCommandFactoryProtocol,
+         avatarRadius: CGFloat,
+         nameIconStyle: WalletNameIconStyleProtocol) {
         self.commandFactory = commandFactory
         self.avatarRadius = avatarRadius
         self.nameIconStyle = nameIconStyle
