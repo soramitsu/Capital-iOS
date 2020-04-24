@@ -51,7 +51,8 @@ final class ContactsModuleBuilder {
     
     func build() -> ContactsConfigurationProtocol {
         let cellStyle = ContactsCellStyle(contactStyle: contactStyle, sendOptionStyle: sendOptionStyle)
-        return ContactsConfiguration(cellStyle: cellStyle,
+        return ContactsConfiguration(viewModelFactoryWrapper: viewModelFactoryWrapper,
+                                     cellStyle: cellStyle,
                                      viewStyle: viewStyle,
                                      sectionStyle: sectionStyle,
                                      searchPlaceholder: searchPlaceholder,
