@@ -1939,6 +1939,168 @@ import UIKit
 import Cuckoo
 @testable import CommonWallet
 
+import Foundation
+
+
+public class MockWalletViewModelProtocol: WalletViewModelProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = WalletViewModelProtocol
+    
+    public typealias Stubbing = __StubbingProxy_WalletViewModelProtocol
+    public typealias Verification = __VerificationProxy_WalletViewModelProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletViewModelProtocol?
+
+    public func enableDefaultImplementation(_ stub: WalletViewModelProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+    public var cellReuseIdentifier: String {
+        get {
+            return cuckoo_manager.getter("cellReuseIdentifier",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.cellReuseIdentifier)
+        }
+        
+    }
+    
+    
+    
+    public var itemHeight: CGFloat {
+        get {
+            return cuckoo_manager.getter("itemHeight",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.itemHeight)
+        }
+        
+    }
+    
+    
+    
+    public var command: WalletCommandProtocol? {
+        get {
+            return cuckoo_manager.getter("command",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.command)
+        }
+        
+    }
+    
+
+    
+
+    
+
+	public struct __StubbingProxy_WalletViewModelProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var cellReuseIdentifier: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "cellReuseIdentifier")
+	    }
+	    
+	    
+	    var itemHeight: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletViewModelProtocol, CGFloat> {
+	        return .init(manager: cuckoo_manager, name: "itemHeight")
+	    }
+	    
+	    
+	    var command: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletViewModelProtocol, WalletCommandProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "command")
+	    }
+	    
+	    
+	}
+
+	public struct __VerificationProxy_WalletViewModelProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var cellReuseIdentifier: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "cellReuseIdentifier", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var itemHeight: Cuckoo.VerifyReadOnlyProperty<CGFloat> {
+	        return .init(manager: cuckoo_manager, name: "itemHeight", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var command: Cuckoo.VerifyReadOnlyProperty<WalletCommandProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "command", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	}
+}
+
+public class WalletViewModelProtocolStub: WalletViewModelProtocol {
+    
+    
+    public var cellReuseIdentifier: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var itemHeight: CGFloat {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (CGFloat).self)
+        }
+        
+    }
+    
+    
+    public var command: WalletCommandProtocol? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol?).self)
+        }
+        
+    }
+    
+
+    
+
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
 
  class MockAccountListViewProtocol: AccountListViewProtocol, Cuckoo.ProtocolMock {
     
@@ -3531,6 +3693,833 @@ import Cuckoo
      func showResult(payload: TransferPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Contacts
+import Foundation
+
+
+public class MockContactViewModelDelegate: ContactViewModelDelegate, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = ContactViewModelDelegate
+    
+    public typealias Stubbing = __StubbingProxy_ContactViewModelDelegate
+    public typealias Verification = __VerificationProxy_ContactViewModelDelegate
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: ContactViewModelDelegate?
+
+    public func enableDefaultImplementation(_ stub: ContactViewModelDelegate) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func didSelect(contact: ContactViewModelProtocol)  {
+        
+    return cuckoo_manager.call("didSelect(contact: ContactViewModelProtocol)",
+            parameters: (contact),
+            escapingParameters: (contact),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.didSelect(contact: contact))
+        
+    }
+    
+
+	public struct __StubbingProxy_ContactViewModelDelegate: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func didSelect<M1: Cuckoo.Matchable>(contact: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ContactViewModelProtocol)> where M1.MatchedType == ContactViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(ContactViewModelProtocol)>] = [wrap(matchable: contact) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactViewModelDelegate.self, method: "didSelect(contact: ContactViewModelProtocol)", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_ContactViewModelDelegate: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func didSelect<M1: Cuckoo.Matchable>(contact: M1) -> Cuckoo.__DoNotUse<(ContactViewModelProtocol), Void> where M1.MatchedType == ContactViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(ContactViewModelProtocol)>] = [wrap(matchable: contact) { $0 }]
+	        return cuckoo_manager.verify("didSelect(contact: ContactViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class ContactViewModelDelegateStub: ContactViewModelDelegate {
+    
+
+    
+
+    
+    public func didSelect(contact: ContactViewModelProtocol)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+
+public class MockContactViewModelProtocol: ContactViewModelProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = ContactViewModelProtocol
+    
+    public typealias Stubbing = __StubbingProxy_ContactViewModelProtocol
+    public typealias Verification = __VerificationProxy_ContactViewModelProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: ContactViewModelProtocol?
+
+    public func enableDefaultImplementation(_ stub: ContactViewModelProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+    public var firstName: String {
+        get {
+            return cuckoo_manager.getter("firstName",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.firstName)
+        }
+        
+    }
+    
+    
+    
+    public var lastName: String {
+        get {
+            return cuckoo_manager.getter("lastName",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.lastName)
+        }
+        
+    }
+    
+    
+    
+    public var accountId: String {
+        get {
+            return cuckoo_manager.getter("accountId",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.accountId)
+        }
+        
+    }
+    
+    
+    
+    public var image: UIImage? {
+        get {
+            return cuckoo_manager.getter("image",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.image)
+        }
+        
+    }
+    
+    
+    
+    public var name: String {
+        get {
+            return cuckoo_manager.getter("name",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.name)
+        }
+        
+    }
+    
+    
+    
+    public var cellReuseIdentifier: String {
+        get {
+            return cuckoo_manager.getter("cellReuseIdentifier",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.cellReuseIdentifier)
+        }
+        
+    }
+    
+    
+    
+    public var itemHeight: CGFloat {
+        get {
+            return cuckoo_manager.getter("itemHeight",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.itemHeight)
+        }
+        
+    }
+    
+    
+    
+    public var command: WalletCommandProtocol? {
+        get {
+            return cuckoo_manager.getter("command",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.command)
+        }
+        
+    }
+    
+
+    
+
+    
+
+	public struct __StubbingProxy_ContactViewModelProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var firstName: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "firstName")
+	    }
+	    
+	    
+	    var lastName: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "lastName")
+	    }
+	    
+	    
+	    var accountId: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "accountId")
+	    }
+	    
+	    
+	    var image: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, UIImage?> {
+	        return .init(manager: cuckoo_manager, name: "image")
+	    }
+	    
+	    
+	    var name: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "name")
+	    }
+	    
+	    
+	    var cellReuseIdentifier: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "cellReuseIdentifier")
+	    }
+	    
+	    
+	    var itemHeight: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, CGFloat> {
+	        return .init(manager: cuckoo_manager, name: "itemHeight")
+	    }
+	    
+	    
+	    var command: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactViewModelProtocol, WalletCommandProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "command")
+	    }
+	    
+	    
+	}
+
+	public struct __VerificationProxy_ContactViewModelProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var firstName: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "firstName", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var lastName: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "lastName", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var accountId: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "accountId", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var image: Cuckoo.VerifyReadOnlyProperty<UIImage?> {
+	        return .init(manager: cuckoo_manager, name: "image", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var name: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "name", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var cellReuseIdentifier: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "cellReuseIdentifier", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var itemHeight: Cuckoo.VerifyReadOnlyProperty<CGFloat> {
+	        return .init(manager: cuckoo_manager, name: "itemHeight", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var command: Cuckoo.VerifyReadOnlyProperty<WalletCommandProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "command", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	}
+}
+
+public class ContactViewModelProtocolStub: ContactViewModelProtocol {
+    
+    
+    public var firstName: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var lastName: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var accountId: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var image: UIImage? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (UIImage?).self)
+        }
+        
+    }
+    
+    
+    public var name: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var cellReuseIdentifier: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var itemHeight: CGFloat {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (CGFloat).self)
+        }
+        
+    }
+    
+    
+    public var command: WalletCommandProtocol? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol?).self)
+        }
+        
+    }
+    
+
+    
+
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
+public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEngineProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = ContactsLocalSearchEngineProtocol
+    
+    public typealias Stubbing = __StubbingProxy_ContactsLocalSearchEngineProtocol
+    public typealias Verification = __VerificationProxy_ContactsLocalSearchEngineProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: ContactsLocalSearchEngineProtocol?
+
+    public func enableDefaultImplementation(_ stub: ContactsLocalSearchEngineProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func search(query: String) -> [ContactViewModelProtocol]? {
+        
+    return cuckoo_manager.call("search(query: String) -> [ContactViewModelProtocol]?",
+            parameters: (query),
+            escapingParameters: (query),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.search(query: query))
+        
+    }
+    
+
+	public struct __StubbingProxy_ContactsLocalSearchEngineProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func search<M1: Cuckoo.Matchable>(query: M1) -> Cuckoo.ProtocolStubFunction<(String), [ContactViewModelProtocol]?> where M1.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: query) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactsLocalSearchEngineProtocol.self, method: "search(query: String) -> [ContactViewModelProtocol]?", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_ContactsLocalSearchEngineProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func search<M1: Cuckoo.Matchable>(query: M1) -> Cuckoo.__DoNotUse<(String), [ContactViewModelProtocol]?> where M1.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: query) { $0 }]
+	        return cuckoo_manager.verify("search(query: String) -> [ContactViewModelProtocol]?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class ContactsLocalSearchEngineProtocolStub: ContactsLocalSearchEngineProtocol {
+    
+
+    
+
+    
+    public func search(query: String) -> [ContactViewModelProtocol]?  {
+        return DefaultValueRegistry.defaultValue(for: ([ContactViewModelProtocol]?).self)
+    }
+    
+}
+
+
+
+public class MockContactsLocalSearchResultProtocol: ContactsLocalSearchResultProtocol, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = ContactsLocalSearchResultProtocol
+    
+    public typealias Stubbing = __StubbingProxy_ContactsLocalSearchResultProtocol
+    public typealias Verification = __VerificationProxy_ContactsLocalSearchResultProtocol
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: ContactsLocalSearchResultProtocol?
+
+    public func enableDefaultImplementation(_ stub: ContactsLocalSearchResultProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+    public var firstName: String {
+        get {
+            return cuckoo_manager.getter("firstName",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.firstName)
+        }
+        
+    }
+    
+    
+    
+    public var lastName: String {
+        get {
+            return cuckoo_manager.getter("lastName",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.lastName)
+        }
+        
+    }
+    
+    
+    
+    public var accountId: String {
+        get {
+            return cuckoo_manager.getter("accountId",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.accountId)
+        }
+        
+    }
+    
+    
+    
+    public var image: UIImage? {
+        get {
+            return cuckoo_manager.getter("image",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.image)
+        }
+        
+    }
+    
+    
+    
+    public var name: String {
+        get {
+            return cuckoo_manager.getter("name",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.name)
+        }
+        
+    }
+    
+    
+    
+    public var cellReuseIdentifier: String {
+        get {
+            return cuckoo_manager.getter("cellReuseIdentifier",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.cellReuseIdentifier)
+        }
+        
+    }
+    
+    
+    
+    public var itemHeight: CGFloat {
+        get {
+            return cuckoo_manager.getter("itemHeight",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.itemHeight)
+        }
+        
+    }
+    
+    
+    
+    public var command: WalletCommandProtocol? {
+        get {
+            return cuckoo_manager.getter("command",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.command)
+        }
+        
+    }
+    
+
+    
+
+    
+
+	public struct __StubbingProxy_ContactsLocalSearchResultProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var firstName: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "firstName")
+	    }
+	    
+	    
+	    var lastName: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "lastName")
+	    }
+	    
+	    
+	    var accountId: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "accountId")
+	    }
+	    
+	    
+	    var image: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, UIImage?> {
+	        return .init(manager: cuckoo_manager, name: "image")
+	    }
+	    
+	    
+	    var name: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "name")
+	    }
+	    
+	    
+	    var cellReuseIdentifier: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "cellReuseIdentifier")
+	    }
+	    
+	    
+	    var itemHeight: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, CGFloat> {
+	        return .init(manager: cuckoo_manager, name: "itemHeight")
+	    }
+	    
+	    
+	    var command: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockContactsLocalSearchResultProtocol, WalletCommandProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "command")
+	    }
+	    
+	    
+	}
+
+	public struct __VerificationProxy_ContactsLocalSearchResultProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var firstName: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "firstName", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var lastName: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "lastName", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var accountId: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "accountId", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var image: Cuckoo.VerifyReadOnlyProperty<UIImage?> {
+	        return .init(manager: cuckoo_manager, name: "image", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var name: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "name", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var cellReuseIdentifier: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "cellReuseIdentifier", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var itemHeight: Cuckoo.VerifyReadOnlyProperty<CGFloat> {
+	        return .init(manager: cuckoo_manager, name: "itemHeight", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var command: Cuckoo.VerifyReadOnlyProperty<WalletCommandProtocol?> {
+	        return .init(manager: cuckoo_manager, name: "command", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	}
+}
+
+public class ContactsLocalSearchResultProtocolStub: ContactsLocalSearchResultProtocol {
+    
+    
+    public var firstName: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var lastName: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var accountId: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var image: UIImage? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (UIImage?).self)
+        }
+        
+    }
+    
+    
+    public var name: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var cellReuseIdentifier: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+    public var itemHeight: CGFloat {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (CGFloat).self)
+        }
+        
+    }
+    
+    
+    public var command: WalletCommandProtocol? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol?).self)
+        }
+        
+    }
+    
+
+    
+
     
 }
 
