@@ -55,7 +55,8 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
                                           viewModelFactory: viewModelFactory,
                                           actionViewModelFactory: actionViewModelFactory,
                                           selectedAsset: selectedAsset,
-                                          currentAccountId: resolver.account.accountId)
+                                          currentAccountId: resolver.account.accountId,
+                                          localSearchEngine: config.localSearchEngine)
         view.presenter = presenter
 
         view.localizationManager = resolver.localizationManager

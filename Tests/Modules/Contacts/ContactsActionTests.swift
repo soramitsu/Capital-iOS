@@ -177,7 +177,8 @@ class ContactsScanPositionTests: NetworkBaseTests {
                                           viewModelFactory: viewModelFactory,
                                           actionViewModelFactory: actionViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
-                                          currentAccountId: accountSettings.accountId)
+                                          currentAccountId: accountSettings.accountId,
+                                          localSearchEngine: nil)
 
         presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
