@@ -29,6 +29,7 @@ final class ContactsPresenter: NSObject {
     private let viewModelFactory: ContactsViewModelFactoryProtocol
     private let actionViewModelFactory: ContactsActionViewModelFactoryProtocol
     private let currentAccountId: String
+    private let localSearchEngine: ContactsLocalSearchEngineProtocol?
 
     private let selectedAsset: WalletAsset
 
@@ -52,7 +53,8 @@ final class ContactsPresenter: NSObject {
          viewModelFactory: ContactsViewModelFactoryProtocol,
          actionViewModelFactory: ContactsActionViewModelFactoryProtocol,
          selectedAsset: WalletAsset,
-         currentAccountId: String) {
+         currentAccountId: String,
+         localSearchEngine: ContactsLocalSearchEngineProtocol?) {
         self.view = view
         self.coordinator = coordinator
         self.dataProvider = dataProvider
@@ -61,6 +63,7 @@ final class ContactsPresenter: NSObject {
         self.actionViewModelFactory = actionViewModelFactory
         self.selectedAsset = selectedAsset
         self.currentAccountId = currentAccountId
+        self.localSearchEngine = localSearchEngine
     }
 
     private func setupViewModelActions() {
@@ -172,6 +175,18 @@ final class ContactsPresenter: NSObject {
     private func scheduleSearch() {
         searchOperation?.cancel()
         searchOperation = nil
+
+        if let localSearchResults = localSearchEngine?.search(query: searchPattern) {
+            if isWaitingSearch {
+                cancelSearch()
+            }
+
+            viewModel.found = localSearchResults
+
+            switchViewModel(to: .search)
+
+            return
+        }
 
         if !isWaitingSearch {
             view?.didStartSearch()

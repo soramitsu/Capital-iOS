@@ -8,7 +8,6 @@ import SoraUI
 import SoraFoundation
 
 protocol ContactsConfigurationProtocol {
-    var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol? { get }
     var cellStyle: ContactsCellStyle { get }
     var viewStyle: ContactsViewStyleProtocol { get }
     var sectionStyle: WalletTextStyleProtocol { get }
@@ -20,11 +19,12 @@ protocol ContactsConfigurationProtocol {
     var scanPosition: WalletContactsScanPosition { get }
     var withdrawOptionsPosition: WalletContactsWithdrawPosition { get }
     var supportsLiveSearch: Bool { get }
+    var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol? { get }
+    var localSearchEngine: ContactsLocalSearchEngineProtocol? { get }
 }
 
 
 struct ContactsConfiguration: ContactsConfigurationProtocol {
-    var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
     var cellStyle: ContactsCellStyle
     var viewStyle: ContactsViewStyleProtocol
     var sectionStyle: WalletTextStyleProtocol
@@ -36,4 +36,6 @@ struct ContactsConfiguration: ContactsConfigurationProtocol {
     var scanPosition: WalletContactsScanPosition
     var withdrawOptionsPosition: WalletContactsWithdrawPosition
     var supportsLiveSearch: Bool
+    var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
+    var localSearchEngine: ContactsLocalSearchEngineProtocol?
 }
