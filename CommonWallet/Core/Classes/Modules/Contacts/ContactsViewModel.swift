@@ -59,7 +59,7 @@ struct ContactListViewModel: ContactListViewModelProtocol {
     }
     
     var sectionCount: Int {
-        return ContactListSection.allCases.count
+        !actions.isEmpty ? 2 : 1
     }
     
     init() {
@@ -69,9 +69,12 @@ struct ContactListViewModel: ContactListViewModelProtocol {
     }
     
     func itemsCount(for section: Int) -> Int {
-        guard let section = ContactListSection(rawValue: section) else {
+        let mappedSection = !actions.isEmpty ? section : section + 1
+
+        guard let section = ContactListSection(rawValue: mappedSection) else {
             return 0
         }
+
         switch section {
         case .actions:
             return actions.count
@@ -84,9 +87,12 @@ struct ContactListViewModel: ContactListViewModelProtocol {
     }
     
     func title(for section: Int) -> String? {
-        guard let section = ContactListSection(rawValue: section) else {
+        let mappedSection = !actions.isEmpty ? section : section + 1
+
+        guard let section = ContactListSection(rawValue: mappedSection) else {
             return nil
         }
+
         switch section {
         case .actions:
             return nil
@@ -99,7 +105,9 @@ struct ContactListViewModel: ContactListViewModelProtocol {
     }
     
     subscript(indexPath: IndexPath) -> WalletViewModelProtocol? {
-        guard let section = ContactListSection(rawValue: indexPath.section) else {
+        let mappedSection = !actions.isEmpty ? indexPath.section : indexPath.section + 1
+
+        guard let section = ContactListSection(rawValue: mappedSection) else {
             return nil
         }
         

@@ -6,7 +6,7 @@
 import Foundation
 import SoraUI
 
-final class SendOptionCell: UITableViewCell {
+final class SendOptionCell: UITableViewCell, ContactsCellStylable {
     
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var iconView: UIImageView!
@@ -14,20 +14,21 @@ final class SendOptionCell: UITableViewCell {
     @IBOutlet private var accessoryImageView: UIImageView!
     
     private var sendOptionViewModel: SendOptionViewModelProtocol?
-    
+
+    var style: ContactsCellStyle? {
+        didSet {
+            applyStyle()
+        }
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         
         sendOptionViewModel = nil
     }
-    
-    private func updateContent() {
-        titleLabel.text = sendOptionViewModel?.title
-        iconView.image = sendOptionViewModel?.icon
-    }
-    
+
     private func applyStyle() {
-        if let style = sendOptionViewModel?.style {
+        if let style = style?.sendOptionStyle {
             titleLabel.font = style.title.font
             titleLabel.textColor = style.title.color
             borderView.strokeColor = .clear
@@ -35,6 +36,10 @@ final class SendOptionCell: UITableViewCell {
         }
     }
     
+    private func updateContent() {
+        titleLabel.text = sendOptionViewModel?.title
+        iconView.image = sendOptionViewModel?.icon
+    }
 }
 
 
@@ -51,7 +56,6 @@ extension SendOptionCell: WalletViewProtocol {
         
         self.sendOptionViewModel = sendOptionViewModel
         
-        applyStyle()
         updateContent()
     }
     

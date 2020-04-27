@@ -6,14 +6,10 @@
 import Foundation
 
 
-public typealias SendOptionViewModelFactory = (WalletCommandProtocol) -> SendOptionViewModelProtocol
-
-
 public protocol SendOptionViewModelProtocol: WalletViewModelProtocol {
     
     var title: String { get }
     var icon: UIImage? { get }
-    var style: SendOptionCellStyleProtocol? { get }
     
 }
 
@@ -24,7 +20,6 @@ final class SendOptionViewModel: SendOptionViewModelProtocol {
     
     var title: String = ""
     var icon: UIImage?
-    var style: SendOptionCellStyleProtocol?
     
     var command: WalletCommandProtocol?
 

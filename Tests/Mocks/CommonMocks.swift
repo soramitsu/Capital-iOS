@@ -3630,6 +3630,136 @@ import Cuckoo
 import Foundation
 
 
+ class MockWalletBarActionViewModelProtocol: WalletBarActionViewModelProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = WalletBarActionViewModelProtocol
+    
+     typealias Stubbing = __StubbingProxy_WalletBarActionViewModelProtocol
+     typealias Verification = __VerificationProxy_WalletBarActionViewModelProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: WalletBarActionViewModelProtocol?
+
+     func enableDefaultImplementation(_ stub: WalletBarActionViewModelProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+     var displayType: WalletBarActionDisplayType {
+        get {
+            return cuckoo_manager.getter("displayType",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.displayType)
+        }
+        
+    }
+    
+    
+    
+     var command: WalletCommandProtocol {
+        get {
+            return cuckoo_manager.getter("command",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.command)
+        }
+        
+    }
+    
+
+    
+
+    
+
+	 struct __StubbingProxy_WalletBarActionViewModelProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var displayType: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletBarActionViewModelProtocol, WalletBarActionDisplayType> {
+	        return .init(manager: cuckoo_manager, name: "displayType")
+	    }
+	    
+	    
+	    var command: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockWalletBarActionViewModelProtocol, WalletCommandProtocol> {
+	        return .init(manager: cuckoo_manager, name: "command")
+	    }
+	    
+	    
+	}
+
+	 struct __VerificationProxy_WalletBarActionViewModelProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var displayType: Cuckoo.VerifyReadOnlyProperty<WalletBarActionDisplayType> {
+	        return .init(manager: cuckoo_manager, name: "displayType", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var command: Cuckoo.VerifyReadOnlyProperty<WalletCommandProtocol> {
+	        return .init(manager: cuckoo_manager, name: "command", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	}
+}
+
+ class WalletBarActionViewModelProtocolStub: WalletBarActionViewModelProtocol {
+    
+    
+     var displayType: WalletBarActionDisplayType {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletBarActionDisplayType).self)
+        }
+        
+    }
+    
+    
+     var command: WalletCommandProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
+        }
+        
+    }
+    
+
+    
+
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
 public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuckoo.ProtocolMock {
     
     public typealias MocksType = WalletCommandFactoryProtocol

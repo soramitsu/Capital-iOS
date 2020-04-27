@@ -3,102 +3,88 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
+
 import XCTest
 @testable import CommonWallet
 import Cuckoo
-import RobinHood
 import SoraFoundation
 
-class ContactsTests: NetworkBaseTests {
+class ContactsLocalEngineTests: NetworkBaseTests {
 
-    func testSearchSuccess() throws {
+    func testRemoteSearchAndThenTriggerLocalSearch() throws {
         // given
 
         let view = MockContactsViewProtocol()
-        let networkResolver = MockNetworkResolver()
+        let localSearchEngine = MockContactsLocalSearchEngineProtocol()
 
-        let presenter = try performSetup(for: view, networkResolver: networkResolver)
+        let presenter = try performSetupForViewMock(view, localSearchEngine: localSearchEngine)
 
-        // when
+        let remoteQuery = "Query"
+        let localQuery = "Local query"
 
-        let completedExpectation = XCTestExpectation()
-        let startSearchExpectation = XCTestExpectation()
-        let stopSearchExpectation = XCTestExpectation()
+        let localResult = MockContactsLocalSearchResultProtocol()
 
-        stub(view) { stub in
-            when(stub).set(listViewModel: any(ContactListViewModelProtocol.self)).then { _ in
-                completedExpectation.fulfill()
-            }
+        stub(localSearchEngine) { stub in
+            when(stub).search(query: any()).then { query in
+                if query == localQuery {
+                    return [localResult]
+                }
 
-            when(stub).didStartSearch().then {
-                startSearchExpectation.fulfill()
-            }
-
-            when(stub).didStopSearch().then {
-                stopSearchExpectation.fulfill()
+                return nil
             }
         }
 
-        try SearchMock.register(mock: .success,
-                                networkResolver: networkResolver,
-                                requestType: .search,
-                                httpMethod: .get,
-                                urlMockType: .regex)
-
-        presenter.search("Search")
-
-        // then
-
-        wait(for: [completedExpectation, startSearchExpectation, stopSearchExpectation], timeout: Constants.networkTimeout)
-    }
-
-    func testSearchFailure() throws {
-        // given
-
-        let view = MockContactsViewProtocol()
-        let networkResolver = MockErrorHandlingNetworkResolver()
-
-        let presenter = try performSetup(for: view, networkResolver: networkResolver)
+        stub(view) { stub in
+            when(stub).didStartSearch().thenDoNothing()
+            when(stub).didStopSearch().thenDoNothing()
+        }
 
         // when
 
-        let completedExpectation = XCTestExpectation()
-        let startSearchExpectation = XCTestExpectation()
-        let stopSearchExpectation = XCTestExpectation()
+        let remoteExpectation = XCTestExpectation()
 
         stub(view) { stub in
-            when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                completedExpectation.fulfill()
-            }
+            when(stub).set(listViewModel: any()).then { viewModel in
+                XCTAssertTrue(viewModel.found.first !== localResult)
 
-            when(stub).didStartSearch().then {
-                startSearchExpectation.fulfill()
-            }
-
-            when(stub).didStopSearch().then {
-                stopSearchExpectation.fulfill()
+                remoteExpectation.fulfill()
             }
         }
 
-        try SearchMock.register(mock: .error,
-                                networkResolver: networkResolver,
-                                requestType: .search,
-                                httpMethod: .get,
-                                urlMockType: .regex)
-
-        presenter.search("Search")
+        presenter.search(remoteQuery)
 
         // then
 
-        wait(for: [completedExpectation, startSearchExpectation, stopSearchExpectation], timeout: Constants.networkTimeout)
+        wait(for: [remoteExpectation], timeout: Constants.networkTimeout)
+
+        // when
+
+        let localExpectation = XCTestExpectation()
+
+        stub(view) { stub in
+            when(stub).set(listViewModel: any()).then { viewModel in
+                XCTAssertTrue(viewModel.found.first === localResult)
+                XCTAssertTrue(viewModel.found.count == 1)
+
+                localExpectation.fulfill()
+            }
+        }
+
+        presenter.search(remoteQuery)
+        presenter.search(localQuery)
+
+        // then
+
+        wait(for: [localExpectation], timeout: Constants.networkTimeout)
     }
 
     // MARK: Private
 
-    private func performSetup(for view: MockContactsViewProtocol,
-                              networkResolver: MiddlewareNetworkResolverProtocol) throws -> ContactsPresenterProtocol {
+    func performSetupForViewMock(_ view: MockContactsViewProtocol,
+                                 localSearchEngine: ContactsLocalSearchEngineProtocol) throws -> ContactsPresenterProtocol {
         let accountSettings = try createRandomAccountSettings(for: 1)
         let operationSettings = try createRandomOperationSettings()
+        let networkResolver = MockNetworkResolver()
 
         let cacheFacade = CoreDataTestCacheFacade()
 
@@ -122,18 +108,13 @@ class ContactsTests: NetworkBaseTests {
                                                         nameIconStyle: contactsConfiguration.cellStyle.contactStyle.nameIcon)
 
         let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: commandFactory,
-                                                                    scanPosition: .tableAction,
+                                                                    scanPosition: .notInclude,
                                                                     withdrawOptions: [])
 
         let coordinator = MockContactsCoordinatorProtocol()
 
         let expectation = XCTestExpectation()
         expectation.expectedFulfillmentCount = 3
-
-        try ContactsMock.register(mock: .success,
-                                  networkResolver: networkResolver,
-                                  requestType: .contacts,
-                                  httpMethod: .get)
 
         stub(view) { stub in
             when(stub).set(listViewModel: any(ContactListViewModelProtocol.self)).then { viewModel in
@@ -143,6 +124,18 @@ class ContactsTests: NetworkBaseTests {
             when(stub).isSetup.get.thenReturn(false, true)
         }
 
+
+        try ContactsMock.register(mock: .success,
+                                  networkResolver: networkResolver,
+                                  requestType: .contacts,
+                                  httpMethod: .get)
+
+        try SearchMock.register(mock: .success,
+                                networkResolver: networkResolver,
+                                requestType: .search,
+                                httpMethod: .get,
+                                urlMockType: .regex)
+
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
                                           dataProvider: dataProvider,
@@ -151,7 +144,7 @@ class ContactsTests: NetworkBaseTests {
                                           actionViewModelFactory: actionViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
                                           currentAccountId: accountSettings.accountId,
-                                          localSearchEngine: nil)
+                                          localSearchEngine: localSearchEngine)
 
         presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
@@ -159,8 +152,7 @@ class ContactsTests: NetworkBaseTests {
 
         wait(for: [expectation], timeout: Constants.networkTimeout)
 
-        XCTAssertTrue(presenter.viewModel.contacts.count > 0)
-
         return presenter
     }
+
 }

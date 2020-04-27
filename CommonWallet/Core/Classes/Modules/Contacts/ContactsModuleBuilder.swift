@@ -16,7 +16,7 @@ final class ContactsModuleBuilder {
 
     lazy var walletStyle: WalletStyleProtocol = WalletStyle()
     
-    fileprivate lazy var cellStyle: ContactCellStyleProtocol = {
+    fileprivate lazy var contactStyle: ContactCellStyleProtocol = {
         return ContactCellStyle.createDefaultStyle(with: walletStyle)
     }()
 
@@ -42,31 +42,52 @@ final class ContactsModuleBuilder {
     fileprivate var searchPlaceholder: LocalizableResource<String> = LocalizableResource { _ in L10n.Common.search }
 
     fileprivate var supportsLiveSearch: Bool = false
+
+    fileprivate var scanPosition: WalletContactsScanPosition = .tableAction
+
+    fileprivate var withdrawOptionsPosition: WalletContactsWithdrawPosition = .tableAction
+
+    fileprivate var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
+
+    fileprivate var localSearchEngine: ContactsLocalSearchEngineProtocol?
     
     func build() -> ContactsConfigurationProtocol {
-        return ContactsConfiguration(contactCellStyle: cellStyle,
+        let cellStyle = ContactsCellStyle(contactStyle: contactStyle, sendOptionStyle: sendOptionStyle)
+        return ContactsConfiguration(cellStyle: cellStyle,
                                      viewStyle: viewStyle,
-                                     sendOptionStyle: sendOptionStyle,
                                      sectionStyle: sectionStyle,
                                      searchPlaceholder: searchPlaceholder,
                                      contactsEmptyStateDataSource: contactsEmptyStateDataSource,
                                      contactsEmptyStateDelegate: contactsEmptyStateDelegate,
                                      searchEmptyStateDataSource: searchEmptyStateDataSource,
                                      searchEmptyStateDelegate: searchEmptyStateDelegate,
-                                     supportsLiveSearch: supportsLiveSearch)
+                                     scanPosition: scanPosition,
+                                     withdrawOptionsPosition: withdrawOptionsPosition,
+                                     supportsLiveSearch: supportsLiveSearch,
+                                     viewModelFactoryWrapper: viewModelFactoryWrapper,
+                                     localSearchEngine: localSearchEngine)
     }
     
 }
 
 
 extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
-    
-    func with(contactCellStyle: ContactCellStyleProtocol) -> Self {
-        cellStyle = contactCellStyle
+
+    func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self {
+        self.viewModelFactoryWrapper = viewModelFactoryWrapper
         return self
     }
 
-    @discardableResult
+    func with(localSearchEngine: ContactsLocalSearchEngineProtocol) -> Self {
+        self.localSearchEngine = localSearchEngine
+        return self
+    }
+
+    func with(contactCellStyle: ContactCellStyleProtocol) -> Self {
+        self.contactStyle = contactCellStyle
+        return self
+    }
+
     func with(sendOptionCellStyle: SendOptionCellStyleProtocol) -> Self {
         self.sendOptionStyle = sendOptionStyle
         return self
@@ -107,7 +128,16 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
         return self
     }
 
-    @discardableResult
+    func with(scanPosition: WalletContactsScanPosition) -> Self {
+        self.scanPosition = scanPosition
+        return self
+    }
+
+    func with(withdrawOptionsPosition: WalletContactsWithdrawPosition) -> Self {
+        self.withdrawOptionsPosition = withdrawOptionsPosition
+        return self
+    }
+
     func with(supportsLiveSearch: Bool) -> Self {
         self.supportsLiveSearch = supportsLiveSearch
         return self
