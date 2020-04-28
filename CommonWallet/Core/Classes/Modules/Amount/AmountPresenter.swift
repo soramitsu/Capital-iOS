@@ -157,21 +157,23 @@ final class AmountPresenter {
                 return
         }
 
-        let feeRate = metadata.feeRate.decimalValue
-
         do {
-            let feeCalculator = try feeCalculationFactory
-                .createTransferFeeStrategy(for: metadata.feeType,
-                                           assetId: selectedAsset.identifier,
-                                           precision: selectedAsset.precision,
-                                           parameters: [feeRate])
+            var fee: Decimal?
 
-            let result = try feeCalculator.calculate(for: amount)
+            // TODO: move to multi fee variant when ui ready
+
+            if let feeDescription = metadata.feeDescriptions.first {
+                let feeCalculator = try feeCalculationFactory
+                    .createTransferFeeStrategyForDescription(feeDescription,
+                                                             assetId: selectedAsset.identifier,
+                                                             precision: selectedAsset.precision)
+                fee = try feeCalculator.calculate(for: amount).fee
+            }
 
             feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
                                                                          sender: account.accountId,
                                                                          receiver: payload.receiveInfo.accountId,
-                                                                         amount: result.fee,
+                                                                         amount: fee,
                                                                          locale: locale)
             feeViewModel.isLoading = false
         } catch {
@@ -354,42 +356,53 @@ final class AmountPresenter {
     private func prepareTransferInfo() -> TransferInfo? {
         do {
             guard
-                let sendingAmount = amountInputViewModel.decimalAmount,
+                let inputAmount = amountInputViewModel.decimalAmount,
                 let metadata = metadata else {
                     logger?.error("Either amount or metadata missing to complete transfer")
                     return nil
             }
 
-            guard validateAndReportLimitConstraints(for: sendingAmount) else {
+            guard validateAndReportLimitConstraints(for: inputAmount) else {
                 return nil
             }
 
-            let feeRate = metadata.feeRate.decimalValue
+            var fees: [Fee] = []
+            let sendingAmount: Decimal
+            let totalAmount: Decimal
 
-            let feeCalculator = try feeCalculationFactory
-                .createTransferFeeStrategy(for: metadata.feeType,
-                                           assetId: selectedAsset.identifier,
-                                           precision: selectedAsset.precision,
-                                           parameters: [feeRate])
+            // TODO: move to multi fee variant when ui ready
 
-            let result = try feeCalculator.calculate(for: sendingAmount)
+            if let feeDescription = metadata.feeDescriptions.first {
+                let calculator = try feeCalculationFactory
+                    .createTransferFeeStrategyForDescription(feeDescription,
+                                                             assetId: selectedAsset.identifier,
+                                                             precision: selectedAsset.precision)
+                let result = try calculator.calculate(for: inputAmount)
 
-            guard validateAndReportBalanceConstraints(for: result.total) else {
+                sendingAmount = result.sending
+                totalAmount = result.total
+
+                if result.fee > 0 {
+                    let fee = Fee(value: AmountDecimal(value: result.fee), feeDescription: feeDescription)
+                    fees.append(fee)
+                }
+            } else {
+                sendingAmount = inputAmount
+                totalAmount = inputAmount
+            }
+
+            guard validateAndReportBalanceConstraints(for: totalAmount) else {
                 return nil
             }
 
-            let feeAccountId = result.fee > 0.0 ? metadata.feeAccountId : nil
-            let feeAmount = result.fee > 0.0 ? AmountDecimal(value: result.fee) : nil
-
-            let amount = AmountDecimal(value: result.sending)
+            let amount = AmountDecimal(value: sendingAmount)
 
             return TransferInfo(source: account.accountId,
                                 destination: payload.receiveInfo.accountId,
                                 amount: amount,
                                 asset: selectedAsset.identifier,
                                 details: descriptionInputViewModel.text,
-                                feeAccountId: feeAccountId,
-                                fee: feeAmount)
+                                fees: fees)
         } catch {
             logger?.error("Did recieve unexpected error \(error) while preparing transfer")
             return nil

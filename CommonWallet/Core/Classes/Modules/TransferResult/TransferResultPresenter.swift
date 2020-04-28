@@ -56,9 +56,11 @@ final class TransferResultPresenter {
 
         let amount = "\(transferPayload.assetSymbol)\(formattedAmount)"
 
+        // TODO: move to multi fee variant when ui ready
+
         guard
             let decimalFee = feeDisplaySettings.displayStrategy
-                .decimalValue(from: transferPayload.transferInfo.fee?.decimalValue),
+                .decimalValue(from: transferPayload.transferInfo.fees.first?.value.decimalValue),
             let formattedFee = amountFormatter.value(for: locale)
                 .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)

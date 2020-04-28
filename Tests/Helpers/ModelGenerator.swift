@@ -39,32 +39,62 @@ func createRandomTransferInfo() throws -> TransferInfo {
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
     let asset = try createRandomAssetId()
     let details = UUID().uuidString
-    let feeAccountId = try createRandomAccountId()
-    let fee = AmountDecimal(value: Decimal(UInt.random(in: 1...10000)))
+
+    let fees: [Fee]
+    let shouldIncludeFee = [false, true].randomElement()!
+
+    if shouldIncludeFee {
+        let fee = AmountDecimal(value: Decimal(UInt.random(in: 1...10000)))
+        let feeAccount = try createRandomAccountId()
+
+        let feeDescription = FeeDescription(identifier: UUID().uuidString,
+                                            assetId: asset,
+                                            type: FeeType.fixed.rawValue,
+                                            parameters: [fee],
+                                            accountId: feeAccount)
+
+        fees = [Fee(value: fee, feeDescription: feeDescription)]
+    } else {
+        fees = []
+    }
 
     return TransferInfo(source: source,
                         destination: destination,
                         amount: amount,
                         asset: asset,
                         details: details,
-                        feeAccountId: [nil, feeAccountId].randomElement()!,
-                        fee: [nil, fee].randomElement()!)
+                        fees: fees)
 }
 
 func createRandomWithdrawInfo() throws -> WithdrawInfo {
     let destinationAccount = try createRandomAccountId()
-    let feeAccount = try createRandomAccountId()
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
-    let fee = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
     let asset = try createRandomAssetId()
     let details = UUID().uuidString
+
+    let fees: [Fee]
+    let shouldIncludeFee = [false, true].randomElement()!
+
+    if shouldIncludeFee {
+        let fee = AmountDecimal(value: Decimal(UInt.random(in: 1...10000)))
+        let feeAccount = try createRandomAccountId()
+
+        let feeDescription = FeeDescription(identifier: UUID().uuidString,
+                                            assetId: asset,
+                                            type: FeeType.fixed.rawValue,
+                                            parameters: [fee],
+                                            accountId: feeAccount)
+
+        fees = [Fee(value: fee, feeDescription: feeDescription)]
+    } else {
+        fees = []
+    }
 
     return WithdrawInfo(destinationAccountId: destinationAccount,
                         assetId: asset,
                         amount: amount,
                         details: details,
-                        feeAccountId: feeAccount,
-                        fee: fee)
+                        fees: fees)
 }
 
 func createRandomReceiveInfo() throws -> ReceiveInfo {

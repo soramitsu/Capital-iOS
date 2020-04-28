@@ -11,22 +11,19 @@ public struct TransferInfo {
     public var amount: AmountDecimal
     public var asset: String
     public var details: String
-    public var feeAccountId: String?
-    public var fee: AmountDecimal?
+    public var fees: [Fee]
 
     public init(source: String,
                 destination: String,
                 amount: AmountDecimal,
                 asset: String,
                 details: String,
-                feeAccountId: String?,
-                fee: AmountDecimal?) {
+                fees: [Fee]) {
         self.source = source
         self.destination = destination
         self.amount = amount
         self.asset = asset
         self.details = details
-        self.feeAccountId = feeAccountId
-        self.fee = fee
+        self.fees = fees
     }
 }

@@ -329,7 +329,7 @@ class AmountInputConfirmationTests: NetworkBaseTests {
                 }
 
                 if let expectedFee = expectedFee {
-                    XCTAssertEqual(expectedFee, payloadToConfirm?.transferInfo.fee?.decimalValue)
+                    XCTAssertEqual(expectedFee, payloadToConfirm?.transferInfo.fees.first?.value.decimalValue)
                 }
             } else {
                 wait(for: [errorExpectation], timeout: Constants.networkTimeout)

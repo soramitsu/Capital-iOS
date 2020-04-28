@@ -61,7 +61,8 @@ final class WithdrawConfirmationPresenter {
     }
 
     private func createFeeViewModel() -> WalletFormViewModelProtocol? {
-        guard let fee = feeDisplaySettings.displayStrategy.decimalValue(from: withdrawInfo.fee?.decimalValue) else {
+        guard let fee = feeDisplaySettings.displayStrategy
+            .decimalValue(from: withdrawInfo.fees.first?.value.decimalValue) else {
             return nil
         }
 
@@ -97,7 +98,7 @@ final class WithdrawConfirmationPresenter {
         let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Withdraw.title)
 
         guard let feeDecimal = feeDisplaySettings.displayStrategy
-            .decimalValue(from: withdrawInfo.fee?.decimalValue) else {
+            .decimalValue(from: withdrawInfo.fees.first?.value.decimalValue) else {
             return accessoryViewModel
         }
 
