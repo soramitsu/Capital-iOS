@@ -167,11 +167,12 @@ public extension MiddlewareOperationFactoryProtocol {
                 if let feeAccountIdString = fee.feeDescription.accountId {
                     let feeDescription = "transfer fee"
                     let feeAmount = try IRAmountFactory.transferAmount(from: fee.value.stringValue)
+                    let feeAssetId = try IRAssetIdFactory.asset(withIdentifier: fee.feeDescription.assetId)
                     let feeAccountId = try IRAccountIdFactory.account(withIdentifier: feeAccountIdString)
 
                     transactionBuilder = transactionBuilder.transferAsset(sourceAccountId,
                                                                           destinationAccount: feeAccountId,
-                                                                          assetId: assetId,
+                                                                          assetId: feeAssetId,
                                                                           description: feeDescription,
                                                                           amount: feeAmount)
                 }
@@ -345,11 +346,12 @@ public extension MiddlewareOperationFactoryProtocol {
                 if let feeAccountIdString = fee.feeDescription.accountId {
                     let feeDescription = "withdrawal fee"
                     let feeAmount = try IRAmountFactory.transferAmount(from: fee.value.stringValue)
+                    let feeAssetId = try IRAssetIdFactory.asset(withIdentifier: fee.feeDescription.assetId)
                     let feeAccountId = try IRAccountIdFactory.account(withIdentifier: feeAccountIdString)
 
                     transactionBuilder = transactionBuilder.transferAsset(accountId,
                                                                           destinationAccount: feeAccountId,
-                                                                          assetId: assetId,
+                                                                          assetId: feeAssetId,
                                                                           description: feeDescription,
                                                                           amount: feeAmount)
                 }
