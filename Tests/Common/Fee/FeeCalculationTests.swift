@@ -245,10 +245,14 @@ class FeeCalculationTests: XCTestCase {
 
             let assetId = try createRandomAssetId()
 
-            _ = try feeFactory.createTransferFeeStrategy(for: FeeType.fixed.rawValue,
+            let feeDescription = FeeDescription(identifier: UUID().uuidString,
+                                                assetId: assetId,
+                                                type: FeeType.fixed.rawValue,
+                                                parameters: [])
+
+            _ = try feeFactory.createTransferFeeStrategyForDescription(feeDescription,
                                                          assetId: assetId,
-                                                         precision: 2,
-                                                         parameters: [])
+                                                         precision: 2)
                 .calculate(for: 1.2)
         } catch FeeCalculationFactoryError.invalidParameters {
             // expect this error
@@ -264,11 +268,15 @@ class FeeCalculationTests: XCTestCase {
             let assetId = try createRandomAssetId()
             let option = createRandomWithdrawOption()
 
-            _ = try feeFactory.createWithdrawFeeStrategy(for: FeeType.fixed.rawValue,
+            let feeDescription = FeeDescription(identifier: UUID().uuidString,
+                                                assetId: assetId,
+                                                type: FeeType.fixed.rawValue,
+                                                parameters: [])
+
+            _ = try feeFactory.createWithdrawFeeStrategyForDescription(feeDescription,
                                                          assetId: assetId,
                                                          optionId: option.identifier,
-                                                         precision: 2,
-                                                         parameters: [])
+                                                         precision: 2)
                 .calculate(for: 1.2)
         } catch FeeCalculationFactoryError.invalidParameters {
             // expect this error
@@ -290,10 +298,14 @@ class FeeCalculationTests: XCTestCase {
             let assetId = try createRandomAssetId()
 
             for (index, parameter) in parameters.enumerated() {
-                let strategy = try feeFactory.createTransferFeeStrategy(for: type,
-                                                                        assetId: assetId,
-                                                                        precision: precision,
-                                                                        parameters: [parameter])
+                let feeDescription = FeeDescription(identifier: UUID().uuidString,
+                                                    assetId: assetId,
+                                                    type: type,
+                                                    parameters: [AmountDecimal(value: parameter)])
+
+                let strategy = try feeFactory.createTransferFeeStrategyForDescription(feeDescription,
+                                                                                      assetId: assetId,
+                                                                                      precision: precision)
                 let result = try strategy.calculate(for: amounts[index])
 
                 XCTAssertEqual(result.sending, expected[index].sending)
@@ -318,11 +330,17 @@ class FeeCalculationTests: XCTestCase {
             let option = createRandomWithdrawOption()
 
             for (index, parameter) in parameters.enumerated() {
-                let strategy = try feeFactory.createWithdrawFeeStrategy(for: type,
-                                                                        assetId: assetId,
-                                                                        optionId: option.identifier,
-                                                                        precision: precision,
-                                                                        parameters: [parameter])
+                let feeDescription = FeeDescription(identifier: UUID().uuidString,
+                                                    assetId: assetId,
+                                                    type: type,
+                                                    parameters: [AmountDecimal(value: parameter)])
+
+                let strategy = try feeFactory
+                    .createWithdrawFeeStrategyForDescription(feeDescription,
+                                                             assetId: assetId,
+                                                             optionId: option.identifier,
+                                                             precision: precision)
+
                 let result = try strategy.calculate(for: amounts[index])
 
                 XCTAssertEqual(result.sending, expected[index].sending)

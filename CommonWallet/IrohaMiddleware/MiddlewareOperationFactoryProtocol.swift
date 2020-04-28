@@ -163,16 +163,18 @@ public extension MiddlewareOperationFactoryProtocol {
                                description: info.details,
                                amount: amount)
 
-            if let fee = info.fee, let feeAccountIdString = info.feeAccountId {
-                let feeDescription = "transfer fee"
-                let feeAmount = try IRAmountFactory.transferAmount(from: fee.stringValue)
-                let feeAccountId = try IRAccountIdFactory.account(withIdentifier: feeAccountIdString)
+            for fee in info.fees {
+                if let feeAccountIdString = fee.feeDescription.accountId {
+                    let feeDescription = "transfer fee"
+                    let feeAmount = try IRAmountFactory.transferAmount(from: fee.value.stringValue)
+                    let feeAccountId = try IRAccountIdFactory.account(withIdentifier: feeAccountIdString)
 
-                transactionBuilder = transactionBuilder.transferAsset(sourceAccountId,
-                                                                      destinationAccount: feeAccountId,
-                                                                      assetId: assetId,
-                                                                      description: feeDescription,
-                                                                      amount: feeAmount)
+                    transactionBuilder = transactionBuilder.transferAsset(sourceAccountId,
+                                                                          destinationAccount: feeAccountId,
+                                                                          assetId: assetId,
+                                                                          description: feeDescription,
+                                                                          amount: feeAmount)
+                }
             }
 
             let transaction = try transactionBuilder.withQuorum(self.operationSettings.transactionQuorum)
@@ -339,16 +341,18 @@ public extension MiddlewareOperationFactoryProtocol {
                                description: info.details,
                                amount: amount)
 
-            if let fee = info.fee, let feeAccountIdString = info.feeAccountId {
-                let feeDescription = "withdrawal fee"
-                let feeAmount = try IRAmountFactory.transferAmount(from: fee.stringValue)
-                let feeAccountId = try IRAccountIdFactory.account(withIdentifier: feeAccountIdString)
+            for fee in info.fees {
+                if let feeAccountIdString = fee.feeDescription.accountId {
+                    let feeDescription = "withdrawal fee"
+                    let feeAmount = try IRAmountFactory.transferAmount(from: fee.value.stringValue)
+                    let feeAccountId = try IRAccountIdFactory.account(withIdentifier: feeAccountIdString)
 
-                transactionBuilder = transactionBuilder.transferAsset(accountId,
-                                                                      destinationAccount: feeAccountId,
-                                                                      assetId: assetId,
-                                                                      description: feeDescription,
-                                                                      amount: feeAmount)
+                    transactionBuilder = transactionBuilder.transferAsset(accountId,
+                                                                          destinationAccount: feeAccountId,
+                                                                          assetId: assetId,
+                                                                          description: feeDescription,
+                                                                          amount: feeAmount)
+                }
             }
 
             let transaction = try transactionBuilder

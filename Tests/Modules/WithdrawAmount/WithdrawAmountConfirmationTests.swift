@@ -329,7 +329,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 }
 
                 if let expectedFee = expectedFee {
-                    XCTAssertEqual(expectedFee, infoToConfirm?.fee?.decimalValue)
+                    XCTAssertEqual(expectedFee, infoToConfirm?.fees.first?.value.decimalValue)
                 }
 
             } else {

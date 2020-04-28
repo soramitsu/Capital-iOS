@@ -1,1 +1,1 @@
-{"status":{"code":"OK","message":"Success"}, "feeAccountId": "notary@notary", "feeType": "FIXED", "feeRate": "1.0"}
+{"status":{"code":"OK","message":"Success"}, "feeDescriptions": [{"identifier": "123213123", "assetId": "xor#sora", "type": "FIXED", "parameters": ["1.0"], "accountId": "notary@notary"}]}

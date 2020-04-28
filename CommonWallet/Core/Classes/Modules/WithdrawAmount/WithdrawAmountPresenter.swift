@@ -125,19 +125,13 @@ final class WithdrawAmountPresenter {
                 return
         }
 
-        let feeRate = metadata.feeRate.decimalValue
-
         do {
-            let calculator = try feeCalculationFactory
-                .createWithdrawFeeStrategy(for: metadata.feeType,
-                                           assetId: selectedAsset.identifier,
-                                           optionId: selectedOption.identifier,
-                                           precision: selectedAsset.precision,
-                                           parameters: [feeRate])
-            let result = try calculator.calculate(for: amount)
+
+            // TODO: move to multi fee variant when ui ready
+            let feeResult = try calculateFeeResults(for: metadata, amount: amount).first
 
             feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
-                                                                         amount: result.fee,
+                                                                         amount: feeResult?.fee,
                                                                          locale: locale)
             feeViewModel.isLoading = false
         } catch {
@@ -166,7 +160,7 @@ final class WithdrawAmountPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard
-            let feeRate = metadata?.feeRate.decimalValue,
+            let metadata = metadata,
             let amount = amountInputViewModel.decimalAmount else {
                 let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
                                                                                            totalAmount: nil,
@@ -175,7 +169,15 @@ final class WithdrawAmountPresenter {
                 return
         }
 
-        let totalAmount = (1 + feeRate) * amount
+        let totalAmount: Decimal
+
+        // TODO: move to multi fee variant when ui ready
+
+        if let feeResult = try? calculateFeeResults(for: metadata, amount: amount).first {
+            totalAmount = feeResult.total
+        } else {
+            totalAmount = amount
+        }
 
         let accessoryViewModel = withdrawViewModelFactory.createAccessoryViewModel(for: asset,
                                                                                    totalAmount: totalAmount,
@@ -330,44 +332,52 @@ final class WithdrawAmountPresenter {
     private func prepareWithdrawInfo() -> WithdrawInfo? {
         do {
             guard
-                let sendingAmount = amountInputViewModel.decimalAmount,
+                let inputAmount = amountInputViewModel.decimalAmount,
                 let metadata = metadata else {
                     logger?.error("Either amount or metadata missing to complete withdraw")
                     return nil
             }
 
-            guard validateAndReportLimitConstraints(for: sendingAmount) else {
+            guard validateAndReportLimitConstraints(for: inputAmount) else {
                 return nil
             }
 
-            let feeRate = metadata.feeRate.decimalValue
+            var fees: [Fee] = []
+            let sendingAmount: Decimal
+            let totalAmount: Decimal
 
-            let feeCalculator = try feeCalculationFactory
-                .createWithdrawFeeStrategy(for: metadata.feeType,
-                                           assetId: selectedAsset.identifier,
-                                           optionId: selectedOption.identifier,
-                                           precision: selectedAsset.precision,
-                                           parameters: [feeRate])
+            // TODO: move to multi fee variant when ui ready
 
-            let result = try feeCalculator.calculate(for: sendingAmount)
+            if
+                let feeResult = try calculateFeeResults(for: metadata, amount: inputAmount).first,
+                let feeDescription = metadata.feeDescriptions.first {
 
-            guard validateAndReportBalanceConstraints(for: result.total) else {
+                sendingAmount = feeResult.sending
+                totalAmount = feeResult.total
+
+                if feeResult.fee > 0 {
+                    let fee = Fee(value: AmountDecimal(value: feeResult.fee),
+                                  feeDescription: feeDescription)
+                    fees.append(fee)
+                }
+            } else {
+                sendingAmount = inputAmount
+                totalAmount = inputAmount
+            }
+
+            guard validateAndReportBalanceConstraints(for: totalAmount) else {
                     return nil
             }
 
             let destinationAccountId = metadata.providerAccountId
 
-            let feeAccountId = result.fee > 0.0 ? metadata.feeAccountId : nil
-            let feeAmount = result.fee > 0.0 ? AmountDecimal(value: result.fee) : nil
-
-            let amount = AmountDecimal(value: result.sending)
+            let amount = AmountDecimal(value: sendingAmount)
 
             let info = WithdrawInfo(destinationAccountId: destinationAccountId,
                                     assetId: selectedAsset.identifier,
                                     amount: amount,
                                     details: descriptionInputViewModel.text,
-                                    feeAccountId: feeAccountId,
-                                    fee: feeAmount)
+                                    fees: fees)
 
             return info
         } catch {
@@ -411,6 +421,19 @@ final class WithdrawAmountPresenter {
 
         if let info = prepareWithdrawInfo() {
             coordinator.confirm(with: info, asset: selectedAsset, option: selectedOption)
+        }
+    }
+
+    private func calculateFeeResults(for metadata: WithdrawMetaData, amount: Decimal) throws
+        -> [FeeCalculationResult] {
+        try metadata.feeDescriptions.map { feeDescription in
+            let calculator = try feeCalculationFactory
+                .createWithdrawFeeStrategyForDescription(feeDescription,
+                                                         assetId: selectedAsset.identifier,
+                                                         optionId: selectedOption.identifier,
+                                                         precision: selectedAsset.precision)
+
+            return try calculator.calculate(for: amount)
         }
     }
 }

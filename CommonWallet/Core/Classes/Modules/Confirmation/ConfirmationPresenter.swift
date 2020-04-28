@@ -77,9 +77,10 @@ final class ConfirmationPresenter {
 
         let amount = "\(payload.assetSymbol)\(formattedAmount)"
 
+        // TODO: move to multi fee variant when ui ready
         guard
             let decimalFee = feeDisplaySettings.displayStrategy
-                .decimalValue(from: payload.transferInfo.fee?.decimalValue),
+                .decimalValue(from: payload.transferInfo.fees.first?.value.decimalValue),
             let formattedFee = amountFormatter.value(for: locale)
                 .string(from: decimalFee as NSNumber) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)
