@@ -94,8 +94,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
             throw WithdrawAmountViewModelFactoryError.missingValidator
         }
 
-        return DescriptionInputViewModel(title: option.details,
-                                         validator: validator)
+        return DescriptionInputViewModel(validator: validator)
     }
 
     func createAccessoryViewModel(for asset: WalletAsset?,

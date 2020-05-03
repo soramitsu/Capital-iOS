@@ -87,8 +87,6 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
         view.backgroundColor = .clear
 
         view.borderedView.strokeColor = style.thinBorderColor
-        view.titleLabel.textColor = style.captionTextColor
-        view.titleLabel.font = style.bodyRegularFont
         view.amountField.textColor = style.bodyTextColor
         view.assetLabel.textColor = style.bodyTextColor
 
@@ -122,9 +120,6 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
         view.backgroundColor = .clear
 
         view.borderedView.strokeColor = style.thinBorderColor
-
-        view.titleLabel.textColor = style.captionTextColor
-        view.titleLabel.font = style.bodyRegularFont
 
         view.textView.textColor = style.bodyTextColor
         view.textView.font = style.bodyRegularFont

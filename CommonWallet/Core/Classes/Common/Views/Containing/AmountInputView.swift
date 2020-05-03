@@ -9,12 +9,10 @@ import SoraUI
 
 final class AmountInputView: UIView {
     @IBOutlet private(set) var borderedView: BorderedContainerView!
-    @IBOutlet private(set) var titleLabel: UILabel!
     @IBOutlet private(set) var assetLabel: UILabel!
     @IBOutlet private(set) var amountField: UITextField!
     @IBOutlet private(set) var keyboardIndicator: ActionTitleControl!
 
-    @IBOutlet private var topConstraint: NSLayoutConstraint!
     @IBOutlet private var bottomConstraint: NSLayoutConstraint!
 
     private(set) var inputViewModel: AmountInputViewModelProtocol?
@@ -40,14 +38,13 @@ final class AmountInputView: UIView {
 
     var contentInsets: UIEdgeInsets {
         get {
-            UIEdgeInsets(top: topConstraint.constant,
+            UIEdgeInsets(top: 0.0,
                          left: 0.0,
                          bottom: -bottomConstraint.constant,
                          right: 0.0)
         }
 
         set {
-            topConstraint.constant = newValue.top
             bottomConstraint.constant = -newValue.bottom
 
             if superview != nil {

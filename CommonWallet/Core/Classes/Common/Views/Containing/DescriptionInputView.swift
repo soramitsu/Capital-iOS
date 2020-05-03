@@ -9,14 +9,14 @@ import SoraUI
 
 final class DescriptionInputView: UIView {
     @IBOutlet private(set) var borderedView: BorderedContainerView!
-    @IBOutlet private(set) var titleLabel: UILabel!
     @IBOutlet private(set) var placeholderLabel: UILabel!
     @IBOutlet private(set) var keyboardIndicator: ActionTitleControl!
     @IBOutlet private(set) var textView: UITextView!
-    @IBOutlet private var placeholderTop: NSLayoutConstraint!
     @IBOutlet private var textViewTop: NSLayoutConstraint!
 
     @IBOutlet private var topConstraint: NSLayoutConstraint!
+
+    private var preferredWidth: CGFloat = 0.0
 
     var keyboardIndicatorSpacing: CGFloat = 8.0 {
         didSet {
@@ -58,21 +58,30 @@ final class DescriptionInputView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        let textBoundingSize = CGSize(width: textView.frame.size.width,
-                                      height: CGFloat.greatestFiniteMagnitude)
+        guard preferredWidth > 0.0 else {
+            return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+        }
+
+        let textBoundingSize = CGSize(width: preferredWidth, height: CGFloat.greatestFiniteMagnitude)
         let newTextSize = textView.sizeThatFits(textBoundingSize)
 
-        let height = contentInsets.top + titleLabel.intrinsicContentSize.height +
-            placeholderTop.constant + textViewTop.constant + newTextSize.height +
-            contentInsets.bottom
+        let height = contentInsets.top - textViewTop.constant + newTextSize.height + contentInsets.bottom
 
         return CGSize(width: UIView.noIntrinsicMetric, height: max(minimumHeight, height))
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if abs(bounds.width - preferredWidth) > CGFloat.leastNormalMagnitude {
+            preferredWidth = bounds.width
+            invalidateIntrinsicContentSize()
+        }
     }
 
     func bind(viewModel: DescriptionInputViewModelProtocol) {
         self.viewModel = viewModel
 
-        titleLabel.text = viewModel.title
         placeholderLabel.text = viewModel.placeholder
         textView.text = viewModel.text
 

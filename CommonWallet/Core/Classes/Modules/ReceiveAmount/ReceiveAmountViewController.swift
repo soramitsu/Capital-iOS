@@ -18,7 +18,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         static let expandedQrMargin: CGFloat = 40.0
         static let expandedQrBackgroundHeight: CGFloat = 440.0
         static let assetViewHeight: CGFloat = 54.0
-        static let amountViewHeight: CGFloat = 54.0
+        static let amountViewHeight: CGFloat = 31.0
         static let separatorHeight: CGFloat = 1.0
         static let expandedAdaptiveScaleWhenDecreased: CGFloat = 0.9
     }
@@ -48,7 +48,9 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private var qrView: QRView!
     private var selectedAssetView: SelectedAssetView!
+    private var amountInputTitleView: MultilineTitleIconView!
     private var amountInputView: AmountInputView!
+    private var descriptionInputTitleView: MultilineTitleIconView?
     private var descriptionInputView: DescriptionInputView?
 
     private var qrHeight: NSLayoutConstraint!
@@ -107,23 +109,29 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         qrHeight = qrView.heightAnchor.constraint(equalToConstant: Constants.expandedQrBackgroundHeight)
         qrHeight?.isActive = true
 
+        amountInputTitleView = containingFactory.createTitleView()
+        amountInputTitleView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing,
+                                                          left: 0.0,
+                                                          bottom: Constants.bottomMargin,
+                                                          right: 0.0)
+
         selectedAssetView = containingFactory.createSelectedAssetView()
-        selectedAssetView.borderedView.borderType = []
+        selectedAssetView.borderedView.borderType = [.bottom]
         selectedAssetView.delegate = self
         selectedAssetView.heightAnchor.constraint(equalToConstant: Constants.assetViewHeight).isActive = true
 
         amountInputView = containingFactory.createAmountInputView(for: .small)
-        amountInputView.borderedView.borderType = [.top]
-        amountInputView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing, left: 0.0,
+        amountInputView.borderedView.borderType = []
+        amountInputView.contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
                                                      bottom: Constants.bottomMargin, right: 0.0)
         amountInputView.keyboardIndicatorMode = .always
 
-        let amountHeightValue = Constants.amountViewHeight + Constants.verticalSpacing + Constants.bottomMargin
+        let amountHeightValue = Constants.amountViewHeight + Constants.bottomMargin
         amountHeight = amountInputView.heightAnchor
             .constraint(equalToConstant: amountHeightValue)
         amountHeight.isActive = true
 
-        let views: [UIView] = [qrView, createSeparatorView(), selectedAssetView, amountInputView]
+        let views: [UIView] = [qrView, createSeparatorView(), selectedAssetView, amountInputTitleView, amountInputView]
 
         views.forEach { containerView.stackView.addArrangedSubview($0) }
 
@@ -157,33 +165,61 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func addDescriptionView() {
-        amountInputView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing, left: 0.0,
-                                                     bottom: Constants.verticalSpacing, right: 0.0)
-        amountHeight.constant = 2 * Constants.verticalSpacing + Constants.amountViewHeight
+        amountInputView.borderedView.borderType = [.bottom]
         amountInputView.keyboardIndicatorMode = .editing
 
+        let descriptionInputTitleView = containingFactory.createTitleView()
+        descriptionInputTitleView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing,
+                                                               left: 0.0,
+                                                               bottom: Constants.bottomMargin,
+                                                               right: 0.0)
+
         let descriptionView = containingFactory.createDescriptionInputView()
-        descriptionView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing, left: 0.0,
+        descriptionView.borderedView.borderType = []
+        descriptionView.contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
                                                      bottom: Constants.bottomMargin, right: 0.0)
-        descriptionView.borderedView.borderType = [.top]
         descriptionView.keyboardIndicatorMode = .editing
 
+        containerView.stackView.addArrangedSubview(descriptionInputTitleView)
         containerView.stackView.addArrangedSubview(descriptionView)
+
+        descriptionInputTitleView.widthAnchor
+            .constraint(equalTo: view.widthAnchor,
+                        constant: -2 * Constants.horizontalMargin).isActive = true
 
         descriptionView.widthAnchor.constraint(equalTo: view.widthAnchor,
                                                constant: -2 * Constants.horizontalMargin).isActive = true
 
         self.descriptionInputView = descriptionView
+        self.descriptionInputTitleView = descriptionInputTitleView
+
+        setupDescriptionTitleLocalizationIfNeeded()
     }
 
     private func setupLocalization() {
+        setupTitleLocalization()
+        setupAmountTitleLocalization()
+        setupDescriptionTitleLocalizationIfNeeded()
+    }
+
+    private func setupTitleLocalization() {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         if let localizableTitle = localizableTitle {
             title = localizableTitle.value(for: locale)
         }
+    }
 
-        amountInputView?.titleLabel.text = L10n.Amount.title
+    private func setupAmountTitleLocalization() {
+        let amountTitleViewModel = MultilineTitleIconViewModel(text: L10n.Amount.title)
+        amountInputTitleView.bind(viewModel: amountTitleViewModel)
+    }
+
+    private func setupDescriptionTitleLocalizationIfNeeded() {
+        if let descriptionTitleView = descriptionInputTitleView {
+            let viewModel = MultilineTitleIconViewModel(text: L10n.Common.description)
+            descriptionTitleView.bind(viewModel: viewModel)
+        }
     }
 
     private func adjustLayout() {

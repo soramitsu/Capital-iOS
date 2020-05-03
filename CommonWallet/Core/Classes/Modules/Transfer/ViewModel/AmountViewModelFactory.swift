@@ -133,7 +133,6 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
             _ = validator.didReceiveReplacement(details, for: NSRange(location: 0, length: 0))
         }
 
-        return DescriptionInputViewModel(title: L10n.Common.descriptionOptional,
-                                         validator: validator)
+        return DescriptionInputViewModel(validator: validator)
     }
 }

@@ -12,8 +12,9 @@ class OperationDefinitionViewController: AccessoryViewController {
     private struct Constants {
         static let horizontalMargin: CGFloat = 20.0
         static let assetHeight: CGFloat = 54.0
-        static let amountHeight: CGFloat = 70.0
-        static let amountInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 8.0, right: 0.0)
+        static let amountTitleInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 4.0, right: 0.0)
+        static let amountHeight: CGFloat = 42.0
+        static let amountInsets = UIEdgeInsets(top: 4.0, left: 0.0, bottom: 14.0, right: 0.0)
         static let feeInsets = UIEdgeInsets(top: 8.0, left: 0.0, bottom: 17.0, right: 0.0)
         static let descriptionInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 8.0, right: 0.0)
     }
@@ -69,12 +70,12 @@ class OperationDefinitionViewController: AccessoryViewController {
     private func configureContentView() {
         let selectedAssetView = containingFactory.createSelectedAssetView()
         selectedAssetView.delegate = self
-        selectedAssetView.borderedView.borderType = []
+        selectedAssetView.borderedView.borderType = [.bottom]
         selectedAssetView.heightAnchor.constraint(equalToConstant: Constants.assetHeight).isActive = true
         selectedAssetDef = OperationDefinition(mainView: selectedAssetView)
 
         let amountInputView = containingFactory.createAmountInputView(for: .large)
-        amountInputView.borderedView.borderType = [.top]
+        amountInputView.borderedView.borderType = [.bottom]
         amountInputView.contentInsets = Constants.amountInsets
         amountInputView.keyboardIndicatorMode = .never
         let amountHeight = Constants.amountHeight + Constants.amountInsets.top + Constants.amountInsets.bottom
@@ -113,12 +114,6 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func updateSeparators() {
-        if feeDefs.count > 0 {
-            amountInputDef.mainView.borderedView.borderType = [.top]
-        } else {
-            amountInputDef.mainView.borderedView.borderType = [.top, .bottom]
-        }
-
         if feeDefs.count > 1 {
             feeDefs[0..<feeDefs.count-1].forEach { feeDef in
                 feeDef.mainView.borderedView.borderType = []
@@ -172,8 +167,6 @@ class OperationDefinitionViewController: AccessoryViewController {
         if let localizableTitle = localizableTitle {
             title = localizableTitle.value(for: locale)
         }
-
-        amountInputDef.mainView.titleLabel.text = L10n.Amount.title
     }
 
     private func updateConfirmationState() {

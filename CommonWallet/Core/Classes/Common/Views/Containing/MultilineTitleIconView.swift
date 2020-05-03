@@ -13,8 +13,11 @@ class MultilineTitleIconView: UIView {
 
     private var viewModel: MultilineTitleIconViewModelProtocol?
 
+    private var preferredWidth: CGFloat = 0.0
+
     var horizontalSpacing: CGFloat = 6.0 {
         didSet {
+            invalidateIntrinsicContentSize()
             setNeedsLayout()
         }
     }
@@ -22,6 +25,7 @@ class MultilineTitleIconView: UIView {
 
     var contentInsets: UIEdgeInsets = .zero {
         didSet {
+            invalidateIntrinsicContentSize()
             setNeedsLayout()
         }
     }
@@ -49,29 +53,14 @@ class MultilineTitleIconView: UIView {
         setNeedsLayout()
     }
 
-    private func calculateSizeFitting(_ targetSize: CGSize) -> CGSize {
-        var resultSize = CGSize(width: targetSize.width, height: 0.0)
-
-        if let imageView = imageView {
-            resultSize.height = imageView.intrinsicContentSize.height
-        }
-
-        let boundingWidth = max(targetSize.width - contentInsets.left - contentInsets.right, 0.0)
-        let boundingSize = CGSize(width: boundingWidth, height: CGFloat.greatestFiniteMagnitude)
-        let titleSize = titleLabel.sizeThatFits(boundingSize)
-
-        resultSize.height = min(max(resultSize.height, titleSize.height), targetSize.height)
-
-        return resultSize
-    }
-
     // MARK: Overridings
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        titleLabel.numberOfLines = 0
+        backgroundColor = .clear
 
+        titleLabel.numberOfLines = 0
         addSubview(titleLabel)
     }
 
@@ -79,14 +68,28 @@ class MultilineTitleIconView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func systemLayoutSizeFitting(_ targetSize: CGSize) -> CGSize {
-        calculateSizeFitting(targetSize)
-    }
+    override var intrinsicContentSize: CGSize {
+        guard preferredWidth > 0.0 else {
+            return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+        }
 
-    override func systemLayoutSizeFitting(_ targetSize: CGSize,
-                                          withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-                                          verticalFittingPriority: UILayoutPriority) -> CGSize {
-        calculateSizeFitting(targetSize)
+        var resultSize = CGSize(width: UIView.noIntrinsicMetric, height: 0.0)
+
+        if let imageView = imageView {
+            resultSize.height = imageView.intrinsicContentSize.height
+        }
+
+        let boundingWidth = max(preferredWidth - contentInsets.left - contentInsets.right, 0.0)
+        let boundingSize = CGSize(width: boundingWidth, height: CGFloat.greatestFiniteMagnitude)
+        let titleSize = titleLabel.sizeThatFits(boundingSize)
+
+        resultSize.height = max(resultSize.height, titleSize.height)
+
+        if resultSize.height > 0.0 {
+            resultSize.height += contentInsets.top + contentInsets.bottom
+        }
+
+        return resultSize
     }
 
     override func layoutSubviews() {
@@ -94,10 +97,12 @@ class MultilineTitleIconView: UIView {
 
         var horizontalOffset = contentInsets.left
 
+        let inset = (contentInsets.top - contentInsets.bottom) / 2.0
+
         if let imageView = imageView {
             let imageSize = imageView.image?.size ?? .zero
             imageView.frame = CGRect(x: horizontalOffset,
-                                     y: bounds.height / 2.0 - imageSize.height / 2.0,
+                                     y: bounds.height / 2.0 - imageSize.height / 2.0 + inset,
                                      width: imageSize.width,
                                      height: imageSize.height)
             horizontalOffset += imageSize.width + horizontalSpacing
@@ -105,8 +110,13 @@ class MultilineTitleIconView: UIView {
 
         let titleSize = titleLabel.intrinsicContentSize
         titleLabel.frame = CGRect(x: horizontalOffset,
-                                  y: bounds.height / 2.0 - titleSize.height / 2.0,
+                                  y: bounds.height / 2.0 - titleSize.height / 2.0 + inset,
                                   width: bounds.width - horizontalOffset - contentInsets.right,
                                   height: titleSize.height)
+
+        if abs(bounds.width - preferredWidth) > CGFloat.leastNormalMagnitude {
+            preferredWidth = bounds.width
+            invalidateIntrinsicContentSize()
+        }
     }
 }
