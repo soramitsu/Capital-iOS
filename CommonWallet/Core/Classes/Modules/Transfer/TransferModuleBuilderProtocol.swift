@@ -7,5 +7,5 @@
 import Foundation
 
 public protocol TransferModulerBuilderProtocol {
-    func with(receiverPosition: TransferReceiverPosition)
+    func with(receiverPosition: TransferReceiverPosition) -> Self
 }

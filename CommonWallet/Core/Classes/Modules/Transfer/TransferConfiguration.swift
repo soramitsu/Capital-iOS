@@ -6,10 +6,10 @@
 
 import Foundation
 
-protocol AmountConfigurationProtocol {
+protocol TransferConfigurationProtocol {
     var receiverPosition: TransferReceiverPosition { get }
 }
 
-struct AmountConfiguration {
+struct TransferConfiguration: TransferConfigurationProtocol {
     let receiverPosition: TransferReceiverPosition
 }
