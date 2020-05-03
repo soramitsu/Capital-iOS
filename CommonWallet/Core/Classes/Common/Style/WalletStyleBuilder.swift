@@ -84,7 +84,9 @@ public protocol WalletStyleBuilderProtocol: class {
 
     @discardableResult
     func with(caretColor: UIColor?) -> Self
-    
+
+    @discardableResult
+    func with(inlineErrorStyle: WalletInlineErrorStyle) -> Self
 }
 
 
@@ -219,6 +221,11 @@ final class WalletStyleBuilder: WalletStyleBuilderProtocol {
 
     func with(caretColor: UIColor?) -> Self {
         style.caretColor = caretColor
+        return self
+    }
+
+    func with(inlineErrorStyle: WalletInlineErrorStyle) -> Self {
+        style.internalInlineErrorStyle = inlineErrorStyle
         return self
     }
 
