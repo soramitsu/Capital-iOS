@@ -4,15 +4,17 @@
  */
 
 import Foundation
+import SoraFoundation
 
-final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
+final class WithdrawAssembly: WithdrawAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              asset: WalletAsset,
-                             option: WalletWithdrawOption) -> AmountViewProtocol? {
+                             option: WalletWithdrawOption) -> WithdrawViewProtocol? {
 
         do {
             let containingFactory = ContainingViewFactory(style: resolver.style)
-            let view = AmountViewController(containingFactory: containingFactory, style: resolver.style)
+            let view = WithdrawViewController(containingFactory: containingFactory, style: resolver.style)
+            view.localizableTitle = LocalizableResource { _ in option.shortTitle }
 
             let coordinator = WithdrawAmountCoordinator(resolver: resolver)
 
@@ -33,7 +35,7 @@ final class WithdrawAmountAssembly: WithdrawAmountAssemblyProtocol {
 
             let assetTitleFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
 
-            let presenter = try WithdrawAmountPresenter(view: view,
+            let presenter = try WithdrawPresenter(view: view,
                                                         coordinator: coordinator,
                                                         assets: resolver.account.assets,
                                                         selectedAsset: asset,

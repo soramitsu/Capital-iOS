@@ -23,10 +23,10 @@ struct WithdrawCheckingState: OptionSet {
     }
 }
 
-final class WithdrawAmountPresenter {
+final class WithdrawPresenter {
 
-    weak var view: AmountViewProtocol?
-    var coordinator: WithdrawAmountCoordinatorProtocol
+    weak var view: WithdrawViewProtocol?
+    var coordinator: WithdrawCoordinatorProtocol
     var logger: WalletLoggerProtocol?
 
     private var assetSelectionViewModel: AssetSelectionViewModel
@@ -49,8 +49,8 @@ final class WithdrawAmountPresenter {
 
     private(set) var confirmationState: WithdrawCheckingState?
 
-    init(view: AmountViewProtocol,
-         coordinator: WithdrawAmountCoordinatorProtocol,
+    init(view: WithdrawViewProtocol,
+         coordinator: WithdrawCoordinatorProtocol,
          assets: [WalletAsset],
          selectedAsset: WalletAsset,
          selectedOption: WalletWithdrawOption,
@@ -438,14 +438,13 @@ final class WithdrawAmountPresenter {
     }
 }
 
-extension WithdrawAmountPresenter: AmountPresenterProtocol {
+extension WithdrawPresenter: OperationDefinitionPresenterProtocol {
     func setup() {
         amountInputViewModel.observable.add(observer: self)
 
-        view?.set(title: withdrawViewModelFactory.createWithdrawTitle())
         view?.set(assetViewModel: assetSelectionViewModel)
         view?.set(amountViewModel: amountInputViewModel)
-        view?.set(feeViewModel: feeViewModel)
+        view?.set(feeViewModels: [feeViewModel])
         view?.set(descriptionViewModel: descriptionInputViewModel)
 
         updateAccessoryViewModel(for: selectedAsset)
@@ -454,7 +453,7 @@ extension WithdrawAmountPresenter: AmountPresenterProtocol {
         setupMetadata(provider: metaDataProvider)
     }
 
-    func confirm() {
+    func proceed() {
         guard confirmationState == nil else {
             return
         }
@@ -485,9 +484,11 @@ extension WithdrawAmountPresenter: AmountPresenterProtocol {
 
         assetSelectionViewModel.isSelecting = true
     }
+
+    func presentFeeEditing(at index: Int) {}
 }
 
-extension WithdrawAmountPresenter: ModalPickerViewDelegate {
+extension WithdrawPresenter: ModalPickerViewDelegate {
     func modalPickerViewDidCancel(_ view: ModalPickerView) {
         assetSelectionViewModel.isSelecting = false
     }
@@ -514,14 +515,14 @@ extension WithdrawAmountPresenter: ModalPickerViewDelegate {
     }
 }
 
-extension WithdrawAmountPresenter: AmountInputViewModelObserver {
+extension WithdrawPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
         updateFeeViewModel(for: selectedAsset)
         updateAccessoryViewModel(for: selectedAsset)
     }
 }
 
-extension WithdrawAmountPresenter: Localizable {
+extension WithdrawPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
             updateAmountInputViewModel()
@@ -529,8 +530,6 @@ extension WithdrawAmountPresenter: Localizable {
             updateAccessoryViewModel(for: selectedAsset)
             updateDescriptionViewModel()
             updateSelectedAssetViewModel(for: selectedAsset)
-
-            view?.set(title: withdrawViewModelFactory.createWithdrawTitle())
         }
     }
 }

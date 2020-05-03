@@ -5,7 +5,7 @@
 
 import Foundation
 
-final class WithdrawAmountCoordinator: WithdrawAmountCoordinatorProtocol {
+final class WithdrawAmountCoordinator: WithdrawCoordinatorProtocol {
     var resolver: ResolverProtocol
 
     init(resolver: ResolverProtocol) {

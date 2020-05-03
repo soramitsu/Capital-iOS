@@ -8,7 +8,7 @@ import UIKit
 import SoraUI
 import SoraFoundation
 
-final class OperationDefinitionViewController: AccessoryViewController {
+class OperationDefinitionViewController: AccessoryViewController {
     private struct Constants {
         static let horizontalMargin: CGFloat = 20.0
         static let assetHeight: CGFloat = 54.0
@@ -22,6 +22,8 @@ final class OperationDefinitionViewController: AccessoryViewController {
 
     let containingFactory: ContainingViewFactoryProtocol
     let style: WalletStyleProtocol
+
+    var localizableTitle: LocalizableResource<String>?
 
     override var accessoryStyle: WalletAccessoryStyleProtocol? {
         style.accessoryStyle
@@ -50,6 +52,8 @@ final class OperationDefinitionViewController: AccessoryViewController {
         self.view = containerView
 
         configureContentView()
+
+        updateSeparators()
 
         configureStyle()
     }
@@ -108,6 +112,22 @@ final class OperationDefinitionViewController: AccessoryViewController {
         }
     }
 
+    private func updateSeparators() {
+        if feeDefs.count > 0 {
+            amountInputDef.mainView.borderedView.borderType = [.top]
+        } else {
+            amountInputDef.mainView.borderedView.borderType = [.top, .bottom]
+        }
+
+        if feeDefs.count > 1 {
+            feeDefs[0..<feeDefs.count-1].forEach { feeDef in
+                feeDef.mainView.borderedView.borderType = []
+            }
+        }
+
+        feeDefs.last?.mainView.borderedView.borderType = [.bottom]
+    }
+
     private func updatingDef<T: UIView>(_ definition: OperationDefinition<T>,
                                         withHeader viewModel: MultilineTitleIconViewModelProtocol)
         -> OperationDefinition<T> {
@@ -147,6 +167,12 @@ final class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func setupLocalization() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        if let localizableTitle = localizableTitle {
+            title = localizableTitle.value(for: locale)
+        }
+
         amountInputDef.mainView.titleLabel.text = L10n.Amount.title
     }
 
@@ -263,9 +289,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
             let anchorView = selectedAssetDef.errorView ?? selectedAssetDef.mainView
 
-            if let index = containerView.stackView.arrangedSubviews.firstIndex(of: anchorView) {
-                containerView.stackView.insertArrangedSubview(mainView, at: index + 1)
-            }
+            arrange(newView: mainView, after: anchorView)
         }
     }
 
@@ -308,9 +332,18 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         let newItemsCount = feeViewModels.count - feeDefs.count
 
         if newItemsCount > 0 {
+            var anchorView = (feeDefs.last?.errorView ?? feeDefs.last?.mainView)
+                ?? (amountInputDef.errorView ?? amountInputDef.mainView)
+
             (0..<newItemsCount).forEach { _ in
                 let feeView = containingFactory.createFeeView()
+                feeView.contentInsets = Constants.feeInsets
+
                 feeDefs.append(OperationDefinition(mainView: feeView))
+
+                arrange(newView: feeView, after: anchorView)
+
+                anchorView = feeView
             }
         }
 
@@ -321,6 +354,8 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         for (index, viewModel) in feeViewModels.enumerated() {
             feeDefs[index].mainView.bind(viewModel: viewModel)
         }
+
+        updateSeparators()
     }
 
     func presentFeeError(_ message: String, at index: Int) {

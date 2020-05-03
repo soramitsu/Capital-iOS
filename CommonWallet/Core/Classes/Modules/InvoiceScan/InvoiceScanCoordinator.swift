@@ -31,8 +31,7 @@ final class InvoiceScanCoordinator: NSObject {
 
 extension InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
     func process(payload: AmountPayload) {
-        guard let view = AmountAssembly.assembleView(with: resolver,
-                                                     payload: payload) else {
+        guard let view = TransferAssembly.assembleView(with: resolver, payload: payload) else {
             return
         }
 

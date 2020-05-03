@@ -8,7 +8,7 @@ import XCTest
 import Cuckoo
 import SoraFoundation
 
-class AmountTests: NetworkBaseTests {
+class TransferSetupTests: NetworkBaseTests {
 
     func testPerformSuccessfullSetup() {
         do {
@@ -80,15 +80,14 @@ class AmountTests: NetworkBaseTests {
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
 
-            let view = MockAmountViewProtocol()
-            let coordinator = MockAmountCoordinatorProtocol()
+            let view = MockTransferViewProtocol()
+            let coordinator = MockTransferCoordinatorProtocol()
 
             let assetSelectionObserver = MockAssetSelectionViewModelObserver()
             let feeViewModelObserver = MockFeeViewModelObserver()
 
             // when
 
-            let titleExpectation = XCTestExpectation()
             let assetExpectation = XCTestExpectation()
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
@@ -103,10 +102,6 @@ class AmountTests: NetworkBaseTests {
             var amountViewModel: AmountInputViewModelProtocol? = nil
 
             stub(view) { stub in
-                when(stub).set(title: any(String.self)).then { _ in
-                    titleExpectation.fulfill()
-                }
-
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
                     assetViewModel.observable.add(observer: assetSelectionObserver)
 
@@ -127,9 +122,9 @@ class AmountTests: NetworkBaseTests {
                     accessoryExpectation.fulfill()
                 }
 
-                when(stub).set(feeViewModel: any()).then { viewModel in
-                    feeViewModel = viewModel
-                    viewModel.observable.add(observer: feeViewModelObserver)
+                when(stub).set(feeViewModels: any()).then { viewModels in
+                    feeViewModel = viewModels.first
+                    feeViewModel?.observable.add(observer: feeViewModelObserver)
 
                     feeExpectation.fulfill()
                 }
@@ -168,23 +163,22 @@ class AmountTests: NetworkBaseTests {
                                                                   transactionSettingsFactory: WalletTransactionSettingsFactory(),
                                                                   feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
-            let presenter = try AmountPresenter(view: view,
-                                                coordinator: coordinator,
-                                                payload: amountPayload,
-                                                dataProviderFactory: dataProviderFactory,
-                                                feeCalculationFactory: FeeCalculationFactory(),
-                                                account: accountSettings,
-                                                transferViewModelFactory: transferViewModelFactory,
-                                                assetSelectionFactory: assetSelectionFactory,
-                                                accessoryFactory: accessoryViewModelFactory,
-                                                localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
+            let presenter = try TransferPresenter(view: view,
+                                                  coordinator: coordinator,
+                                                  payload: amountPayload,
+                                                  dataProviderFactory: dataProviderFactory,
+                                                  feeCalculationFactory: FeeCalculationFactory(),
+                                                  account: accountSettings,
+                                                  transferViewModelFactory: transferViewModelFactory,
+                                                  assetSelectionFactory: assetSelectionFactory,
+                                                  accessoryFactory: accessoryViewModelFactory,
+                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             presenter.setup()
 
             // then
 
-            wait(for: [titleExpectation,
-                       assetExpectation,
+            wait(for: [assetExpectation,
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,

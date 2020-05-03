@@ -180,8 +180,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                                   transactionSettingsFactory: transactionSettingsFactory,
                                                                   feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
-            let view = MockAmountViewProtocol()
-            let coordinator = MockWithdrawAmountCoordinatorProtocol()
+            let view = MockWithdrawViewProtocol()
+            let coordinator = MockWithdrawCoordinatorProtocol()
 
             let assetViewModelObserver = MockAssetSelectionViewModelObserver()
             let feeViewModelObserver = MockFeeViewModelObserver()
@@ -199,7 +199,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                 httpMethod: .get,
                                                 urlMockType: .regex)
 
-            let titleExpectation = XCTestExpectation()
             let assetSelectionExpectation = XCTestExpectation()
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
@@ -215,10 +214,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             var descriptionViewModel: DescriptionInputViewModelProtocol?
 
             stub(view) { stub in
-                when(stub).set(title: any(String.self)).then { _ in
-                    titleExpectation.fulfill()
-                }
-
                 when(stub).set(assetViewModel: any()).then { viewModel in
                     viewModel.observable.add(observer: assetViewModelObserver)
 
@@ -231,8 +226,8 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                     amountExpectation.fulfill()
                 }
 
-                when(stub).set(feeViewModel: any()).then { viewModel in
-                    viewModel.observable.add(observer: feeViewModelObserver)
+                when(stub).set(feeViewModels: any()).then { viewModels in
+                    viewModels.first?.observable.add(observer: feeViewModelObserver)
 
                     feeExpectation.fulfill()
                 }
@@ -286,23 +281,22 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
 
-            let presenter = try WithdrawAmountPresenter(view: view,
-                                                        coordinator: coordinator,
-                                                        assets: accountSettings.assets,
-                                                        selectedAsset: selectedAsset,
-                                                        selectedOption: selectionOption,
-                                                        dataProviderFactory: dataProviderFactory,
-                                                        feeCalculationFactory: FeeCalculationFactory(),
-                                                        withdrawViewModelFactory: viewModelFactory,
-                                                        assetTitleFactory: assetSelectionFactory,
-                                                        localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
+            let presenter = try WithdrawPresenter(view: view,
+                                                  coordinator: coordinator,
+                                                  assets: accountSettings.assets,
+                                                  selectedAsset: selectedAsset,
+                                                  selectedOption: selectionOption,
+                                                  dataProviderFactory: dataProviderFactory,
+                                                  feeCalculationFactory: FeeCalculationFactory(),
+                                                  withdrawViewModelFactory: viewModelFactory,
+                                                  assetTitleFactory: assetSelectionFactory,
+                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             // then
 
             presenter.setup()
 
-            wait(for: [titleExpectation,
-                       assetSelectionExpectation,
+            wait(for: [assetSelectionExpectation,
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,
@@ -317,7 +311,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             beforeConfirmationBlock?()
 
-            presenter.confirm()
+            presenter.proceed()
 
             XCTAssertEqual(presenter.confirmationState, .waiting)
 
