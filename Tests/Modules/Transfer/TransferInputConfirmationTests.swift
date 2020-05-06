@@ -277,6 +277,8 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
+                                                  titleFactory: TransferDefinitionTitleModelFactory(),
+                                                  receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             presenter.setup()

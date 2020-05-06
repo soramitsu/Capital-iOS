@@ -12,11 +12,11 @@ class OperationDefinitionViewController: AccessoryViewController {
     private struct Constants {
         static let horizontalMargin: CGFloat = 20.0
         static let assetHeight: CGFloat = 54.0
-        static let amountTitleInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 4.0, right: 0.0)
         static let amountHeight: CGFloat = 42.0
         static let amountInsets = UIEdgeInsets(top: 4.0, left: 0.0, bottom: 14.0, right: 0.0)
         static let feeInsets = UIEdgeInsets(top: 8.0, left: 0.0, bottom: 17.0, right: 0.0)
-        static let descriptionInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 8.0, right: 0.0)
+        static let descriptionInsets = UIEdgeInsets(top: 4.0, left: 0.0, bottom: 8.0, right: 0.0)
+        static let titleInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 4.0, right: 0.0)
     }
 
     var presenter: OperationDefinitionPresenterProtocol!
@@ -131,6 +131,7 @@ class OperationDefinitionViewController: AccessoryViewController {
 
         if definition.titleView == nil {
             let titleView = containingFactory.createTitleView()
+            titleView.contentInsets = Constants.titleInsets
             arrange(newView: titleView, before: modifiedDefinition.mainView)
             modifiedDefinition.titleView = titleView
         }

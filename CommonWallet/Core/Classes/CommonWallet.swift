@@ -17,6 +17,7 @@ public protocol CommonWalletBuilderProtocol: class {
     var contactsModuleBuilder: ContactsModuleBuilderProtocol { get }
     var receiveModuleBuilder: ReceiveAmountModuleBuilderProtocol { get }
     var transactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtocol { get }
+    var transferModuleBuilder: TransferModuleBuilderProtocol { get }
     var styleBuilder: WalletStyleBuilderProtocol { get }
 
     @discardableResult
@@ -72,6 +73,7 @@ public final class CommonWalletBuilder {
     fileprivate var privateInvoiceScanModuleBuilder: InvoiceScanModuleBuilder
     fileprivate var privateReceiveModuleBuilder: ReceiveAmountModuleBuilder
     fileprivate var privateTransactionDetailsModuleBuilder: TransactionDetailsModuleBuilder
+    fileprivate var privateTransferModuleBuilder: TransferModuleBuilder
     fileprivate var privateStyleBuilder: WalletStyleBuilder
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
@@ -98,6 +100,7 @@ public final class CommonWalletBuilder {
         privateInvoiceScanModuleBuilder = InvoiceScanModuleBuilder()
         privateReceiveModuleBuilder = ReceiveAmountModuleBuilder()
         privateTransactionDetailsModuleBuilder = TransactionDetailsModuleBuilder()
+        privateTransferModuleBuilder = TransferModuleBuilder()
         privateStyleBuilder = WalletStyleBuilder()
     }
 }
@@ -125,6 +128,10 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
     public var transactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtocol {
         return privateTransactionDetailsModuleBuilder
+    }
+
+    public var transferModuleBuilder: TransferModuleBuilderProtocol {
+        return privateTransferModuleBuilder
     }
 
     public var styleBuilder: WalletStyleBuilderProtocol {
@@ -208,43 +215,9 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
     }
 
     public func build() throws -> CommonWalletContextProtocol {
-        let style = privateStyleBuilder.build()
-
-        privateAccountModuleBuilder.walletStyle = style
-        let accountListConfiguration = try privateAccountModuleBuilder.build()
-
-        privateHistoryModuleBuilder.walletStyle = style
-        let historyConfiguration = privateHistoryModuleBuilder.build()
-
-        privateContactsModuleBuilder.walletStyle = style
-        let contactsConfiguration = privateContactsModuleBuilder.build()
-
-        privateInvoiceScanModuleBuilder.walletStyle = style
-        let invoiceScanConfiguration = privateInvoiceScanModuleBuilder.build()
-
-        let receiveConfiguration = privateReceiveModuleBuilder.build()
-
-        let transactionDetailsConfiguration = privateTransactionDetailsModuleBuilder.build()
-
-        let decorator = WalletInputValidatorFactoryDecorator(descriptionMaxLength: transferDescriptionLimit)
-        decorator.underlyingFactory = inputValidatorFactory
-
-        let resolver = Resolver(account: account,
-                                networkOperationFactory: networkOperationFactory,
-                                accountListConfiguration: accountListConfiguration,
-                                historyConfiguration: historyConfiguration,
-                                contactsConfiguration: contactsConfiguration,
-                                invoiceScanConfiguration: invoiceScanConfiguration,
-                                receiveConfiguration: receiveConfiguration,
-                                transactionDetailsConfiguration: transactionDetailsConfiguration,
-                                inputValidatorFactory: decorator,
-                                feeCalculationFactory: feeCalculationFactory,
-                                feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                transactionSettingsFactory: transactionSettingsFactory)
+        let resolver = try createResolver()
 
         resolver.commandDecoratorFactory = commandDecoratorFactory
-
-        resolver.style = style
 
         resolver.logger = logger
 
@@ -277,6 +250,51 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         resolver.localizationManager = LocalizationManager(localization: language.rawValue,
                                                            availableLocalizations: allLanguages)
         L10n.sharedLanguage = language
+
+        return resolver
+    }
+
+    // MARK: Private
+
+    private func createResolver() throws -> Resolver {
+        let style = privateStyleBuilder.build()
+
+        privateAccountModuleBuilder.walletStyle = style
+        let accountListConfiguration = try privateAccountModuleBuilder.build()
+
+        privateHistoryModuleBuilder.walletStyle = style
+        let historyConfiguration = privateHistoryModuleBuilder.build()
+
+        privateContactsModuleBuilder.walletStyle = style
+        let contactsConfiguration = privateContactsModuleBuilder.build()
+
+        privateInvoiceScanModuleBuilder.walletStyle = style
+        let invoiceScanConfiguration = privateInvoiceScanModuleBuilder.build()
+
+        let receiveConfiguration = privateReceiveModuleBuilder.build()
+
+        let transactionDetailsConfiguration = privateTransactionDetailsModuleBuilder.build()
+
+        let transferConfiguration = privateTransferModuleBuilder.build()
+
+        let decorator = WalletInputValidatorFactoryDecorator(descriptionMaxLength: transferDescriptionLimit)
+        decorator.underlyingFactory = inputValidatorFactory
+
+        let resolver = Resolver(account: account,
+                                networkOperationFactory: networkOperationFactory,
+                                accountListConfiguration: accountListConfiguration,
+                                historyConfiguration: historyConfiguration,
+                                contactsConfiguration: contactsConfiguration,
+                                invoiceScanConfiguration: invoiceScanConfiguration,
+                                receiveConfiguration: receiveConfiguration,
+                                transactionDetailsConfiguration: transactionDetailsConfiguration,
+                                transferConfiguration: transferConfiguration,
+                                inputValidatorFactory: decorator,
+                                feeCalculationFactory: feeCalculationFactory,
+                                feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                transactionSettingsFactory: transactionSettingsFactory)
+
+        resolver.style = style
 
         return resolver
     }

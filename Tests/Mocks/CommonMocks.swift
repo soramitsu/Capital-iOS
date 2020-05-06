@@ -1700,6 +1700,20 @@ import SoraFoundation
     
     
     
+     var transferConfiguration: TransferConfigurationProtocol {
+        get {
+            return cuckoo_manager.getter("transferConfiguration",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.transferConfiguration)
+        }
+        
+    }
+    
+    
+    
      var navigation: NavigationProtocol? {
         get {
             return cuckoo_manager.getter("navigation",
@@ -1943,6 +1957,11 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var transferConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, TransferConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transferConfiguration")
+	    }
+	    
+	    
 	    var navigation: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NavigationProtocol?> {
 	        return .init(manager: cuckoo_manager, name: "navigation")
 	    }
@@ -2070,6 +2089,11 @@ import SoraFoundation
 	    
 	    var transactionDetailsConfiguration: Cuckoo.VerifyReadOnlyProperty<TransactionDetailsConfigurationProtocol> {
 	        return .init(manager: cuckoo_manager, name: "transactionDetailsConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var transferConfiguration: Cuckoo.VerifyReadOnlyProperty<TransferConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transferConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2220,6 +2244,14 @@ import SoraFoundation
      var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (TransactionDetailsConfigurationProtocol).self)
+        }
+        
+    }
+    
+    
+     var transferConfiguration: TransferConfigurationProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (TransferConfigurationProtocol).self)
         }
         
     }

@@ -8,8 +8,10 @@ import Foundation
 
 protocol TransferConfigurationProtocol {
     var receiverPosition: TransferReceiverPosition { get }
+    var titleFactory: OperationDefinitionTitleModelFactoryProtocol { get }
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
     let receiverPosition: TransferReceiverPosition
+    let titleFactory: OperationDefinitionTitleModelFactoryProtocol
 }

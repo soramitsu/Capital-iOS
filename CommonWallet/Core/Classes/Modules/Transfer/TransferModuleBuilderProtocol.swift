@@ -6,6 +6,7 @@
 
 import Foundation
 
-public protocol TransferModulerBuilderProtocol {
+public protocol TransferModuleBuilderProtocol {
     func with(receiverPosition: TransferReceiverPosition) -> Self
+    func with(titleFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self
 }

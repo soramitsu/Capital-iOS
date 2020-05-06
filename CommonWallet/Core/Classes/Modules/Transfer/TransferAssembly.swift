@@ -35,6 +35,9 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                                   transactionSettingsFactory: transactionFactory,
                                                                   feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
+            let titleFactory = resolver.transferConfiguration.titleFactory
+            let receiverPosition = resolver.transferConfiguration.receiverPosition
+
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
                                                    payload: payload,
@@ -44,6 +47,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    transferViewModelFactory: transferViewModelFactory,
                                                    assetSelectionFactory: assetSelectionFactory,
                                                    accessoryFactory: accessoryViewModelFactory,
+                                                   titleFactory: titleFactory,
+                                                   receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager)
             view.presenter = presenter
 
