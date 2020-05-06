@@ -18,11 +18,43 @@ protocol ContainingViewFactoryProtocol {
     func createAmountInputView(for display: AmountInputViewDisplay) -> AmountInputView
     func createDescriptionInputView() -> DescriptionInputView
     func createFeeView() -> FeeView
+    func createReceiver() -> MultilineTitleIconView
+    func createTitleView() -> MultilineTitleIconView
+    func createErrorView() -> MultilineTitleIconView
     func createSeparatorView() -> BorderedContainerView
 }
 
 struct ContainingViewFactory: ContainingViewFactoryProtocol {
     let style: WalletStyleProtocol
+
+    func createTitleView() -> MultilineTitleIconView {
+        let view = MultilineTitleIconView()
+
+        view.titleLabel.textColor = style.captionTextColor
+        view.titleLabel.font = style.bodyRegularFont
+
+        return view
+    }
+
+    func createReceiver() -> MultilineTitleIconView {
+        let view = MultilineTitleIconView()
+
+        view.titleLabel.textColor = style.bodyTextColor
+        view.titleLabel.font = style.bodyRegularFont
+
+        return view
+    }
+
+    func createErrorView() -> MultilineTitleIconView {
+        let view = MultilineTitleIconView()
+
+        let errorStyle = style.inlineErrorStyle
+
+        view.titleLabel.textColor = errorStyle.titleColor
+        view.titleLabel.font = errorStyle.titleFont
+
+        return view
+    }
 
     func createSelectedAssetView() -> SelectedAssetView {
         let optionalView = UINib(nibName: "SelectedAssetView", bundle: Bundle(for: SelectedAssetView.self))

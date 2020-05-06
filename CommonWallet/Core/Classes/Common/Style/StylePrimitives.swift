@@ -81,6 +81,12 @@ public protocol WalletLoadingOverlayStyleProtocol {
     var animationDuration: TimeInterval { get }
 }
 
+public protocol WalletInlineErrorStyleProtocol {
+    var icon: UIImage? { get }
+    var titleColor: UIColor { get }
+    var titleFont: UIFont { get }
+}
+
 public struct WalletTextStyle: WalletTextStyleProtocol {
     public var font: UIFont
     public var color: UIColor
@@ -240,5 +246,17 @@ public struct WalletLoadingOverlayStyle: WalletLoadingOverlayStyleProtocol {
         self.contentSize = contentSize
         self.indicator = indicator
         self.animationDuration = animationDuration
+    }
+}
+
+public struct WalletInlineErrorStyle: WalletInlineErrorStyleProtocol {
+    public var icon: UIImage?
+    public var titleFont: UIFont
+    public var titleColor: UIColor
+
+    public init(titleColor: UIColor, titleFont: UIFont, icon: UIImage? = nil) {
+        self.titleColor = titleColor
+        self.titleFont = titleFont
+        self.icon = icon
     }
 }

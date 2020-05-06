@@ -37,6 +37,7 @@ protocol WalletStyleProtocol {
     var caretColor: UIColor? { get }
     var doneIcon: UIImage? { get }
     var shareIcon: UIImage? { get }
+    var inlineErrorStyle: WalletInlineErrorStyleProtocol { get }
 }
 
 
@@ -227,6 +228,17 @@ final class WalletStyle: WalletStyleProtocol {
             return style
         } else {
             return WalletLoadingOverlayStyle.createDefault()
+        }
+    }
+
+    var internalInlineErrorStyle: WalletInlineErrorStyleProtocol?
+
+    var inlineErrorStyle: WalletInlineErrorStyleProtocol {
+        if let style = internalInlineErrorStyle {
+            return style
+        } else {
+            let errorColor = UIColor(red: 0.942, green: 0, blue: 0.044, alpha: 1)
+            return WalletInlineErrorStyle(titleColor: errorColor, titleFont: smallFont)
         }
     }
 }

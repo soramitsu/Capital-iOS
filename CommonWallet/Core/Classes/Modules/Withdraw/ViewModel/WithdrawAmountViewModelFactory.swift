@@ -7,7 +7,6 @@ import Foundation
 import SoraFoundation
 
 protocol WithdrawAmountViewModelFactoryProtocol {
-    func createWithdrawTitle() -> String
 
     func createFeeTitle(for asset: WalletAsset?,
                         amount: Decimal?,
@@ -45,9 +44,6 @@ final class WithdrawAmountViewModelFactory {
 }
 
 extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol {
-    func createWithdrawTitle() -> String {
-        return option.shortTitle
-    }
 
     func createFeeTitle(for asset: WalletAsset?,
                         amount: Decimal?,

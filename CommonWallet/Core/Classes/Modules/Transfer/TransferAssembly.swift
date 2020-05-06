@@ -6,15 +6,17 @@
 import Foundation
 import SoraFoundation
 
-final class AmountAssembly: AmountAssemblyProtocol {
+final class TransferAssembly: TransferAssemblyProtocol {
     
     static func assembleView(with resolver: ResolverProtocol,
-                             payload: AmountPayload) -> AmountViewProtocol? {
+                             payload: AmountPayload) -> TransferViewProtocol? {
         do {
             let containingFactory = ContainingViewFactory(style: resolver.style)
-            let view = AmountViewController(containingFactory: containingFactory, style: resolver.style)
+            let view = TransferViewController(containingFactory: containingFactory,
+                                              style: resolver.style)
+            view.localizableTitle = LocalizableResource { _ in L10n.Amount.moduleTitle }
 
-            let coordinator = AmountCoordinator(resolver: resolver)
+            let coordinator = TransferCoordinator(resolver: resolver)
 
             let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
@@ -33,16 +35,16 @@ final class AmountAssembly: AmountAssemblyProtocol {
                                                                   transactionSettingsFactory: transactionFactory,
                                                                   feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
-            let presenter = try  AmountPresenter(view: view,
-                                                 coordinator: coordinator,
-                                                 payload: payload,
-                                                 dataProviderFactory: dataProviderFactory,
-                                                 feeCalculationFactory: resolver.feeCalculationFactory,
-                                                 account: resolver.account,
-                                                 transferViewModelFactory: transferViewModelFactory,
-                                                 assetSelectionFactory: assetSelectionFactory,
-                                                 accessoryFactory: accessoryViewModelFactory,
-                                                 localizationManager: resolver.localizationManager)
+            let presenter = try  TransferPresenter(view: view,
+                                                   coordinator: coordinator,
+                                                   payload: payload,
+                                                   dataProviderFactory: dataProviderFactory,
+                                                   feeCalculationFactory: resolver.feeCalculationFactory,
+                                                   account: resolver.account,
+                                                   transferViewModelFactory: transferViewModelFactory,
+                                                   assetSelectionFactory: assetSelectionFactory,
+                                                   accessoryFactory: accessoryViewModelFactory,
+                                                   localizationManager: resolver.localizationManager)
             view.presenter = presenter
 
             view.localizationManager = resolver.localizationManager

@@ -5,7 +5,7 @@
 
 import Foundation
 
-final class AmountCoordinator: AmountCoordinatorProtocol {
+final class TransferCoordinator: TransferCoordinatorProtocol {
     
     let resolver: ResolverProtocol
     

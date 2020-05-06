@@ -7,7 +7,7 @@ import Foundation
 import RobinHood
 import SoraFoundation
 
-enum AmountPresenterError: Error {
+enum TransferPresenterError: Error {
     case missingSelectedAsset
 }
 
@@ -26,10 +26,10 @@ struct TransferCheckingState: OptionSet {
     }
 }
 
-final class AmountPresenter {
+final class TransferPresenter {
 
-    weak var view: AmountViewProtocol?
-    var coordinator: AmountCoordinatorProtocol
+    weak var view: TransferViewProtocol?
+    var coordinator: TransferCoordinatorProtocol
     var logger: WalletLoggerProtocol?
     
     private var assetSelectionViewModel: AssetSelectionViewModel
@@ -55,8 +55,8 @@ final class AmountPresenter {
 
     private(set) var confirmationState: TransferCheckingState?
 
-    init(view: AmountViewProtocol,
-         coordinator: AmountCoordinatorProtocol,
+    init(view: TransferViewProtocol,
+         coordinator: TransferCoordinatorProtocol,
          payload: AmountPayload,
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
@@ -71,7 +71,7 @@ final class AmountPresenter {
         } else if let asset = account.assets.first {
             selectedAsset = asset
         } else {
-            throw AmountPresenterError.missingSelectedAsset
+            throw TransferPresenterError.missingSelectedAsset
         }
 
         self.view = view
@@ -459,23 +459,22 @@ final class AmountPresenter {
 }
 
 
-extension AmountPresenter: AmountPresenterProtocol {
+extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
     func setup() {
         amountInputViewModel.observable.add(observer: self)
 
-        view?.set(title: L10n.Amount.moduleTitle)
         view?.set(assetViewModel: assetSelectionViewModel)
         view?.set(amountViewModel: amountInputViewModel)
         view?.set(descriptionViewModel: descriptionInputViewModel)
         view?.set(accessoryViewModel: accessoryViewModel)
-        view?.set(feeViewModel: feeViewModel)
+        view?.set(feeViewModels: [feeViewModel])
 
         setupBalanceDataProvider()
         setupMetadata(provider: metadataProvider)
     }
     
-    func confirm() {
+    func proceed() {
         guard confirmationState == nil else {
             return
         }
@@ -506,9 +505,13 @@ extension AmountPresenter: AmountPresenterProtocol {
 
         assetSelectionViewModel.isSelecting = true
     }
+
+    func presentFeeEditing(at index: Int) {
+        
+    }
 }
 
-extension AmountPresenter: ModalPickerViewDelegate {
+extension TransferPresenter: ModalPickerViewDelegate {
     func modalPickerViewDidCancel(_ view: ModalPickerView) {
         assetSelectionViewModel.isSelecting = false
     }
@@ -534,16 +537,15 @@ extension AmountPresenter: ModalPickerViewDelegate {
     }
 }
 
-extension AmountPresenter: AmountInputViewModelObserver {
+extension TransferPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
         updateFeeViewModel(for: selectedAsset)
     }
 }
 
-extension AmountPresenter: Localizable {
+extension TransferPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
-            view?.set(title: L10n.Amount.moduleTitle)
             updateAmountInputViewModel()
             updateSelectedAssetViewModel(for: selectedAsset)
             updateFeeViewModel(for: selectedAsset)
