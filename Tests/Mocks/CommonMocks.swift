@@ -1714,6 +1714,20 @@ import SoraFoundation
     
     
     
+     var withdrawConfiguration: WithdrawConfigurationProtocol {
+        get {
+            return cuckoo_manager.getter("withdrawConfiguration",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.withdrawConfiguration)
+        }
+        
+    }
+    
+    
+    
      var navigation: NavigationProtocol? {
         get {
             return cuckoo_manager.getter("navigation",
@@ -1962,6 +1976,11 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var withdrawConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WithdrawConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "withdrawConfiguration")
+	    }
+	    
+	    
 	    var navigation: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NavigationProtocol?> {
 	        return .init(manager: cuckoo_manager, name: "navigation")
 	    }
@@ -2094,6 +2113,11 @@ import SoraFoundation
 	    
 	    var transferConfiguration: Cuckoo.VerifyReadOnlyProperty<TransferConfigurationProtocol> {
 	        return .init(manager: cuckoo_manager, name: "transferConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var withdrawConfiguration: Cuckoo.VerifyReadOnlyProperty<WithdrawConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "withdrawConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2252,6 +2276,14 @@ import SoraFoundation
      var transferConfiguration: TransferConfigurationProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (TransferConfigurationProtocol).self)
+        }
+        
+    }
+    
+    
+     var withdrawConfiguration: WithdrawConfigurationProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WithdrawConfigurationProtocol).self)
         }
         
     }

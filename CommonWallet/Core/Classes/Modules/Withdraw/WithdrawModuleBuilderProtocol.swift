@@ -6,10 +6,7 @@
 
 import Foundation
 
-public protocol TransferModuleBuilderProtocol {
-    @discardableResult
-    func with(receiverPosition: TransferReceiverPosition) -> Self
-
+public protocol WithdrawModuleBuilderProtocol {
     @discardableResult
     func with(titleFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self
 

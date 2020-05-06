@@ -18,7 +18,7 @@ protocol ContainingViewFactoryProtocol {
     func createAmountInputView(for display: AmountInputViewDisplay) -> AmountInputView
     func createDescriptionInputView() -> DescriptionInputView
     func createFeeView() -> FeeView
-    func createReceiver() -> MultilineTitleIconView
+    func createReceiver() -> ReceiverFormView
     func createTitleView() -> MultilineTitleIconView
     func createErrorView() -> MultilineTitleIconView
     func createSeparatorView() -> BorderedContainerView
@@ -36,9 +36,10 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
         return view
     }
 
-    func createReceiver() -> MultilineTitleIconView {
-        let view = MultilineTitleIconView()
+    func createReceiver() -> ReceiverFormView {
+        let view = ReceiverFormView()
 
+        view.borderedView.strokeColor = style.thinBorderColor
         view.titleLabel.textColor = style.bodyTextColor
         view.titleLabel.font = style.bodyRegularFont
 

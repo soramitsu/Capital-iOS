@@ -269,7 +269,7 @@ final class TransferPresenter {
         let viewModel = MultilineTitleIconViewModel(text: accessoryViewModel.title,
                                                     icon: accessoryViewModel.icon)
 
-        view?.setReceiverHeader(viewModel)
+        view?.set(receiverViewModel: viewModel)
 
         if let title = titleFactory.createReceiverTitle(assetId: selectedAsset.identifier,
                                                         receiverId: payload.receiveInfo.accountId) {
@@ -543,7 +543,6 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
         if receiverPosition == .form {
             setupReceiverViewModel()
         }
-
 
         setupAccessoryViewModel()
 

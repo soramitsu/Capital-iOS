@@ -6,7 +6,7 @@
 
 import Foundation
 
-enum KeyboardIndicatorDisplayMode {
+public enum KeyboardIndicatorDisplayMode {
     case never
     case editing
     case always

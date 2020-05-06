@@ -11,9 +11,46 @@ class MultilineTitleIconView: UIView {
 
     private var imageView: UIImageView?
 
-    private var viewModel: MultilineTitleIconViewModelProtocol?
-
     private var preferredWidth: CGFloat = 0.0
+
+    var title: String? {
+        get {
+            titleLabel.text
+        }
+
+        set {
+            titleLabel.text = newValue
+
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+        }
+    }
+
+    var icon: UIImage? {
+        get {
+            imageView?.image
+        }
+
+        set {
+            if let newIcon = newValue {
+                if imageView == nil {
+                    let imageView = UIImageView()
+                    addSubview(imageView)
+                    self.imageView = imageView
+                }
+
+                imageView?.image = newIcon
+            } else {
+                if imageView != nil {
+                    imageView?.removeFromSuperview()
+                    imageView = nil
+                }
+            }
+
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+        }
+    }
 
     var horizontalSpacing: CGFloat = 6.0 {
         didSet {
@@ -31,26 +68,8 @@ class MultilineTitleIconView: UIView {
     }
 
     func bind(viewModel: MultilineTitleIconViewModelProtocol) {
-        self.viewModel = viewModel
-
-        titleLabel.text = viewModel.text
-
-        if let icon = viewModel.icon {
-            if imageView == nil {
-                let imageView = UIImageView()
-                addSubview(imageView)
-                self.imageView = imageView
-            }
-
-            imageView?.image = icon
-        } else {
-            if imageView != nil {
-                imageView?.removeFromSuperview()
-                imageView = nil
-            }
-        }
-
-        setNeedsLayout()
+        self.title = viewModel.text
+        self.icon = viewModel.icon
     }
 
     // MARK: Overridings

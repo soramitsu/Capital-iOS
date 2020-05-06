@@ -11,10 +11,10 @@ final class TransferAssembly: TransferAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: AmountPayload) -> TransferViewProtocol? {
         do {
-            let containingFactory = ContainingViewFactory(style: resolver.style)
-            let view = TransferViewController(containingFactory: containingFactory,
-                                              style: resolver.style)
+            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style)
+            let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
             view.localizableTitle = LocalizableResource { _ in L10n.Amount.moduleTitle }
+            view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
 
             let coordinator = TransferCoordinator(resolver: resolver)
 

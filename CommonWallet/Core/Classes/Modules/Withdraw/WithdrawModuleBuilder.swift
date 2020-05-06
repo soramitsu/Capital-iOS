@@ -6,14 +6,12 @@
 
 import Foundation
 
-final class TransferModuleBuilder {
+final class WithdrawModuleBuilder {
     private struct Constants {
         static let iconTitleSpacing: CGFloat = 6
     }
 
     lazy var style: WalletStyleProtocol = WalletStyle()
-
-    private var receiverPosition: TransferReceiverPosition = .accessoryBar
 
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
@@ -111,25 +109,20 @@ final class TransferModuleBuilder {
                                                 containingErrorStyle: containingErrorStyle)
     }()
 
-    func build() -> TransferConfigurationProtocol {
+    func build() -> WithdrawConfigurationProtocol {
         let style = OperationDefinitionViewStyle(assetStyle: selectedAssetStyle,
                                                  receiverStyle: receiverStyle,
                                                  amountStyle: amountStyle,
                                                  feeStyle: feeStyle,
                                                  descriptionStyle: descriptionStyle)
 
-        return TransferConfiguration(receiverPosition: receiverPosition,
-                                     titleFactory: titleFactory,
+        return WithdrawConfiguration(titleFactory: titleFactory,
                                      separatorsDistribution: separatorsDistribution,
                                      style: style)
     }
 }
 
-extension TransferModuleBuilder: TransferModuleBuilderProtocol {
-    func with(receiverPosition: TransferReceiverPosition) -> Self {
-        self.receiverPosition = receiverPosition
-        return self
-    }
+extension WithdrawModuleBuilder: WithdrawModuleBuilderProtocol {
 
     func with(titleFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
         self.titleFactory = titleFactory

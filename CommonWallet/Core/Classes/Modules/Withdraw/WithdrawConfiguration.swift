@@ -6,15 +6,13 @@
 
 import Foundation
 
-protocol TransferConfigurationProtocol {
-    var receiverPosition: TransferReceiverPosition { get }
+protocol WithdrawConfigurationProtocol {
     var titleFactory: OperationDefinitionTitleModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var style: OperationDefinitionViewStyle { get }
 }
 
-struct TransferConfiguration: TransferConfigurationProtocol {
-    let receiverPosition: TransferReceiverPosition
+struct WithdrawConfiguration: WithdrawConfigurationProtocol {
     let titleFactory: OperationDefinitionTitleModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let style: OperationDefinitionViewStyle

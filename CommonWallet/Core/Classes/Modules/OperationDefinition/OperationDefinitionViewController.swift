@@ -13,18 +13,23 @@ class OperationDefinitionViewController: AccessoryViewController {
         static let horizontalMargin: CGFloat = 20.0
         static let assetHeight: CGFloat = 54.0
         static let amountHeight: CGFloat = 42.0
-        static let amountInsets = UIEdgeInsets(top: 4.0, left: 0.0, bottom: 14.0, right: 0.0)
-        static let feeInsets = UIEdgeInsets(top: 8.0, left: 0.0, bottom: 17.0, right: 0.0)
-        static let descriptionInsets = UIEdgeInsets(top: 4.0, left: 0.0, bottom: 8.0, right: 0.0)
-        static let titleInsets = UIEdgeInsets(top: 17.0, left: 0.0, bottom: 4.0, right: 0.0)
     }
 
     var presenter: OperationDefinitionPresenterProtocol!
 
-    let containingFactory: ContainingViewFactoryProtocol
+    let containingFactory: OperationDefinitionViewFactoryProtocol
     let style: WalletStyleProtocol
 
     var localizableTitle: LocalizableResource<String>?
+
+    var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
+        = DefaultSeparatorsDistribution() {
+        didSet {
+            if isViewLoaded {
+                updateSeparators()
+            }
+        }
+    }
 
     override var accessoryStyle: WalletAccessoryStyleProtocol? {
         style.accessoryStyle
@@ -36,9 +41,9 @@ class OperationDefinitionViewController: AccessoryViewController {
     private var amountInputDef: OperationDefinition<AmountInputView>!
     private var feeDefs: [OperationDefinition<FeeView>] = []
     private var descriptionInputDef: OperationDefinition<DescriptionInputView>!
-    private var receiverDef: OperationDefinition<MultilineTitleIconView>?
+    private var receiverDef: OperationDefinition<ReceiverFormView>?
 
-    init(containingFactory: ContainingViewFactoryProtocol, style: WalletStyleProtocol) {
+    init(containingFactory: OperationDefinitionViewFactoryProtocol, style: WalletStyleProtocol) {
         self.containingFactory = containingFactory
         self.style = style
 
@@ -68,24 +73,17 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func configureContentView() {
-        let selectedAssetView = containingFactory.createSelectedAssetView()
+        let selectedAssetView = containingFactory.createAssetView()
         selectedAssetView.delegate = self
-        selectedAssetView.borderedView.borderType = [.bottom]
         selectedAssetView.heightAnchor.constraint(equalToConstant: Constants.assetHeight).isActive = true
         selectedAssetDef = OperationDefinition(mainView: selectedAssetView)
 
-        let amountInputView = containingFactory.createAmountInputView(for: .large)
-        amountInputView.borderedView.borderType = [.bottom]
-        amountInputView.contentInsets = Constants.amountInsets
-        amountInputView.keyboardIndicatorMode = .never
-        let amountHeight = Constants.amountHeight + Constants.amountInsets.top + Constants.amountInsets.bottom
+        let amountInputView = containingFactory.createAmountView()
+        let amountHeight = Constants.amountHeight + amountInputView.contentInsets.top + amountInputView.contentInsets.bottom
         amountInputView.heightAnchor.constraint(equalToConstant: amountHeight).isActive = true
         amountInputDef = OperationDefinition(mainView: amountInputView)
 
-        let descriptionInputView = containingFactory.createDescriptionInputView()
-        descriptionInputView.contentInsets = Constants.descriptionInsets
-        descriptionInputView.keyboardIndicatorMode = .never
-        descriptionInputView.borderedView.borderType = []
+        let descriptionInputView = containingFactory.createDescriptionView()
         descriptionInputDef = OperationDefinition(mainView: descriptionInputView)
 
         let views: [UIView] = [selectedAssetView, amountInputView, descriptionInputView]
@@ -114,24 +112,39 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func updateSeparators() {
-        if feeDefs.count > 1 {
-            feeDefs[0..<feeDefs.count-1].forEach { feeDef in
-                feeDef.mainView.borderedView.borderType = []
+        selectedAssetDef.mainView.borderedView.borderType = separatorsDistribution.assetBorderType
+
+        receiverDef?.mainView.borderedView.borderType = separatorsDistribution.receiverBorderType
+
+        if feeDefs.count > 0 {
+            amountInputDef.mainView.borderedView.borderType = separatorsDistribution.amountWithFeeBorderType
+        } else {
+            amountInputDef.mainView.borderedView.borderType = separatorsDistribution.amountWithoutFeeBorderType
+        }
+
+        if feeDefs.count == 1 {
+            feeDefs.first?.mainView.borderedView.borderType = separatorsDistribution.singleFeeBorderType
+        } else if feeDefs.count > 1 {
+            feeDefs.last?.mainView.borderedView.borderType = separatorsDistribution.firstFeeBorderType
+            feeDefs.last?.mainView.borderedView.borderType = separatorsDistribution.lastFeeBorderType
+
+            feeDefs[1..<feeDefs.count-1].forEach { feeDef in
+                feeDef.mainView.borderedView.borderType = separatorsDistribution.middleFeeBorderType
             }
         }
 
-        feeDefs.last?.mainView.borderedView.borderType = [.bottom]
+        descriptionInputDef.mainView.borderedView.borderType = separatorsDistribution.descriptionBorderType
     }
 
     private func updatingDef<T: UIView>(_ definition: OperationDefinition<T>,
+                                        type: OperationDefinitionType,
                                         withHeader viewModel: MultilineTitleIconViewModelProtocol)
         -> OperationDefinition<T> {
 
         var modifiedDefinition = definition
 
         if definition.titleView == nil {
-            let titleView = containingFactory.createTitleView()
-            titleView.contentInsets = Constants.titleInsets
+            let titleView = containingFactory.createHeaderViewForItem(type: type)
             arrange(newView: titleView, before: modifiedDefinition.mainView)
             modifiedDefinition.titleView = titleView
         }
@@ -142,13 +155,14 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func updatingDef<T: UIView>(_ definition: OperationDefinition<T>,
+                                        type: OperationDefinitionType,
                                         withError viewModel: MultilineTitleIconViewModelProtocol)
         -> OperationDefinition<T> {
 
         var modifiedDefinition = definition
 
         if modifiedDefinition.errorView == nil {
-            let errorView = containingFactory.createErrorView()
+            let errorView = containingFactory.createErrorViewForItem(type: type)
             arrange(newView: errorView, after: modifiedDefinition.mainView)
             modifiedDefinition.errorView = errorView
         }
@@ -230,7 +244,7 @@ class OperationDefinitionViewController: AccessoryViewController {
 extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
-        selectedAssetDef = updatingDef(selectedAssetDef, withHeader: viewModel)
+        selectedAssetDef = updatingDef(selectedAssetDef, type: .asset, withHeader: viewModel)
     }
 
     func set(assetViewModel: AssetSelectionViewModelProtocol) {
@@ -246,11 +260,11 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
     func presentAssetError(_ message: String) {
         let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        selectedAssetDef = updatingDef(selectedAssetDef, withError: viewModel)
+        selectedAssetDef = updatingDef(selectedAssetDef, type: .asset, withError: viewModel)
     }
 
     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
-        amountInputDef = updatingDef(amountInputDef, withHeader: viewModel)
+        amountInputDef = updatingDef(amountInputDef, type: .amount, withHeader: viewModel)
     }
 
     func set(amountViewModel: AmountInputViewModelProtocol) {
@@ -265,7 +279,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
     func presentAmountError(_ message: String) {
         let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        amountInputDef = updatingDef(amountInputDef, withError: viewModel)
+        amountInputDef = updatingDef(amountInputDef, type: .amount, withError: viewModel)
     }
 
     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
@@ -273,17 +287,22 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
             return
         }
 
-        self.receiverDef = updatingDef(receiverDef, withHeader: viewModel)
+        self.receiverDef = updatingDef(receiverDef, type: .receiver, withHeader: viewModel)
     }
 
     func set(receiverViewModel: MultilineTitleIconViewModelProtocol) {
         if receiverDef == nil {
-            let mainView = containingFactory.createReceiver()
+            let mainView = containingFactory.createReceiverView()
+
             receiverDef = OperationDefinition(mainView: mainView)
 
             let anchorView = selectedAssetDef.errorView ?? selectedAssetDef.mainView
 
             arrange(newView: mainView, after: anchorView)
+
+            mainView.bind(viewModel: receiverViewModel)
+
+            updateSeparators()
         }
     }
 
@@ -293,11 +312,13 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         }
 
         let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        self.receiverDef = updatingDef(receiverDef, withError: viewModel)
+        self.receiverDef = updatingDef(receiverDef, type: .receiver, withError: viewModel)
     }
 
     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
-        descriptionInputDef = updatingDef(descriptionInputDef, withHeader: viewModel)
+        descriptionInputDef = updatingDef(descriptionInputDef,
+                                          type: .description,
+                                          withHeader: viewModel)
     }
 
     func set(descriptionViewModel: DescriptionInputViewModelProtocol) {
@@ -311,7 +332,9 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
     func presentDescriptionError(_ message: String) {
         let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        descriptionInputDef = updatingDef(descriptionInputDef, withError: viewModel)
+        descriptionInputDef = updatingDef(descriptionInputDef,
+                                          type: .description,
+                                          withError: viewModel)
     }
 
     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int) {
@@ -319,7 +342,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
             return
         }
 
-        feeDefs[index] = updatingDef(feeDefs[index], withHeader: viewModel)
+        feeDefs[index] = updatingDef(feeDefs[index], type: .fee, withHeader: viewModel)
     }
 
     func set(feeViewModels: [FeeViewModelProtocol]) {
@@ -331,7 +354,6 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
             (0..<newItemsCount).forEach { _ in
                 let feeView = containingFactory.createFeeView()
-                feeView.contentInsets = Constants.feeInsets
 
                 feeDefs.append(OperationDefinition(mainView: feeView))
 
@@ -358,7 +380,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         }
 
         let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        feeDefs[index] = updatingDef(feeDefs[index], withError: viewModel)
+        feeDefs[index] = updatingDef(feeDefs[index], type: .fee, withError: viewModel)
     }
 
     func set(accessoryViewModel: AccessoryViewModelProtocol) {
