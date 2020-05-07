@@ -5,62 +5,18 @@
 
 import Foundation
 
-@objc protocol AssetSelectionViewModelObserver: class {
-    func assetSelectionDidChangeTitle()
-    func assetSelectionDidChangeSymbol()
-    func assetSelectionDidChangeState()
-}
-
-protocol AssetSelectionViewModelProtocol: class {
+protocol AssetSelectionViewModelProtocol {
     var title: String { get }
-    var symbol: String { get }
+    var details: String { get }
+    var icon: UIImage? { get }
     var isSelecting: Bool { get }
-    var isValid: Bool { get }
     var canSelect: Bool { get }
-
-    var observable: WalletViewModelObserverContainer<AssetSelectionViewModelObserver> { get }
 }
 
-final class AssetSelectionViewModel: AssetSelectionViewModelProtocol {
-    var title: String {
-        didSet {
-            if title != oldValue {
-                observable.observers.forEach { $0.observer?.assetSelectionDidChangeTitle() }
-            }
-        }
-    }
-
-    var symbol: String {
-        didSet {
-            if symbol != oldValue {
-                observable.observers.forEach { $0.observer?.assetSelectionDidChangeSymbol() }
-            }
-        }
-    }
-
-    var isSelecting: Bool = false {
-        didSet {
-            if isSelecting != oldValue {
-                observable.observers.forEach { $0.observer?.assetSelectionDidChangeState() }
-            }
-        }
-    }
-
-    var isValid: Bool {
-        return assetId != nil
-    }
-
-    var canSelect: Bool = true
-
-    var assetId: String?
-
-    private(set) var observable: WalletViewModelObserverContainer<AssetSelectionViewModelObserver>
-
-    init(assetId: String?, title: String, symbol: String) {
-        self.assetId = assetId
-        self.title = title
-        self.symbol = symbol
-
-        observable = WalletViewModelObserverContainer()
-    }
+struct AssetSelectionViewModel: AssetSelectionViewModelProtocol {
+    let title: String
+    let details: String
+    let icon: UIImage?
+    let isSelecting: Bool
+    let canSelect: Bool
 }

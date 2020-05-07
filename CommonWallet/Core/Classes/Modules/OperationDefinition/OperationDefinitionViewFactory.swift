@@ -54,22 +54,25 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
     }
 
     func createAssetView() -> SelectedAssetView {
-        let optionalView = UINib(nibName: "SelectedAssetView", bundle: Bundle(for: SelectedAssetView.self))
-            .instantiate(withOwner: nil, options: nil)
-            .first
-
-        guard let view = optionalView as? SelectedAssetView else {
-            fatalError("Unexpected view returned from nib")
-        }
+        let view = SelectedAssetView()
 
         view.backgroundColor = .clear
 
         view.borderedView.strokeColor = style.assetStyle.separatorStyle.color
         view.borderedView.strokeWidth = style.assetStyle.separatorStyle.lineWidth
 
-        view.titleControl.titleLabel.textColor = style.assetStyle.titleStyle.color
-        view.titleControl.titleLabel.font = style.assetStyle.titleStyle.font
+        view.titleLabel.textColor = style.assetStyle.titleStyle.color
+        view.titleLabel.highlightedTextColor = style.assetStyle.titleStyle.color.withAlphaComponent(0.5)
+        view.titleLabel.font = style.assetStyle.titleStyle.font
+
+        view.detailsControl.titleLabel.textColor = style.assetStyle.detailsStyle.color
+        view.detailsControl.titleLabel.font = style.assetStyle.detailsStyle.font
         view.accessoryIcon = style.assetStyle.switchIcon
+
+        view.contentInsets = style.assetStyle.contentInsets
+        view.titleHorizontalSpacing = style.assetStyle.titleHorizontalSpacing
+        view.detailsHorizontalSpacing = style.assetStyle.detailsHorizontalSpacing
+        view.displayStyle = style.assetStyle.displayStyle
 
         return view
     }

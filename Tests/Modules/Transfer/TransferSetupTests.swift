@@ -83,18 +83,18 @@ class TransferSetupTests: NetworkBaseTests {
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
 
-            let assetSelectionObserver = MockAssetSelectionViewModelObserver()
             let feeViewModelObserver = MockFeeViewModelObserver()
 
             // when
 
             let assetExpectation = XCTestExpectation()
+            assetExpectation.expectedFulfillmentCount = 2
+
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
 
-            let balanceExpectation = XCTestExpectation()
             let feeLoadingCompleteExpectation = XCTestExpectation()
 
             var feeViewModel: FeeViewModelProtocol?
@@ -103,8 +103,6 @@ class TransferSetupTests: NetworkBaseTests {
 
             stub(view) { stub in
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
-                    assetViewModel.observable.add(observer: assetSelectionObserver)
-
                     assetExpectation.fulfill()
                 }
 
@@ -135,12 +133,6 @@ class TransferSetupTests: NetworkBaseTests {
                     when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
                         feeLoadingCompleteExpectation.fulfill()
                     }
-                }
-            }
-
-            stub(assetSelectionObserver) { stub in
-                when(stub).assetSelectionDidChangeTitle().then { title in
-                    balanceExpectation.fulfill()
                 }
             }
 
@@ -184,7 +176,6 @@ class TransferSetupTests: NetworkBaseTests {
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,
-                       balanceExpectation,
                        accessoryExpectation,
                        feeLoadingCompleteExpectation],
                  timeout: Constants.networkTimeout)

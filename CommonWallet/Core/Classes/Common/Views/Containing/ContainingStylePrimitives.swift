@@ -37,21 +37,33 @@ public struct WalletContainingErrorStyle {
 public struct WalletContainingAssetStyle {
     public let containingHeaderStyle: WalletContainingHeaderStyle
     public let titleStyle: WalletTextStyleProtocol
+    public let detailsStyle: WalletTextStyleProtocol
     public let switchIcon: UIImage?
     public let contentInsets: UIEdgeInsets
+    public let titleHorizontalSpacing: CGFloat
+    public let detailsHorizontalSpacing: CGFloat
+    public let displayStyle: SelectedAssetViewDisplayStyle
     public let separatorStyle: WalletStrokeStyleProtocol
     public let containingErrorStyle: WalletContainingErrorStyle
 
     public init(containingHeaderStyle: WalletContainingHeaderStyle,
                 titleStyle: WalletTextStyleProtocol,
+                detailsStyle: WalletTextStyleProtocol,
                 switchIcon: UIImage?,
                 contentInsets: UIEdgeInsets,
+                titleHorizontalSpacing: CGFloat,
+                detailsHorizontalSpacing: CGFloat,
+                displayStyle: SelectedAssetViewDisplayStyle,
                 separatorStyle: WalletStrokeStyleProtocol,
                 containingErrorStyle: WalletContainingErrorStyle) {
         self.containingHeaderStyle = containingHeaderStyle
         self.titleStyle = titleStyle
+        self.detailsStyle = detailsStyle
         self.switchIcon = switchIcon
         self.contentInsets = contentInsets
+        self.titleHorizontalSpacing = titleHorizontalSpacing
+        self.detailsHorizontalSpacing = detailsHorizontalSpacing
+        self.displayStyle = displayStyle
         self.separatorStyle = separatorStyle
         self.containingErrorStyle = containingErrorStyle
     }

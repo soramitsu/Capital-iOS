@@ -29,6 +29,9 @@ public protocol WithdrawModuleBuilderProtocol {
     func with(containingErrorStyle: WalletContainingErrorStyle) -> Self
 
     @discardableResult
+    func with(selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle) -> Self
+
+    @discardableResult
     func with(selectedAssetStyle: WalletContainingAssetStyle) -> Self
 
     @discardableResult

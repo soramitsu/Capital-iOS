@@ -32,7 +32,6 @@ final class TransferPresenter {
     var coordinator: TransferCoordinatorProtocol
     var logger: WalletLoggerProtocol?
     
-    private var assetSelectionViewModel: AssetSelectionViewModel
     private var amountInputViewModel: AmountInputViewModel
     private var descriptionInputViewModel: DescriptionInputViewModel
     private var feeViewModel: FeeViewModel
@@ -99,12 +98,6 @@ final class TransferPresenter {
 
         descriptionInputViewModel = try transferViewModelFactory
             .createDescriptionViewModel(for: payload.receiveInfo.details)
-
-        let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
-                                                          title: assetTitle,
-                                                          symbol: selectedAsset.symbol)
-        assetSelectionViewModel.canSelect = account.assets.count > 1
 
         let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
@@ -203,30 +196,17 @@ final class TransferPresenter {
         }
     }
 
-    private func setupSelectedAssetViewModel() {
-        view?.set(assetViewModel: assetSelectionViewModel)
-
-        if let assetTitle = titleFactory.createAssetTitle(assetId: selectedAsset.identifier,
-                                                          receiverId: payload.receiveInfo.accountId) {
-            view?.setAssetHeader(assetTitle)
-        }
-    }
-
-    private func updateSelectedAssetViewModel(for newAsset: WalletAsset) {
+    private func setupSelectedAssetViewModel(isSelecting: Bool) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
+        let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
 
-        assetSelectionViewModel.isSelecting = false
+        let viewModel = assetSelectionFactory.createViewModel(for: selectedAsset,
+                                                              balanceData: balanceData,
+                                                              locale: locale,
+                                                              isSelecting: isSelecting,
+                                                              canSelect: account.assets.count > 0)
 
-        assetSelectionViewModel.assetId = newAsset.identifier
-
-        let balanceData = balances?.first { $0.identifier == newAsset.identifier }
-        let title = assetSelectionFactory.createTitle(for: newAsset,
-                                                      balanceData: balanceData,
-                                                      locale: locale)
-
-        assetSelectionViewModel.title = title
-
-        assetSelectionViewModel.symbol = newAsset.symbol
+        view?.set(assetViewModel: viewModel)
 
         if let assetTitle = titleFactory.createAssetTitle(assetId: selectedAsset.identifier,
                                                           receiverId: payload.receiveInfo.accountId) {
@@ -304,10 +284,7 @@ final class TransferPresenter {
             return
         }
         
-        guard
-            let assetId = assetSelectionViewModel.assetId,
-            let asset = account.asset(for: assetId),
-            let balanceData = balances.first(where: { $0.identifier == assetId}) else {
+        guard balances.first(where: { $0.identifier == selectedAsset.identifier}) != nil else {
 
                 if confirmationState != nil {
                     confirmationState = nil
@@ -319,11 +296,7 @@ final class TransferPresenter {
             return
         }
 
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-
-        assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: asset,
-                                                                          balanceData: balanceData,
-                                                                          locale: locale)
+        setupSelectedAssetViewModel(isSelecting: false)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedAmount)
@@ -536,7 +509,7 @@ final class TransferPresenter {
 extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
     func setup() {
-        setupSelectedAssetViewModel()
+        setupSelectedAssetViewModel(isSelecting: false)
         setupAmountInputViewModel()
         setupDescriptionViewModel()
 
@@ -566,11 +539,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
     }
     
     func presentAssetSelection() {
-        var initialIndex = 0
-
-        if let assetId = assetSelectionViewModel.assetId {
-            initialIndex = account.assets.firstIndex(where: { $0.identifier == assetId }) ?? 0
-        }
+        let initialIndex = account.assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
 
         let titles: [String] = account.assets.map { (asset) in
             let balanceData = balances?.first { $0.identifier == asset.identifier }
@@ -581,7 +550,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
 
-        assetSelectionViewModel.isSelecting = true
+        setupSelectedAssetViewModel(isSelecting: true)
     }
 
     func presentFeeEditing(at index: Int) {
@@ -591,7 +560,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
 extension TransferPresenter: ModalPickerViewDelegate {
     func modalPickerViewDidCancel(_ view: ModalPickerView) {
-        assetSelectionViewModel.isSelecting = false
+        setupSelectedAssetViewModel(isSelecting: false)
     }
 
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?) {
@@ -605,7 +574,8 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
                 self.selectedAsset = newAsset
 
-                updateSelectedAssetViewModel(for: newAsset)
+                setupSelectedAssetViewModel(isSelecting: false)
+
                 updateFeeViewModel(for: newAsset)
                 updateAmountInputViewModel()
             }
@@ -625,7 +595,7 @@ extension TransferPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
             updateAmountInputViewModel()
-            updateSelectedAssetViewModel(for: selectedAsset)
+            setupSelectedAssetViewModel(isSelecting: false)
             updateFeeViewModel(for: selectedAsset)
             updateDescriptionViewModel()
             setupAccessoryViewModel()

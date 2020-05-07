@@ -9,6 +9,7 @@ import Foundation
 final class WithdrawModuleBuilder {
     private struct Constants {
         static let iconTitleSpacing: CGFloat = 6
+        static let titleControlSpacing: CGFloat = 8
     }
 
     lazy var style: WalletStyleProtocol = WalletStyle()
@@ -42,13 +43,19 @@ final class WithdrawModuleBuilder {
         WalletStrokeStyle(color: style.thinBorderColor, lineWidth: 1.0)
     }()
 
+    private lazy var selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle = .singleTitle
+
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
-        let titleStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
+        let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
 
         return WalletContainingAssetStyle(containingHeaderStyle: containingHeaderStyle,
-                                          titleStyle: titleStyle,
+                                          titleStyle: textStyle,
+                                          detailsStyle: textStyle,
                                           switchIcon: style.downArrowIcon,
                                           contentInsets: containingViewInsets,
+                                          titleHorizontalSpacing: Constants.iconTitleSpacing,
+                                          detailsHorizontalSpacing: Constants.titleControlSpacing,
+                                          displayStyle: selectedAssetDisplayStyle,
                                           separatorStyle: containingSeparatorStyle,
                                           containingErrorStyle: containingErrorStyle)
     }()
@@ -156,6 +163,11 @@ extension WithdrawModuleBuilder: WithdrawModuleBuilderProtocol {
 
     func with(containingErrorStyle: WalletContainingErrorStyle) -> Self {
         self.containingErrorStyle = containingErrorStyle
+        return self
+    }
+
+    func with(selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle) -> Self {
+        self.selectedAssetDisplayStyle = selectedAssetDisplayStyle
         return self
     }
 

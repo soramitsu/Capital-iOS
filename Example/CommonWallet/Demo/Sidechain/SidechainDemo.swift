@@ -78,6 +78,7 @@ final class SidechainDemo: DemoFactoryProtocol {
             .with(titleFactory: SidechainTransferTitleFactory())
             .with(receiverPosition: .form)
             .with(separatorsDistribution: SidechainTransferSeparatorsDistribution())
+            .with(selectedAssetDisplayStyle: .separatedDetails)
 
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)

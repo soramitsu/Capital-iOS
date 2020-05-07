@@ -161,7 +161,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
 
-            let assetSelectionObserver = MockAssetSelectionViewModelObserver()
             let feeViewModelObserver = MockFeeViewModelObserver()
 
             try FetchBalanceMock.register(mock: .success,
@@ -178,13 +177,14 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             // when
 
             let assetExpectation = XCTestExpectation()
+            assetExpectation.expectedFulfillmentCount = 2
+
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let errorExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
 
-            let balanceExpectation = XCTestExpectation()
             let feeLoadedExpectation = XCTestExpectation()
             feeLoadedExpectation.expectedFulfillmentCount = 2
 
@@ -193,7 +193,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
 
             stub(view) { stub in
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
-                    assetViewModel.observable.add(observer: assetSelectionObserver)
                     assetExpectation.fulfill()
                 }
 
@@ -229,12 +228,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                 when(stub).controller.get.thenReturn(UIViewController())
 
                 when(stub).isSetup.get.thenReturn(false, true)
-            }
-
-            stub(assetSelectionObserver) { stub in
-                when(stub).assetSelectionDidChangeTitle().then { title in
-                    balanceExpectation.fulfill()
-                }
             }
 
             stub(feeViewModelObserver) { stub in
@@ -287,7 +280,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,
-                       balanceExpectation,
                        accessoryExpectation,
                        feeLoadedExpectation],
                  timeout: Constants.networkTimeout)

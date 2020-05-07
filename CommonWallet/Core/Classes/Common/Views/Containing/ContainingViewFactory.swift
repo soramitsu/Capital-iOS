@@ -58,19 +58,13 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
     }
 
     func createSelectedAssetView() -> SelectedAssetView {
-        let optionalView = UINib(nibName: "SelectedAssetView", bundle: Bundle(for: SelectedAssetView.self))
-            .instantiate(withOwner: nil, options: nil)
-            .first
-
-        guard let view = optionalView as? SelectedAssetView else {
-            fatalError("Unexpected view returned from nib")
-        }
+        let view = SelectedAssetView()
 
         view.backgroundColor = .clear
 
         view.borderedView.strokeColor = style.thinBorderColor
-        view.titleControl.titleLabel.textColor = style.bodyTextColor
-        view.titleControl.titleLabel.font = style.bodyRegularFont
+        view.detailsControl.titleLabel.textColor = style.bodyTextColor
+        view.detailsControl.titleLabel.font = style.bodyRegularFont
         view.accessoryIcon = style.downArrowIcon
 
         return view

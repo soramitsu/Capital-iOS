@@ -82,7 +82,8 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
                                                                             senderId: nil,
                                                                             receiverId: nil)
 
-        return AmountInputViewModel(amount: amount,
+        return AmountInputViewModel(symbol: asset.symbol,
+                                    amount: amount,
                                     limit: transactionSettings.withdrawLimit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))

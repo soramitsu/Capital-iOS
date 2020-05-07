@@ -11,7 +11,6 @@ import SoraFoundation
 class OperationDefinitionViewController: AccessoryViewController {
     private struct Constants {
         static let horizontalMargin: CGFloat = 20.0
-        static let assetHeight: CGFloat = 54.0
         static let amountHeight: CGFloat = 42.0
     }
 
@@ -75,11 +74,11 @@ class OperationDefinitionViewController: AccessoryViewController {
     private func configureContentView() {
         let selectedAssetView = containingFactory.createAssetView()
         selectedAssetView.delegate = self
-        selectedAssetView.heightAnchor.constraint(equalToConstant: Constants.assetHeight).isActive = true
         selectedAssetDef = OperationDefinition(mainView: selectedAssetView)
 
         let amountInputView = containingFactory.createAmountView()
-        let amountHeight = Constants.amountHeight + amountInputView.contentInsets.top + amountInputView.contentInsets.bottom
+        let amountHeight = Constants.amountHeight + amountInputView.contentInsets.top
+            + amountInputView.contentInsets.bottom
         amountInputView.heightAnchor.constraint(equalToConstant: amountHeight).isActive = true
         amountInputDef = OperationDefinition(mainView: amountInputView)
 
@@ -185,8 +184,7 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func updateConfirmationState() {
-        let isEnabled = (selectedAssetDef.mainView.viewModel?.isValid ?? false) &&
-            (amountInputDef.mainView.inputViewModel?.isValid ?? false) &&
+        let isEnabled = (amountInputDef.mainView.inputViewModel?.isValid ?? false) &&
             (descriptionInputDef.mainView.viewModel?.isValid ?? false)
 
         accessoryView?.isActionEnabled = isEnabled
@@ -248,12 +246,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
     }
 
     func set(assetViewModel: AssetSelectionViewModelProtocol) {
-        selectedAssetDef.mainView.viewModel?.observable.remove(observer: self)
-
-        assetViewModel.observable.add(observer: self)
-
         selectedAssetDef.mainView.bind(viewModel: assetViewModel)
-        amountInputDef.mainView.bind(assetSelectionViewModel: assetViewModel)
 
         updateConfirmationState()
     }
@@ -394,16 +387,6 @@ extension OperationDefinitionViewController: SelectedAssetViewDelegate {
             presenter.presentAssetSelection()
         }
     }
-}
-
-extension OperationDefinitionViewController: AssetSelectionViewModelObserver {
-    func assetSelectionDidChangeTitle() {
-        updateConfirmationState()
-    }
-
-    func assetSelectionDidChangeSymbol() {}
-
-    func assetSelectionDidChangeState() {}
 }
 
 extension OperationDefinitionViewController: AmountInputViewModelObserver {

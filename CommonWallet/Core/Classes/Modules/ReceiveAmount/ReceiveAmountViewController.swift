@@ -342,7 +342,6 @@ extension ReceiveAmountViewController: ReceiveAmountViewProtocol {
 
     func didReceive(assetSelectionViewModel: AssetSelectionViewModelProtocol) {
         selectedAssetView.bind(viewModel: assetSelectionViewModel)
-        amountInputView.bind(assetSelectionViewModel: assetSelectionViewModel)
     }
 
     func didReceive(amountInputViewModel: AmountInputViewModelProtocol) {

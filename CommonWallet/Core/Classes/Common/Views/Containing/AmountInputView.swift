@@ -16,7 +16,6 @@ final class AmountInputView: UIView {
     @IBOutlet private var bottomConstraint: NSLayoutConstraint!
 
     private(set) var inputViewModel: AmountInputViewModelProtocol?
-    private(set) var assetSelectionViewModel: AssetSelectionViewModelProtocol?
 
     var keyboardIndicatorSpacing: CGFloat = 8.0 {
         didSet {
@@ -60,15 +59,7 @@ final class AmountInputView: UIView {
         inputViewModel.observable.add(observer: self)
 
         amountField.text = inputViewModel.displayAmount
-    }
-
-    func bind(assetSelectionViewModel: AssetSelectionViewModelProtocol) {
-        self.assetSelectionViewModel?.observable.remove(observer: self)
-
-        self.assetSelectionViewModel = assetSelectionViewModel
-        assetSelectionViewModel.observable.add(observer: self)
-
-        assetLabel.text = assetSelectionViewModel.symbol
+        assetLabel.text = inputViewModel.symbol
     }
 
     // MARK: Private
@@ -114,16 +105,6 @@ extension AmountInputView: AmountInputViewModelObserver {
     func amountInputDidChange() {
         amountField.text = inputViewModel?.displayAmount
     }
-}
-
-extension AmountInputView: AssetSelectionViewModelObserver {
-    func assetSelectionDidChangeTitle() {}
-
-    func assetSelectionDidChangeSymbol() {
-        assetLabel.text = assetSelectionViewModel?.symbol
-    }
-
-    func assetSelectionDidChangeState() {}
 }
 
 extension AmountInputView: UITextFieldDelegate {

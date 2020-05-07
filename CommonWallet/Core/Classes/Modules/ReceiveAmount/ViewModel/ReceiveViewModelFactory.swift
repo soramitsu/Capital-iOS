@@ -38,7 +38,8 @@ final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
                                                                             senderId: nil,
                                                                             receiverId: nil)
 
-        return AmountInputViewModel(amount: amount,
+        return AmountInputViewModel(symbol: asset.symbol,
+                                    amount: amount,
                                     limit: transactionSettings.transferLimit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))

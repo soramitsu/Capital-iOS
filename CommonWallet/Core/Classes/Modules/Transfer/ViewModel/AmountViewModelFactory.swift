@@ -93,7 +93,8 @@ extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
                                                                             senderId: sender,
                                                                             receiverId: receiver)
 
-        return AmountInputViewModel(amount: amount,
+        return AmountInputViewModel(symbol: asset.symbol,
+                                    amount: amount,
                                     limit: transactionSettings.transferLimit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))

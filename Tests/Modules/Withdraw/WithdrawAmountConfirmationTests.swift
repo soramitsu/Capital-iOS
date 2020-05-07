@@ -183,7 +183,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let view = MockWithdrawViewProtocol()
             let coordinator = MockWithdrawCoordinatorProtocol()
 
-            let assetViewModelObserver = MockAssetSelectionViewModelObserver()
             let feeViewModelObserver = MockFeeViewModelObserver()
 
             // when
@@ -200,12 +199,13 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                 urlMockType: .regex)
 
             let assetSelectionExpectation = XCTestExpectation()
+            assetSelectionExpectation.expectedFulfillmentCount = 2
+
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
             let errorExpectation = XCTestExpectation()
-            let balanceLoadedExpectation = XCTestExpectation()
             
             let feeLoadedExpectation = XCTestExpectation()
             feeLoadedExpectation.expectedFulfillmentCount = 2
@@ -215,8 +215,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             stub(view) { stub in
                 when(stub).set(assetViewModel: any()).then { viewModel in
-                    viewModel.observable.add(observer: assetViewModelObserver)
-
                     assetSelectionExpectation.fulfill()
                 }
 
@@ -252,12 +250,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 when(stub).didStopLoading().thenDoNothing()
             }
 
-            stub(assetViewModelObserver) { stub in
-                when(stub).assetSelectionDidChangeTitle().then {
-                    balanceLoadedExpectation.fulfill()
-                }
-            }
-
             stub(feeViewModelObserver) { stub in
                 when(stub).feeTitleDidChange().thenDoNothing()
 
@@ -289,7 +281,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                                                   dataProviderFactory: dataProviderFactory,
                                                   feeCalculationFactory: FeeCalculationFactory(),
                                                   withdrawViewModelFactory: viewModelFactory,
-                                                  assetTitleFactory: assetSelectionFactory,
+                                                  assetSelectionFactory: assetSelectionFactory,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             // then
@@ -301,7 +293,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                        feeExpectation,
                        descriptionExpectation,
                        accessoryExpectation,
-                       balanceLoadedExpectation,
                        feeLoadedExpectation], timeout: Constants.networkTimeout)
 
             XCTAssertNil(presenter.confirmationState)

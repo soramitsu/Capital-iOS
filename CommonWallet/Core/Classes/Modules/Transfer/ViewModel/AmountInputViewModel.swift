@@ -10,6 +10,7 @@ import Foundation
 }
 
 protocol AmountInputViewModelProtocol: class {
+    var symbol: String { get }
     var displayAmount: String { get }
     var isValid: Bool { get }
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> { get }
@@ -51,6 +52,8 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
+    let symbol: String
+
     let formatter: NumberFormatter
 
     let inputLocale: Locale
@@ -59,11 +62,13 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
 
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver>
 
-    init(amount: Decimal?,
+    init(symbol: String,
+         amount: Decimal?,
          limit: Decimal,
          formatter: NumberFormatter,
          inputLocale: Locale = Locale.current,
          precision: Int16 = 2) {
+        self.symbol = symbol
         self.limit = limit
         self.formatter = formatter
         self.inputLocale = inputLocale
