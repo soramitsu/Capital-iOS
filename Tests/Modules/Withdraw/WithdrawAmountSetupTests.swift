@@ -89,8 +89,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let view = MockWithdrawViewProtocol()
         let coordinator = MockWithdrawCoordinatorProtocol()
 
-        let feeViewModelObserver = MockFeeViewModelObserver()
-
         // when
 
         let assetSelectionExpectation = XCTestExpectation()
@@ -103,8 +101,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let balanceLoadedExpectation = XCTestExpectation()
         let feeLoadingCompleteExpectation = XCTestExpectation()
 
-        var feeViewModel: FeeViewModelProtocol?
-
         stub(view) { stub in
 
             when(stub).set(assetViewModel: any()).then { viewModel in
@@ -116,10 +112,15 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             }
 
             when(stub).set(feeViewModels: any()).then { viewModels in
-                feeViewModel = viewModels.first
-                feeViewModel?.observable.add(observer: feeViewModelObserver)
+                guard let viewModel = viewModels.first else {
+                    return
+                }
 
-                feeExpectation.fulfill()
+                if viewModel.isLoading {
+                    feeExpectation.fulfill()
+                } else {
+                    feeLoadingCompleteExpectation.fulfill()
+                }
             }
 
             when(stub).set(descriptionViewModel: any()).then { _ in
@@ -134,16 +135,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
             if expectsFeeFailure {
                 when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                    feeLoadingCompleteExpectation.fulfill()
-                }
-            }
-        }
-
-        stub(feeViewModelObserver) { stub in
-            when(stub).feeTitleDidChange().thenDoNothing()
-
-            when(stub).feeLoadingStateDidChange().then {
-                if !expectsFeeFailure, feeViewModel?.isLoading == false {
                     feeLoadingCompleteExpectation.fulfill()
                 }
             }

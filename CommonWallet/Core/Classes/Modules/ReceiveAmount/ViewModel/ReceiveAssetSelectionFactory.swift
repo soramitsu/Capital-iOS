@@ -20,7 +20,11 @@ final class ReceiveAssetSelectionFactory: AssetSelectionFactoryProtocol {
             title = L10n.AssetSelection.noAsset
         }
 
-        return AssetSelectionViewModel(title: title, details: "", icon: nil, isSelecting: isSelecting, canSelect: canSelect)
+        return AssetSelectionViewModel(title: title,
+                                       details: "",
+                                       icon: nil,
+                                       isSelecting: isSelecting,
+                                       canSelect: canSelect)
     }
 
     func createTitle(for asset: WalletAsset, balanceData: BalanceData?, locale: Locale) -> String {

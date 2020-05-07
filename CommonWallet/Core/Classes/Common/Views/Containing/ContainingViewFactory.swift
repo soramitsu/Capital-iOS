@@ -148,13 +148,7 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
     }
 
     func createFeeView() -> FeeView {
-        let optionalView = UINib(nibName: "FeeView", bundle: Bundle(for: FeeView.self))
-            .instantiate(withOwner: nil, options: nil)
-            .first
-
-        guard let view = optionalView as? FeeView else {
-            fatalError("Unexpected view returned from nib")
-        }
+        let view = FeeView()
 
         view.backgroundColor = .clear
         view.borderedView.strokeColor = style.thinBorderColor

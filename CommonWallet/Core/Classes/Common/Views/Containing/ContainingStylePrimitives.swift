@@ -129,6 +129,8 @@ public struct WalletContainingFeeStyle {
     public let titleStyle: WalletTextStyleProtocol
     public let amountStyle: WalletTextStyleProtocol
     public let activityTintColor: UIColor?
+    public let displayStyle: FeeViewDisplayStyle
+    public let horizontalSpacing: CGFloat
     public let contentInsets: UIEdgeInsets
     public let separatorStyle: WalletStrokeStyleProtocol
     public let containingErrorStyle: WalletContainingErrorStyle
@@ -137,6 +139,8 @@ public struct WalletContainingFeeStyle {
                 titleStyle: WalletTextStyleProtocol,
                 amountStyle: WalletTextStyleProtocol,
                 activityTintColor: UIColor?,
+                displayStyle: FeeViewDisplayStyle,
+                horizontalSpacing: CGFloat,
                 contentInsets: UIEdgeInsets,
                 separatorStyle: WalletStrokeStyleProtocol,
                 containingErrorStyle: WalletContainingErrorStyle) {
@@ -144,6 +148,8 @@ public struct WalletContainingFeeStyle {
         self.titleStyle = titleStyle
         self.amountStyle = amountStyle
         self.activityTintColor = activityTintColor
+        self.displayStyle = displayStyle
+        self.horizontalSpacing = horizontalSpacing
         self.contentInsets = contentInsets
         self.separatorStyle = separatorStyle
         self.containingErrorStyle = containingErrorStyle

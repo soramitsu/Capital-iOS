@@ -7,11 +7,11 @@ import Foundation
 import SoraFoundation
 
 protocol AmountViewModelFactoryProtocol {
-    func createFeeTitle(for asset: WalletAsset?,
-                        sender: String?,
-                        receiver: String?,
-                        amount: Decimal?,
-                        locale: Locale) -> String
+    func createFeeViewModel(for asset: WalletAsset?,
+                            sender: String?,
+                            receiver: String?,
+                            amount: Decimal?,
+                            locale: Locale) -> FeeViewModel
 
     func createAmountViewModel(for asset: WalletAsset,
                                sender: String?,
@@ -50,33 +50,44 @@ final class AmountViewModelFactory {
 }
 
 extension AmountViewModelFactory: AmountViewModelFactoryProtocol {
-    func createFeeTitle(for asset: WalletAsset?,
-                        sender: String?,
-                        receiver: String?,
-                        amount: Decimal?,
-                        locale: Locale) -> String {
+    func createFeeViewModel(for asset: WalletAsset?,
+                            sender: String?,
+                            receiver: String?,
+                            amount: Decimal?,
+                            locale: Locale) -> FeeViewModel {
 
         guard let asset = asset else {
-            return L10n.Amount.defaultFee
+            return FeeViewModel(title: L10n.Amount.defaultFee,
+                                details: "",
+                                isLoading: true,
+                                allowsEditing: false)
         }
 
         let feeDisplaySettings = feeDisplaySettingsFactory
             .createFeeSettings(asset: asset, senderId: sender, receiverId: receiver)
 
         guard let amount = amount else {
-            return L10n.Amount.defaultFee
+            return FeeViewModel(title: L10n.Amount.defaultFee,
+                                details: "",
+                                isLoading: true,
+                                allowsEditing: false)
         }
 
         let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
         guard let amountString = amountFormatter.value(for: locale)
             .string(from: amount as NSNumber) else {
-            return L10n.Amount.defaultFee
+            return FeeViewModel(title: L10n.Amount.defaultFee,
+                                details: "",
+                                isLoading: true,
+                                allowsEditing: false)
         }
 
-        let title = feeDisplaySettings.amountDetailsClosure("\(asset.symbol)\(amountString)", locale)
+        let details = "\(asset.symbol)\(amountString)"
 
-        return title
+        let title = feeDisplaySettings.amountDetailsClosure("", locale)
+
+        return FeeViewModel(title: title, details: details, isLoading: false, allowsEditing: false)
     }
 
     func createAmountViewModel(for asset: WalletAsset,

@@ -47,6 +47,8 @@ final class TransferModuleBuilder {
 
     private lazy var selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle = .singleTitle
 
+    private lazy var feeDisplayStyle: FeeViewDisplayStyle = .singleTitle
+
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
         let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
 
@@ -95,6 +97,8 @@ final class TransferModuleBuilder {
                                         titleStyle: titleStyle,
                                         amountStyle: titleStyle,
                                         activityTintColor: style.captionTextColor,
+                                        displayStyle: feeDisplayStyle,
+                                        horizontalSpacing: Constants.iconTitleSpacing,
                                         contentInsets: containingViewInsets,
                                         separatorStyle: containingSeparatorStyle,
                                         containingErrorStyle: containingErrorStyle)
@@ -175,6 +179,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle) -> Self {
         self.selectedAssetDisplayStyle = selectedAssetDisplayStyle
+        return self
+    }
+
+    func with(feeDisplayStyle: FeeViewDisplayStyle) -> Self {
+        self.feeDisplayStyle = feeDisplayStyle
         return self
     }
 

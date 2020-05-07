@@ -21,8 +21,7 @@ class MultilineTitleIconView: UIView {
         set {
             titleLabel.text = newValue
 
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
@@ -47,23 +46,20 @@ class MultilineTitleIconView: UIView {
                 }
             }
 
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
     var horizontalSpacing: CGFloat = 6.0 {
         didSet {
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
 
     var contentInsets: UIEdgeInsets = .zero {
         didSet {
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
@@ -136,6 +132,16 @@ class MultilineTitleIconView: UIView {
         if abs(bounds.width - preferredWidth) > CGFloat.leastNormalMagnitude {
             preferredWidth = bounds.width
             invalidateIntrinsicContentSize()
+        }
+    }
+
+    // MARK: Private
+
+    private func invalidateLayout() {
+        invalidateIntrinsicContentSize()
+
+        if superview != nil {
+            setNeedsLayout()
         }
     }
 }

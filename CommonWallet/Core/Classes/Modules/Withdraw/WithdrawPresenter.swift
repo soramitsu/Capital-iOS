@@ -31,7 +31,6 @@ final class WithdrawPresenter {
 
     private var amountInputViewModel: AmountInputViewModel
     private var descriptionInputViewModel: DescriptionInputViewModel
-    private var feeViewModel: FeeViewModel
 
     private var balances: [BalanceData]?
     private var metadata: WithdrawMetaData?
@@ -80,12 +79,6 @@ final class WithdrawPresenter {
                                                                               amount: nil,
                                                                               locale: locale)
 
-        let feeTitle = withdrawViewModelFactory.createFeeTitle(for: selectedAsset,
-                                                               amount: nil,
-                                                               locale: locale)
-        feeViewModel = FeeViewModel(title: feeTitle)
-        feeViewModel.isLoading = true
-
         self.localizationManager = localizationManager
     }
 
@@ -105,16 +98,16 @@ final class WithdrawPresenter {
         view?.set(amountViewModel: amountInputViewModel)
     }
 
-    private func updateFeeViewModel(for asset: WalletAsset) {
+    private func setupFeeViewModel(for asset: WalletAsset) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard
             let amount = amountInputViewModel.decimalAmount,
             let metadata = metadata else {
-                feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
-                                                                             amount: nil,
-                                                                             locale: locale)
-                feeViewModel.isLoading = true
+                let viewModel = withdrawViewModelFactory.createFeeViewModel(for: asset,
+                                                                        amount: nil,
+                                                                        locale: locale)
+                view?.set(feeViewModels: [viewModel])
                 return
         }
 
@@ -123,15 +116,15 @@ final class WithdrawPresenter {
             // TODO: move to multi fee variant when ui ready
             let feeResult = try calculateFeeResults(for: metadata, amount: amount).first
 
-            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
-                                                                         amount: feeResult?.fee,
-                                                                         locale: locale)
-            feeViewModel.isLoading = false
+            let viewModel = withdrawViewModelFactory.createFeeViewModel(for: asset,
+                                                                        amount: feeResult?.fee,
+                                                                        locale: locale)
+            view?.set(feeViewModels: [viewModel])
         } catch {
-            feeViewModel.title = withdrawViewModelFactory.createFeeTitle(for: asset,
-                                                                         amount: nil,
-                                                                         locale: locale)
-            feeViewModel.isLoading = true
+            let viewModel = withdrawViewModelFactory.createFeeViewModel(for: asset,
+                                                                        amount: nil,
+                                                                        locale: locale)
+            view?.set(feeViewModels: [viewModel])
         }
 
     }
@@ -260,7 +253,7 @@ final class WithdrawPresenter {
             self.metadata = metadata
         }
 
-        updateFeeViewModel(for: selectedAsset)
+        setupFeeViewModel(for: selectedAsset)
         updateAccessoryViewModel(for: selectedAsset)
 
         if let currentState = confirmationState {
@@ -429,7 +422,9 @@ extension WithdrawPresenter: OperationDefinitionPresenterProtocol {
         setupSelectedAssetViewModel(isSelecting: false)
 
         view?.set(amountViewModel: amountInputViewModel)
-        view?.set(feeViewModels: [feeViewModel])
+
+        setupFeeViewModel(for: selectedAsset)
+
         view?.set(descriptionViewModel: descriptionInputViewModel)
 
         updateAccessoryViewModel(for: selectedAsset)
@@ -487,7 +482,7 @@ extension WithdrawPresenter: ModalPickerViewDelegate {
 
                 setupSelectedAssetViewModel(isSelecting: false)
 
-                updateFeeViewModel(for: newAsset)
+                setupFeeViewModel(for: newAsset)
                 updateAccessoryViewModel(for: newAsset)
                 updateAmountInputViewModel()
             }
@@ -499,7 +494,7 @@ extension WithdrawPresenter: ModalPickerViewDelegate {
 
 extension WithdrawPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
-        updateFeeViewModel(for: selectedAsset)
+        setupFeeViewModel(for: selectedAsset)
         updateAccessoryViewModel(for: selectedAsset)
     }
 }
@@ -508,7 +503,7 @@ extension WithdrawPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
             updateAmountInputViewModel()
-            updateFeeViewModel(for: selectedAsset)
+            setupFeeViewModel(for: selectedAsset)
             updateAccessoryViewModel(for: selectedAsset)
             updateDescriptionViewModel()
 

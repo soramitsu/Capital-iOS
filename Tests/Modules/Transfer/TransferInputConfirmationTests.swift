@@ -161,8 +161,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
 
-            let feeViewModelObserver = MockFeeViewModelObserver()
-
             try FetchBalanceMock.register(mock: .success,
                                           networkResolver: networkResolver,
                                           requestType: .balance,
@@ -203,9 +201,15 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                 }
 
                 when(stub).set(feeViewModels: any()).then { viewModels in
-                    viewModels.first?.observable.add(observer: feeViewModelObserver)
+                    guard let viewModel = viewModels.first else {
+                        return
+                    }
 
-                    feeExpectation.fulfill()
+                    if viewModel.isLoading {
+                        feeExpectation.fulfill()
+                    } else {
+                        feeLoadedExpectation.fulfill()
+                    }
                 }
 
                 when(stub).set(descriptionViewModel: any()).then { viewModel in
@@ -228,14 +232,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                 when(stub).controller.get.thenReturn(UIViewController())
 
                 when(stub).isSetup.get.thenReturn(false, true)
-            }
-
-            stub(feeViewModelObserver) { stub in
-                when(stub).feeTitleDidChange().thenDoNothing()
-
-                when(stub).feeLoadingStateDidChange().then {
-                    feeLoadedExpectation.fulfill()
-                }
             }
 
             let confirmExpectation = XCTestExpectation()

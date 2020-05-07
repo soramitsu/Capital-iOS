@@ -125,13 +125,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
     }
 
     func createFeeView() -> FeeView {
-        let optionalView = UINib(nibName: "FeeView", bundle: Bundle(for: FeeView.self))
-            .instantiate(withOwner: nil, options: nil)
-            .first
-
-        guard let view = optionalView as? FeeView else {
-            fatalError("Unexpected view returned from nib")
-        }
+        let view = FeeView()
 
         view.backgroundColor = .clear
 
@@ -146,6 +140,8 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.titleLabel.font = style.feeStyle.titleStyle.font
 
         view.contentInsets = style.feeStyle.contentInsets
+        view.displayType = style.feeStyle.displayStyle
+        view.horizontalSpacing = style.feeStyle.horizontalSpacing
 
         return view
     }

@@ -35,6 +35,9 @@ public protocol TransferModuleBuilderProtocol {
     func with(selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle) -> Self
 
     @discardableResult
+    func with(feeDisplayStyle: FeeViewDisplayStyle) -> Self
+
+    @discardableResult
     func with(selectedAssetStyle: WalletContainingAssetStyle) -> Self
 
     @discardableResult

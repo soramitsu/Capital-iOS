@@ -34,7 +34,6 @@ final class TransferPresenter {
     
     private var amountInputViewModel: AmountInputViewModel
     private var descriptionInputViewModel: DescriptionInputViewModel
-    private var feeViewModel: FeeViewModel
 
     private var feeCalculationFactory: FeeCalculationFactoryProtocol
     private var transferViewModelFactory: AmountViewModelFactoryProtocol
@@ -107,14 +106,6 @@ final class TransferPresenter {
                                                                               amount: decimalAmount,
                                                                               locale: locale)
 
-        let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset,
-                                                               sender: account.accountId,
-                                                               receiver: payload.receiveInfo.accountId,
-                                                               amount: nil,
-                                                               locale: locale)
-        feeViewModel = FeeViewModel(title: feeTitle)
-        feeViewModel.isLoading = true
-
         self.localizationManager = localizationManager
     }
 
@@ -152,18 +143,18 @@ final class TransferPresenter {
         }
     }
 
-    private func updateFeeViewModel(for asset: WalletAsset) {
+    private func setupFeeViewModel(for asset: WalletAsset) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard
             let amount = amountInputViewModel.decimalAmount,
             let metadata = metadata else {
-                feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                             sender: account.accountId,
-                                                                             receiver: payload.receiveInfo.accountId,
-                                                                             amount: nil,
-                                                                             locale: locale)
-                feeViewModel.isLoading = true
+                let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
+                                                                            sender: account.accountId,
+                                                                            receiver: payload.receiveInfo.accountId,
+                                                                            amount: nil,
+                                                                            locale: locale)
+                view?.set(feeViewModels: [viewModel])
                 return
         }
 
@@ -180,19 +171,19 @@ final class TransferPresenter {
                 fee = try feeCalculator.calculate(for: amount).fee
             }
 
-            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                         sender: account.accountId,
-                                                                         receiver: payload.receiveInfo.accountId,
-                                                                         amount: fee,
-                                                                         locale: locale)
-            feeViewModel.isLoading = false
+            let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
+                                                                        sender: account.accountId,
+                                                                        receiver: payload.receiveInfo.accountId,
+                                                                        amount: fee,
+                                                                        locale: locale)
+            view?.set(feeViewModels: [viewModel])
         } catch {
-            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                         sender: account.accountId,
-                                                                         receiver: payload.receiveInfo.accountId,
-                                                                         amount: nil,
-                                                                         locale: locale)
-            feeViewModel.isLoading = true
+            let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
+                                                                        sender: account.accountId,
+                                                                        receiver: payload.receiveInfo.accountId,
+                                                                        amount: nil,
+                                                                        locale: locale)
+            view?.set(feeViewModels: [viewModel])
         }
     }
 
@@ -346,7 +337,7 @@ final class TransferPresenter {
             self.metadata = metadata
         }
 
-        updateFeeViewModel(for: selectedAsset)
+        setupFeeViewModel(for: selectedAsset)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedFee)
@@ -511,6 +502,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
     func setup() {
         setupSelectedAssetViewModel(isSelecting: false)
         setupAmountInputViewModel()
+        setupFeeViewModel(for: selectedAsset)
         setupDescriptionViewModel()
 
         if receiverPosition == .form {
@@ -518,8 +510,6 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
         }
 
         setupAccessoryViewModel()
-
-        view?.set(feeViewModels: [feeViewModel])
 
         setupBalanceDataProvider()
         setupMetadata(provider: metadataProvider)
@@ -576,7 +566,7 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
                 setupSelectedAssetViewModel(isSelecting: false)
 
-                updateFeeViewModel(for: newAsset)
+                setupFeeViewModel(for: newAsset)
                 updateAmountInputViewModel()
             }
         } catch {
@@ -587,7 +577,7 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
 extension TransferPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
-        updateFeeViewModel(for: selectedAsset)
+        setupFeeViewModel(for: selectedAsset)
     }
 }
 
@@ -596,7 +586,7 @@ extension TransferPresenter: Localizable {
         if view?.isSetup == true {
             updateAmountInputViewModel()
             setupSelectedAssetViewModel(isSelecting: false)
-            updateFeeViewModel(for: selectedAsset)
+            setupFeeViewModel(for: selectedAsset)
             updateDescriptionViewModel()
             setupAccessoryViewModel()
 

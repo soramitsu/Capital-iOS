@@ -5122,127 +5122,6 @@ import Cuckoo
 import Foundation
 
 
- class MockFeeViewModelObserver: FeeViewModelObserver, Cuckoo.ProtocolMock {
-    
-     typealias MocksType = FeeViewModelObserver
-    
-     typealias Stubbing = __StubbingProxy_FeeViewModelObserver
-     typealias Verification = __VerificationProxy_FeeViewModelObserver
-
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: FeeViewModelObserver?
-
-     func enableDefaultImplementation(_ stub: FeeViewModelObserver) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
-
-    
-
-    
-
-    
-    
-    
-     func feeTitleDidChange()  {
-        
-    return cuckoo_manager.call("feeTitleDidChange()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.feeTitleDidChange!())
-        
-    }
-    
-    
-    
-     func feeLoadingStateDidChange()  {
-        
-    return cuckoo_manager.call("feeLoadingStateDidChange()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.feeLoadingStateDidChange!())
-        
-    }
-    
-
-	 struct __StubbingProxy_FeeViewModelObserver: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	     init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    func feeTitleDidChange() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFeeViewModelObserver.self, method: "feeTitleDidChange()", parameterMatchers: matchers))
-	    }
-	    
-	    func feeLoadingStateDidChange() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFeeViewModelObserver.self, method: "feeLoadingStateDidChange()", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	 struct __VerificationProxy_FeeViewModelObserver: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	
-	    
-	    @discardableResult
-	    func feeTitleDidChange() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("feeTitleDidChange()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func feeLoadingStateDidChange() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("feeLoadingStateDidChange()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
- class FeeViewModelObserverStub: FeeViewModelObserver {
-    
-
-    
-
-    
-     func feeTitleDidChange()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func feeLoadingStateDidChange()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-}
-
-
-
  class MockFeeViewModelProtocol: FeeViewModelProtocol, Cuckoo.ProtocolMock {
     
      typealias MocksType = FeeViewModelProtocol
@@ -5278,6 +5157,20 @@ import Foundation
     
     
     
+     var details: String {
+        get {
+            return cuckoo_manager.getter("details",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.details)
+        }
+        
+    }
+    
+    
+    
      var isLoading: Bool {
         get {
             return cuckoo_manager.getter("isLoading",
@@ -5292,14 +5185,14 @@ import Foundation
     
     
     
-     var observable: WalletViewModelObserverContainer<FeeViewModelObserver> {
+     var allowsEditing: Bool {
         get {
-            return cuckoo_manager.getter("observable",
+            return cuckoo_manager.getter("allowsEditing",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.observable)
+                defaultCall: __defaultImplStub!.allowsEditing)
         }
         
     }
@@ -5322,13 +5215,18 @@ import Foundation
 	    }
 	    
 	    
+	    var details: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "details")
+	    }
+	    
+	    
 	    var isLoading: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, Bool> {
 	        return .init(manager: cuckoo_manager, name: "isLoading")
 	    }
 	    
 	    
-	    var observable: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, WalletViewModelObserverContainer<FeeViewModelObserver>> {
-	        return .init(manager: cuckoo_manager, name: "observable")
+	    var allowsEditing: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "allowsEditing")
 	    }
 	    
 	    
@@ -5352,13 +5250,18 @@ import Foundation
 	    }
 	    
 	    
+	    var details: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "details", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var isLoading: Cuckoo.VerifyReadOnlyProperty<Bool> {
 	        return .init(manager: cuckoo_manager, name: "isLoading", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
-	    var observable: Cuckoo.VerifyReadOnlyProperty<WalletViewModelObserverContainer<FeeViewModelObserver>> {
-	        return .init(manager: cuckoo_manager, name: "observable", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var allowsEditing: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "allowsEditing", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -5377,6 +5280,14 @@ import Foundation
     }
     
     
+     var details: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
      var isLoading: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
@@ -5385,9 +5296,9 @@ import Foundation
     }
     
     
-     var observable: WalletViewModelObserverContainer<FeeViewModelObserver> {
+     var allowsEditing: Bool {
         get {
-            return DefaultValueRegistry.defaultValue(for: (WalletViewModelObserverContainer<FeeViewModelObserver>).self)
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
         
     }

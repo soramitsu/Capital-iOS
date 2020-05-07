@@ -35,15 +35,13 @@ final class SelectedAssetView: UIControl {
 
     var contentInsets: UIEdgeInsets = UIEdgeInsets(top: 8.0, left: 0.0, bottom: 8.0, right: 0.0) {
         didSet {
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
     var titleHorizontalSpacing: CGFloat = 6.0 {
         didSet {
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
@@ -51,8 +49,7 @@ final class SelectedAssetView: UIControl {
         didSet {
             detailsControl.horizontalSpacing = detailsHorizontalSpacing
 
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
@@ -164,6 +161,14 @@ final class SelectedAssetView: UIControl {
     }
 
     // MARK: Private
+
+    private func invalidateLayout() {
+        invalidateIntrinsicContentSize()
+
+        if superview != nil {
+            setNeedsLayout()
+        }
+    }
 
     private func applyViewModel() {
         guard let viewModel = viewModel else {

@@ -183,8 +183,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let view = MockWithdrawViewProtocol()
             let coordinator = MockWithdrawCoordinatorProtocol()
 
-            let feeViewModelObserver = MockFeeViewModelObserver()
-
             // when
 
             try FetchBalanceMock.register(mock: .success,
@@ -225,9 +223,15 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 }
 
                 when(stub).set(feeViewModels: any()).then { viewModels in
-                    viewModels.first?.observable.add(observer: feeViewModelObserver)
+                    guard let viewModel = viewModels.first else {
+                        return
+                    }
 
-                    feeExpectation.fulfill()
+                    if viewModel.isLoading {
+                        feeExpectation.fulfill()
+                    } else {
+                        feeLoadedExpectation.fulfill()
+                    }
                 }
 
                 when(stub).set(descriptionViewModel: any()).then { viewModel in
@@ -248,14 +252,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
                 when(stub).didStartLoading().thenDoNothing()
                 when(stub).didStopLoading().thenDoNothing()
-            }
-
-            stub(feeViewModelObserver) { stub in
-                when(stub).feeTitleDidChange().thenDoNothing()
-
-                when(stub).feeLoadingStateDidChange().then {
-                    feeLoadedExpectation.fulfill()
-                }
             }
 
             let confirmExpectation = XCTestExpectation()

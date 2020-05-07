@@ -8,9 +8,9 @@ import SoraFoundation
 
 protocol WithdrawAmountViewModelFactoryProtocol {
 
-    func createFeeTitle(for asset: WalletAsset?,
-                        amount: Decimal?,
-                        locale: Locale) -> String
+    func createFeeViewModel(for asset: WalletAsset?,
+                            amount: Decimal?,
+                            locale: Locale) -> FeeViewModel
 
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
     func createDescriptionViewModel() throws -> DescriptionInputViewModel
@@ -45,12 +45,12 @@ final class WithdrawAmountViewModelFactory {
 
 extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol {
 
-    func createFeeTitle(for asset: WalletAsset?,
-                        amount: Decimal?,
-                        locale: Locale) -> String {
+    func createFeeViewModel(for asset: WalletAsset?,
+                            amount: Decimal?,
+                            locale: Locale) -> FeeViewModel {
 
         guard let asset = asset else {
-            return L10n.Amount.defaultFee
+            return FeeViewModel(title: L10n.Amount.defaultFee, details: "", isLoading: true, allowsEditing: false)
         }
 
         let feeDisplaySettings = feeDisplaySettingsFactory.createFeeSettings(asset: asset,
@@ -58,19 +58,20 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
                                                                              receiverId: nil)
 
         guard let amount = amount else {
-            return L10n.Amount.defaultFee
+            return FeeViewModel(title: L10n.Amount.defaultFee, details: "", isLoading: true, allowsEditing: false)
         }
 
         let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
         guard let amountString = amountFormatter.value(for: locale)
             .string(from: amount as NSNumber) else {
-            return L10n.Amount.defaultFee
+            return FeeViewModel(title: L10n.Amount.defaultFee, details: "", isLoading: true, allowsEditing: false)
         }
 
-        let title: String = feeDisplaySettings.amountDetailsClosure("\(asset.symbol)\(amountString)", locale)
+        let details = "\(asset.symbol)\(amountString)"
+        let title: String = feeDisplaySettings.amountDetailsClosure("", locale)
 
-        return title
+        return FeeViewModel(title: title, details: details, isLoading: false, allowsEditing: false)
     }
 
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel {

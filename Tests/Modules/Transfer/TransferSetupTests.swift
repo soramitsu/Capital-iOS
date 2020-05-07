@@ -83,8 +83,6 @@ class TransferSetupTests: NetworkBaseTests {
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
 
-            let feeViewModelObserver = MockFeeViewModelObserver()
-
             // when
 
             let assetExpectation = XCTestExpectation()
@@ -96,8 +94,6 @@ class TransferSetupTests: NetworkBaseTests {
             let accessoryExpectation = XCTestExpectation()
 
             let feeLoadingCompleteExpectation = XCTestExpectation()
-
-            var feeViewModel: FeeViewModelProtocol?
 
             var amountViewModel: AmountInputViewModelProtocol? = nil
 
@@ -121,26 +117,21 @@ class TransferSetupTests: NetworkBaseTests {
                 }
 
                 when(stub).set(feeViewModels: any()).then { viewModels in
-                    feeViewModel = viewModels.first
-                    feeViewModel?.observable.add(observer: feeViewModelObserver)
+                    guard let viewModel = viewModels.first else {
+                        return
+                    }
 
-                    feeExpectation.fulfill()
+                    if viewModel.isLoading {
+                        feeExpectation.fulfill()
+                    } else {
+                        feeLoadingCompleteExpectation.fulfill()
+                    }
                 }
 
                 when(stub).isSetup.get.thenReturn(false, true)
 
                 if expectsFeeFailure {
                     when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                        feeLoadingCompleteExpectation.fulfill()
-                    }
-                }
-            }
-
-            stub(feeViewModelObserver) { stub in
-                when(stub).feeTitleDidChange().thenDoNothing()
-
-                when(stub).feeLoadingStateDidChange().then {
-                    if !expectsFeeFailure, feeViewModel?.isLoading == false {
                         feeLoadingCompleteExpectation.fulfill()
                     }
                 }
