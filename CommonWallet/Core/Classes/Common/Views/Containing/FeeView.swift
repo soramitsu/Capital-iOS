@@ -180,7 +180,8 @@ final class FeeView: UIView {
 
         switch displayType {
         case .singleTitle:
-            activityIndicator.frame = CGRect(x: titleLabel.frame.maxX + horizontalSpacing,
+            let originX = titleLabel.frame.minX + titleLabel.intrinsicContentSize.width + horizontalSpacing
+            activityIndicator.frame = CGRect(x: originX,
                                              y: bounds.height / 2.0 - activitySize.height / 2.0 + centerOffset,
                                              width: activitySize.width,
                                              height: activitySize.height)
@@ -190,7 +191,7 @@ final class FeeView: UIView {
             if let editingImageView = editingIconImageView {
                 originX = editingImageView.frame.minX - horizontalSpacing - activitySize.width
             } else {
-                originX = titleLabel.frame.maxX + horizontalSpacing
+                originX = bounds.size.width - contentInsets.right - activitySize.width
             }
 
             activityIndicator.frame = CGRect(x: originX,
