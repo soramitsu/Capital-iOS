@@ -13,7 +13,10 @@ final class TransferAssembly: TransferAssemblyProtocol {
         do {
             let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style)
             let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
-            view.localizableTitle = LocalizableResource { _ in L10n.Amount.moduleTitle }
+
+            view.localizableTitle = resolver.transferConfiguration.localizableTitle ??
+                LocalizableResource { _ in L10n.Amount.moduleTitle }
+
             view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
             view.accessoryViewType = resolver.transferConfiguration.accessoryViewType
 
@@ -36,7 +39,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                                   transactionSettingsFactory: transactionFactory,
                                                                   feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
-            let titleFactory = resolver.transferConfiguration.titleFactory
+            let headerFactory = resolver.transferConfiguration.headerFactory
             let receiverPosition = resolver.transferConfiguration.receiverPosition
 
             let presenter = try  TransferPresenter(view: view,
@@ -48,7 +51,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    transferViewModelFactory: transferViewModelFactory,
                                                    assetSelectionFactory: assetSelectionFactory,
                                                    accessoryFactory: accessoryViewModelFactory,
-                                                   titleFactory: titleFactory,
+                                                   headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager)
             view.presenter = presenter

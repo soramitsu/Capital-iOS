@@ -5,6 +5,7 @@
 
 
 import Foundation
+import SoraFoundation
 
 final class TransferModuleBuilder {
     private struct Constants {
@@ -19,8 +20,10 @@ final class TransferModuleBuilder {
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
-    private lazy var titleFactory: OperationDefinitionTitleModelFactoryProtocol
+    private lazy var headerFactory: OperationDefinitionTitleModelFactoryProtocol
         = TransferDefinitionTitleModelFactory()
+
+    private var localizableTitle: LocalizableResource<String>?
 
     private lazy var headerContentInsets = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0)
 
@@ -132,10 +135,11 @@ final class TransferModuleBuilder {
                                                  descriptionStyle: descriptionStyle)
 
         return TransferConfiguration(receiverPosition: receiverPosition,
-                                     titleFactory: titleFactory,
+                                     headerFactory: headerFactory,
                                      separatorsDistribution: separatorsDistribution,
                                      style: style,
-                                     accessoryViewType: accessoryViewType)
+                                     accessoryViewType: accessoryViewType,
+                                     localizableTitle: localizableTitle)
     }
 }
 
@@ -145,8 +149,8 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
         return self
     }
 
-    func with(titleFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
-        self.titleFactory = titleFactory
+    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
+        self.headerFactory = headerFactory
         return self
     }
 
@@ -217,6 +221,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(accessoryViewType: WalletAccessoryViewType) -> Self {
         self.accessoryViewType = accessoryViewType
+        return self
+    }
+
+    func with(localizableTitle: LocalizableResource<String>) -> Self {
+        self.localizableTitle = localizableTitle
         return self
     }
 }

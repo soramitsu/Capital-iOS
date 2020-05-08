@@ -206,7 +206,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let errorExpectation = XCTestExpectation()
             
             let feeLoadedExpectation = XCTestExpectation()
-            feeLoadedExpectation.expectedFulfillmentCount = 2
 
             var amountViewModel: AmountInputViewModelProtocol?
             var descriptionViewModel: DescriptionInputViewModelProtocol?
@@ -247,6 +246,18 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                 when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
                     errorExpectation.fulfill()
                 }
+
+                when(stub).setAssetHeader(any()).thenDoNothing()
+                when(stub).presentAssetError(any()).thenDoNothing()
+
+                when(stub).setAmountHeader(any()).thenDoNothing()
+                when(stub).presentAmountError(any()).thenDoNothing()
+
+                when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+                when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+                when(stub).setDescriptionHeader(any()).thenDoNothing()
+                when(stub).presentDescriptionError(any()).thenDoNothing()
 
                 when(stub).isSetup.get.thenReturn(false, true)
 

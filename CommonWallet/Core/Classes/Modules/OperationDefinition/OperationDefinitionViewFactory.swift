@@ -139,6 +139,9 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.titleLabel.textColor = style.feeStyle.titleStyle.color
         view.titleLabel.font = style.feeStyle.titleStyle.font
 
+        view.detailsColor = style.feeStyle.amountStyle.color
+        view.detailsFont = style.feeStyle.amountStyle.font
+
         view.contentInsets = style.feeStyle.contentInsets
         view.displayType = style.feeStyle.displayStyle
         view.horizontalSpacing = style.feeStyle.horizontalSpacing

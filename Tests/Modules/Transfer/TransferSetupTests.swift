@@ -128,6 +128,18 @@ class TransferSetupTests: NetworkBaseTests {
                     }
                 }
 
+                when(stub).setAssetHeader(any()).thenDoNothing()
+                when(stub).presentAssetError(any()).thenDoNothing()
+
+                when(stub).setAmountHeader(any()).thenDoNothing()
+                when(stub).presentAmountError(any()).thenDoNothing()
+
+                when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+                when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+                when(stub).setDescriptionHeader(any()).thenDoNothing()
+                when(stub).presentDescriptionError(any()).thenDoNothing()
+
                 when(stub).isSetup.get.thenReturn(false, true)
 
                 if expectsFeeFailure {
@@ -155,7 +167,7 @@ class TransferSetupTests: NetworkBaseTests {
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
-                                                  titleFactory: TransferDefinitionTitleModelFactory(),
+                                                  headerFactory: TransferDefinitionTitleModelFactory(),
                                                   receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 

@@ -39,7 +39,7 @@ final class TransferPresenter {
     private var transferViewModelFactory: AmountViewModelFactoryProtocol
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
     private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
-    private var titleFactory: OperationDefinitionTitleModelFactoryProtocol
+    private var headerFactory: OperationDefinitionTitleModelFactoryProtocol
 
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData]>
@@ -63,7 +63,7 @@ final class TransferPresenter {
          transferViewModelFactory: AmountViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
-         titleFactory: OperationDefinitionTitleModelFactoryProtocol,
+         headerFactory: OperationDefinitionTitleModelFactoryProtocol,
          receiverPosition: TransferReceiverPosition,
          localizationManager: LocalizationManagerProtocol?) throws {
 
@@ -91,7 +91,7 @@ final class TransferPresenter {
         self.transferViewModelFactory = transferViewModelFactory
         self.assetSelectionFactory = assetSelectionFactory
         self.accessoryFactory = accessoryFactory
-        self.titleFactory = titleFactory
+        self.headerFactory = headerFactory
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
@@ -114,8 +114,8 @@ final class TransferPresenter {
 
         view?.set(amountViewModel: amountInputViewModel)
 
-        if let amountTitle = titleFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                           receiverId: payload.receiveInfo.accountId) {
+        if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                             receiverId: payload.receiveInfo.accountId) {
             view?.setAmountHeader(amountTitle)
         }
     }
@@ -137,8 +137,8 @@ final class TransferPresenter {
 
         view?.set(amountViewModel: amountInputViewModel)
 
-        if let amountTitle = titleFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                            receiverId: payload.receiveInfo.accountId) {
+        if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                             receiverId: payload.receiveInfo.accountId) {
             view?.setAmountHeader(amountTitle)
         }
     }
@@ -199,8 +199,8 @@ final class TransferPresenter {
 
         view?.set(assetViewModel: viewModel)
 
-        if let assetTitle = titleFactory.createAssetTitle(assetId: selectedAsset.identifier,
-                                                          receiverId: payload.receiveInfo.accountId) {
+        if let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
+                                                           receiverId: payload.receiveInfo.accountId) {
             view?.setAssetHeader(assetTitle)
         }
     }
@@ -208,7 +208,7 @@ final class TransferPresenter {
     private func setupDescriptionViewModel() {
         view?.set(descriptionViewModel: descriptionInputViewModel)
 
-        if let descriptionTitle = titleFactory
+        if let descriptionTitle = headerFactory
             .createDescriptionTitle(assetId: selectedAsset.identifier,
                                     receiverId: payload.receiveInfo.accountId) {
             view?.setDescriptionHeader(descriptionTitle)
@@ -222,7 +222,7 @@ final class TransferPresenter {
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
 
-            if let descriptionTitle = titleFactory
+            if let descriptionTitle = headerFactory
                 .createDescriptionTitle(assetId: selectedAsset.identifier,
                                         receiverId: payload.receiveInfo.accountId) {
                 view?.setDescriptionHeader(descriptionTitle)
@@ -242,8 +242,8 @@ final class TransferPresenter {
 
         view?.set(receiverViewModel: viewModel)
 
-        if let title = titleFactory.createReceiverTitle(assetId: selectedAsset.identifier,
-                                                        receiverId: payload.receiveInfo.accountId) {
+        if let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
+                                                         receiverId: payload.receiveInfo.accountId) {
             view?.setReceiverHeader(title)
         }
 

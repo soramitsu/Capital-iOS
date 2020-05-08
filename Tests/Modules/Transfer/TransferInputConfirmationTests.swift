@@ -184,7 +184,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             let accessoryExpectation = XCTestExpectation()
 
             let feeLoadedExpectation = XCTestExpectation()
-            feeLoadedExpectation.expectedFulfillmentCount = 2
 
             var amountViewModel: AmountInputViewModelProtocol?
             var descriptionViewModel: DescriptionInputViewModelProtocol?
@@ -226,6 +225,18 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                     errorExpectation.fulfill()
                 }
 
+                when(stub).setAssetHeader(any()).thenDoNothing()
+                when(stub).presentAssetError(any()).thenDoNothing()
+
+                when(stub).setAmountHeader(any()).thenDoNothing()
+                when(stub).presentAmountError(any()).thenDoNothing()
+
+                when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+                when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+                when(stub).setDescriptionHeader(any()).thenDoNothing()
+                when(stub).presentDescriptionError(any()).thenDoNothing()
+
                 when(stub).didStartLoading().thenDoNothing()
                 when(stub).didStopLoading().thenDoNothing()
 
@@ -266,7 +277,7 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
-                                                  titleFactory: TransferDefinitionTitleModelFactory(),
+                                                  headerFactory: TransferDefinitionTitleModelFactory(),
                                                   receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 

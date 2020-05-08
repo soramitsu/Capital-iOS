@@ -17,7 +17,7 @@ final class WithdrawModuleBuilder {
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
-    private lazy var titleFactory: OperationDefinitionTitleModelFactoryProtocol
+    private lazy var headerFactory: OperationDefinitionTitleModelFactoryProtocol
         = TransferDefinitionTitleModelFactory()
 
     private lazy var headerContentInsets = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0)
@@ -127,7 +127,7 @@ final class WithdrawModuleBuilder {
                                                  feeStyle: feeStyle,
                                                  descriptionStyle: descriptionStyle)
 
-        return WithdrawConfiguration(titleFactory: titleFactory,
+        return WithdrawConfiguration(headerFactory: headerFactory,
                                      separatorsDistribution: separatorsDistribution,
                                      style: style)
     }
@@ -135,8 +135,8 @@ final class WithdrawModuleBuilder {
 
 extension WithdrawModuleBuilder: WithdrawModuleBuilderProtocol {
 
-    func with(titleFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
-        self.titleFactory = titleFactory
+    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
+        self.headerFactory = headerFactory
         return self
     }
 

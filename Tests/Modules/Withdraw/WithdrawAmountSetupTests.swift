@@ -98,7 +98,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let feeExpectation = XCTestExpectation()
         let descriptionExpectation = XCTestExpectation()
         let accessoryExpectation = XCTestExpectation()
-        let balanceLoadedExpectation = XCTestExpectation()
         let feeLoadingCompleteExpectation = XCTestExpectation()
 
         stub(view) { stub in
@@ -131,6 +130,18 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                 accessoryExpectation.fulfill()
             }
 
+            when(stub).setAssetHeader(any()).thenDoNothing()
+            when(stub).presentAssetError(any()).thenDoNothing()
+
+            when(stub).setAmountHeader(any()).thenDoNothing()
+            when(stub).presentAmountError(any()).thenDoNothing()
+
+            when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+            when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+            when(stub).setDescriptionHeader(any()).thenDoNothing()
+            when(stub).presentDescriptionError(any()).thenDoNothing()
+
             when(stub).isSetup.get.thenReturn(false, true)
 
             if expectsFeeFailure {
@@ -157,12 +168,11 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
         // then
 
-        wait(for: [assetSelectionExpectation,
-                   amountExpectation,
-                   feeExpectation,
-                   descriptionExpectation,
-                   accessoryExpectation,
-                   balanceLoadedExpectation,
-                   feeLoadingCompleteExpectation], timeout: Constants.networkTimeout)
+        wait(for: [assetSelectionExpectation], timeout: Constants.networkTimeout)
+        wait(for: [amountExpectation], timeout: Constants.networkTimeout)
+        wait(for: [feeExpectation], timeout: Constants.networkTimeout)
+        wait(for: [descriptionExpectation], timeout: Constants.networkTimeout)
+        wait(for: [accessoryExpectation], timeout: Constants.networkTimeout)
+        wait(for: [feeLoadingCompleteExpectation], timeout: Constants.networkTimeout)
     }
 }
