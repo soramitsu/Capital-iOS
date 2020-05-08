@@ -15,6 +15,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
             view.localizableTitle = LocalizableResource { _ in L10n.Amount.moduleTitle }
             view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
+            view.accessoryViewType = resolver.transferConfiguration.accessoryViewType
 
             let coordinator = TransferCoordinator(resolver: resolver)
 

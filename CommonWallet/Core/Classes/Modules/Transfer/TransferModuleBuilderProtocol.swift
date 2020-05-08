@@ -51,4 +51,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(descriptionStyle: WalletContainingDescriptionStyle) -> Self
+
+    @discardableResult
+    func with(accessoryViewType: WalletAccessoryViewType) -> Self
 }

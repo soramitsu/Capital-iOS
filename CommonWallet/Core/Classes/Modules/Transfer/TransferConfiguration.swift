@@ -11,6 +11,7 @@ protocol TransferConfigurationProtocol {
     var titleFactory: OperationDefinitionTitleModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var style: OperationDefinitionViewStyle { get }
+    var accessoryViewType: WalletAccessoryViewType { get }
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
@@ -18,4 +19,5 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let titleFactory: OperationDefinitionTitleModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let style: OperationDefinitionViewStyle
+    let accessoryViewType: WalletAccessoryViewType
 }

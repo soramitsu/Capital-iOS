@@ -14,6 +14,8 @@ class AccessoryViewController: UIViewController {
         return nil
     }
 
+    var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
+
     private(set) var accessoryView: AccessoryViewProtocol?
     private(set) var keyboardHandler: KeyboardHandler?
     private(set) var bottomConstraint: NSLayoutConstraint?
@@ -56,7 +58,8 @@ class AccessoryViewController: UIViewController {
     }
 
     func configureAccessoryView() {
-        let accessoryView = accessoryViewFactory.createAccessoryView(from: accessoryStyle,
+        let accessoryView = accessoryViewFactory.createAccessoryView(from: accessoryViewType,
+                                                                     style: accessoryStyle,
                                                                      target: self,
                                                                      completionSelector: #selector(actionAccessory))
         view.addSubview(accessoryView.contentView)
