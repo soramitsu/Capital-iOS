@@ -167,7 +167,7 @@ class TransferSetupTests: NetworkBaseTests {
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
-                                                  headerFactory: TransferDefinitionTitleModelFactory(),
+                                                  headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 

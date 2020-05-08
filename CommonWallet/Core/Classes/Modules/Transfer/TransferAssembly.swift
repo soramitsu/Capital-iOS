@@ -11,7 +11,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: AmountPayload) -> TransferViewProtocol? {
         do {
-            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style)
+            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
+                                                                   defaultStyle: resolver.style)
             let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
 
             view.localizableTitle = resolver.transferConfiguration.localizableTitle ??

@@ -12,7 +12,7 @@ public protocol TransferModuleBuilderProtocol {
     func with(receiverPosition: TransferReceiverPosition) -> Self
 
     @discardableResult
-    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self
+    func with(headerFactory: OperationDefinitionHeaderModelFactoryProtocol) -> Self
 
     @discardableResult
     func with(separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol) -> Self

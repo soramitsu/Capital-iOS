@@ -7,7 +7,7 @@
 import Foundation
 import CommonWallet
 
-struct SidechainTransferTitleFactory: OperationDefinitionTitleModelFactoryProtocol {
+struct SidechainTransferHeaderFactory: OperationDefinitionHeaderModelFactoryProtocol {
     func createAssetTitle(assetId: String, receiverId: String?) -> MultilineTitleIconViewModelProtocol? {
         MultilineTitleIconViewModel(text: "Token")
     }

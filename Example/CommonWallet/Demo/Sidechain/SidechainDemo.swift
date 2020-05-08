@@ -75,7 +75,7 @@ final class SidechainDemo: DemoFactoryProtocol {
         walletBuilder.transactionDetailsModuleBuilder.with(sendAgainTransactionTypes: ["OUTGOING"])
 
         walletBuilder.transferModuleBuilder
-            .with(headerFactory: SidechainTransferTitleFactory())
+            .with(headerFactory: SidechainTransferHeaderFactory())
             .with(receiverPosition: .form)
             .with(separatorsDistribution: SidechainTransferSeparatorsDistribution())
             .with(selectedAssetDisplayStyle: .separatedDetails)

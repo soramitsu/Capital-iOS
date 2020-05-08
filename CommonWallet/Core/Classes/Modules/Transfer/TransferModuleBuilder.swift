@@ -20,8 +20,8 @@ final class TransferModuleBuilder {
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
-    private lazy var headerFactory: OperationDefinitionTitleModelFactoryProtocol
-        = TransferDefinitionTitleModelFactory()
+    private lazy var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
+        = TransferDefinitionHeaderModelFactory()
 
     private var localizableTitle: LocalizableResource<String>?
 
@@ -149,7 +149,7 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
         return self
     }
 
-    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
+    func with(headerFactory: OperationDefinitionHeaderModelFactoryProtocol) -> Self {
         self.headerFactory = headerFactory
         return self
     }

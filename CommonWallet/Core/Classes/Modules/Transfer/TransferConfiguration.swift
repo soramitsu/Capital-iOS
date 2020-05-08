@@ -9,7 +9,7 @@ import SoraFoundation
 
 protocol TransferConfigurationProtocol {
     var receiverPosition: TransferReceiverPosition { get }
-    var headerFactory: OperationDefinitionTitleModelFactoryProtocol { get }
+    var headerFactory: OperationDefinitionHeaderModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var style: OperationDefinitionViewStyle { get }
     var accessoryViewType: WalletAccessoryViewType { get }
@@ -18,7 +18,7 @@ protocol TransferConfigurationProtocol {
 
 struct TransferConfiguration: TransferConfigurationProtocol {
     let receiverPosition: TransferReceiverPosition
-    let headerFactory: OperationDefinitionTitleModelFactoryProtocol
+    let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let style: OperationDefinitionViewStyle
     let accessoryViewType: WalletAccessoryViewType

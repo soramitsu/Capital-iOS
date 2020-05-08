@@ -12,7 +12,8 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
                              option: WalletWithdrawOption) -> WithdrawViewProtocol? {
 
         do {
-            let containingFactory = OperationDefinitionViewFactory(style: resolver.withdrawConfiguration.style)
+            let containingFactory = OperationDefinitionViewFactory(style: resolver.withdrawConfiguration.style,
+                                                                   defaultStyle: resolver.style)
             let view = WithdrawViewController(containingFactory: containingFactory, style: resolver.style)
             view.localizableTitle = LocalizableResource { _ in option.shortTitle }
 

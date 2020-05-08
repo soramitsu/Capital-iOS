@@ -18,9 +18,11 @@ protocol OperationDefinitionViewFactoryProtocol {
 
 struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
     let style: OperationDefinitionViewStyle
+    let defaultStyle: WalletStyleProtocol
 
-    init(style: OperationDefinitionViewStyle) {
+    init(style: OperationDefinitionViewStyle, defaultStyle: WalletStyleProtocol) {
         self.style = style
+        self.defaultStyle = defaultStyle
     }
 
     func createHeaderViewForItem(type: OperationDefinitionType) -> MultilineTitleIconView {
@@ -67,7 +69,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
 
         view.detailsControl.titleLabel.textColor = style.assetStyle.detailsStyle.color
         view.detailsControl.titleLabel.font = style.assetStyle.detailsStyle.font
-        view.accessoryIcon = style.assetStyle.switchIcon
+        view.accessoryIcon = style.assetStyle.switchIcon ?? defaultStyle.downArrowIcon
 
         view.contentInsets = style.assetStyle.contentInsets
         view.titleHorizontalSpacing = style.assetStyle.titleHorizontalSpacing
@@ -112,11 +114,13 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.assetLabel.textColor = style.amountStyle.assetStyle.color
         view.assetLabel.font = style.amountStyle.assetStyle.font
 
-        if let caretColor = style.amountStyle.caretColor {
+        let optionalCaretColor = style.amountStyle.caretColor ?? defaultStyle.caretColor
+
+        if let caretColor = optionalCaretColor {
             view.amountField.tintColor = caretColor
         }
 
-        view.keyboardIndicatorIcon = style.amountStyle.keyboardIcon
+        view.keyboardIndicatorIcon = style.amountStyle.keyboardIcon ?? defaultStyle.keyboardIcon
         view.keyboardIndicatorMode = style.amountStyle.keyboardIndicatorMode
 
         view.contentInsets = style.amountStyle.contentInsets
@@ -166,7 +170,9 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.textView.textColor = style.descriptionStyle.inputStyle.color
         view.textView.font = style.descriptionStyle.inputStyle.font
 
-        if let caretColor = style.descriptionStyle.caretColor {
+        let optionalCaretColor = style.descriptionStyle.caretColor ?? defaultStyle.caretColor
+
+        if let caretColor = optionalCaretColor {
             view.textView.tintColor = caretColor
         }
 
@@ -204,7 +210,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.contentInsets = style.contentInsets
         view.horizontalSpacing = style.horizontalSpacing
 
-        view.icon = style.inlineErrorStyle.icon
+        view.icon = style.inlineErrorStyle.icon ?? defaultStyle.inlineErrorStyle.icon
 
         return view
     }
