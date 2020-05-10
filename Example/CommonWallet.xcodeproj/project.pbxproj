@@ -24,6 +24,7 @@
 		8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
 		8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */; };
 		841944E52468924C00452850 /* TransferViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E42468924C00452850 /* TransferViewModelTests.swift */; };
+		841944E92468AB2A00452850 /* ReceiveAmountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */; };
 		8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8425DB8B228160DC008A8B6A /* InfoPlist.strings */; };
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
 		8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */; };
@@ -180,6 +181,7 @@
 		8418C5712330052200E92394 /* transferMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataResponse.json; sourceTree = "<group>"; };
 		8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeCalculationTests.swift; sourceTree = "<group>"; };
 		841944E42468924C00452850 /* TransferViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewModelTests.swift; sourceTree = "<group>"; };
+		841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveAmountViewModelTests.swift; sourceTree = "<group>"; };
 		8425DB8B228160DC008A8B6A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
 		8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailsTests.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				84AF3DD62296F068008725C3 /* ReceiveAmountTests.swift */,
+				841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */,
 			);
 			path = ReceiveAmount;
 			sourceTree = "<group>";
@@ -1256,6 +1259,7 @@
 				84E28A552279753B00F7646D /* TransferSetupTests.swift in Sources */,
 				848CCE0922F2FB320094289D /* WithdrawAmountSetupTests.swift in Sources */,
 				8447626D224D49E8009ADC0E /* Constants.swift in Sources */,
+				841944E92468AB2A00452850 /* ReceiveAmountViewModelTests.swift in Sources */,
 				848B6EC3224D5A1100E8A3C9 /* NetworkMockManager.swift in Sources */,
 				84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */,
 				848B6ED1224D7A6E00E8A3C9 /* LoadableBundleClass.swift in Sources */,

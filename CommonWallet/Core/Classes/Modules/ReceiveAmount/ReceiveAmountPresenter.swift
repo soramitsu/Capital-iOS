@@ -82,7 +82,7 @@ final class ReceiveAmountPresenter {
                                                               balanceData: nil,
                                                               locale: locale,
                                                               isSelecting: isSelecting,
-                                                              canSelect: account.assets.count > 0)
+                                                              canSelect: account.assets.count > 1)
 
         view?.didReceive(assetSelectionViewModel: viewModel)
     }

@@ -23,11 +23,11 @@ public struct AssetSelectionViewModel: AssetSelectionViewModelProtocol {
     public let canSelect: Bool
 
     public init(title: String,
-         subtitle: String,
-         details: String,
-         icon: UIImage?,
-         isSelecting: Bool,
-         canSelect: Bool) {
+                subtitle: String,
+                details: String,
+                icon: UIImage?,
+                isSelecting: Bool,
+                canSelect: Bool) {
         self.title = title
         self.subtitle = subtitle
         self.details = details
