@@ -7,6 +7,7 @@ import Foundation
 
 protocol AssetSelectionViewModelProtocol {
     var title: String { get }
+    var subtitle: String { get }
     var details: String { get }
     var icon: UIImage? { get }
     var isSelecting: Bool { get }
@@ -15,6 +16,7 @@ protocol AssetSelectionViewModelProtocol {
 
 struct AssetSelectionViewModel: AssetSelectionViewModelProtocol {
     let title: String
+    let subtitle: String
     let details: String
     let icon: UIImage?
     let isSelecting: Bool

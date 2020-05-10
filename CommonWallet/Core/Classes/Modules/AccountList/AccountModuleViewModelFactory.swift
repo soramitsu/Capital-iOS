@@ -64,7 +64,14 @@ final class AccountModuleViewModelFactory {
             viewModel.amount = balanceData.balance.stringValue
         }
 
-        viewModel.details = asset.details.value(for: locale)
+        let name = asset.name.value(for: locale)
+
+        if let platform = asset.platform?.value(for: locale) {
+            viewModel.details = "\(platform) \(name)"
+        } else {
+            viewModel.details = name
+        }
+
         viewModel.symbol = asset.symbol
 
         return viewModel

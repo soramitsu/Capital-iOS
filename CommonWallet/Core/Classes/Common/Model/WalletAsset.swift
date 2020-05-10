@@ -9,18 +9,21 @@ import SoraFoundation
 public struct WalletAsset {
     
     public let symbol: String
-    public let details: LocalizableResource<String>
+    public let name: LocalizableResource<String>
     public let identifier: String
     public let precision: Int16
+    public let platform: LocalizableResource<String>?
 
     public init(identifier: String,
+                name: LocalizableResource<String>,
+                platform: LocalizableResource<String>? = nil,
                 symbol: String,
-                details: LocalizableResource<String>,
                 precision: Int16) {
         self.identifier = identifier
+        self.name = name
         self.symbol = symbol
-        self.details = details
         self.precision = precision
+        self.platform = platform
     }
     
 }

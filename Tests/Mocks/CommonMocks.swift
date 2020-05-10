@@ -4931,6 +4931,20 @@ import Foundation
     
     
     
+     var subtitle: String {
+        get {
+            return cuckoo_manager.getter("subtitle",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.subtitle)
+        }
+        
+    }
+    
+    
+    
      var details: String {
         get {
             return cuckoo_manager.getter("details",
@@ -5003,6 +5017,11 @@ import Foundation
 	    }
 	    
 	    
+	    var subtitle: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "subtitle")
+	    }
+	    
+	    
 	    var details: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, String> {
 	        return .init(manager: cuckoo_manager, name: "details")
 	    }
@@ -5043,6 +5062,11 @@ import Foundation
 	    }
 	    
 	    
+	    var subtitle: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "subtitle", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var details: Cuckoo.VerifyReadOnlyProperty<String> {
 	        return .init(manager: cuckoo_manager, name: "details", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -5071,6 +5095,14 @@ import Foundation
     
     
      var title: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+     var subtitle: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }

@@ -64,8 +64,10 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
 
         view.borderedView.strokeColor = style.thinBorderColor
         view.borderedView.strokeWidth = 1.0
-        view.titleLabel.textColor = style.bodyTextColor
-        view.titleLabel.font = style.bodyRegularFont
+        view.titleColor = style.bodyTextColor
+        view.titleFont = style.bodyRegularFont
+        view.subtitleColor = style.bodyTextColor
+        view.subtitleFont = style.bodyRegularFont
         view.detailsControl.titleLabel.textColor = style.bodyTextColor
         view.detailsControl.titleLabel.font = style.bodyRegularFont
         view.accessoryIcon = style.downArrowIcon

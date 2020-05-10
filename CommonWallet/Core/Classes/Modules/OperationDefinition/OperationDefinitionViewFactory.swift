@@ -63,9 +63,11 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.borderedView.strokeColor = style.assetStyle.separatorStyle.color
         view.borderedView.strokeWidth = style.assetStyle.separatorStyle.lineWidth
 
-        view.titleLabel.textColor = style.assetStyle.titleStyle.color
-        view.titleLabel.highlightedTextColor = style.assetStyle.titleStyle.color.withAlphaComponent(0.5)
-        view.titleLabel.font = style.assetStyle.titleStyle.font
+        view.titleColor = style.assetStyle.titleStyle.color
+        view.titleFont = style.assetStyle.titleStyle.font
+
+        view.subtitleColor = style.assetStyle.subtitleStyle.color
+        view.subtitleFont = style.assetStyle.subtitleStyle.font
 
         view.detailsControl.titleLabel.textColor = style.assetStyle.detailsStyle.color
         view.detailsControl.titleLabel.font = style.assetStyle.detailsStyle.font

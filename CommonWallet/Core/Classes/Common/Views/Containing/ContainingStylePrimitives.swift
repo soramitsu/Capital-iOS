@@ -37,6 +37,7 @@ public struct WalletContainingErrorStyle {
 public struct WalletContainingAssetStyle {
     public let containingHeaderStyle: WalletContainingHeaderStyle
     public let titleStyle: WalletTextStyleProtocol
+    public let subtitleStyle: WalletTextStyleProtocol
     public let detailsStyle: WalletTextStyleProtocol
     public let switchIcon: UIImage?
     public let contentInsets: UIEdgeInsets
@@ -48,6 +49,7 @@ public struct WalletContainingAssetStyle {
 
     public init(containingHeaderStyle: WalletContainingHeaderStyle,
                 titleStyle: WalletTextStyleProtocol,
+                subtitleStyle: WalletTextStyleProtocol,
                 detailsStyle: WalletTextStyleProtocol,
                 switchIcon: UIImage?,
                 contentInsets: UIEdgeInsets,
@@ -58,6 +60,7 @@ public struct WalletContainingAssetStyle {
                 containingErrorStyle: WalletContainingErrorStyle) {
         self.containingHeaderStyle = containingHeaderStyle
         self.titleStyle = titleStyle
+        self.subtitleStyle = subtitleStyle
         self.detailsStyle = detailsStyle
         self.switchIcon = switchIcon
         self.contentInsets = contentInsets

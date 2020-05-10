@@ -42,8 +42,9 @@ class TransactionDetailsTests: XCTestCase {
 
             let transactionData = try createRandomAssetTransactionData()
             let asset = WalletAsset(identifier: transactionData.assetId,
+                                    name: LocalizableResource { _ in "Dollar" },
+                                    platform: LocalizableResource { _ in "USA"},
                                     symbol: "$",
-                                    details: LocalizableResource { _  in "Dollar" },
                                     precision: 2)
 
             let transactionType: WalletTransactionType

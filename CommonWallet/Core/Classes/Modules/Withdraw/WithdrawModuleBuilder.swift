@@ -49,9 +49,11 @@ final class WithdrawModuleBuilder {
 
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
         let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
+        let subtitleStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
 
         return WalletContainingAssetStyle(containingHeaderStyle: containingHeaderStyle,
                                           titleStyle: textStyle,
+                                          subtitleStyle: subtitleStyle,
                                           detailsStyle: textStyle,
                                           switchIcon: style.downArrowIcon,
                                           contentInsets: containingViewInsets,

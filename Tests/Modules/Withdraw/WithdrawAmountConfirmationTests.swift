@@ -150,8 +150,9 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             // given
 
             let walletAsset = WalletAsset(identifier: Constants.soraAssetId,
+                                          name: LocalizableResource { _ in UUID().uuidString },
+                                          platform: LocalizableResource { _ in UUID().uuidString },
                                           symbol: "A",
-                                          details: LocalizableResource { _ in UUID().uuidString },
                                           precision: 2)
             let withdrawOption = createRandomWithdrawOption()
 

@@ -21,6 +21,7 @@ final class ReceiveAssetSelectionFactory: AssetSelectionFactoryProtocol {
         }
 
         return AssetSelectionViewModel(title: title,
+                                       subtitle: "",
                                        details: "",
                                        icon: nil,
                                        isSelecting: isSelecting,
@@ -28,9 +29,13 @@ final class ReceiveAssetSelectionFactory: AssetSelectionFactoryProtocol {
     }
 
     func createTitle(for asset: WalletAsset, balanceData: BalanceData?, locale: Locale) -> String {
-        let title = asset.details.value(for: locale)
+        let name = asset.name.value(for: locale)
 
-        return "\(title), \(asset.symbol)"
+        if let platform = asset.platform?.value(for: locale) {
+            return "\(platform) \(name), \(asset.symbol)"
+        } else {
+            return "\(name), \(asset.symbol)"
+        }
     }
     
 }
