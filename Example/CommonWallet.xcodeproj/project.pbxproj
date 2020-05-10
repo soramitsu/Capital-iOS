@@ -23,6 +23,7 @@
 		8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
 		8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
 		8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */; };
+		841944E52468924C00452850 /* TransferViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E42468924C00452850 /* TransferViewModelTests.swift */; };
 		8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8425DB8B228160DC008A8B6A /* InfoPlist.strings */; };
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
 		8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */; };
@@ -178,6 +179,7 @@
 		8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMetadataServiceTests.swift; sourceTree = "<group>"; };
 		8418C5712330052200E92394 /* transferMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataResponse.json; sourceTree = "<group>"; };
 		8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeCalculationTests.swift; sourceTree = "<group>"; };
+		841944E42468924C00452850 /* TransferViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewModelTests.swift; sourceTree = "<group>"; };
 		8425DB8B228160DC008A8B6A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
 		8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailsTests.swift; sourceTree = "<group>"; };
@@ -724,6 +726,7 @@
 			children = (
 				84E28A502279753B00F7646D /* TransferSetupTests.swift */,
 				84752C5322A6A7F90068188B /* TransferInputConfirmationTests.swift */,
+				841944E42468924C00452850 /* TransferViewModelTests.swift */,
 			);
 			path = Transfer;
 			sourceTree = "<group>";
@@ -1236,6 +1239,7 @@
 				84CB804D23E20D130000DF97 /* NumberFormater+Money.swift in Sources */,
 				8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */,
 				84156227245214BA002400F2 /* ContactsActionTests.swift in Sources */,
+				841944E52468924C00452850 /* TransferViewModelTests.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
 				848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */,
 				848B6EC9224D67B200E8A3C9 /* HistoryServiceTests.swift in Sources */,

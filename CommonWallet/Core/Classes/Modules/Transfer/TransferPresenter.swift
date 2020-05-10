@@ -195,7 +195,7 @@ final class TransferPresenter {
                                                               balanceData: balanceData,
                                                               locale: locale,
                                                               isSelecting: isSelecting,
-                                                              canSelect: account.assets.count > 0)
+                                                              canSelect: account.assets.count > 1)
 
         view?.set(assetViewModel: viewModel)
 

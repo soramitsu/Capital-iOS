@@ -6,12 +6,12 @@
 import Foundation
 import SoraFoundation
 
-protocol AssetSelectionFactoryProtocol: class {
+public protocol AssetSelectionFactoryProtocol: class {
     func createViewModel(for asset: WalletAsset?,
                          balanceData: BalanceData?,
                          locale: Locale,
                          isSelecting: Bool,
-                         canSelect: Bool) -> AssetSelectionViewModel
+                         canSelect: Bool) -> AssetSelectionViewModelProtocol
 
     func createTitle(for asset: WalletAsset, balanceData: BalanceData?, locale: Locale) -> String
 }
@@ -27,7 +27,7 @@ final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
                          balanceData: BalanceData?,
                          locale: Locale,
                          isSelecting: Bool,
-                         canSelect: Bool) -> AssetSelectionViewModel {
+                         canSelect: Bool) -> AssetSelectionViewModelProtocol {
         let title: String
         let subtitle: String
         let details: String

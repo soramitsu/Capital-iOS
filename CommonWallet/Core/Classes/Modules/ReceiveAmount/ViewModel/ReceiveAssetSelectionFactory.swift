@@ -11,7 +11,7 @@ final class ReceiveAssetSelectionFactory: AssetSelectionFactoryProtocol {
                          balanceData: BalanceData?,
                          locale: Locale,
                          isSelecting: Bool,
-                         canSelect: Bool) -> AssetSelectionViewModel {
+                         canSelect: Bool) -> AssetSelectionViewModelProtocol {
         let title: String
 
         if let asset = asset {

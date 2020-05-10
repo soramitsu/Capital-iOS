@@ -13,6 +13,8 @@ final class TransferModuleBuilder {
         static let titleControlSpacing: CGFloat = 8
     }
 
+    private var assetSelectionFactory: AssetSelectionFactoryProtocol?
+
     lazy var style: WalletStyleProtocol = WalletStyle()
 
     private var receiverPosition: TransferReceiverPosition = .accessoryBar
@@ -141,7 +143,8 @@ final class TransferModuleBuilder {
                                      separatorsDistribution: separatorsDistribution,
                                      style: style,
                                      accessoryViewType: accessoryViewType,
-                                     localizableTitle: localizableTitle)
+                                     localizableTitle: localizableTitle,
+                                     assetSelectionFactory: assetSelectionFactory)
     }
 }
 
@@ -228,6 +231,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(localizableTitle: LocalizableResource<String>) -> Self {
         self.localizableTitle = localizableTitle
+        return self
+    }
+
+    func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self {
+        self.assetSelectionFactory = assetSelectionFactory
         return self
     }
 }

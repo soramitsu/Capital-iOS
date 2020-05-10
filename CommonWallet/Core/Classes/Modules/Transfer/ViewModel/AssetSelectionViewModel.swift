@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol AssetSelectionViewModelProtocol {
+public protocol AssetSelectionViewModelProtocol {
     var title: String { get }
     var subtitle: String { get }
     var details: String { get }
@@ -14,11 +14,25 @@ protocol AssetSelectionViewModelProtocol {
     var canSelect: Bool { get }
 }
 
-struct AssetSelectionViewModel: AssetSelectionViewModelProtocol {
-    let title: String
-    let subtitle: String
-    let details: String
-    let icon: UIImage?
-    let isSelecting: Bool
-    let canSelect: Bool
+public struct AssetSelectionViewModel: AssetSelectionViewModelProtocol {
+    public let title: String
+    public let subtitle: String
+    public let details: String
+    public let icon: UIImage?
+    public let isSelecting: Bool
+    public let canSelect: Bool
+
+    init(title: String,
+         subtitle: String,
+         details: String,
+         icon: UIImage?,
+         isSelecting: Bool,
+         canSelect: Bool) {
+        self.title = title
+        self.subtitle = subtitle
+        self.details = details
+        self.icon = icon
+        self.isSelecting = isSelecting
+        self.canSelect = canSelect
+    }
 }

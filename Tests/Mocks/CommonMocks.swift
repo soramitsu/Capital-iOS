@@ -4896,19 +4896,19 @@ import Cuckoo
 import Foundation
 
 
- class MockAssetSelectionViewModelProtocol: AssetSelectionViewModelProtocol, Cuckoo.ProtocolMock {
+public class MockAssetSelectionViewModelProtocol: AssetSelectionViewModelProtocol, Cuckoo.ProtocolMock {
     
-     typealias MocksType = AssetSelectionViewModelProtocol
+    public typealias MocksType = AssetSelectionViewModelProtocol
     
-     typealias Stubbing = __StubbingProxy_AssetSelectionViewModelProtocol
-     typealias Verification = __VerificationProxy_AssetSelectionViewModelProtocol
+    public typealias Stubbing = __StubbingProxy_AssetSelectionViewModelProtocol
+    public typealias Verification = __VerificationProxy_AssetSelectionViewModelProtocol
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
     private var __defaultImplStub: AssetSelectionViewModelProtocol?
 
-     func enableDefaultImplementation(_ stub: AssetSelectionViewModelProtocol) {
+    public func enableDefaultImplementation(_ stub: AssetSelectionViewModelProtocol) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -4917,7 +4917,7 @@ import Foundation
     
     
     
-     var title: String {
+    public var title: String {
         get {
             return cuckoo_manager.getter("title",
                 superclassCall:
@@ -4931,7 +4931,7 @@ import Foundation
     
     
     
-     var subtitle: String {
+    public var subtitle: String {
         get {
             return cuckoo_manager.getter("subtitle",
                 superclassCall:
@@ -4945,7 +4945,7 @@ import Foundation
     
     
     
-     var details: String {
+    public var details: String {
         get {
             return cuckoo_manager.getter("details",
                 superclassCall:
@@ -4959,7 +4959,7 @@ import Foundation
     
     
     
-     var icon: UIImage? {
+    public var icon: UIImage? {
         get {
             return cuckoo_manager.getter("icon",
                 superclassCall:
@@ -4973,7 +4973,7 @@ import Foundation
     
     
     
-     var isSelecting: Bool {
+    public var isSelecting: Bool {
         get {
             return cuckoo_manager.getter("isSelecting",
                 superclassCall:
@@ -4987,7 +4987,7 @@ import Foundation
     
     
     
-     var canSelect: Bool {
+    public var canSelect: Bool {
         get {
             return cuckoo_manager.getter("canSelect",
                 superclassCall:
@@ -5004,10 +5004,10 @@ import Foundation
 
     
 
-	 struct __StubbingProxy_AssetSelectionViewModelProtocol: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_AssetSelectionViewModelProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
@@ -5044,12 +5044,12 @@ import Foundation
 	    
 	}
 
-	 struct __VerificationProxy_AssetSelectionViewModelProtocol: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_AssetSelectionViewModelProtocol: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -5091,10 +5091,10 @@ import Foundation
 	}
 }
 
- class AssetSelectionViewModelProtocolStub: AssetSelectionViewModelProtocol {
+public class AssetSelectionViewModelProtocolStub: AssetSelectionViewModelProtocol {
     
     
-     var title: String {
+    public var title: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -5102,7 +5102,7 @@ import Foundation
     }
     
     
-     var subtitle: String {
+    public var subtitle: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -5110,7 +5110,7 @@ import Foundation
     }
     
     
-     var details: String {
+    public var details: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -5118,7 +5118,7 @@ import Foundation
     }
     
     
-     var icon: UIImage? {
+    public var icon: UIImage? {
         get {
             return DefaultValueRegistry.defaultValue(for: (UIImage?).self)
         }
@@ -5126,7 +5126,7 @@ import Foundation
     }
     
     
-     var isSelecting: Bool {
+    public var isSelecting: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
@@ -5134,7 +5134,7 @@ import Foundation
     }
     
     
-     var canSelect: Bool {
+    public var canSelect: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }

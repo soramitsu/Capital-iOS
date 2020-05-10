@@ -14,6 +14,7 @@ protocol TransferConfigurationProtocol {
     var style: OperationDefinitionViewStyle { get }
     var accessoryViewType: WalletAccessoryViewType { get }
     var localizableTitle: LocalizableResource<String>? { get }
+    var assetSelectionFactory: AssetSelectionFactoryProtocol? { get }
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
@@ -23,4 +24,5 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let style: OperationDefinitionViewStyle
     let accessoryViewType: WalletAccessoryViewType
     let localizableTitle: LocalizableResource<String>?
+    var assetSelectionFactory: AssetSelectionFactoryProtocol?
 }

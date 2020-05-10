@@ -58,4 +58,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(localizableTitle: LocalizableResource<String>) -> Self
+
+    @discardableResult
+    func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self
 }

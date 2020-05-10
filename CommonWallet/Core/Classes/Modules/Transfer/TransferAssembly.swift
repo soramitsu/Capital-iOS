@@ -27,7 +27,9 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
+            let assetSelectionFactory = resolver.transferConfiguration.assetSelectionFactory ??
+                AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
+
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
             let inputValidatorFactory = resolver.inputValidatorFactory
