@@ -22,7 +22,7 @@ public struct AssetSelectionViewModel: AssetSelectionViewModelProtocol {
     public let isSelecting: Bool
     public let canSelect: Bool
 
-    init(title: String,
+    public init(title: String,
          subtitle: String,
          details: String,
          icon: UIImage?,
