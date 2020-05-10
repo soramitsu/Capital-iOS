@@ -47,9 +47,10 @@ final class SelectedAssetView: UIControl {
 
     var detailsHorizontalSpacing: CGFloat = 6.0 {
         didSet {
-            detailsControl.horizontalSpacing = detailsHorizontalSpacing
-
-            invalidateLayout()
+            if detailsControl.imageView.image != nil {
+                detailsControl.horizontalSpacing = detailsHorizontalSpacing
+                invalidateLayout()
+            }
         }
     }
 
@@ -282,6 +283,9 @@ final class SelectedAssetView: UIControl {
         } else {
             detailsControl.imageView.image = accessoryIcon
         }
+
+        detailsControl.horizontalSpacing = detailsControl.imageView.image != nil ?
+            detailsControl.horizontalSpacing : 0.0
     }
 
     @objc private func actionOnTouchUpInside(sender: AnyObject) {

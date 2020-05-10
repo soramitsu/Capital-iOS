@@ -6,7 +6,7 @@
 import Foundation
 import SoraFoundation
 
-public protocol AssetSelectionFactoryProtocol: class {
+public protocol AssetSelectionFactoryProtocol {
     func createViewModel(for asset: WalletAsset?,
                          balanceData: BalanceData?,
                          locale: Locale,
@@ -16,7 +16,7 @@ public protocol AssetSelectionFactoryProtocol: class {
     func createTitle(for asset: WalletAsset, balanceData: BalanceData?, locale: Locale) -> String
 }
 
-final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
+struct AssetSelectionFactory: AssetSelectionFactoryProtocol {
     let amountFormatterFactory: NumberFormatterFactoryProtocol
 
     init(amountFormatterFactory: NumberFormatterFactoryProtocol) {

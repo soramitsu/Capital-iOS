@@ -5,7 +5,7 @@
 
 import Foundation
 
-final class ReceiveAssetSelectionFactory: AssetSelectionFactoryProtocol {
+struct ReceiveAssetSelectionFactory: AssetSelectionFactoryProtocol {
 
     func createViewModel(for asset: WalletAsset?,
                          balanceData: BalanceData?,
