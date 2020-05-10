@@ -285,7 +285,7 @@ final class SelectedAssetView: UIControl {
         }
 
         detailsControl.horizontalSpacing = detailsControl.imageView.image != nil ?
-            detailsControl.horizontalSpacing : 0.0
+            detailsHorizontalSpacing : 0.0
     }
 
     @objc private func actionOnTouchUpInside(sender: AnyObject) {
