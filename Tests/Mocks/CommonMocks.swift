@@ -1700,6 +1700,34 @@ import SoraFoundation
     
     
     
+     var transferConfiguration: TransferConfigurationProtocol {
+        get {
+            return cuckoo_manager.getter("transferConfiguration",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.transferConfiguration)
+        }
+        
+    }
+    
+    
+    
+     var withdrawConfiguration: WithdrawConfigurationProtocol {
+        get {
+            return cuckoo_manager.getter("withdrawConfiguration",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.withdrawConfiguration)
+        }
+        
+    }
+    
+    
+    
      var navigation: NavigationProtocol? {
         get {
             return cuckoo_manager.getter("navigation",
@@ -1943,6 +1971,16 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var transferConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, TransferConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transferConfiguration")
+	    }
+	    
+	    
+	    var withdrawConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WithdrawConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "withdrawConfiguration")
+	    }
+	    
+	    
 	    var navigation: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NavigationProtocol?> {
 	        return .init(manager: cuckoo_manager, name: "navigation")
 	    }
@@ -2070,6 +2108,16 @@ import SoraFoundation
 	    
 	    var transactionDetailsConfiguration: Cuckoo.VerifyReadOnlyProperty<TransactionDetailsConfigurationProtocol> {
 	        return .init(manager: cuckoo_manager, name: "transactionDetailsConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var transferConfiguration: Cuckoo.VerifyReadOnlyProperty<TransferConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transferConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var withdrawConfiguration: Cuckoo.VerifyReadOnlyProperty<WithdrawConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "withdrawConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2220,6 +2268,22 @@ import SoraFoundation
      var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (TransactionDetailsConfigurationProtocol).self)
+        }
+        
+    }
+    
+    
+     var transferConfiguration: TransferConfigurationProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (TransferConfigurationProtocol).self)
+        }
+        
+    }
+    
+    
+     var withdrawConfiguration: WithdrawConfigurationProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WithdrawConfigurationProtocol).self)
         }
         
     }
@@ -4629,6 +4693,20 @@ import Foundation
     
     
     
+     var symbol: String {
+        get {
+            return cuckoo_manager.getter("symbol",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.symbol)
+        }
+        
+    }
+    
+    
+    
      var displayAmount: String {
         get {
             return cuckoo_manager.getter("displayAmount",
@@ -4697,6 +4775,11 @@ import Foundation
 	    }
 	    
 	    
+	    var symbol: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAmountInputViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "symbol")
+	    }
+	    
+	    
 	    var displayAmount: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAmountInputViewModelProtocol, String> {
 	        return .init(manager: cuckoo_manager, name: "displayAmount")
 	    }
@@ -4732,6 +4815,11 @@ import Foundation
 	
 	    
 	    
+	    var symbol: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "symbol", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var displayAmount: Cuckoo.VerifyReadOnlyProperty<String> {
 	        return .init(manager: cuckoo_manager, name: "displayAmount", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
@@ -4758,6 +4846,14 @@ import Foundation
 }
 
  class AmountInputViewModelProtocolStub: AmountInputViewModelProtocol {
+    
+    
+     var symbol: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
     
     
      var displayAmount: String {
@@ -4800,157 +4896,6 @@ import Cuckoo
 import Foundation
 
 
- class MockAssetSelectionViewModelObserver: AssetSelectionViewModelObserver, Cuckoo.ProtocolMock {
-    
-     typealias MocksType = AssetSelectionViewModelObserver
-    
-     typealias Stubbing = __StubbingProxy_AssetSelectionViewModelObserver
-     typealias Verification = __VerificationProxy_AssetSelectionViewModelObserver
-
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: AssetSelectionViewModelObserver?
-
-     func enableDefaultImplementation(_ stub: AssetSelectionViewModelObserver) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
-
-    
-
-    
-
-    
-    
-    
-     func assetSelectionDidChangeTitle()  {
-        
-    return cuckoo_manager.call("assetSelectionDidChangeTitle()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.assetSelectionDidChangeTitle())
-        
-    }
-    
-    
-    
-     func assetSelectionDidChangeSymbol()  {
-        
-    return cuckoo_manager.call("assetSelectionDidChangeSymbol()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.assetSelectionDidChangeSymbol())
-        
-    }
-    
-    
-    
-     func assetSelectionDidChangeState()  {
-        
-    return cuckoo_manager.call("assetSelectionDidChangeState()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.assetSelectionDidChangeState())
-        
-    }
-    
-
-	 struct __StubbingProxy_AssetSelectionViewModelObserver: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	     init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    func assetSelectionDidChangeTitle() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockAssetSelectionViewModelObserver.self, method: "assetSelectionDidChangeTitle()", parameterMatchers: matchers))
-	    }
-	    
-	    func assetSelectionDidChangeSymbol() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockAssetSelectionViewModelObserver.self, method: "assetSelectionDidChangeSymbol()", parameterMatchers: matchers))
-	    }
-	    
-	    func assetSelectionDidChangeState() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockAssetSelectionViewModelObserver.self, method: "assetSelectionDidChangeState()", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	 struct __VerificationProxy_AssetSelectionViewModelObserver: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	
-	    
-	    @discardableResult
-	    func assetSelectionDidChangeTitle() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("assetSelectionDidChangeTitle()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func assetSelectionDidChangeSymbol() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("assetSelectionDidChangeSymbol()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func assetSelectionDidChangeState() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("assetSelectionDidChangeState()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
- class AssetSelectionViewModelObserverStub: AssetSelectionViewModelObserver {
-    
-
-    
-
-    
-     func assetSelectionDidChangeTitle()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func assetSelectionDidChangeSymbol()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func assetSelectionDidChangeState()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-}
-
-
-
  class MockAssetSelectionViewModelProtocol: AssetSelectionViewModelProtocol, Cuckoo.ProtocolMock {
     
      typealias MocksType = AssetSelectionViewModelProtocol
@@ -4986,14 +4931,28 @@ import Foundation
     
     
     
-     var symbol: String {
+     var details: String {
         get {
-            return cuckoo_manager.getter("symbol",
+            return cuckoo_manager.getter("details",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.symbol)
+                defaultCall: __defaultImplStub!.details)
+        }
+        
+    }
+    
+    
+    
+     var icon: UIImage? {
+        get {
+            return cuckoo_manager.getter("icon",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.icon)
         }
         
     }
@@ -5014,20 +4973,6 @@ import Foundation
     
     
     
-     var isValid: Bool {
-        get {
-            return cuckoo_manager.getter("isValid",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.isValid)
-        }
-        
-    }
-    
-    
-    
      var canSelect: Bool {
         get {
             return cuckoo_manager.getter("canSelect",
@@ -5036,20 +4981,6 @@ import Foundation
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
                 defaultCall: __defaultImplStub!.canSelect)
-        }
-        
-    }
-    
-    
-    
-     var observable: WalletViewModelObserverContainer<AssetSelectionViewModelObserver> {
-        get {
-            return cuckoo_manager.getter("observable",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.observable)
         }
         
     }
@@ -5072,8 +5003,13 @@ import Foundation
 	    }
 	    
 	    
-	    var symbol: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, String> {
-	        return .init(manager: cuckoo_manager, name: "symbol")
+	    var details: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "details")
+	    }
+	    
+	    
+	    var icon: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, UIImage?> {
+	        return .init(manager: cuckoo_manager, name: "icon")
 	    }
 	    
 	    
@@ -5082,18 +5018,8 @@ import Foundation
 	    }
 	    
 	    
-	    var isValid: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, Bool> {
-	        return .init(manager: cuckoo_manager, name: "isValid")
-	    }
-	    
-	    
 	    var canSelect: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, Bool> {
 	        return .init(manager: cuckoo_manager, name: "canSelect")
-	    }
-	    
-	    
-	    var observable: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, WalletViewModelObserverContainer<AssetSelectionViewModelObserver>> {
-	        return .init(manager: cuckoo_manager, name: "observable")
 	    }
 	    
 	    
@@ -5117,8 +5043,13 @@ import Foundation
 	    }
 	    
 	    
-	    var symbol: Cuckoo.VerifyReadOnlyProperty<String> {
-	        return .init(manager: cuckoo_manager, name: "symbol", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var details: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "details", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var icon: Cuckoo.VerifyReadOnlyProperty<UIImage?> {
+	        return .init(manager: cuckoo_manager, name: "icon", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -5127,18 +5058,8 @@ import Foundation
 	    }
 	    
 	    
-	    var isValid: Cuckoo.VerifyReadOnlyProperty<Bool> {
-	        return .init(manager: cuckoo_manager, name: "isValid", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
 	    var canSelect: Cuckoo.VerifyReadOnlyProperty<Bool> {
 	        return .init(manager: cuckoo_manager, name: "canSelect", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
-	    var observable: Cuckoo.VerifyReadOnlyProperty<WalletViewModelObserverContainer<AssetSelectionViewModelObserver>> {
-	        return .init(manager: cuckoo_manager, name: "observable", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -5157,9 +5078,17 @@ import Foundation
     }
     
     
-     var symbol: String {
+     var details: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
+     var icon: UIImage? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (UIImage?).self)
         }
         
     }
@@ -5173,25 +5102,9 @@ import Foundation
     }
     
     
-     var isValid: Bool {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (Bool).self)
-        }
-        
-    }
-    
-    
      var canSelect: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
-        }
-        
-    }
-    
-    
-     var observable: WalletViewModelObserverContainer<AssetSelectionViewModelObserver> {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (WalletViewModelObserverContainer<AssetSelectionViewModelObserver>).self)
         }
         
     }
@@ -5207,127 +5120,6 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
-
-
- class MockFeeViewModelObserver: FeeViewModelObserver, Cuckoo.ProtocolMock {
-    
-     typealias MocksType = FeeViewModelObserver
-    
-     typealias Stubbing = __StubbingProxy_FeeViewModelObserver
-     typealias Verification = __VerificationProxy_FeeViewModelObserver
-
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: FeeViewModelObserver?
-
-     func enableDefaultImplementation(_ stub: FeeViewModelObserver) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
-
-    
-
-    
-
-    
-    
-    
-     func feeTitleDidChange()  {
-        
-    return cuckoo_manager.call("feeTitleDidChange()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.feeTitleDidChange!())
-        
-    }
-    
-    
-    
-     func feeLoadingStateDidChange()  {
-        
-    return cuckoo_manager.call("feeLoadingStateDidChange()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.feeLoadingStateDidChange!())
-        
-    }
-    
-
-	 struct __StubbingProxy_FeeViewModelObserver: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	     init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    func feeTitleDidChange() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFeeViewModelObserver.self, method: "feeTitleDidChange()", parameterMatchers: matchers))
-	    }
-	    
-	    func feeLoadingStateDidChange() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFeeViewModelObserver.self, method: "feeLoadingStateDidChange()", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	 struct __VerificationProxy_FeeViewModelObserver: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	
-	    
-	    @discardableResult
-	    func feeTitleDidChange() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("feeTitleDidChange()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func feeLoadingStateDidChange() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("feeLoadingStateDidChange()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
- class FeeViewModelObserverStub: FeeViewModelObserver {
-    
-
-    
-
-    
-     func feeTitleDidChange()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func feeLoadingStateDidChange()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-}
-
 
 
  class MockFeeViewModelProtocol: FeeViewModelProtocol, Cuckoo.ProtocolMock {
@@ -5365,6 +5157,20 @@ import Foundation
     
     
     
+     var details: String {
+        get {
+            return cuckoo_manager.getter("details",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.details)
+        }
+        
+    }
+    
+    
+    
      var isLoading: Bool {
         get {
             return cuckoo_manager.getter("isLoading",
@@ -5379,14 +5185,14 @@ import Foundation
     
     
     
-     var observable: WalletViewModelObserverContainer<FeeViewModelObserver> {
+     var allowsEditing: Bool {
         get {
-            return cuckoo_manager.getter("observable",
+            return cuckoo_manager.getter("allowsEditing",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.observable)
+                defaultCall: __defaultImplStub!.allowsEditing)
         }
         
     }
@@ -5409,13 +5215,18 @@ import Foundation
 	    }
 	    
 	    
+	    var details: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, String> {
+	        return .init(manager: cuckoo_manager, name: "details")
+	    }
+	    
+	    
 	    var isLoading: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, Bool> {
 	        return .init(manager: cuckoo_manager, name: "isLoading")
 	    }
 	    
 	    
-	    var observable: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, WalletViewModelObserverContainer<FeeViewModelObserver>> {
-	        return .init(manager: cuckoo_manager, name: "observable")
+	    var allowsEditing: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFeeViewModelProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "allowsEditing")
 	    }
 	    
 	    
@@ -5439,13 +5250,18 @@ import Foundation
 	    }
 	    
 	    
+	    var details: Cuckoo.VerifyReadOnlyProperty<String> {
+	        return .init(manager: cuckoo_manager, name: "details", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
 	    var isLoading: Cuckoo.VerifyReadOnlyProperty<Bool> {
 	        return .init(manager: cuckoo_manager, name: "isLoading", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
-	    var observable: Cuckoo.VerifyReadOnlyProperty<WalletViewModelObserverContainer<FeeViewModelObserver>> {
-	        return .init(manager: cuckoo_manager, name: "observable", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var allowsEditing: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "allowsEditing", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -5464,6 +5280,14 @@ import Foundation
     }
     
     
+     var details: String {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (String).self)
+        }
+        
+    }
+    
+    
      var isLoading: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
@@ -5472,9 +5296,9 @@ import Foundation
     }
     
     
-     var observable: WalletViewModelObserverContainer<FeeViewModelObserver> {
+     var allowsEditing: Bool {
         get {
-            return DefaultValueRegistry.defaultValue(for: (WalletViewModelObserverContainer<FeeViewModelObserver>).self)
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
         
     }

@@ -6,8 +6,7 @@
 
 import Foundation
 
-public enum KeyboardIndicatorDisplayMode {
-    case never
-    case editing
-    case always
+public enum WalletAccessoryViewType: CaseIterable {
+    case titleIconActionBar
+    case onlyActionBar
 }

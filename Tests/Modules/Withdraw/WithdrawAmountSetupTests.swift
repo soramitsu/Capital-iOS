@@ -89,25 +89,20 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         let view = MockWithdrawViewProtocol()
         let coordinator = MockWithdrawCoordinatorProtocol()
 
-        let assetViewModelObserver = MockAssetSelectionViewModelObserver()
-        let feeViewModelObserver = MockFeeViewModelObserver()
-
         // when
 
         let assetSelectionExpectation = XCTestExpectation()
+        assetSelectionExpectation.expectedFulfillmentCount = 2
+
         let amountExpectation = XCTestExpectation()
         let feeExpectation = XCTestExpectation()
         let descriptionExpectation = XCTestExpectation()
         let accessoryExpectation = XCTestExpectation()
-        let balanceLoadedExpectation = XCTestExpectation()
         let feeLoadingCompleteExpectation = XCTestExpectation()
-
-        var feeViewModel: FeeViewModelProtocol?
 
         stub(view) { stub in
 
             when(stub).set(assetViewModel: any()).then { viewModel in
-                viewModel.observable.add(observer: assetViewModelObserver)
                 assetSelectionExpectation.fulfill()
             }
 
@@ -116,10 +111,15 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             }
 
             when(stub).set(feeViewModels: any()).then { viewModels in
-                feeViewModel = viewModels.first
-                feeViewModel?.observable.add(observer: feeViewModelObserver)
+                guard let viewModel = viewModels.first else {
+                    return
+                }
 
-                feeExpectation.fulfill()
+                if viewModel.isLoading {
+                    feeExpectation.fulfill()
+                } else {
+                    feeLoadingCompleteExpectation.fulfill()
+                }
             }
 
             when(stub).set(descriptionViewModel: any()).then { _ in
@@ -130,26 +130,22 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                 accessoryExpectation.fulfill()
             }
 
+            when(stub).setAssetHeader(any()).thenDoNothing()
+            when(stub).presentAssetError(any()).thenDoNothing()
+
+            when(stub).setAmountHeader(any()).thenDoNothing()
+            when(stub).presentAmountError(any()).thenDoNothing()
+
+            when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+            when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+            when(stub).setDescriptionHeader(any()).thenDoNothing()
+            when(stub).presentDescriptionError(any()).thenDoNothing()
+
             when(stub).isSetup.get.thenReturn(false, true)
 
             if expectsFeeFailure {
                 when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                    feeLoadingCompleteExpectation.fulfill()
-                }
-            }
-        }
-
-        stub(assetViewModelObserver) { stub in
-            when(stub).assetSelectionDidChangeTitle().then {
-                balanceLoadedExpectation.fulfill()
-            }
-        }
-
-        stub(feeViewModelObserver) { stub in
-            when(stub).feeTitleDidChange().thenDoNothing()
-
-            when(stub).feeLoadingStateDidChange().then {
-                if !expectsFeeFailure, feeViewModel?.isLoading == false {
                     feeLoadingCompleteExpectation.fulfill()
                 }
             }
@@ -165,19 +161,18 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                               dataProviderFactory: dataProviderFactory,
                                               feeCalculationFactory: FeeCalculationFactory(),
                                               withdrawViewModelFactory: viewModelFactory,
-                                              assetTitleFactory: assetSelectionFactory,
+                                              assetSelectionFactory: assetSelectionFactory,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup()
 
         // then
 
-        wait(for: [assetSelectionExpectation,
-                   amountExpectation,
-                   feeExpectation,
-                   descriptionExpectation,
-                   accessoryExpectation,
-                   balanceLoadedExpectation,
-                   feeLoadingCompleteExpectation], timeout: Constants.networkTimeout)
+        wait(for: [assetSelectionExpectation], timeout: Constants.networkTimeout)
+        wait(for: [amountExpectation], timeout: Constants.networkTimeout)
+        wait(for: [feeExpectation], timeout: Constants.networkTimeout)
+        wait(for: [descriptionExpectation], timeout: Constants.networkTimeout)
+        wait(for: [accessoryExpectation], timeout: Constants.networkTimeout)
+        wait(for: [feeLoadingCompleteExpectation], timeout: Constants.networkTimeout)
     }
 }

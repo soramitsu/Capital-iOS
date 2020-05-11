@@ -12,7 +12,7 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
                              option: WalletWithdrawOption) -> WithdrawViewProtocol? {
 
         do {
-            let containingFactory = ContainingViewFactory(style: resolver.style)
+            let containingFactory = OperationDefinitionViewFactory(style: resolver.withdrawConfiguration.style)
             let view = WithdrawViewController(containingFactory: containingFactory, style: resolver.style)
             view.localizableTitle = LocalizableResource { _ in option.shortTitle }
 
@@ -33,7 +33,7 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
                                                                   transactionSettingsFactory: transactionFactory,
                                                                   feeDisplaySettingsFactory: feeSettingsFactory)
 
-            let assetTitleFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
+            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
 
             let presenter = try WithdrawPresenter(view: view,
                                                         coordinator: coordinator,
@@ -43,7 +43,7 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
                                                         dataProviderFactory: dataProviderFactory,
                                                         feeCalculationFactory: resolver.feeCalculationFactory,
                                                         withdrawViewModelFactory: viewModelFactory,
-                                                        assetTitleFactory: assetTitleFactory,
+                                                        assetSelectionFactory: assetSelectionFactory,
                                                         localizationManager: resolver.localizationManager)
 
             presenter.logger = resolver.logger

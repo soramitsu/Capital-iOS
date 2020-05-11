@@ -32,16 +32,14 @@ final class TransferPresenter {
     var coordinator: TransferCoordinatorProtocol
     var logger: WalletLoggerProtocol?
     
-    private var assetSelectionViewModel: AssetSelectionViewModel
     private var amountInputViewModel: AmountInputViewModel
     private var descriptionInputViewModel: DescriptionInputViewModel
-    private var accessoryViewModel: AccessoryViewModelProtocol
-    private var feeViewModel: FeeViewModel
 
     private var feeCalculationFactory: FeeCalculationFactoryProtocol
     private var transferViewModelFactory: AmountViewModelFactoryProtocol
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
     private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
+    private var headerFactory: OperationDefinitionTitleModelFactoryProtocol
 
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData]>
@@ -52,6 +50,7 @@ final class TransferPresenter {
     private var selectedAsset: WalletAsset
     private let account: WalletAccountSettingsProtocol
     private var payload: AmountPayload
+    private let receiverPosition: TransferReceiverPosition
 
     private(set) var confirmationState: TransferCheckingState?
 
@@ -64,6 +63,8 @@ final class TransferPresenter {
          transferViewModelFactory: AmountViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
+         headerFactory: OperationDefinitionTitleModelFactoryProtocol,
+         receiverPosition: TransferReceiverPosition,
          localizationManager: LocalizationManagerProtocol?) throws {
 
         if let assetId = payload.receiveInfo.assetId, let asset = account.asset(for: assetId) {
@@ -78,6 +79,7 @@ final class TransferPresenter {
         self.coordinator = coordinator
         self.account = account
         self.payload = payload
+        self.receiverPosition = receiverPosition
 
         self.dataProviderFactory = dataProviderFactory
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
@@ -89,17 +91,12 @@ final class TransferPresenter {
         self.transferViewModelFactory = transferViewModelFactory
         self.assetSelectionFactory = assetSelectionFactory
         self.accessoryFactory = accessoryFactory
+        self.headerFactory = headerFactory
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         descriptionInputViewModel = try transferViewModelFactory
             .createDescriptionViewModel(for: payload.receiveInfo.details)
-
-        let assetTitle = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
-                                                          title: assetTitle,
-                                                          symbol: selectedAsset.symbol)
-        assetSelectionViewModel.canSelect = account.assets.count > 1
 
         let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
@@ -109,19 +106,18 @@ final class TransferPresenter {
                                                                               amount: decimalAmount,
                                                                               locale: locale)
 
-        accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
-                                                              fullName: payload.receiverName,
-                                                              action: L10n.Common.next)
-
-        let feeTitle = transferViewModelFactory.createFeeTitle(for: selectedAsset,
-                                                               sender: account.accountId,
-                                                               receiver: payload.receiveInfo.accountId,
-                                                               amount: nil,
-                                                               locale: locale)
-        feeViewModel = FeeViewModel(title: feeTitle)
-        feeViewModel.isLoading = true
-
         self.localizationManager = localizationManager
+    }
+
+    private func setupAmountInputViewModel() {
+        amountInputViewModel.observable.add(observer: self)
+
+        view?.set(amountViewModel: amountInputViewModel)
+
+        if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                             receiverId: payload.receiveInfo.accountId) {
+            view?.setAmountHeader(amountTitle)
+        }
     }
 
     private func updateAmountInputViewModel() {
@@ -140,20 +136,25 @@ final class TransferPresenter {
         amountInputViewModel.observable.add(observer: self)
 
         view?.set(amountViewModel: amountInputViewModel)
+
+        if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                             receiverId: payload.receiveInfo.accountId) {
+            view?.setAmountHeader(amountTitle)
+        }
     }
 
-    private func updateFeeViewModel(for asset: WalletAsset) {
+    private func setupFeeViewModel(for asset: WalletAsset) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard
             let amount = amountInputViewModel.decimalAmount,
             let metadata = metadata else {
-                feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                             sender: account.accountId,
-                                                                             receiver: payload.receiveInfo.accountId,
-                                                                             amount: nil,
-                                                                             locale: locale)
-                feeViewModel.isLoading = true
+                let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
+                                                                            sender: account.accountId,
+                                                                            receiver: payload.receiveInfo.accountId,
+                                                                            amount: nil,
+                                                                            locale: locale)
+                view?.set(feeViewModels: [viewModel])
                 return
         }
 
@@ -170,37 +171,48 @@ final class TransferPresenter {
                 fee = try feeCalculator.calculate(for: amount).fee
             }
 
-            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                         sender: account.accountId,
-                                                                         receiver: payload.receiveInfo.accountId,
-                                                                         amount: fee,
-                                                                         locale: locale)
-            feeViewModel.isLoading = false
+            let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
+                                                                        sender: account.accountId,
+                                                                        receiver: payload.receiveInfo.accountId,
+                                                                        amount: fee,
+                                                                        locale: locale)
+            view?.set(feeViewModels: [viewModel])
         } catch {
-            feeViewModel.title = transferViewModelFactory.createFeeTitle(for: asset,
-                                                                         sender: account.accountId,
-                                                                         receiver: payload.receiveInfo.accountId,
-                                                                         amount: nil,
-                                                                         locale: locale)
-            feeViewModel.isLoading = true
+            let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
+                                                                        sender: account.accountId,
+                                                                        receiver: payload.receiveInfo.accountId,
+                                                                        amount: nil,
+                                                                        locale: locale)
+            view?.set(feeViewModels: [viewModel])
         }
     }
 
-    private func updateSelectedAssetViewModel(for newAsset: WalletAsset) {
+    private func setupSelectedAssetViewModel(isSelecting: Bool) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
+        let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
 
-        assetSelectionViewModel.isSelecting = false
+        let viewModel = assetSelectionFactory.createViewModel(for: selectedAsset,
+                                                              balanceData: balanceData,
+                                                              locale: locale,
+                                                              isSelecting: isSelecting,
+                                                              canSelect: account.assets.count > 0)
 
-        assetSelectionViewModel.assetId = newAsset.identifier
+        view?.set(assetViewModel: viewModel)
 
-        let balanceData = balances?.first { $0.identifier == newAsset.identifier }
-        let title = assetSelectionFactory.createTitle(for: newAsset,
-                                                      balanceData: balanceData,
-                                                      locale: locale)
+        if let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
+                                                           receiverId: payload.receiveInfo.accountId) {
+            view?.setAssetHeader(assetTitle)
+        }
+    }
 
-        assetSelectionViewModel.title = title
+    private func setupDescriptionViewModel() {
+        view?.set(descriptionViewModel: descriptionInputViewModel)
 
-        assetSelectionViewModel.symbol = newAsset.symbol
+        if let descriptionTitle = headerFactory
+            .createDescriptionTitle(assetId: selectedAsset.identifier,
+                                    receiverId: payload.receiveInfo.accountId) {
+            view?.setDescriptionHeader(descriptionTitle)
+        }
     }
 
     private func updateDescriptionViewModel() {
@@ -209,15 +221,48 @@ final class TransferPresenter {
             descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel(for: text)
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
+
+            if let descriptionTitle = headerFactory
+                .createDescriptionTitle(assetId: selectedAsset.identifier,
+                                        receiverId: payload.receiveInfo.accountId) {
+                view?.setDescriptionHeader(descriptionTitle)
+            }
         } catch {
             logger?.error("Can't update description view model")
         }
     }
 
-    private func updateAccessoryViewModel() {
-        accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
-                                                              fullName: payload.receiverName,
-                                                              action: L10n.Common.next)
+    private func setupReceiverViewModel() {
+        let accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
+                                                                  fullName: payload.receiverName,
+                                                                  action: "")
+
+        let viewModel = MultilineTitleIconViewModel(text: accessoryViewModel.title,
+                                                    icon: accessoryViewModel.icon)
+
+        view?.set(receiverViewModel: viewModel)
+
+        if let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
+                                                         receiverId: payload.receiveInfo.accountId) {
+            view?.setReceiverHeader(title)
+        }
+
+    }
+
+    private func setupAccessoryViewModel() {
+        let accessoryViewModel: AccessoryViewModelProtocol
+
+        switch receiverPosition {
+        case .accessoryBar:
+            accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
+                                                                  fullName: payload.receiverName,
+                                                                  action: L10n.Common.next)
+        default:
+            accessoryViewModel = accessoryFactory.createViewModel(from: "",
+                                                                  action: L10n.Common.next,
+                                                                  icon: nil)
+        }
+
         view?.set(accessoryViewModel: accessoryViewModel)
     }
     
@@ -230,10 +275,7 @@ final class TransferPresenter {
             return
         }
         
-        guard
-            let assetId = assetSelectionViewModel.assetId,
-            let asset = account.asset(for: assetId),
-            let balanceData = balances.first(where: { $0.identifier == assetId}) else {
+        guard balances.first(where: { $0.identifier == selectedAsset.identifier}) != nil else {
 
                 if confirmationState != nil {
                     confirmationState = nil
@@ -245,11 +287,7 @@ final class TransferPresenter {
             return
         }
 
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-
-        assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: asset,
-                                                                          balanceData: balanceData,
-                                                                          locale: locale)
+        setupSelectedAssetViewModel(isSelecting: false)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedAmount)
@@ -299,7 +337,7 @@ final class TransferPresenter {
             self.metadata = metadata
         }
 
-        updateFeeViewModel(for: selectedAsset)
+        setupFeeViewModel(for: selectedAsset)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedFee)
@@ -462,13 +500,16 @@ final class TransferPresenter {
 extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
     func setup() {
-        amountInputViewModel.observable.add(observer: self)
+        setupSelectedAssetViewModel(isSelecting: false)
+        setupAmountInputViewModel()
+        setupFeeViewModel(for: selectedAsset)
+        setupDescriptionViewModel()
 
-        view?.set(assetViewModel: assetSelectionViewModel)
-        view?.set(amountViewModel: amountInputViewModel)
-        view?.set(descriptionViewModel: descriptionInputViewModel)
-        view?.set(accessoryViewModel: accessoryViewModel)
-        view?.set(feeViewModels: [feeViewModel])
+        if receiverPosition == .form {
+            setupReceiverViewModel()
+        }
+
+        setupAccessoryViewModel()
 
         setupBalanceDataProvider()
         setupMetadata(provider: metadataProvider)
@@ -488,11 +529,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
     }
     
     func presentAssetSelection() {
-        var initialIndex = 0
-
-        if let assetId = assetSelectionViewModel.assetId {
-            initialIndex = account.assets.firstIndex(where: { $0.identifier == assetId }) ?? 0
-        }
+        let initialIndex = account.assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
 
         let titles: [String] = account.assets.map { (asset) in
             let balanceData = balances?.first { $0.identifier == asset.identifier }
@@ -503,7 +540,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
 
-        assetSelectionViewModel.isSelecting = true
+        setupSelectedAssetViewModel(isSelecting: true)
     }
 
     func presentFeeEditing(at index: Int) {
@@ -513,7 +550,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
 
 extension TransferPresenter: ModalPickerViewDelegate {
     func modalPickerViewDidCancel(_ view: ModalPickerView) {
-        assetSelectionViewModel.isSelecting = false
+        setupSelectedAssetViewModel(isSelecting: false)
     }
 
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?) {
@@ -527,8 +564,9 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
                 self.selectedAsset = newAsset
 
-                updateSelectedAssetViewModel(for: newAsset)
-                updateFeeViewModel(for: newAsset)
+                setupSelectedAssetViewModel(isSelecting: false)
+
+                setupFeeViewModel(for: newAsset)
                 updateAmountInputViewModel()
             }
         } catch {
@@ -539,7 +577,7 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
 extension TransferPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
-        updateFeeViewModel(for: selectedAsset)
+        setupFeeViewModel(for: selectedAsset)
     }
 }
 
@@ -547,10 +585,14 @@ extension TransferPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
             updateAmountInputViewModel()
-            updateSelectedAssetViewModel(for: selectedAsset)
-            updateFeeViewModel(for: selectedAsset)
+            setupSelectedAssetViewModel(isSelecting: false)
+            setupFeeViewModel(for: selectedAsset)
             updateDescriptionViewModel()
-            updateAccessoryViewModel()
+            setupAccessoryViewModel()
+
+            if receiverPosition == .form {
+                setupReceiverViewModel()
+            }
         }
     }
 }

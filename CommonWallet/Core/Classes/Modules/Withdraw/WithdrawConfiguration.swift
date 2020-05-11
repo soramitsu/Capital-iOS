@@ -5,22 +5,15 @@
 
 
 import Foundation
-import SoraFoundation
 
-protocol TransferConfigurationProtocol {
-    var receiverPosition: TransferReceiverPosition { get }
+protocol WithdrawConfigurationProtocol {
     var headerFactory: OperationDefinitionTitleModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var style: OperationDefinitionViewStyle { get }
-    var accessoryViewType: WalletAccessoryViewType { get }
-    var localizableTitle: LocalizableResource<String>? { get }
 }
 
-struct TransferConfiguration: TransferConfigurationProtocol {
-    let receiverPosition: TransferReceiverPosition
+struct WithdrawConfiguration: WithdrawConfigurationProtocol {
     let headerFactory: OperationDefinitionTitleModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let style: OperationDefinitionViewStyle
-    let accessoryViewType: WalletAccessoryViewType
-    let localizableTitle: LocalizableResource<String>?
 }

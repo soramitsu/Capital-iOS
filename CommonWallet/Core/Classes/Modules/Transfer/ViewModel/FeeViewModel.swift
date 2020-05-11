@@ -5,40 +5,16 @@
 
 import Foundation
 
-@objc protocol FeeViewModelObserver {
-    @objc optional func feeTitleDidChange()
-    @objc optional func feeLoadingStateDidChange()
-}
-
-protocol FeeViewModelProtocol: class {
+protocol FeeViewModelProtocol {
     var title: String { get }
+    var details: String { get }
     var isLoading: Bool { get }
-
-    var observable: WalletViewModelObserverContainer<FeeViewModelObserver> { get }
+    var allowsEditing: Bool { get }
 }
 
-final class FeeViewModel: FeeViewModelProtocol {
-    var title: String {
-        didSet {
-            observable.observers.forEach {
-                $0.observer?.feeTitleDidChange?()
-            }
-        }
-    }
-
-    var isLoading: Bool = false {
-        didSet {
-            observable.observers.forEach {
-                $0.observer?.feeLoadingStateDidChange?()
-            }
-        }
-    }
-
-    var observable: WalletViewModelObserverContainer<FeeViewModelObserver>
-
-    init(title: String) {
-        self.title = title
-
-        observable = WalletViewModelObserverContainer()
-    }
+struct FeeViewModel: FeeViewModelProtocol {
+    let title: String
+    let details: String
+    let isLoading: Bool
+    let allowsEditing: Bool
 }

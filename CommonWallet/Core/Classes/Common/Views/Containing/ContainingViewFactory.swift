@@ -18,7 +18,7 @@ protocol ContainingViewFactoryProtocol {
     func createAmountInputView(for display: AmountInputViewDisplay) -> AmountInputView
     func createDescriptionInputView() -> DescriptionInputView
     func createFeeView() -> FeeView
-    func createReceiver() -> MultilineTitleIconView
+    func createReceiver() -> ReceiverFormView
     func createTitleView() -> MultilineTitleIconView
     func createErrorView() -> MultilineTitleIconView
     func createSeparatorView() -> BorderedContainerView
@@ -36,9 +36,10 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
         return view
     }
 
-    func createReceiver() -> MultilineTitleIconView {
-        let view = MultilineTitleIconView()
+    func createReceiver() -> ReceiverFormView {
+        let view = ReceiverFormView()
 
+        view.borderedView.strokeColor = style.thinBorderColor
         view.titleLabel.textColor = style.bodyTextColor
         view.titleLabel.font = style.bodyRegularFont
 
@@ -57,19 +58,16 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
     }
 
     func createSelectedAssetView() -> SelectedAssetView {
-        let optionalView = UINib(nibName: "SelectedAssetView", bundle: Bundle(for: SelectedAssetView.self))
-            .instantiate(withOwner: nil, options: nil)
-            .first
-
-        guard let view = optionalView as? SelectedAssetView else {
-            fatalError("Unexpected view returned from nib")
-        }
+        let view = SelectedAssetView()
 
         view.backgroundColor = .clear
 
         view.borderedView.strokeColor = style.thinBorderColor
-        view.titleControl.titleLabel.textColor = style.bodyTextColor
-        view.titleControl.titleLabel.font = style.bodyRegularFont
+        view.borderedView.strokeWidth = 1.0
+        view.titleLabel.textColor = style.bodyTextColor
+        view.titleLabel.font = style.bodyRegularFont
+        view.detailsControl.titleLabel.textColor = style.bodyTextColor
+        view.detailsControl.titleLabel.font = style.bodyRegularFont
         view.accessoryIcon = style.downArrowIcon
 
         return view
@@ -87,8 +85,6 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
         view.backgroundColor = .clear
 
         view.borderedView.strokeColor = style.thinBorderColor
-        view.titleLabel.textColor = style.captionTextColor
-        view.titleLabel.font = style.bodyRegularFont
         view.amountField.textColor = style.bodyTextColor
         view.assetLabel.textColor = style.bodyTextColor
 
@@ -123,9 +119,6 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
 
         view.borderedView.strokeColor = style.thinBorderColor
 
-        view.titleLabel.textColor = style.captionTextColor
-        view.titleLabel.font = style.bodyRegularFont
-
         view.textView.textColor = style.bodyTextColor
         view.textView.font = style.bodyRegularFont
 
@@ -158,13 +151,7 @@ struct ContainingViewFactory: ContainingViewFactoryProtocol {
     }
 
     func createFeeView() -> FeeView {
-        let optionalView = UINib(nibName: "FeeView", bundle: Bundle(for: FeeView.self))
-            .instantiate(withOwner: nil, options: nil)
-            .first
-
-        guard let view = optionalView as? FeeView else {
-            fatalError("Unexpected view returned from nib")
-        }
+        let view = FeeView()
 
         view.backgroundColor = .clear
         view.borderedView.strokeColor = style.thinBorderColor

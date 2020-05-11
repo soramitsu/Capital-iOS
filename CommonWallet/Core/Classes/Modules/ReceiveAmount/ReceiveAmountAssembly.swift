@@ -22,7 +22,7 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
 
             let coordinator = ReceiveAmountCoordinator(resolver: resolver)
 
-            let assetSelectionFactory = ReceiveAssetSelectionTitleFactory()
+            let assetSelectionFactory = ReceiveAssetSelectionFactory()
 
             let qrEncoder = resolver.qrCoderFactory.createEncoder()
             let qrService = WalletQRService(operationFactory: WalletQROperationFactory(),

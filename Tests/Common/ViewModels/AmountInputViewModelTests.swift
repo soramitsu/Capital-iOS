@@ -37,7 +37,8 @@ class AmountInputViewModelTests: XCTestCase {
         let initialAmount: Decimal = 12
         let expectedAmount: Decimal = 12.25
 
-        let amountViewModel = AmountInputViewModel(amount: initialAmount,
+        let amountViewModel = AmountInputViewModel(symbol: "R",
+                                                   amount: initialAmount,
                                                    limit: limit,
                                                    formatter: formatter.value(for: outputLocale),
                                                    inputLocale: inputLocale)
@@ -61,7 +62,8 @@ class AmountInputViewModelTests: XCTestCase {
         let initialAmount: Decimal = 12.25
         let expectedAmount: Decimal = 12
 
-        let amountViewModel = AmountInputViewModel(amount: initialAmount,
+        let amountViewModel = AmountInputViewModel(symbol: "R",
+                                                   amount: initialAmount,
                                                    limit: limit,
                                                    formatter: formatter.value(for: outputLocale),
                                                    inputLocale: inputLocale)
@@ -78,7 +80,8 @@ class AmountInputViewModelTests: XCTestCase {
     private func performAmountInitializationTest(inputAmount: Decimal,
                                          expectedAmount: Decimal,
                                          limit: Decimal) {
-        let amountInputViewModel = AmountInputViewModel(amount: inputAmount,
+        let amountInputViewModel = AmountInputViewModel(symbol:"R",
+                                                        amount: inputAmount,
                                                         limit: limit,
                                                         formatter: NumberFormatter.money(with: 2))
         XCTAssertEqual(expectedAmount, amountInputViewModel.decimalAmount)

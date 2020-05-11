@@ -9,8 +9,11 @@ import XCTest
 class AccessoryViewFactoryTests: XCTestCase {
 
     func testCreation() {
-        XCTAssertNoThrow(AccessoryViewFactory.createAccessoryView(from: WalletStyle().accessoryStyle,
-                                                                  target: nil,
-                                                                  completionSelector: nil)) 
+        for viewType in WalletAccessoryViewType.allCases {
+            XCTAssertNoThrow(AccessoryViewFactory.createAccessoryView(from: viewType,
+                                                                      style: WalletStyle().accessoryStyle,
+                                                                      target: nil,
+                                                                      completionSelector: nil))
+        }
     }
 }

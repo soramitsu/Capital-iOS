@@ -17,6 +17,8 @@ protocol ResolverProtocol: class {
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol { get }
     var receiveConfiguration: ReceiveAmountConfigurationProtocol { get }
     var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol { get }
+    var transferConfiguration: TransferConfigurationProtocol { get }
+    var withdrawConfiguration: WithdrawConfigurationProtocol { get }
     var navigation: NavigationProtocol? { get }
     var logger: WalletLoggerProtocol? { get }
     var localizationManager: LocalizationManagerProtocol? { get }
@@ -41,6 +43,8 @@ final class Resolver: ResolverProtocol {
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol
     var receiveConfiguration: ReceiveAmountConfigurationProtocol
     var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol
+    var transferConfiguration: TransferConfigurationProtocol
+    var withdrawConfiguration: WithdrawConfigurationProtocol
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol
     var feeCalculationFactory: FeeCalculationFactoryProtocol
     var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
@@ -74,6 +78,8 @@ final class Resolver: ResolverProtocol {
          invoiceScanConfiguration: InvoiceScanConfigurationProtocol,
          receiveConfiguration: ReceiveAmountConfigurationProtocol,
          transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol,
+         transferConfiguration: TransferConfigurationProtocol,
+         withdrawConfiguration: WithdrawConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol,
@@ -86,6 +92,8 @@ final class Resolver: ResolverProtocol {
         self.invoiceScanConfiguration = invoiceScanConfiguration
         self.receiveConfiguration = receiveConfiguration
         self.transactionDetailsConfiguration = transactionDetailsConfiguration
+        self.transferConfiguration = transferConfiguration
+        self.withdrawConfiguration = withdrawConfiguration
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory

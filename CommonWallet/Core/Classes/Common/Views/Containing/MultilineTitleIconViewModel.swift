@@ -6,16 +6,16 @@
 
 import Foundation
 
-protocol MultilineTitleIconViewModelProtocol {
+public protocol MultilineTitleIconViewModelProtocol {
     var text: String { get }
     var icon: UIImage? { get }
 }
 
-struct MultilineTitleIconViewModel: MultilineTitleIconViewModelProtocol {
-    let text: String
-    let icon: UIImage?
+public struct MultilineTitleIconViewModel: MultilineTitleIconViewModelProtocol {
+    public let text: String
+    public let icon: UIImage?
 
-    init(text: String, icon: UIImage? = nil) {
+    public init(text: String, icon: UIImage? = nil) {
         self.text = text
         self.icon = icon
     }

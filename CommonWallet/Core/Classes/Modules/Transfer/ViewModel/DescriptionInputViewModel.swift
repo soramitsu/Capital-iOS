@@ -10,7 +10,6 @@ import Foundation
 }
 
 protocol DescriptionInputViewModelProtocol: class {
-    var title: String { get }
     var text: String { get }
     var placeholder: String { get }
     var isValid: Bool { get }
@@ -21,7 +20,6 @@ protocol DescriptionInputViewModelProtocol: class {
 }
 
 final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
-    var title: String
 
     var text: String {
         return validator.input
@@ -39,8 +37,7 @@ final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
 
     var observable: WalletViewModelObserverContainer<DescriptionInputViewModelObserver>
 
-    init(title: String, validator: WalletInputValidatorProtocol) {
-        self.title = title
+    init(validator: WalletInputValidatorProtocol) {
         self.validator = validator
 
         observable = WalletViewModelObserverContainer()

@@ -11,10 +11,14 @@ final class TransferAssembly: TransferAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: AmountPayload) -> TransferViewProtocol? {
         do {
-            let containingFactory = ContainingViewFactory(style: resolver.style)
-            let view = TransferViewController(containingFactory: containingFactory,
-                                              style: resolver.style)
-            view.localizableTitle = LocalizableResource { _ in L10n.Amount.moduleTitle }
+            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style)
+            let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
+
+            view.localizableTitle = resolver.transferConfiguration.localizableTitle ??
+                LocalizableResource { _ in L10n.Amount.moduleTitle }
+
+            view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
+            view.accessoryViewType = resolver.transferConfiguration.accessoryViewType
 
             let coordinator = TransferCoordinator(resolver: resolver)
 
@@ -35,6 +39,9 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                                   transactionSettingsFactory: transactionFactory,
                                                                   feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
+            let headerFactory = resolver.transferConfiguration.headerFactory
+            let receiverPosition = resolver.transferConfiguration.receiverPosition
+
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
                                                    payload: payload,
@@ -44,6 +51,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    transferViewModelFactory: transferViewModelFactory,
                                                    assetSelectionFactory: assetSelectionFactory,
                                                    accessoryFactory: accessoryViewModelFactory,
+                                                   headerFactory: headerFactory,
+                                                   receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager)
             view.presenter = presenter
 

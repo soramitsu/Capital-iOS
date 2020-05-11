@@ -74,6 +74,15 @@ final class SidechainDemo: DemoFactoryProtocol {
         walletBuilder.transactionDetailsModuleBuilder.with(sendBackTransactionTypes: ["INCOMING"])
         walletBuilder.transactionDetailsModuleBuilder.with(sendAgainTransactionTypes: ["OUTGOING"])
 
+        walletBuilder.transferModuleBuilder
+            .with(headerFactory: SidechainTransferTitleFactory())
+            .with(receiverPosition: .form)
+            .with(separatorsDistribution: SidechainTransferSeparatorsDistribution())
+            .with(selectedAssetDisplayStyle: .separatedDetails)
+            .with(feeDisplayStyle: .separatedDetails)
+            .with(accessoryViewType: .onlyActionBar)
+            .with(localizableTitle: LocalizableResource { _ in "Transfer Token" })
+
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)
 

@@ -5,12 +5,8 @@
 
 
 import Foundation
-import SoraFoundation
 
-public protocol TransferModuleBuilderProtocol {
-    @discardableResult
-    func with(receiverPosition: TransferReceiverPosition) -> Self
-
+public protocol WithdrawModuleBuilderProtocol {
     @discardableResult
     func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self
 
@@ -52,10 +48,4 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(descriptionStyle: WalletContainingDescriptionStyle) -> Self
-
-    @discardableResult
-    func with(accessoryViewType: WalletAccessoryViewType) -> Self
-
-    @discardableResult
-    func with(localizableTitle: LocalizableResource<String>) -> Self
 }

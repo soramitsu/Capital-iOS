@@ -5,9 +5,8 @@
 
 
 import Foundation
-import SoraFoundation
 
-final class TransferModuleBuilder {
+final class WithdrawModuleBuilder {
     private struct Constants {
         static let iconTitleSpacing: CGFloat = 6
         static let titleControlSpacing: CGFloat = 8
@@ -15,15 +14,11 @@ final class TransferModuleBuilder {
 
     lazy var style: WalletStyleProtocol = WalletStyle()
 
-    private var receiverPosition: TransferReceiverPosition = .accessoryBar
-
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
     private lazy var headerFactory: OperationDefinitionTitleModelFactoryProtocol
         = TransferDefinitionTitleModelFactory()
-
-    private var localizableTitle: LocalizableResource<String>?
 
     private lazy var headerContentInsets = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0)
 
@@ -51,8 +46,6 @@ final class TransferModuleBuilder {
     private lazy var selectedAssetDisplayStyle: SelectedAssetViewDisplayStyle = .singleTitle
 
     private lazy var feeDisplayStyle: FeeViewDisplayStyle = .singleTitle
-
-    private lazy var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
 
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
         let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
@@ -127,27 +120,20 @@ final class TransferModuleBuilder {
                                                 containingErrorStyle: containingErrorStyle)
     }()
 
-    func build() -> TransferConfigurationProtocol {
+    func build() -> WithdrawConfigurationProtocol {
         let style = OperationDefinitionViewStyle(assetStyle: selectedAssetStyle,
                                                  receiverStyle: receiverStyle,
                                                  amountStyle: amountStyle,
                                                  feeStyle: feeStyle,
                                                  descriptionStyle: descriptionStyle)
 
-        return TransferConfiguration(receiverPosition: receiverPosition,
-                                     headerFactory: headerFactory,
+        return WithdrawConfiguration(headerFactory: headerFactory,
                                      separatorsDistribution: separatorsDistribution,
-                                     style: style,
-                                     accessoryViewType: accessoryViewType,
-                                     localizableTitle: localizableTitle)
+                                     style: style)
     }
 }
 
-extension TransferModuleBuilder: TransferModuleBuilderProtocol {
-    func with(receiverPosition: TransferReceiverPosition) -> Self {
-        self.receiverPosition = receiverPosition
-        return self
-    }
+extension WithdrawModuleBuilder: WithdrawModuleBuilderProtocol {
 
     func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
         self.headerFactory = headerFactory
@@ -216,16 +202,6 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(descriptionStyle: WalletContainingDescriptionStyle) -> Self {
         self.descriptionStyle = descriptionStyle
-        return self
-    }
-
-    func with(accessoryViewType: WalletAccessoryViewType) -> Self {
-        self.accessoryViewType = accessoryViewType
-        return self
-    }
-
-    func with(localizableTitle: LocalizableResource<String>) -> Self {
-        self.localizableTitle = localizableTitle
         return self
     }
 }

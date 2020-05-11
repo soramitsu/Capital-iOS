@@ -15,7 +15,6 @@ final class ReceiveAmountPresenter {
     private(set) var sharingFactory: AccountShareFactoryProtocol
     private(set) var account: WalletAccountSettingsProtocol
     private(set) var assetSelectionFactory: AssetSelectionFactoryProtocol
-    private(set) var assetSelectionViewModel: AssetSelectionViewModel
     private(set) var amountInputViewModel: AmountInputViewModel
     private(set) var descriptionViewModel: DescriptionInputViewModel?
     private(set) var preferredQRSize: CGSize?
@@ -63,11 +62,6 @@ final class ReceiveAmountPresenter {
         }
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
-        let title = assetSelectionFactory.createTitle(for: selectedAsset, balanceData: nil, locale: locale)
-        assetSelectionViewModel = AssetSelectionViewModel(assetId: selectedAsset.identifier,
-                                                          title: title,
-                                                          symbol: selectedAsset.symbol)
-        assetSelectionViewModel.canSelect = account.assets.count > 1
 
         amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
                                                                       amount: currentAmount,
@@ -79,6 +73,18 @@ final class ReceiveAmountPresenter {
         }
 
         self.localizationManager = localizationManager
+    }
+
+    private func setupSelectedAssetViewModel(isSelecting: Bool) {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        let viewModel = assetSelectionFactory.createViewModel(for: selectedAsset,
+                                                              balanceData: nil,
+                                                              locale: locale,
+                                                              isSelecting: isSelecting,
+                                                              canSelect: account.assets.count > 0)
+
+        view?.didReceive(assetSelectionViewModel: viewModel)
     }
 
     // MARK: QR generation
@@ -107,10 +113,6 @@ final class ReceiveAmountPresenter {
 
     private func createReceiveInfo() -> ReceiveInfo? {
 
-        guard let assetId = assetSelectionViewModel.assetId else {
-            return nil
-        }
-
         var amount: AmountDecimal?
 
         if let decimalAmount = amountInputViewModel.decimalAmount, decimalAmount > 0 {
@@ -118,7 +120,7 @@ final class ReceiveAmountPresenter {
         }
 
         return ReceiveInfo(accountId: account.accountId,
-                           assetId: assetId,
+                           assetId: selectedAsset.identifier,
                            amount: amount,
                            details: descriptionViewModel?.text)
     }
@@ -177,13 +179,12 @@ final class ReceiveAmountPresenter {
 
 extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
     func setup(qrSize: CGSize) {
-        assetSelectionViewModel.observable.remove(observer: self)
-        assetSelectionViewModel.observable.add(observer: self)
+
+        setupSelectedAssetViewModel(isSelecting: false)
 
         amountInputViewModel.observable.remove(observer: self)
         amountInputViewModel.observable.add(observer: self)
 
-        view?.didReceive(assetSelectionViewModel: assetSelectionViewModel)
         view?.didReceive(amountInputViewModel: amountInputViewModel)
 
         if let descriptionViewModel = descriptionViewModel {
@@ -199,11 +200,7 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
     }
 
     func presentAssetSelection() {
-        var initialIndex = 0
-
-        if let assetId = assetSelectionViewModel.assetId {
-            initialIndex = account.assets.firstIndex(where: { $0.identifier == assetId }) ?? 0
-        }
+        let initialIndex = account.assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
@@ -213,7 +210,7 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
 
-        assetSelectionViewModel.isSelecting = true
+        setupSelectedAssetViewModel(isSelecting: true)
     }
 
     func share() {
@@ -226,18 +223,6 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
                               with: nil)
         }
     }
-}
-
-extension ReceiveAmountPresenter: AssetSelectionViewModelObserver {
-    func assetSelectionDidChangeTitle() {}
-
-    func assetSelectionDidChangeSymbol() {
-        if let qrSize = preferredQRSize {
-            generateQR(with: qrSize)
-        }
-    }
-
-    func assetSelectionDidChangeState() {}
 }
 
 extension ReceiveAmountPresenter: AmountInputViewModelObserver {
@@ -258,26 +243,21 @@ extension ReceiveAmountPresenter: DescriptionInputViewModelObserver {
 
 extension ReceiveAmountPresenter: ModalPickerViewDelegate {
     func modalPickerViewDidCancel(_ view: ModalPickerView) {
-        assetSelectionViewModel.isSelecting = false
+        setupSelectedAssetViewModel(isSelecting: false)
     }
 
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?) {
-        assetSelectionViewModel.isSelecting = false
-
         let newAsset = account.assets[index]
 
         selectedAsset = newAsset
 
-        assetSelectionViewModel.assetId = newAsset.identifier
-
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-        let title = assetSelectionFactory.createTitle(for: newAsset, balanceData: nil, locale: locale)
-
-        assetSelectionViewModel.title = title
-
-        assetSelectionViewModel.symbol = newAsset.symbol
+        setupSelectedAssetViewModel(isSelecting: false)
 
         updateAmountInputViewModel()
+
+        if let qrSize = preferredQRSize {
+            generateQR(with: qrSize)
+        }
     }
 
     func close() {
@@ -288,11 +268,7 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
 extension ReceiveAmountPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
-            let locale = localizationManager?.selectedLocale ?? Locale.current
-            assetSelectionViewModel.title = assetSelectionFactory.createTitle(for: selectedAsset,
-                                                                              balanceData: nil,
-                                                                              locale: locale)
-
+            setupSelectedAssetViewModel(isSelecting: false)
             updateAmountInputViewModel()
             updateDescriptionViewModel()
         }

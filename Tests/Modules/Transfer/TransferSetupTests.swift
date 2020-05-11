@@ -83,28 +83,22 @@ class TransferSetupTests: NetworkBaseTests {
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
 
-            let assetSelectionObserver = MockAssetSelectionViewModelObserver()
-            let feeViewModelObserver = MockFeeViewModelObserver()
-
             // when
 
             let assetExpectation = XCTestExpectation()
+            assetExpectation.expectedFulfillmentCount = 2
+
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
 
-            let balanceExpectation = XCTestExpectation()
             let feeLoadingCompleteExpectation = XCTestExpectation()
-
-            var feeViewModel: FeeViewModelProtocol?
 
             var amountViewModel: AmountInputViewModelProtocol? = nil
 
             stub(view) { stub in
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
-                    assetViewModel.observable.add(observer: assetSelectionObserver)
-
                     assetExpectation.fulfill()
                 }
 
@@ -123,32 +117,33 @@ class TransferSetupTests: NetworkBaseTests {
                 }
 
                 when(stub).set(feeViewModels: any()).then { viewModels in
-                    feeViewModel = viewModels.first
-                    feeViewModel?.observable.add(observer: feeViewModelObserver)
+                    guard let viewModel = viewModels.first else {
+                        return
+                    }
 
-                    feeExpectation.fulfill()
+                    if viewModel.isLoading {
+                        feeExpectation.fulfill()
+                    } else {
+                        feeLoadingCompleteExpectation.fulfill()
+                    }
                 }
+
+                when(stub).setAssetHeader(any()).thenDoNothing()
+                when(stub).presentAssetError(any()).thenDoNothing()
+
+                when(stub).setAmountHeader(any()).thenDoNothing()
+                when(stub).presentAmountError(any()).thenDoNothing()
+
+                when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+                when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+                when(stub).setDescriptionHeader(any()).thenDoNothing()
+                when(stub).presentDescriptionError(any()).thenDoNothing()
 
                 when(stub).isSetup.get.thenReturn(false, true)
 
                 if expectsFeeFailure {
                     when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                        feeLoadingCompleteExpectation.fulfill()
-                    }
-                }
-            }
-
-            stub(assetSelectionObserver) { stub in
-                when(stub).assetSelectionDidChangeTitle().then { title in
-                    balanceExpectation.fulfill()
-                }
-            }
-
-            stub(feeViewModelObserver) { stub in
-                when(stub).feeTitleDidChange().thenDoNothing()
-
-                when(stub).feeLoadingStateDidChange().then {
-                    if !expectsFeeFailure, feeViewModel?.isLoading == false {
                         feeLoadingCompleteExpectation.fulfill()
                     }
                 }
@@ -172,6 +167,8 @@ class TransferSetupTests: NetworkBaseTests {
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
+                                                  headerFactory: TransferDefinitionTitleModelFactory(),
+                                                  receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             presenter.setup()
@@ -182,7 +179,6 @@ class TransferSetupTests: NetworkBaseTests {
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,
-                       balanceExpectation,
                        accessoryExpectation,
                        feeLoadingCompleteExpectation],
                  timeout: Constants.networkTimeout)

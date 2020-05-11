@@ -161,9 +161,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
 
-            let assetSelectionObserver = MockAssetSelectionViewModelObserver()
-            let feeViewModelObserver = MockFeeViewModelObserver()
-
             try FetchBalanceMock.register(mock: .success,
                                           networkResolver: networkResolver,
                                           requestType: .balance,
@@ -178,22 +175,21 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             // when
 
             let assetExpectation = XCTestExpectation()
+            assetExpectation.expectedFulfillmentCount = 2
+
             let amountExpectation = XCTestExpectation()
             let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let errorExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
 
-            let balanceExpectation = XCTestExpectation()
             let feeLoadedExpectation = XCTestExpectation()
-            feeLoadedExpectation.expectedFulfillmentCount = 2
 
             var amountViewModel: AmountInputViewModelProtocol?
             var descriptionViewModel: DescriptionInputViewModelProtocol?
 
             stub(view) { stub in
                 when(stub).set(assetViewModel: any()).then { assetViewModel in
-                    assetViewModel.observable.add(observer: assetSelectionObserver)
                     assetExpectation.fulfill()
                 }
 
@@ -204,9 +200,15 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                 }
 
                 when(stub).set(feeViewModels: any()).then { viewModels in
-                    viewModels.first?.observable.add(observer: feeViewModelObserver)
+                    guard let viewModel = viewModels.first else {
+                        return
+                    }
 
-                    feeExpectation.fulfill()
+                    if viewModel.isLoading {
+                        feeExpectation.fulfill()
+                    } else {
+                        feeLoadedExpectation.fulfill()
+                    }
                 }
 
                 when(stub).set(descriptionViewModel: any()).then { viewModel in
@@ -223,26 +225,24 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                     errorExpectation.fulfill()
                 }
 
+                when(stub).setAssetHeader(any()).thenDoNothing()
+                when(stub).presentAssetError(any()).thenDoNothing()
+
+                when(stub).setAmountHeader(any()).thenDoNothing()
+                when(stub).presentAmountError(any()).thenDoNothing()
+
+                when(stub).setFeeHeader(any(), at: any()).thenDoNothing()
+                when(stub).presentFeeError(any(), at: any()).thenDoNothing()
+
+                when(stub).setDescriptionHeader(any()).thenDoNothing()
+                when(stub).presentDescriptionError(any()).thenDoNothing()
+
                 when(stub).didStartLoading().thenDoNothing()
                 when(stub).didStopLoading().thenDoNothing()
 
                 when(stub).controller.get.thenReturn(UIViewController())
 
                 when(stub).isSetup.get.thenReturn(false, true)
-            }
-
-            stub(assetSelectionObserver) { stub in
-                when(stub).assetSelectionDidChangeTitle().then { title in
-                    balanceExpectation.fulfill()
-                }
-            }
-
-            stub(feeViewModelObserver) { stub in
-                when(stub).feeTitleDidChange().thenDoNothing()
-
-                when(stub).feeLoadingStateDidChange().then {
-                    feeLoadedExpectation.fulfill()
-                }
             }
 
             let confirmExpectation = XCTestExpectation()
@@ -277,6 +277,8 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
+                                                  headerFactory: TransferDefinitionTitleModelFactory(),
+                                                  receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
             presenter.setup()
@@ -285,7 +287,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                        amountExpectation,
                        feeExpectation,
                        descriptionExpectation,
-                       balanceExpectation,
                        accessoryExpectation,
                        feeLoadedExpectation],
                  timeout: Constants.networkTimeout)

@@ -11,58 +11,61 @@ class MultilineTitleIconView: UIView {
 
     private var imageView: UIImageView?
 
-    private var viewModel: MultilineTitleIconViewModelProtocol?
+    private var preferredWidth: CGFloat = 0.0
+
+    var title: String? {
+        get {
+            titleLabel.text
+        }
+
+        set {
+            titleLabel.text = newValue
+
+            invalidateLayout()
+        }
+    }
+
+    var icon: UIImage? {
+        get {
+            imageView?.image
+        }
+
+        set {
+            if let newIcon = newValue {
+                if imageView == nil {
+                    let imageView = UIImageView()
+                    addSubview(imageView)
+                    self.imageView = imageView
+                }
+
+                imageView?.image = newIcon
+            } else {
+                if imageView != nil {
+                    imageView?.removeFromSuperview()
+                    imageView = nil
+                }
+            }
+
+            invalidateLayout()
+        }
+    }
 
     var horizontalSpacing: CGFloat = 6.0 {
         didSet {
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
 
     var contentInsets: UIEdgeInsets = .zero {
         didSet {
-            setNeedsLayout()
+            invalidateLayout()
         }
     }
 
     func bind(viewModel: MultilineTitleIconViewModelProtocol) {
-        self.viewModel = viewModel
-
-        titleLabel.text = viewModel.text
-
-        if let icon = viewModel.icon {
-            if imageView == nil {
-                let imageView = UIImageView()
-                addSubview(imageView)
-                self.imageView = imageView
-            }
-
-            imageView?.image = icon
-        } else {
-            if imageView != nil {
-                imageView?.removeFromSuperview()
-                imageView = nil
-            }
-        }
-
-        setNeedsLayout()
-    }
-
-    private func calculateSizeFitting(_ targetSize: CGSize) -> CGSize {
-        var resultSize = CGSize(width: targetSize.width, height: 0.0)
-
-        if let imageView = imageView {
-            resultSize.height = imageView.intrinsicContentSize.height
-        }
-
-        let boundingWidth = max(targetSize.width - contentInsets.left - contentInsets.right, 0.0)
-        let boundingSize = CGSize(width: boundingWidth, height: CGFloat.greatestFiniteMagnitude)
-        let titleSize = titleLabel.sizeThatFits(boundingSize)
-
-        resultSize.height = min(max(resultSize.height, titleSize.height), targetSize.height)
-
-        return resultSize
+        self.title = viewModel.text
+        self.icon = viewModel.icon
     }
 
     // MARK: Overridings
@@ -70,8 +73,9 @@ class MultilineTitleIconView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        titleLabel.numberOfLines = 0
+        backgroundColor = .clear
 
+        titleLabel.numberOfLines = 0
         addSubview(titleLabel)
     }
 
@@ -79,14 +83,28 @@ class MultilineTitleIconView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func systemLayoutSizeFitting(_ targetSize: CGSize) -> CGSize {
-        calculateSizeFitting(targetSize)
-    }
+    override var intrinsicContentSize: CGSize {
+        guard preferredWidth > 0.0 else {
+            return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+        }
 
-    override func systemLayoutSizeFitting(_ targetSize: CGSize,
-                                          withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-                                          verticalFittingPriority: UILayoutPriority) -> CGSize {
-        calculateSizeFitting(targetSize)
+        var resultSize = CGSize(width: UIView.noIntrinsicMetric, height: 0.0)
+
+        if let imageView = imageView {
+            resultSize.height = imageView.intrinsicContentSize.height
+        }
+
+        let boundingWidth = max(preferredWidth - contentInsets.left - contentInsets.right, 0.0)
+        let boundingSize = CGSize(width: boundingWidth, height: CGFloat.greatestFiniteMagnitude)
+        let titleSize = titleLabel.sizeThatFits(boundingSize)
+
+        resultSize.height = max(resultSize.height, titleSize.height)
+
+        if resultSize.height > 0.0 {
+            resultSize.height += contentInsets.top + contentInsets.bottom
+        }
+
+        return resultSize
     }
 
     override func layoutSubviews() {
@@ -94,10 +112,12 @@ class MultilineTitleIconView: UIView {
 
         var horizontalOffset = contentInsets.left
 
+        let inset = (contentInsets.top - contentInsets.bottom) / 2.0
+
         if let imageView = imageView {
             let imageSize = imageView.image?.size ?? .zero
             imageView.frame = CGRect(x: horizontalOffset,
-                                     y: bounds.height / 2.0 - imageSize.height / 2.0,
+                                     y: bounds.height / 2.0 - imageSize.height / 2.0 + inset,
                                      width: imageSize.width,
                                      height: imageSize.height)
             horizontalOffset += imageSize.width + horizontalSpacing
@@ -105,8 +125,23 @@ class MultilineTitleIconView: UIView {
 
         let titleSize = titleLabel.intrinsicContentSize
         titleLabel.frame = CGRect(x: horizontalOffset,
-                                  y: bounds.height / 2.0 - titleSize.height / 2.0,
+                                  y: bounds.height / 2.0 - titleSize.height / 2.0 + inset,
                                   width: bounds.width - horizontalOffset - contentInsets.right,
                                   height: titleSize.height)
+
+        if abs(bounds.width - preferredWidth) > CGFloat.leastNormalMagnitude {
+            preferredWidth = bounds.width
+            invalidateIntrinsicContentSize()
+        }
+    }
+
+    // MARK: Private
+
+    private func invalidateLayout() {
+        invalidateIntrinsicContentSize()
+
+        if superview != nil {
+            setNeedsLayout()
+        }
     }
 }

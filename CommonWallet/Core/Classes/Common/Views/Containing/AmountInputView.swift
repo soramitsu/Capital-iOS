@@ -9,16 +9,13 @@ import SoraUI
 
 final class AmountInputView: UIView {
     @IBOutlet private(set) var borderedView: BorderedContainerView!
-    @IBOutlet private(set) var titleLabel: UILabel!
     @IBOutlet private(set) var assetLabel: UILabel!
     @IBOutlet private(set) var amountField: UITextField!
     @IBOutlet private(set) var keyboardIndicator: ActionTitleControl!
 
-    @IBOutlet private var topConstraint: NSLayoutConstraint!
     @IBOutlet private var bottomConstraint: NSLayoutConstraint!
 
     private(set) var inputViewModel: AmountInputViewModelProtocol?
-    private(set) var assetSelectionViewModel: AssetSelectionViewModelProtocol?
 
     var keyboardIndicatorSpacing: CGFloat = 8.0 {
         didSet {
@@ -40,14 +37,13 @@ final class AmountInputView: UIView {
 
     var contentInsets: UIEdgeInsets {
         get {
-            UIEdgeInsets(top: topConstraint.constant,
+            UIEdgeInsets(top: 0.0,
                          left: 0.0,
                          bottom: -bottomConstraint.constant,
                          right: 0.0)
         }
 
         set {
-            topConstraint.constant = newValue.top
             bottomConstraint.constant = -newValue.bottom
 
             if superview != nil {
@@ -63,15 +59,7 @@ final class AmountInputView: UIView {
         inputViewModel.observable.add(observer: self)
 
         amountField.text = inputViewModel.displayAmount
-    }
-
-    func bind(assetSelectionViewModel: AssetSelectionViewModelProtocol) {
-        self.assetSelectionViewModel?.observable.remove(observer: self)
-
-        self.assetSelectionViewModel = assetSelectionViewModel
-        assetSelectionViewModel.observable.add(observer: self)
-
-        assetLabel.text = assetSelectionViewModel.symbol
+        assetLabel.text = inputViewModel.symbol
     }
 
     // MARK: Private
@@ -117,16 +105,6 @@ extension AmountInputView: AmountInputViewModelObserver {
     func amountInputDidChange() {
         amountField.text = inputViewModel?.displayAmount
     }
-}
-
-extension AmountInputView: AssetSelectionViewModelObserver {
-    func assetSelectionDidChangeTitle() {}
-
-    func assetSelectionDidChangeSymbol() {
-        assetLabel.text = assetSelectionViewModel?.symbol
-    }
-
-    func assetSelectionDidChangeState() {}
 }
 
 extension AmountInputView: UITextFieldDelegate {
