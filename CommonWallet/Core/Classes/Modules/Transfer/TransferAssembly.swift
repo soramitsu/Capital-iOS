@@ -11,7 +11,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: AmountPayload) -> TransferViewProtocol? {
         do {
-            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style)
+            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
+                                                                   defaultStyle: resolver.style)
             let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
 
             view.localizableTitle = resolver.transferConfiguration.localizableTitle ??
@@ -26,7 +27,9 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
+            let assetSelectionFactory = resolver.transferConfiguration.assetSelectionFactory ??
+                AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
+
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
                                                                              radius: AccessoryView.iconRadius)
             let inputValidatorFactory = resolver.inputValidatorFactory

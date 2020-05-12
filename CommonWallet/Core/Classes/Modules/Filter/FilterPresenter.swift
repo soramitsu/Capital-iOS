@@ -122,7 +122,7 @@ final class FilterPresenter {
 
             filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.assets))
             filterViewModel.append(contentsOf:
-                zip(0..<assets.count, assets).map { FilterSelectionViewModel(title: $1.details.value(for: locale),
+                zip(0..<assets.count, assets).map { FilterSelectionViewModel(title: $1.name.value(for: locale),
                                                                              selected: selectedAssets.contains($1),
                                                                              index: $0,
                                                                              action: { [weak self] (index) in

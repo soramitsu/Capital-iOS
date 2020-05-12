@@ -39,7 +39,7 @@ final class TransferPresenter {
     private var transferViewModelFactory: AmountViewModelFactoryProtocol
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
     private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
-    private var headerFactory: OperationDefinitionTitleModelFactoryProtocol
+    private var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
 
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData]>
@@ -63,7 +63,7 @@ final class TransferPresenter {
          transferViewModelFactory: AmountViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
-         headerFactory: OperationDefinitionTitleModelFactoryProtocol,
+         headerFactory: OperationDefinitionHeaderModelFactoryProtocol,
          receiverPosition: TransferReceiverPosition,
          localizationManager: LocalizationManagerProtocol?) throws {
 
@@ -195,7 +195,7 @@ final class TransferPresenter {
                                                               balanceData: balanceData,
                                                               locale: locale,
                                                               isSelecting: isSelecting,
-                                                              canSelect: account.assets.count > 0)
+                                                              canSelect: account.assets.count > 1)
 
         view?.set(assetViewModel: viewModel)
 

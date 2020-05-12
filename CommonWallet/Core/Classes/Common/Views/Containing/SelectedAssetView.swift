@@ -47,9 +47,10 @@ final class SelectedAssetView: UIControl {
 
     var detailsHorizontalSpacing: CGFloat = 6.0 {
         didSet {
-            detailsControl.horizontalSpacing = detailsHorizontalSpacing
-
-            invalidateLayout()
+            if detailsControl.imageView.image != nil {
+                detailsControl.horizontalSpacing = detailsHorizontalSpacing
+                invalidateLayout()
+            }
         }
     }
 
@@ -59,9 +60,36 @@ final class SelectedAssetView: UIControl {
         }
     }
 
+    var titleColor: UIColor = .black {
+        didSet {
+            applyViewModel()
+        }
+    }
+
+    var titleFont: UIFont = .systemFont(ofSize: UIFont.labelFontSize) {
+        didSet {
+            applyViewModel()
+        }
+    }
+
+    var subtitleColor: UIColor = .gray {
+        didSet {
+            applyViewModel()
+        }
+    }
+
+    var subtitleFont: UIFont = .systemFont(ofSize: UIFont.labelFontSize) {
+        didSet {
+            applyViewModel()
+        }
+    }
+
+    var opacityValueWhenHighlighted: CGFloat = 0.5
+
     override var isHighlighted: Bool {
         didSet {
-            titleLabel.isHighlighted = isHighlighted
+            titleLabel.alpha = isHighlighted ? opacityValueWhenHighlighted : 1.0
+            iconImageView?.alpha = isHighlighted ? opacityValueWhenHighlighted : 1.0
             detailsControl.isHighlighted = isHighlighted
         }
     }
@@ -175,20 +203,12 @@ final class SelectedAssetView: UIControl {
             return
         }
 
-        let title: String
-        let details: String
-
         switch displayStyle {
         case .singleTitle:
-            title = !viewModel.details.isEmpty ? "\(viewModel.title) - \(viewModel.details)" : viewModel.title
-            details = ""
+            displaySingleTitle(viewModel.title, subtitle: viewModel.subtitle, details: viewModel.details)
         case .separatedDetails:
-            title = viewModel.title
-            details = viewModel.details
+            displaySeparatedTitle(viewModel.title, subtitle: viewModel.subtitle, details: viewModel.details)
         }
-
-        titleLabel.text = title
-        detailsControl.titleLabel.text = details
 
         if viewModel.isSelecting {
             detailsControl.activate(animated: true)
@@ -213,10 +233,48 @@ final class SelectedAssetView: UIControl {
 
         applyStyle()
 
-        detailsControl.invalidateLayout()
-
         invalidateIntrinsicContentSize()
         setNeedsLayout()
+    }
+
+    private func displaySingleTitle(_ title: String, subtitle: String, details: String) {
+        let mainTitle = [title, subtitle].filter { !$0.isEmpty }.joined(separator: " ")
+
+        titleLabel.textColor = titleColor
+        titleLabel.font = titleFont
+
+        titleLabel.text = [mainTitle, details].filter { !$0.isEmpty }.joined(separator: " - ")
+        detailsControl.titleLabel.text = ""
+
+        detailsControl.invalidateLayout()
+    }
+
+    private func displaySeparatedTitle(_ title: String, subtitle: String, details: String) {
+        if !title.isEmpty, !subtitle.isEmpty {
+            let titleAttributeString = NSMutableAttributedString(string: "\(title) ",
+                                                          attributes: [
+                                                            .foregroundColor: titleColor,
+                                                            .font: titleFont
+            ])
+
+            let subtitleAttributedString = NSAttributedString(string: subtitle,
+                                                              attributes: [
+                                                                .foregroundColor: subtitleColor,
+                                                                .font: subtitleFont
+            ])
+
+            titleAttributeString.append(subtitleAttributedString)
+
+            titleLabel.attributedText = titleAttributeString
+        } else {
+            titleLabel.textColor = titleColor
+            titleLabel.font = titleFont
+
+            titleLabel.text = [title, subtitle].filter { !$0.isEmpty }.joined(separator: " ")
+        }
+
+        detailsControl.titleLabel.text = details
+        detailsControl.invalidateLayout()
     }
 
     private func applyStyle() {
@@ -225,6 +283,9 @@ final class SelectedAssetView: UIControl {
         } else {
             detailsControl.imageView.image = accessoryIcon
         }
+
+        detailsControl.horizontalSpacing = detailsControl.imageView.image != nil ?
+            detailsHorizontalSpacing : 0.0
     }
 
     @objc private func actionOnTouchUpInside(sender: AnyObject) {

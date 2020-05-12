@@ -13,6 +13,8 @@ final class TransferModuleBuilder {
         static let titleControlSpacing: CGFloat = 8
     }
 
+    private var assetSelectionFactory: AssetSelectionFactoryProtocol?
+
     lazy var style: WalletStyleProtocol = WalletStyle()
 
     private var receiverPosition: TransferReceiverPosition = .accessoryBar
@@ -20,8 +22,8 @@ final class TransferModuleBuilder {
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
-    private lazy var headerFactory: OperationDefinitionTitleModelFactoryProtocol
-        = TransferDefinitionTitleModelFactory()
+    private lazy var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
+        = TransferDefinitionHeaderModelFactory()
 
     private var localizableTitle: LocalizableResource<String>?
 
@@ -56,9 +58,11 @@ final class TransferModuleBuilder {
 
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
         let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
+        let subtitleStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
 
         return WalletContainingAssetStyle(containingHeaderStyle: containingHeaderStyle,
                                           titleStyle: textStyle,
+                                          subtitleStyle: subtitleStyle,
                                           detailsStyle: textStyle,
                                           switchIcon: style.downArrowIcon,
                                           contentInsets: containingViewInsets,
@@ -139,7 +143,8 @@ final class TransferModuleBuilder {
                                      separatorsDistribution: separatorsDistribution,
                                      style: style,
                                      accessoryViewType: accessoryViewType,
-                                     localizableTitle: localizableTitle)
+                                     localizableTitle: localizableTitle,
+                                     assetSelectionFactory: assetSelectionFactory)
     }
 }
 
@@ -149,7 +154,7 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
         return self
     }
 
-    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
+    func with(headerFactory: OperationDefinitionHeaderModelFactoryProtocol) -> Self {
         self.headerFactory = headerFactory
         return self
     }
@@ -226,6 +231,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(localizableTitle: LocalizableResource<String>) -> Self {
         self.localizableTitle = localizableTitle
+        return self
+    }
+
+    func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self {
+        self.assetSelectionFactory = assetSelectionFactory
         return self
     }
 }

@@ -23,6 +23,8 @@
 		8418C5722330052200E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
 		8418C573233007C600E92394 /* transferMetadataResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 8418C5712330052200E92394 /* transferMetadataResponse.json */; };
 		8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */; };
+		841944E52468924C00452850 /* TransferViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E42468924C00452850 /* TransferViewModelTests.swift */; };
+		841944E92468AB2A00452850 /* ReceiveAmountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */; };
 		8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8425DB8B228160DC008A8B6A /* InfoPlist.strings */; };
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
 		8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */; };
@@ -119,7 +121,7 @@
 		84EBF57D23C760F000E609FF /* MoneyPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EBF57B23C760D900E609FF /* MoneyPresenter.swift */; };
 		84EBF57F23C7617100E609FF /* MoneyPresentableLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EBF57E23C7617100E609FF /* MoneyPresentableLocalizationTests.swift */; };
 		84EBF58223C76BBE00E609FF /* Locale+Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EBF58023C7670900E609FF /* Locale+Regions.swift */; };
-		84F5B97224629B02004E658C /* SidechainTransferTitleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5B97124629B02004E658C /* SidechainTransferTitleFactory.swift */; };
+		84F5B97224629B02004E658C /* SidechainTransferHeaderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5B97124629B02004E658C /* SidechainTransferHeaderFactory.swift */; };
 		84F5B9762462ADD9004E658C /* SidechainTransferSeparatorsDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F5B9752462ADD8004E658C /* SidechainTransferSeparatorsDistribution.swift */; };
 		84F622BB2310016D00D5D6BA /* feeNotAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* feeNotAvailable.json */; };
 		84F622BC2310017200D5D6BA /* feeNotAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 84F622BA2310016D00D5D6BA /* feeNotAvailable.json */; };
@@ -178,6 +180,8 @@
 		8418C56F2330049700E92394 /* TransferMetadataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMetadataServiceTests.swift; sourceTree = "<group>"; };
 		8418C5712330052200E92394 /* transferMetadataResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = transferMetadataResponse.json; sourceTree = "<group>"; };
 		8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeCalculationTests.swift; sourceTree = "<group>"; };
+		841944E42468924C00452850 /* TransferViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewModelTests.swift; sourceTree = "<group>"; };
+		841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveAmountViewModelTests.swift; sourceTree = "<group>"; };
 		8425DB8B228160DC008A8B6A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
 		8425DBB02282B27D008A8B6A /* TransactionDetailsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailsTests.swift; sourceTree = "<group>"; };
@@ -255,7 +259,7 @@
 		84EBF57B23C760D900E609FF /* MoneyPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyPresenter.swift; sourceTree = "<group>"; };
 		84EBF57E23C7617100E609FF /* MoneyPresentableLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyPresentableLocalizationTests.swift; sourceTree = "<group>"; };
 		84EBF58023C7670900E609FF /* Locale+Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Regions.swift"; sourceTree = "<group>"; };
-		84F5B97124629B02004E658C /* SidechainTransferTitleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainTransferTitleFactory.swift; sourceTree = "<group>"; };
+		84F5B97124629B02004E658C /* SidechainTransferHeaderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainTransferHeaderFactory.swift; sourceTree = "<group>"; };
 		84F5B9752462ADD8004E658C /* SidechainTransferSeparatorsDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainTransferSeparatorsDistribution.swift; sourceTree = "<group>"; };
 		84F622BA2310016D00D5D6BA /* feeNotAvailable.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = feeNotAvailable.json; sourceTree = "<group>"; };
 		84F77F1822EF832F00152FE2 /* WithdrawServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawServiceTests.swift; sourceTree = "<group>"; };
@@ -402,7 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				84156229245219BF002400F2 /* SidechainDemo.swift */,
-				84F5B97124629B02004E658C /* SidechainTransferTitleFactory.swift */,
+				84F5B97124629B02004E658C /* SidechainTransferHeaderFactory.swift */,
 				84F5B9752462ADD8004E658C /* SidechainTransferSeparatorsDistribution.swift */,
 			);
 			path = Sidechain;
@@ -672,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				84AF3DD62296F068008725C3 /* ReceiveAmountTests.swift */,
+				841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */,
 			);
 			path = ReceiveAmount;
 			sourceTree = "<group>";
@@ -724,6 +729,7 @@
 			children = (
 				84E28A502279753B00F7646D /* TransferSetupTests.swift */,
 				84752C5322A6A7F90068188B /* TransferInputConfirmationTests.swift */,
+				841944E42468924C00452850 /* TransferViewModelTests.swift */,
 			);
 			path = Transfer;
 			sourceTree = "<group>";
@@ -1179,7 +1185,7 @@
 				84FA00962269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift in Sources */,
 				84C1805D2253B01000F19858 /* DemoNetworkResolver.swift in Sources */,
 				848B6EBE224D5A1100E8A3C9 /* ServiceMock.swift in Sources */,
-				84F5B97224629B02004E658C /* SidechainTransferTitleFactory.swift in Sources */,
+				84F5B97224629B02004E658C /* SidechainTransferHeaderFactory.swift in Sources */,
 				84D8D9A622F72C8B00C9B9C7 /* CommandDecoratorDemo.swift in Sources */,
 				607FACD81AFB9204008FA782 /* DemoListViewController.swift in Sources */,
 				84C1806922551D4000F19858 /* DemoHeaderCell.swift in Sources */,
@@ -1236,6 +1242,7 @@
 				84CB804D23E20D130000DF97 /* NumberFormater+Money.swift in Sources */,
 				8481A58522FC537C0056D3D4 /* WalletDefaultInputValidatorTests.swift in Sources */,
 				84156227245214BA002400F2 /* ContactsActionTests.swift in Sources */,
+				841944E52468924C00452850 /* TransferViewModelTests.swift in Sources */,
 				8425DBB52282B27D008A8B6A /* TransactionDetailsTests.swift in Sources */,
 				848CCE0F22F4330F0094289D /* WithdrawConfirmationTests.swift in Sources */,
 				848B6EC9224D67B200E8A3C9 /* HistoryServiceTests.swift in Sources */,
@@ -1252,6 +1259,7 @@
 				84E28A552279753B00F7646D /* TransferSetupTests.swift in Sources */,
 				848CCE0922F2FB320094289D /* WithdrawAmountSetupTests.swift in Sources */,
 				8447626D224D49E8009ADC0E /* Constants.swift in Sources */,
+				841944E92468AB2A00452850 /* ReceiveAmountViewModelTests.swift in Sources */,
 				848B6EC3224D5A1100E8A3C9 /* NetworkMockManager.swift in Sources */,
 				84F77F1922EF832F00152FE2 /* WithdrawServiceTests.swift in Sources */,
 				848B6ED1224D7A6E00E8A3C9 /* LoadableBundleClass.swift in Sources */,

@@ -97,26 +97,30 @@ final class DefaultDemo: DemoFactoryProtocol {
     func createAssets() throws -> [WalletAsset] {
         let soraAssetId = "sora#demo"
         let soraAsset = WalletAsset(identifier: soraAssetId,
+                                    name: LocalizableResource { _ in "XOR" },
+                                    platform: LocalizableResource { _ in "Sora economy" },
                                     symbol: "ラ",
-                                    details: LocalizableResource { _ in "Sora economy" },
                                     precision: 8)
 
         let d3AssetId = "d3#demo"
         let d3Asset = WalletAsset(identifier: d3AssetId,
+                                  name: LocalizableResource { _ in "D3" },
+                                  platform: LocalizableResource { _ in "Digital identity" },
                                   symbol: "元",
-                                  details: LocalizableResource { _ in "Digital identity" },
                                   precision: 2)
 
         let vinceraAssetId = "vincera#demo"
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
+                                       name: LocalizableResource { _ in "PFV" },
+                                       platform: LocalizableResource { _ in "Pay for vine" },
                                        symbol: "る",
-                                       details: LocalizableResource { _ in "Pay for vine" },
                                        precision: 2)
 
         let moneaAssetId = "monea#demo"
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
+                                     name: LocalizableResource { _ in "FMT" },
+                                     platform: LocalizableResource { _ in "Fast money transfer" },
                                      symbol: "金",
-                                     details: LocalizableResource { _ in "Fast money transfer" },
                                      precision: 5)
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]

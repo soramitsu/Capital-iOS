@@ -6,17 +6,17 @@
 import Foundation
 import SoraFoundation
 
-protocol AssetSelectionFactoryProtocol: class {
+public protocol AssetSelectionFactoryProtocol {
     func createViewModel(for asset: WalletAsset?,
                          balanceData: BalanceData?,
                          locale: Locale,
                          isSelecting: Bool,
-                         canSelect: Bool) -> AssetSelectionViewModel
+                         canSelect: Bool) -> AssetSelectionViewModelProtocol
 
     func createTitle(for asset: WalletAsset, balanceData: BalanceData?, locale: Locale) -> String
 }
 
-final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
+struct AssetSelectionFactory: AssetSelectionFactoryProtocol {
     let amountFormatterFactory: NumberFormatterFactoryProtocol
 
     init(amountFormatterFactory: NumberFormatterFactoryProtocol) {
@@ -27,12 +27,20 @@ final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
                          balanceData: BalanceData?,
                          locale: Locale,
                          isSelecting: Bool,
-                         canSelect: Bool) -> AssetSelectionViewModel {
-        var title: String = ""
-        var details: String = ""
+                         canSelect: Bool) -> AssetSelectionViewModelProtocol {
+        let title: String
+        let subtitle: String
+        let details: String
 
         if let asset = asset {
-            title = asset.details.value(for: locale)
+
+            if let platform = asset.platform?.value(for: locale) {
+                title = platform
+                subtitle = asset.name.value(for: locale)
+            } else {
+                title = asset.name.value(for: locale)
+                subtitle = ""
+            }
 
             let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
 
@@ -40,12 +48,17 @@ final class AssetSelectionFactory: AssetSelectionFactoryProtocol {
                 let formattedBalance = amountFormatter.value(for: locale)
                     .string(from: balanceData.balance.decimalValue as NSNumber) {
                 details = "\(asset.symbol)\(formattedBalance)"
+            } else {
+                details = ""
             }
         } else {
             title = L10n.AssetSelection.noAsset
+            subtitle = ""
+            details = ""
         }
 
         return AssetSelectionViewModel(title: title,
+                                       subtitle: subtitle,
                                        details: details,
                                        icon: nil,
                                        isSelecting: isSelecting,

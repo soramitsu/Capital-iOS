@@ -17,8 +17,8 @@ final class WithdrawModuleBuilder {
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
-    private lazy var headerFactory: OperationDefinitionTitleModelFactoryProtocol
-        = TransferDefinitionTitleModelFactory()
+    private lazy var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
+        = TransferDefinitionHeaderModelFactory()
 
     private lazy var headerContentInsets = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0)
 
@@ -49,9 +49,11 @@ final class WithdrawModuleBuilder {
 
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
         let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
+        let subtitleStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
 
         return WalletContainingAssetStyle(containingHeaderStyle: containingHeaderStyle,
                                           titleStyle: textStyle,
+                                          subtitleStyle: subtitleStyle,
                                           detailsStyle: textStyle,
                                           switchIcon: style.downArrowIcon,
                                           contentInsets: containingViewInsets,
@@ -135,7 +137,7 @@ final class WithdrawModuleBuilder {
 
 extension WithdrawModuleBuilder: WithdrawModuleBuilderProtocol {
 
-    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self {
+    func with(headerFactory: OperationDefinitionHeaderModelFactoryProtocol) -> Self {
         self.headerFactory = headerFactory
         return self
     }

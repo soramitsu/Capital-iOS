@@ -8,7 +8,7 @@ import Foundation
 
 public protocol WithdrawModuleBuilderProtocol {
     @discardableResult
-    func with(headerFactory: OperationDefinitionTitleModelFactoryProtocol) -> Self
+    func with(headerFactory: OperationDefinitionHeaderModelFactoryProtocol) -> Self
 
     @discardableResult
     func with(separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol) -> Self

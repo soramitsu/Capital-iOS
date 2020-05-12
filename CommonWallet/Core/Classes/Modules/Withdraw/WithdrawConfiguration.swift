@@ -7,13 +7,13 @@
 import Foundation
 
 protocol WithdrawConfigurationProtocol {
-    var headerFactory: OperationDefinitionTitleModelFactoryProtocol { get }
+    var headerFactory: OperationDefinitionHeaderModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var style: OperationDefinitionViewStyle { get }
 }
 
 struct WithdrawConfiguration: WithdrawConfigurationProtocol {
-    let headerFactory: OperationDefinitionTitleModelFactoryProtocol
+    let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let style: OperationDefinitionViewStyle
 }

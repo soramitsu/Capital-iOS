@@ -13,8 +13,9 @@ class HistoryViewModelFactoryTests: XCTestCase {
             var assetDataWithFee = try createRandomAssetTransactionData(includeFee: true)
 
             let asset = WalletAsset(identifier: assetDataWithFee.assetId,
+                                    name: LocalizableResource { _ in "" },
+                                    platform: LocalizableResource { _ in "" },
                                     symbol: "",
-                                    details: LocalizableResource { _ in "" },
                                     precision: 2)
 
             guard let type = WalletTransactionType.required.first(where: { !$0.isIncome })?.backendName else {

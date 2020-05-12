@@ -6,7 +6,7 @@
 
 import Foundation
 
-public protocol OperationDefinitionTitleModelFactoryProtocol {
+public protocol OperationDefinitionHeaderModelFactoryProtocol {
     func createAssetTitle(assetId: String,
                           receiverId: String?) -> MultilineTitleIconViewModelProtocol?
     func createAmountTitle(assetId: String,
@@ -20,7 +20,7 @@ public protocol OperationDefinitionTitleModelFactoryProtocol {
                                 receiverId: String?) -> MultilineTitleIconViewModelProtocol?
 }
 
-struct TransferDefinitionTitleModelFactory: OperationDefinitionTitleModelFactoryProtocol {
+struct TransferDefinitionHeaderModelFactory: OperationDefinitionHeaderModelFactoryProtocol {
     func createAssetTitle(assetId: String,
                           receiverId: String?) -> MultilineTitleIconViewModelProtocol? {
         return nil
@@ -48,7 +48,7 @@ struct TransferDefinitionTitleModelFactory: OperationDefinitionTitleModelFactory
     }
 }
 
-struct WithdrawDefinitionTitleModelFactory: OperationDefinitionTitleModelFactoryProtocol {
+struct WithdrawDefinitionHeaderModelFactory: OperationDefinitionHeaderModelFactoryProtocol {
     let option: WalletWithdrawOption
 
     func createAssetTitle(assetId: String,
