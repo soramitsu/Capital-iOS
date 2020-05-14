@@ -15,7 +15,7 @@ private struct Constants {
 
 
 public extension MiddlewareOperationFactoryProtocol {
-    func fetchBalanceOperation(_ assets: [String]) -> BaseOperation<[BalanceData]?> {
+    func fetchBalanceOperation(_ assets: [String]) -> CompoundOperationWrapper<[BalanceData]?> {
         let urlTemplate = networkResolver.urlTemplate(for: .balance)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -64,11 +64,12 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .balance)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
     func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest,
-                                          pagination: OffsetPagination) -> BaseOperation<AssetTransactionPageData?> {
+                                          pagination: OffsetPagination)
+        -> CompoundOperationWrapper<AssetTransactionPageData?> {
         let urlTemplate = networkResolver.urlTemplate(for: .history)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -99,10 +100,11 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .history)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?> {
+    func transferMetadataOperation(_ info: TransferMetadataInfo)
+        -> CompoundOperationWrapper<TransferMetaData?> {
         let urlTemplate = networkResolver.urlTemplate(for: .transferMetadata)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -132,10 +134,10 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .transferMetadata)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func transferOperation(_ info: TransferInfo) -> BaseOperation<Void> {
+    func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Void> {
         let urlTemplate = networkResolver.urlTemplate(for: .transfer)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -170,10 +172,10 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .transfer)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func searchOperation(_ searchString: String) -> BaseOperation<[SearchData]?> {
+    func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?> {
         let urlTemplate = networkResolver.urlTemplate(for: .search)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -210,10 +212,10 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .search)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func contactsOperation() -> BaseOperation<[SearchData]?> {
+    func contactsOperation() -> CompoundOperationWrapper<[SearchData]?> {
         let urlTemplate = networkResolver.urlTemplate(for: .contacts)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -247,10 +249,11 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .contacts)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func withdrawalMetadataOperation(_ info: WithdrawMetadataInfo) -> BaseOperation<WithdrawMetaData?> {
+    func withdrawalMetadataOperation(_ info: WithdrawMetadataInfo)
+        -> CompoundOperationWrapper<WithdrawMetaData?> {
         let urlTemplate = networkResolver.urlTemplate(for: .withdrawalMetadata)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -280,10 +283,10 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .withdrawalMetadata)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func withdrawOperation(_ info: WithdrawInfo) -> BaseOperation<Void> {
+    func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Void> {
         let urlTemplate = networkResolver.urlTemplate(for: .withdraw)
 
         let requestFactory = BlockNetworkRequestFactory {
@@ -319,7 +322,7 @@ public extension MiddlewareOperationFactoryProtocol {
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .withdraw)
 
-        return operation
+        return CompoundOperationWrapper(targetOperation: operation)
     }
 
     // MARK: Private

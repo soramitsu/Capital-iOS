@@ -6,13 +6,14 @@
 import Foundation
 import AVFoundation
 import SoraFoundation
+import RobinHood
 
 final class InvoiceScanPresenter {
     enum ScanState {
         case initializing(accessRequested: Bool)
         case inactive
         case active
-        case processing(receiverInfo: ReceiveInfo, operation: Operation)
+        case processing(receiverInfo: ReceiveInfo, operation: CancellableCall)
         case failed(code: String)
     }
 
@@ -136,9 +137,7 @@ final class InvoiceScanPresenter {
 
         switch scanState {
         case .processing(let oldReceiverInfo, let oldOperation) where oldReceiverInfo != receiverInfo:
-            if !oldOperation.isFinished {
-                oldOperation.cancel()
-            }
+            oldOperation.cancel()
 
             performProcessing(of: receiverInfo)
         case .active:
@@ -233,7 +232,7 @@ extension InvoiceScanPresenter: InvoiceScanPresenterProtocol {
             return
         }
 
-        if case .processing(_, let operation) = scanState, !operation.isFinished {
+        if case .processing(_, let operation) = scanState {
             operation.cancel()
         }
 
