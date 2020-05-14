@@ -15,7 +15,23 @@ final class AmountInputView: UIView {
 
     @IBOutlet private var bottomConstraint: NSLayoutConstraint!
 
+    @IBOutlet private var horizontalSpacingConstraint: NSLayoutConstraint!
+
     private(set) var inputViewModel: AmountInputViewModelProtocol?
+
+    var horizontalSpacing: CGFloat {
+        get {
+            horizontalSpacingConstraint.constant
+        }
+
+        set {
+            horizontalSpacingConstraint.constant = newValue
+
+            if superview != nil {
+                setNeedsLayout()
+            }
+        }
+    }
 
     var keyboardIndicatorSpacing: CGFloat = 8.0 {
         didSet {

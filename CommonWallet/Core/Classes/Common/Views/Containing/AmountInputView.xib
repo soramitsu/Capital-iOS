@@ -79,6 +79,7 @@
                 <outlet property="assetLabel" destination="ulX-7x-4h2" id="5W7-H3-SD0"/>
                 <outlet property="borderedView" destination="QYg-rG-di7" id="xsG-ZP-H0a"/>
                 <outlet property="bottomConstraint" destination="Jbq-9x-JVg" id="FWt-iV-e6X"/>
+                <outlet property="horizontalSpacingConstraint" destination="jf2-J2-dug" id="bRH-Sm-S9c"/>
                 <outlet property="keyboardIndicator" destination="MLM-Hn-drg" id="sFL-Qx-MaF"/>
             </connections>
             <point key="canvasLocation" x="139" y="135"/>

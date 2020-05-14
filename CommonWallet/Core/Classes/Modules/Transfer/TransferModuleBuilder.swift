@@ -11,6 +11,7 @@ final class TransferModuleBuilder {
     private struct Constants {
         static let iconTitleSpacing: CGFloat = 6
         static let titleControlSpacing: CGFloat = 8
+        static let amountHorizontalSpacing: CGFloat = 0
     }
 
     private var assetSelectionFactory: AssetSelectionFactoryProtocol?
@@ -94,6 +95,7 @@ final class TransferModuleBuilder {
                                            keyboardIndicatorMode: .never,
                                            keyboardIcon: style.keyboardIcon,
                                            caretColor: style.caretColor,
+                                           horizontalSpacing: Constants.amountHorizontalSpacing,
                                            contentInsets: containingViewInsets,
                                            separatorStyle: containingSeparatorStyle,
                                            containingErrorStyle: containingErrorStyle)
