@@ -45,6 +45,9 @@ public protocol TransferModuleBuilderProtocol {
     func with(receiverStyle: WalletContainingReceiverStyle) -> Self
 
     @discardableResult
+    func with(generatingIconStyle: WalletNameIconStyleProtocol) -> Self
+
+    @discardableResult
     func with(amountStyle: WalletContainingAmountStyle) -> Self
 
     @discardableResult

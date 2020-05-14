@@ -12,6 +12,7 @@ protocol TransferConfigurationProtocol {
     var headerFactory: OperationDefinitionHeaderModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var style: OperationDefinitionViewStyle { get }
+    var generatingIconStyle: WalletNameIconStyleProtocol { get }
     var accessoryViewType: WalletAccessoryViewType { get }
     var localizableTitle: LocalizableResource<String>? { get }
     var assetSelectionFactory: AssetSelectionFactoryProtocol? { get }
@@ -22,6 +23,7 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let style: OperationDefinitionViewStyle
+    let generatingIconStyle: WalletNameIconStyleProtocol
     let accessoryViewType: WalletAccessoryViewType
     let localizableTitle: LocalizableResource<String>?
     var assetSelectionFactory: AssetSelectionFactoryProtocol?

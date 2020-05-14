@@ -25,8 +25,7 @@ final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
         
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
-                                                                         radius: AccessoryView.iconRadius)
+        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle)
 
         let feeDisplaySettings = resolver.feeDisplaySettingsFactory
             .createFeeSettings(asset: asset,

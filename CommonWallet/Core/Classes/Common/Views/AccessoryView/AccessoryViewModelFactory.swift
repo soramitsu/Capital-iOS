@@ -12,11 +12,9 @@ protocol ContactAccessoryViewModelFactoryProtocol: class {
 
 final class ContactAccessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol {
     var style: WalletNameIconStyleProtocol
-    var radius: CGFloat
 
-    init(style: WalletNameIconStyleProtocol, radius: CGFloat) {
+    init(style: WalletNameIconStyleProtocol) {
         self.style = style
-        self.radius = radius
     }
 
     func createViewModel(from title: String, action: String, icon: UIImage?) -> AccessoryViewModel {
@@ -24,9 +22,7 @@ final class ContactAccessoryViewModelFactory: ContactAccessoryViewModelFactoryPr
     }
 
     func createViewModel(from title: String, fullName: String, action: String) -> AccessoryViewModel {
-        let icon = UIImage.createAvatar(fullName: fullName,
-                                        radius: radius,
-                                        style: style)
+        let icon = UIImage.createAvatar(fullName: fullName, style: style)
 
         return AccessoryViewModel(title: title, action: action, icon: icon)
     }

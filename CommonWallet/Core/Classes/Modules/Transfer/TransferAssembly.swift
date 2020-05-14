@@ -30,8 +30,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let assetSelectionFactory = resolver.transferConfiguration.assetSelectionFactory ??
                 AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
 
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
-                                                                             radius: AccessoryView.iconRadius)
+            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style:
+                resolver.transferConfiguration.generatingIconStyle)
             let inputValidatorFactory = resolver.inputValidatorFactory
             let amountFormatterFactory = resolver.amountFormatterFactory
             let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory

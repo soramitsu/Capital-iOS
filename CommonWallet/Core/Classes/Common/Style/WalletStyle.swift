@@ -162,7 +162,8 @@ final class WalletStyle: WalletStyleProtocol {
             let title = WalletTextStyle(font: bodyRegularFont, color: .greyText)
 
             return WalletNameIconStyle(background: .white,
-                                       title: title)
+                                       title: title,
+                                       radius: 15.0)
         }
     }
 

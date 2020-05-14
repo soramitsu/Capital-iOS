@@ -38,6 +38,7 @@ public protocol WalletNameIconStyleProtocol {
     var background: UIColor { get }
     var stroke: WalletStrokeStyleProtocol? { get }
     var title: WalletTextStyleProtocol { get }
+    var radius: CGFloat { get }
 }
 
 public protocol WalletFormCellStyleProtocol {
@@ -142,11 +143,16 @@ public struct WalletNameIconStyle: WalletNameIconStyleProtocol {
     public var background: UIColor
     public var title: WalletTextStyleProtocol
     public var stroke: WalletStrokeStyleProtocol?
+    public var radius: CGFloat
 
-    public init(background: UIColor, title: WalletTextStyleProtocol, stroke: WalletStrokeStyleProtocol? = nil) {
+    public init(background: UIColor,
+                title: WalletTextStyleProtocol,
+                radius: CGFloat,
+                stroke: WalletStrokeStyleProtocol? = nil) {
         self.background = background
         self.title = title
         self.stroke = stroke
+        self.radius = radius
     }
 }
 
