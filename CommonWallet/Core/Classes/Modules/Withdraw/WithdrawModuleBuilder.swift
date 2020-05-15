@@ -10,6 +10,7 @@ final class WithdrawModuleBuilder {
     private struct Constants {
         static let iconTitleSpacing: CGFloat = 6
         static let titleControlSpacing: CGFloat = 8
+        static let amountHorizontalSpacing: CGFloat = 0
     }
 
     lazy var style: WalletStyleProtocol = WalletStyle()
@@ -85,6 +86,7 @@ final class WithdrawModuleBuilder {
                                            keyboardIndicatorMode: .never,
                                            keyboardIcon: style.keyboardIcon,
                                            caretColor: style.caretColor,
+                                           horizontalSpacing: Constants.amountHorizontalSpacing,
                                            contentInsets: containingViewInsets,
                                            separatorStyle: containingSeparatorStyle,
                                            containingErrorStyle: containingErrorStyle)

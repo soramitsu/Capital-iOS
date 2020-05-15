@@ -118,8 +118,7 @@ class TransferViewModelTests: XCTestCase {
                                                       networkOperationFactory: networkOperationFactory)
 
         let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
-                                                                         radius: AccessoryView.iconRadius)
+        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
         let coordinator = MockTransferCoordinatorProtocol()
 

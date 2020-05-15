@@ -55,8 +55,8 @@ class TransactionDetailsTests: XCTestCase {
                 transactionType = WalletTransactionType.outgoing
             }
 
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle,
-                                                                             radius: AccessoryView.iconRadius)
+            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style:
+                resolver.style.nameIconStyle)
 
             let viewModelFactory = WalletTransactionDetailsFactory(resolver: resolver)
 

@@ -11,6 +11,7 @@ final class TransferModuleBuilder {
     private struct Constants {
         static let iconTitleSpacing: CGFloat = 6
         static let titleControlSpacing: CGFloat = 8
+        static let amountHorizontalSpacing: CGFloat = 0
     }
 
     private var assetSelectionFactory: AssetSelectionFactoryProtocol?
@@ -56,6 +57,8 @@ final class TransferModuleBuilder {
 
     private lazy var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
 
+    private lazy var generatingIconStyle: WalletNameIconStyleProtocol = style.nameIconStyle
+
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
         let textStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
         let subtitleStyle = WalletTextStyle(font: style.bodyRegularFont, color: style.bodyTextColor)
@@ -94,6 +97,7 @@ final class TransferModuleBuilder {
                                            keyboardIndicatorMode: .never,
                                            keyboardIcon: style.keyboardIcon,
                                            caretColor: style.caretColor,
+                                           horizontalSpacing: Constants.amountHorizontalSpacing,
                                            contentInsets: containingViewInsets,
                                            separatorStyle: containingSeparatorStyle,
                                            containingErrorStyle: containingErrorStyle)
@@ -142,6 +146,7 @@ final class TransferModuleBuilder {
                                      headerFactory: headerFactory,
                                      separatorsDistribution: separatorsDistribution,
                                      style: style,
+                                     generatingIconStyle: generatingIconStyle,
                                      accessoryViewType: accessoryViewType,
                                      localizableTitle: localizableTitle,
                                      assetSelectionFactory: assetSelectionFactory)
@@ -149,6 +154,7 @@ final class TransferModuleBuilder {
 }
 
 extension TransferModuleBuilder: TransferModuleBuilderProtocol {
+
     func with(receiverPosition: TransferReceiverPosition) -> Self {
         self.receiverPosition = receiverPosition
         return self
@@ -206,6 +212,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(receiverStyle: WalletContainingReceiverStyle) -> Self {
         self.receiverStyle = receiverStyle
+        return self
+    }
+
+    func with(generatingIconStyle: WalletNameIconStyleProtocol) -> Self {
+        self.generatingIconStyle = generatingIconStyle
         return self
     }
 

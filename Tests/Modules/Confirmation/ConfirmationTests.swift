@@ -36,8 +36,7 @@ class ConfirmationTests: NetworkBaseTests {
                                                   receiverName: UUID().uuidString,
                                                   assetSymbol: accountSettings.assets[0].symbol)
 
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
-                                                                             radius: AccessoryView.iconRadius)
+            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
             let eventCenter = WalletEventCenter()
 

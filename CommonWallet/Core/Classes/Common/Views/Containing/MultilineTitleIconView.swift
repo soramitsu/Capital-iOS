@@ -90,11 +90,16 @@ class MultilineTitleIconView: UIView {
 
         var resultSize = CGSize(width: UIView.noIntrinsicMetric, height: 0.0)
 
+        var imageSize = CGSize.zero
+
         if let imageView = imageView {
-            resultSize.height = imageView.intrinsicContentSize.height
+            imageSize = imageView.intrinsicContentSize
+            resultSize.height = imageSize.height
         }
 
-        let boundingWidth = max(preferredWidth - contentInsets.left - contentInsets.right, 0.0)
+        let offsetFromIcon = imageSize.width > 0.0 ? imageSize.width + horizontalSpacing : 0.0
+        let boundingWidth = max(preferredWidth - offsetFromIcon - contentInsets.left
+            - contentInsets.right, 0.0)
         let boundingSize = CGSize(width: boundingWidth, height: CGFloat.greatestFiniteMagnitude)
         let titleSize = titleLabel.sizeThatFits(boundingSize)
 
@@ -123,11 +128,12 @@ class MultilineTitleIconView: UIView {
             horizontalOffset += imageSize.width + horizontalSpacing
         }
 
-        let titleSize = titleLabel.intrinsicContentSize
+        let titleHeight = bounds.size.height - contentInsets.top - contentInsets.bottom
+
         titleLabel.frame = CGRect(x: horizontalOffset,
-                                  y: bounds.height / 2.0 - titleSize.height / 2.0 + inset,
+                                  y: bounds.height / 2.0 - titleHeight / 2.0 + inset,
                                   width: bounds.width - horizontalOffset - contentInsets.right,
-                                  height: titleSize.height)
+                                  height: titleHeight)
 
         if abs(bounds.width - preferredWidth) > CGFloat.leastNormalMagnitude {
             preferredWidth = bounds.width

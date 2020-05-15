@@ -68,9 +68,7 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
                                            delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol {
 
         let fullName = L10n.Common.fullName(contact.firstName, contact.lastName)
-        let image = UIImage.createAvatar(fullName: fullName,
-                                         radius: avatarRadius,
-                                         style: nameIconStyle)
+        let image = UIImage.createAvatar(fullName: fullName, style: nameIconStyle)
 
         let viewModel = ContactViewModel(cellReuseIdentifier: ContactConstants.contactCellIdentifier,
                                          itemHeight: ContactConstants.contactCellHeight,

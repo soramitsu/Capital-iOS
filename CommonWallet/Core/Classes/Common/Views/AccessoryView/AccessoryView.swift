@@ -15,7 +15,6 @@ protocol AccessoryViewProtocol: class {
 }
 
 final class AccessoryView: UIView {
-    static let iconRadius: CGFloat = 15.0
 
     private struct Constants {
         static let titleLeadingWithIcon: CGFloat = 45.0

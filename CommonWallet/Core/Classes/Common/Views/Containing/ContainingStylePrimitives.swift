@@ -102,6 +102,7 @@ public struct WalletContainingAmountStyle {
     public let keyboardIndicatorMode: KeyboardIndicatorDisplayMode
     public let keyboardIcon: UIImage?
     public let caretColor: UIColor?
+    public let horizontalSpacing: CGFloat
     public let contentInsets: UIEdgeInsets
     public let separatorStyle: WalletStrokeStyleProtocol
     public let containingErrorStyle: WalletContainingErrorStyle
@@ -112,6 +113,7 @@ public struct WalletContainingAmountStyle {
                 keyboardIndicatorMode: KeyboardIndicatorDisplayMode,
                 keyboardIcon: UIImage?,
                 caretColor: UIColor?,
+                horizontalSpacing: CGFloat,
                 contentInsets: UIEdgeInsets,
                 separatorStyle: WalletStrokeStyleProtocol,
                 containingErrorStyle: WalletContainingErrorStyle) {
@@ -121,6 +123,7 @@ public struct WalletContainingAmountStyle {
         self.keyboardIndicatorMode = keyboardIndicatorMode
         self.keyboardIcon = keyboardIcon
         self.caretColor = caretColor
+        self.horizontalSpacing = horizontalSpacing
         self.contentInsets = contentInsets
         self.separatorStyle = separatorStyle
         self.containingErrorStyle = containingErrorStyle

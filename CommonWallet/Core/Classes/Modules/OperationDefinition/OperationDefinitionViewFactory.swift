@@ -125,6 +125,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         view.keyboardIndicatorIcon = style.amountStyle.keyboardIcon ?? defaultStyle.keyboardIcon
         view.keyboardIndicatorMode = style.amountStyle.keyboardIndicatorMode
 
+        view.horizontalSpacing = style.amountStyle.horizontalSpacing
         view.contentInsets = style.amountStyle.contentInsets
 
         return view

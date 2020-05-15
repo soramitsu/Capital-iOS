@@ -156,8 +156,7 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                           networkOperationFactory: networkOperationFactory)
 
             let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle,
-                                                                             radius: AccessoryView.iconRadius)
+            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
