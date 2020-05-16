@@ -16,6 +16,11 @@ final class TransferModuleBuilder {
 
     private var assetSelectionFactory: AssetSelectionFactoryProtocol?
 
+    lazy var settings: WalletTransactionSettingsProtocol = WalletTransactionSettings.defaultSettings
+
+    lazy var resultValidator: OperationDefinitionValidating =
+        OperationDefinitionValidator(transactionSettings: settings)
+
     lazy var style: WalletStyleProtocol = WalletStyle()
 
     private var receiverPosition: TransferReceiverPosition = .accessoryBar
@@ -142,9 +147,11 @@ final class TransferModuleBuilder {
                                                  feeStyle: feeStyle,
                                                  descriptionStyle: descriptionStyle)
 
-        return TransferConfiguration(receiverPosition: receiverPosition,
+        return TransferConfiguration(resultValidator: resultValidator,
+                                     receiverPosition: receiverPosition,
                                      headerFactory: headerFactory,
                                      separatorsDistribution: separatorsDistribution,
+                                     settings: settings,
                                      style: style,
                                      generatingIconStyle: generatingIconStyle,
                                      accessoryViewType: accessoryViewType,
@@ -247,6 +254,16 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self {
         self.assetSelectionFactory = assetSelectionFactory
+        return self
+    }
+
+    func with(resultValidator: OperationDefinitionValidating) -> Self {
+        self.resultValidator = resultValidator
+        return self
+    }
+
+    func with(settings: WalletTransactionSettingsProtocol) -> Self {
+        self.settings = settings
         return self
     }
 }

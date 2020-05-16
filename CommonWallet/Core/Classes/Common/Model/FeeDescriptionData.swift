@@ -12,22 +12,19 @@ public struct FeeDescription: Codable, Equatable {
     public var type: String
     public var parameters: [AmountDecimal]
     public var accountId: String?
-    public var min: AmountDecimal?
-    public var max: AmountDecimal?
+    public var userCanDefine: Bool
 
     public init(identifier: String,
                 assetId: String,
                 type: String,
                 parameters: [AmountDecimal],
                 accountId: String? = nil,
-                min: AmountDecimal? = nil,
-                max: AmountDecimal? = nil) {
+                userCanDefine: Bool = false) {
         self.identifier = identifier
         self.assetId = assetId
         self.type = type
         self.accountId = accountId
         self.parameters = parameters
-        self.min = min
-        self.max = max
+        self.userCanDefine = userCanDefine
     }
 }

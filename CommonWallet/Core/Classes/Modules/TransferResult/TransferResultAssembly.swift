@@ -22,10 +22,9 @@ final class TransferResultAssembly: TransferResultAssemblyProtocol {
 
         let coordinator = TransferResultCoordinator(resolver: resolver)
 
-        let feeDisplaySettings = resolver.feeDisplaySettingsFactory
-            .createFeeSettings(asset: asset,
-                               senderId: resolver.account.accountId,
-                               receiverId: transferPayload.transferInfo.destination)
+        // TODO: Move to multifee variant
+        let feeId = transferPayload.transferInfo.fees.first?.feeDescription.identifier ?? ""
+        let feeDisplaySettings = resolver.feeDisplaySettingsFactory.createFeeSettingsForId(feeId)
 
         let presenter = TransferResultPresenter(view: view,
                                                 coordinator: coordinator,

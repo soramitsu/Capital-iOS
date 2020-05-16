@@ -30,11 +30,11 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
 
             let inputValidatorFactory = resolver.inputValidatorFactory
             let amountFormatterFactory = resolver.amountFormatterFactory
-            let transactionFactory = resolver.transactionSettingsFactory
+            let settings = resolver.receiveConfiguration.settings
 
             let viewModelFactory = ReceiveViewModelFactory(amountFormatterFactory: amountFormatterFactory,
                                                            descriptionValidatorFactory: inputValidatorFactory,
-                                                           transactionSettingsFactory: transactionFactory)
+                                                           transactionSettings: settings)
 
             let config = resolver.receiveConfiguration
 

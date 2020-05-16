@@ -18,14 +18,14 @@ enum ReceiveViewModelFactoryError: Error {
 final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
     let amountFormatterFactory: NumberFormatterFactoryProtocol
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
-    let transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
+    let transactionSettings: WalletTransactionSettingsProtocol
 
     init(amountFormatterFactory: NumberFormatterFactoryProtocol,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
-         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) {
+         transactionSettings: WalletTransactionSettingsProtocol) {
         self.amountFormatterFactory = amountFormatterFactory
         self.descriptionValidatorFactory = descriptionValidatorFactory
-        self.transactionSettingsFactory = transactionSettingsFactory
+        self.transactionSettings = transactionSettings
     }
 
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel {
@@ -34,13 +34,11 @@ final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
 
         let localizedFormatter = inputFormatter.value(for: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: asset,
-                                                                            senderId: nil,
-                                                                            receiverId: nil)
+        let limit = transactionSettings.limitForAssetId(asset.identifier, senderId: nil, receiverId: nil)
 
         return AmountInputViewModel(symbol: asset.symbol,
                                     amount: amount,
-                                    limit: transactionSettings.transferLimit.maximum,
+                                    limit: limit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))
     }

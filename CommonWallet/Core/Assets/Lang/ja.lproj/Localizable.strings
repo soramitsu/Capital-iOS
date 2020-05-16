@@ -96,3 +96,4 @@
 "transaction.recipient_id" = "受信者 ID";
 "transaction.send_again" = "もう一度送信";
 "invoice_scan.error.user_not_found" = "QR からユーザーを見つけることができません。";
+"operation.fee_title" = "取引手数料";

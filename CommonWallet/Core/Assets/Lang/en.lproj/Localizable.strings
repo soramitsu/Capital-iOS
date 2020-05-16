@@ -96,3 +96,4 @@
 "transaction.recipient_id" = "Recipient ID";
 "transaction.send_again" = "Send again";
 "invoice_scan.error.user_not_found" = "Can't find a user from QR";
+"operation.fee_title" = "Transaction fee";
