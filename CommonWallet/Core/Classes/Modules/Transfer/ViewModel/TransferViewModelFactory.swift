@@ -85,7 +85,7 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
 
         return AmountInputViewModel(symbol: asset.symbol,
                                     amount: amount,
-                                    limit: limits.maximum,
+                                    limit: limit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))
     }

@@ -16,10 +16,11 @@ final class TransferModuleBuilder {
 
     private var assetSelectionFactory: AssetSelectionFactoryProtocol?
 
-    lazy var settings: WalletTransactionSettingsProtocol = WalletTransactionSettings.defaultSettings
+    private lazy var settings: WalletTransactionSettingsProtocol =
+        WalletTransactionSettings.defaultSettings
 
-    lazy var resultValidator: OperationDefinitionValidating =
-        OperationDefinitionValidator(transactionSettings: settings)
+    private lazy var resultValidator: TransferValidating =
+        TransferValidator(transactionSettings: settings)
 
     lazy var style: WalletStyleProtocol = WalletStyle()
 
@@ -257,7 +258,7 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
         return self
     }
 
-    func with(resultValidator: OperationDefinitionValidating) -> Self {
+    func with(resultValidator: TransferValidating) -> Self {
         self.resultValidator = resultValidator
         return self
     }

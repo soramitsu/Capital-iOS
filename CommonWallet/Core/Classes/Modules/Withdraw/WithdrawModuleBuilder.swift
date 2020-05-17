@@ -15,6 +15,9 @@ final class WithdrawModuleBuilder {
 
     lazy var style: WalletStyleProtocol = WalletStyle()
 
+    private lazy var settings: WalletTransactionSettingsProtocol =
+        WalletTransactionSettings.defaultSettings
+
     private lazy var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
         = DefaultSeparatorsDistribution()
 
@@ -131,7 +134,8 @@ final class WithdrawModuleBuilder {
                                                  feeStyle: feeStyle,
                                                  descriptionStyle: descriptionStyle)
 
-        return WithdrawConfiguration(headerFactory: headerFactory,
+        return WithdrawConfiguration(settings: settings,
+                                     headerFactory: headerFactory,
                                      separatorsDistribution: separatorsDistribution,
                                      style: style)
     }
@@ -206,6 +210,11 @@ extension WithdrawModuleBuilder: WithdrawModuleBuilderProtocol {
 
     func with(descriptionStyle: WalletContainingDescriptionStyle) -> Self {
         self.descriptionStyle = descriptionStyle
+        return self
+    }
+
+    func with(settings: WalletTransactionSettingsProtocol) -> Self {
+        self.settings = settings
         return self
     }
 }

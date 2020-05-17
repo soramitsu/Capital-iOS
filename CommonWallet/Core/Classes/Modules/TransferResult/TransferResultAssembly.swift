@@ -8,13 +8,8 @@ import SoraFoundation
 
 
 final class TransferResultAssembly: TransferResultAssemblyProtocol {
-    static func assembleView(resolver: ResolverProtocol, transferPayload: TransferPayload) -> WalletFormViewProtocol? {
-        guard let asset = resolver.account.assets
-            .first(where: { $0.identifier == transferPayload.transferInfo.asset }) else {
-                resolver.logger?.error("Can't find asset with id \(transferPayload.transferInfo.asset)")
-                return nil
-        }
-
+    static func assembleView(resolver: ResolverProtocol, transferPayload: TransferPayload)
+        -> WalletFormViewProtocol? {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
         view.style = resolver.style

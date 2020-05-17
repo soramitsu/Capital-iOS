@@ -40,7 +40,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: amountFormatterFactory,
                                                                   descriptionValidatorFactory: inputValidatorFactory,
                                                                   feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                                                  transactionSettings: transactionSettings,)
+                                                                  transactionSettings: transactionSettings)
 
             let headerFactory = resolver.transferConfiguration.headerFactory
             let receiverPosition = resolver.transferConfiguration.receiverPosition
@@ -60,6 +60,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager)
+            presenter.logger = resolver.logger
+
             view.presenter = presenter
 
             view.localizationManager = resolver.localizationManager

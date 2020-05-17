@@ -6,37 +6,29 @@
 
 import Foundation
 
-public protocol OperationDefinitionValidating {
+public protocol TransferValidating {
     func validate(info: TransferInfo, balances: [BalanceData]) throws
 }
 
-public enum OperationDefinitionValidatingError: Error {
-    case unsufficientFunds(assetId: String)
-    case missingBalance(assetId: String)
-    case zeroAmount
-    case minViolation(value: Decimal)
-    case maxViolation(value: Decimal)
-}
-
-struct OperationDefinitionValidator: OperationDefinitionValidating {
+struct TransferValidator: TransferValidating {
 
     let transactionSettings: WalletTransactionSettingsProtocol
 
     func validate(info: TransferInfo, balances: [BalanceData]) throws {
         guard info.amount.decimalValue > 0.0 else {
-            throw OperationDefinitionValidatingError.zeroAmount
+            throw TransferValidatingError.zeroAmount
         }
 
         let limit = transactionSettings
             .limitForAssetId(info.asset, senderId: info.source, receiverId: info.destination)
 
         if info.amount.decimalValue < limit.minimum {
-            throw OperationDefinitionValidatingError
+            throw TransferValidatingError
                 .minViolation(value: limit.minimum)
         }
 
         if info.amount.decimalValue > limit.maximum {
-            throw OperationDefinitionValidatingError
+            throw TransferValidatingError
                 .maxViolation(value: limit.maximum)
         }
 
@@ -48,11 +40,11 @@ struct OperationDefinitionValidator: OperationDefinitionValidating {
 
         for (assetId, value) in mapping {
             guard let balance = balances.first(where: {$0.identifier == assetId }) else {
-                throw OperationDefinitionValidatingError.missingBalance(assetId: assetId)
+                throw TransferValidatingError.missingBalance(assetId: assetId)
             }
 
             if value > balance.balance.decimalValue {
-                throw OperationDefinitionValidatingError.unsufficientFunds(assetId: assetId)
+                throw TransferValidatingError.unsufficientFunds(assetId: assetId)
             }
         }
     }

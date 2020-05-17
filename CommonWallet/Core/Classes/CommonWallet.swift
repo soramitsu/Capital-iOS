@@ -293,8 +293,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 withdrawConfiguration: withdrawConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                transactionSettingsFactory: transactionSettingsFactory)
+                                feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
         resolver.style = style
 

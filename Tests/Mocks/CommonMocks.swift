@@ -1798,20 +1798,6 @@ import SoraFoundation
     
     
     
-     var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol {
-        get {
-            return cuckoo_manager.getter("transactionSettingsFactory",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.transactionSettingsFactory)
-        }
-        
-    }
-    
-    
-    
      var transactionTypeList: [WalletTransactionType] {
         get {
             return cuckoo_manager.getter("transactionTypeList",
@@ -2006,11 +1992,6 @@ import SoraFoundation
 	    }
 	    
 	    
-	    var transactionSettingsFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletTransactionSettingsFactoryProtocol> {
-	        return .init(manager: cuckoo_manager, name: "transactionSettingsFactory")
-	    }
-	    
-	    
 	    var transactionTypeList: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, [WalletTransactionType]> {
 	        return .init(manager: cuckoo_manager, name: "transactionTypeList")
 	    }
@@ -2143,11 +2124,6 @@ import SoraFoundation
 	    
 	    var statusDateFormatter: Cuckoo.VerifyReadOnlyProperty<LocalizableResource<DateFormatter>> {
 	        return .init(manager: cuckoo_manager, name: "statusDateFormatter", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
-	    var transactionSettingsFactory: Cuckoo.VerifyReadOnlyProperty<WalletTransactionSettingsFactoryProtocol> {
-	        return .init(manager: cuckoo_manager, name: "transactionSettingsFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2324,14 +2300,6 @@ import SoraFoundation
      var statusDateFormatter: LocalizableResource<DateFormatter> {
         get {
             return DefaultValueRegistry.defaultValue(for: (LocalizableResource<DateFormatter>).self)
-        }
-        
-    }
-    
-    
-     var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (WalletTransactionSettingsFactoryProtocol).self)
         }
         
     }
@@ -3598,19 +3566,19 @@ import Cuckoo
 import Foundation
 
 
-public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSettingsFactoryProtocol, Cuckoo.ProtocolMock {
+public class MockWalletTransactionSettingsProtocol: WalletTransactionSettingsProtocol, Cuckoo.ProtocolMock {
     
-    public typealias MocksType = WalletTransactionSettingsFactoryProtocol
+    public typealias MocksType = WalletTransactionSettingsProtocol
     
-    public typealias Stubbing = __StubbingProxy_WalletTransactionSettingsFactoryProtocol
-    public typealias Verification = __VerificationProxy_WalletTransactionSettingsFactoryProtocol
+    public typealias Stubbing = __StubbingProxy_WalletTransactionSettingsProtocol
+    public typealias Verification = __VerificationProxy_WalletTransactionSettingsProtocol
 
     public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
-    private var __defaultImplStub: WalletTransactionSettingsFactoryProtocol?
+    private var __defaultImplStub: WalletTransactionSettingsProtocol?
 
-    public func enableDefaultImplementation(_ stub: WalletTransactionSettingsFactoryProtocol) {
+    public func enableDefaultImplementation(_ stub: WalletTransactionSettingsProtocol) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -3623,21 +3591,21 @@ public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSett
     
     
     
-    public func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings {
+    public func limitForAssetId(_ assetId: String, senderId: String?, receiverId: String?) -> WalletTransactionLimit {
         
-    return cuckoo_manager.call("createSettings(for: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings",
-            parameters: (asset, senderId, receiverId),
-            escapingParameters: (asset, senderId, receiverId),
+    return cuckoo_manager.call("limitForAssetId(_: String, senderId: String?, receiverId: String?) -> WalletTransactionLimit",
+            parameters: (assetId, senderId, receiverId),
+            escapingParameters: (assetId, senderId, receiverId),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.createSettings(for: asset, senderId: senderId, receiverId: receiverId))
+            defaultCall: __defaultImplStub!.limitForAssetId(assetId, senderId: senderId, receiverId: receiverId))
         
     }
     
 
-	public struct __StubbingProxy_WalletTransactionSettingsFactoryProtocol: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_WalletTransactionSettingsProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
 	    public init(manager: Cuckoo.MockManager) {
@@ -3645,14 +3613,14 @@ public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSett
 	    }
 	    
 	    
-	    func createSettings<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for asset: M1, senderId: M2, receiverId: M3) -> Cuckoo.ProtocolStubFunction<(WalletAsset, String?, String?), WalletTransactionSettings> where M1.MatchedType == WalletAsset, M2.OptionalMatchedType == String, M3.OptionalMatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset, String?, String?)>] = [wrap(matchable: asset) { $0.0 }, wrap(matchable: senderId) { $0.1 }, wrap(matchable: receiverId) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletTransactionSettingsFactoryProtocol.self, method: "createSettings(for: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings", parameterMatchers: matchers))
+	    func limitForAssetId<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(_ assetId: M1, senderId: M2, receiverId: M3) -> Cuckoo.ProtocolStubFunction<(String, String?, String?), WalletTransactionLimit> where M1.MatchedType == String, M2.OptionalMatchedType == String, M3.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String?, String?)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: senderId) { $0.1 }, wrap(matchable: receiverId) { $0.2 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletTransactionSettingsProtocol.self, method: "limitForAssetId(_: String, senderId: String?, receiverId: String?) -> WalletTransactionLimit", parameterMatchers: matchers))
 	    }
 	    
 	}
 
-	public struct __VerificationProxy_WalletTransactionSettingsFactoryProtocol: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_WalletTransactionSettingsProtocol: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
@@ -3667,22 +3635,22 @@ public class MockWalletTransactionSettingsFactoryProtocol: WalletTransactionSett
 	
 	    
 	    @discardableResult
-	    func createSettings<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(for asset: M1, senderId: M2, receiverId: M3) -> Cuckoo.__DoNotUse<(WalletAsset, String?, String?), WalletTransactionSettings> where M1.MatchedType == WalletAsset, M2.OptionalMatchedType == String, M3.OptionalMatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset, String?, String?)>] = [wrap(matchable: asset) { $0.0 }, wrap(matchable: senderId) { $0.1 }, wrap(matchable: receiverId) { $0.2 }]
-	        return cuckoo_manager.verify("createSettings(for: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func limitForAssetId<M1: Cuckoo.Matchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable>(_ assetId: M1, senderId: M2, receiverId: M3) -> Cuckoo.__DoNotUse<(String, String?, String?), WalletTransactionLimit> where M1.MatchedType == String, M2.OptionalMatchedType == String, M3.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String?, String?)>] = [wrap(matchable: assetId) { $0.0 }, wrap(matchable: senderId) { $0.1 }, wrap(matchable: receiverId) { $0.2 }]
+	        return cuckoo_manager.verify("limitForAssetId(_: String, senderId: String?, receiverId: String?) -> WalletTransactionLimit", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
 }
 
-public class WalletTransactionSettingsFactoryProtocolStub: WalletTransactionSettingsFactoryProtocol {
+public class WalletTransactionSettingsProtocolStub: WalletTransactionSettingsProtocol {
     
 
     
 
     
-    public func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings  {
-        return DefaultValueRegistry.defaultValue(for: (WalletTransactionSettings).self)
+    public func limitForAssetId(_ assetId: String, senderId: String?, receiverId: String?) -> WalletTransactionLimit  {
+        return DefaultValueRegistry.defaultValue(for: (WalletTransactionLimit).self)
     }
     
 }

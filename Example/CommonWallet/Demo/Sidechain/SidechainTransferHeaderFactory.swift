@@ -8,25 +8,30 @@ import Foundation
 import CommonWallet
 
 struct SidechainTransferHeaderFactory: OperationDefinitionHeaderModelFactoryProtocol {
-    func createAssetTitle(assetId: String, receiverId: String?) -> MultilineTitleIconViewModelProtocol? {
+    func createAssetTitle(assetId: String, receiverId: String?, locale: Locale)
+        -> MultilineTitleIconViewModelProtocol? {
         MultilineTitleIconViewModel(text: "Token")
     }
 
-    func createAmountTitle(assetId: String, receiverId: String?) -> MultilineTitleIconViewModelProtocol? {
+    func createAmountTitle(assetId: String, receiverId: String?, locale: Locale)
+        -> MultilineTitleIconViewModelProtocol? {
         MultilineTitleIconViewModel(text: "Amount")
     }
 
-    func createReceiverTitle(assetId: String, receiverId: String?) -> MultilineTitleIconViewModelProtocol? {
+    func createReceiverTitle(assetId: String, receiverId: String?, locale: Locale)
+        -> MultilineTitleIconViewModelProtocol? {
         MultilineTitleIconViewModel(text: "To")
     }
 
     func createFeeTitleForDescription(assetId: String,
                                       receiverId: String?,
-                                      feeDescription: FeeDescription) -> MultilineTitleIconViewModelProtocol? {
+                                      feeDescription: Fee,
+                                      locale: Locale) -> MultilineTitleIconViewModelProtocol? {
         nil
     }
 
-    func createDescriptionTitle(assetId: String, receiverId: String?) -> MultilineTitleIconViewModelProtocol? {
+    func createDescriptionTitle(assetId: String, receiverId: String?, locale: Locale)
+        -> MultilineTitleIconViewModelProtocol? {
         MultilineTitleIconViewModel(text: "Note", icon: UIImage(named: "icon-note"))
     }
 }

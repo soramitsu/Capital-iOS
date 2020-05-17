@@ -26,19 +26,19 @@ enum WithdrawAmountViewModelFactoryError: Error {
 final class WithdrawAmountViewModelFactory {
     let amountFormatterFactory: NumberFormatterFactoryProtocol
     let option: WalletWithdrawOption
-    let transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
+    let transactionSettings: WalletTransactionSettingsProtocol
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
     let feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
 
     init(amountFormatterFactory: NumberFormatterFactoryProtocol,
          option: WalletWithdrawOption,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
-         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
+         transactionSettings: WalletTransactionSettingsProtocol,
          feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
         self.amountFormatterFactory = amountFormatterFactory
         self.option = option
         self.descriptionValidatorFactory = descriptionValidatorFactory
-        self.transactionSettingsFactory = transactionSettingsFactory
+        self.transactionSettings = transactionSettings
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
     }
 }
@@ -76,13 +76,13 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
         let localizedFormatter = inputFormatter.value(for: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: asset,
-                                                                            senderId: nil,
-                                                                            receiverId: nil)
+        let limit = transactionSettings.limitForAssetId(asset.identifier,
+                                                        senderId: nil,
+                                                        receiverId: nil)
 
         return AmountInputViewModel(symbol: asset.symbol,
                                     amount: amount,
-                                    limit: transactionSettings.withdrawLimit.maximum,
+                                    limit: limit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))
     }
@@ -119,9 +119,9 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     }
 
     func minimumLimit(for asset: WalletAsset) -> Decimal {
-        return transactionSettingsFactory.createSettings(for: asset,
-                                                         senderId: nil,
-                                                         receiverId: nil).withdrawLimit.minimum
+        return transactionSettings.limitForAssetId(asset.identifier,
+                                                   senderId: nil,
+                                                   receiverId: nil).minimum
     }
 
     func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String {

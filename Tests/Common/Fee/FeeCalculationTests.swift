@@ -8,6 +8,12 @@ import XCTest
 
 class FeeCalculationTests: XCTestCase {
 
+    struct ExpectedFeeCalculationResult {
+        let sending: Decimal
+        let fee: Decimal
+        let total: Decimal
+    }
+
     func testFixedFeeCalculationSuccess() {
         let precision: Int16 = 2
         let parameters: [Decimal] = [
@@ -34,42 +40,42 @@ class FeeCalculationTests: XCTestCase {
             Decimal(string: "4.9")!
         ]
 
-        let expected: [FeeCalculationResult] = [
-            FeeCalculationResult(sending: Decimal(string: "1")!,
-                                 fee: Decimal(string: "0")!,
-                                 total: Decimal(string: "1")!),
+        let expected: [ExpectedFeeCalculationResult] = [
+            ExpectedFeeCalculationResult(sending: Decimal(string: "1")!,
+                                         fee: Decimal(string: "0")!,
+                                         total: Decimal(string: "1")!),
 
-            FeeCalculationResult(sending: Decimal(string: "2")!,
-                                 fee: Decimal(string: "2")!,
-                                 total: Decimal(string: "4")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "2")!,
+                                         fee: Decimal(string: "2")!,
+                                         total: Decimal(string: "4")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.3")!,
-                                 fee: Decimal(string: "0.3")!,
-                                 total: Decimal(string: "0.6")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.3")!,
+                                         fee: Decimal(string: "0.3")!,
+                                         total: Decimal(string: "0.6")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.9")!,
-                                 fee: Decimal(string: "0.9")!,
-                                 total: Decimal(string: "1.8")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.9")!,
+                                         fee: Decimal(string: "0.9")!,
+                                         total: Decimal(string: "1.8")!),
 
-            FeeCalculationResult(sending: Decimal(string: "1.36")!,
-                                 fee: Decimal(string: "1.36")!,
-                                 total: Decimal(string: "2.72")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "1.36")!,
+                                         fee: Decimal(string: "1.36")!,
+                                         total: Decimal(string: "2.72")!),
 
-            FeeCalculationResult(sending: Decimal(string: "1.32")!,
-                                 fee: Decimal(string: "1.32")!,
-                                 total: Decimal(string: "2.64")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "1.32")!,
+                                         fee: Decimal(string: "1.32")!,
+                                         total: Decimal(string: "2.64")!),
 
-            FeeCalculationResult(sending: Decimal(string: "2.99")!,
-                                 fee: Decimal(string: "2.99")!,
-                                 total: Decimal(string: "5.98")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "2.99")!,
+                                         fee: Decimal(string: "2.99")!,
+                                         total: Decimal(string: "5.98")!),
 
-            FeeCalculationResult(sending: Decimal(string: "3.67")!,
-                                 fee: Decimal(string: "3.67")!,
-                                 total: Decimal(string: "7.34")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "3.67")!,
+                                         fee: Decimal(string: "3.67")!,
+                                         total: Decimal(string: "7.34")!),
 
-            FeeCalculationResult(sending: Decimal(string: "4.9")!,
-                                 fee: Decimal(string: "4.9")!,
-                                 total: Decimal(string: "9.8")!)
+            ExpectedFeeCalculationResult(sending: Decimal(string: "4.9")!,
+                                         fee: Decimal(string: "4.9")!,
+                                         total: Decimal(string: "9.8")!)
         ]
 
         performTransferFeeTests(type: FeeType.fixed.rawValue,
@@ -111,42 +117,42 @@ class FeeCalculationTests: XCTestCase {
             Decimal(string: "4.9")!
         ]
 
-        let expected: [FeeCalculationResult] = [
-            FeeCalculationResult(sending: Decimal(string: "10.16")!,
-                                 fee: Decimal(string: "1.02")!,
-                                 total: Decimal(string: "11.18")!),
+        let expected: [ExpectedFeeCalculationResult] = [
+            ExpectedFeeCalculationResult(sending: Decimal(string: "10.16")!,
+                                         fee: Decimal(string: "1.02")!,
+                                         total: Decimal(string: "11.18")!),
 
-            FeeCalculationResult(sending: Decimal(string: "2")!,
-                                 fee: Decimal(string: "4")!,
-                                 total: Decimal(string: "6")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "2")!,
+                                         fee: Decimal(string: "4")!,
+                                         total: Decimal(string: "6")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.3")!,
-                                 fee: Decimal(string: "0.09")!,
-                                 total: Decimal(string: "0.39")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.3")!,
+                                         fee: Decimal(string: "0.09")!,
+                                         total: Decimal(string: "0.39")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.9")!,
-                                 fee: Decimal(string: "0.81")!,
-                                 total: Decimal(string: "1.71")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.9")!,
+                                         fee: Decimal(string: "0.81")!,
+                                         total: Decimal(string: "1.71")!),
 
-            FeeCalculationResult(sending: Decimal(string: "1.36")!,
-                                 fee: Decimal(string: "1.85")!,
-                                 total: Decimal(string: "3.21")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "1.36")!,
+                                         fee: Decimal(string: "1.85")!,
+                                         total: Decimal(string: "3.21")!),
 
-            FeeCalculationResult(sending: Decimal(string: "1.32")!,
-                                 fee: Decimal(string: "1.75")!,
-                                 total: Decimal(string: "3.07")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "1.32")!,
+                                         fee: Decimal(string: "1.75")!,
+                                         total: Decimal(string: "3.07")!),
 
-            FeeCalculationResult(sending: Decimal(string: "2.99")!,
-                                 fee: Decimal(string: "8.95")!,
-                                 total: Decimal(string: "11.94")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "2.99")!,
+                                         fee: Decimal(string: "8.95")!,
+                                         total: Decimal(string: "11.94")!),
 
-            FeeCalculationResult(sending: Decimal(string: "3.67")!,
-                                 fee: Decimal(string: "13.46")!,
-                                 total: Decimal(string: "17.13")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "3.67")!,
+                                         fee: Decimal(string: "13.46")!,
+                                         total: Decimal(string: "17.13")!),
 
-            FeeCalculationResult(sending: Decimal(string: "4.9")!,
-                                 fee: Decimal(string: "23.98")!,
-                                 total: Decimal(string: "28.88")!)
+            ExpectedFeeCalculationResult(sending: Decimal(string: "4.9")!,
+                                         fee: Decimal(string: "23.98")!,
+                                         total: Decimal(string: "28.88")!)
         ]
 
         performTransferFeeTests(type: FeeType.factor.rawValue,
@@ -188,42 +194,42 @@ class FeeCalculationTests: XCTestCase {
             Decimal(string: "4.9")!
         ]
 
-        let expected: [FeeCalculationResult] = [
-            FeeCalculationResult(sending: Decimal(string: "9.14")!,
-                                 fee: Decimal(string: "1.02")!,
-                                 total: Decimal(string: "10.16")!),
+        let expected: [ExpectedFeeCalculationResult] = [
+            ExpectedFeeCalculationResult(sending: Decimal(string: "9.14")!,
+                                         fee: Decimal(string: "1.02")!,
+                                         total: Decimal(string: "10.16")!),
 
-            FeeCalculationResult(sending: Decimal(string: "2")!,
-                                 fee: Decimal(string: "0")!,
-                                 total: Decimal(string: "2")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "2")!,
+                                         fee: Decimal(string: "0")!,
+                                         total: Decimal(string: "2")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.21")!,
-                                 fee: Decimal(string: "0.09")!,
-                                 total: Decimal(string: "0.3")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.21")!,
+                                         fee: Decimal(string: "0.09")!,
+                                         total: Decimal(string: "0.3")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.09")!,
-                                 fee: Decimal(string: "0.81")!,
-                                 total: Decimal(string: "0.9")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.09")!,
+                                         fee: Decimal(string: "0.81")!,
+                                         total: Decimal(string: "0.9")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.87")!,
-                                 fee: Decimal(string: "0.49")!,
-                                 total: Decimal(string: "1.36")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.87")!,
+                                         fee: Decimal(string: "0.49")!,
+                                         total: Decimal(string: "1.36")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.89")!,
-                                 fee: Decimal(string: "0.43")!,
-                                 total: Decimal(string: "1.32")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.89")!,
+                                         fee: Decimal(string: "0.43")!,
+                                         total: Decimal(string: "1.32")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.02")!,
-                                 fee: Decimal(string: "2.97")!,
-                                 total: Decimal(string: "2.99")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.02")!,
+                                         fee: Decimal(string: "2.97")!,
+                                         total: Decimal(string: "2.99")!),
 
-            FeeCalculationResult(sending: Decimal(string: "1.22")!,
-                                 fee: Decimal(string: "2.45")!,
-                                 total: Decimal(string: "3.67")!),
+            ExpectedFeeCalculationResult(sending: Decimal(string: "1.22")!,
+                                         fee: Decimal(string: "2.45")!,
+                                         total: Decimal(string: "3.67")!),
 
-            FeeCalculationResult(sending: Decimal(string: "0.52")!,
-                                 fee: Decimal(string: "4.38")!,
-                                 total: Decimal(string: "4.9")!)
+            ExpectedFeeCalculationResult(sending: Decimal(string: "0.52")!,
+                                         fee: Decimal(string: "4.38")!,
+                                         total: Decimal(string: "4.9")!)
         ]
 
         performTransferFeeTests(type: FeeType.tax.rawValue,
@@ -250,11 +256,11 @@ class FeeCalculationTests: XCTestCase {
                                                 type: FeeType.fixed.rawValue,
                                                 parameters: [])
 
-            _ = try feeFactory.createTransferFeeStrategyForDescription(feeDescription,
+            _ = try feeFactory.createTransferFeeStrategyForDescriptions([feeDescription],
                                                          assetId: assetId,
                                                          precision: 2)
                 .calculate(for: 1.2)
-        } catch FeeCalculationFactoryError.invalidParameters {
+        } catch FeeCalculationError.invalidParameters {
             // expect this error
         } catch {
             XCTFail("Unexpected error \(error)")
@@ -273,12 +279,12 @@ class FeeCalculationTests: XCTestCase {
                                                 type: FeeType.fixed.rawValue,
                                                 parameters: [])
 
-            _ = try feeFactory.createWithdrawFeeStrategyForDescription(feeDescription,
+            _ = try feeFactory.createWithdrawFeeStrategyForDescriptions([feeDescription],
                                                          assetId: assetId,
                                                          optionId: option.identifier,
                                                          precision: 2)
                 .calculate(for: 1.2)
-        } catch FeeCalculationFactoryError.invalidParameters {
+        } catch FeeCalculationError.invalidParameters {
             // expect this error
         } catch {
             XCTFail("Unexpected error \(error)")
@@ -291,7 +297,7 @@ class FeeCalculationTests: XCTestCase {
                                          parameters: [Decimal],
                                          amounts: [Decimal],
                                          precision: Int16,
-                                         expected: [FeeCalculationResult]) {
+                                         expected: [ExpectedFeeCalculationResult]) {
         do {
             let feeFactory = FeeCalculationFactory()
 
@@ -303,13 +309,13 @@ class FeeCalculationTests: XCTestCase {
                                                     type: type,
                                                     parameters: [AmountDecimal(value: parameter)])
 
-                let strategy = try feeFactory.createTransferFeeStrategyForDescription(feeDescription,
+                let strategy = try feeFactory.createTransferFeeStrategyForDescriptions([feeDescription],
                                                                                       assetId: assetId,
                                                                                       precision: precision)
                 let result = try strategy.calculate(for: amounts[index])
 
                 XCTAssertEqual(result.sending, expected[index].sending)
-                XCTAssertEqual(result.fee, expected[index].fee)
+                XCTAssertEqual(result.fees.first?.value.decimalValue, expected[index].fee)
                 XCTAssertEqual(result.total, expected[index].total)
             }
 
@@ -322,7 +328,7 @@ class FeeCalculationTests: XCTestCase {
                                          parameters: [Decimal],
                                          amounts: [Decimal],
                                          precision: Int16,
-                                         expected: [FeeCalculationResult]) {
+                                         expected: [ExpectedFeeCalculationResult]) {
         do {
             let feeFactory = FeeCalculationFactory()
 
@@ -336,15 +342,15 @@ class FeeCalculationTests: XCTestCase {
                                                     parameters: [AmountDecimal(value: parameter)])
 
                 let strategy = try feeFactory
-                    .createWithdrawFeeStrategyForDescription(feeDescription,
-                                                             assetId: assetId,
-                                                             optionId: option.identifier,
-                                                             precision: precision)
+                    .createWithdrawFeeStrategyForDescriptions([feeDescription],
+                                                              assetId: assetId,
+                                                              optionId: option.identifier,
+                                                              precision: precision)
 
                 let result = try strategy.calculate(for: amounts[index])
 
                 XCTAssertEqual(result.sending, expected[index].sending)
-                XCTAssertEqual(result.fee, expected[index].fee)
+                XCTAssertEqual(result.fees.first?.value.decimalValue, expected[index].fee)
                 XCTAssertEqual(result.total, expected[index].total)
             }
 

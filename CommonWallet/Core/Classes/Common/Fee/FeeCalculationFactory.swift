@@ -13,8 +13,9 @@ enum FeeType: String, Codable, Equatable {
 
 public protocol FeeCalculationFactoryProtocol {
     func createTransferFeeStrategyForDescriptions(_ feeDescriptions: [FeeDescription],
-                                                 assetId: String,
-                                                 precision: Int16) throws -> FeeCalculationStrategyProtocol
+                                                  assetId: String,
+                                                  precision: Int16) throws
+        -> FeeCalculationStrategyProtocol
 
     func createWithdrawFeeStrategyForDescriptions(_ feeDescriptions: [FeeDescription],
                                                   assetId: String,
@@ -24,8 +25,9 @@ public protocol FeeCalculationFactoryProtocol {
 
 public extension FeeCalculationFactoryProtocol {
     func createTransferFeeStrategyForDescriptions(_ feeDescriptions: [FeeDescription],
-                                                 assetId: String,
-                                                 precision: Int16) throws -> FeeCalculationStrategyProtocol {
+                                                  assetId: String,
+                                                  precision: Int16) throws
+        -> FeeCalculationStrategyProtocol {
         FeeCalculationStrategy(feeDescriptions: feeDescriptions,
                                assetId: assetId,
                                precision: precision)

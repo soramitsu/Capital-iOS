@@ -195,6 +195,11 @@ public enum L10n {
         }
     }
 
+    public enum Operation {
+        /// Transaction fee
+        public static var feeTitle: String { return localize("operation.fee_title") }
+    }
+
     public enum Receive {
         /// Can't generate QR code
         public static var errorQrGeneration: String { return localize("receive.error_qr_generation") }

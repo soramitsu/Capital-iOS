@@ -8,7 +8,7 @@ import Foundation
 import SoraFoundation
 
 protocol TransferConfigurationProtocol {
-    var resultValidator: OperationDefinitionValidating { get }
+    var resultValidator: TransferValidating { get }
     var receiverPosition: TransferReceiverPosition { get }
     var headerFactory: OperationDefinitionHeaderModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
@@ -21,7 +21,7 @@ protocol TransferConfigurationProtocol {
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
-    let resultValidator: OperationDefinitionValidating
+    let resultValidator: TransferValidating
     let receiverPosition: TransferReceiverPosition
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
