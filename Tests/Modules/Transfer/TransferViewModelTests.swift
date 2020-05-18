@@ -165,7 +165,8 @@ class TransferViewModelTests: XCTestCase {
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
-                                              errorHandler: nil)
+                                              errorHandler: nil,
+                                              feeEditing: nil)
 
         return presenter
     }

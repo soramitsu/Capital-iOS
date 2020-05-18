@@ -76,4 +76,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(changeHandler: OperationDefinitionChangeHandling) -> Self
+
+    @discardableResult
+    func with(feeEditing: FeeEditing) -> Self
 }

@@ -47,6 +47,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
 
             let resultValidator = resolver.transferConfiguration.resultValidator
             let changeHandler = resolver.transferConfiguration.changeHandler
+            let errorHandler = resolver.transferConfiguration.errorHandler
+            let feeEditing = resolver.transferConfiguration.feeEditing
 
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
@@ -62,7 +64,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager,
-                                                   errorHandler: resolver.transferConfiguration.errorHandler)
+                                                   errorHandler: errorHandler,
+                                                   feeEditing: feeEditing)
             presenter.logger = resolver.logger
 
             view.presenter = presenter

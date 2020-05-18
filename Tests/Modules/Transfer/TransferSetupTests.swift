@@ -183,7 +183,8 @@ class TransferSetupTests: NetworkBaseTests {
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
                                                   localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
-                                                  errorHandler: errorHandler)
+                                                  errorHandler: errorHandler,
+                                                  feeEditing: nil)
 
             presenter.setup()
 
