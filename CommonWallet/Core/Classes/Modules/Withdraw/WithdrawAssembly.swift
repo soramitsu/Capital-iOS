@@ -26,12 +26,12 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
             let validatorFactory = resolver.inputValidatorFactory
             let formatterFactory = resolver.amountFormatterFactory
             let feeSettingsFactory = resolver.feeDisplaySettingsFactory
-            let transactionFactory = resolver.transactionSettingsFactory
+            let transactionSettings = resolver.withdrawConfiguration.settings
 
             let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: formatterFactory,
                                                                   option: option,
                                                                   descriptionValidatorFactory: validatorFactory,
-                                                                  transactionSettingsFactory: transactionFactory,
+                                                                  transactionSettings: transactionSettings,
                                                                   feeDisplaySettingsFactory: feeSettingsFactory)
 
             let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)

@@ -96,3 +96,4 @@
 "transaction.recipient_id" = "លេខសម្គាល់អ្នកទទួល";
 "transaction.send_again" = "ផ្ញើម្តងទៀត";
 "invoice_scan.error.user_not_found" = "មិនអាចរកឃើញអ្នកប្រើប្រាស់ពី QR";
+"operation.fee_title" = "ថ្លៃប្រតិបត្តិការ";

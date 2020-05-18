@@ -96,3 +96,4 @@
 "transaction.recipient_id" = "Идентификатор получателя";
 "transaction.send_again" = "Отправить";
 "invoice_scan.error.user_not_found" = "Не удается найти пользователя";
+"operation.fee_title" = "Комиссия за транзакцию";

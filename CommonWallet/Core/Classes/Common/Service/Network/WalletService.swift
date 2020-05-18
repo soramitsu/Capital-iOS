@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import RobinHood
 
 enum WalletServiceError: Error {
     case invalidPageHash
@@ -25,140 +26,151 @@ extension WalletService: WalletServiceProtocol {
     @discardableResult
     func fetchBalance(for assets: [String],
                       runCompletionIn queue: DispatchQueue,
-                      completionBlock: @escaping BalanceCompletionBlock) -> Operation {
-        let operation = operationFactory.fetchBalanceOperation(assets)
+                      completionBlock: @escaping BalanceCompletionBlock) -> CancellableCall {
+        let operationsWrapper = operationFactory.fetchBalanceOperation(assets)
 
-        operation.completionBlock = {
+        operationsWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationsWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationsWrapper.allOperations,
+                                     waitUntilFinished: false)
 
-        return operation
+        return operationsWrapper
     }
 
     @discardableResult
     func fetchTransactionHistory(for filter: WalletHistoryRequest,
                                  pagination: OffsetPagination,
                                  runCompletionIn queue: DispatchQueue,
-                                 completionBlock: @escaping TransactionHistoryBlock) -> Operation {
+                                 completionBlock: @escaping TransactionHistoryBlock)
+        -> CancellableCall {
 
-        let operation = operationFactory.fetchTransactionHistoryOperation(filter, pagination: pagination)
+        let operationWrapper = operationFactory.fetchTransactionHistoryOperation(filter,
+                                                                                 pagination: pagination)
 
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations,
+                                     waitUntilFinished: false)
 
-        return operation
+        return operationWrapper
     }
 
     @discardableResult
     func fetchTransferMetadata(for info: TransferMetadataInfo,
                                runCompletionIn queue: DispatchQueue,
-                               completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation {
+                               completionBlock: @escaping TransferMetadataCompletionBlock)
+        -> CancellableCall {
 
-        let operation = operationFactory.transferMetadataOperation(info)
+        let operationWrapper = operationFactory.transferMetadataOperation(info)
 
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations,
+                                     waitUntilFinished: false)
 
-        return operation
+        return operationWrapper
     }
 
     @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation {
+                  completionBlock: @escaping EmptyResultCompletionBlock)
+        -> CancellableCall {
 
-        let operation = operationFactory.transferOperation(info)
+        let operationWrapper = operationFactory.transferOperation(info)
 
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations,
+                                     waitUntilFinished: false)
 
-        return operation
+        return operationWrapper
     }
 
     @discardableResult
     func search(for searchString: String,
                 runCompletionIn queue: DispatchQueue,
-                completionBlock: @escaping SearchCompletionBlock) -> Operation {
+                completionBlock: @escaping SearchCompletionBlock)
+        -> CancellableCall {
 
-        let operation = operationFactory.searchOperation(searchString)
+        let operationWrapper = operationFactory.searchOperation(searchString)
 
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations, waitUntilFinished: false)
 
-        return operation
+        return operationWrapper
     }
 
     @discardableResult
     func fetchContacts(runCompletionIn queue: DispatchQueue,
-                       completionBlock: @escaping SearchCompletionBlock) -> Operation {
-        let operation = operationFactory.contactsOperation()
+                       completionBlock: @escaping SearchCompletionBlock)
+        -> CancellableCall {
+        let operationWrapper = operationFactory.contactsOperation()
         
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
         
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations, waitUntilFinished: false)
         
-        return operation
+        return operationWrapper
     }
 
     @discardableResult
     func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
                                  runCompletionIn queue: DispatchQueue,
-                                 completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation {
-        let operation = operationFactory.withdrawalMetadataOperation(info)
+                                 completionBlock: @escaping WithdrawalMetadataCompletionBlock)
+        -> CancellableCall {
+        let operationWrapper = operationFactory.withdrawalMetadataOperation(info)
 
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations, waitUntilFinished: false)
 
-        return operation
+        return operationWrapper
     }
 
     @discardableResult
     func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation {
-        let operation = operationFactory.withdrawOperation(info)
+                  completionBlock: @escaping EmptyResultCompletionBlock) -> CancellableCall {
+        let operationWrapper = operationFactory.withdrawOperation(info)
 
-        operation.completionBlock = {
+        operationWrapper.targetOperation.completionBlock = {
             queue.async {
-                completionBlock(operation.result)
+                completionBlock(operationWrapper.targetOperation.result)
             }
         }
 
-        operationQueue.addOperation(operation)
+        operationQueue.addOperations(operationWrapper.allOperations, waitUntilFinished: false)
 
-        return operation
+        return operationWrapper
     }
 }

@@ -14,27 +14,29 @@ public struct WalletTransactionLimit {
     }
 }
 
-public struct WalletTransactionSettings {
-    public let transferLimit: WalletTransactionLimit
-    public let withdrawLimit: WalletTransactionLimit
+public protocol WalletTransactionSettingsProtocol {
+    func limitForAssetId(_ assetId: String,
+                         senderId: String?,
+                         receiverId: String?) -> WalletTransactionLimit
+}
 
-    public init(transferLimit: WalletTransactionLimit, withdrawLimit: WalletTransactionLimit) {
-        self.transferLimit = transferLimit
-        self.withdrawLimit = withdrawLimit
+struct WalletTransactionSettings: WalletTransactionSettingsProtocol {
+    public let limit: WalletTransactionLimit
+
+    public init(limit: WalletTransactionLimit) {
+        self.limit = limit
+    }
+
+    func limitForAssetId(_ assetId: String,
+                         senderId: String?,
+                         receiverId: String?) -> WalletTransactionLimit {
+        limit
     }
 }
 
-public protocol WalletTransactionSettingsFactoryProtocol {
-    func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings
-}
-
-public extension WalletTransactionSettingsFactoryProtocol {
-    func createSettings(for asset: WalletAsset, senderId: String?, receiverId: String?) -> WalletTransactionSettings {
+extension WalletTransactionSettings {
+    static var defaultSettings: WalletTransactionSettings {
         let limit: Decimal = WalletTransactionLimitConstants.defaultMaxLimit
-
-        return WalletTransactionSettings(transferLimit: WalletTransactionLimit(maximum: limit),
-                                         withdrawLimit: WalletTransactionLimit(maximum: limit))
+        return WalletTransactionSettings(limit: WalletTransactionLimit(maximum: limit))
     }
 }
-
-public struct WalletTransactionSettingsFactory: WalletTransactionSettingsFactoryProtocol {}

@@ -141,12 +141,14 @@ class TransferViewModelTests: XCTestCase {
 
         let recieverInfo = try createRandomReceiveInfo()
         let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
+        let settings = WalletTransactionSettings.defaultSettings
 
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-        let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
+        let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                               descriptionValidatorFactory: inputValidatorFactory,
-                                                              transactionSettingsFactory: WalletTransactionSettingsFactory(),
-                                                              feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
+                                                              feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
+                                                              transactionSettings: settings)
+        let resultValidator = TransferValidator(transactionSettings: settings)
 
         let presenter = try TransferPresenter(view: view,
                                               coordinator: coordinator,
@@ -154,6 +156,7 @@ class TransferViewModelTests: XCTestCase {
                                               dataProviderFactory: dataProviderFactory,
                                               feeCalculationFactory: FeeCalculationFactory(),
                                               account: accountSettings,
+                                              resultValidator: resultValidator,
                                               transferViewModelFactory: transferViewModelFactory,
                                               assetSelectionFactory: assetSelectionFactory,
                                               accessoryFactory: accessoryViewModelFactory,

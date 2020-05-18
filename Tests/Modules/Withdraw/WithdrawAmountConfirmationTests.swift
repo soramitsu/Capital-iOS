@@ -13,13 +13,13 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     func testSuccessfullAmountInput() {
         let networkResolver = MockNetworkResolver()
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                transactionSettings: WalletTransactionSettings.defaultSettings,
                                 inputAmount: "100",
                                 inputDescription: "",
                                 expectsSuccess: true)
 
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                transactionSettings: WalletTransactionSettings.defaultSettings,
                                 inputAmount: "100",
                                 inputDescription: "Description",
                                 expectsSuccess: true)
@@ -29,7 +29,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
         let networkResolver = MockNetworkResolver()
 
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                transactionSettings: WalletTransactionSettings.defaultSettings,
                                 inputAmount: "100000",
                                 inputDescription: "",
                                 expectsSuccess: false)
@@ -38,7 +38,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     func testFeeNotAvailable() {
         let networkResolver = MockNetworkResolver()
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                transactionSettings: WalletTransactionSettings.defaultSettings,
                                 inputAmount: "100",
                                 inputDescription: "",
                                 expectsSuccess: false) {
@@ -53,17 +53,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     func testMinimumAmountInput() {
         let networkResolver = MockNetworkResolver()
 
-        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
-
-        stub(settingsMock) { stub in
-            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
-                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
-                                          withdrawLimit: WalletTransactionLimit(minimum: 10, maximum: 1e+6))
-            }
-        }
+        let settings = WalletTransactionSettings(limit: WalletTransactionLimit(minimum: 2, maximum: 1e+6))
 
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: settingsMock,
+                                transactionSettings: settings,
                                 inputAmount: "1",
                                 inputDescription: "",
                                 expectsSuccess: false)
@@ -72,17 +65,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     func testFixedFeeTransfer() {
         let networkResolver = MockNetworkResolver()
 
-        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
-
-        stub(settingsMock) { stub in
-            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
-                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
-                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
-            }
-        }
+        let settings = WalletTransactionSettings(limit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
 
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: settingsMock,
+                                transactionSettings: settings,
                                 inputAmount: "100",
                                 inputDescription: "",
                                 expectsSuccess: true,
@@ -94,17 +80,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     func testFactorFeeTransfer() {
         let networkResolver = MockNetworkResolver()
 
-        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
-
-        stub(settingsMock) { stub in
-            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
-                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
-                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
-            }
-        }
+        let settings = WalletTransactionSettings(limit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
 
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: settingsMock,
+                                transactionSettings: settings,
                                 inputAmount: "90",
                                 inputDescription: "",
                                 expectsSuccess: true,
@@ -116,17 +95,10 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     func testTaxFeeTransfer() {
         let networkResolver = MockNetworkResolver()
 
-        let settingsMock = MockWalletTransactionSettingsFactoryProtocol()
-
-        stub(settingsMock) { stub in
-            when(stub).createSettings(for: any(), senderId: any(), receiverId: any()).then { _ in
-                WalletTransactionSettings(transferLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6),
-                                          withdrawLimit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
-            }
-        }
+        let settings = WalletTransactionSettings(limit: WalletTransactionLimit(minimum: 0, maximum: 1e+6))
 
         performConfirmationTest(for: networkResolver,
-                                transactionSettingsFactory: settingsMock,
+                                transactionSettings: settings,
                                 inputAmount: "80",
                                 inputDescription: "",
                                 expectsSuccess: true,
@@ -138,7 +110,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
     // MARK: Private
 
     private func performConfirmationTest(for networkResolver: MiddlewareNetworkResolverProtocol,
-                                         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
+                                         transactionSettings: WalletTransactionSettingsProtocol,
                                          inputAmount: String,
                                          inputDescription: String,
                                          expectsSuccess: Bool,
@@ -178,7 +150,7 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                                   option: selectionOption,
                                                                   descriptionValidatorFactory: inputValidatorFactory,
-                                                                  transactionSettingsFactory: transactionSettingsFactory,
+                                                                  transactionSettings: transactionSettings,
                                                                   feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
             let view = MockWithdrawViewProtocol()
@@ -201,7 +173,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
             assetSelectionExpectation.expectedFulfillmentCount = 2
 
             let amountExpectation = XCTestExpectation()
-            let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
             let errorExpectation = XCTestExpectation()
@@ -227,11 +198,9 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
                         return
                     }
 
-                    if viewModel.isLoading {
-                        feeExpectation.fulfill()
-                    } else {
-                        feeLoadedExpectation.fulfill()
-                    }
+                    feeLoadedExpectation.fulfill()
+                    XCTAssertTrue(viewModels.count == 1)
+                    XCTAssertTrue(!viewModel.isLoading)
                 }
 
                 when(stub).set(descriptionViewModel: any()).then { viewModel in
@@ -298,7 +267,6 @@ class WithdrawAmountConfirmationTests: NetworkBaseTests {
 
             wait(for: [assetSelectionExpectation,
                        amountExpectation,
-                       feeExpectation,
                        descriptionExpectation,
                        accessoryExpectation,
                        feeLoadedExpectation], timeout: Constants.networkTimeout)

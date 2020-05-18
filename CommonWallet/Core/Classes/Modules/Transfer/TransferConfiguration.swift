@@ -8,9 +8,11 @@ import Foundation
 import SoraFoundation
 
 protocol TransferConfigurationProtocol {
+    var resultValidator: TransferValidating { get }
     var receiverPosition: TransferReceiverPosition { get }
     var headerFactory: OperationDefinitionHeaderModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
+    var settings: WalletTransactionSettingsProtocol { get }
     var style: OperationDefinitionViewStyle { get }
     var generatingIconStyle: WalletNameIconStyleProtocol { get }
     var accessoryViewType: WalletAccessoryViewType { get }
@@ -19,9 +21,11 @@ protocol TransferConfigurationProtocol {
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
+    let resultValidator: TransferValidating
     let receiverPosition: TransferReceiverPosition
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
+    let settings: WalletTransactionSettingsProtocol
     let style: OperationDefinitionViewStyle
     let generatingIconStyle: WalletNameIconStyleProtocol
     let accessoryViewType: WalletAccessoryViewType

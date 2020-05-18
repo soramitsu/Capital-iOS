@@ -101,30 +101,27 @@ final class WithdrawPresenter {
     private func setupFeeViewModel(for asset: WalletAsset) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        guard
-            let amount = amountInputViewModel.decimalAmount,
-            let metadata = metadata else {
-                let viewModel = withdrawViewModelFactory.createFeeViewModel(for: asset,
-                                                                        amount: nil,
-                                                                        locale: locale)
-                view?.set(feeViewModels: [viewModel])
+        let amount = amountInputViewModel.decimalAmount ?? 0
+
+        guard let metadata = metadata else {
                 return
         }
 
         do {
 
-            // TODO: move to multi fee variant when ui ready
-            let feeResult = try calculateFeeResults(for: metadata, amount: amount).first
+            let feeResult = try calculateFeeResults(for: metadata, amount: amount)
 
-            let viewModel = withdrawViewModelFactory.createFeeViewModel(for: asset,
-                                                                        amount: feeResult?.fee,
-                                                                        locale: locale)
-            view?.set(feeViewModels: [viewModel])
+            let viewModels: [FeeViewModel] = feeResult.fees.compactMap { fee in
+                guard let asset = assets.first(where: { $0.identifier == fee.feeDescription.assetId }) else {
+                    return nil
+                }
+
+                return withdrawViewModelFactory.createFeeViewModel(fee, feeAsset: asset, locale: locale)
+            }
+
+            view?.set(feeViewModels: viewModels)
         } catch {
-            let viewModel = withdrawViewModelFactory.createFeeViewModel(for: asset,
-                                                                        amount: nil,
-                                                                        locale: locale)
-            view?.set(feeViewModels: [viewModel])
+            view?.set(feeViewModels: [])
         }
 
     }
@@ -157,9 +154,7 @@ final class WithdrawPresenter {
 
         let totalAmount: Decimal
 
-        // TODO: move to multi fee variant when ui ready
-
-        if let feeResult = try? calculateFeeResults(for: metadata, amount: amount).first {
+        if let feeResult = try? calculateFeeResults(for: metadata, amount: amount) {
             totalAmount = feeResult.total
         } else {
             totalAmount = amount
@@ -319,36 +314,16 @@ final class WithdrawPresenter {
                 return nil
             }
 
-            var fees: [Fee] = []
-            let sendingAmount: Decimal
-            let totalAmount: Decimal
+            let feeResult = try calculateFeeResults(for: metadata, amount: inputAmount)
+            let fees = feeResult.fees.filter { $0.value.decimalValue > 0 }
 
-            // TODO: move to multi fee variant when ui ready
-
-            if
-                let feeResult = try calculateFeeResults(for: metadata, amount: inputAmount).first,
-                let feeDescription = metadata.feeDescriptions.first {
-
-                sendingAmount = feeResult.sending
-                totalAmount = feeResult.total
-
-                if feeResult.fee > 0 {
-                    let fee = Fee(value: AmountDecimal(value: feeResult.fee),
-                                  feeDescription: feeDescription)
-                    fees.append(fee)
-                }
-            } else {
-                sendingAmount = inputAmount
-                totalAmount = inputAmount
-            }
-
-            guard validateAndReportBalanceConstraints(for: totalAmount) else {
+            guard validateAndReportBalanceConstraints(for: feeResult.total) else {
                     return nil
             }
 
             let destinationAccountId = metadata.providerAccountId
 
-            let amount = AmountDecimal(value: sendingAmount)
+            let amount = AmountDecimal(value: feeResult.sending)
 
             let info = WithdrawInfo(destinationAccountId: destinationAccountId,
                                     assetId: selectedAsset.identifier,
@@ -401,17 +376,16 @@ final class WithdrawPresenter {
         }
     }
 
-    private func calculateFeeResults(for metadata: WithdrawMetaData, amount: Decimal) throws
-        -> [FeeCalculationResult] {
-        try metadata.feeDescriptions.map { feeDescription in
+    private func calculateFeeResults(for metadata: WithdrawMetaData,
+                                     amount: Decimal) throws -> FeeCalculationResult {
+
             let calculator = try feeCalculationFactory
-                .createWithdrawFeeStrategyForDescription(feeDescription,
-                                                         assetId: selectedAsset.identifier,
-                                                         optionId: selectedOption.identifier,
-                                                         precision: selectedAsset.precision)
+                .createWithdrawFeeStrategyForDescriptions(metadata.feeDescriptions,
+                                                          assetId: selectedAsset.identifier,
+                                                          optionId: selectedOption.identifier,
+                                                          precision: selectedAsset.precision)
 
             return try calculator.calculate(for: amount)
-        }
     }
 }
 

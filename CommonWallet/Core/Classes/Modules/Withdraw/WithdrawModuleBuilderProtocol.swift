@@ -48,4 +48,7 @@ public protocol WithdrawModuleBuilderProtocol {
 
     @discardableResult
     func with(descriptionStyle: WalletContainingDescriptionStyle) -> Self
+
+    @discardableResult
+    func with(settings: WalletTransactionSettingsProtocol) -> Self
 }

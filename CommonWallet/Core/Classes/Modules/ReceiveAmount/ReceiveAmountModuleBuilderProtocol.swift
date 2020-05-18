@@ -16,4 +16,7 @@ public protocol ReceiveAmountModuleBuilderProtocol: class {
 
     @discardableResult
     func with(shouldIncludeDescription: Bool) -> Self
+
+    @discardableResult
+    func with(settings: WalletTransactionSettingsProtocol) -> Self
 }

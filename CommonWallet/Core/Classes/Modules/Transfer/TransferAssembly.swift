@@ -35,15 +35,17 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let inputValidatorFactory = resolver.inputValidatorFactory
             let amountFormatterFactory = resolver.amountFormatterFactory
             let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
-            let transactionFactory = resolver.transactionSettingsFactory
+            let transactionSettings = resolver.transferConfiguration.settings
 
-            let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: amountFormatterFactory,
+            let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: amountFormatterFactory,
                                                                   descriptionValidatorFactory: inputValidatorFactory,
-                                                                  transactionSettingsFactory: transactionFactory,
-                                                                  feeDisplaySettingsFactory: feeDisplaySettingsFactory)
+                                                                  feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                                                  transactionSettings: transactionSettings)
 
             let headerFactory = resolver.transferConfiguration.headerFactory
             let receiverPosition = resolver.transferConfiguration.receiverPosition
+
+            let resultValidator = resolver.transferConfiguration.resultValidator
 
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
@@ -51,12 +53,15 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    dataProviderFactory: dataProviderFactory,
                                                    feeCalculationFactory: resolver.feeCalculationFactory,
                                                    account: resolver.account,
+                                                   resultValidator: resultValidator,
                                                    transferViewModelFactory: transferViewModelFactory,
                                                    assetSelectionFactory: assetSelectionFactory,
                                                    accessoryFactory: accessoryViewModelFactory,
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager)
+            presenter.logger = resolver.logger
+
             view.presenter = presenter
 
             view.localizationManager = resolver.localizationManager

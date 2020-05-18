@@ -12,11 +12,13 @@ final class ReceiveAmountModuleBuilder {
     fileprivate lazy var accountShareFactory: AccountShareFactoryProtocol = AccountShareFactory()
     fileprivate var title: LocalizableResource<String> = LocalizableResource { _ in L10n.Receive.title }
     fileprivate var shouldIncludeDescription: Bool = false
+    fileprivate var settings: WalletTransactionSettingsProtocol = WalletTransactionSettings.defaultSettings
 
     func build() -> ReceiveAmountConfigurationProtocol {
         return ReceiveAmountConfiguration(accountShareFactory: accountShareFactory,
                                           title: title,
-                                          shouldIncludeDescription: shouldIncludeDescription)
+                                          shouldIncludeDescription: shouldIncludeDescription,
+                                          settings: settings)
     }
 }
 
@@ -37,6 +39,11 @@ extension ReceiveAmountModuleBuilder: ReceiveAmountModuleBuilderProtocol {
     @discardableResult
     func with(shouldIncludeDescription: Bool) -> Self {
         self.shouldIncludeDescription = shouldIncludeDescription
+        return self
+    }
+
+    func with(settings: WalletTransactionSettingsProtocol) -> Self {
+        self.settings = settings
         return self
     }
 }

@@ -11,6 +11,7 @@ protocol ReceiveAmountConfigurationProtocol {
     var accountShareFactory: AccountShareFactoryProtocol { get }
     var title: LocalizableResource<String> { get }
     var shouldIncludeDescription: Bool { get }
+    var settings: WalletTransactionSettingsProtocol { get }
 }
 
 
@@ -18,4 +19,5 @@ struct ReceiveAmountConfiguration: ReceiveAmountConfigurationProtocol {
     var accountShareFactory: AccountShareFactoryProtocol
     var title: LocalizableResource<String>
     var shouldIncludeDescription: Bool
+    var settings: WalletTransactionSettingsProtocol
 }

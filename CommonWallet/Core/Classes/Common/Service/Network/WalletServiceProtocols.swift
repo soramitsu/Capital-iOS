@@ -18,40 +18,42 @@ protocol WalletServiceProtocol {
     @discardableResult
     func fetchBalance(for assets: [String],
                       runCompletionIn queue: DispatchQueue,
-                      completionBlock: @escaping BalanceCompletionBlock) -> Operation
+                      completionBlock: @escaping BalanceCompletionBlock) -> CancellableCall
 
     @discardableResult
     func fetchTransactionHistory(for filter: WalletHistoryRequest,
                                  pagination: OffsetPagination,
                                  runCompletionIn queue: DispatchQueue,
-                                 completionBlock: @escaping TransactionHistoryBlock) -> Operation
+                                 completionBlock: @escaping TransactionHistoryBlock) -> CancellableCall
 
     @discardableResult
     func fetchTransferMetadata(for info: TransferMetadataInfo,
                                runCompletionIn queue: DispatchQueue,
-                               completionBlock: @escaping TransferMetadataCompletionBlock) -> Operation
+                               completionBlock: @escaping TransferMetadataCompletionBlock)
+        -> CancellableCall
 
     @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation
+                  completionBlock: @escaping EmptyResultCompletionBlock) -> CancellableCall
 
     @discardableResult
     func search(for searchString: String,
                 runCompletionIn queue: DispatchQueue,
-                completionBlock: @escaping SearchCompletionBlock) -> Operation
+                completionBlock: @escaping SearchCompletionBlock) -> CancellableCall
     
     @discardableResult
     func fetchContacts(runCompletionIn queue: DispatchQueue,
-                       completionBlock: @escaping SearchCompletionBlock) -> Operation
+                       completionBlock: @escaping SearchCompletionBlock) -> CancellableCall
 
     @discardableResult
     func fetchWithdrawalMetadata(for info: WithdrawMetadataInfo,
                                  runCompletionIn queue: DispatchQueue,
-                                 completionBlock: @escaping WithdrawalMetadataCompletionBlock) -> Operation
+                                 completionBlock: @escaping WithdrawalMetadataCompletionBlock)
+        -> CancellableCall
 
     @discardableResult
     func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> Operation
+                  completionBlock: @escaping EmptyResultCompletionBlock) -> CancellableCall
 }

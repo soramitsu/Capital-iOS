@@ -37,7 +37,7 @@ final class ContactsPresenter: NSObject {
 
     private var contactsLoadingState: DataLoadingState = .waitingCache
 
-    private var searchOperation: Operation?
+    private var searchOperation: CancellableCall?
     private var isWaitingSearch: Bool = false
     
     var logger: WalletLoggerProtocol?

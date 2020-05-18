@@ -8,8 +8,8 @@ import SoraFoundation
 
 protocol WithdrawAmountViewModelFactoryProtocol {
 
-    func createFeeViewModel(for asset: WalletAsset?,
-                            amount: Decimal?,
+    func createFeeViewModel(_ fee: Fee,
+                            feeAsset: WalletAsset,
                             locale: Locale) -> FeeViewModel
 
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
@@ -26,52 +26,49 @@ enum WithdrawAmountViewModelFactoryError: Error {
 final class WithdrawAmountViewModelFactory {
     let amountFormatterFactory: NumberFormatterFactoryProtocol
     let option: WalletWithdrawOption
-    let transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
+    let transactionSettings: WalletTransactionSettingsProtocol
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
     let feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
 
     init(amountFormatterFactory: NumberFormatterFactoryProtocol,
          option: WalletWithdrawOption,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
-         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol,
+         transactionSettings: WalletTransactionSettingsProtocol,
          feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
         self.amountFormatterFactory = amountFormatterFactory
         self.option = option
         self.descriptionValidatorFactory = descriptionValidatorFactory
-        self.transactionSettingsFactory = transactionSettingsFactory
+        self.transactionSettings = transactionSettings
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
     }
 }
 
 extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol {
 
-    func createFeeViewModel(for asset: WalletAsset?,
-                            amount: Decimal?,
+    func createFeeViewModel(_ fee: Fee,
+                            feeAsset: WalletAsset,
                             locale: Locale) -> FeeViewModel {
 
-        guard let asset = asset else {
-            return FeeViewModel(title: L10n.Amount.defaultFee, details: "", isLoading: true, allowsEditing: false)
-        }
+        let feeDisplaySettings = feeDisplaySettingsFactory
+            .createFeeSettingsForId(fee.feeDescription.identifier)
 
-        let feeDisplaySettings = feeDisplaySettingsFactory.createFeeSettings(asset: asset,
-                                                                             senderId: nil,
-                                                                             receiverId: nil)
-
-        guard let amount = amount else {
-            return FeeViewModel(title: L10n.Amount.defaultFee, details: "", isLoading: true, allowsEditing: false)
-        }
-
-        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: feeAsset)
 
         guard let amountString = amountFormatter.value(for: locale)
-            .string(from: amount as NSNumber) else {
-            return FeeViewModel(title: L10n.Amount.defaultFee, details: "", isLoading: true, allowsEditing: false)
+            .string(from: fee.value.decimalValue as NSNumber) else {
+            return FeeViewModel(title: L10n.Amount.defaultFee,
+                                details: "",
+                                isLoading: true,
+                                allowsEditing: fee.feeDescription.userCanDefine)
         }
 
-        let details = "\(asset.symbol)\(amountString)"
-        let title: String = feeDisplaySettings.amountDetailsClosure("", locale)
+        let details = "\(feeAsset.symbol)\(amountString)"
+        let title = feeDisplaySettings.operationTitle.value(for: locale)
 
-        return FeeViewModel(title: title, details: details, isLoading: false, allowsEditing: false)
+        return FeeViewModel(title: title,
+                            details: details,
+                            isLoading: false,
+                            allowsEditing: fee.feeDescription.userCanDefine)
     }
 
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel {
@@ -79,13 +76,13 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
         let localizedFormatter = inputFormatter.value(for: locale)
 
-        let transactionSettings = transactionSettingsFactory.createSettings(for: asset,
-                                                                            senderId: nil,
-                                                                            receiverId: nil)
+        let limit = transactionSettings.limitForAssetId(asset.identifier,
+                                                        senderId: nil,
+                                                        receiverId: nil)
 
         return AmountInputViewModel(symbol: asset.symbol,
                                     amount: amount,
-                                    limit: transactionSettings.withdrawLimit.maximum,
+                                    limit: limit.maximum,
                                     formatter: localizedFormatter,
                                     precision: Int16(localizedFormatter.maximumFractionDigits))
     }
@@ -122,9 +119,9 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     }
 
     func minimumLimit(for asset: WalletAsset) -> Decimal {
-        return transactionSettingsFactory.createSettings(for: asset,
-                                                         senderId: nil,
-                                                         receiverId: nil).withdrawLimit.minimum
+        return transactionSettings.limitForAssetId(asset.identifier,
+                                                   senderId: nil,
+                                                   receiverId: nil).minimum
     }
 
     func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String {

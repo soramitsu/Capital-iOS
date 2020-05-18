@@ -40,9 +40,6 @@ public protocol CommonWalletBuilderProtocol: class {
     func with(transferDescriptionLimit: UInt8) -> Self
 
     @discardableResult
-    func with(transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) -> Self
-
-    @discardableResult
     func with(logger: WalletLoggerProtocol) -> Self
     
     @discardableResult
@@ -85,8 +82,6 @@ public final class CommonWalletBuilder {
     fileprivate var amountFormatterFactory: NumberFormatterFactoryProtocol?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
     fileprivate var transferDescriptionLimit: UInt8 = 64
-    fileprivate var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol =
-        WalletTransactionSettingsFactory()
     fileprivate var transactionTypeList: [WalletTransactionType]?
     fileprivate var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
@@ -188,11 +183,6 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
     public func with(transferDescriptionLimit: UInt8) -> Self {
         self.transferDescriptionLimit = transferDescriptionLimit
-        return self
-    }
-
-    public func with(transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) -> Self {
-        self.transactionSettingsFactory = transactionSettingsFactory
         return self
     }
     
@@ -303,8 +293,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 withdrawConfiguration: withdrawConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                transactionSettingsFactory: transactionSettingsFactory)
+                                feeDisplaySettingsFactory: feeDisplaySettingsFactory)
 
         resolver.style = style
 

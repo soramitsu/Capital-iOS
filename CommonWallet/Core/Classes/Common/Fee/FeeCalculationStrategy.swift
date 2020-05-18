@@ -9,62 +9,100 @@ public protocol FeeCalculationStrategyProtocol {
     func calculate(for amount: Decimal) throws -> FeeCalculationResult
 }
 
-public struct FixedFeeStrategy: FeeCalculationStrategyProtocol {
-    private let value: NSDecimalNumber
-    private let behaviors: NSDecimalNumberBehaviors
+public enum FeeCalculationError: Error {
+    case unknownFeeType
+    case invalidParameters
+}
 
-    public func calculate(for amount: Decimal) throws -> FeeCalculationResult {
-        let feeNumber = value.rounding(accordingToBehavior: behaviors)
-        let amountNumber = NSDecimalNumber(decimal: amount).rounding(accordingToBehavior: behaviors)
-        let totalNumber = amountNumber.adding(feeNumber)
+typealias FeeIntermediateResult = (amount: Decimal, fee: Decimal)
 
-        return FeeCalculationResult(sending: amountNumber.decimalValue,
-                                    fee: feeNumber.decimalValue,
-                                    total: totalNumber.decimalValue)
-    }
+struct FeeCalculationStrategy: FeeCalculationStrategyProtocol {
+    let feeDescriptions: [FeeDescription]
+    let assetId: String
+    let behaviors: NSDecimalNumberBehaviors
 
-    public init(value: Decimal, precision: Int16) {
-        self.value = NSDecimalNumber(decimal: value)
+    init(feeDescriptions: [FeeDescription], assetId: String, precision: Int16) {
+        self.feeDescriptions = feeDescriptions
+        self.assetId = assetId
         self.behaviors = NSDecimalNumberHandler.defaultHandler(precision: Int16(precision))
     }
-}
 
-public struct FactorFeeStrategy: FeeCalculationStrategyProtocol {
-    private let rate: NSDecimalNumber
-    private let behaviors: NSDecimalNumberBehaviors
+    func calculate(for amount: Decimal) throws -> FeeCalculationResult {
+        var sending = amount
+        var fees: [Fee] = []
 
-    public func calculate(for amount: Decimal) throws -> FeeCalculationResult {
+        for feeDescription in feeDescriptions {
+            let result =  try calculateForAmount(amount, feeDescription: feeDescription)
+
+            if feeDescription.assetId == assetId {
+                sending += result.amount - amount
+            }
+
+            let fee = Fee(value: AmountDecimal(value: result.fee), feeDescription: feeDescription)
+            fees.append(fee)
+        }
+
+        let totalAmount = sending + fees.filter({ $0.feeDescription.assetId == assetId })
+            .reduce(Decimal(0)) { $0 + $1.value.decimalValue }
+
+        return FeeCalculationResult(sending: sending,
+                                    fees: fees,
+                                    total: totalAmount)
+    }
+
+    private func calculateForAmount(_ amount: Decimal, feeDescription: FeeDescription) throws
+        -> FeeIntermediateResult {
+        guard let feeType = FeeType(rawValue: feeDescription.type) else {
+            throw FeeCalculationError.unknownFeeType
+        }
+
+        switch feeType {
+        case .fixed:
+            return try calculateFixedFeeForAmount(amount, feeDescription: feeDescription)
+        case .factor:
+            return try calculateFactorFeeForAmount(amount, feeDescription: feeDescription)
+        case .tax:
+            return try calculateTaxStrategyFeeForAmount(amount, feeDescription: feeDescription)
+        }
+    }
+
+    private func calculateFixedFeeForAmount(_ amount: Decimal, feeDescription: FeeDescription) throws
+        -> FeeIntermediateResult {
+
+        guard let value = feeDescription.parameters.first?.decimalValue else {
+            throw FeeCalculationError.invalidParameters
+        }
+
+        let feeNumber = NSDecimalNumber(decimal: value).rounding(accordingToBehavior: behaviors)
         let amountNumber = NSDecimalNumber(decimal: amount).rounding(accordingToBehavior: behaviors)
-        let feeNumber = rate.multiplying(by: amountNumber, withBehavior: behaviors)
-        let totalNumber = amountNumber.adding(feeNumber)
 
-        return FeeCalculationResult(sending: amountNumber.decimalValue,
-                                    fee: feeNumber.decimalValue,
-                                    total: totalNumber.decimalValue)
+        return FeeIntermediateResult(amount: amountNumber.decimalValue, fee: feeNumber.decimalValue)
     }
 
-    public init(rate: Decimal, precision: Int16) {
-        self.rate = NSDecimalNumber(decimal: rate)
-        self.behaviors = NSDecimalNumberHandler.defaultHandler(precision: precision)
+    private func calculateFactorFeeForAmount(_ amount: Decimal, feeDescription: FeeDescription) throws
+        -> FeeIntermediateResult {
+
+        guard let rate = feeDescription.parameters.first?.decimalValue else {
+            throw FeeCalculationError.invalidParameters
+        }
+
+        let amountNumber = NSDecimalNumber(decimal: amount).rounding(accordingToBehavior: behaviors)
+        let feeNumber = NSDecimalNumber(decimal: rate).multiplying(by: amountNumber, withBehavior: behaviors)
+
+        return FeeIntermediateResult(amount: amountNumber.decimalValue, fee: feeNumber.decimalValue)
     }
-}
 
-public struct TaxStrategy: FeeCalculationStrategyProtocol {
-    private let rate: NSDecimalNumber
-    private let behaviors: NSDecimalNumberBehaviors
+    private func calculateTaxStrategyFeeForAmount(_ amount: Decimal, feeDescription: FeeDescription) throws
+        -> FeeIntermediateResult {
 
-    public func calculate(for amount: Decimal) throws -> FeeCalculationResult {
+        guard let rate = feeDescription.parameters.first?.decimalValue else {
+            throw FeeCalculationError.invalidParameters
+        }
+
         let totalNumber = NSDecimalNumber(decimal: amount).rounding(accordingToBehavior: behaviors)
-        let feeNumber = rate.multiplying(by: totalNumber, withBehavior: behaviors)
+        let feeNumber = NSDecimalNumber(decimal: rate).multiplying(by: totalNumber, withBehavior: behaviors)
         let sendingNumber = totalNumber.subtracting(feeNumber, withBehavior: behaviors)
 
-        return FeeCalculationResult(sending: sendingNumber.decimalValue,
-                                    fee: feeNumber.decimalValue,
-                                    total: totalNumber.decimalValue)
-    }
-
-    public init(rate: Decimal, precision: Int16) {
-        self.rate = NSDecimalNumber(decimal: rate)
-        self.behaviors = NSDecimalNumberHandler.defaultHandler(precision: precision)
+        return FeeIntermediateResult(amount: sendingNumber.decimalValue, fee: feeNumber.decimalValue)
     }
 }

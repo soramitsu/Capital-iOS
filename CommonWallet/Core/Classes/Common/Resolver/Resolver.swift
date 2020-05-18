@@ -24,7 +24,6 @@ protocol ResolverProtocol: class {
     var localizationManager: LocalizationManagerProtocol? { get }
     var amountFormatterFactory: NumberFormatterFactoryProtocol { get }
     var statusDateFormatter: LocalizableResource<DateFormatter> { get }
-    var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol { get }
     var transactionTypeList: [WalletTransactionType] { get }
     var commandFactory: WalletCommandFactoryProtocol { get }
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol? { get }
@@ -61,7 +60,6 @@ final class Resolver: ResolverProtocol {
     lazy var statusDateFormatter: LocalizableResource<DateFormatter> =
         DateFormatter.statusDateFormatter.localizableResource()
 
-    var transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol
     var transactionTypeList: [WalletTransactionType] = []
 
     var logger: WalletLoggerProtocol?
@@ -82,8 +80,7 @@ final class Resolver: ResolverProtocol {
          withdrawConfiguration: WithdrawConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
-         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol,
-         transactionSettingsFactory: WalletTransactionSettingsFactoryProtocol) {
+         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
         self.account = account
         self.networkOperationFactory = networkOperationFactory
         self.accountListConfiguration = accountListConfiguration
@@ -97,6 +94,5 @@ final class Resolver: ResolverProtocol {
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
-        self.transactionSettingsFactory = transactionSettingsFactory
     }
 }

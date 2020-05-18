@@ -7,8 +7,14 @@ import Foundation
 import RobinHood
 import SoraFoundation
 
-enum TransferPresenterError: Error {
+enum TransferPresenterInitError: Error {
     case missingSelectedAsset
+}
+
+enum TransferPresenterValidationError: Error {
+    case missingMetadata
+    case missingBalances
+    case missingAsset
 }
 
 struct TransferCheckingState: OptionSet {
@@ -36,10 +42,11 @@ final class TransferPresenter {
     private var descriptionInputViewModel: DescriptionInputViewModel
 
     private var feeCalculationFactory: FeeCalculationFactoryProtocol
-    private var transferViewModelFactory: AmountViewModelFactoryProtocol
+    private var transferViewModelFactory: TransferViewModelFactoryProtocol
     private var assetSelectionFactory: AssetSelectionFactoryProtocol
     private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
     private var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
+    private var resultValidator: TransferValidating
 
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData]>
@@ -60,7 +67,8 @@ final class TransferPresenter {
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          account: WalletAccountSettingsProtocol,
-         transferViewModelFactory: AmountViewModelFactoryProtocol,
+         resultValidator: TransferValidating,
+         transferViewModelFactory: TransferViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
          headerFactory: OperationDefinitionHeaderModelFactoryProtocol,
@@ -72,7 +80,7 @@ final class TransferPresenter {
         } else if let asset = account.assets.first {
             selectedAsset = asset
         } else {
-            throw TransferPresenterError.missingSelectedAsset
+            throw TransferPresenterInitError.missingSelectedAsset
         }
 
         self.view = view
@@ -87,6 +95,7 @@ final class TransferPresenter {
             .createTransferMetadataProvider(for: selectedAsset.identifier,
                                             receiver: payload.receiveInfo.accountId)
 
+        self.resultValidator = resultValidator
         self.feeCalculationFactory = feeCalculationFactory
         self.transferViewModelFactory = transferViewModelFactory
         self.assetSelectionFactory = assetSelectionFactory
@@ -110,12 +119,15 @@ final class TransferPresenter {
     }
 
     private func setupAmountInputViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         amountInputViewModel.observable.add(observer: self)
 
         view?.set(amountViewModel: amountInputViewModel)
 
         if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                             receiverId: payload.receiveInfo.accountId) {
+                                                             receiverId: payload.receiveInfo.accountId,
+                                                             locale: locale) {
             view?.setAmountHeader(amountTitle)
         }
     }
@@ -138,7 +150,8 @@ final class TransferPresenter {
         view?.set(amountViewModel: amountInputViewModel)
 
         if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                             receiverId: payload.receiveInfo.accountId) {
+                                                             receiverId: payload.receiveInfo.accountId,
+                                                             locale: locale) {
             view?.setAmountHeader(amountTitle)
         }
     }
@@ -146,44 +159,35 @@ final class TransferPresenter {
     private func setupFeeViewModel(for asset: WalletAsset) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        guard
-            let amount = amountInputViewModel.decimalAmount,
-            let metadata = metadata else {
-                let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
-                                                                            sender: account.accountId,
-                                                                            receiver: payload.receiveInfo.accountId,
-                                                                            amount: nil,
-                                                                            locale: locale)
-                view?.set(feeViewModels: [viewModel])
-                return
+        let amount = amountInputViewModel.decimalAmount ?? 0
+
+        guard let metadata = metadata else {
+            return
         }
 
         do {
-            var fee: Decimal?
+            let calculator = try feeCalculationFactory
+                .createTransferFeeStrategyForDescriptions(metadata.feeDescriptions,
+                                                          assetId: selectedAsset.identifier,
+                                                          precision: selectedAsset.precision)
 
-            // TODO: move to multi fee variant when ui ready
+            let feeResult = try calculator.calculate(for: amount)
 
-            if let feeDescription = metadata.feeDescriptions.first {
-                let feeCalculator = try feeCalculationFactory
-                    .createTransferFeeStrategyForDescription(feeDescription,
-                                                             assetId: selectedAsset.identifier,
-                                                             precision: selectedAsset.precision)
-                fee = try feeCalculator.calculate(for: amount).fee
+            let viewModels: [FeeViewModel] = try feeResult.fees.map { fee in
+                guard let asset = account.assets
+                    .first(where: { $0.identifier == fee.feeDescription.assetId }) else {
+                    throw TransferPresenterValidationError.missingAsset
+                }
+
+                return transferViewModelFactory.createFeeViewModel(fee, feeAsset: asset, locale: locale)
             }
 
-            let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
-                                                                        sender: account.accountId,
-                                                                        receiver: payload.receiveInfo.accountId,
-                                                                        amount: fee,
-                                                                        locale: locale)
-            view?.set(feeViewModels: [viewModel])
+            view?.set(feeViewModels: viewModels)
         } catch {
-            let viewModel = transferViewModelFactory.createFeeViewModel(for: asset,
-                                                                        sender: account.accountId,
-                                                                        receiver: payload.receiveInfo.accountId,
-                                                                        amount: nil,
-                                                                        locale: locale)
-            view?.set(feeViewModels: [viewModel])
+            view?.set(feeViewModels: [])
+
+            // TODO: handle error here
+            logger?.error("Can't create fee view model \(error)")
         }
     }
 
@@ -200,23 +204,29 @@ final class TransferPresenter {
         view?.set(assetViewModel: viewModel)
 
         if let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
-                                                           receiverId: payload.receiveInfo.accountId) {
+                                                           receiverId: payload.receiveInfo.accountId,
+                                                           locale: locale) {
             view?.setAssetHeader(assetTitle)
         }
     }
 
     private func setupDescriptionViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         view?.set(descriptionViewModel: descriptionInputViewModel)
 
         if let descriptionTitle = headerFactory
             .createDescriptionTitle(assetId: selectedAsset.identifier,
-                                    receiverId: payload.receiveInfo.accountId) {
+                                    receiverId: payload.receiveInfo.accountId,
+                                    locale: locale) {
             view?.setDescriptionHeader(descriptionTitle)
         }
     }
 
     private func updateDescriptionViewModel() {
         do {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+
             let text = descriptionInputViewModel.text
             descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel(for: text)
 
@@ -224,7 +234,8 @@ final class TransferPresenter {
 
             if let descriptionTitle = headerFactory
                 .createDescriptionTitle(assetId: selectedAsset.identifier,
-                                        receiverId: payload.receiveInfo.accountId) {
+                                        receiverId: payload.receiveInfo.accountId,
+                                        locale: locale) {
                 view?.setDescriptionHeader(descriptionTitle)
             }
         } catch {
@@ -233,6 +244,8 @@ final class TransferPresenter {
     }
 
     private func setupReceiverViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
                                                                   fullName: payload.receiverName,
                                                                   action: "")
@@ -243,7 +256,8 @@ final class TransferPresenter {
         view?.set(receiverViewModel: viewModel)
 
         if let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
-                                                         receiverId: payload.receiveInfo.accountId) {
+                                                         receiverId: payload.receiveInfo.accountId,
+                                                         locale: locale) {
             view?.setReceiverHeader(title)
         }
 
@@ -352,8 +366,14 @@ final class TransferPresenter {
             confirmationState = nil
         }
 
-        let message = L10n.Amount.Error.transfer
-        view?.showError(message: message)
+        guard let view = view else {
+            return
+        }
+
+        if !view.attemptShowError(error, locale: localizationManager?.selectedLocale) {
+            let message = L10n.Amount.Error.transfer
+            view.showError(message: message)
+        }
     }
 
     private func updateMetadataProvider(for asset: WalletAsset) throws {
@@ -391,90 +411,36 @@ final class TransferPresenter {
                              options: options)
     }
 
-    private func prepareTransferInfo() -> TransferInfo? {
-        do {
-            guard
-                let inputAmount = amountInputViewModel.decimalAmount,
-                let metadata = metadata else {
-                    logger?.error("Either amount or metadata missing to complete transfer")
-                    return nil
-            }
+    private func prepareTransferInfo() throws -> TransferInfo {
+        let inputAmount = amountInputViewModel.decimalAmount ?? 0
 
-            guard validateAndReportLimitConstraints(for: inputAmount) else {
-                return nil
-            }
+        guard let metadata = metadata else {
+            logger?.error("Metadata missing to complete transfer")
+            throw TransferPresenterValidationError.missingMetadata
+        }
 
-            var fees: [Fee] = []
-            let sendingAmount: Decimal
-            let totalAmount: Decimal
+        guard let balances = balances else {
+            logger?.error("Balances missing to complete transfer")
+            throw TransferPresenterValidationError.missingBalances
+        }
 
-            // TODO: move to multi fee variant when ui ready
+        let calculator = try feeCalculationFactory
+            .createTransferFeeStrategyForDescriptions(metadata.feeDescriptions,
+                                                      assetId: selectedAsset.identifier,
+                                                      precision: selectedAsset.precision)
 
-            if let feeDescription = metadata.feeDescriptions.first {
-                let calculator = try feeCalculationFactory
-                    .createTransferFeeStrategyForDescription(feeDescription,
-                                                             assetId: selectedAsset.identifier,
-                                                             precision: selectedAsset.precision)
-                let result = try calculator.calculate(for: inputAmount)
+        let result = try calculator.calculate(for: inputAmount)
 
-                sendingAmount = result.sending
-                totalAmount = result.total
-
-                if result.fee > 0 {
-                    let fee = Fee(value: AmountDecimal(value: result.fee), feeDescription: feeDescription)
-                    fees.append(fee)
-                }
-            } else {
-                sendingAmount = inputAmount
-                totalAmount = inputAmount
-            }
-
-            guard validateAndReportBalanceConstraints(for: totalAmount) else {
-                return nil
-            }
-
-            let amount = AmountDecimal(value: sendingAmount)
-
-            return TransferInfo(source: account.accountId,
+        let info = TransferInfo(source: account.accountId,
                                 destination: payload.receiveInfo.accountId,
-                                amount: amount,
+                                amount: AmountDecimal(value: result.sending),
                                 asset: selectedAsset.identifier,
                                 details: descriptionInputViewModel.text,
-                                fees: fees)
-        } catch {
-            logger?.error("Did recieve unexpected error \(error) while preparing transfer")
-            return nil
-        }
-    }
+                                fees: result.fees)
 
-    private func validateAndReportLimitConstraints(for amount: Decimal) -> Bool {
-        guard amount >= transferViewModelFactory.minimumLimit(for: selectedAsset,
-                                                              sender: account.accountId,
-                                                              receiver: payload.receiveInfo.accountId) else {
-            let locale = localizationManager?.selectedLocale ?? Locale.current
-            let receiverId = payload.receiveInfo.accountId
-            let message = transferViewModelFactory.createMinimumLimitErrorDetails(for: selectedAsset,
-                                                                                  sender: account.accountId,
-                                                                                  receiver: receiverId,
-                                                                                  locale: locale)
-            view?.showError(message: message)
-            return false
-        }
+        try resultValidator.validate(info: info, balances: balances)
 
-        return true
-    }
-
-    private func validateAndReportBalanceConstraints(for amount: Decimal) -> Bool {
-        guard
-            let balanceData = balances?
-                .first(where: { $0.identifier == selectedAsset.identifier}),
-            amount <= balanceData.balance.decimalValue else {
-                let message = L10n.Amount.Error.noFunds
-                view?.showError(message: message)
-                return false
-        }
-
-        return true
+        return info
     }
 
     private func completeConfirmation() {
@@ -486,12 +452,24 @@ final class TransferPresenter {
 
         view?.didStopLoading()
 
-        if let transferInfo = prepareTransferInfo() {
+        do {
+            let transferInfo = try prepareTransferInfo()
+
             let composedPayload = TransferPayload(transferInfo: transferInfo,
                                                   receiverName: payload.receiverName,
                                                   assetSymbol: selectedAsset.symbol)
 
             coordinator.confirm(with: composedPayload)
+        } catch {
+            // TODO: handle error here
+
+            guard let view = view else {
+                return
+            }
+
+            if !view.attemptShowError(error, locale: localizationManager?.selectedLocale) {
+                logger?.error("Can't handle confirmation error \(error)")
+            }
         }
     }
 }

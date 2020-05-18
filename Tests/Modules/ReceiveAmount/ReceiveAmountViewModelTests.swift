@@ -94,12 +94,12 @@ class ReceiveAmountViewModelTests: XCTestCase {
         }
 
         let amountFormatterFactory = NumberFormatterFactory()
-        let transactionFactory = WalletTransactionSettingsFactory()
+        let transactionSettings = WalletTransactionSettings.defaultSettings
         let descriptionFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
 
         let viewModelFactory = ReceiveViewModelFactory(amountFormatterFactory: amountFormatterFactory,
                                                        descriptionValidatorFactory: descriptionFactory,
-                                                       transactionSettingsFactory: transactionFactory)
+                                                       transactionSettings: transactionSettings)
 
         let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
         let presenter = try ReceiveAmountPresenter(view: view,

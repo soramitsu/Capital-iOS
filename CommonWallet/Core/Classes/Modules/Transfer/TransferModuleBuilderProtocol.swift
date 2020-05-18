@@ -64,4 +64,10 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self
+
+    @discardableResult
+    func with(resultValidator: TransferValidating) -> Self
+
+    @discardableResult
+    func with(settings: WalletTransactionSettingsProtocol) -> Self
 }

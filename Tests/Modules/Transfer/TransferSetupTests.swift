@@ -89,7 +89,6 @@ class TransferSetupTests: NetworkBaseTests {
             assetExpectation.expectedFulfillmentCount = 2
 
             let amountExpectation = XCTestExpectation()
-            let feeExpectation = XCTestExpectation()
             let descriptionExpectation = XCTestExpectation()
             let accessoryExpectation = XCTestExpectation()
 
@@ -121,11 +120,9 @@ class TransferSetupTests: NetworkBaseTests {
                         return
                     }
 
-                    if viewModel.isLoading {
-                        feeExpectation.fulfill()
-                    } else {
-                        feeLoadingCompleteExpectation.fulfill()
-                    }
+                    feeLoadingCompleteExpectation.fulfill()
+                    XCTAssertTrue(viewModels.count == 1)
+                    XCTAssertTrue(!viewModel.isLoading)
                 }
 
                 when(stub).setAssetHeader(any()).thenDoNothing()
@@ -153,10 +150,14 @@ class TransferSetupTests: NetworkBaseTests {
             let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-            let transferViewModelFactory = AmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
+            let settings = WalletTransactionSettings.defaultSettings
+
+            let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                                   descriptionValidatorFactory: inputValidatorFactory,
-                                                                  transactionSettingsFactory: WalletTransactionSettingsFactory(),
-                                                                  feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
+                                                                  feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
+                                                                  transactionSettings: settings)
+
+            let validator = TransferValidator(transactionSettings: WalletTransactionSettings.defaultSettings)
 
             let presenter = try TransferPresenter(view: view,
                                                   coordinator: coordinator,
@@ -164,6 +165,7 @@ class TransferSetupTests: NetworkBaseTests {
                                                   dataProviderFactory: dataProviderFactory,
                                                   feeCalculationFactory: FeeCalculationFactory(),
                                                   account: accountSettings,
+                                                  resultValidator: validator,
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
@@ -177,7 +179,6 @@ class TransferSetupTests: NetworkBaseTests {
 
             wait(for: [assetExpectation,
                        amountExpectation,
-                       feeExpectation,
                        descriptionExpectation,
                        accessoryExpectation,
                        feeLoadingCompleteExpectation],

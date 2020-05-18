@@ -81,10 +81,12 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                                       networkOperationFactory: networkOperationFactory)
 
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
+        let settings = WalletTransactionSettings.defaultSettings
+
         let viewModelFactory = WithdrawAmountViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
                                                               option: withdrawOption,
                                                               descriptionValidatorFactory: inputValidatorFactory,
-                                                              transactionSettingsFactory: WalletTransactionSettingsFactory(),
+                                                              transactionSettings: settings,
                                                               feeDisplaySettingsFactory: FeeDisplaySettingsFactory())
 
         let view = MockWithdrawViewProtocol()
@@ -96,7 +98,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
         assetSelectionExpectation.expectedFulfillmentCount = 2
 
         let amountExpectation = XCTestExpectation()
-        let feeExpectation = XCTestExpectation()
         let descriptionExpectation = XCTestExpectation()
         let accessoryExpectation = XCTestExpectation()
         let feeLoadingCompleteExpectation = XCTestExpectation()
@@ -116,11 +117,9 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                     return
                 }
 
-                if viewModel.isLoading {
-                    feeExpectation.fulfill()
-                } else {
-                    feeLoadingCompleteExpectation.fulfill()
-                }
+                feeLoadingCompleteExpectation.fulfill()
+                XCTAssertTrue(!viewModel.isLoading)
+                XCTAssertTrue(viewModels.count == 1)
             }
 
             when(stub).set(descriptionViewModel: any()).then { _ in
@@ -171,7 +170,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
 
         wait(for: [assetSelectionExpectation], timeout: Constants.networkTimeout)
         wait(for: [amountExpectation], timeout: Constants.networkTimeout)
-        wait(for: [feeExpectation], timeout: Constants.networkTimeout)
         wait(for: [descriptionExpectation], timeout: Constants.networkTimeout)
         wait(for: [accessoryExpectation], timeout: Constants.networkTimeout)
         wait(for: [feeLoadingCompleteExpectation], timeout: Constants.networkTimeout)

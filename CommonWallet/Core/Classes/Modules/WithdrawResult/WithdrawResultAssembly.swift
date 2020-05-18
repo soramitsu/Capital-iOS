@@ -22,10 +22,9 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
 
         let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
 
-        let feeDisplaySettings = resolver.feeDisplaySettingsFactory
-            .createFeeSettings(asset: asset,
-                               senderId: resolver.account.accountId,
-                               receiverId: info.destinationAccountId)
+        // TODO: Move to multifee variant
+        let feeId = info.fees.first?.feeDescription.identifier ?? ""
+        let feeDisplaySettings = resolver.feeDisplaySettingsFactory.createFeeSettingsForId(feeId)
 
         let presenter = WithdrawResultPresenter(view: view,
                                                 coordinator: coordinator,

@@ -4,45 +4,38 @@ import SoraFoundation
 public protocol FeeDisplaySettingsProtocol {
     var displayStrategy: FeeDisplayStrategyProtocol { get }
     var displayName: LocalizableResource<String> { get }
-    var amountDetailsClosure: (String, Locale) -> String { get }
+    var operationTitle: LocalizableResource<String> { get }
 }
 
 public protocol FeeDisplaySettingsFactoryProtocol {
-    func createFeeSettings(asset: WalletAsset,
-                           senderId: String?,
-                           receiverId: String?) -> FeeDisplaySettingsProtocol
+    func createFeeSettingsForId(_ feeId: String) -> FeeDisplaySettingsProtocol
 }
 
 public struct FeeDisplaySettings: FeeDisplaySettingsProtocol {
     public let displayStrategy: FeeDisplayStrategyProtocol
     public let displayName: LocalizableResource<String>
-    public let amountDetailsClosure: (String, Locale) -> String
+    public let operationTitle: LocalizableResource<String>
 
     public init(displayStrategy: FeeDisplayStrategyProtocol,
                 displayName: LocalizableResource<String>,
-                amountDetailsClosure: @escaping (String, Locale) -> String) {
+                operationTitle: LocalizableResource<String>) {
         self.displayStrategy = displayStrategy
         self.displayName = displayName
-        self.amountDetailsClosure = amountDetailsClosure
+        self.operationTitle = operationTitle
     }
 }
 
 extension FeeDisplaySettings {
     static var defaultSettings: FeeDisplaySettings {
-        let closure = { (formattedAmount: String, locale: Locale) -> String in
-            L10n.Amount.fee(formattedAmount)
-        }
 
-        return FeeDisplaySettings(displayStrategy: FeedDisplayStrategyIfNonzero(),
-                                  displayName: LocalizableResource { _ in L10n.Transaction.fee },
-                                  amountDetailsClosure: closure)
+        FeeDisplaySettings(displayStrategy: FeedDisplayStrategyIfNonzero(),
+                           displayName: LocalizableResource { _ in L10n.Transaction.fee },
+                           operationTitle: LocalizableResource { _ in L10n.Transaction.fee })
     }
 }
 
 extension FeeDisplaySettingsFactoryProtocol {
-    func createFeeSettings(asset: WalletAsset,
-                           senderId: String?,
-                           receiverId: String?) -> FeeDisplaySettingsProtocol {
+    func createFeeSettingsForId(_ feeId: String) -> FeeDisplaySettingsProtocol {
         FeeDisplaySettings.defaultSettings
     }
 }

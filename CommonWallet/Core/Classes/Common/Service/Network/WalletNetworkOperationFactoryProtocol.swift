@@ -7,13 +7,19 @@ import Foundation
 import RobinHood
 
 public protocol WalletNetworkOperationFactoryProtocol {
-    func fetchBalanceOperation(_ assets: [String]) -> BaseOperation<[BalanceData]?>
+    func fetchBalanceOperation(_ assets: [String]) -> CompoundOperationWrapper<[BalanceData]?>
+
     func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest,
-                                          pagination: OffsetPagination) -> BaseOperation<AssetTransactionPageData?>
-    func transferMetadataOperation(_ info: TransferMetadataInfo) -> BaseOperation<TransferMetaData?>
-    func transferOperation(_ info: TransferInfo) -> BaseOperation<Void>
-    func searchOperation(_ searchString: String) -> BaseOperation<[SearchData]?>
-    func contactsOperation() -> BaseOperation<[SearchData]?>
-    func withdrawalMetadataOperation(_ info: WithdrawMetadataInfo) -> BaseOperation<WithdrawMetaData?>
-    func withdrawOperation(_ info: WithdrawInfo) -> BaseOperation<Void>
+                                          pagination: OffsetPagination)
+        -> CompoundOperationWrapper<AssetTransactionPageData?>
+
+    func transferMetadataOperation(_ info: TransferMetadataInfo) -> CompoundOperationWrapper<TransferMetaData?>
+    func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Void>
+    func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?>
+    func contactsOperation() -> CompoundOperationWrapper<[SearchData]?>
+
+    func withdrawalMetadataOperation(_ info: WithdrawMetadataInfo)
+        -> CompoundOperationWrapper<WithdrawMetaData?>
+
+    func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Void>
 }

@@ -224,12 +224,8 @@ extension WalletTransactionDetailsFactory: WalletTransactionDetailsFactoryProtoc
                     type: WalletTransactionType,
                     asset: WalletAsset) -> [WalletFormViewModelProtocol] {
 
-        let senderId = type.isIncome ? data.peerId : resolver.account.accountId
-        let receiverId = type.isIncome ? resolver.account.accountId : data.peerId
-
-        let feeSettings = resolver.feeDisplaySettingsFactory.createFeeSettings(asset: asset,
-                                                                               senderId: senderId,
-                                                                               receiverId: receiverId)
+        // TODO: Move to multifee variant
+        let feeSettings = resolver.feeDisplaySettingsFactory.createFeeSettingsForId("")
 
         var viewModels: [WalletFormViewModelProtocol] = []
 
