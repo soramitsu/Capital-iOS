@@ -145,6 +145,56 @@ final class TransferPresenter {
         return view.attemptShowError(error, locale: locale)
     }
 
+    private func handleChangeForEvent(_ event: OperationDefinitionChangeEvent) {
+        let projectedChangeTypes = changeHandler.updateContentForChange(event: event)
+        handleProjectedChangesIn(types: projectedChangeTypes)
+
+        let clearErrorTypes = changeHandler.clearErrorForChangeEvent(event: event)
+        clearErrorsForTypes(clearErrorTypes)
+
+        if changeHandler.shouldUpdateAccessoryForChange(event: event) {
+            setupAccessoryViewModel()
+        }
+    }
+
+    private func handleProjectedChangesIn(types: [OperationDefinitionType]) {
+        for type in types {
+            switch type {
+            case .asset:
+                setupSelectedAssetViewModel(isSelecting: false)
+            case .amount:
+                updateAmountInputViewModel()
+            case .receiver:
+                setupReceiverViewModel()
+            case .fee:
+                setupFeeViewModel(for: selectedAsset)
+            case .description:
+                updateDescriptionViewModel()
+            }
+        }
+    }
+
+    private func clearErrorsForTypes(_ types: [OperationDefinitionType]) {
+        for type in types {
+            switch type {
+            case .asset:
+                view?.presentAssetError(nil)
+            case .amount:
+                view?.presentAmountError(nil)
+            case .receiver:
+                view?.presentReceiverError(nil)
+            case .fee:
+                if let metadata = metadata {
+                    (0..<metadata.feeDescriptions.count).forEach { index in
+                        view?.presentFeeError(nil, at: index)
+                    }
+                }
+            case .description:
+                view?.presentDescriptionError(nil)
+            }
+        }
+    }
+
     private func setupAmountInputViewModel() {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
@@ -152,11 +202,11 @@ final class TransferPresenter {
 
         view?.set(amountViewModel: amountInputViewModel)
 
-        if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                             receiverId: payload.receiveInfo.accountId,
-                                                             locale: locale) {
-            view?.setAmountHeader(amountTitle)
-        }
+        let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                          receiverId: payload.receiveInfo.accountId,
+                                                          locale: locale)
+
+        view?.setAmountHeader(amountTitle)
     }
 
     private func updateAmountInputViewModel() {
@@ -176,11 +226,11 @@ final class TransferPresenter {
 
         view?.set(amountViewModel: amountInputViewModel)
 
-        if let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                             receiverId: payload.receiveInfo.accountId,
-                                                             locale: locale) {
-            view?.setAmountHeader(amountTitle)
-        }
+        let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                          receiverId: payload.receiveInfo.accountId,
+                                                          locale: locale)
+
+        view?.setAmountHeader(amountTitle)
     }
 
     private func setupFeeViewModel(for asset: WalletAsset) {
@@ -210,6 +260,15 @@ final class TransferPresenter {
             }
 
             view?.set(feeViewModels: viewModels)
+
+            for (index, feeDescription) in feeResult.fees.enumerated() {
+                let titleViewModel = headerFactory
+                    .createFeeTitleForDescription(assetId: selectedAsset.identifier,
+                                                  receiverId: payload.receiveInfo.accountId,
+                                                  feeDescription: feeDescription,
+                                                  locale: locale)
+                view?.setFeeHeader(titleViewModel, at: index)
+            }
         } catch {
             if !attempHandleError(error) {
                 logger?.error("Can't handle fee view model error \(error)")
@@ -229,11 +288,11 @@ final class TransferPresenter {
 
         view?.set(assetViewModel: viewModel)
 
-        if let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
-                                                           receiverId: payload.receiveInfo.accountId,
-                                                           locale: locale) {
-            view?.setAssetHeader(assetTitle)
-        }
+        let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
+                                                        receiverId: payload.receiveInfo.accountId,
+                                                        locale: locale)
+
+        view?.setAssetHeader(assetTitle)
     }
 
     private func setupDescriptionViewModel() {
@@ -241,12 +300,12 @@ final class TransferPresenter {
 
         view?.set(descriptionViewModel: descriptionInputViewModel)
 
-        if let descriptionTitle = headerFactory
+        let descriptionTitle = headerFactory
             .createDescriptionTitle(assetId: selectedAsset.identifier,
                                     receiverId: payload.receiveInfo.accountId,
-                                    locale: locale) {
-            view?.setDescriptionHeader(descriptionTitle)
-        }
+                                    locale: locale)
+
+        view?.setDescriptionHeader(descriptionTitle)
     }
 
     private func updateDescriptionViewModel() {
@@ -258,12 +317,12 @@ final class TransferPresenter {
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
 
-            if let descriptionTitle = headerFactory
+            let descriptionTitle = headerFactory
                 .createDescriptionTitle(assetId: selectedAsset.identifier,
                                         receiverId: payload.receiveInfo.accountId,
-                                        locale: locale) {
-                view?.setDescriptionHeader(descriptionTitle)
-            }
+                                        locale: locale)
+
+            view?.setDescriptionHeader(descriptionTitle)
         } catch {
             if !attempHandleError(error) {
                 logger?.error("Can't handle description updaet view model error \(error)")
@@ -283,12 +342,11 @@ final class TransferPresenter {
 
         view?.set(receiverViewModel: viewModel)
 
-        if let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
-                                                         receiverId: payload.receiveInfo.accountId,
-                                                         locale: locale) {
-            view?.setReceiverHeader(title)
-        }
+        let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
+                                                      receiverId: payload.receiveInfo.accountId,
+                                                      locale: locale)
 
+        view?.setReceiverHeader(title)
     }
 
     private func setupAccessoryViewModel() {
@@ -330,7 +388,7 @@ final class TransferPresenter {
             return
         }
 
-        setupSelectedAssetViewModel(isSelecting: false)
+        handleChangeForEvent(.balance)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedAmount)
@@ -387,7 +445,7 @@ final class TransferPresenter {
             self.metadata = metadata
         }
 
-        setupFeeViewModel(for: selectedAsset)
+        handleChangeForEvent(.metadata)
 
         if let currentState = confirmationState {
             confirmationState = currentState.union(.requestedFee)
@@ -571,10 +629,7 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
                 self.selectedAsset = newAsset
 
-                setupSelectedAssetViewModel(isSelecting: false)
-
-                setupFeeViewModel(for: newAsset)
-                updateAmountInputViewModel()
+                handleChangeForEvent(.asset)
             }
         } catch {
             if !attempHandleError(error) {
@@ -586,7 +641,7 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
 extension TransferPresenter: AmountInputViewModelObserver {
     func amountInputDidChange() {
-        setupFeeViewModel(for: selectedAsset)
+        handleChangeForEvent(.amount)
     }
 }
 

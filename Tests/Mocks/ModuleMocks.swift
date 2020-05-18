@@ -6662,9 +6662,9 @@ import Foundation
     
     
     
-     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setAssetHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setAssetHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -6692,9 +6692,9 @@ import Foundation
     
     
     
-     func presentAssetError(_ message: String)  {
+     func presentAssetError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentAssetError(_: String)",
+    return cuckoo_manager.call("presentAssetError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -6707,9 +6707,9 @@ import Foundation
     
     
     
-     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setAmountHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setAmountHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -6737,9 +6737,9 @@ import Foundation
     
     
     
-     func presentAmountError(_ message: String)  {
+     func presentAmountError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentAmountError(_: String)",
+    return cuckoo_manager.call("presentAmountError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -6752,9 +6752,9 @@ import Foundation
     
     
     
-     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setReceiverHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -6782,9 +6782,9 @@ import Foundation
     
     
     
-     func presentReceiverError(_ message: String)  {
+     func presentReceiverError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentReceiverError(_: String)",
+    return cuckoo_manager.call("presentReceiverError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -6797,9 +6797,9 @@ import Foundation
     
     
     
-     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -6827,9 +6827,9 @@ import Foundation
     
     
     
-     func presentDescriptionError(_ message: String)  {
+     func presentDescriptionError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentDescriptionError(_: String)",
+    return cuckoo_manager.call("presentDescriptionError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -6842,9 +6842,9 @@ import Foundation
     
     
     
-     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)  {
+     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)  {
         
-    return cuckoo_manager.call("setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)",
+    return cuckoo_manager.call("setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)",
             parameters: (viewModel, index),
             escapingParameters: (viewModel, index),
             superclassCall:
@@ -6872,9 +6872,9 @@ import Foundation
     
     
     
-     func presentFeeError(_ message: String, at index: Int)  {
+     func presentFeeError(_ message: String?, at index: Int)  {
         
-    return cuckoo_manager.call("presentFeeError(_: String, at: Int)",
+    return cuckoo_manager.call("presentFeeError(_: String?, at: Int)",
             parameters: (message, index),
             escapingParameters: (message, index),
             superclassCall:
@@ -6909,9 +6909,9 @@ import Foundation
 	    }
 	    
 	    
-	    func setAssetHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setAssetHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setAssetHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setAssetHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(assetViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AssetSelectionViewModelProtocol)> where M1.MatchedType == AssetSelectionViewModelProtocol {
@@ -6919,14 +6919,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "set(assetViewModel: AssetSelectionViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentAssetError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentAssetError(_: String)", parameterMatchers: matchers))
+	    func presentAssetError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentAssetError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setAmountHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setAmountHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setAmountHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setAmountHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(amountViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AmountInputViewModelProtocol)> where M1.MatchedType == AmountInputViewModelProtocol {
@@ -6934,14 +6934,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "set(amountViewModel: AmountInputViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentAmountError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentAmountError(_: String)", parameterMatchers: matchers))
+	    func presentAmountError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentAmountError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setReceiverHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setReceiverHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setReceiverHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(receiverViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
@@ -6949,14 +6949,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "set(receiverViewModel: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentReceiverError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentReceiverError(_: String)", parameterMatchers: matchers))
+	    func presentReceiverError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentReceiverError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setDescriptionHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setDescriptionHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(descriptionViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(DescriptionInputViewModelProtocol)> where M1.MatchedType == DescriptionInputViewModelProtocol {
@@ -6964,14 +6964,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "set(descriptionViewModel: DescriptionInputViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDescriptionError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentDescriptionError(_: String)", parameterMatchers: matchers))
+	    func presentDescriptionError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentDescriptionError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setFeeHeader<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol, Int)> where M1.MatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)", parameterMatchers: matchers))
+	    func setFeeHeader<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?, Int)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(feeViewModels: M1) -> Cuckoo.ProtocolStubNoReturnFunction<([FeeViewModelProtocol])> where M1.MatchedType == [FeeViewModelProtocol] {
@@ -6979,9 +6979,9 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "set(feeViewModels: [FeeViewModelProtocol])", parameterMatchers: matchers))
 	    }
 	    
-	    func presentFeeError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(String, Int)> where M1.MatchedType == String, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentFeeError(_: String, at: Int)", parameterMatchers: matchers))
+	    func presentFeeError<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(String?, Int)> where M1.OptionalMatchedType == String, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionViewProtocol.self, method: "presentFeeError(_: String?, at: Int)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(accessoryViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AccessoryViewModelProtocol)> where M1.MatchedType == AccessoryViewModelProtocol {
@@ -7006,9 +7006,9 @@ import Foundation
 	
 	    
 	    @discardableResult
-	    func setAssetHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setAssetHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setAssetHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setAssetHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7018,15 +7018,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentAssetError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentAssetError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentAssetError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentAssetError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setAmountHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setAmountHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setAmountHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setAmountHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7036,15 +7036,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentAmountError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentAmountError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentAmountError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentAmountError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setReceiverHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setReceiverHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setReceiverHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7054,15 +7054,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentReceiverError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentReceiverError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentReceiverError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentReceiverError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setDescriptionHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setDescriptionHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7072,15 +7072,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentDescriptionError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentDescriptionError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDescriptionError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentDescriptionError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setFeeHeader<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol, Int), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return cuckoo_manager.verify("setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setFeeHeader<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?, Int), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return cuckoo_manager.verify("setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7090,9 +7090,9 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentFeeError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.__DoNotUse<(String, Int), Void> where M1.MatchedType == String, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return cuckoo_manager.verify("presentFeeError(_: String, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentFeeError<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.__DoNotUse<(String?, Int), Void> where M1.OptionalMatchedType == String, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return cuckoo_manager.verify("presentFeeError(_: String?, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -7110,7 +7110,7 @@ import Foundation
     
 
     
-     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -7118,11 +7118,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentAssetError(_ message: String)   {
+     func presentAssetError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -7130,11 +7130,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentAmountError(_ message: String)   {
+     func presentAmountError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -7142,11 +7142,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentReceiverError(_ message: String)   {
+     func presentReceiverError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -7154,11 +7154,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDescriptionError(_ message: String)   {
+     func presentDescriptionError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)   {
+     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -7166,7 +7166,7 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentFeeError(_ message: String, at index: Int)   {
+     func presentFeeError(_ message: String?, at index: Int)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8330,9 +8330,9 @@ import Cuckoo
     
     
     
-     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setAssetHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setAssetHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -8360,9 +8360,9 @@ import Cuckoo
     
     
     
-     func presentAssetError(_ message: String)  {
+     func presentAssetError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentAssetError(_: String)",
+    return cuckoo_manager.call("presentAssetError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -8375,9 +8375,9 @@ import Cuckoo
     
     
     
-     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setAmountHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setAmountHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -8405,9 +8405,9 @@ import Cuckoo
     
     
     
-     func presentAmountError(_ message: String)  {
+     func presentAmountError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentAmountError(_: String)",
+    return cuckoo_manager.call("presentAmountError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -8420,9 +8420,9 @@ import Cuckoo
     
     
     
-     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setReceiverHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -8450,9 +8450,9 @@ import Cuckoo
     
     
     
-     func presentReceiverError(_ message: String)  {
+     func presentReceiverError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentReceiverError(_: String)",
+    return cuckoo_manager.call("presentReceiverError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -8465,9 +8465,9 @@ import Cuckoo
     
     
     
-     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -8495,9 +8495,9 @@ import Cuckoo
     
     
     
-     func presentDescriptionError(_ message: String)  {
+     func presentDescriptionError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentDescriptionError(_: String)",
+    return cuckoo_manager.call("presentDescriptionError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -8510,9 +8510,9 @@ import Cuckoo
     
     
     
-     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)  {
+     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)  {
         
-    return cuckoo_manager.call("setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)",
+    return cuckoo_manager.call("setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)",
             parameters: (viewModel, index),
             escapingParameters: (viewModel, index),
             superclassCall:
@@ -8540,9 +8540,9 @@ import Cuckoo
     
     
     
-     func presentFeeError(_ message: String, at index: Int)  {
+     func presentFeeError(_ message: String?, at index: Int)  {
         
-    return cuckoo_manager.call("presentFeeError(_: String, at: Int)",
+    return cuckoo_manager.call("presentFeeError(_: String?, at: Int)",
             parameters: (message, index),
             escapingParameters: (message, index),
             superclassCall:
@@ -8642,9 +8642,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func setAssetHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setAssetHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setAssetHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setAssetHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(assetViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AssetSelectionViewModelProtocol)> where M1.MatchedType == AssetSelectionViewModelProtocol {
@@ -8652,14 +8652,14 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "set(assetViewModel: AssetSelectionViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentAssetError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentAssetError(_: String)", parameterMatchers: matchers))
+	    func presentAssetError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentAssetError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setAmountHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setAmountHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setAmountHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setAmountHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(amountViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AmountInputViewModelProtocol)> where M1.MatchedType == AmountInputViewModelProtocol {
@@ -8667,14 +8667,14 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "set(amountViewModel: AmountInputViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentAmountError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentAmountError(_: String)", parameterMatchers: matchers))
+	    func presentAmountError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentAmountError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setReceiverHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setReceiverHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setReceiverHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(receiverViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
@@ -8682,14 +8682,14 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "set(receiverViewModel: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentReceiverError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentReceiverError(_: String)", parameterMatchers: matchers))
+	    func presentReceiverError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentReceiverError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setDescriptionHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setDescriptionHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(descriptionViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(DescriptionInputViewModelProtocol)> where M1.MatchedType == DescriptionInputViewModelProtocol {
@@ -8697,14 +8697,14 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "set(descriptionViewModel: DescriptionInputViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDescriptionError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentDescriptionError(_: String)", parameterMatchers: matchers))
+	    func presentDescriptionError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentDescriptionError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setFeeHeader<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol, Int)> where M1.MatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)", parameterMatchers: matchers))
+	    func setFeeHeader<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?, Int)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(feeViewModels: M1) -> Cuckoo.ProtocolStubNoReturnFunction<([FeeViewModelProtocol])> where M1.MatchedType == [FeeViewModelProtocol] {
@@ -8712,9 +8712,9 @@ import Cuckoo
 	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "set(feeViewModels: [FeeViewModelProtocol])", parameterMatchers: matchers))
 	    }
 	    
-	    func presentFeeError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(String, Int)> where M1.MatchedType == String, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentFeeError(_: String, at: Int)", parameterMatchers: matchers))
+	    func presentFeeError<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(String?, Int)> where M1.OptionalMatchedType == String, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferViewProtocol.self, method: "presentFeeError(_: String?, at: Int)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(accessoryViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AccessoryViewModelProtocol)> where M1.MatchedType == AccessoryViewModelProtocol {
@@ -8774,9 +8774,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func setAssetHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setAssetHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setAssetHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setAssetHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -8786,15 +8786,15 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentAssetError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentAssetError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentAssetError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentAssetError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setAmountHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setAmountHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setAmountHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setAmountHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -8804,15 +8804,15 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentAmountError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentAmountError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentAmountError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentAmountError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setReceiverHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setReceiverHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setReceiverHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -8822,15 +8822,15 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentReceiverError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentReceiverError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentReceiverError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentReceiverError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setDescriptionHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setDescriptionHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -8840,15 +8840,15 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentDescriptionError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentDescriptionError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDescriptionError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentDescriptionError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setFeeHeader<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol, Int), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return cuckoo_manager.verify("setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setFeeHeader<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?, Int), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return cuckoo_manager.verify("setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -8858,9 +8858,9 @@ import Cuckoo
 	    }
 	    
 	    @discardableResult
-	    func presentFeeError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.__DoNotUse<(String, Int), Void> where M1.MatchedType == String, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return cuckoo_manager.verify("presentFeeError(_: String, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentFeeError<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.__DoNotUse<(String?, Int), Void> where M1.OptionalMatchedType == String, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return cuckoo_manager.verify("presentFeeError(_: String?, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -8928,7 +8928,7 @@ import Cuckoo
     
 
     
-     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8936,11 +8936,11 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentAssetError(_ message: String)   {
+     func presentAssetError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8948,11 +8948,11 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentAmountError(_ message: String)   {
+     func presentAmountError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8960,11 +8960,11 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentReceiverError(_ message: String)   {
+     func presentReceiverError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8972,11 +8972,11 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDescriptionError(_ message: String)   {
+     func presentDescriptionError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)   {
+     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -8984,7 +8984,7 @@ import Cuckoo
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentFeeError(_ message: String, at index: Int)   {
+     func presentFeeError(_ message: String?, at index: Int)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -9955,9 +9955,9 @@ import Foundation
     
     
     
-     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setAssetHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setAssetHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -9985,9 +9985,9 @@ import Foundation
     
     
     
-     func presentAssetError(_ message: String)  {
+     func presentAssetError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentAssetError(_: String)",
+    return cuckoo_manager.call("presentAssetError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -10000,9 +10000,9 @@ import Foundation
     
     
     
-     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setAmountHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setAmountHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -10030,9 +10030,9 @@ import Foundation
     
     
     
-     func presentAmountError(_ message: String)  {
+     func presentAmountError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentAmountError(_: String)",
+    return cuckoo_manager.call("presentAmountError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -10045,9 +10045,9 @@ import Foundation
     
     
     
-     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setReceiverHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -10075,9 +10075,9 @@ import Foundation
     
     
     
-     func presentReceiverError(_ message: String)  {
+     func presentReceiverError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentReceiverError(_: String)",
+    return cuckoo_manager.call("presentReceiverError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -10090,9 +10090,9 @@ import Foundation
     
     
     
-     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)  {
+     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)  {
         
-    return cuckoo_manager.call("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)",
+    return cuckoo_manager.call("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)",
             parameters: (viewModel),
             escapingParameters: (viewModel),
             superclassCall:
@@ -10120,9 +10120,9 @@ import Foundation
     
     
     
-     func presentDescriptionError(_ message: String)  {
+     func presentDescriptionError(_ message: String?)  {
         
-    return cuckoo_manager.call("presentDescriptionError(_: String)",
+    return cuckoo_manager.call("presentDescriptionError(_: String?)",
             parameters: (message),
             escapingParameters: (message),
             superclassCall:
@@ -10135,9 +10135,9 @@ import Foundation
     
     
     
-     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)  {
+     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)  {
         
-    return cuckoo_manager.call("setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)",
+    return cuckoo_manager.call("setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)",
             parameters: (viewModel, index),
             escapingParameters: (viewModel, index),
             superclassCall:
@@ -10165,9 +10165,9 @@ import Foundation
     
     
     
-     func presentFeeError(_ message: String, at index: Int)  {
+     func presentFeeError(_ message: String?, at index: Int)  {
         
-    return cuckoo_manager.call("presentFeeError(_: String, at: Int)",
+    return cuckoo_manager.call("presentFeeError(_: String?, at: Int)",
             parameters: (message, index),
             escapingParameters: (message, index),
             superclassCall:
@@ -10267,9 +10267,9 @@ import Foundation
 	    }
 	    
 	    
-	    func setAssetHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setAssetHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setAssetHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setAssetHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(assetViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AssetSelectionViewModelProtocol)> where M1.MatchedType == AssetSelectionViewModelProtocol {
@@ -10277,14 +10277,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "set(assetViewModel: AssetSelectionViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentAssetError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentAssetError(_: String)", parameterMatchers: matchers))
+	    func presentAssetError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentAssetError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setAmountHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setAmountHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setAmountHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setAmountHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(amountViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AmountInputViewModelProtocol)> where M1.MatchedType == AmountInputViewModelProtocol {
@@ -10292,14 +10292,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "set(amountViewModel: AmountInputViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentAmountError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentAmountError(_: String)", parameterMatchers: matchers))
+	    func presentAmountError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentAmountError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setReceiverHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setReceiverHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setReceiverHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(receiverViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
@@ -10307,14 +10307,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "set(receiverViewModel: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentReceiverError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentReceiverError(_: String)", parameterMatchers: matchers))
+	    func presentReceiverError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentReceiverError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setDescriptionHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol)> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)", parameterMatchers: matchers))
+	    func setDescriptionHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(descriptionViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(DescriptionInputViewModelProtocol)> where M1.MatchedType == DescriptionInputViewModelProtocol {
@@ -10322,14 +10322,14 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "set(descriptionViewModel: DescriptionInputViewModelProtocol)", parameterMatchers: matchers))
 	    }
 	    
-	    func presentDescriptionError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String)> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentDescriptionError(_: String)", parameterMatchers: matchers))
+	    func presentDescriptionError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(String?)> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentDescriptionError(_: String?)", parameterMatchers: matchers))
 	    }
 	    
-	    func setFeeHeader<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol, Int)> where M1.MatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)", parameterMatchers: matchers))
+	    func setFeeHeader<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(MultilineTitleIconViewModelProtocol?, Int)> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(feeViewModels: M1) -> Cuckoo.ProtocolStubNoReturnFunction<([FeeViewModelProtocol])> where M1.MatchedType == [FeeViewModelProtocol] {
@@ -10337,9 +10337,9 @@ import Foundation
 	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "set(feeViewModels: [FeeViewModelProtocol])", parameterMatchers: matchers))
 	    }
 	    
-	    func presentFeeError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(String, Int)> where M1.MatchedType == String, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentFeeError(_: String, at: Int)", parameterMatchers: matchers))
+	    func presentFeeError<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(String?, Int)> where M1.OptionalMatchedType == String, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWithdrawViewProtocol.self, method: "presentFeeError(_: String?, at: Int)", parameterMatchers: matchers))
 	    }
 	    
 	    func set<M1: Cuckoo.Matchable>(accessoryViewModel: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AccessoryViewModelProtocol)> where M1.MatchedType == AccessoryViewModelProtocol {
@@ -10399,9 +10399,9 @@ import Foundation
 	
 	    
 	    @discardableResult
-	    func setAssetHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setAssetHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setAssetHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setAssetHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -10411,15 +10411,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentAssetError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentAssetError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentAssetError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentAssetError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setAmountHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setAmountHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setAmountHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setAmountHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -10429,15 +10429,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentAmountError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentAmountError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentAmountError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentAmountError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setReceiverHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setReceiverHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setReceiverHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setReceiverHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -10447,15 +10447,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentReceiverError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentReceiverError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentReceiverError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentReceiverError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setDescriptionHeader<M1: Cuckoo.Matchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol)>] = [wrap(matchable: viewModel) { $0 }]
-	        return cuckoo_manager.verify("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setDescriptionHeader<M1: Cuckoo.OptionalMatchable>(_ viewModel: M1) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?)>] = [wrap(matchable: viewModel) { $0 }]
+	        return cuckoo_manager.verify("setDescriptionHeader(_: MultilineTitleIconViewModelProtocol?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -10465,15 +10465,15 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentDescriptionError<M1: Cuckoo.Matchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String), Void> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: message) { $0 }]
-	        return cuckoo_manager.verify("presentDescriptionError(_: String)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentDescriptionError<M1: Cuckoo.OptionalMatchable>(_ message: M1) -> Cuckoo.__DoNotUse<(String?), Void> where M1.OptionalMatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?)>] = [wrap(matchable: message) { $0 }]
+	        return cuckoo_manager.verify("presentDescriptionError(_: String?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
-	    func setFeeHeader<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol, Int), Void> where M1.MatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return cuckoo_manager.verify("setFeeHeader(_: MultilineTitleIconViewModelProtocol, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func setFeeHeader<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ viewModel: M1, at index: M2) -> Cuckoo.__DoNotUse<(MultilineTitleIconViewModelProtocol?, Int), Void> where M1.OptionalMatchedType == MultilineTitleIconViewModelProtocol, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(MultilineTitleIconViewModelProtocol?, Int)>] = [wrap(matchable: viewModel) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return cuckoo_manager.verify("setFeeHeader(_: MultilineTitleIconViewModelProtocol?, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -10483,9 +10483,9 @@ import Foundation
 	    }
 	    
 	    @discardableResult
-	    func presentFeeError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.__DoNotUse<(String, Int), Void> where M1.MatchedType == String, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
-	        return cuckoo_manager.verify("presentFeeError(_: String, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentFeeError<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(_ message: M1, at index: M2) -> Cuckoo.__DoNotUse<(String?, Int), Void> where M1.OptionalMatchedType == String, M2.MatchedType == Int {
+	        let matchers: [Cuckoo.ParameterMatcher<(String?, Int)>] = [wrap(matchable: message) { $0.0 }, wrap(matchable: index) { $0.1 }]
+	        return cuckoo_manager.verify("presentFeeError(_: String?, at: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -10553,7 +10553,7 @@ import Foundation
     
 
     
-     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -10561,11 +10561,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentAssetError(_ message: String)   {
+     func presentAssetError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -10573,11 +10573,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentAmountError(_ message: String)   {
+     func presentAmountError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -10585,11 +10585,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentReceiverError(_ message: String)   {
+     func presentReceiverError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)   {
+     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -10597,11 +10597,11 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentDescriptionError(_ message: String)   {
+     func presentDescriptionError(_ message: String?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)   {
+     func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -10609,7 +10609,7 @@ import Foundation
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
-     func presentFeeError(_ message: String, at index: Int)   {
+     func presentFeeError(_ message: String?, at index: Int)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     

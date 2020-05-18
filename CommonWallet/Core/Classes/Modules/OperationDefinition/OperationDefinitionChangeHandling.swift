@@ -6,17 +6,47 @@
 
 import Foundation
 
+public enum OperationDefinitionChangeEvent {
+    case asset
+    case balance
+    case amount
+    case metadata
+}
+
 public protocol OperationDefinitionChangeHandling {
-    func updateContentAfterChangeIn(_ type: OperationDefinitionType) -> [OperationDefinitionType]
-    func clearErrorAfterChangeIn(_ type: OperationDefinitionType) -> [OperationDefinitionType]
+    func updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]
+    func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]
+    func shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool
 }
 
 struct OperationDefinitionChangeHandler: OperationDefinitionChangeHandling {
-    func updateContentAfterChangeIn(_ type: OperationDefinitionType) -> [OperationDefinitionType] {
-        [type]
+    func updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+        switch event {
+        case .asset:
+            return [.asset, .amount, .fee]
+        case .balance:
+            return [.asset]
+        case .amount:
+            return [.fee]
+        case .metadata:
+            return [.fee]
+        }
     }
 
-    func clearErrorAfterChangeIn(_ type: OperationDefinitionType) -> [OperationDefinitionType] {
-        [type]
+    func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+        switch event {
+        case .asset:
+            return [.asset, .amount, .fee]
+        case .balance:
+            return [.asset, .amount, .fee]
+        case .amount:
+            return [.amount, .fee]
+        case .metadata:
+            return [.amount, .fee]
+        }
+    }
+
+    func shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool {
+        false
     }
 }
