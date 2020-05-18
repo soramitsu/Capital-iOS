@@ -18,7 +18,7 @@ struct SidechainTransferSeparatorsDistribution: OperationDefinitionSeparatorsDis
     }
 
     var amountWithFeeBorderType: BorderType {
-        []
+        [.bottom]
     }
 
     var amountWithoutFeeBorderType: BorderType {
@@ -26,17 +26,17 @@ struct SidechainTransferSeparatorsDistribution: OperationDefinitionSeparatorsDis
     }
 
     var firstFeeBorderType: BorderType {
-        [.top]
+        [.bottom]
     }
     var middleFeeBorderType: BorderType {
-        [.top]
+        [.bottom]
     }
 
     var lastFeeBorderType: BorderType {
-        [.top]
+        []
     }
     var singleFeeBorderType: BorderType {
-        [.top]
+        []
     }
 
     var descriptionBorderType: BorderType {

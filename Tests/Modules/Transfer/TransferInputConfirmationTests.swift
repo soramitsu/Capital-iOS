@@ -132,6 +132,7 @@ class TransferInputConfirmationTests: NetworkBaseTests {
 
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
+            let errorHandler = MockOperationDefinitionErrorHandling()
 
             try FetchBalanceMock.register(mock: .success,
                                           networkResolver: networkResolver,
@@ -190,9 +191,10 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                     accessoryExpectation.fulfill()
                 }
 
-                when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
-                    errorExpectation.fulfill()
-                }
+                when(stub).showAlert(title: any(),
+                                     message: any(),
+                                     actions: any(),
+                                     completion: any()).thenDoNothing()
 
                 when(stub).setAssetHeader(any()).thenDoNothing()
                 when(stub).presentAssetError(any()).thenDoNothing()
@@ -212,6 +214,13 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                 when(stub).controller.get.thenReturn(UIViewController())
 
                 when(stub).isSetup.get.thenReturn(false, true)
+            }
+
+            stub(errorHandler) { stub in
+                when(stub).mapError(any(), locale: any()).then { _ in
+                    errorExpectation.fulfill()
+                    return nil
+                }
             }
 
             let confirmExpectation = XCTestExpectation()
@@ -251,7 +260,8 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   accessoryFactory: accessoryViewModelFactory,
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
-                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
+                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
+                                                  errorHandler: errorHandler)
 
             presenter.setup()
 
