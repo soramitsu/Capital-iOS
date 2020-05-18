@@ -247,6 +247,8 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                                   transactionSettings: transactionSettings)
 
             let validator = TransferValidator(transactionSettings: transactionSettings)
+            let changeHandler = OperationDefinitionChangeHandler()
+            let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             let presenter = try TransferPresenter(view: view,
                                                   coordinator: coordinator,
@@ -255,12 +257,13 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   feeCalculationFactory: FeeCalculationFactory(),
                                                   account: accountSettings,
                                                   resultValidator: validator,
+                                                  changeHandler: changeHandler,
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
-                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
+                                                  localizationManager: localizationManager,
                                                   errorHandler: errorHandler)
 
             presenter.setup()

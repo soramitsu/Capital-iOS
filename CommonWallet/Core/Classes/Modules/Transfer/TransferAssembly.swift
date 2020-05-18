@@ -46,6 +46,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let receiverPosition = resolver.transferConfiguration.receiverPosition
 
             let resultValidator = resolver.transferConfiguration.resultValidator
+            let changeHandler = resolver.transferConfiguration.changeHandler
 
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
@@ -54,6 +55,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    feeCalculationFactory: resolver.feeCalculationFactory,
                                                    account: resolver.account,
                                                    resultValidator: resultValidator,
+                                                   changeHandler: changeHandler,
                                                    transferViewModelFactory: transferViewModelFactory,
                                                    assetSelectionFactory: assetSelectionFactory,
                                                    accessoryFactory: accessoryViewModelFactory,

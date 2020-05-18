@@ -73,4 +73,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(errorHandler: OperationDefinitionErrorHandling) -> Self
+
+    @discardableResult
+    func with(changeHandler: OperationDefinitionChangeHandling) -> Self
 }

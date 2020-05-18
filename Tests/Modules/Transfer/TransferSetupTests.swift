@@ -167,6 +167,7 @@ class TransferSetupTests: NetworkBaseTests {
                                                                   transactionSettings: settings)
 
             let validator = TransferValidator(transactionSettings: WalletTransactionSettings.defaultSettings)
+            let changeHandler = OperationDefinitionChangeHandler()
 
             let presenter = try TransferPresenter(view: view,
                                                   coordinator: coordinator,
@@ -175,6 +176,7 @@ class TransferSetupTests: NetworkBaseTests {
                                                   feeCalculationFactory: FeeCalculationFactory(),
                                                   account: accountSettings,
                                                   resultValidator: validator,
+                                                  changeHandler: changeHandler,
                                                   transferViewModelFactory: transferViewModelFactory,
                                                   assetSelectionFactory: assetSelectionFactory,
                                                   accessoryFactory: accessoryViewModelFactory,

@@ -41,6 +41,7 @@ final class TransferPresenter {
     private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
     private var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     private var resultValidator: TransferValidating
+    private var changeHandler: OperationDefinitionChangeHandling
     private var errorHandler: OperationDefinitionErrorHandling?
 
     private let dataProviderFactory: DataProviderFactoryProtocol
@@ -63,6 +64,7 @@ final class TransferPresenter {
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          account: WalletAccountSettingsProtocol,
          resultValidator: TransferValidating,
+         changeHandler: OperationDefinitionChangeHandling,
          transferViewModelFactory: TransferViewModelFactoryProtocol,
          assetSelectionFactory: AssetSelectionFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
@@ -98,6 +100,7 @@ final class TransferPresenter {
         self.accessoryFactory = accessoryFactory
         self.headerFactory = headerFactory
         self.errorHandler = errorHandler
+        self.changeHandler = changeHandler
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
