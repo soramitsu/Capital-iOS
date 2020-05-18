@@ -13,6 +13,7 @@ protocol TransferConfigurationProtocol {
     var headerFactory: OperationDefinitionHeaderModelFactoryProtocol { get }
     var separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol { get }
     var settings: WalletTransactionSettingsProtocol { get }
+    var changeHandler: OperationDefinitionChangeHandling { get }
     var style: OperationDefinitionViewStyle { get }
     var generatingIconStyle: WalletNameIconStyleProtocol { get }
     var accessoryViewType: WalletAccessoryViewType { get }
@@ -27,6 +28,7 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let separatorsDistribution: OperationDefinitionSeparatorsDistributionProtocol
     let settings: WalletTransactionSettingsProtocol
+    let changeHandler: OperationDefinitionChangeHandling
     let style: OperationDefinitionViewStyle
     let generatingIconStyle: WalletNameIconStyleProtocol
     let accessoryViewType: WalletAccessoryViewType

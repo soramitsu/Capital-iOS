@@ -110,6 +110,11 @@ class OperationDefinitionViewController: AccessoryViewController {
         }
     }
 
+    private func rearrangeByRemoving(view: UIView) {
+        containerView.stackView.removeArrangedSubview(view)
+        view.removeFromSuperview()
+    }
+
     private func updateSeparators() {
         selectedAssetDef.mainView.borderedView.borderType = separatorsDistribution.assetBorderType
 
@@ -167,6 +172,30 @@ class OperationDefinitionViewController: AccessoryViewController {
         }
 
         modifiedDefinition.errorView?.bind(viewModel: viewModel)
+
+        return modifiedDefinition
+    }
+
+    private func updatingDefByRemovingHeader<T: UIView>(_ definition: OperationDefinition<T>)
+        -> OperationDefinition<T> {
+        var modifiedDefinition = definition
+
+        if let headerView = modifiedDefinition.titleView {
+            modifiedDefinition.titleView = nil
+            rearrangeByRemoving(view: headerView)
+        }
+
+        return modifiedDefinition
+    }
+
+    private func updatingDefByRemovingError<T: UIView>(_ definition: OperationDefinition<T>)
+        -> OperationDefinition<T> {
+        var modifiedDefinition = definition
+
+        if let errorView = modifiedDefinition.errorView {
+            modifiedDefinition.errorView = nil
+            rearrangeByRemoving(view: errorView)
+        }
 
         return modifiedDefinition
     }
@@ -241,8 +270,12 @@ class OperationDefinitionViewController: AccessoryViewController {
 
 extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
-    func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
-        selectedAssetDef = updatingDef(selectedAssetDef, type: .asset, withHeader: viewModel)
+    func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?) {
+        if let viewModel = viewModel {
+            selectedAssetDef = updatingDef(selectedAssetDef, type: .asset, withHeader: viewModel)
+        } else {
+            selectedAssetDef = updatingDefByRemovingHeader(selectedAssetDef)
+        }
     }
 
     func set(assetViewModel: AssetSelectionViewModelProtocol) {
@@ -251,13 +284,21 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         updateConfirmationState()
     }
 
-    func presentAssetError(_ message: String) {
-        let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        selectedAssetDef = updatingDef(selectedAssetDef, type: .asset, withError: viewModel)
+    func presentAssetError(_ message: String?) {
+        if let message = message {
+            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
+            selectedAssetDef = updatingDef(selectedAssetDef, type: .asset, withError: viewModel)
+        } else {
+            selectedAssetDef = updatingDefByRemovingError(selectedAssetDef)
+        }
     }
 
-    func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
-        amountInputDef = updatingDef(amountInputDef, type: .amount, withHeader: viewModel)
+    func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?) {
+        if let viewModel = viewModel {
+            amountInputDef = updatingDef(amountInputDef, type: .amount, withHeader: viewModel)
+        } else {
+            amountInputDef = updatingDefByRemovingHeader(amountInputDef)
+        }
     }
 
     func set(amountViewModel: AmountInputViewModelProtocol) {
@@ -270,17 +311,25 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         updateConfirmationState()
     }
 
-    func presentAmountError(_ message: String) {
-        let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        amountInputDef = updatingDef(amountInputDef, type: .amount, withError: viewModel)
+    func presentAmountError(_ message: String?) {
+        if let message = message {
+            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
+            amountInputDef = updatingDef(amountInputDef, type: .amount, withError: viewModel)
+        } else {
+            amountInputDef = updatingDefByRemovingError(amountInputDef)
+        }
     }
 
-    func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
+    func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?) {
         guard let receiverDef = receiverDef else {
             return
         }
 
-        self.receiverDef = updatingDef(receiverDef, type: .receiver, withHeader: viewModel)
+        if let viewModel = viewModel {
+            self.receiverDef = updatingDef(receiverDef, type: .receiver, withHeader: viewModel)
+        } else {
+            self.receiverDef = updatingDefByRemovingHeader(receiverDef)
+        }
     }
 
     func set(receiverViewModel: MultilineTitleIconViewModelProtocol) {
@@ -299,19 +348,25 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         }
     }
 
-    func presentReceiverError(_ message: String) {
+    func presentReceiverError(_ message: String?) {
         guard let receiverDef = receiverDef else {
             return
         }
 
-        let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        self.receiverDef = updatingDef(receiverDef, type: .receiver, withError: viewModel)
+        if let message = message {
+            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
+            self.receiverDef = updatingDef(receiverDef, type: .receiver, withError: viewModel)
+        } else {
+            self.receiverDef = updatingDefByRemovingError(receiverDef)
+        }
     }
 
-    func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol) {
-        descriptionInputDef = updatingDef(descriptionInputDef,
-                                          type: .description,
-                                          withHeader: viewModel)
+    func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?) {
+        if let viewModel = viewModel {
+            descriptionInputDef = updatingDef(descriptionInputDef, type: .description, withHeader: viewModel)
+        } else {
+            descriptionInputDef = updatingDefByRemovingHeader(descriptionInputDef)
+        }
     }
 
     func set(descriptionViewModel: DescriptionInputViewModelProtocol) {
@@ -323,19 +378,25 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         updateConfirmationState()
     }
 
-    func presentDescriptionError(_ message: String) {
-        let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        descriptionInputDef = updatingDef(descriptionInputDef,
-                                          type: .description,
-                                          withError: viewModel)
+    func presentDescriptionError(_ message: String?) {
+        if let message = message {
+            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
+            descriptionInputDef = updatingDef(descriptionInputDef, type: .description, withError: viewModel)
+        } else {
+            descriptionInputDef = updatingDefByRemovingError(descriptionInputDef)
+        }
     }
 
-    func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int) {
+    func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int) {
         guard index < feeDefs.count else {
             return
         }
 
-        feeDefs[index] = updatingDef(feeDefs[index], type: .fee, withHeader: viewModel)
+        if let viewModel = viewModel {
+            feeDefs[index] = updatingDef(feeDefs[index], type: .fee, withHeader: viewModel)
+        } else {
+            feeDefs[index] = updatingDefByRemovingHeader(feeDefs[index])
+        }
     }
 
     func set(feeViewModels: [FeeViewModelProtocol]) {
@@ -357,6 +418,18 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         }
 
         if newItemsCount < 0 {
+            feeDefs[feeViewModels.count..<feeDefs.count].forEach { def in
+                if let headerView = def.titleView {
+                    rearrangeByRemoving(view: headerView)
+                }
+
+                rearrangeByRemoving(view: def.mainView)
+
+                if let errorView = def.errorView {
+                    rearrangeByRemoving(view: errorView)
+                }
+            }
+
             feeDefs = Array(feeDefs[0..<feeViewModels.count])
         }
 
@@ -367,13 +440,17 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         updateSeparators()
     }
 
-    func presentFeeError(_ message: String, at index: Int) {
+    func presentFeeError(_ message: String?, at index: Int) {
         guard index < feeDefs.count else {
             return
         }
 
-        let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-        feeDefs[index] = updatingDef(feeDefs[index], type: .fee, withError: viewModel)
+        if let message = message {
+            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
+            feeDefs[index] = updatingDef(feeDefs[index], type: .fee, withError: viewModel)
+        } else {
+            feeDefs[index] = updatingDefByRemovingError(feeDefs[index])
+        }
     }
 
     func set(accessoryViewModel: AccessoryViewModelProtocol) {

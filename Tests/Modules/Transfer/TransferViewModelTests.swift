@@ -149,6 +149,7 @@ class TransferViewModelTests: XCTestCase {
                                                               feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
                                                               transactionSettings: settings)
         let resultValidator = TransferValidator(transactionSettings: settings)
+        let changeHandler = OperationDefinitionChangeHandler()
 
         let presenter = try TransferPresenter(view: view,
                                               coordinator: coordinator,
@@ -157,6 +158,7 @@ class TransferViewModelTests: XCTestCase {
                                               feeCalculationFactory: FeeCalculationFactory(),
                                               account: accountSettings,
                                               resultValidator: resultValidator,
+                                              changeHandler: changeHandler,
                                               transferViewModelFactory: transferViewModelFactory,
                                               assetSelectionFactory: assetSelectionFactory,
                                               accessoryFactory: accessoryViewModelFactory,

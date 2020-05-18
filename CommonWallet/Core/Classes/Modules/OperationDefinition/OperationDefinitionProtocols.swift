@@ -7,25 +7,25 @@
 import Foundation
 
 protocol OperationDefinitionViewProtocol: class {
-    func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol)
+    func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(assetViewModel: AssetSelectionViewModelProtocol)
-    func presentAssetError(_ message: String)
+    func presentAssetError(_ message: String?)
 
-    func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol)
+    func setAmountHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(amountViewModel: AmountInputViewModelProtocol)
-    func presentAmountError(_ message: String)
+    func presentAmountError(_ message: String?)
 
-    func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol)
+    func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(receiverViewModel: MultilineTitleIconViewModelProtocol)
-    func presentReceiverError(_ message: String)
+    func presentReceiverError(_ message: String?)
 
-    func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol)
+    func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(descriptionViewModel: DescriptionInputViewModelProtocol)
-    func presentDescriptionError(_ message: String)
+    func presentDescriptionError(_ message: String?)
 
-    func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol, at index: Int)
+    func setFeeHeader(_ viewModel: MultilineTitleIconViewModelProtocol?, at index: Int)
     func set(feeViewModels: [FeeViewModelProtocol])
-    func presentFeeError(_ message: String, at index: Int)
+    func presentFeeError(_ message: String?, at index: Int)
 
     func set(accessoryViewModel: AccessoryViewModelProtocol)
 }
