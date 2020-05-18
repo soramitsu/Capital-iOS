@@ -32,6 +32,8 @@ final class TransferModuleBuilder {
     private lazy var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
         = TransferDefinitionHeaderModelFactory()
 
+    private lazy var errorHandler: OperationDefinitionErrorHandling? = nil
+
     private var localizableTitle: LocalizableResource<String>?
 
     private lazy var headerContentInsets = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0)
@@ -157,7 +159,8 @@ final class TransferModuleBuilder {
                                      generatingIconStyle: generatingIconStyle,
                                      accessoryViewType: accessoryViewType,
                                      localizableTitle: localizableTitle,
-                                     assetSelectionFactory: assetSelectionFactory)
+                                     assetSelectionFactory: assetSelectionFactory,
+                                     errorHandler: errorHandler)
     }
 }
 
@@ -265,6 +268,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(settings: WalletTransactionSettingsProtocol) -> Self {
         self.settings = settings
+        return self
+    }
+
+    func with(errorHandler: OperationDefinitionErrorHandling) -> Self {
+        self.errorHandler = errorHandler
         return self
     }
 }

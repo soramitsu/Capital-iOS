@@ -6541,6 +6541,102 @@ import Cuckoo
 import Foundation
 
 
+public class MockOperationDefinitionErrorHandling: OperationDefinitionErrorHandling, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = OperationDefinitionErrorHandling
+    
+    public typealias Stubbing = __StubbingProxy_OperationDefinitionErrorHandling
+    public typealias Verification = __VerificationProxy_OperationDefinitionErrorHandling
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: OperationDefinitionErrorHandling?
+
+    public func enableDefaultImplementation(_ stub: OperationDefinitionErrorHandling) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func mapError(_ error: Error, locale: Locale) -> OperationDefinitionErrorMapping? {
+        
+    return cuckoo_manager.call("mapError(_: Error, locale: Locale) -> OperationDefinitionErrorMapping?",
+            parameters: (error, locale),
+            escapingParameters: (error, locale),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.mapError(error, locale: locale))
+        
+    }
+    
+
+	public struct __StubbingProxy_OperationDefinitionErrorHandling: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func mapError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ error: M1, locale: M2) -> Cuckoo.ProtocolStubFunction<(Error, Locale), OperationDefinitionErrorMapping?> where M1.MatchedType == Error, M2.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Error, Locale)>] = [wrap(matchable: error) { $0.0 }, wrap(matchable: locale) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionErrorHandling.self, method: "mapError(_: Error, locale: Locale) -> OperationDefinitionErrorMapping?", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_OperationDefinitionErrorHandling: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func mapError<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ error: M1, locale: M2) -> Cuckoo.__DoNotUse<(Error, Locale), OperationDefinitionErrorMapping?> where M1.MatchedType == Error, M2.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Error, Locale)>] = [wrap(matchable: error) { $0.0 }, wrap(matchable: locale) { $0.1 }]
+	        return cuckoo_manager.verify("mapError(_: Error, locale: Locale) -> OperationDefinitionErrorMapping?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class OperationDefinitionErrorHandlingStub: OperationDefinitionErrorHandling {
+    
+
+    
+
+    
+    public func mapError(_ error: Error, locale: Locale) -> OperationDefinitionErrorMapping?  {
+        return DefaultValueRegistry.defaultValue(for: (OperationDefinitionErrorMapping?).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
  class MockOperationDefinitionViewProtocol: OperationDefinitionViewProtocol, Cuckoo.ProtocolMock {
     
      typealias MocksType = OperationDefinitionViewProtocol

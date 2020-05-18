@@ -166,7 +166,7 @@ class OperationDefinitionViewController: AccessoryViewController {
             modifiedDefinition.errorView = errorView
         }
 
-        modifiedDefinition.titleView?.bind(viewModel: viewModel)
+        modifiedDefinition.errorView?.bind(viewModel: viewModel)
 
         return modifiedDefinition
     }

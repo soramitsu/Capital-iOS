@@ -11,12 +11,6 @@ enum TransferPresenterInitError: Error {
     case missingSelectedAsset
 }
 
-enum TransferPresenterValidationError: Error {
-    case missingMetadata
-    case missingBalances
-    case missingAsset
-}
-
 struct TransferCheckingState: OptionSet {
     typealias RawValue = UInt8
 
@@ -47,6 +41,7 @@ final class TransferPresenter {
     private var accessoryFactory: ContactAccessoryViewModelFactoryProtocol
     private var headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     private var resultValidator: TransferValidating
+    private var errorHandler: OperationDefinitionErrorHandling?
 
     private let dataProviderFactory: DataProviderFactoryProtocol
     private let balanceDataProvider: SingleValueProvider<[BalanceData]>
@@ -73,7 +68,8 @@ final class TransferPresenter {
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
          headerFactory: OperationDefinitionHeaderModelFactoryProtocol,
          receiverPosition: TransferReceiverPosition,
-         localizationManager: LocalizationManagerProtocol?) throws {
+         localizationManager: LocalizationManagerProtocol?,
+         errorHandler: OperationDefinitionErrorHandling?) throws {
 
         if let assetId = payload.receiveInfo.assetId, let asset = account.asset(for: assetId) {
             selectedAsset = asset
@@ -101,6 +97,7 @@ final class TransferPresenter {
         self.assetSelectionFactory = assetSelectionFactory
         self.accessoryFactory = accessoryFactory
         self.headerFactory = headerFactory
+        self.errorHandler = errorHandler
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
@@ -116,6 +113,33 @@ final class TransferPresenter {
                                                                               locale: locale)
 
         self.localizationManager = localizationManager
+    }
+
+    private func attempHandleError(_ error: Error) -> Bool {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        if let errorMapping = errorHandler?.mapError(error, locale: locale) {
+            switch errorMapping.type {
+            case .asset:
+                view?.presentAssetError(errorMapping.message)
+            case .amount:
+                view?.presentAmountError(errorMapping.message)
+            case .receiver:
+                view?.presentReceiverError(errorMapping.message)
+            case .fee:
+                view?.presentFeeError(errorMapping.message, at: 0)
+            case .description:
+                view?.presentDescriptionError(errorMapping.message)
+            }
+
+            return true
+        }
+
+        guard let view = view else {
+            return false
+        }
+
+        return view.attemptShowError(error, locale: locale)
     }
 
     private func setupAmountInputViewModel() {
@@ -176,7 +200,7 @@ final class TransferPresenter {
             let viewModels: [FeeViewModel] = try feeResult.fees.map { fee in
                 guard let asset = account.assets
                     .first(where: { $0.identifier == fee.feeDescription.assetId }) else {
-                    throw TransferPresenterValidationError.missingAsset
+                    throw TransferPresenterError.missingAsset
                 }
 
                 return transferViewModelFactory.createFeeViewModel(fee, feeAsset: asset, locale: locale)
@@ -184,10 +208,9 @@ final class TransferPresenter {
 
             view?.set(feeViewModels: viewModels)
         } catch {
-            view?.set(feeViewModels: [])
-
-            // TODO: handle error here
-            logger?.error("Can't create fee view model \(error)")
+            if !attempHandleError(error) {
+                logger?.error("Can't handle fee view model error \(error)")
+            }
         }
     }
 
@@ -239,7 +262,9 @@ final class TransferPresenter {
                 view?.setDescriptionHeader(descriptionTitle)
             }
         } catch {
-            logger?.error("Can't update description view model")
+            if !attempHandleError(error) {
+                logger?.error("Can't handle description updaet view model error \(error)")
+            }
         }
     }
 
@@ -294,8 +319,9 @@ final class TransferPresenter {
                 if confirmationState != nil {
                     confirmationState = nil
 
-                    let message = L10n.Amount.Error.asset
-                    view?.showError(message: message)
+                    if !attempHandleError(TransferPresenterError.missingAsset) {
+                        logger?.error("Can't handle asset missing error")
+                    }
                 }
 
             return
@@ -315,8 +341,15 @@ final class TransferPresenter {
 
             view?.didStopLoading()
 
-            let message = L10n.Amount.Error.balance
-            view?.showError(message: message)
+            if attempHandleError(error) {
+                return
+            }
+
+            if attempHandleError(TransferPresenterError.missingBalances) {
+                return
+            }
+
+            logger?.error("Can't handle asset missing error")
         }
     }
     
@@ -366,14 +399,15 @@ final class TransferPresenter {
             confirmationState = nil
         }
 
-        guard let view = view else {
+        if attempHandleError(error) {
             return
         }
 
-        if !view.attemptShowError(error, locale: localizationManager?.selectedLocale) {
-            let message = L10n.Amount.Error.transfer
-            view.showError(message: message)
+        if attempHandleError(TransferPresenterError.missingMetadata) {
+            return
         }
+
+        logger?.error("Can't handle transfer metadata error \(error)")
     }
 
     private func updateMetadataProvider(for asset: WalletAsset) throws {
@@ -415,13 +449,11 @@ final class TransferPresenter {
         let inputAmount = amountInputViewModel.decimalAmount ?? 0
 
         guard let metadata = metadata else {
-            logger?.error("Metadata missing to complete transfer")
-            throw TransferPresenterValidationError.missingMetadata
+            throw TransferPresenterError.missingMetadata
         }
 
         guard let balances = balances else {
-            logger?.error("Balances missing to complete transfer")
-            throw TransferPresenterValidationError.missingBalances
+            throw TransferPresenterError.missingBalances
         }
 
         let calculator = try feeCalculationFactory
@@ -461,13 +493,7 @@ final class TransferPresenter {
 
             coordinator.confirm(with: composedPayload)
         } catch {
-            // TODO: handle error here
-
-            guard let view = view else {
-                return
-            }
-
-            if !view.attemptShowError(error, locale: localizationManager?.selectedLocale) {
+            if !attempHandleError(error) {
                 logger?.error("Can't handle confirmation error \(error)")
             }
         }
@@ -548,7 +574,9 @@ extension TransferPresenter: ModalPickerViewDelegate {
                 updateAmountInputViewModel()
             }
         } catch {
-            logger?.error("Unexpected error when new asset selected \(error)")
+            if !attempHandleError(error) {
+                logger?.error("Unexpected error when new asset selected \(error)")
+            }
         }
     }
 }

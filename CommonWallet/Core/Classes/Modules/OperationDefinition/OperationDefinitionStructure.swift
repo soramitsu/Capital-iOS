@@ -6,7 +6,7 @@
 
 import Foundation
 
-enum OperationDefinitionType {
+public enum OperationDefinitionType {
     case asset
     case amount
     case receiver

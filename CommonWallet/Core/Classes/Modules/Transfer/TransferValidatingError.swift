@@ -23,6 +23,8 @@ extension TransferValidatingError: WalletErrorContentConvertible {
             message = L10n.Amount.Error.noFunds
         case .minViolation(let value):
             message = L10n.Amount.Error.operationMinLimit("\(value)")
+        case .missingBalance:
+            message = L10n.Amount.Error.balance
         default:
             message = L10n.Amount.Error.transfer
         }

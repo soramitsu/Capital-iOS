@@ -59,7 +59,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    accessoryFactory: accessoryViewModelFactory,
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
-                                                   localizationManager: resolver.localizationManager)
+                                                   localizationManager: resolver.localizationManager,
+                                                   errorHandler: resolver.transferConfiguration.errorHandler)
             presenter.logger = resolver.logger
 
             view.presenter = presenter

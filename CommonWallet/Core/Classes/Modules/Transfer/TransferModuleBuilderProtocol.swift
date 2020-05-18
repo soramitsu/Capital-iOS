@@ -70,4 +70,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(settings: WalletTransactionSettingsProtocol) -> Self
+
+    @discardableResult
+    func with(errorHandler: OperationDefinitionErrorHandling) -> Self
 }

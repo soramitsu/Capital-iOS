@@ -82,6 +82,7 @@ class TransferSetupTests: NetworkBaseTests {
 
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
+            let errorHandler = MockOperationDefinitionErrorHandling()
 
             // when
 
@@ -139,9 +140,17 @@ class TransferSetupTests: NetworkBaseTests {
 
                 when(stub).isSetup.get.thenReturn(false, true)
 
-                if expectsFeeFailure {
-                    when(stub).showAlert(title: any(), message: any(), actions: any(), completion: any()).then { _ in
+                when(stub).showAlert(title: any(),
+                                     message: any(),
+                                     actions: any(),
+                                     completion: any()).thenDoNothing()
+            }
+
+            if expectsFeeFailure {
+                stub(errorHandler) { stub in
+                    when(stub).mapError(any(), locale: any()).then { _ in
                         feeLoadingCompleteExpectation.fulfill()
+                        return nil
                     }
                 }
             }
@@ -171,7 +180,8 @@ class TransferSetupTests: NetworkBaseTests {
                                                   accessoryFactory: accessoryViewModelFactory,
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
-                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
+                                                  localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
+                                                  errorHandler: errorHandler)
 
             presenter.setup()
 
