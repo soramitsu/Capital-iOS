@@ -36,6 +36,8 @@ final class TransferModuleBuilder {
 
     private lazy var changeHandler: OperationDefinitionChangeHandling = OperationDefinitionChangeHandler()
 
+    private lazy var feeEditing: FeeEditing? = nil
+
     private var localizableTitle: LocalizableResource<String>?
 
     private lazy var headerContentInsets = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0)
@@ -163,7 +165,8 @@ final class TransferModuleBuilder {
                                      accessoryViewType: accessoryViewType,
                                      localizableTitle: localizableTitle,
                                      assetSelectionFactory: assetSelectionFactory,
-                                     errorHandler: errorHandler)
+                                     errorHandler: errorHandler,
+                                     feeEditing: feeEditing)
     }
 }
 
@@ -281,6 +284,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(changeHandler: OperationDefinitionChangeHandling) -> Self {
         self.changeHandler = changeHandler
+        return self
+    }
+
+    func with(feeEditing: FeeEditing) -> Self {
+        self.feeEditing = feeEditing
         return self
     }
 }

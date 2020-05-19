@@ -264,7 +264,8 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
                                                   localizationManager: localizationManager,
-                                                  errorHandler: errorHandler)
+                                                  errorHandler: errorHandler,
+                                                  feeEditing: nil)
 
             presenter.setup()
 

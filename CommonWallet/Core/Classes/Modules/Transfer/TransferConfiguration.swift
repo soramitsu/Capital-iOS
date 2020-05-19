@@ -20,6 +20,7 @@ protocol TransferConfigurationProtocol {
     var localizableTitle: LocalizableResource<String>? { get }
     var assetSelectionFactory: AssetSelectionFactoryProtocol? { get }
     var errorHandler: OperationDefinitionErrorHandling? { get }
+    var feeEditing: FeeEditing? { get }
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
@@ -35,4 +36,5 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let localizableTitle: LocalizableResource<String>?
     let assetSelectionFactory: AssetSelectionFactoryProtocol?
     let errorHandler: OperationDefinitionErrorHandling?
+    let feeEditing: FeeEditing?
 }

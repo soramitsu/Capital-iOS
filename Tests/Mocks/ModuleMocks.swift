@@ -2,6 +2,237 @@ import Cuckoo
 @testable import CommonWallet
 
 import Foundation
+
+
+public class MockFeeEditing: FeeEditing, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = FeeEditing
+    
+    public typealias Stubbing = __StubbingProxy_FeeEditing
+    public typealias Verification = __VerificationProxy_FeeEditing
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: FeeEditing?
+
+    public func enableDefaultImplementation(_ stub: FeeEditing) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+    public var delegate: FeeEditingDelegate? {
+        get {
+            return cuckoo_manager.getter("delegate",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.delegate)
+        }
+        
+        set {
+            cuckoo_manager.setter("delegate",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.delegate = newValue)
+        }
+        
+    }
+    
+
+    
+
+    
+    
+    
+    public func startEditing(feeDescription: FeeDescription)  {
+        
+    return cuckoo_manager.call("startEditing(feeDescription: FeeDescription)",
+            parameters: (feeDescription),
+            escapingParameters: (feeDescription),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.startEditing(feeDescription: feeDescription))
+        
+    }
+    
+
+	public struct __StubbingProxy_FeeEditing: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var delegate: Cuckoo.ProtocolToBeStubbedOptionalProperty<MockFeeEditing, FeeEditingDelegate> {
+	        return .init(manager: cuckoo_manager, name: "delegate")
+	    }
+	    
+	    
+	    func startEditing<M1: Cuckoo.Matchable>(feeDescription: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(FeeDescription)> where M1.MatchedType == FeeDescription {
+	        let matchers: [Cuckoo.ParameterMatcher<(FeeDescription)>] = [wrap(matchable: feeDescription) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockFeeEditing.self, method: "startEditing(feeDescription: FeeDescription)", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_FeeEditing: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var delegate: Cuckoo.VerifyOptionalProperty<FeeEditingDelegate> {
+	        return .init(manager: cuckoo_manager, name: "delegate", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	    @discardableResult
+	    func startEditing<M1: Cuckoo.Matchable>(feeDescription: M1) -> Cuckoo.__DoNotUse<(FeeDescription), Void> where M1.MatchedType == FeeDescription {
+	        let matchers: [Cuckoo.ParameterMatcher<(FeeDescription)>] = [wrap(matchable: feeDescription) { $0 }]
+	        return cuckoo_manager.verify("startEditing(feeDescription: FeeDescription)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class FeeEditingStub: FeeEditing {
+    
+    
+    public var delegate: FeeEditingDelegate? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (FeeEditingDelegate?).self)
+        }
+        
+        set { }
+        
+    }
+    
+
+    
+
+    
+    public func startEditing(feeDescription: FeeDescription)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+
+public class MockFeeEditingDelegate: FeeEditingDelegate, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = FeeEditingDelegate
+    
+    public typealias Stubbing = __StubbingProxy_FeeEditingDelegate
+    public typealias Verification = __VerificationProxy_FeeEditingDelegate
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: FeeEditingDelegate?
+
+    public func enableDefaultImplementation(_ stub: FeeEditingDelegate) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func feeEditing(_ feeEditing: FeeEditing, didEdit feeDescription: FeeDescription)  {
+        
+    return cuckoo_manager.call("feeEditing(_: FeeEditing, didEdit: FeeDescription)",
+            parameters: (feeEditing, feeDescription),
+            escapingParameters: (feeEditing, feeDescription),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.feeEditing(feeEditing, didEdit: feeDescription))
+        
+    }
+    
+
+	public struct __StubbingProxy_FeeEditingDelegate: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func feeEditing<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ feeEditing: M1, didEdit feeDescription: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(FeeEditing, FeeDescription)> where M1.MatchedType == FeeEditing, M2.MatchedType == FeeDescription {
+	        let matchers: [Cuckoo.ParameterMatcher<(FeeEditing, FeeDescription)>] = [wrap(matchable: feeEditing) { $0.0 }, wrap(matchable: feeDescription) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockFeeEditingDelegate.self, method: "feeEditing(_: FeeEditing, didEdit: FeeDescription)", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_FeeEditingDelegate: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func feeEditing<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ feeEditing: M1, didEdit feeDescription: M2) -> Cuckoo.__DoNotUse<(FeeEditing, FeeDescription), Void> where M1.MatchedType == FeeEditing, M2.MatchedType == FeeDescription {
+	        let matchers: [Cuckoo.ParameterMatcher<(FeeEditing, FeeDescription)>] = [wrap(matchable: feeEditing) { $0.0 }, wrap(matchable: feeDescription) { $0.1 }]
+	        return cuckoo_manager.verify("feeEditing(_: FeeEditing, didEdit: FeeDescription)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class FeeEditingDelegateStub: FeeEditingDelegate {
+    
+
+    
+
+    
+    public func feeEditing(_ feeEditing: FeeEditing, didEdit feeDescription: FeeDescription)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
 import UIKit
 
 
@@ -6530,6 +6761,162 @@ import AVFoundation
     
      func presentImageGallery(from view: ControllerBackedProtocol?, delegate: ImageGalleryDelegate)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+import Foundation
+
+
+public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHandling, Cuckoo.ProtocolMock {
+    
+    public typealias MocksType = OperationDefinitionChangeHandling
+    
+    public typealias Stubbing = __StubbingProxy_OperationDefinitionChangeHandling
+    public typealias Verification = __VerificationProxy_OperationDefinitionChangeHandling
+
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: OperationDefinitionChangeHandling?
+
+    public func enableDefaultImplementation(_ stub: OperationDefinitionChangeHandling) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+    public func updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+        
+    return cuckoo_manager.call("updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]",
+            parameters: (event),
+            escapingParameters: (event),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.updateContentForChange(event: event))
+        
+    }
+    
+    
+    
+    public func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+        
+    return cuckoo_manager.call("clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]",
+            parameters: (event),
+            escapingParameters: (event),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.clearErrorForChangeEvent(event: event))
+        
+    }
+    
+    
+    
+    public func shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool {
+        
+    return cuckoo_manager.call("shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool",
+            parameters: (event),
+            escapingParameters: (event),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.shouldUpdateAccessoryForChange(event: event))
+        
+    }
+    
+
+	public struct __StubbingProxy_OperationDefinitionChangeHandling: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	    public init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func updateContentForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
+	    }
+	    
+	    func clearErrorForChangeEvent<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
+	    }
+	    
+	    func shouldUpdateAccessoryForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), Bool> where M1.MatchedType == OperationDefinitionChangeEvent {
+	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	public struct __VerificationProxy_OperationDefinitionChangeHandling: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func updateContentForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
+	        return cuckoo_manager.verify("updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func clearErrorForChangeEvent<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
+	        return cuckoo_manager.verify("clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func shouldUpdateAccessoryForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), Bool> where M1.MatchedType == OperationDefinitionChangeEvent {
+	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
+	        return cuckoo_manager.verify("shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+public class OperationDefinitionChangeHandlingStub: OperationDefinitionChangeHandling {
+    
+
+    
+
+    
+    public func updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]  {
+        return DefaultValueRegistry.defaultValue(for: ([OperationDefinitionType]).self)
+    }
+    
+    public func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]  {
+        return DefaultValueRegistry.defaultValue(for: ([OperationDefinitionType]).self)
+    }
+    
+    public func shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool  {
+        return DefaultValueRegistry.defaultValue(for: (Bool).self)
     }
     
 }

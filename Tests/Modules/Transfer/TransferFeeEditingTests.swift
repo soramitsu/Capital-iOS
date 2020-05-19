@@ -3,58 +3,93 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
+
 import XCTest
 @testable import CommonWallet
-import Cuckoo
 import SoraFoundation
+import Cuckoo
 
-class TransferSetupTests: NetworkBaseTests {
+class TransferFeeEditingTests: NetworkBaseTests {
 
-    func testPerformSuccessfullSetup() {
-        do {
-            let networkResolver = MockNetworkResolver()
+    func testStartEditing() throws {
+        // given
 
-            try FetchBalanceMock.register(mock: .success,
+        let networkResolver = MockNetworkResolver()
+
+        try FetchBalanceMock.register(mock: .success,
+                                      networkResolver: networkResolver,
+                                      requestType: .balance,
+                                      httpMethod: .post)
+
+        try TransferMetadataMock.register(mock: .success,
                                           networkResolver: networkResolver,
-                                          requestType: .balance,
-                                          httpMethod: .post)
+                                          requestType: .transferMetadata,
+                                          httpMethod: .get,
+                                          urlMockType: .regex)
 
-            try TransferMetadataMock.register(mock: .success,
-                                              networkResolver: networkResolver,
-                                              requestType: .transferMetadata,
-                                              httpMethod: .get,
-                                              urlMockType: .regex)
+        let changeHandler = OperationDefinitionChangeHandler()
+        let mockChangeHandler = MockOperationDefinitionChangeHandling()
+        let mockFeeEditing = MockFeeEditing()
 
-            try performTestSetup(for: networkResolver, expectsFeeFailure: false)
-        } catch {
-            XCTFail("Did receive error \(error)")
+        var feeEditingDelegate: FeeEditingDelegate?
+
+        stub(mockFeeEditing) { stub in
+            when(stub).delegate.set(any()).then { delegate in
+                feeEditingDelegate = delegate
+            }
+
+            when(stub).delegate.get.thenReturn(feeEditingDelegate)
+
+            when(stub).startEditing(feeDescription: any()).then { feeDescription in
+                feeEditingDelegate?.feeEditing(mockFeeEditing, didEdit: feeDescription)
+            }
         }
-    }
 
-    func testFeeFailureHandling() {
-        do {
-            let networkResolver = MockNetworkResolver()
+        stub(mockChangeHandler) { stub in
+            when(stub).updateContentForChange(event: any()).then { event in
+                changeHandler.updateContentForChange(event: event)
+            }
 
-            try FetchBalanceMock.register(mock: .success,
-                                          networkResolver: networkResolver,
-                                          requestType: .balance,
-                                          httpMethod: .post)
+            when(stub).clearErrorForChangeEvent(event: any()).then { event in
+                changeHandler.clearErrorForChangeEvent(event: event)
+            }
 
-            try TransferMetadataMock.register(mock: .notAvailable,
-                                              networkResolver: networkResolver,
-                                              requestType: .transferMetadata,
-                                              httpMethod: .get,
-                                              urlMockType: .regex)
-
-            try performTestSetup(for: networkResolver, expectsFeeFailure: true)
-        } catch {
-            XCTFail("Did receive error \(error)")
+            when(stub).shouldUpdateAccessoryForChange(event: any()).then { event in
+                changeHandler.shouldUpdateAccessoryForChange(event: event)
+            }
         }
+
+        let presenter = try performTestSetup(for: mockFeeEditing,
+                                             changeHandling: mockChangeHandler,
+                                             networkResolver: networkResolver)
+
+        // when
+
+        let completionExpectation = XCTestExpectation()
+
+        stub(mockChangeHandler) { stub in
+            when(stub).updateContentForChange(event: any()).then { event in
+                if event == .metadata {
+                    completionExpectation.fulfill()
+                }
+
+                return changeHandler.updateContentForChange(event: event)
+            }
+        }
+
+        presenter.presentFeeEditing(at: 0)
+
+        // then
+
+        wait(for: [completionExpectation], timeout: Constants.networkTimeout)
     }
 
     // MARK: Private
 
-    private func performTestSetup(for networkResolver: MiddlewareNetworkResolverProtocol, expectsFeeFailure: Bool) throws {
+    private func performTestSetup(for feeEditing: FeeEditing,
+                                  changeHandling: OperationDefinitionChangeHandling,
+                                  networkResolver: MiddlewareNetworkResolverProtocol) throws
+        -> TransferPresenter {
         // given
 
         let walletAsset = WalletAsset(identifier: Constants.soraAssetId,
@@ -81,7 +116,6 @@ class TransferSetupTests: NetworkBaseTests {
 
         let view = MockTransferViewProtocol()
         let coordinator = MockTransferCoordinatorProtocol()
-        let errorHandler = MockOperationDefinitionErrorHandling()
 
         // when
 
@@ -94,16 +128,12 @@ class TransferSetupTests: NetworkBaseTests {
 
         let feeLoadingCompleteExpectation = XCTestExpectation()
 
-        var amountViewModel: AmountInputViewModelProtocol? = nil
-
         stub(view) { stub in
             when(stub).set(assetViewModel: any()).then { assetViewModel in
                 assetExpectation.fulfill()
             }
 
             when(stub).set(amountViewModel: any()).then { viewModel in
-                amountViewModel = viewModel
-
                 amountExpectation.fulfill()
             }
 
@@ -145,15 +175,6 @@ class TransferSetupTests: NetworkBaseTests {
                                  completion: any()).thenDoNothing()
         }
 
-        if expectsFeeFailure {
-            stub(errorHandler) { stub in
-                when(stub).mapError(any(), locale: any()).then { _ in
-                    feeLoadingCompleteExpectation.fulfill()
-                    return nil
-                }
-            }
-        }
-
         let recieverInfo = try createRandomReceiveInfo()
         let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
@@ -166,7 +187,6 @@ class TransferSetupTests: NetworkBaseTests {
                                                               transactionSettings: settings)
 
         let validator = TransferValidator(transactionSettings: WalletTransactionSettings.defaultSettings)
-        let changeHandler = OperationDefinitionChangeHandler()
 
         let presenter = try TransferPresenter(view: view,
                                               coordinator: coordinator,
@@ -175,15 +195,15 @@ class TransferSetupTests: NetworkBaseTests {
                                               feeCalculationFactory: FeeCalculationFactory(),
                                               account: accountSettings,
                                               resultValidator: validator,
-                                              changeHandler: changeHandler,
+                                              changeHandler: changeHandling,
                                               transferViewModelFactory: transferViewModelFactory,
                                               assetSelectionFactory: assetSelectionFactory,
                                               accessoryFactory: accessoryViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
-                                              errorHandler: errorHandler,
-                                              feeEditing: nil)
+                                              errorHandler: nil,
+                                              feeEditing: feeEditing)
 
         presenter.setup()
 
@@ -196,11 +216,7 @@ class TransferSetupTests: NetworkBaseTests {
                    feeLoadingCompleteExpectation],
              timeout: Constants.networkTimeout)
 
-        guard let expectedAmount = recieverInfo.amount else {
-            XCTFail("Unexpected initial amount")
-            return
-        }
-
-        XCTAssertEqual(amountViewModel?.displayAmount, expectedAmount.stringValue)
+        return presenter
     }
+
 }
