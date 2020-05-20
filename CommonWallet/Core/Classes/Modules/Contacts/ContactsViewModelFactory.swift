@@ -49,13 +49,9 @@ protocol ContactsViewModelFactoryProtocol {
 
 final class ContactsViewModelFactory {
     let avatarRadius: CGFloat
-    let commandFactory: WalletCommandFactoryProtocol
     let nameIconStyle: WalletNameIconStyleProtocol
 
-    init(commandFactory: WalletCommandFactoryProtocol,
-         avatarRadius: CGFloat,
-         nameIconStyle: WalletNameIconStyleProtocol) {
-        self.commandFactory = commandFactory
+    init(avatarRadius: CGFloat, nameIconStyle: WalletNameIconStyleProtocol) {
         self.avatarRadius = avatarRadius
         self.nameIconStyle = nameIconStyle
     }

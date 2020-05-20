@@ -31,14 +31,12 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
         let viewModelFactory: ContactsViewModelFactoryProtocol
 
         if let customViewModelFactory = config.viewModelFactoryWrapper {
-            let defaultFactory = ContactsViewModelFactory(commandFactory: resolver.commandFactory,
-                                                          avatarRadius: ContactCell.avatarRadius,
+            let defaultFactory = ContactsViewModelFactory(avatarRadius: ContactCell.avatarRadius,
                                                           nameIconStyle: config.cellStyle.contactStyle.nameIcon)
             viewModelFactory = ContactsFactoryWrapper(customFactory: customViewModelFactory,
                                                       defaultFactory: defaultFactory)
         } else {
-            viewModelFactory = ContactsViewModelFactory(commandFactory: resolver.commandFactory,
-                                                        avatarRadius: ContactCell.avatarRadius,
+            viewModelFactory = ContactsViewModelFactory(avatarRadius: ContactCell.avatarRadius,
                                                         nameIconStyle: config.cellStyle.contactStyle.nameIcon)
         }
 

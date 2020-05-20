@@ -59,4 +59,8 @@ extension Resolver: CommonWalletContextProtocol {
     func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol {
         return TransactionDetailsCommand(resolver: self, transaction: transaction)
     }
+
+    func presentTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol {
+        return TransferCommand(resolver: self, payload: payload)
+    }
 }
