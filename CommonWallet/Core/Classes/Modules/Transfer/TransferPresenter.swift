@@ -32,8 +32,8 @@ final class TransferPresenter {
     var coordinator: TransferCoordinatorProtocol
     var logger: WalletLoggerProtocol?
     
-    var amountInputViewModel: AmountInputViewModel
-    var descriptionInputViewModel: DescriptionInputViewModel
+    var amountInputViewModel: AmountInputViewModelProtocol
+    var descriptionInputViewModel: DescriptionInputViewModelProtocol
     var metadataProvider: SingleValueProvider<TransferMetaData>
     var balances: [BalanceData]?
     var metadata: TransferMetaData?
@@ -41,8 +41,7 @@ final class TransferPresenter {
     var confirmationState: TransferCheckingState?
 
     let feeCalculationFactory: FeeCalculationFactoryProtocol
-    let transferViewModelFactory: TransferViewModelFactoryProtocol
-    let assetSelectionFactory: AssetSelectionFactoryProtocol
+    let viewModelFactory: TransferViewModelFactoryProtocol
     let accessoryFactory: ContactAccessoryViewModelFactoryProtocol
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let resultValidator: TransferValidating
@@ -65,8 +64,7 @@ final class TransferPresenter {
          account: WalletAccountSettingsProtocol,
          resultValidator: TransferValidating,
          changeHandler: OperationDefinitionChangeHandling,
-         transferViewModelFactory: TransferViewModelFactoryProtocol,
-         assetSelectionFactory: AssetSelectionFactoryProtocol,
+         viewModelFactory: TransferViewModelFactoryProtocol,
          accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
          headerFactory: OperationDefinitionHeaderModelFactoryProtocol,
          receiverPosition: TransferReceiverPosition,
@@ -96,8 +94,7 @@ final class TransferPresenter {
 
         self.resultValidator = resultValidator
         self.feeCalculationFactory = feeCalculationFactory
-        self.transferViewModelFactory = transferViewModelFactory
-        self.assetSelectionFactory = assetSelectionFactory
+        self.viewModelFactory = viewModelFactory
         self.accessoryFactory = accessoryFactory
         self.headerFactory = headerFactory
         self.errorHandler = errorHandler
@@ -106,16 +103,16 @@ final class TransferPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        descriptionInputViewModel = try transferViewModelFactory
+        descriptionInputViewModel = try viewModelFactory
             .createDescriptionViewModel(for: payload.receiveInfo.details)
 
         let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                              sender: account.accountId,
-                                                                              receiver: payload.receiveInfo.accountId,
-                                                                              amount: decimalAmount,
-                                                                              locale: locale)
+        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                      sender: account.accountId,
+                                                                      receiver: payload.receiveInfo.accountId,
+                                                                      amount: decimalAmount,
+                                                                      locale: locale)
 
         self.localizationManager = localizationManager
     }

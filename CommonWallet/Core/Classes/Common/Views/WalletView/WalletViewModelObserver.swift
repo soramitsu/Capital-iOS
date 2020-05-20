@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct WalletViewModelObserverWrapper<Observer> where Observer: AnyObject {
+public struct WalletViewModelObserverWrapper<Observer> where Observer: AnyObject {
     weak var observer: Observer?
 
     init(observer: Observer) {
@@ -13,7 +13,7 @@ struct WalletViewModelObserverWrapper<Observer> where Observer: AnyObject {
     }
 }
 
-final class WalletViewModelObserverContainer<Observer> where Observer: AnyObject {
+public final class WalletViewModelObserverContainer<Observer> where Observer: AnyObject {
     private(set) var observers: [WalletViewModelObserverWrapper<Observer>] = []
 
     func add(observer: Observer) {

@@ -28,11 +28,11 @@ extension TransferPresenter {
 
         amountInputViewModel.observable.remove(observer: self)
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                              sender: account.accountId,
-                                                                              receiver: payload.receiveInfo.accountId,
-                                                                              amount: amount,
-                                                                              locale: locale)
+        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                      sender: account.accountId,
+                                                                      receiver: payload.receiveInfo.accountId,
+                                                                      amount: amount,
+                                                                      locale: locale)
 
         amountInputViewModel.observable.add(observer: self)
 
@@ -62,13 +62,13 @@ extension TransferPresenter {
 
             let feeResult = try calculator.calculate(for: amount)
 
-            let viewModels: [FeeViewModel] = try feeResult.fees.map { fee in
+            let viewModels: [FeeViewModelProtocol] = try feeResult.fees.map { fee in
                 guard let asset = account.assets
                     .first(where: { $0.identifier == fee.feeDescription.assetId }) else {
                     throw TransferPresenterError.missingAsset
                 }
 
-                return transferViewModelFactory.createFeeViewModel(fee, feeAsset: asset, locale: locale)
+                return viewModelFactory.createFeeViewModel(fee, feeAsset: asset, locale: locale)
             }
 
             view?.set(feeViewModels: viewModels)
@@ -92,11 +92,11 @@ extension TransferPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
 
-        let viewModel = assetSelectionFactory.createViewModel(for: selectedAsset,
+        let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
                                                               balanceData: balanceData,
-                                                              locale: locale,
                                                               isSelecting: isSelecting,
-                                                              canSelect: account.assets.count > 1)
+                                                              canSelect: account.assets.count > 1,
+                                                              locale: locale)
 
         view?.set(assetViewModel: viewModel)
 
@@ -125,7 +125,7 @@ extension TransferPresenter {
             let locale = localizationManager?.selectedLocale ?? Locale.current
 
             let text = descriptionInputViewModel.text
-            descriptionInputViewModel = try transferViewModelFactory.createDescriptionViewModel(for: text)
+            descriptionInputViewModel = try viewModelFactory.createDescriptionViewModel(for: text)
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
 

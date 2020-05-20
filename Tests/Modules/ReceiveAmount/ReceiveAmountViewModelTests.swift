@@ -77,8 +77,6 @@ class ReceiveAmountViewModelTests: XCTestCase {
                                       details: nil)
         let qrService = WalletQRService(operationFactory: WalletQROperationFactory())
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-
         let coordinator = MockReceiveAmountCoordinatorProtocol()
 
         stub(view) { stub in
@@ -105,7 +103,6 @@ class ReceiveAmountViewModelTests: XCTestCase {
         let presenter = try ReceiveAmountPresenter(view: view,
                                                    coordinator: coordinator,
                                                    account: accountSettings,
-                                                   assetSelectionFactory: assetSelectionFactory,
                                                    qrService: qrService,
                                                    sharingFactory: AccountShareFactory(),
                                                    receiveInfo: receiveInfo,

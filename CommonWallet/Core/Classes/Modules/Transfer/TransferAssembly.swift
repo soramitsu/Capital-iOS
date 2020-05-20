@@ -27,9 +27,6 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let assetSelectionFactory = resolver.transferConfiguration.assetSelectionFactory ??
-                AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
-
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style:
                 resolver.transferConfiguration.generatingIconStyle)
             let inputValidatorFactory = resolver.inputValidatorFactory
@@ -37,10 +34,18 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
             let transactionSettings = resolver.transferConfiguration.settings
 
-            let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: amountFormatterFactory,
-                                                                  descriptionValidatorFactory: inputValidatorFactory,
-                                                                  feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                                                  transactionSettings: transactionSettings)
+            let viewModelFactoryWrapper: TransferViewModelFactoryProtocol
+            let viewModelFactory = TransferViewModelFactory(amountFormatterFactory: amountFormatterFactory,
+                                                            descriptionValidatorFactory: inputValidatorFactory,
+                                                            feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                                            transactionSettings: transactionSettings)
+
+            if let overriding = resolver.transferConfiguration.transferViewModelFactory {
+                viewModelFactoryWrapper = TransferViewModelFactoryWrapper(overriding: overriding,
+                                                                          factory: viewModelFactory)
+            } else {
+                viewModelFactoryWrapper = viewModelFactory
+            }
 
             let headerFactory = resolver.transferConfiguration.headerFactory
             let receiverPosition = resolver.transferConfiguration.receiverPosition
@@ -58,8 +63,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    account: resolver.account,
                                                    resultValidator: resultValidator,
                                                    changeHandler: changeHandler,
-                                                   transferViewModelFactory: transferViewModelFactory,
-                                                   assetSelectionFactory: assetSelectionFactory,
+                                                   viewModelFactory: viewModelFactoryWrapper,
                                                    accessoryFactory: accessoryViewModelFactory,
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,

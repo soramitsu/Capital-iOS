@@ -5,11 +5,11 @@
 
 import Foundation
 
-@objc protocol DescriptionInputViewModelObserver: class {
+@objc public protocol DescriptionInputViewModelObserver: class {
     func descriptionInputDidChangeText()
 }
 
-protocol DescriptionInputViewModelProtocol: class {
+public protocol DescriptionInputViewModelProtocol: class {
     var text: String { get }
     var placeholder: String { get }
     var isValid: Bool { get }
@@ -19,31 +19,31 @@ protocol DescriptionInputViewModelProtocol: class {
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool
 }
 
-final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
+public final class DescriptionInputViewModel: DescriptionInputViewModelProtocol {
 
-    var text: String {
+    public var text: String {
         return validator.input
     }
 
-    var placeholder: String {
+    public var placeholder: String {
         return validator.hint
     }
 
-    var isValid: Bool {
+    public var isValid: Bool {
         return validator.isValid
     }
 
     let validator: WalletInputValidatorProtocol
 
-    var observable: WalletViewModelObserverContainer<DescriptionInputViewModelObserver>
+    public var observable: WalletViewModelObserverContainer<DescriptionInputViewModelObserver>
 
-    init(validator: WalletInputValidatorProtocol) {
+    public init(validator: WalletInputValidatorProtocol) {
         self.validator = validator
 
         observable = WalletViewModelObserverContainer()
     }
 
-    func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
+    public func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
         let applied = validator.didReceiveReplacement(string, for: range)
 
         observable.observers.forEach { $0.observer?.descriptionInputDidChangeText() }

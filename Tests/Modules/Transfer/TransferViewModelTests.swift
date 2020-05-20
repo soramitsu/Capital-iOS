@@ -117,7 +117,6 @@ class TransferViewModelTests: XCTestCase {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
         let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
         let coordinator = MockTransferCoordinatorProtocol()
@@ -159,8 +158,7 @@ class TransferViewModelTests: XCTestCase {
                                               account: accountSettings,
                                               resultValidator: resultValidator,
                                               changeHandler: changeHandler,
-                                              transferViewModelFactory: transferViewModelFactory,
-                                              assetSelectionFactory: assetSelectionFactory,
+                                              viewModelFactory: transferViewModelFactory,
                                               accessoryFactory: accessoryViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,

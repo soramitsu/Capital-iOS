@@ -14,7 +14,7 @@ final class TransferModuleBuilder {
         static let amountHorizontalSpacing: CGFloat = 0
     }
 
-    private var assetSelectionFactory: AssetSelectionFactoryProtocol?
+    private var transferViewModelFactory: TransferViewModelFactoryOverriding?
 
     private lazy var settings: WalletTransactionSettingsProtocol =
         WalletTransactionSettings.defaultSettings
@@ -164,7 +164,7 @@ final class TransferModuleBuilder {
                                      generatingIconStyle: generatingIconStyle,
                                      accessoryViewType: accessoryViewType,
                                      localizableTitle: localizableTitle,
-                                     assetSelectionFactory: assetSelectionFactory,
+                                     transferViewModelFactory: transferViewModelFactory,
                                      errorHandler: errorHandler,
                                      feeEditing: feeEditing)
     }
@@ -262,8 +262,8 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
         return self
     }
 
-    func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self {
-        self.assetSelectionFactory = assetSelectionFactory
+    func with(transferViewModelFactory: TransferViewModelFactoryOverriding) -> Self {
+        self.transferViewModelFactory = transferViewModelFactory
         return self
     }
 

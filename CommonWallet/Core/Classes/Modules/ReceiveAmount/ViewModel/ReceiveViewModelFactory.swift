@@ -9,6 +9,16 @@ import Foundation
 protocol ReceiveViewModelFactoryProtocol: class {
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
     func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModel
+
+    func createSelectedAssetViewModel(for asset: WalletAsset?,
+                                      balanceData: BalanceData?,
+                                      isSelecting: Bool,
+                                      canSelect: Bool,
+                                      locale: Locale) -> AssetSelectionViewModelProtocol
+
+    func createAssetSelectionTitle(_ asset: WalletAsset,
+                                   balanceData: BalanceData?,
+                                   locale: Locale) -> String
 }
 
 enum ReceiveViewModelFactoryError: Error {
@@ -53,5 +63,38 @@ final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
         }
 
         return DescriptionInputViewModel(validator: validator)
+    }
+
+    func createSelectedAssetViewModel(for asset: WalletAsset?,
+                                      balanceData: BalanceData?,
+                                      isSelecting: Bool,
+                                      canSelect: Bool,
+                                      locale: Locale) -> AssetSelectionViewModelProtocol {
+        let title: String
+
+        if let asset = asset {
+            title = createAssetSelectionTitle(asset, balanceData: balanceData, locale: locale)
+        } else {
+            title = L10n.AssetSelection.noAsset
+        }
+
+        return AssetSelectionViewModel(title: title,
+                                       subtitle: "",
+                                       details: "",
+                                       icon: nil,
+                                       isSelecting: isSelecting,
+                                       canSelect: canSelect)
+    }
+
+    func createAssetSelectionTitle(_ asset: WalletAsset,
+                                   balanceData: BalanceData?,
+                                   locale: Locale) -> String {
+        let name = asset.name.value(for: locale)
+
+        if let platform = asset.platform?.value(for: locale) {
+            return "\(platform) \(name), \(asset.symbol)"
+        } else {
+            return "\(name), \(asset.symbol)"
+        }
     }
 }

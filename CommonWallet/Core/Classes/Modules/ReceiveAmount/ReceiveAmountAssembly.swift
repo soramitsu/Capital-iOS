@@ -22,8 +22,6 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
 
             let coordinator = ReceiveAmountCoordinator(resolver: resolver)
 
-            let assetSelectionFactory = ReceiveAssetSelectionFactory()
-
             let qrEncoder = resolver.qrCoderFactory.createEncoder()
             let qrService = WalletQRService(operationFactory: WalletQROperationFactory(),
                                             encoder: qrEncoder)
@@ -41,7 +39,6 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
             let presenter = try ReceiveAmountPresenter(view: view,
                                                        coordinator: coordinator,
                                                        account: resolver.account,
-                                                       assetSelectionFactory: assetSelectionFactory,
                                                        qrService: qrService,
                                                        sharingFactory: config.accountShareFactory,
                                                        receiveInfo: receiveInfo,

@@ -127,7 +127,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
             let view = MockTransferViewProtocol()
@@ -258,8 +257,7 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   account: accountSettings,
                                                   resultValidator: validator,
                                                   changeHandler: changeHandler,
-                                                  transferViewModelFactory: transferViewModelFactory,
-                                                  assetSelectionFactory: assetSelectionFactory,
+                                                  viewModelFactory: transferViewModelFactory,
                                                   accessoryFactory: accessoryViewModelFactory,
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,

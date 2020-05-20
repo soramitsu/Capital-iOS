@@ -50,8 +50,8 @@ class TransferFeeEditingTests: NetworkBaseTests {
                 changeHandler.updateContentForChange(event: event)
             }
 
-            when(stub).clearErrorForChangeEvent(event: any()).then { event in
-                changeHandler.clearErrorForChangeEvent(event: event)
+            when(stub).clearErrorForChange(event: any()).then { event in
+                changeHandler.clearErrorForChange(event: event)
             }
 
             when(stub).shouldUpdateAccessoryForChange(event: any()).then { event in
@@ -111,7 +111,6 @@ class TransferFeeEditingTests: NetworkBaseTests {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
         let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
         let view = MockTransferViewProtocol()
@@ -196,8 +195,7 @@ class TransferFeeEditingTests: NetworkBaseTests {
                                               account: accountSettings,
                                               resultValidator: validator,
                                               changeHandler: changeHandling,
-                                              transferViewModelFactory: transferViewModelFactory,
-                                              assetSelectionFactory: assetSelectionFactory,
+                                              viewModelFactory: transferViewModelFactory,
                                               accessoryFactory: accessoryViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,

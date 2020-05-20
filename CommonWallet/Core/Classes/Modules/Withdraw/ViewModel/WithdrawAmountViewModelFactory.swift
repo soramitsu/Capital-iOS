@@ -17,6 +17,16 @@ protocol WithdrawAmountViewModelFactoryProtocol {
     func createAccessoryViewModel(for asset: WalletAsset?, totalAmount: Decimal?, locale: Locale) -> AccessoryViewModel
     func minimumLimit(for asset: WalletAsset) -> Decimal
     func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String
+
+    func createSelectedAssetViewModel(for asset: WalletAsset?,
+                                      balanceData: BalanceData?,
+                                      isSelecting: Bool,
+                                      canSelect: Bool,
+                                      locale: Locale) -> AssetSelectionViewModelProtocol
+
+    func createAssetSelectionTitle(_ asset: WalletAsset,
+                                   balanceData: BalanceData?,
+                                   locale: Locale) -> String
 }
 
 enum WithdrawAmountViewModelFactoryError: Error {
@@ -138,5 +148,63 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         }
 
         return L10n.Amount.Error.operationMinLimit("\(asset.symbol)\(amountString)")
+    }
+
+    func createSelectedAssetViewModel(for asset: WalletAsset?,
+                                      balanceData: BalanceData?,
+                                      isSelecting: Bool,
+                                      canSelect: Bool,
+                                      locale: Locale) -> AssetSelectionViewModelProtocol {
+        let title: String
+        let subtitle: String
+        let details: String
+
+        if let asset = asset {
+
+            if let platform = asset.platform?.value(for: locale) {
+                title = platform
+                subtitle = asset.name.value(for: locale)
+            } else {
+                title = asset.name.value(for: locale)
+                subtitle = ""
+            }
+
+            let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+
+            if let balanceData = balanceData,
+                let formattedBalance = amountFormatter.value(for: locale)
+                    .string(from: balanceData.balance.decimalValue as NSNumber) {
+                details = "\(asset.symbol)\(formattedBalance)"
+            } else {
+                details = ""
+            }
+        } else {
+            title = L10n.AssetSelection.noAsset
+            subtitle = ""
+            details = ""
+        }
+
+        return AssetSelectionViewModel(title: title,
+                                       subtitle: subtitle,
+                                       details: details,
+                                       icon: nil,
+                                       isSelecting: isSelecting,
+                                       canSelect: canSelect)
+    }
+
+    func createAssetSelectionTitle(_ asset: WalletAsset,
+                                   balanceData: BalanceData?,
+                                   locale: Locale) -> String {
+        let viewModel = createSelectedAssetViewModel(for: asset,
+                                                     balanceData: balanceData,
+                                                     isSelecting: false,
+                                                     canSelect: false,
+                                                     locale: locale)
+
+        if !viewModel.details.isEmpty {
+            return "\(viewModel.title) - \(viewModel.details)"
+        } else {
+            return viewModel.title
+        }
     }
 }

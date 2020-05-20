@@ -15,7 +15,7 @@ public enum OperationDefinitionChangeEvent {
 
 public protocol OperationDefinitionChangeHandling {
     func updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]
-    func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]
+    func clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]
     func shouldUpdateAccessoryForChange(event: OperationDefinitionChangeEvent) -> Bool
 }
 
@@ -33,7 +33,7 @@ struct OperationDefinitionChangeHandler: OperationDefinitionChangeHandling {
         }
     }
 
-    func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+    func clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
         switch event {
         case .asset:
             return [.asset, .amount, .fee]

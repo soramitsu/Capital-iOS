@@ -5,13 +5,14 @@
 
 import Foundation
 
-@objc protocol AmountInputViewModelObserver: class {
+@objc public protocol AmountInputViewModelObserver: class {
     func amountInputDidChange()
 }
 
-protocol AmountInputViewModelProtocol: class {
+public protocol AmountInputViewModelProtocol: class {
     var symbol: String { get }
     var displayAmount: String { get }
+    var decimalAmount: Decimal? { get }
     var isValid: Bool { get }
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> { get }
 
@@ -19,14 +20,14 @@ protocol AmountInputViewModelProtocol: class {
 }
 
 
-final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable {
+public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable {
     static let zero: String = "0"
 
-    var displayAmount: String {
+    public var displayAmount: String {
         return formattedAmount ?? AmountInputViewModel.zero
     }
 
-    var decimalAmount: Decimal? {
+    public var decimalAmount: Decimal? {
         if amount.isEmpty {
             return Decimal(0)
         }
@@ -34,7 +35,7 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         return Decimal(string: amount, locale: formatter.locale)
     }
 
-    var isValid: Bool {
+    public var isValid: Bool {
         if let value = Decimal(string: amount, locale: formatter.locale), value > 0 {
             return true
         } else {
@@ -52,7 +53,7 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
-    let symbol: String
+    public let symbol: String
 
     let formatter: NumberFormatter
 
@@ -60,14 +61,14 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
 
     let limit: Decimal
 
-    var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver>
+    public var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver>
 
-    init(symbol: String,
-         amount: Decimal?,
-         limit: Decimal,
-         formatter: NumberFormatter,
-         inputLocale: Locale = Locale.current,
-         precision: Int16 = 2) {
+    public init(symbol: String,
+                amount: Decimal?,
+                limit: Decimal,
+                formatter: NumberFormatter,
+                inputLocale: Locale = Locale.current,
+                precision: Int16 = 2) {
         self.symbol = symbol
         self.limit = limit
         self.formatter = formatter
@@ -82,7 +83,7 @@ final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable
         }
     }
 
-    func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
+    public func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
         let replacement = transform(input: string, from: inputLocale)
 
         var newAmount = displayAmount

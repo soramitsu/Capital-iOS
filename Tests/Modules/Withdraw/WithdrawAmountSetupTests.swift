@@ -151,8 +151,6 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
             }
         }
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-
         let presenter = try WithdrawPresenter(view: view,
                                               coordinator: coordinator,
                                               assets: accountSettings.assets,
@@ -160,8 +158,7 @@ class WithdrawAmountSetupTests: NetworkBaseTests {
                                               selectedOption: withdrawOption,
                                               dataProviderFactory: dataProviderFactory,
                                               feeCalculationFactory: FeeCalculationFactory(),
-                                              withdrawViewModelFactory: viewModelFactory,
-                                              assetSelectionFactory: assetSelectionFactory,
+                                              viewModelFactory: viewModelFactory,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue))
 
         presenter.setup()

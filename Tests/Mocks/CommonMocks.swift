@@ -4549,19 +4549,19 @@ import Cuckoo
 import Foundation
 
 
- class MockAmountInputViewModelObserver: AmountInputViewModelObserver, Cuckoo.ProtocolMock {
+public class MockAmountInputViewModelObserver: AmountInputViewModelObserver, Cuckoo.ProtocolMock {
     
-     typealias MocksType = AmountInputViewModelObserver
+    public typealias MocksType = AmountInputViewModelObserver
     
-     typealias Stubbing = __StubbingProxy_AmountInputViewModelObserver
-     typealias Verification = __VerificationProxy_AmountInputViewModelObserver
+    public typealias Stubbing = __StubbingProxy_AmountInputViewModelObserver
+    public typealias Verification = __VerificationProxy_AmountInputViewModelObserver
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
     private var __defaultImplStub: AmountInputViewModelObserver?
 
-     func enableDefaultImplementation(_ stub: AmountInputViewModelObserver) {
+    public func enableDefaultImplementation(_ stub: AmountInputViewModelObserver) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -4574,7 +4574,7 @@ import Foundation
     
     
     
-     func amountInputDidChange()  {
+    public func amountInputDidChange()  {
         
     return cuckoo_manager.call("amountInputDidChange()",
             parameters: (),
@@ -4588,10 +4588,10 @@ import Foundation
     }
     
 
-	 struct __StubbingProxy_AmountInputViewModelObserver: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_AmountInputViewModelObserver: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
@@ -4603,12 +4603,12 @@ import Foundation
 	    
 	}
 
-	 struct __VerificationProxy_AmountInputViewModelObserver: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_AmountInputViewModelObserver: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -4626,13 +4626,13 @@ import Foundation
 	}
 }
 
- class AmountInputViewModelObserverStub: AmountInputViewModelObserver {
+public class AmountInputViewModelObserverStub: AmountInputViewModelObserver {
     
 
     
 
     
-     func amountInputDidChange()   {
+    public func amountInputDidChange()   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -4640,19 +4640,19 @@ import Foundation
 
 
 
- class MockAmountInputViewModelProtocol: AmountInputViewModelProtocol, Cuckoo.ProtocolMock {
+public class MockAmountInputViewModelProtocol: AmountInputViewModelProtocol, Cuckoo.ProtocolMock {
     
-     typealias MocksType = AmountInputViewModelProtocol
+    public typealias MocksType = AmountInputViewModelProtocol
     
-     typealias Stubbing = __StubbingProxy_AmountInputViewModelProtocol
-     typealias Verification = __VerificationProxy_AmountInputViewModelProtocol
+    public typealias Stubbing = __StubbingProxy_AmountInputViewModelProtocol
+    public typealias Verification = __VerificationProxy_AmountInputViewModelProtocol
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
     private var __defaultImplStub: AmountInputViewModelProtocol?
 
-     func enableDefaultImplementation(_ stub: AmountInputViewModelProtocol) {
+    public func enableDefaultImplementation(_ stub: AmountInputViewModelProtocol) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -4661,7 +4661,7 @@ import Foundation
     
     
     
-     var symbol: String {
+    public var symbol: String {
         get {
             return cuckoo_manager.getter("symbol",
                 superclassCall:
@@ -4675,7 +4675,7 @@ import Foundation
     
     
     
-     var displayAmount: String {
+    public var displayAmount: String {
         get {
             return cuckoo_manager.getter("displayAmount",
                 superclassCall:
@@ -4689,7 +4689,21 @@ import Foundation
     
     
     
-     var isValid: Bool {
+    public var decimalAmount: Decimal? {
+        get {
+            return cuckoo_manager.getter("decimalAmount",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.decimalAmount)
+        }
+        
+    }
+    
+    
+    
+    public var isValid: Bool {
         get {
             return cuckoo_manager.getter("isValid",
                 superclassCall:
@@ -4703,7 +4717,7 @@ import Foundation
     
     
     
-     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> {
+    public var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> {
         get {
             return cuckoo_manager.getter("observable",
                 superclassCall:
@@ -4721,7 +4735,7 @@ import Foundation
     
     
     
-     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
+    public func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool {
         
     return cuckoo_manager.call("didReceiveReplacement(_: String, for: NSRange) -> Bool",
             parameters: (string, range),
@@ -4735,10 +4749,10 @@ import Foundation
     }
     
 
-	 struct __StubbingProxy_AmountInputViewModelProtocol: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_AmountInputViewModelProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
@@ -4750,6 +4764,11 @@ import Foundation
 	    
 	    var displayAmount: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAmountInputViewModelProtocol, String> {
 	        return .init(manager: cuckoo_manager, name: "displayAmount")
+	    }
+	    
+	    
+	    var decimalAmount: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAmountInputViewModelProtocol, Decimal?> {
+	        return .init(manager: cuckoo_manager, name: "decimalAmount")
 	    }
 	    
 	    
@@ -4770,12 +4789,12 @@ import Foundation
 	    
 	}
 
-	 struct __VerificationProxy_AmountInputViewModelProtocol: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_AmountInputViewModelProtocol: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -4790,6 +4809,11 @@ import Foundation
 	    
 	    var displayAmount: Cuckoo.VerifyReadOnlyProperty<String> {
 	        return .init(manager: cuckoo_manager, name: "displayAmount", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var decimalAmount: Cuckoo.VerifyReadOnlyProperty<Decimal?> {
+	        return .init(manager: cuckoo_manager, name: "decimalAmount", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -4813,10 +4837,10 @@ import Foundation
 	}
 }
 
- class AmountInputViewModelProtocolStub: AmountInputViewModelProtocol {
+public class AmountInputViewModelProtocolStub: AmountInputViewModelProtocol {
     
     
-     var symbol: String {
+    public var symbol: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -4824,7 +4848,7 @@ import Foundation
     }
     
     
-     var displayAmount: String {
+    public var displayAmount: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -4832,7 +4856,15 @@ import Foundation
     }
     
     
-     var isValid: Bool {
+    public var decimalAmount: Decimal? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Decimal?).self)
+        }
+        
+    }
+    
+    
+    public var isValid: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
@@ -4840,7 +4872,7 @@ import Foundation
     }
     
     
-     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> {
+    public var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletViewModelObserverContainer<AmountInputViewModelObserver>).self)
         }
@@ -4851,7 +4883,7 @@ import Foundation
     
 
     
-     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool  {
+    public func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool  {
         return DefaultValueRegistry.defaultValue(for: (Bool).self)
     }
     
@@ -5122,19 +5154,19 @@ import Cuckoo
 import Foundation
 
 
- class MockFeeViewModelProtocol: FeeViewModelProtocol, Cuckoo.ProtocolMock {
+public class MockFeeViewModelProtocol: FeeViewModelProtocol, Cuckoo.ProtocolMock {
     
-     typealias MocksType = FeeViewModelProtocol
+    public typealias MocksType = FeeViewModelProtocol
     
-     typealias Stubbing = __StubbingProxy_FeeViewModelProtocol
-     typealias Verification = __VerificationProxy_FeeViewModelProtocol
+    public typealias Stubbing = __StubbingProxy_FeeViewModelProtocol
+    public typealias Verification = __VerificationProxy_FeeViewModelProtocol
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
     private var __defaultImplStub: FeeViewModelProtocol?
 
-     func enableDefaultImplementation(_ stub: FeeViewModelProtocol) {
+    public func enableDefaultImplementation(_ stub: FeeViewModelProtocol) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -5143,7 +5175,7 @@ import Foundation
     
     
     
-     var title: String {
+    public var title: String {
         get {
             return cuckoo_manager.getter("title",
                 superclassCall:
@@ -5157,7 +5189,7 @@ import Foundation
     
     
     
-     var details: String {
+    public var details: String {
         get {
             return cuckoo_manager.getter("details",
                 superclassCall:
@@ -5171,7 +5203,7 @@ import Foundation
     
     
     
-     var isLoading: Bool {
+    public var isLoading: Bool {
         get {
             return cuckoo_manager.getter("isLoading",
                 superclassCall:
@@ -5185,7 +5217,7 @@ import Foundation
     
     
     
-     var allowsEditing: Bool {
+    public var allowsEditing: Bool {
         get {
             return cuckoo_manager.getter("allowsEditing",
                 superclassCall:
@@ -5202,10 +5234,10 @@ import Foundation
 
     
 
-	 struct __StubbingProxy_FeeViewModelProtocol: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_FeeViewModelProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
@@ -5232,12 +5264,12 @@ import Foundation
 	    
 	}
 
-	 struct __VerificationProxy_FeeViewModelProtocol: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_FeeViewModelProtocol: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -5269,10 +5301,10 @@ import Foundation
 	}
 }
 
- class FeeViewModelProtocolStub: FeeViewModelProtocol {
+public class FeeViewModelProtocolStub: FeeViewModelProtocol {
     
     
-     var title: String {
+    public var title: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -5280,7 +5312,7 @@ import Foundation
     }
     
     
-     var details: String {
+    public var details: String {
         get {
             return DefaultValueRegistry.defaultValue(for: (String).self)
         }
@@ -5288,7 +5320,7 @@ import Foundation
     }
     
     
-     var isLoading: Bool {
+    public var isLoading: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }
@@ -5296,7 +5328,7 @@ import Foundation
     }
     
     
-     var allowsEditing: Bool {
+    public var allowsEditing: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
         }

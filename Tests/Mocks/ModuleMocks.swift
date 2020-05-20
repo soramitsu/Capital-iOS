@@ -6812,16 +6812,16 @@ public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHan
     
     
     
-    public func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+    public func clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
         
-    return cuckoo_manager.call("clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]",
+    return cuckoo_manager.call("clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]",
             parameters: (event),
             escapingParameters: (event),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.clearErrorForChangeEvent(event: event))
+            defaultCall: __defaultImplStub!.clearErrorForChange(event: event))
         
     }
     
@@ -6854,9 +6854,9 @@ public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHan
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
 	    }
 	    
-	    func clearErrorForChangeEvent<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	    func clearErrorForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
 	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
 	    }
 	    
 	    func shouldUpdateAccessoryForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), Bool> where M1.MatchedType == OperationDefinitionChangeEvent {
@@ -6887,9 +6887,9 @@ public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHan
 	    }
 	    
 	    @discardableResult
-	    func clearErrorForChangeEvent<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	    func clearErrorForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
 	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
-	        return cuckoo_manager.verify("clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -6911,7 +6911,7 @@ public class OperationDefinitionChangeHandlingStub: OperationDefinitionChangeHan
         return DefaultValueRegistry.defaultValue(for: ([OperationDefinitionType]).self)
     }
     
-    public func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]  {
+    public func clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]  {
         return DefaultValueRegistry.defaultValue(for: ([OperationDefinitionType]).self)
     }
     

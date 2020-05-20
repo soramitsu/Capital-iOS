@@ -14,7 +14,6 @@ final class ReceiveAmountPresenter {
     private(set) var qrService: WalletQRServiceProtocol
     private(set) var sharingFactory: AccountShareFactoryProtocol
     private(set) var account: WalletAccountSettingsProtocol
-    private(set) var assetSelectionFactory: AssetSelectionFactoryProtocol
     private(set) var amountInputViewModel: AmountInputViewModel
     private(set) var descriptionViewModel: DescriptionInputViewModel?
     private(set) var preferredQRSize: CGSize?
@@ -34,7 +33,6 @@ final class ReceiveAmountPresenter {
     init(view: ReceiveAmountViewProtocol,
          coordinator: ReceiveAmountCoordinatorProtocol,
          account: WalletAccountSettingsProtocol,
-         assetSelectionFactory: AssetSelectionFactoryProtocol,
          qrService: WalletQRServiceProtocol,
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
@@ -46,7 +44,6 @@ final class ReceiveAmountPresenter {
         self.qrService = qrService
         self.sharingFactory = sharingFactory
         self.account = account
-        self.assetSelectionFactory = assetSelectionFactory
         self.viewModelFactory = viewModelFactory
 
         var currentAmount: Decimal?
@@ -78,11 +75,11 @@ final class ReceiveAmountPresenter {
     private func setupSelectedAssetViewModel(isSelecting: Bool) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let viewModel = assetSelectionFactory.createViewModel(for: selectedAsset,
-                                                              balanceData: nil,
-                                                              locale: locale,
-                                                              isSelecting: isSelecting,
-                                                              canSelect: account.assets.count > 1)
+        let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
+                                                                      balanceData: nil,
+                                                                      isSelecting: isSelecting,
+                                                                      canSelect: account.assets.count > 1,
+                                                                      locale: locale)
 
         view?.didReceive(assetSelectionViewModel: viewModel)
     }
@@ -205,7 +202,7 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         let titles: [String] = account.assets.map { (asset) in
-            return assetSelectionFactory.createTitle(for: asset, balanceData: nil, locale: locale)
+            return viewModelFactory.createAssetSelectionTitle(asset, balanceData: nil, locale: locale)
         }
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
