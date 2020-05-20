@@ -25,7 +25,7 @@ class ContactsLocalEngineTests: NetworkBaseTests {
         let localResult = MockContactsLocalSearchResultProtocol()
 
         stub(localSearchEngine) { stub in
-            when(stub).search(query: any()).then { query in
+            when(stub).search(query: any(), assetId: any()).then { (query, _) in
                 if query == localQuery {
                     return [localResult]
                 }

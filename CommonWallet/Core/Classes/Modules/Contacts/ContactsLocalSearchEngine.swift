@@ -7,7 +7,7 @@
 import Foundation
 
 public protocol ContactsLocalSearchEngineProtocol {
-    func search(query: String) -> [ContactViewModelProtocol]?
+    func search(query: String, assetId: String) -> [ContactViewModelProtocol]?
 }
 
 public protocol ContactsLocalSearchResultProtocol: ContactViewModelProtocol {}

@@ -6,6 +6,11 @@
 import Foundation
 
 public struct TransferPayload {
-    var receiveInfo: ReceiveInfo
-    var receiverName: String
+    public let receiveInfo: ReceiveInfo
+    public let receiverName: String
+
+    public init(receiveInfo: ReceiveInfo, receiverName: String) {
+        self.receiveInfo = receiveInfo
+        self.receiverName = receiverName
+    }
 }
