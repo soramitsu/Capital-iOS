@@ -18,7 +18,7 @@ public struct AccessoryViewModel: AccessoryViewModelProtocol {
     public var action: String
     public var numberOfLines: Int
 
-    init(title: String, action: String, icon: UIImage? = nil, numberOfLines: Int = 1) {
+    public init(title: String, action: String, icon: UIImage? = nil, numberOfLines: Int = 1) {
         self.title = title
         self.icon = icon
         self.action = action
