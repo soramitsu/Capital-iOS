@@ -9,7 +9,7 @@ import SoraFoundation
 final class TransferAssembly: TransferAssemblyProtocol {
     
     static func assembleView(with resolver: ResolverProtocol,
-                             payload: AmountPayload) -> TransferViewProtocol? {
+                             payload: TransferPayload) -> TransferViewProtocol? {
         do {
             let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
                                                                    defaultStyle: resolver.style)
@@ -27,18 +27,19 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style:
-                resolver.transferConfiguration.generatingIconStyle)
+            let generatingIconStyle = resolver.transferConfiguration.generatingIconStyle
             let inputValidatorFactory = resolver.inputValidatorFactory
             let amountFormatterFactory = resolver.amountFormatterFactory
             let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
             let transactionSettings = resolver.transferConfiguration.settings
 
             let viewModelFactoryWrapper: TransferViewModelFactoryProtocol
-            let viewModelFactory = TransferViewModelFactory(amountFormatterFactory: amountFormatterFactory,
+            let viewModelFactory = TransferViewModelFactory(account: resolver.account,
+                                                            amountFormatterFactory: amountFormatterFactory,
                                                             descriptionValidatorFactory: inputValidatorFactory,
                                                             feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                                            transactionSettings: transactionSettings)
+                                                            transactionSettings: transactionSettings,
+                                                            generatingIconStyle: generatingIconStyle)
 
             if let overriding = resolver.transferConfiguration.transferViewModelFactory {
                 viewModelFactoryWrapper = TransferViewModelFactoryWrapper(overriding: overriding,
@@ -64,7 +65,6 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    resultValidator: resultValidator,
                                                    changeHandler: changeHandler,
                                                    viewModelFactory: viewModelFactoryWrapper,
-                                                   accessoryFactory: accessoryViewModelFactory,
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager,

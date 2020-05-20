@@ -12,8 +12,7 @@ protocol ReceiveViewModelFactoryProtocol: class {
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
                                       locale: Locale) -> AssetSelectionViewModelProtocol
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
@@ -67,8 +66,7 @@ final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
                                       locale: Locale) -> AssetSelectionViewModelProtocol {
         let title: String
 
@@ -82,8 +80,7 @@ final class ReceiveViewModelFactory: ReceiveViewModelFactoryProtocol {
                                        subtitle: "",
                                        details: "",
                                        icon: nil,
-                                       isSelecting: isSelecting,
-                                       canSelect: canSelect)
+                                       state: selectedAssetState)
     }
 
     func createAssetSelectionTitle(_ asset: WalletAsset,

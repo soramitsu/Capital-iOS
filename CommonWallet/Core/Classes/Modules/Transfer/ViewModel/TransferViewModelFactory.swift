@@ -9,51 +9,66 @@ import SoraFoundation
 protocol TransferViewModelFactoryProtocol {
     func createFeeViewModel(_ fee: Fee,
                             feeAsset: WalletAsset,
+                            payload: TransferPayload,
                             locale: Locale) -> FeeViewModelProtocol
 
     func createAmountViewModel(for asset: WalletAsset,
-                               sender: String?,
-                               receiver: String?,
                                amount: Decimal?,
+                               payload: TransferPayload,
                                locale: Locale) -> AmountInputViewModelProtocol
 
-    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModelProtocol
+    func createDescriptionViewModelForDetails(_ details: String?,
+                                              payload: TransferPayload) throws
+        -> DescriptionInputViewModelProtocol
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
+                                      payload: TransferPayload,
                                       locale: Locale) -> AssetSelectionViewModelProtocol
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
                                    balanceData: BalanceData?,
+                                   payload: TransferPayload,
                                    locale: Locale) -> String
+
+    func createReceiverViewModel(_ payload: TransferPayload, locale: Locale)
+        -> MultilineTitleIconViewModelProtocol
+
+    func createAccessoryViewModel(_ payload: TransferPayload?, locale: Locale) -> AccessoryViewModelProtocol
 }
 
 enum TransferViewModelFactoryError: Error {
     case missingValidator
 }
 
-final class TransferViewModelFactory {
+struct TransferViewModelFactory {
+    let account: WalletAccountSettingsProtocol
     let amountFormatterFactory: NumberFormatterFactoryProtocol
     let descriptionValidatorFactory: WalletInputValidatorFactoryProtocol
     let feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
     let transactionSettings: WalletTransactionSettingsProtocol
+    let generatingIconStyle: WalletNameIconStyleProtocol
 
-    init(amountFormatterFactory: NumberFormatterFactoryProtocol,
+    init(account: WalletAccountSettingsProtocol,
+         amountFormatterFactory: NumberFormatterFactoryProtocol,
          descriptionValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol,
-         transactionSettings: WalletTransactionSettingsProtocol) {
+         transactionSettings: WalletTransactionSettingsProtocol,
+         generatingIconStyle: WalletNameIconStyleProtocol) {
+        self.account = account
         self.amountFormatterFactory = amountFormatterFactory
         self.descriptionValidatorFactory = descriptionValidatorFactory
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
         self.transactionSettings = transactionSettings
+        self.generatingIconStyle = generatingIconStyle
     }
 }
 
 extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
     func createFeeViewModel(_ fee: Fee,
                             feeAsset: WalletAsset,
+                            payload: TransferPayload,
                             locale: Locale) -> FeeViewModelProtocol {
 
         let feeDisplaySettings = feeDisplaySettingsFactory
@@ -80,9 +95,8 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
     }
 
     func createAmountViewModel(for asset: WalletAsset,
-                               sender: String?,
-                               receiver: String?,
                                amount: Decimal?,
+                               payload: TransferPayload,
                                locale: Locale) -> AmountInputViewModelProtocol {
 
         let inputFormatter = amountFormatterFactory.createInputFormatter(for: asset)
@@ -90,8 +104,8 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
         let localizedFormatter = inputFormatter.value(for: locale)
 
         let limit = transactionSettings.limitForAssetId(asset.identifier,
-                                                        senderId: sender,
-                                                        receiverId: receiver)
+                                                        senderId: account.accountId,
+                                                        receiverId: payload.receiveInfo.accountId)
 
         return AmountInputViewModel(symbol: asset.symbol,
                                     amount: amount,
@@ -100,7 +114,9 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
                                     precision: Int16(localizedFormatter.maximumFractionDigits))
     }
 
-    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModelProtocol {
+    func createDescriptionViewModelForDetails(_ details: String?,
+                                              payload: TransferPayload) throws
+        -> DescriptionInputViewModelProtocol {
         guard let validator = descriptionValidatorFactory.createTransferDescriptionValidator() else {
                 throw TransferViewModelFactoryError.missingValidator
         }
@@ -114,8 +130,8 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
+                                      payload: TransferPayload,
                                       locale: Locale) -> AssetSelectionViewModelProtocol {
         let title: String
         let subtitle: String
@@ -150,17 +166,18 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
                                        subtitle: subtitle,
                                        details: details,
                                        icon: nil,
-                                       isSelecting: isSelecting,
-                                       canSelect: canSelect)
+                                       state: selectedAssetState)
     }
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
                                    balanceData: BalanceData?,
+                                   payload: TransferPayload,
                                    locale: Locale) -> String {
+        let state = SelectedAssetState(isSelecting: false, canSelect: false)
         let viewModel = createSelectedAssetViewModel(for: asset,
                                                      balanceData: balanceData,
-                                                     isSelecting: false,
-                                                     canSelect: false,
+                                                     selectedAssetState: state,
+                                                     payload: payload,
                                                      locale: locale)
 
         if !viewModel.details.isEmpty {
@@ -169,37 +186,67 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
             return viewModel.title
         }
     }
+
+    func createAccessoryViewModel(_ payload: TransferPayload?, locale: Locale) -> AccessoryViewModelProtocol {
+        if let payload = payload {
+            let icon = UIImage.createAvatar(fullName: payload.receiverName,
+                                            style: generatingIconStyle)
+
+            return AccessoryViewModel(title: payload.receiverName,
+                                      action: L10n.Common.next,
+                                      icon: icon)
+        } else {
+            return AccessoryViewModel(title: "", action: L10n.Common.next)
+        }
+    }
+
+    func createReceiverViewModel(_ payload: TransferPayload,
+                                 locale: Locale) -> MultilineTitleIconViewModelProtocol {
+        let icon = UIImage.createAvatar(fullName: payload.receiverName, style: generatingIconStyle)
+
+        return MultilineTitleIconViewModel(text: payload.receiverName, icon: icon)
+    }
 }
 
 public protocol TransferViewModelFactoryOverriding {
     func createFeeViewModel(_ fee: Fee,
                             feeAsset: WalletAsset,
+                            payload: TransferPayload,
                             locale: Locale) -> FeeViewModelProtocol?
 
     func createAmountViewModel(for asset: WalletAsset,
-                               sender: String?,
-                               receiver: String?,
                                amount: Decimal?,
+                               payload: TransferPayload,
                                locale: Locale) -> AmountInputViewModelProtocol?
 
-    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModelProtocol?
+    func createDescriptionViewModelForDetails(_ details: String?,
+                                              payload: TransferPayload) throws
+        -> DescriptionInputViewModelProtocol?
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
+                                      payload: TransferPayload,
                                       locale: Locale) -> AssetSelectionViewModelProtocol?
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
                                    balanceData: BalanceData?,
+                                   payload: TransferPayload,
                                    locale: Locale) -> String?
+
+    func createReceiverViewModel(_ payload: TransferPayload,
+                                 locale: Locale) -> MultilineTitleIconViewModelProtocol?
+
+    func createAccessoryViewModel(_ payload: TransferPayload?,
+                                  locale: Locale) -> AccessoryViewModelProtocol?
 }
 
 public extension TransferViewModelFactoryOverriding {
     func createFeeViewModel(_ fee: Fee,
                             feeAsset: WalletAsset,
+                            payload: TransferPayload,
                             locale: Locale) -> FeeViewModelProtocol? {
-        return nil
+        nil
     }
 
     func createAmountViewModel(for asset: WalletAsset,
@@ -207,25 +254,38 @@ public extension TransferViewModelFactoryOverriding {
                                receiver: String?,
                                amount: Decimal?,
                                locale: Locale) -> AmountInputViewModelProtocol? {
-        return nil
+        nil
     }
 
-    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModelProtocol? {
-        return nil
+    func createDescriptionViewModelForDetails(_ details: String?,
+                                              payload: TransferPayload) throws
+        -> DescriptionInputViewModelProtocol? {
+        nil
     }
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
+                                      payload: TransferPayload,
                                       locale: Locale) -> AssetSelectionViewModelProtocol? {
-        return nil
+        nil
     }
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
                                    balanceData: BalanceData?,
+                                   payload: TransferPayload,
                                    locale: Locale) -> String? {
-        return nil
+        nil
+    }
+
+    func createReceiverViewModel(_ payload: TransferPayload,
+                                 locale: Locale) -> MultilineTitleIconViewModelProtocol? {
+        nil
+    }
+
+    func createAccessoryViewModel(_ payload: TransferPayload?,
+                                  locale: Locale) -> AccessoryViewModelProtocol? {
+        nil
     }
 }
 
@@ -235,58 +295,73 @@ struct TransferViewModelFactoryWrapper: TransferViewModelFactoryProtocol {
 
     func createFeeViewModel(_ fee: Fee,
                             feeAsset: WalletAsset,
+                            payload: TransferPayload,
                             locale: Locale) -> FeeViewModelProtocol {
-        overriding.createFeeViewModel(fee, feeAsset: feeAsset, locale: locale) ??
-        factory.createFeeViewModel(fee, feeAsset: feeAsset, locale: locale)
+        overriding.createFeeViewModel(fee, feeAsset: feeAsset, payload: payload, locale: locale) ??
+        factory.createFeeViewModel(fee, feeAsset: feeAsset, payload: payload, locale: locale)
     }
 
     func createAmountViewModel(for asset: WalletAsset,
-                               sender: String?,
-                               receiver: String?,
                                amount: Decimal?,
+                               payload: TransferPayload,
                                locale: Locale) -> AmountInputViewModelProtocol {
         overriding.createAmountViewModel(for: asset,
-                                         sender: sender,
-                                         receiver: receiver,
                                          amount: amount,
+                                         payload: payload,
                                          locale: locale) ??
         factory.createAmountViewModel(for: asset,
-                                      sender: sender,
-                                      receiver: receiver,
                                       amount: amount,
+                                      payload: payload,
                                       locale: locale)
     }
 
-    func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModelProtocol {
-        try overriding.createDescriptionViewModel(for: details) ??
-        (try factory.createDescriptionViewModel(for: details))
+        func createDescriptionViewModelForDetails(_ details: String?,
+                                                  payload: TransferPayload) throws
+            -> DescriptionInputViewModelProtocol {
+        try overriding.createDescriptionViewModelForDetails(details, payload: payload) ??
+        (try factory.createDescriptionViewModelForDetails(details, payload: payload))
     }
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
+                                      payload: TransferPayload,
                                       locale: Locale) -> AssetSelectionViewModelProtocol {
         overriding.createSelectedAssetViewModel(for: asset,
                                                 balanceData: balanceData,
-                                                isSelecting: isSelecting,
-                                                canSelect: canSelect,
+                                                selectedAssetState: selectedAssetState,
+                                                payload: payload,
                                                 locale: locale) ??
         factory.createSelectedAssetViewModel(for: asset,
                                              balanceData: balanceData,
-                                             isSelecting: isSelecting,
-                                             canSelect: canSelect,
+                                             selectedAssetState: selectedAssetState,
+                                             payload: payload,
                                              locale: locale)
     }
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
                                    balanceData: BalanceData?,
+                                   payload: TransferPayload,
                                    locale: Locale) -> String {
         overriding.createAssetSelectionTitle(asset,
                                              balanceData: balanceData,
+                                             payload: payload,
                                              locale: locale) ??
         factory.createAssetSelectionTitle(asset,
                                           balanceData: balanceData,
+                                          payload: payload,
                                           locale: locale)
+    }
+
+    func createReceiverViewModel(_ payload: TransferPayload, locale: Locale)
+        -> MultilineTitleIconViewModelProtocol {
+        overriding.createReceiverViewModel(payload, locale: locale) ??
+        factory.createReceiverViewModel(payload, locale: locale)
+    }
+
+    func createAccessoryViewModel(_ payload: TransferPayload?,
+                                  locale: Locale) -> AccessoryViewModelProtocol {
+        overriding.createAccessoryViewModel(payload, locale: locale) ??
+        factory.createAccessoryViewModel(payload, locale: locale)
     }
 }

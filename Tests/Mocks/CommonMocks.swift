@@ -4973,28 +4973,14 @@ public class MockAssetSelectionViewModelProtocol: AssetSelectionViewModelProtoco
     
     
     
-    public var isSelecting: Bool {
+    public var state: SelectedAssetState {
         get {
-            return cuckoo_manager.getter("isSelecting",
+            return cuckoo_manager.getter("state",
                 superclassCall:
                     
                     Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                     ,
-                defaultCall: __defaultImplStub!.isSelecting)
-        }
-        
-    }
-    
-    
-    
-    public var canSelect: Bool {
-        get {
-            return cuckoo_manager.getter("canSelect",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.canSelect)
+                defaultCall: __defaultImplStub!.state)
         }
         
     }
@@ -5032,13 +5018,8 @@ public class MockAssetSelectionViewModelProtocol: AssetSelectionViewModelProtoco
 	    }
 	    
 	    
-	    var isSelecting: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, Bool> {
-	        return .init(manager: cuckoo_manager, name: "isSelecting")
-	    }
-	    
-	    
-	    var canSelect: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, Bool> {
-	        return .init(manager: cuckoo_manager, name: "canSelect")
+	    var state: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockAssetSelectionViewModelProtocol, SelectedAssetState> {
+	        return .init(manager: cuckoo_manager, name: "state")
 	    }
 	    
 	    
@@ -5077,13 +5058,8 @@ public class MockAssetSelectionViewModelProtocol: AssetSelectionViewModelProtoco
 	    }
 	    
 	    
-	    var isSelecting: Cuckoo.VerifyReadOnlyProperty<Bool> {
-	        return .init(manager: cuckoo_manager, name: "isSelecting", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
-	    var canSelect: Cuckoo.VerifyReadOnlyProperty<Bool> {
-	        return .init(manager: cuckoo_manager, name: "canSelect", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    var state: Cuckoo.VerifyReadOnlyProperty<SelectedAssetState> {
+	        return .init(manager: cuckoo_manager, name: "state", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -5126,17 +5102,9 @@ public class AssetSelectionViewModelProtocolStub: AssetSelectionViewModelProtoco
     }
     
     
-    public var isSelecting: Bool {
+    public var state: SelectedAssetState {
         get {
-            return DefaultValueRegistry.defaultValue(for: (Bool).self)
-        }
-        
-    }
-    
-    
-    public var canSelect: Bool {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+            return DefaultValueRegistry.defaultValue(for: (SelectedAssetState).self)
         }
         
     }

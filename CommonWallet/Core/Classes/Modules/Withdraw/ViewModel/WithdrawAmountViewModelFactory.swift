@@ -20,8 +20,7 @@ protocol WithdrawAmountViewModelFactoryProtocol {
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
                                       locale: Locale) -> AssetSelectionViewModelProtocol
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
@@ -109,7 +108,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     func createAccessoryViewModel(for asset: WalletAsset?,
                                   totalAmount: Decimal?,
                                   locale: Locale) -> AccessoryViewModel {
-        let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Common.next)
+        var accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Common.next)
 
         guard let amount = totalAmount, let asset = asset else {
             return accessoryViewModel
@@ -152,8 +151,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
                                       balanceData: BalanceData?,
-                                      isSelecting: Bool,
-                                      canSelect: Bool,
+                                      selectedAssetState: SelectedAssetState,
                                       locale: Locale) -> AssetSelectionViewModelProtocol {
         let title: String
         let subtitle: String
@@ -188,17 +186,16 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
                                        subtitle: subtitle,
                                        details: details,
                                        icon: nil,
-                                       isSelecting: isSelecting,
-                                       canSelect: canSelect)
+                                       state: selectedAssetState)
     }
 
     func createAssetSelectionTitle(_ asset: WalletAsset,
                                    balanceData: BalanceData?,
                                    locale: Locale) -> String {
+        let state = SelectedAssetState(isSelecting: false, canSelect: false)
         let viewModel = createSelectedAssetViewModel(for: asset,
                                                      balanceData: balanceData,
-                                                     isSelecting: false,
-                                                     canSelect: false,
+                                                     selectedAssetState: state,
                                                      locale: locale)
 
         if !viewModel.details.isEmpty {

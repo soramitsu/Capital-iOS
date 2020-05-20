@@ -75,10 +75,12 @@ final class ReceiveAmountPresenter {
     private func setupSelectedAssetViewModel(isSelecting: Bool) {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
+        let state = SelectedAssetState(isSelecting: isSelecting,
+                                       canSelect: account.assets.count > 1)
+
         let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
                                                                       balanceData: nil,
-                                                                      isSelecting: isSelecting,
-                                                                      canSelect: account.assets.count > 1,
+                                                                      selectedAssetState: state,
                                                                       locale: locale)
 
         view?.didReceive(assetSelectionViewModel: viewModel)

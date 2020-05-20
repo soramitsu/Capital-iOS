@@ -111,8 +111,6 @@ class TransferFeeEditingTests: NetworkBaseTests {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
-
         let view = MockTransferViewProtocol()
         let coordinator = MockTransferCoordinatorProtocol()
 
@@ -175,15 +173,17 @@ class TransferFeeEditingTests: NetworkBaseTests {
         }
 
         let recieverInfo = try createRandomReceiveInfo()
-        let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
+        let amountPayload = TransferPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let settings = WalletTransactionSettings.defaultSettings
 
-        let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
-                                                              descriptionValidatorFactory: inputValidatorFactory,
-                                                              feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
-                                                              transactionSettings: settings)
+            let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+                                                                    amountFormatterFactory: NumberFormatterFactory(),
+                                                                    descriptionValidatorFactory: inputValidatorFactory,
+                                                                    feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
+                                                                    transactionSettings: settings,
+                                                                    generatingIconStyle: WalletStyle().nameIconStyle)
 
         let validator = TransferValidator(transactionSettings: WalletTransactionSettings.defaultSettings)
 
@@ -196,7 +196,6 @@ class TransferFeeEditingTests: NetworkBaseTests {
                                               resultValidator: validator,
                                               changeHandler: changeHandling,
                                               viewModelFactory: transferViewModelFactory,
-                                              accessoryFactory: accessoryViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),

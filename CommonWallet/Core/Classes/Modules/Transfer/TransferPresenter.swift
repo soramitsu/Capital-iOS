@@ -42,7 +42,6 @@ final class TransferPresenter {
 
     let feeCalculationFactory: FeeCalculationFactoryProtocol
     let viewModelFactory: TransferViewModelFactoryProtocol
-    let accessoryFactory: ContactAccessoryViewModelFactoryProtocol
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let resultValidator: TransferValidating
     let changeHandler: OperationDefinitionChangeHandling
@@ -53,19 +52,18 @@ final class TransferPresenter {
     let balanceDataProvider: SingleValueProvider<[BalanceData]>
 
     let account: WalletAccountSettingsProtocol
-    let payload: AmountPayload
+    let payload: TransferPayload
     let receiverPosition: TransferReceiverPosition
 
     init(view: TransferViewProtocol,
          coordinator: TransferCoordinatorProtocol,
-         payload: AmountPayload,
+         payload: TransferPayload,
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          account: WalletAccountSettingsProtocol,
          resultValidator: TransferValidating,
          changeHandler: OperationDefinitionChangeHandling,
          viewModelFactory: TransferViewModelFactoryProtocol,
-         accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
          headerFactory: OperationDefinitionHeaderModelFactoryProtocol,
          receiverPosition: TransferReceiverPosition,
          localizationManager: LocalizationManagerProtocol?,
@@ -95,7 +93,6 @@ final class TransferPresenter {
         self.resultValidator = resultValidator
         self.feeCalculationFactory = feeCalculationFactory
         self.viewModelFactory = viewModelFactory
-        self.accessoryFactory = accessoryFactory
         self.headerFactory = headerFactory
         self.errorHandler = errorHandler
         self.changeHandler = changeHandler
@@ -104,14 +101,13 @@ final class TransferPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         descriptionInputViewModel = try viewModelFactory
-            .createDescriptionViewModel(for: payload.receiveInfo.details)
+            .createDescriptionViewModelForDetails(payload.receiveInfo.details, payload: payload)
 
         let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
         amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      sender: account.accountId,
-                                                                      receiver: payload.receiveInfo.accountId,
                                                                       amount: decimalAmount,
+                                                                      payload: payload,
                                                                       locale: locale)
 
         self.localizationManager = localizationManager

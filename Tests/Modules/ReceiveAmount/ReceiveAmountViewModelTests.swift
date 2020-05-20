@@ -26,7 +26,7 @@ class ReceiveAmountViewModelTests: XCTestCase {
 
         stub(view) { stub in
             when(stub).didReceive(assetSelectionViewModel: any()).then { viewModel in
-                XCTAssertFalse(viewModel.canSelect)
+                XCTAssertFalse(viewModel.state.canSelect)
                 expectation.fulfill()
             }
         }
@@ -53,7 +53,7 @@ class ReceiveAmountViewModelTests: XCTestCase {
 
         stub(view) { stub in
             when(stub).didReceive(assetSelectionViewModel: any()).then { viewModel in
-                XCTAssertTrue(viewModel.canSelect)
+                XCTAssertTrue(viewModel.state.canSelect)
                 expectation.fulfill()
             }
         }

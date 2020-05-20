@@ -275,8 +275,8 @@ extension ContactsPresenter: ContactViewModelDelegate {
                                       amount: nil,
                                       details: nil)
 
-        let payload = AmountPayload(receiveInfo: receiveInfo,
-                                    receiverName: contact.name)
+        let payload = TransferPayload(receiveInfo: receiveInfo,
+                                      receiverName: contact.name)
 
         coordinator.send(to: payload)
     }

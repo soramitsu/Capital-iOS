@@ -167,10 +167,11 @@ final class WithdrawPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
 
+        let state = SelectedAssetState(isSelecting: isSelecting, canSelect: assets.count > 1)
+
         let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
                                                                       balanceData: balanceData,
-                                                                      isSelecting: isSelecting,
-                                                                      canSelect: assets.count > 0,
+                                                                      selectedAssetState: state,
                                                                       locale: locale)
 
         view?.set(assetViewModel: viewModel)

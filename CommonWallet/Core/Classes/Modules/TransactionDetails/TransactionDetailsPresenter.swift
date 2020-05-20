@@ -79,8 +79,8 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
 
         let receiverName: String = transactionData.localizedPeerName
 
-        let payload = AmountPayload(receiveInfo: receiverInfo,
-                                    receiverName: receiverName)
+        let payload = TransferPayload(receiveInfo: receiverInfo,
+                                      receiverName: receiverName)
 
         coordinator.send(to: payload)
     }

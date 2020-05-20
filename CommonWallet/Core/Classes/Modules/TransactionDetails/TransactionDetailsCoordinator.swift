@@ -13,7 +13,7 @@ final class TransactionDetailsCoordinator: TransactionDetailsCoordinatorProtocol
         self.resolver = resolver
     }
 
-    func send(to payload: AmountPayload) {
+    func send(to payload: TransferPayload) {
         guard let amountView = TransferAssembly.assembleView(with: resolver,
                                                              payload: payload) else {
             return

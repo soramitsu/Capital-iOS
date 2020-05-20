@@ -47,6 +47,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
             let locale = localizationManager?.selectedLocale ?? Locale.current
             return viewModelFactory.createAssetSelectionTitle(asset,
                                                               balanceData: balanceData,
+                                                              payload: payload,
                                                               locale: locale)
         }
 

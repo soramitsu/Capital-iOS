@@ -14,5 +14,6 @@ protocol TransferResultCoordinatorProtocol: class {
 
 
 protocol TransferResultAssemblyProtocol: class {
-    static func assembleView(resolver: ResolverProtocol, transferPayload: TransferPayload) -> WalletFormViewProtocol?
+    static func assembleView(resolver: ResolverProtocol,
+                             payload: ConfirmationPayload) -> WalletFormViewProtocol?
 }

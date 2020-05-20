@@ -95,7 +95,7 @@ final class WithdrawConfirmationPresenter {
     }
 
     private func createAccessoryViewModel() -> AccessoryViewModelProtocol {
-        let accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Withdraw.title)
+        var accessoryViewModel = AccessoryViewModel(title: "", action: L10n.Withdraw.title)
 
         guard let feeDecimal = feeDisplaySettings.displayStrategy
             .decimalValue(from: withdrawInfo.fees.first?.value.decimalValue) else {

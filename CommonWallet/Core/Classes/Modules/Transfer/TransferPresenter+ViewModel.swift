@@ -29,9 +29,8 @@ extension TransferPresenter {
         amountInputViewModel.observable.remove(observer: self)
 
         amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      sender: account.accountId,
-                                                                      receiver: payload.receiveInfo.accountId,
                                                                       amount: amount,
+                                                                      payload: payload,
                                                                       locale: locale)
 
         amountInputViewModel.observable.add(observer: self)
@@ -68,7 +67,10 @@ extension TransferPresenter {
                     throw TransferPresenterError.missingAsset
                 }
 
-                return viewModelFactory.createFeeViewModel(fee, feeAsset: asset, locale: locale)
+                return viewModelFactory.createFeeViewModel(fee,
+                                                           feeAsset: asset,
+                                                           payload: payload,
+                                                           locale: locale)
             }
 
             view?.set(feeViewModels: viewModels)
@@ -92,11 +94,13 @@ extension TransferPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
 
+        let state = SelectedAssetState(isSelecting: isSelecting, canSelect: account.assets.count > 1)
+
         let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
-                                                              balanceData: balanceData,
-                                                              isSelecting: isSelecting,
-                                                              canSelect: account.assets.count > 1,
-                                                              locale: locale)
+                                                                      balanceData: balanceData,
+                                                                      selectedAssetState: state,
+                                                                      payload: payload,
+                                                                      locale: locale)
 
         view?.set(assetViewModel: viewModel)
 
@@ -125,7 +129,8 @@ extension TransferPresenter {
             let locale = localizationManager?.selectedLocale ?? Locale.current
 
             let text = descriptionInputViewModel.text
-            descriptionInputViewModel = try viewModelFactory.createDescriptionViewModel(for: text)
+            descriptionInputViewModel = try viewModelFactory
+                .createDescriptionViewModelForDetails(text, payload: payload)
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
 
@@ -145,12 +150,7 @@ extension TransferPresenter {
     func setupReceiverViewModel() {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
-                                                                  fullName: payload.receiverName,
-                                                                  action: "")
-
-        let viewModel = MultilineTitleIconViewModel(text: accessoryViewModel.title,
-                                                    icon: accessoryViewModel.icon)
+        let viewModel = viewModelFactory.createReceiverViewModel(payload, locale: locale)
 
         view?.set(receiverViewModel: viewModel)
 
@@ -162,17 +162,17 @@ extension TransferPresenter {
     }
 
     func setupAccessoryViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         let accessoryViewModel: AccessoryViewModelProtocol
 
         switch receiverPosition {
         case .accessoryBar:
-            accessoryViewModel = accessoryFactory.createViewModel(from: payload.receiverName,
-                                                                  fullName: payload.receiverName,
-                                                                  action: L10n.Common.next)
+            accessoryViewModel = viewModelFactory.createAccessoryViewModel(payload,
+                                                                           locale: locale)
         default:
-            accessoryViewModel = accessoryFactory.createViewModel(from: "",
-                                                                  action: L10n.Common.next,
-                                                                  icon: nil)
+            accessoryViewModel = viewModelFactory.createAccessoryViewModel(nil,
+                                                                           locale: locale)
         }
 
         view?.set(accessoryViewModel: accessoryViewModel)

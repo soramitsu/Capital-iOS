@@ -13,8 +13,8 @@ final class ConfirmationCoordinator: ConfirmationCoordinatorProtocol {
         self.resolver = resolver
     }
 
-    func showResult(payload: TransferPayload) {
-        guard let view = TransferResultAssembly.assembleView(resolver: resolver, transferPayload: payload) else {
+    func showResult(payload: ConfirmationPayload) {
+        guard let view = TransferResultAssembly.assembleView(resolver: resolver, payload: payload) else {
             return
         }
 

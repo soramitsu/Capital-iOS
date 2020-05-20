@@ -32,9 +32,9 @@ class ConfirmationTests: NetworkBaseTests {
             var transferInfo = try createRandomTransferInfo()
             transferInfo.source = accountSettings.accountId
 
-            let transferPayload = TransferPayload(transferInfo: transferInfo,
-                                                  receiverName: UUID().uuidString,
-                                                  assetSymbol: accountSettings.assets[0].symbol)
+            let transferPayload = ConfirmationPayload(transferInfo: transferInfo,
+                                                      receiverName: UUID().uuidString,
+                                                      assetSymbol: accountSettings.assets[0].symbol)
 
             let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
@@ -70,7 +70,7 @@ class ConfirmationTests: NetworkBaseTests {
             }
 
             stub(coordinator) { stub in
-                when(stub).showResult(payload: any(TransferPayload.self)).then { _ in
+                when(stub).showResult(payload: any(ConfirmationPayload.self)).then { _ in
                     confirmExpectation.fulfill()
                 }
             }
