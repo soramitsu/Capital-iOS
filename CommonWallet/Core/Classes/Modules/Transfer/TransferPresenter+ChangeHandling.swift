@@ -38,7 +38,7 @@ extension TransferPresenter {
         let projectedChangeTypes = changeHandler.updateContentForChange(event: event)
         handleProjectedChangesIn(types: projectedChangeTypes)
 
-        let clearErrorTypes = changeHandler.clearErrorForChangeEvent(event: event)
+        let clearErrorTypes = changeHandler.clearErrorForChange(event: event)
         clearErrorsForTypes(clearErrorTypes)
 
         if changeHandler.shouldUpdateAccessoryForChange(event: event) {

@@ -12,7 +12,7 @@ final class ConfirmationPresenter {
     weak var view: WalletFormViewProtocol?
     var coordinator: ConfirmationCoordinatorProtocol
     
-    let payload: TransferPayload
+    let payload: ConfirmationPayload
     let service: WalletServiceProtocol
     let resolver: ResolverProtocol
     let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
@@ -25,7 +25,7 @@ final class ConfirmationPresenter {
          coordinator: ConfirmationCoordinatorProtocol,
          service: WalletServiceProtocol,
          resolver: ResolverProtocol,
-         payload: TransferPayload,
+         payload: ConfirmationPayload,
          accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
          eventCenter: WalletEventCenterProtocol,
          feeDisplaySettings: FeeDisplaySettingsProtocol) {

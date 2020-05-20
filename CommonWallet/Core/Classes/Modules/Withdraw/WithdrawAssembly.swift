@@ -34,8 +34,6 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
                                                                   transactionSettings: transactionSettings,
                                                                   feeDisplaySettingsFactory: feeSettingsFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
-
             let presenter = try WithdrawPresenter(view: view,
                                                         coordinator: coordinator,
                                                         assets: resolver.account.assets,
@@ -43,8 +41,7 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
                                                         selectedOption: option,
                                                         dataProviderFactory: dataProviderFactory,
                                                         feeCalculationFactory: resolver.feeCalculationFactory,
-                                                        withdrawViewModelFactory: viewModelFactory,
-                                                        assetSelectionFactory: assetSelectionFactory,
+                                                        viewModelFactory: viewModelFactory,
                                                         localizationManager: resolver.localizationManager)
 
             presenter.logger = resolver.logger

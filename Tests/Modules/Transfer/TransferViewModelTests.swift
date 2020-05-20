@@ -41,7 +41,7 @@ class TransferViewModelTests: XCTestCase {
 
         stub(view) { stub in
             when(stub).set(assetViewModel: any()).then { assetViewModel in
-                XCTAssertFalse(assetViewModel.canSelect)
+                XCTAssertFalse(assetViewModel.state.canSelect)
                 expectation.fulfill()
             }
         }
@@ -85,7 +85,7 @@ class TransferViewModelTests: XCTestCase {
 
         stub(view) { stub in
             when(stub).set(assetViewModel: any()).then { assetViewModel in
-                XCTAssertTrue(assetViewModel.canSelect)
+                XCTAssertTrue(assetViewModel.state.canSelect)
                 expectation.fulfill()
             }
         }
@@ -117,9 +117,6 @@ class TransferViewModelTests: XCTestCase {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
-
         let coordinator = MockTransferCoordinatorProtocol()
 
         stub(view) { stub in
@@ -140,14 +137,16 @@ class TransferViewModelTests: XCTestCase {
         }
 
         let recieverInfo = try createRandomReceiveInfo()
-        let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
+        let amountPayload = TransferPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
         let settings = WalletTransactionSettings.defaultSettings
 
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-        let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
+        let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+                                                                amountFormatterFactory: NumberFormatterFactory(),
                                                               descriptionValidatorFactory: inputValidatorFactory,
                                                               feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
-                                                              transactionSettings: settings)
+                                                              transactionSettings: settings,
+                                                              generatingIconStyle: WalletStyle().nameIconStyle)
         let resultValidator = TransferValidator(transactionSettings: settings)
         let changeHandler = OperationDefinitionChangeHandler()
 
@@ -159,9 +158,7 @@ class TransferViewModelTests: XCTestCase {
                                               account: accountSettings,
                                               resultValidator: resultValidator,
                                               changeHandler: changeHandler,
-                                              transferViewModelFactory: transferViewModelFactory,
-                                              assetSelectionFactory: assetSelectionFactory,
-                                              accessoryFactory: accessoryViewModelFactory,
+                                              viewModelFactory: transferViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),

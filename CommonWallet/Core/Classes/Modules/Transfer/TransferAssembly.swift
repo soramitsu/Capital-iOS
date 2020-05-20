@@ -9,7 +9,7 @@ import SoraFoundation
 final class TransferAssembly: TransferAssemblyProtocol {
     
     static func assembleView(with resolver: ResolverProtocol,
-                             payload: AmountPayload) -> TransferViewProtocol? {
+                             payload: TransferPayload) -> TransferViewProtocol? {
         do {
             let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
                                                                    defaultStyle: resolver.style)
@@ -27,20 +27,26 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                           cacheFacade: CoreDataCacheFacade.shared,
                                                           networkOperationFactory: resolver.networkOperationFactory)
 
-            let assetSelectionFactory = resolver.transferConfiguration.assetSelectionFactory ??
-                AssetSelectionFactory(amountFormatterFactory: resolver.amountFormatterFactory)
-
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style:
-                resolver.transferConfiguration.generatingIconStyle)
+            let generatingIconStyle = resolver.transferConfiguration.generatingIconStyle
             let inputValidatorFactory = resolver.inputValidatorFactory
             let amountFormatterFactory = resolver.amountFormatterFactory
             let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
             let transactionSettings = resolver.transferConfiguration.settings
 
-            let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: amountFormatterFactory,
-                                                                  descriptionValidatorFactory: inputValidatorFactory,
-                                                                  feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                                                  transactionSettings: transactionSettings)
+            let viewModelFactoryWrapper: TransferViewModelFactoryProtocol
+            let viewModelFactory = TransferViewModelFactory(account: resolver.account,
+                                                            amountFormatterFactory: amountFormatterFactory,
+                                                            descriptionValidatorFactory: inputValidatorFactory,
+                                                            feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                                            transactionSettings: transactionSettings,
+                                                            generatingIconStyle: generatingIconStyle)
+
+            if let overriding = resolver.transferConfiguration.transferViewModelFactory {
+                viewModelFactoryWrapper = TransferViewModelFactoryWrapper(overriding: overriding,
+                                                                          factory: viewModelFactory)
+            } else {
+                viewModelFactoryWrapper = viewModelFactory
+            }
 
             let headerFactory = resolver.transferConfiguration.headerFactory
             let receiverPosition = resolver.transferConfiguration.receiverPosition
@@ -58,9 +64,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    account: resolver.account,
                                                    resultValidator: resultValidator,
                                                    changeHandler: changeHandler,
-                                                   transferViewModelFactory: transferViewModelFactory,
-                                                   assetSelectionFactory: assetSelectionFactory,
-                                                   accessoryFactory: accessoryViewModelFactory,
+                                                   viewModelFactory: viewModelFactoryWrapper,
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager,

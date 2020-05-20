@@ -5,22 +5,23 @@
 
 import Foundation
 
-protocol AccessoryViewModelProtocol: class {
+public protocol AccessoryViewModelProtocol {
     var title: String { get }
     var icon: UIImage? { get }
     var action: String { get }
     var numberOfLines: Int { get }
 }
 
-final class AccessoryViewModel: AccessoryViewModelProtocol {
-    var title: String
-    var icon: UIImage?
-    var action: String
-    var numberOfLines: Int = 1
+public struct AccessoryViewModel: AccessoryViewModelProtocol {
+    public var title: String
+    public var icon: UIImage?
+    public var action: String
+    public var numberOfLines: Int
 
-    init(title: String, action: String, icon: UIImage? = nil) {
+    public init(title: String, action: String, icon: UIImage? = nil, numberOfLines: Int = 1) {
         self.title = title
         self.icon = icon
         self.action = action
+        self.numberOfLines = numberOfLines
     }
 }

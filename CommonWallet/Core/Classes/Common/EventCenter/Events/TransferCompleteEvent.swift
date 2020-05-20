@@ -6,7 +6,7 @@
 import Foundation
 
 struct TransferCompleteEvent {
-    let payload: TransferPayload
+    let payload: ConfirmationPayload
 }
 
 extension TransferCompleteEvent: WalletEventProtocol {

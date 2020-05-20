@@ -13,13 +13,13 @@ final class TransferResultPresenter {
     weak var view: WalletFormViewProtocol?
     var coordinator: TransferResultCoordinatorProtocol
 
-    let transferPayload: TransferPayload
+    let transferPayload: ConfirmationPayload
     let resolver: ResolverProtocol
     let feeDisplaySettings: FeeDisplaySettingsProtocol
 
     init(view: WalletFormViewProtocol,
          coordinator: TransferResultCoordinatorProtocol,
-         payload: TransferPayload,
+         payload: ConfirmationPayload,
          resolver: ResolverProtocol,
          feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view

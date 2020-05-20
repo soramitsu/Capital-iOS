@@ -45,7 +45,10 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
             let balanceData = balances?.first { $0.identifier == asset.identifier }
 
             let locale = localizationManager?.selectedLocale ?? Locale.current
-            return assetSelectionFactory.createTitle(for: asset, balanceData: balanceData, locale: locale)
+            return viewModelFactory.createAssetSelectionTitle(asset,
+                                                              balanceData: balanceData,
+                                                              payload: payload,
+                                                              locale: locale)
         }
 
         coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)

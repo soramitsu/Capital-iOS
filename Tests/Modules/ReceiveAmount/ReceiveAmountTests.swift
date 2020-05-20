@@ -73,8 +73,6 @@ class ReceiveAmountTests: XCTestCase {
                                       details: nil)
         let qrService = WalletQRService(operationFactory: WalletQROperationFactory())
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-
         // when
 
         let imageExpectation = XCTestExpectation()
@@ -114,7 +112,6 @@ class ReceiveAmountTests: XCTestCase {
         let presenter = try ReceiveAmountPresenter(view: view,
                                                    coordinator: coordinator,
                                                    account: accountSettings,
-                                                   assetSelectionFactory: assetSelectionFactory,
                                                    qrService: qrService,
                                                    sharingFactory: AccountShareFactory(),
                                                    receiveInfo: receiveInfo,

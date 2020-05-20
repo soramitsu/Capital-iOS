@@ -210,7 +210,7 @@ final class SelectedAssetView: UIControl {
             displaySeparatedTitle(viewModel.title, subtitle: viewModel.subtitle, details: viewModel.details)
         }
 
-        if viewModel.isSelecting {
+        if viewModel.state.isSelecting {
             detailsControl.activate(animated: true)
         } else {
             detailsControl.deactivate(animated: true)
@@ -279,7 +279,7 @@ final class SelectedAssetView: UIControl {
 
     private func applyStyle() {
         if let viewModel = viewModel {
-            detailsControl.imageView.image = viewModel.canSelect ? accessoryIcon : nil
+            detailsControl.imageView.image = viewModel.state.canSelect ? accessoryIcon : nil
         } else {
             detailsControl.imageView.image = accessoryIcon
         }
@@ -289,7 +289,7 @@ final class SelectedAssetView: UIControl {
     }
 
     @objc private func actionOnTouchUpInside(sender: AnyObject) {
-        guard let viewModel = viewModel, viewModel.canSelect else {
+        guard let viewModel = viewModel, viewModel.state.canSelect else {
             return
         }
 

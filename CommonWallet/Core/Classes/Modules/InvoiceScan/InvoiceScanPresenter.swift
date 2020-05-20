@@ -190,8 +190,8 @@ final class InvoiceScanPresenter {
         }
 
         let receiverName = "\(foundAccount.firstName) \(foundAccount.lastName)"
-        let payload = AmountPayload(receiveInfo: receiverInfo,
-                                    receiverName: receiverName)
+        let payload = TransferPayload(receiveInfo: receiverInfo,
+                                      receiverName: receiverName)
 
         coordinator.process(payload: payload)
     }

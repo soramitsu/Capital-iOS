@@ -127,9 +127,6 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                           cacheFacade: cacheFacade,
                                                           networkOperationFactory: networkOperationFactory)
 
-            let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
-
             let view = MockTransferViewProtocol()
             let coordinator = MockTransferCoordinatorProtocol()
             let errorHandler = MockOperationDefinitionErrorHandling()
@@ -225,10 +222,10 @@ class TransferInputConfirmationTests: NetworkBaseTests {
 
             let confirmExpectation = XCTestExpectation()
 
-            var payloadToConfirm: TransferPayload?
+            var payloadToConfirm: ConfirmationPayload?
 
             stub(coordinator) { stub in
-                when(stub).confirm(with: any(TransferPayload.self)).then { payload in
+                when(stub).confirm(with: any(ConfirmationPayload.self)).then { payload in
                     payloadToConfirm = payload
 
                     confirmExpectation.fulfill()
@@ -238,13 +235,15 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             var recieverInfo = try createRandomReceiveInfo()
             recieverInfo.amount = nil
 
-            let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
+            let amountPayload = TransferPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-            let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
+            let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+                                                                    amountFormatterFactory: NumberFormatterFactory(),
                                                                   descriptionValidatorFactory: inputValidatorFactory,
                                                                   feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
-                                                                  transactionSettings: transactionSettings)
+                                                                  transactionSettings: transactionSettings,
+                                                                  generatingIconStyle: WalletStyle().nameIconStyle)
 
             let validator = TransferValidator(transactionSettings: transactionSettings)
             let changeHandler = OperationDefinitionChangeHandler()
@@ -258,9 +257,7 @@ class TransferInputConfirmationTests: NetworkBaseTests {
                                                   account: accountSettings,
                                                   resultValidator: validator,
                                                   changeHandler: changeHandler,
-                                                  transferViewModelFactory: transferViewModelFactory,
-                                                  assetSelectionFactory: assetSelectionFactory,
-                                                  accessoryFactory: accessoryViewModelFactory,
+                                                  viewModelFactory: transferViewModelFactory,
                                                   headerFactory: TransferDefinitionHeaderModelFactory(),
                                                   receiverPosition: .accessoryBar,
                                                   localizationManager: localizationManager,

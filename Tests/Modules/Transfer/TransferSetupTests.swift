@@ -76,9 +76,6 @@ class TransferSetupTests: NetworkBaseTests {
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
 
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
-
         let view = MockTransferViewProtocol()
         let coordinator = MockTransferCoordinatorProtocol()
         let errorHandler = MockOperationDefinitionErrorHandling()
@@ -155,15 +152,17 @@ class TransferSetupTests: NetworkBaseTests {
         }
 
         let recieverInfo = try createRandomReceiveInfo()
-        let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
+        let amountPayload = TransferPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let settings = WalletTransactionSettings.defaultSettings
 
-        let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
+        let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+                                                                amountFormatterFactory: NumberFormatterFactory(),
                                                               descriptionValidatorFactory: inputValidatorFactory,
                                                               feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
-                                                              transactionSettings: settings)
+                                                              transactionSettings: settings,
+                                                              generatingIconStyle: WalletStyle().nameIconStyle)
 
         let validator = TransferValidator(transactionSettings: WalletTransactionSettings.defaultSettings)
         let changeHandler = OperationDefinitionChangeHandler()
@@ -176,9 +175,7 @@ class TransferSetupTests: NetworkBaseTests {
                                               account: accountSettings,
                                               resultValidator: validator,
                                               changeHandler: changeHandler,
-                                              transferViewModelFactory: transferViewModelFactory,
-                                              assetSelectionFactory: assetSelectionFactory,
-                                              accessoryFactory: accessoryViewModelFactory,
+                                              viewModelFactory: transferViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),

@@ -63,9 +63,6 @@ public protocol TransferModuleBuilderProtocol {
     func with(localizableTitle: LocalizableResource<String>) -> Self
 
     @discardableResult
-    func with(assetSelectionFactory: AssetSelectionFactoryProtocol) -> Self
-
-    @discardableResult
     func with(resultValidator: TransferValidating) -> Self
 
     @discardableResult
@@ -79,4 +76,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(feeEditing: FeeEditing) -> Self
+
+    @discardableResult
+    func with(transferViewModelFactory: TransferViewModelFactoryOverriding) -> Self
 }

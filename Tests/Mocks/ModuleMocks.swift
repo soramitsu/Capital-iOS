@@ -3067,9 +3067,9 @@ import Cuckoo
     
     
     
-     func showResult(payload: TransferPayload)  {
+     func showResult(payload: ConfirmationPayload)  {
         
-    return cuckoo_manager.call("showResult(payload: TransferPayload)",
+    return cuckoo_manager.call("showResult(payload: ConfirmationPayload)",
             parameters: (payload),
             escapingParameters: (payload),
             superclassCall:
@@ -3089,9 +3089,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func showResult<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(TransferPayload)> where M1.MatchedType == TransferPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockConfirmationCoordinatorProtocol.self, method: "showResult(payload: TransferPayload)", parameterMatchers: matchers))
+	    func showResult<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ConfirmationPayload)> where M1.MatchedType == ConfirmationPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(ConfirmationPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockConfirmationCoordinatorProtocol.self, method: "showResult(payload: ConfirmationPayload)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3111,9 +3111,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func showResult<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), Void> where M1.MatchedType == TransferPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return cuckoo_manager.verify("showResult(payload: TransferPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func showResult<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.__DoNotUse<(ConfirmationPayload), Void> where M1.MatchedType == ConfirmationPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(ConfirmationPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("showResult(payload: ConfirmationPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -3125,7 +3125,7 @@ import Cuckoo
     
 
     
-     func showResult(payload: TransferPayload)   {
+     func showResult(payload: ConfirmationPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -4384,9 +4384,9 @@ import Cuckoo
     
     
     
-     func send(to payload: AmountPayload)  {
+     func send(to payload: TransferPayload)  {
         
-    return cuckoo_manager.call("send(to: AmountPayload)",
+    return cuckoo_manager.call("send(to: TransferPayload)",
             parameters: (payload),
             escapingParameters: (payload),
             superclassCall:
@@ -4421,9 +4421,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AmountPayload)> where M1.MatchedType == AmountPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(AmountPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockContactsCoordinatorProtocol.self, method: "send(to: AmountPayload)", parameterMatchers: matchers))
+	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(TransferPayload)> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactsCoordinatorProtocol.self, method: "send(to: TransferPayload)", parameterMatchers: matchers))
 	    }
 	    
 	    func scanInvoice() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
@@ -4448,9 +4448,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.__DoNotUse<(AmountPayload), Void> where M1.MatchedType == AmountPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(AmountPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return cuckoo_manager.verify("send(to: AmountPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), Void> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("send(to: TransferPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -4468,7 +4468,7 @@ import Cuckoo
     
 
     
-     func send(to payload: AmountPayload)   {
+     func send(to payload: TransferPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -6671,9 +6671,9 @@ import AVFoundation
     
     
     
-     func process(payload: AmountPayload)  {
+     func process(payload: TransferPayload)  {
         
-    return cuckoo_manager.call("process(payload: AmountPayload)",
+    return cuckoo_manager.call("process(payload: TransferPayload)",
             parameters: (payload),
             escapingParameters: (payload),
             superclassCall:
@@ -6708,9 +6708,9 @@ import AVFoundation
 	    }
 	    
 	    
-	    func process<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AmountPayload)> where M1.MatchedType == AmountPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(AmountPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockInvoiceScanCoordinatorProtocol.self, method: "process(payload: AmountPayload)", parameterMatchers: matchers))
+	    func process<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(TransferPayload)> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockInvoiceScanCoordinatorProtocol.self, method: "process(payload: TransferPayload)", parameterMatchers: matchers))
 	    }
 	    
 	    func presentImageGallery<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(from view: M1, delegate: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(ControllerBackedProtocol?, ImageGalleryDelegate)> where M1.OptionalMatchedType == ControllerBackedProtocol, M2.MatchedType == ImageGalleryDelegate {
@@ -6735,9 +6735,9 @@ import AVFoundation
 	
 	    
 	    @discardableResult
-	    func process<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.__DoNotUse<(AmountPayload), Void> where M1.MatchedType == AmountPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(AmountPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return cuckoo_manager.verify("process(payload: AmountPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func process<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), Void> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("process(payload: TransferPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -6755,7 +6755,7 @@ import AVFoundation
     
 
     
-     func process(payload: AmountPayload)   {
+     func process(payload: TransferPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -6812,16 +6812,16 @@ public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHan
     
     
     
-    public func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
+    public func clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType] {
         
-    return cuckoo_manager.call("clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]",
+    return cuckoo_manager.call("clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]",
             parameters: (event),
             escapingParameters: (event),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.clearErrorForChangeEvent(event: event))
+            defaultCall: __defaultImplStub!.clearErrorForChange(event: event))
         
     }
     
@@ -6854,9 +6854,9 @@ public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHan
 	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "updateContentForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
 	    }
 	    
-	    func clearErrorForChangeEvent<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	    func clearErrorForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
 	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockOperationDefinitionChangeHandling.self, method: "clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", parameterMatchers: matchers))
 	    }
 	    
 	    func shouldUpdateAccessoryForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.ProtocolStubFunction<(OperationDefinitionChangeEvent), Bool> where M1.MatchedType == OperationDefinitionChangeEvent {
@@ -6887,9 +6887,9 @@ public class MockOperationDefinitionChangeHandling: OperationDefinitionChangeHan
 	    }
 	    
 	    @discardableResult
-	    func clearErrorForChangeEvent<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
+	    func clearErrorForChange<M1: Cuckoo.Matchable>(event: M1) -> Cuckoo.__DoNotUse<(OperationDefinitionChangeEvent), [OperationDefinitionType]> where M1.MatchedType == OperationDefinitionChangeEvent {
 	        let matchers: [Cuckoo.ParameterMatcher<(OperationDefinitionChangeEvent)>] = [wrap(matchable: event) { $0 }]
-	        return cuckoo_manager.verify("clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -6911,7 +6911,7 @@ public class OperationDefinitionChangeHandlingStub: OperationDefinitionChangeHan
         return DefaultValueRegistry.defaultValue(for: ([OperationDefinitionType]).self)
     }
     
-    public func clearErrorForChangeEvent(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]  {
+    public func clearErrorForChange(event: OperationDefinitionChangeEvent) -> [OperationDefinitionType]  {
         return DefaultValueRegistry.defaultValue(for: ([OperationDefinitionType]).self)
     }
     
@@ -8567,9 +8567,9 @@ import Cuckoo
     
     
     
-     func send(to payload: AmountPayload)  {
+     func send(to payload: TransferPayload)  {
         
-    return cuckoo_manager.call("send(to: AmountPayload)",
+    return cuckoo_manager.call("send(to: TransferPayload)",
             parameters: (payload),
             escapingParameters: (payload),
             superclassCall:
@@ -8589,9 +8589,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AmountPayload)> where M1.MatchedType == AmountPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(AmountPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransactionDetailsCoordinatorProtocol.self, method: "send(to: AmountPayload)", parameterMatchers: matchers))
+	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(TransferPayload)> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransactionDetailsCoordinatorProtocol.self, method: "send(to: TransferPayload)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -8611,9 +8611,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.__DoNotUse<(AmountPayload), Void> where M1.MatchedType == AmountPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(AmountPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return cuckoo_manager.verify("send(to: AmountPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func send<M1: Cuckoo.Matchable>(to payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), Void> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("send(to: TransferPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -8625,7 +8625,7 @@ import Cuckoo
     
 
     
-     func send(to payload: AmountPayload)   {
+     func send(to payload: TransferPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -9434,9 +9434,9 @@ import Cuckoo
     
     
     
-     func confirm(with payload: TransferPayload)  {
+     func confirm(with payload: ConfirmationPayload)  {
         
-    return cuckoo_manager.call("confirm(with: TransferPayload)",
+    return cuckoo_manager.call("confirm(with: ConfirmationPayload)",
             parameters: (payload),
             escapingParameters: (payload),
             superclassCall:
@@ -9491,9 +9491,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func confirm<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(TransferPayload)> where M1.MatchedType == TransferPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferCoordinatorProtocol.self, method: "confirm(with: TransferPayload)", parameterMatchers: matchers))
+	    func confirm<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ConfirmationPayload)> where M1.MatchedType == ConfirmationPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(ConfirmationPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferCoordinatorProtocol.self, method: "confirm(with: ConfirmationPayload)", parameterMatchers: matchers))
 	    }
 	    
 	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<([String], Int, ModalPickerViewDelegate?)> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
@@ -9528,9 +9528,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func confirm<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), Void> where M1.MatchedType == TransferPayload {
-	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return cuckoo_manager.verify("confirm(with: TransferPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func confirm<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.__DoNotUse<(ConfirmationPayload), Void> where M1.MatchedType == ConfirmationPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(ConfirmationPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("confirm(with: ConfirmationPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -9562,7 +9562,7 @@ import Cuckoo
     
 
     
-     func confirm(with payload: TransferPayload)   {
+     func confirm(with payload: ConfirmationPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     

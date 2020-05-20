@@ -9,7 +9,7 @@ import SoraFoundation
 
 final class ConfirmationAssembly: ConfirmationAssemblyProtocol {
     
-    static func assembleView(with resolver: ResolverProtocol, payload: TransferPayload)
+    static func assembleView(with resolver: ResolverProtocol, payload: ConfirmationPayload)
         -> WalletFormViewProtocol? {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)

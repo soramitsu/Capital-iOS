@@ -190,9 +190,9 @@ extension TransferPresenter {
         do {
             let transferInfo = try prepareTransferInfo()
 
-            let composedPayload = TransferPayload(transferInfo: transferInfo,
-                                                  receiverName: payload.receiverName,
-                                                  assetSymbol: selectedAsset.symbol)
+            let composedPayload = ConfirmationPayload(transferInfo: transferInfo,
+                                                      receiverName: payload.receiverName,
+                                                      assetSymbol: selectedAsset.symbol)
 
             coordinator.confirm(with: composedPayload)
         } catch {

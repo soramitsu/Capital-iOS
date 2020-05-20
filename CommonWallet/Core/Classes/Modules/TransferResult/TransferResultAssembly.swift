@@ -8,7 +8,7 @@ import SoraFoundation
 
 
 final class TransferResultAssembly: TransferResultAssemblyProtocol {
-    static func assembleView(resolver: ResolverProtocol, transferPayload: TransferPayload)
+    static func assembleView(resolver: ResolverProtocol, payload: ConfirmationPayload)
         -> WalletFormViewProtocol? {
         let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
         view.accessoryViewFactory = AccessoryViewFactory.self
@@ -18,12 +18,12 @@ final class TransferResultAssembly: TransferResultAssemblyProtocol {
         let coordinator = TransferResultCoordinator(resolver: resolver)
 
         // TODO: Move to multifee variant
-        let feeId = transferPayload.transferInfo.fees.first?.feeDescription.identifier ?? ""
+        let feeId = payload.transferInfo.fees.first?.feeDescription.identifier ?? ""
         let feeDisplaySettings = resolver.feeDisplaySettingsFactory.createFeeSettingsForId(feeId)
 
         let presenter = TransferResultPresenter(view: view,
                                                 coordinator: coordinator,
-                                                payload: transferPayload,
+                                                payload: payload,
                                                 resolver: resolver,
                                                 feeDisplaySettings: feeDisplaySettings)
         view.presenter = presenter

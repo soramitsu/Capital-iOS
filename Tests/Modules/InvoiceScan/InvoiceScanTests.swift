@@ -99,7 +99,7 @@ class InvoiceScanTests: NetworkBaseTests {
             }
 
             stub(coordinator) { stub in
-                when(stub).process(payload: any(AmountPayload.self)).then { _ in
+                when(stub).process(payload: any(TransferPayload.self)).then { _ in
                     completionExpectation.fulfill()
                 }
             }
@@ -172,7 +172,7 @@ class InvoiceScanTests: NetworkBaseTests {
             }
 
             if expectsSuccess {
-                verify(coordinator, times(1)).process(payload: any(AmountPayload.self))
+                verify(coordinator, times(1)).process(payload: any(TransferPayload.self))
             } else {
                 verify(view, times(1)).present(message: any(String.self), animated: any(Bool.self))
             }

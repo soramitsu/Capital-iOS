@@ -21,7 +21,7 @@ protocol InvoiceScanPresenterProtocol: class {
 
 
 protocol InvoiceScanCoordinatorProtocol: ApplicationSettingsPresentable, ImageGalleryPresentable {
-    func process(payload: AmountPayload)
+    func process(payload: TransferPayload)
 }
 
 

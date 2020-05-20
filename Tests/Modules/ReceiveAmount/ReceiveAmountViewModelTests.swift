@@ -26,7 +26,7 @@ class ReceiveAmountViewModelTests: XCTestCase {
 
         stub(view) { stub in
             when(stub).didReceive(assetSelectionViewModel: any()).then { viewModel in
-                XCTAssertFalse(viewModel.canSelect)
+                XCTAssertFalse(viewModel.state.canSelect)
                 expectation.fulfill()
             }
         }
@@ -53,7 +53,7 @@ class ReceiveAmountViewModelTests: XCTestCase {
 
         stub(view) { stub in
             when(stub).didReceive(assetSelectionViewModel: any()).then { viewModel in
-                XCTAssertTrue(viewModel.canSelect)
+                XCTAssertTrue(viewModel.state.canSelect)
                 expectation.fulfill()
             }
         }
@@ -76,8 +76,6 @@ class ReceiveAmountViewModelTests: XCTestCase {
                                       amount: nil,
                                       details: nil)
         let qrService = WalletQRService(operationFactory: WalletQROperationFactory())
-
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
 
         let coordinator = MockReceiveAmountCoordinatorProtocol()
 
@@ -105,7 +103,6 @@ class ReceiveAmountViewModelTests: XCTestCase {
         let presenter = try ReceiveAmountPresenter(view: view,
                                                    coordinator: coordinator,
                                                    account: accountSettings,
-                                                   assetSelectionFactory: assetSelectionFactory,
                                                    qrService: qrService,
                                                    sharingFactory: AccountShareFactory(),
                                                    receiveInfo: receiveInfo,

@@ -5,7 +5,8 @@
 
 import Foundation
 
-struct AmountPayload {
-    var receiveInfo: ReceiveInfo
+struct ConfirmationPayload {
+    var transferInfo: TransferInfo
     var receiverName: String
+    var assetSymbol: String
 }

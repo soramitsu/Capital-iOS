@@ -7,7 +7,7 @@ protocol TransactionDetailsPresenterProtocol: WalletFormPresenterProtocol {}
 
 
 protocol TransactionDetailsCoordinatorProtocol: class {
-    func send(to payload: AmountPayload)
+    func send(to payload: TransferPayload)
 }
 
 

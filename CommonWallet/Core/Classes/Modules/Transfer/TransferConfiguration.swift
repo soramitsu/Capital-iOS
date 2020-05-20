@@ -18,7 +18,7 @@ protocol TransferConfigurationProtocol {
     var generatingIconStyle: WalletNameIconStyleProtocol { get }
     var accessoryViewType: WalletAccessoryViewType { get }
     var localizableTitle: LocalizableResource<String>? { get }
-    var assetSelectionFactory: AssetSelectionFactoryProtocol? { get }
+    var transferViewModelFactory: TransferViewModelFactoryOverriding? { get }
     var errorHandler: OperationDefinitionErrorHandling? { get }
     var feeEditing: FeeEditing? { get }
 }
@@ -34,7 +34,7 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let generatingIconStyle: WalletNameIconStyleProtocol
     let accessoryViewType: WalletAccessoryViewType
     let localizableTitle: LocalizableResource<String>?
-    let assetSelectionFactory: AssetSelectionFactoryProtocol?
+    let transferViewModelFactory: TransferViewModelFactoryOverriding?
     let errorHandler: OperationDefinitionErrorHandling?
     let feeEditing: FeeEditing?
 }

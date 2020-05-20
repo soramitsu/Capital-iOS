@@ -32,8 +32,8 @@ final class TransferPresenter {
     var coordinator: TransferCoordinatorProtocol
     var logger: WalletLoggerProtocol?
     
-    var amountInputViewModel: AmountInputViewModel
-    var descriptionInputViewModel: DescriptionInputViewModel
+    var amountInputViewModel: AmountInputViewModelProtocol
+    var descriptionInputViewModel: DescriptionInputViewModelProtocol
     var metadataProvider: SingleValueProvider<TransferMetaData>
     var balances: [BalanceData]?
     var metadata: TransferMetaData?
@@ -41,9 +41,7 @@ final class TransferPresenter {
     var confirmationState: TransferCheckingState?
 
     let feeCalculationFactory: FeeCalculationFactoryProtocol
-    let transferViewModelFactory: TransferViewModelFactoryProtocol
-    let assetSelectionFactory: AssetSelectionFactoryProtocol
-    let accessoryFactory: ContactAccessoryViewModelFactoryProtocol
+    let viewModelFactory: TransferViewModelFactoryProtocol
     let headerFactory: OperationDefinitionHeaderModelFactoryProtocol
     let resultValidator: TransferValidating
     let changeHandler: OperationDefinitionChangeHandling
@@ -54,20 +52,18 @@ final class TransferPresenter {
     let balanceDataProvider: SingleValueProvider<[BalanceData]>
 
     let account: WalletAccountSettingsProtocol
-    let payload: AmountPayload
+    let payload: TransferPayload
     let receiverPosition: TransferReceiverPosition
 
     init(view: TransferViewProtocol,
          coordinator: TransferCoordinatorProtocol,
-         payload: AmountPayload,
+         payload: TransferPayload,
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          account: WalletAccountSettingsProtocol,
          resultValidator: TransferValidating,
          changeHandler: OperationDefinitionChangeHandling,
-         transferViewModelFactory: TransferViewModelFactoryProtocol,
-         assetSelectionFactory: AssetSelectionFactoryProtocol,
-         accessoryFactory: ContactAccessoryViewModelFactoryProtocol,
+         viewModelFactory: TransferViewModelFactoryProtocol,
          headerFactory: OperationDefinitionHeaderModelFactoryProtocol,
          receiverPosition: TransferReceiverPosition,
          localizationManager: LocalizationManagerProtocol?,
@@ -96,9 +92,7 @@ final class TransferPresenter {
 
         self.resultValidator = resultValidator
         self.feeCalculationFactory = feeCalculationFactory
-        self.transferViewModelFactory = transferViewModelFactory
-        self.assetSelectionFactory = assetSelectionFactory
-        self.accessoryFactory = accessoryFactory
+        self.viewModelFactory = viewModelFactory
         self.headerFactory = headerFactory
         self.errorHandler = errorHandler
         self.changeHandler = changeHandler
@@ -106,16 +100,15 @@ final class TransferPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        descriptionInputViewModel = try transferViewModelFactory
-            .createDescriptionViewModel(for: payload.receiveInfo.details)
+        descriptionInputViewModel = try viewModelFactory
+            .createDescriptionViewModelForDetails(payload.receiveInfo.details, payload: payload)
 
         let decimalAmount = payload.receiveInfo.amount?.decimalValue
 
-        amountInputViewModel = transferViewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                              sender: account.accountId,
-                                                                              receiver: payload.receiveInfo.accountId,
-                                                                              amount: decimalAmount,
-                                                                              locale: locale)
+        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                      amount: decimalAmount,
+                                                                      payload: payload,
+                                                                      locale: locale)
 
         self.localizationManager = localizationManager
     }

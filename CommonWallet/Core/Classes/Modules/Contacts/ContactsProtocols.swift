@@ -22,7 +22,7 @@ protocol ContactsPresenterProtocol: class {
 
 protocol ContactsCoordinatorProtocol: class {
     
-    func send(to payload: AmountPayload)
+    func send(to payload: TransferPayload)
     func scanInvoice()
     
 }

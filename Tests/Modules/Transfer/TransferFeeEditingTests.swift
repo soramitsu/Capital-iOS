@@ -50,8 +50,8 @@ class TransferFeeEditingTests: NetworkBaseTests {
                 changeHandler.updateContentForChange(event: event)
             }
 
-            when(stub).clearErrorForChangeEvent(event: any()).then { event in
-                changeHandler.clearErrorForChangeEvent(event: event)
+            when(stub).clearErrorForChange(event: any()).then { event in
+                changeHandler.clearErrorForChange(event: event)
             }
 
             when(stub).shouldUpdateAccessoryForChange(event: any()).then { event in
@@ -110,9 +110,6 @@ class TransferFeeEditingTests: NetworkBaseTests {
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                       cacheFacade: cacheFacade,
                                                       networkOperationFactory: networkOperationFactory)
-
-        let assetSelectionFactory = AssetSelectionFactory(amountFormatterFactory: NumberFormatterFactory())
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
 
         let view = MockTransferViewProtocol()
         let coordinator = MockTransferCoordinatorProtocol()
@@ -176,15 +173,17 @@ class TransferFeeEditingTests: NetworkBaseTests {
         }
 
         let recieverInfo = try createRandomReceiveInfo()
-        let amountPayload = AmountPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
+        let amountPayload = TransferPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let settings = WalletTransactionSettings.defaultSettings
 
-        let transferViewModelFactory = TransferViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
-                                                              descriptionValidatorFactory: inputValidatorFactory,
-                                                              feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
-                                                              transactionSettings: settings)
+            let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+                                                                    amountFormatterFactory: NumberFormatterFactory(),
+                                                                    descriptionValidatorFactory: inputValidatorFactory,
+                                                                    feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
+                                                                    transactionSettings: settings,
+                                                                    generatingIconStyle: WalletStyle().nameIconStyle)
 
         let validator = TransferValidator(transactionSettings: WalletTransactionSettings.defaultSettings)
 
@@ -196,9 +195,7 @@ class TransferFeeEditingTests: NetworkBaseTests {
                                               account: accountSettings,
                                               resultValidator: validator,
                                               changeHandler: changeHandling,
-                                              transferViewModelFactory: transferViewModelFactory,
-                                              assetSelectionFactory: assetSelectionFactory,
-                                              accessoryFactory: accessoryViewModelFactory,
+                                              viewModelFactory: transferViewModelFactory,
                                               headerFactory: TransferDefinitionHeaderModelFactory(),
                                               receiverPosition: .accessoryBar,
                                               localizationManager: LocalizationManager(localization: WalletLanguage.english.rawValue),
