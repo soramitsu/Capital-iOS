@@ -60,7 +60,7 @@ extension Resolver: CommonWalletContextProtocol {
         return TransactionDetailsCommand(resolver: self, transaction: transaction)
     }
 
-    func presentTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol {
+    func prepareTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol {
         return TransferCommand(resolver: self, payload: payload)
     }
 }
