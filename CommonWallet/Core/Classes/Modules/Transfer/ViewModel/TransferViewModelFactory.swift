@@ -250,9 +250,8 @@ public extension TransferViewModelFactoryOverriding {
     }
 
     func createAmountViewModel(for asset: WalletAsset,
-                               sender: String?,
-                               receiver: String?,
                                amount: Decimal?,
+                               payload: TransferPayload,
                                locale: Locale) -> AmountInputViewModelProtocol? {
         nil
     }
