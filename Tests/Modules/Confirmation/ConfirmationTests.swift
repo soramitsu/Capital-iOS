@@ -29,8 +29,7 @@ class ConfirmationTests: NetworkBaseTests {
 
             let walletService = WalletService(operationFactory: networkOperationFactory)
 
-            var transferInfo = try createRandomTransferInfo()
-            transferInfo.source = accountSettings.accountId
+            let transferInfo = try createRandomTransferInfo(for: accountSettings.accountId)
 
             let transferPayload = ConfirmationPayload(transferInfo: transferInfo,
                                                       receiverName: UUID().uuidString,

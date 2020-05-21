@@ -9,13 +9,16 @@ public struct BalanceData: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case identifier = "id"
         case balance
+        case context
     }
 
-    public var identifier: String
-    public var balance: AmountDecimal
+    public let identifier: String
+    public let balance: AmountDecimal
+    public let context: [String: String]?
 
-    public init(identifier: String, balance: AmountDecimal) {
+    public init(identifier: String, balance: AmountDecimal, context: [String: String]? = nil) {
         self.identifier = identifier
         self.balance = balance
+        self.context = context
     }
 }

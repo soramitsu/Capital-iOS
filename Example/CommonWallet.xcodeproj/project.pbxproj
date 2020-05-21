@@ -25,6 +25,7 @@
 		8418C57D2330F95B00E92394 /* FeeCalculationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */; };
 		841944E52468924C00452850 /* TransferViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E42468924C00452850 /* TransferViewModelTests.swift */; };
 		841944E92468AB2A00452850 /* ReceiveAmountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */; };
+		841985AC247659F8004D9E03 /* WalletCodableContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841985AB247659F8004D9E03 /* WalletCodableContextTests.swift */; };
 		841B76522472756600370FE3 /* SidechainTransferErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841B76512472756600370FE3 /* SidechainTransferErrorHandler.swift */; };
 		8425DB8C228160DC008A8B6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8425DB8B228160DC008A8B6A /* InfoPlist.strings */; };
 		8425DB9322817304008A8B6A /* InvoiceScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */; };
@@ -184,6 +185,7 @@
 		8418C57C2330F95B00E92394 /* FeeCalculationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeCalculationTests.swift; sourceTree = "<group>"; };
 		841944E42468924C00452850 /* TransferViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewModelTests.swift; sourceTree = "<group>"; };
 		841944E82468AB2A00452850 /* ReceiveAmountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveAmountViewModelTests.swift; sourceTree = "<group>"; };
+		841985AB247659F8004D9E03 /* WalletCodableContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCodableContextTests.swift; sourceTree = "<group>"; };
 		841B76512472756600370FE3 /* SidechainTransferErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainTransferErrorHandler.swift; sourceTree = "<group>"; };
 		8425DB8B228160DC008A8B6A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8425DB91228172F0008A8B6A /* InvoiceScanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceScanTests.swift; sourceTree = "<group>"; };
@@ -433,6 +435,14 @@
 			path = Fee;
 			sourceTree = "<group>";
 		};
+		841985AA247659DC004D9E03 /* Context */ = {
+			isa = PBXGroup;
+			children = (
+				841985AB247659F8004D9E03 /* WalletCodableContextTests.swift */,
+			);
+			path = Context;
+			sourceTree = "<group>";
+		};
 		8425DB90228172F0008A8B6A /* InvoiceScan */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +478,7 @@
 		8447621C224CE2FC009ADC0E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				841985AA247659DC004D9E03 /* Context */,
 				84868E1F23B5F1F900E3CAA4 /* Commands */,
 				842F7671233BAA8600C8D444 /* Events */,
 				8418C57B2330F94800E92394 /* Fee */,
@@ -1277,6 +1288,7 @@
 				84EBF57D23C760F000E609FF /* MoneyPresenter.swift in Sources */,
 				84D8D9A422F717DA00C9B9C7 /* MockNetworkResolver.swift in Sources */,
 				84E28A562279753B00F7646D /* ContactsTests.swift in Sources */,
+				841985AC247659F8004D9E03 /* WalletCodableContextTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

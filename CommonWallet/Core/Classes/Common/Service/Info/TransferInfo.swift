@@ -6,24 +6,27 @@
 import Foundation
 
 public struct TransferInfo {
-    public var source: String
-    public var destination: String
-    public var amount: AmountDecimal
-    public var asset: String
-    public var details: String
-    public var fees: [Fee]
+    public let source: String
+    public let destination: String
+    public let amount: AmountDecimal
+    public let asset: String
+    public let details: String
+    public let fees: [Fee]
+    public let context: [String: String]?
 
     public init(source: String,
                 destination: String,
                 amount: AmountDecimal,
                 asset: String,
                 details: String,
-                fees: [Fee]) {
+                fees: [Fee],
+                context: [String: String]? = nil) {
         self.source = source
         self.destination = destination
         self.amount = amount
         self.asset = asset
         self.details = details
         self.fees = fees
+        self.context = context
     }
 }

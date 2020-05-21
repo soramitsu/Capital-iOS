@@ -21,8 +21,7 @@ class TransferResultTests: NetworkBaseTests {
 
             let accountSettings = try createRandomAccountSettings(for: 1)
 
-            var transferInfo = try createRandomTransferInfo()
-            transferInfo.source = accountSettings.accountId
+            let transferInfo = try createRandomTransferInfo(for: accountSettings.accountId)
 
             let transferPayload = ConfirmationPayload(transferInfo: transferInfo,
                                                       receiverName: UUID().uuidString,
