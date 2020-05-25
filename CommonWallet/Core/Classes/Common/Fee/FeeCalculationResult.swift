@@ -6,7 +6,13 @@
 import Foundation
 
 public struct FeeCalculationResult {
-    let sending: Decimal
-    let fees: [Fee]
-    let total: Decimal
+    public let sending: Decimal
+    public let fees: [Fee]
+    public let total: Decimal
+
+    public init(sending: Decimal, fees: [Fee], total: Decimal) {
+        self.sending = sending
+        self.fees = fees
+        self.total = total
+    }
 }
