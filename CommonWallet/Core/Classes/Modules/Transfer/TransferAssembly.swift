@@ -34,7 +34,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let transactionSettings = resolver.transferConfiguration.settings
 
             let viewModelFactoryWrapper: TransferViewModelFactoryProtocol
-            let viewModelFactory = TransferViewModelFactory(account: resolver.account,
+            let viewModelFactory = TransferViewModelFactory(accountId: resolver.account.accountId,
+                                                            assets: resolver.account.assets,
                                                             amountFormatterFactory: amountFormatterFactory,
                                                             descriptionValidatorFactory: inputValidatorFactory,
                                                             feeDisplaySettingsFactory: feeDisplaySettingsFactory,

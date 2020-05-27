@@ -52,6 +52,17 @@ final class TransferPresenter {
     let payload: TransferPayload
     let receiverPosition: TransferReceiverPosition
 
+    var selectedBalance: BalanceData? {
+        balances?.first { $0.identifier == selectedAsset.identifier }
+    }
+
+    var inputState: TransferInputState {
+        TransferInputState(selectedAsset: selectedAsset,
+                           balance: selectedBalance,
+                           amount: amountInputViewModel.decimalAmount,
+                           metadata: metadata)
+    }
+
     init(view: TransferViewProtocol,
          coordinator: TransferCoordinatorProtocol,
          assets: [WalletAsset],
@@ -98,15 +109,20 @@ final class TransferPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
+        let state = TransferInputState(selectedAsset: selectedAsset,
+                                       balance: nil,
+                                       amount: payload.receiveInfo.amount?.decimalValue,
+                                       metadata: nil)
+
         descriptionInputViewModel = try viewModelFactory
-            .createDescriptionViewModelForDetails(payload.receiveInfo.details, payload: payload)
+            .createDescriptionViewModel(state,
+                                        details: payload.receiveInfo.details,
+                                        payload: payload,
+                                        locale: locale)
 
-        let decimalAmount = payload.receiveInfo.amount?.decimalValue
-
-        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      amount: decimalAmount,
-                                                                      payload: payload,
-                                                                      locale: locale)
+        amountInputViewModel = try viewModelFactory.createAmountViewModel(state,
+                                                                          payload: payload,
+                                                                          locale: locale)
 
         self.localizationManager = localizationManager
     }

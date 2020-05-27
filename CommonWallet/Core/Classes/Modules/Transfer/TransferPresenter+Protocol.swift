@@ -39,21 +39,24 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
     }
 
     func presentAssetSelection() {
-        let initialIndex = assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
+        do {
+            let initialIndex = assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
 
-        let titles: [String] = assets.map { (asset) in
-            let balanceData = balances?.first { $0.identifier == asset.identifier }
+            let titles: [String] = try assets.map { (asset) in
+                let locale = localizationManager?.selectedLocale ?? Locale.current
+                return try viewModelFactory.createAssetSelectionTitle(inputState,
+                                                                      payload: payload,
+                                                                      locale: locale)
+            }
 
-            let locale = localizationManager?.selectedLocale ?? Locale.current
-            return viewModelFactory.createAssetSelectionTitle(asset,
-                                                              balanceData: balanceData,
-                                                              payload: payload,
-                                                              locale: locale)
+            coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
+
+            setupSelectedAssetViewModel(isSelecting: true)
+        } catch {
+            if !attempHandleError(error) {
+                logger?.error("Unexpected error when asset selection presentation \(error)")
+            }
         }
-
-        coordinator.presentPicker(for: titles, initialIndex: initialIndex, delegate: self)
-
-        setupSelectedAssetViewModel(isSelecting: true)
     }
 
     func presentFeeEditing(at index: Int) {

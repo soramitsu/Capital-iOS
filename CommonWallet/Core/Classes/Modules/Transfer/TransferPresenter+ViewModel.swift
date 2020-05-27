@@ -22,26 +22,29 @@ extension TransferPresenter {
     }
 
     func updateAmountInputViewModel() {
-        let amount = amountInputViewModel.decimalAmount
+        do {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let locale = localizationManager?.selectedLocale ?? Locale.current
+            amountInputViewModel.observable.remove(observer: self)
 
-        amountInputViewModel.observable.remove(observer: self)
+            amountInputViewModel = try viewModelFactory.createAmountViewModel(inputState,
+                                                                              payload: payload,
+                                                                              locale: locale)
 
-        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      amount: amount,
-                                                                      payload: payload,
-                                                                      locale: locale)
+            amountInputViewModel.observable.add(observer: self)
 
-        amountInputViewModel.observable.add(observer: self)
+            view?.set(amountViewModel: amountInputViewModel)
 
-        view?.set(amountViewModel: amountInputViewModel)
+            let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
+                                                              receiverId: payload.receiveInfo.accountId,
+                                                              locale: locale)
 
-        let amountTitle = headerFactory.createAmountTitle(assetId: selectedAsset.identifier,
-                                                          receiverId: payload.receiveInfo.accountId,
-                                                          locale: locale)
-
-        view?.setAmountHeader(amountTitle)
+            view?.setAmountHeader(amountTitle)
+        } catch {
+            if !attempHandleError(error) {
+                logger?.error("Can't handle amount view model error \(error)")
+            }
+        }
     }
 
     func setupFeeViewModel(for asset: WalletAsset) {
@@ -62,15 +65,10 @@ extension TransferPresenter {
             let feeResult = try calculator.calculate(for: amount)
 
             let viewModels: [FeeViewModelProtocol] = try feeResult.fees.map { fee in
-                guard let asset = assets
-                    .first(where: { $0.identifier == fee.feeDescription.assetId }) else {
-                    throw TransferPresenterError.missingAsset
-                }
-
-                return viewModelFactory.createFeeViewModel(fee,
-                                                           feeAsset: asset,
-                                                           payload: payload,
-                                                           locale: locale)
+                try viewModelFactory.createFeeViewModel(inputState,
+                                                        fee: fee,
+                                                        payload: payload,
+                                                        locale: locale)
             }
 
             view?.set(feeViewModels: viewModels)
@@ -91,24 +89,28 @@ extension TransferPresenter {
     }
 
     func setupSelectedAssetViewModel(isSelecting: Bool) {
-        let locale = localizationManager?.selectedLocale ?? Locale.current
-        let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
+        do {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let state = SelectedAssetState(isSelecting: isSelecting, canSelect: assets.count > 1)
+            let assetState = SelectedAssetState(isSelecting: isSelecting, canSelect: assets.count > 1)
 
-        let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
-                                                                      balanceData: balanceData,
-                                                                      selectedAssetState: state,
-                                                                      payload: payload,
-                                                                      locale: locale)
+            let viewModel = try viewModelFactory.createSelectedAssetViewModel(inputState,
+                                                                              selectedAssetState: assetState,
+                                                                              payload: payload,
+                                                                              locale: locale)
 
-        view?.set(assetViewModel: viewModel)
+            view?.set(assetViewModel: viewModel)
 
-        let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
-                                                        receiverId: payload.receiveInfo.accountId,
-                                                        locale: locale)
+            let assetTitle = headerFactory.createAssetTitle(assetId: selectedAsset.identifier,
+                                                            receiverId: payload.receiveInfo.accountId,
+                                                            locale: locale)
 
-        view?.setAssetHeader(assetTitle)
+            view?.setAssetHeader(assetTitle)
+        } catch {
+            if !attempHandleError(error) {
+                logger?.error("Can't handle selected asset view model error \(error)")
+            }
+        }
     }
 
     func setupDescriptionViewModel() {
@@ -130,7 +132,10 @@ extension TransferPresenter {
 
             let text = descriptionInputViewModel.text
             descriptionInputViewModel = try viewModelFactory
-                .createDescriptionViewModelForDetails(text, payload: payload)
+                .createDescriptionViewModel(inputState,
+                                            details: text,
+                                            payload: payload,
+                                            locale: locale)
 
             view?.set(descriptionViewModel: descriptionInputViewModel)
 
@@ -142,39 +147,55 @@ extension TransferPresenter {
             view?.setDescriptionHeader(descriptionTitle)
         } catch {
             if !attempHandleError(error) {
-                logger?.error("Can't handle description updaet view model error \(error)")
+                logger?.error("Can't handle description update view model error \(error)")
             }
         }
     }
 
     func setupReceiverViewModel() {
-        let locale = localizationManager?.selectedLocale ?? Locale.current
+        do {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let viewModel = viewModelFactory.createReceiverViewModel(payload, locale: locale)
+            let viewModel = try viewModelFactory.createReceiverViewModel(inputState,
+                                                                         payload: payload,
+                                                                         locale: locale)
 
-        view?.set(receiverViewModel: viewModel)
+            view?.set(receiverViewModel: viewModel)
 
-        let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
-                                                      receiverId: payload.receiveInfo.accountId,
-                                                      locale: locale)
+            let title = headerFactory.createReceiverTitle(assetId: selectedAsset.identifier,
+                                                          receiverId: payload.receiveInfo.accountId,
+                                                          locale: locale)
 
-        view?.setReceiverHeader(title)
+            view?.setReceiverHeader(title)
+        } catch {
+            if !attempHandleError(error) {
+                logger?.error("Can't handle receiver update view model error \(error)")
+            }
+        }
     }
 
     func setupAccessoryViewModel() {
-        let locale = localizationManager?.selectedLocale ?? Locale.current
+        do {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let accessoryViewModel: AccessoryViewModelProtocol
+            let accessoryViewModel: AccessoryViewModelProtocol
 
-        switch receiverPosition {
-        case .accessoryBar:
-            accessoryViewModel = viewModelFactory.createAccessoryViewModel(payload,
-                                                                           locale: locale)
-        default:
-            accessoryViewModel = viewModelFactory.createAccessoryViewModel(nil,
-                                                                           locale: locale)
+            switch receiverPosition {
+            case .accessoryBar:
+                accessoryViewModel = try viewModelFactory.createAccessoryViewModel(inputState,
+                                                                                   payload: payload,
+                                                                                   locale: locale)
+            default:
+                accessoryViewModel = try viewModelFactory.createAccessoryViewModel(inputState,
+                                                                                   payload: nil,
+                                                                                   locale: locale)
+            }
+
+            view?.set(accessoryViewModel: accessoryViewModel)
+        } catch {
+            if !attempHandleError(error) {
+                logger?.error("Can't handle accessory view model error \(error)")
+            }
         }
-
-        view?.set(accessoryViewModel: accessoryViewModel)
     }
 }

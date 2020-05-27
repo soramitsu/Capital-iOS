@@ -238,7 +238,8 @@ class TransferInputConfirmationTests: NetworkBaseTests {
             let amountPayload = TransferPayload(receiveInfo: recieverInfo, receiverName: UUID().uuidString)
 
             let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
-            let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+            let transferViewModelFactory = TransferViewModelFactory(accountId: accountSettings.accountId,
+                                                                    assets: accountSettings.assets,
                                                                     amountFormatterFactory: NumberFormatterFactory(),
                                                                   descriptionValidatorFactory: inputValidatorFactory,
                                                                   feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),

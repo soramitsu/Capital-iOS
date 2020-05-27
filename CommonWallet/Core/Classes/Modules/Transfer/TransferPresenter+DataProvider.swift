@@ -13,12 +13,7 @@ extension TransferPresenter {
             self.balances = balances
         }
 
-        guard let balances = self.balances else {
-            return
-        }
-
-        guard balances.first(where: { $0.identifier == selectedAsset.identifier}) != nil else {
-
+        guard selectedBalance != nil else {
                 if confirmationState != nil {
                     confirmationState = nil
 

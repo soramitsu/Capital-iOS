@@ -122,7 +122,7 @@ final class SidechainDemo: DemoFactoryProtocol {
                                   platform: LocalizableResource { _ in "Digital identity" },
                                   symbol: "元",
                                   precision: 2,
-                                  modes: [.view])
+                                  modes: [.all])
 
         let vinceraAssetId = "vincera#demo"
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
@@ -130,7 +130,7 @@ final class SidechainDemo: DemoFactoryProtocol {
                                        platform: LocalizableResource { _ in "Pay for vine" },
                                        symbol: "る",
                                        precision: 2,
-                                       modes: [.view])
+                                       modes: [.all])
 
         let moneaAssetId = "monea#demo"
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
@@ -138,7 +138,7 @@ final class SidechainDemo: DemoFactoryProtocol {
                                      platform: LocalizableResource { _ in "Fast money transfer" },
                                      symbol: "金",
                                      precision: 5,
-                                     modes: [.view])
+                                     modes: [.all])
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]
     }

@@ -157,7 +157,8 @@ class TransferSetupTests: NetworkBaseTests {
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let settings = WalletTransactionSettings.defaultSettings
 
-        let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+        let transferViewModelFactory = TransferViewModelFactory(accountId: accountSettings.accountId,
+                                                                assets: accountSettings.assets,
                                                                 amountFormatterFactory: NumberFormatterFactory(),
                                                               descriptionValidatorFactory: inputValidatorFactory,
                                                               feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
