@@ -102,7 +102,8 @@ class ReceiveAmountViewModelTests: XCTestCase {
         let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
         let presenter = try ReceiveAmountPresenter(view: view,
                                                    coordinator: coordinator,
-                                                   account: accountSettings,
+                                                   assets: accountSettings.assets,
+                                                   accountId: accountSettings.accountId,
                                                    qrService: qrService,
                                                    sharingFactory: AccountShareFactory(),
                                                    receiveInfo: receiveInfo,

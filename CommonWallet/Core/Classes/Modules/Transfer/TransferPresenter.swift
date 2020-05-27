@@ -7,10 +7,6 @@ import Foundation
 import RobinHood
 import SoraFoundation
 
-enum TransferPresenterInitError: Error {
-    case missingSelectedAsset
-}
-
 struct TransferCheckingState: OptionSet {
     typealias RawValue = UInt8
 
@@ -51,16 +47,18 @@ final class TransferPresenter {
     let dataProviderFactory: DataProviderFactoryProtocol
     let balanceDataProvider: SingleValueProvider<[BalanceData]>
 
-    let account: WalletAccountSettingsProtocol
+    let assets: [WalletAsset]
+    let accountId: String
     let payload: TransferPayload
     let receiverPosition: TransferReceiverPosition
 
     init(view: TransferViewProtocol,
          coordinator: TransferCoordinatorProtocol,
+         assets: [WalletAsset],
+         accountId: String,
          payload: TransferPayload,
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
-         account: WalletAccountSettingsProtocol,
          resultValidator: TransferValidating,
          changeHandler: OperationDefinitionChangeHandling,
          viewModelFactory: TransferViewModelFactoryProtocol,
@@ -70,17 +68,17 @@ final class TransferPresenter {
          errorHandler: OperationDefinitionErrorHandling?,
          feeEditing: FeeEditing?) throws {
 
-        if let assetId = payload.receiveInfo.assetId, let asset = account.asset(for: assetId) {
-            selectedAsset = asset
-        } else if let asset = account.assets.first {
+        if let assetId = payload.receiveInfo.assetId,
+            let asset = assets.first(where: { $0.identifier == assetId }) {
             selectedAsset = asset
         } else {
-            throw TransferPresenterInitError.missingSelectedAsset
+            selectedAsset = assets[0]
         }
 
         self.view = view
         self.coordinator = coordinator
-        self.account = account
+        self.assets = assets
+        self.accountId = accountId
         self.payload = payload
         self.receiverPosition = receiverPosition
 

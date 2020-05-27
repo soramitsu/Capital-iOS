@@ -169,10 +169,11 @@ class TransferSetupTests: NetworkBaseTests {
 
         let presenter = try TransferPresenter(view: view,
                                               coordinator: coordinator,
+                                              assets: accountSettings.assets,
+                                              accountId: accountSettings.accountId,
                                               payload: amountPayload,
                                               dataProviderFactory: dataProviderFactory,
                                               feeCalculationFactory: FeeCalculationFactory(),
-                                              account: accountSettings,
                                               resultValidator: validator,
                                               changeHandler: changeHandler,
                                               viewModelFactory: transferViewModelFactory,

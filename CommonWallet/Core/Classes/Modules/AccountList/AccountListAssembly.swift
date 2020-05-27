@@ -15,8 +15,10 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
 
         view.configuration = configuration
 
+        let visibleAssets = resolver.account.assets.filter { $0.modes.contains(.view) }
+
         let viewModelFactory = AccountModuleViewModelFactory(context: configuration.viewModelContext,
-                                                             assets: resolver.account.assets,
+                                                             assets: visibleAssets,
                                                              commandFactory: resolver.commandFactory,
                                                              commandDecoratorFactory: resolver.commandDecoratorFactory,
                                                              amountFormatterFactory: resolver.amountFormatterFactory)

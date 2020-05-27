@@ -18,6 +18,11 @@ final class ScanReceiverCommand {
 
 extension ScanReceiverCommand: WalletPresentationCommandProtocol {
     func execute() throws {
+
+        guard !resolver.account.assets.filter({ $0.modes.contains(.transfer) }).isEmpty else {
+            throw CommandError.noAssets
+        }
+
         guard
             let scanView = InvoiceScanAssembly.assembleView(with: resolver),
             let navigation = resolver.navigation else {

@@ -56,12 +56,15 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let errorHandler = resolver.transferConfiguration.errorHandler
             let feeEditing = resolver.transferConfiguration.feeEditing
 
+            let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
+
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
+                                                   assets: eligibleAssets,
+                                                   accountId: resolver.account.accountId,
                                                    payload: payload,
                                                    dataProviderFactory: dataProviderFactory,
                                                    feeCalculationFactory: resolver.feeCalculationFactory,
-                                                   account: resolver.account,
                                                    resultValidator: resultValidator,
                                                    changeHandler: changeHandler,
                                                    viewModelFactory: viewModelFactoryWrapper,

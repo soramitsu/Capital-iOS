@@ -166,7 +166,7 @@ extension TransferPresenter {
 
         let result = try calculator.calculate(for: inputAmount)
 
-        let info = TransferInfo(source: account.accountId,
+        let info = TransferInfo(source: accountId,
                                 destination: payload.receiveInfo.accountId,
                                 amount: AmountDecimal(value: result.sending),
                                 asset: selectedAsset.identifier,

@@ -39,9 +39,9 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
     }
 
     func presentAssetSelection() {
-        let initialIndex = account.assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
+        let initialIndex = assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
 
-        let titles: [String] = account.assets.map { (asset) in
+        let titles: [String] = assets.map { (asset) in
             let balanceData = balances?.first { $0.identifier == asset.identifier }
 
             let locale = localizationManager?.selectedLocale ?? Locale.current
@@ -73,7 +73,7 @@ extension TransferPresenter: ModalPickerViewDelegate {
 
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?) {
         do {
-            let newAsset = account.assets[index]
+            let newAsset = assets[index]
 
             if newAsset.identifier != selectedAsset.identifier {
                 self.metadata = nil

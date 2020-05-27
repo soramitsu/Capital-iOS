@@ -13,7 +13,8 @@ final class ReceiveAmountPresenter {
 
     private(set) var qrService: WalletQRServiceProtocol
     private(set) var sharingFactory: AccountShareFactoryProtocol
-    private(set) var account: WalletAccountSettingsProtocol
+    private(set) var assets: [WalletAsset]
+    private(set) var accountId: String
     private(set) var amountInputViewModel: AmountInputViewModel
     private(set) var descriptionViewModel: DescriptionInputViewModel?
     private(set) var preferredQRSize: CGSize?
@@ -32,7 +33,8 @@ final class ReceiveAmountPresenter {
 
     init(view: ReceiveAmountViewProtocol,
          coordinator: ReceiveAmountCoordinatorProtocol,
-         account: WalletAccountSettingsProtocol,
+         assets: [WalletAsset],
+         accountId: String,
          qrService: WalletQRServiceProtocol,
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
@@ -43,19 +45,22 @@ final class ReceiveAmountPresenter {
         self.coordinator = coordinator
         self.qrService = qrService
         self.sharingFactory = sharingFactory
-        self.account = account
+        self.assets = assets
+        self.accountId = accountId
         self.viewModelFactory = viewModelFactory
 
         var currentAmount: Decimal?
 
-        if let assetId = receiveInfo.assetId, let asset = account.asset(for: assetId) {
+        if
+            let assetId = receiveInfo.assetId,
+            let asset = assets.first(where: { $0.identifier == assetId}) {
             selectedAsset = asset
 
             if let amount = receiveInfo.amount {
                 currentAmount = amount.decimalValue
             }
         } else {
-            selectedAsset = account.assets[0]
+            selectedAsset = assets[0]
         }
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
@@ -76,7 +81,7 @@ final class ReceiveAmountPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         let state = SelectedAssetState(isSelecting: isSelecting,
-                                       canSelect: account.assets.count > 1)
+                                       canSelect: assets.count > 1)
 
         let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
                                                                       balanceData: nil,
@@ -118,7 +123,7 @@ final class ReceiveAmountPresenter {
             amount = AmountDecimal(value: decimalAmount)
         }
 
-        return ReceiveInfo(accountId: account.accountId,
+        return ReceiveInfo(accountId: accountId,
                            assetId: selectedAsset.identifier,
                            amount: amount,
                            details: descriptionViewModel?.text)
@@ -199,11 +204,11 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
     }
 
     func presentAssetSelection() {
-        let initialIndex = account.assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
+        let initialIndex = assets.firstIndex(where: { $0.identifier == selectedAsset.identifier }) ?? 0
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        let titles: [String] = account.assets.map { (asset) in
+        let titles: [String] = assets.map { (asset) in
             return viewModelFactory.createAssetSelectionTitle(asset, balanceData: nil, locale: locale)
         }
 
@@ -246,7 +251,7 @@ extension ReceiveAmountPresenter: ModalPickerViewDelegate {
     }
 
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?) {
-        let newAsset = account.assets[index]
+        let newAsset = assets[index]
 
         selectedAsset = newAsset
 

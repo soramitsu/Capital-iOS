@@ -152,10 +152,11 @@ class TransferViewModelTests: XCTestCase {
 
         let presenter = try TransferPresenter(view: view,
                                               coordinator: coordinator,
+                                              assets: accountSettings.assets,
+                                              accountId: accountSettings.accountId,
                                               payload: amountPayload,
                                               dataProviderFactory: dataProviderFactory,
                                               feeCalculationFactory: FeeCalculationFactory(),
-                                              account: accountSettings,
                                               resultValidator: resultValidator,
                                               changeHandler: changeHandler,
                                               viewModelFactory: transferViewModelFactory,

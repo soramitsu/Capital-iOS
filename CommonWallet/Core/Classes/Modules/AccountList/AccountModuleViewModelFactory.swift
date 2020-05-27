@@ -43,7 +43,8 @@ final class AccountModuleViewModelFactory {
     private func createDefaultAssetViewModel(for asset: WalletAsset,
                                              balanceData: BalanceData,
                                              locale: Locale) -> AssetViewModelProtocol {
-        let assetDetailsCommand = commandFactory.prepareAssetDetailsCommand(for: asset.identifier)
+        let assetDetailsCommand = assets.count > 1 ?
+        commandFactory.prepareAssetDetailsCommand(for: asset.identifier) : nil
 
         let assetCellStyle = context.assetCellStyleFactory.createCellStyle(for: asset)
 
@@ -160,23 +161,25 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                 assetsBlockLength += 1
             }
 
-            let assetId: String?
+            if assets.contains(where: { $0.modes.contains(.transfer) }) {
+                let assetId: String?
 
-            if assets.count == 1 {
-                assetId = assets.first?.identifier
-            } else {
-                assetId = nil
-            }
+                if assets.count == 1 {
+                    assetId = assets.first?.identifier
+                } else {
+                    assetId = nil
+                }
 
-            let actionsIndex = context.viewModelFactoryContainer.actionsIndex + assetsBlockLength - 1
+                let actionsIndex = context.viewModelFactoryContainer.actionsIndex + assetsBlockLength - 1
 
-            if let actionsViewModel = context.accountListViewModelFactory?
-                .createActionsViewModel(for: assetId, commandFactory: commandFactory) {
+                if let actionsViewModel = context.accountListViewModelFactory?
+                    .createActionsViewModel(for: assetId, commandFactory: commandFactory) {
 
-                viewModels.insert(actionsViewModel, at: actionsIndex)
-            } else {
-                let actionsViewModel = createDefaultActionsViewModel()
-                viewModels.insert(actionsViewModel, at: actionsIndex)
+                    viewModels.insert(actionsViewModel, at: actionsIndex)
+                } else {
+                    let actionsViewModel = createDefaultActionsViewModel()
+                    viewModels.insert(actionsViewModel, at: actionsIndex)
+                }
             }
         }
 

@@ -5,11 +5,6 @@
 
 import Foundation
 
-enum WithdrawCommandError: Error {
-    case invalidAssetId
-    case invalidOptionId
-}
-
 final class WithdrawCommand {
     let resolver: ResolverProtocol
     let assetId: String
@@ -28,11 +23,11 @@ final class WithdrawCommand {
 extension WithdrawCommand: WalletPresentationCommandProtocol {
     func execute() throws {
         guard let asset = resolver.account.asset(for: assetId) else {
-            throw WithdrawCommandError.invalidAssetId
+            throw CommandError.invalidAssetId
         }
 
         guard let option = resolver.account.withdrawOption(for: optionId) else {
-            throw WithdrawCommandError.invalidOptionId
+            throw CommandError.invalidOptionId
         }
 
         guard

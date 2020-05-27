@@ -62,7 +62,7 @@ extension TransferPresenter {
             let feeResult = try calculator.calculate(for: amount)
 
             let viewModels: [FeeViewModelProtocol] = try feeResult.fees.map { fee in
-                guard let asset = account.assets
+                guard let asset = assets
                     .first(where: { $0.identifier == fee.feeDescription.assetId }) else {
                     throw TransferPresenterError.missingAsset
                 }
@@ -94,7 +94,7 @@ extension TransferPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let balanceData = balances?.first { $0.identifier == selectedAsset.identifier }
 
-        let state = SelectedAssetState(isSelecting: isSelecting, canSelect: account.assets.count > 1)
+        let state = SelectedAssetState(isSelecting: isSelecting, canSelect: assets.count > 1)
 
         let viewModel = viewModelFactory.createSelectedAssetViewModel(for: selectedAsset,
                                                                       balanceData: balanceData,
