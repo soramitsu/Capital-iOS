@@ -173,7 +173,9 @@ extension TransferPresenter {
                                 details: descriptionInputViewModel.text,
                                 fees: result.fees)
 
-        return try resultValidator.validate(info: info, balances: balances)
+        return try resultValidator.validate(info: info,
+                                            balances: balances,
+                                            metadata: metadata)
     }
 
     func completeConfirmation() {
