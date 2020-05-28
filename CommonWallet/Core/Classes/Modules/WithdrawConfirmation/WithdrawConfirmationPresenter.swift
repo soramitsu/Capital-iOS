@@ -17,7 +17,7 @@ final class WithdrawConfirmationPresenter {
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
-    let amountFormatter: LocalizableResource<NumberFormatter>
+    let amountFormatter: LocalizableResource<TokenAmountFormatter>
     let eventCenter: WalletEventCenterProtocol
     let feeDisplaySettings: FeeDisplaySettingsProtocol
 
@@ -28,7 +28,7 @@ final class WithdrawConfirmationPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: LocalizableResource<NumberFormatter>,
+         amountFormatter: LocalizableResource<TokenAmountFormatter>,
          eventCenter: WalletEventCenterProtocol,
          feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
@@ -49,8 +49,8 @@ final class WithdrawConfirmationPresenter {
         let details: String
 
         if let formatterAmount = amountFormatter.value(for: locale)
-                .string(from: withdrawInfo.amount.decimalValue as NSNumber) {
-            details = "\(asset.symbol)\(formatterAmount)"
+                .string(from: withdrawInfo.amount.decimalValue) {
+            details = formatterAmount
         } else {
             details = "\(asset.symbol)\(withdrawInfo.amount.stringValue)"
         }
@@ -70,9 +70,8 @@ final class WithdrawConfirmationPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        if let formatterFee = amountFormatter.value(for: locale)
-                .string(from: fee as NSNumber) {
-            details = "\(asset.symbol)\(formatterFee)"
+        if let formatterFee = amountFormatter.value(for: locale).string(from: fee) {
+            details = formatterFee
         } else {
             details = "\(asset.symbol)\(fee)"
         }
@@ -109,7 +108,7 @@ final class WithdrawConfirmationPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard let totalAmountString = amountFormatter.value(for: locale)
-            .string(from: totalAmount as NSNumber) else {
+            .string(from: totalAmount) else {
             return accessoryViewModel
         }
 

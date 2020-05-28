@@ -129,7 +129,7 @@ class OperationDefinitionViewController: AccessoryViewController {
         if feeDefs.count == 1 {
             feeDefs.first?.mainView.borderedView.borderType = separatorsDistribution.singleFeeBorderType
         } else if feeDefs.count > 1 {
-            feeDefs.last?.mainView.borderedView.borderType = separatorsDistribution.firstFeeBorderType
+            feeDefs.first?.mainView.borderedView.borderType = separatorsDistribution.firstFeeBorderType
             feeDefs.last?.mainView.borderedView.borderType = separatorsDistribution.lastFeeBorderType
 
             feeDefs[1..<feeDefs.count-1].forEach { feeDef in

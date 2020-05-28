@@ -102,17 +102,15 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
         let feeDisplaySettings = feeDisplaySettingsFactory
             .createFeeSettingsForId(fee.feeDescription.identifier)
 
-        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: feeAsset)
+        let amountFormatter = amountFormatterFactory.createTokenFormatter(for: feeAsset)
 
-        guard let amountString = amountFormatter.value(for: locale)
-            .string(from: fee.value.decimalValue as NSNumber) else {
+        guard let details = amountFormatter.value(for: locale)
+            .string(from: fee.value.decimalValue) else {
             return FeeViewModel(title: L10n.Amount.defaultFee,
                                 details: "",
                                 isLoading: true,
                                 allowsEditing: fee.feeDescription.userCanDefine)
         }
-
-        let details = "\(feeAsset.symbol)\(amountString)"
 
         let title = feeDisplaySettings.operationTitle.value(for: locale)
 
@@ -175,12 +173,12 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
             subtitle = ""
         }
 
-        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
         if let balanceData = inputState.balance,
             let formattedBalance = amountFormatter.value(for: locale)
-                .string(from: balanceData.balance.decimalValue as NSNumber) {
-            details = "\(asset.symbol)\(formattedBalance)"
+                .string(from: balanceData.balance.decimalValue) {
+            details = formattedBalance
         } else {
             details = ""
         }
@@ -244,9 +242,9 @@ public protocol TransferViewModelFactoryOverriding {
                                locale: Locale) throws -> AmountInputViewModelProtocol?
 
     func createDescriptionViewModel(_ inputState: TransferInputState,
-                                details: String?,
-                                payload: TransferPayload,
-                                locale: Locale) throws
+                                    details: String?,
+                                    payload: TransferPayload,
+                                    locale: Locale) throws
     -> DescriptionInputViewModelProtocol?
 
     func createSelectedAssetViewModel(_ inputState: TransferInputState,
@@ -283,9 +281,9 @@ public extension TransferViewModelFactoryOverriding {
     }
 
     func createDescriptionViewModel(_ inputState: TransferInputState,
-                                details: String?,
-                                payload: TransferPayload,
-                                locale: Locale) throws
+                                    details: String?,
+                                    payload: TransferPayload,
+                                    locale: Locale) throws
         -> DescriptionInputViewModelProtocol? {
         return nil
     }

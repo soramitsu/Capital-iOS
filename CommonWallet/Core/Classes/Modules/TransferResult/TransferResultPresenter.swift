@@ -42,27 +42,25 @@ final class TransferResultPresenter {
             $0.identifier == transferPayload.transferInfo.asset
         }
 
-        let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = resolver.amountFormatterFactory.createTokenFormatter(for: asset)
 
         let decimalAmount = transferPayload.transferInfo.amount.decimalValue
 
-        guard let formattedAmount = amountFormatter.value(for: locale)
-            .string(from: decimalAmount as NSNumber) else {
+        guard let amount = amountFormatter.value(for: locale)
+            .string(from: decimalAmount) else {
                 let amount = "\(transferPayload.assetSymbol)\(transferPayload.transferInfo.amount.stringValue)"
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
 
         }
 
-        let amount = "\(transferPayload.assetSymbol)\(formattedAmount)"
-
         // TODO: move to multi fee variant when ui ready
 
         guard
             let decimalFee = feeDisplaySettings.displayStrategy
                 .decimalValue(from: transferPayload.transferInfo.fees.first?.value.decimalValue),
-            let formattedFee = amountFormatter.value(for: locale)
-                .string(from: decimalFee as NSNumber) else {
+            let fee = amountFormatter.value(for: locale)
+                .string(from: decimalFee) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
         }
@@ -73,8 +71,6 @@ final class TransferResultPresenter {
                                                   title: L10n.Amount.send,
                                                   details: amount)
 
-        let fee = "\(transferPayload.assetSymbol)\(formattedFee)"
-
         let feeTitle = feeDisplaySettings.displayName.value(for: locale)
 
         let feeViewModel = WalletFormViewModel(layoutType: .accessory,
@@ -83,9 +79,8 @@ final class TransferResultPresenter {
 
         var viewModels = [amountViewModel, feeViewModel]
 
-        if let formattedTotalAmount = amountFormatter.value(for: locale)
-            .string(from: totalAmountDecimal as NSNumber) {
-            let totalAmount = "\(transferPayload.assetSymbol)\(formattedTotalAmount)"
+        if let totalAmount = amountFormatter.value(for: locale)
+            .string(from: totalAmountDecimal) {
             let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
                                                            title: L10n.Amount.total,
                                                            details: totalAmount,

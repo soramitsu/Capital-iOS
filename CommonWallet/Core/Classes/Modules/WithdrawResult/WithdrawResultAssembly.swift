@@ -20,7 +20,7 @@ final class WithdrawResultAssembly: WithdrawResultAssemblyProtocol {
         
         let coordinator = WithdrawResultCoordinator(resolver: resolver)
 
-        let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = resolver.amountFormatterFactory.createTokenFormatter(for: asset)
 
         // TODO: Move to multifee variant
         let feeId = info.fees.first?.feeDescription.identifier ?? ""

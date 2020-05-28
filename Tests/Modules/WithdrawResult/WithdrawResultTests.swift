@@ -22,13 +22,16 @@ class WithdrawResultTests: NetworkBaseTests {
 
             let withdrawInfo = try createRandomWithdrawInfo()
 
+            let tokenFormatter = TokenAmountFormatter(numberFormatter: NumberFormatter(),
+                                                      tokenSymbol: "A")
+
             let presenter = WithdrawResultPresenter(view: view,
                                                     coordinator: coordinator,
                                                     withdrawInfo: withdrawInfo,
                                                     asset: accountSettings.assets[0],
                                                     withdrawOption: accountSettings.withdrawOptions[0],
                                                     style: WalletStyle(),
-                                                    amountFormatter: NumberFormatter().localizableResource(),
+                                                    amountFormatter: tokenFormatter.localizableResource(),
                                                     dateFormatter: DateFormatter().localizableResource(),
                                                     feeDisplaySettings: FeeDisplaySettings.defaultSettings)
 

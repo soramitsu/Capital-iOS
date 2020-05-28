@@ -14,7 +14,7 @@ final class WithdrawResultPresenter {
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
-    let amountFormatter: LocalizableResource<NumberFormatter>
+    let amountFormatter: LocalizableResource<TokenAmountFormatter>
     let dateFormatter: LocalizableResource<DateFormatter>
     let feeDisplaySettings: FeeDisplaySettingsProtocol
 
@@ -24,7 +24,7 @@ final class WithdrawResultPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: LocalizableResource<NumberFormatter>,
+         amountFormatter: LocalizableResource<TokenAmountFormatter>,
          dateFormatter: LocalizableResource<DateFormatter>,
          feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
@@ -46,8 +46,8 @@ final class WithdrawResultPresenter {
         let amountDecimal = withdrawInfo.amount.decimalValue
 
         if let formatterAmount = amountFormatter.value(for: locale)
-                .string(from: amountDecimal as NSNumber) {
-            details = "\(asset.symbol)\(formatterAmount)"
+                .string(from: amountDecimal) {
+            details = formatterAmount
         } else {
             details = "\(asset.symbol)\(withdrawInfo.amount.stringValue)"
         }
@@ -67,8 +67,8 @@ final class WithdrawResultPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        if let formatterFee = amountFormatter.value(for: locale).string(from: fee as NSNumber) {
-            details = "\(asset.symbol)\(formatterFee)"
+        if let formatterFee = amountFormatter.value(for: locale).string(from: fee) {
+            details = formatterFee
         } else {
             details = "\(asset.symbol)\(fee)"
         }
@@ -92,12 +92,10 @@ final class WithdrawResultPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        guard let totalAmount = amountFormatter.value(for: locale)
-            .string(from: totalAmountDecimal as NSNumber) else {
+        guard let details = amountFormatter.value(for: locale)
+            .string(from: totalAmountDecimal) else {
             return nil
         }
-
-        let details = "\(asset.symbol)\(totalAmount)"
 
         return WalletFormViewModel(layoutType: .accessory,
                                    title: L10n.Amount.total,
