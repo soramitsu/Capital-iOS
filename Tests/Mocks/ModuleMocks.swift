@@ -3577,16 +3577,16 @@ public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEnginePro
     
     
     
-    public func search(query: String) -> [ContactViewModelProtocol]? {
+    public func search(query: String, assetId: String) -> [ContactViewModelProtocol]? {
         
-    return cuckoo_manager.call("search(query: String) -> [ContactViewModelProtocol]?",
-            parameters: (query),
-            escapingParameters: (query),
+    return cuckoo_manager.call("search(query: String, assetId: String) -> [ContactViewModelProtocol]?",
+            parameters: (query, assetId),
+            escapingParameters: (query, assetId),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.search(query: query))
+            defaultCall: __defaultImplStub!.search(query: query, assetId: assetId))
         
     }
     
@@ -3599,9 +3599,9 @@ public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEnginePro
 	    }
 	    
 	    
-	    func search<M1: Cuckoo.Matchable>(query: M1) -> Cuckoo.ProtocolStubFunction<(String), [ContactViewModelProtocol]?> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: query) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockContactsLocalSearchEngineProtocol.self, method: "search(query: String) -> [ContactViewModelProtocol]?", parameterMatchers: matchers))
+	    func search<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(query: M1, assetId: M2) -> Cuckoo.ProtocolStubFunction<(String, String), [ContactViewModelProtocol]?> where M1.MatchedType == String, M2.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String)>] = [wrap(matchable: query) { $0.0 }, wrap(matchable: assetId) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactsLocalSearchEngineProtocol.self, method: "search(query: String, assetId: String) -> [ContactViewModelProtocol]?", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3621,9 +3621,9 @@ public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEnginePro
 	
 	    
 	    @discardableResult
-	    func search<M1: Cuckoo.Matchable>(query: M1) -> Cuckoo.__DoNotUse<(String), [ContactViewModelProtocol]?> where M1.MatchedType == String {
-	        let matchers: [Cuckoo.ParameterMatcher<(String)>] = [wrap(matchable: query) { $0 }]
-	        return cuckoo_manager.verify("search(query: String) -> [ContactViewModelProtocol]?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func search<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(query: M1, assetId: M2) -> Cuckoo.__DoNotUse<(String, String), [ContactViewModelProtocol]?> where M1.MatchedType == String, M2.MatchedType == String {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, String)>] = [wrap(matchable: query) { $0.0 }, wrap(matchable: assetId) { $0.1 }]
+	        return cuckoo_manager.verify("search(query: String, assetId: String) -> [ContactViewModelProtocol]?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -3635,7 +3635,7 @@ public class ContactsLocalSearchEngineProtocolStub: ContactsLocalSearchEnginePro
     
 
     
-    public func search(query: String) -> [ContactViewModelProtocol]?  {
+    public func search(query: String, assetId: String) -> [ContactViewModelProtocol]?  {
         return DefaultValueRegistry.defaultValue(for: ([ContactViewModelProtocol]?).self)
     }
     

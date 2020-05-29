@@ -33,8 +33,15 @@ func createRandomTransactionHash() throws -> Data {
     return try createRandomData(with: 32)
 }
 
-func createRandomTransferInfo() throws -> TransferInfo {
-    let source = try createRandomAccountId()
+func createRandomTransferInfo(for accountId: String? = nil) throws -> TransferInfo {
+    let source: String
+
+    if let accountId = accountId {
+        source = accountId
+    } else {
+        source = try createRandomAccountId()
+    }
+
     let destination = try createRandomAccountId()
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 1...1000)))
     let asset = try createRandomAssetId()

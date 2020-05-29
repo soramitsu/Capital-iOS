@@ -117,8 +117,7 @@ class ContactsTests: NetworkBaseTests {
 
         let commandFactory = createMockedCommandFactory()
 
-        let viewModelFactory = ContactsViewModelFactory(commandFactory: commandFactory,
-                                                        avatarRadius: 10.0,
+        let viewModelFactory = ContactsViewModelFactory(avatarRadius: 10.0,
                                                         nameIconStyle: contactsConfiguration.cellStyle.contactStyle.nameIcon)
 
         let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: commandFactory,

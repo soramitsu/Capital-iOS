@@ -3965,6 +3965,21 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
         
     }
     
+    
+    
+    public func prepareTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol {
+        
+    return cuckoo_manager.call("prepareTransfer(with: TransferPayload) -> WalletPresentationCommandProtocol",
+            parameters: (payload),
+            escapingParameters: (payload),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareTransfer(with: payload))
+        
+    }
+    
 
 	public struct __StubbingProxy_WalletCommandFactoryProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -4022,6 +4037,11 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	    func prepareTransactionDetailsCommand<M1: Cuckoo.Matchable>(with transaction: M1) -> Cuckoo.ProtocolStubFunction<(AssetTransactionData), WalletPresentationCommandProtocol> where M1.MatchedType == AssetTransactionData {
 	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareTransfer<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.ProtocolStubFunction<(TransferPayload), WalletPresentationCommandProtocol> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletCommandFactoryProtocol.self, method: "prepareTransfer(with: TransferPayload) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4100,6 +4120,12 @@ public class MockWalletCommandFactoryProtocol: WalletCommandFactoryProtocol, Cuc
 	        return cuckoo_manager.verify("prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func prepareTransfer<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), WalletPresentationCommandProtocol> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("prepareTransfer(with: TransferPayload) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -4146,6 +4172,10 @@ public class WalletCommandFactoryProtocolStub: WalletCommandFactoryProtocol {
     }
     
     public func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
+    }
+    
+    public func prepareTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     
@@ -4341,6 +4371,21 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
         
     }
     
+    
+    
+    public func prepareTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol {
+        
+    return cuckoo_manager.call("prepareTransfer(with: TransferPayload) -> WalletPresentationCommandProtocol",
+            parameters: (payload),
+            escapingParameters: (payload),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.prepareTransfer(with: payload))
+        
+    }
+    
 
 	public struct __StubbingProxy_CommonWalletContextProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -4403,6 +4448,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    func prepareTransactionDetailsCommand<M1: Cuckoo.Matchable>(with transaction: M1) -> Cuckoo.ProtocolStubFunction<(AssetTransactionData), WalletPresentationCommandProtocol> where M1.MatchedType == AssetTransactionData {
 	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
+	    }
+	    
+	    func prepareTransfer<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.ProtocolStubFunction<(TransferPayload), WalletPresentationCommandProtocol> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "prepareTransfer(with: TransferPayload) -> WalletPresentationCommandProtocol", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -4487,6 +4537,12 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        return cuckoo_manager.verify("prepareTransactionDetailsCommand(with: AssetTransactionData) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func prepareTransfer<M1: Cuckoo.Matchable>(with payload: M1) -> Cuckoo.__DoNotUse<(TransferPayload), WalletPresentationCommandProtocol> where M1.MatchedType == TransferPayload {
+	        let matchers: [Cuckoo.ParameterMatcher<(TransferPayload)>] = [wrap(matchable: payload) { $0 }]
+	        return cuckoo_manager.verify("prepareTransfer(with: TransferPayload) -> WalletPresentationCommandProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -4537,6 +4593,10 @@ public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
     }
     
     public func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol  {
+        return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
+    }
+    
+    public func prepareTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol  {
         return DefaultValueRegistry.defaultValue(for: (WalletPresentationCommandProtocol).self)
     }
     

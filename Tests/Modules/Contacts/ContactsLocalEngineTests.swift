@@ -25,7 +25,7 @@ class ContactsLocalEngineTests: NetworkBaseTests {
         let localResult = MockContactsLocalSearchResultProtocol()
 
         stub(localSearchEngine) { stub in
-            when(stub).search(query: any()).then { query in
+            when(stub).search(query: any(), assetId: any()).then { (query, _) in
                 if query == localQuery {
                     return [localResult]
                 }
@@ -103,9 +103,10 @@ class ContactsLocalEngineTests: NetworkBaseTests {
 
         let commandFactory = createMockedCommandFactory()
 
-        let viewModelFactory = ContactsViewModelFactory(commandFactory: commandFactory,
-                                                        avatarRadius: 10.0,
-                                                        nameIconStyle: contactsConfiguration.cellStyle.contactStyle.nameIcon)
+        let nameIconStyle = contactsConfiguration.cellStyle.contactStyle.nameIcon
+
+        let viewModelFactory = ContactsViewModelFactory(avatarRadius: 10.0,
+                                                        nameIconStyle: nameIconStyle)
 
         let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: commandFactory,
                                                                     scanPosition: .notInclude,

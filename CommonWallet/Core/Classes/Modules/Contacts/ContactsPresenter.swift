@@ -176,7 +176,8 @@ final class ContactsPresenter: NSObject {
         searchOperation?.cancel()
         searchOperation = nil
 
-        if let localSearchResults = localSearchEngine?.search(query: searchPattern) {
+        if let localSearchResults = localSearchEngine?.search(query: searchPattern,
+                                                              assetId: selectedAsset.identifier) {
             if isWaitingSearch {
                 cancelSearch()
             }

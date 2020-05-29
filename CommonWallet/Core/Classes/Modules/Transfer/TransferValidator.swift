@@ -7,14 +7,16 @@
 import Foundation
 
 public protocol TransferValidating {
-    func validate(info: TransferInfo, balances: [BalanceData]) throws
+    func validate(info: TransferInfo, balances: [BalanceData], metadata: TransferMetaData) throws
+        -> TransferInfo
 }
 
 struct TransferValidator: TransferValidating {
 
     let transactionSettings: WalletTransactionSettingsProtocol
 
-    func validate(info: TransferInfo, balances: [BalanceData]) throws {
+    func validate(info: TransferInfo, balances: [BalanceData], metadata: TransferMetaData) throws
+        -> TransferInfo {
         guard info.amount.decimalValue > 0.0 else {
             throw TransferValidatingError.zeroAmount
         }
@@ -47,5 +49,7 @@ struct TransferValidator: TransferValidating {
                 throw TransferValidatingError.unsufficientFunds(assetId: assetId)
             }
         }
+
+        return info
     }
 }
