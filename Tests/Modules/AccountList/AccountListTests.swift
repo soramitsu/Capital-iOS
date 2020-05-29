@@ -181,7 +181,8 @@ class AccountListTests: NetworkBaseTests {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataTestCacheFacade(),
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: networkOperationFactory,
+                                                      identifierFactory: SingleProviderIdentifierFactory())
 
         let balanceProvider = try dataProviderFactory.createBalanceDataProvider()
 
@@ -222,6 +223,7 @@ class AccountListTests: NetworkBaseTests {
             when(stub).localizationManager.get.then {
                 return LocalizationManager(localization: WalletLanguage.english.rawValue)
             }
+            when(stub).singleValueIdentifierFactory.get.thenReturn(SingleProviderIdentifierFactory())
         }
 
         return resolver

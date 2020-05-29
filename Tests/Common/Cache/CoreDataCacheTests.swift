@@ -35,7 +35,8 @@ class CoreDataCacheTests: XCTestCase {
                                                               networkResolver: networkResolver)
             let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                           cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: operationFactory)
+                                                          networkOperationFactory: operationFactory,
+                                                          identifierFactory: SingleProviderIdentifierFactory())
 
             XCTAssertNoThrow(try dataProviderFactory.createBalanceDataProvider())
             XCTAssertNoThrow(try dataProviderFactory.createHistoryDataProvider(for: accountSettings.assets.map({ $0.identifier })))

@@ -31,34 +31,16 @@ final class DataProviderFactory {
     let accountSettings: WalletAccountSettingsProtocol
     let cacheFacade: CoreDataCacheFacadeProtocol
     let networkOperationFactory: WalletNetworkOperationFactoryProtocol
+    let identifierFactory: SingleProviderIdentifierFactoryProtocol
 
     init(accountSettings: WalletAccountSettingsProtocol,
          cacheFacade: CoreDataCacheFacadeProtocol,
-         networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
+         networkOperationFactory: WalletNetworkOperationFactoryProtocol,
+         identifierFactory: SingleProviderIdentifierFactoryProtocol) {
         self.accountSettings = accountSettings
         self.cacheFacade = cacheFacade
         self.networkOperationFactory = networkOperationFactory
-    }
-
-    var balanceCacheIdentifier: String {
-        return "\(accountSettings.accountId)#_balance"
-    }
-    
-    var contactsCacheIdentifier: String {
-        return "\(accountSettings.accountId)#contacts)"
-    }
-
-    func cacheIdentifier(for assets: [String]) -> String {
-        let cacheIdentifier = assets.map({ $0 }).sorted().joined()
-        return "\(accountSettings.accountId)#\(cacheIdentifier.hash)"
-    }
-
-    func withdrawMetadataIdentifier(for assetId: String, optionId: String) -> String {
-        return "\(assetId)\(optionId)#withdraw-metadata"
-    }
-
-    func transferMetadataIdentifier(for assetId: String) -> String {
-        return "\(assetId)#transfer-metadata"
+        self.identifierFactory = identifierFactory
     }
 
     private func createSingleValueCache()
@@ -106,7 +88,9 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
 
         let updateTrigger = DataProviderEventTrigger.onAddObserver
 
-        return SingleValueProvider(targetIdentifier: balanceCacheIdentifier,
+        let targetId = identifierFactory.balanceIdentifierForAccountId(accountSettings.accountId)
+
+        return SingleValueProvider(targetIdentifier: targetId,
                                    source: source,
                                    repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
@@ -115,8 +99,10 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
     }
 
     func createHistoryDataProvider(for assets: [String]) throws -> SingleValueProvider<AssetTransactionPageData> {
+        let targetId = identifierFactory.historyIdentifierForAccountId(accountSettings.accountId,
+                                                                       assets: assets)
         return try createDataProvider(for: assets,
-                                      targetIdentifier: cacheIdentifier(for: assets),
+                                      targetIdentifier: targetId,
                                       using: DataProviderFactory.assetSyncQueue)
     }
     
@@ -129,8 +115,10 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
         let cache = createSingleValueCache()
         
         let updateTrigger = DataProviderEventTrigger.onAddObserver
-        
-        return SingleValueProvider(targetIdentifier: contactsCacheIdentifier,
+
+        let targetId = identifierFactory.contactsIdentifierForAccountId(accountSettings.accountId)
+
+        return SingleValueProvider(targetIdentifier: targetId,
                                    source: source,
                                    repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
@@ -150,8 +138,10 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
 
         let updateTrigger = DataProviderEventTrigger.onAddObserver
 
-        let identifier = withdrawMetadataIdentifier(for: assetId, optionId: option)
-        return SingleValueProvider(targetIdentifier: identifier,
+        let targetId = identifierFactory.withdrawMetadataIdentifierForAccountId(accountSettings.accountId,
+                                                                                assetId: assetId,
+                                                                                optionId: option)
+        return SingleValueProvider(targetIdentifier: targetId,
                                    source: source,
                                    repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,
@@ -173,8 +163,10 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
 
         let updateTrigger = DataProviderEventTrigger.onAddObserver
 
-        let identifier = transferMetadataIdentifier(for: assetId)
-        return SingleValueProvider(targetIdentifier: identifier,
+        let targetId = identifierFactory.transferMetadataIdentifierForAccountId(accountSettings.accountId,
+                                                                                assetId: assetId,
+                                                                                receiverId: receiver)
+        return SingleValueProvider(targetIdentifier: targetId,
                                    source: source,
                                    repository: AnyDataProviderRepository(cache),
                                    updateTrigger: updateTrigger,

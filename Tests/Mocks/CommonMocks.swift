@@ -2065,6 +2065,20 @@ import SoraFoundation
         
     }
     
+    
+    
+     var singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol {
+        get {
+            return cuckoo_manager.getter("singleValueIdentifierFactory",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.singleValueIdentifierFactory)
+        }
+        
+    }
+    
 
     
 
@@ -2195,6 +2209,11 @@ import SoraFoundation
 	    
 	    var qrCoderFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, WalletQRCoderFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "qrCoderFactory")
+	    }
+	    
+	    
+	    var singleValueIdentifierFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, SingleProviderIdentifierFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "singleValueIdentifierFactory")
 	    }
 	    
 	    
@@ -2330,6 +2349,11 @@ import SoraFoundation
 	    
 	    var qrCoderFactory: Cuckoo.VerifyReadOnlyProperty<WalletQRCoderFactoryProtocol> {
 	        return .init(manager: cuckoo_manager, name: "qrCoderFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var singleValueIdentifierFactory: Cuckoo.VerifyReadOnlyProperty<SingleProviderIdentifierFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "singleValueIdentifierFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -2527,6 +2551,14 @@ import SoraFoundation
      var qrCoderFactory: WalletQRCoderFactoryProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletQRCoderFactoryProtocol).self)
+        }
+        
+    }
+    
+    
+     var singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (SingleProviderIdentifierFactoryProtocol).self)
         }
         
     }

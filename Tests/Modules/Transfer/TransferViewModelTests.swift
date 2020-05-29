@@ -115,7 +115,8 @@ class TransferViewModelTests: XCTestCase {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                       cacheFacade: cacheFacade,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: networkOperationFactory,
+                                                      identifierFactory: SingleProviderIdentifierFactory())
 
         let coordinator = MockTransferCoordinatorProtocol()
 

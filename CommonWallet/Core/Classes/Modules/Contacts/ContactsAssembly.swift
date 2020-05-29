@@ -20,7 +20,8 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
         
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
-                                                      networkOperationFactory: resolver.networkOperationFactory)
+                                                      networkOperationFactory: resolver.networkOperationFactory,
+                                                      identifierFactory: resolver.singleValueIdentifierFactory)
 
         guard let contactsDataProvider = try? dataProviderFactory.createContactsDataProvider() else {
             return nil

@@ -25,7 +25,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
 
             let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: resolver.networkOperationFactory)
+                                                          networkOperationFactory: resolver.networkOperationFactory,
+                                                          identifierFactory: resolver.singleValueIdentifierFactory)
 
             let generatingIconStyle = resolver.transferConfiguration.generatingIconStyle
             let inputValidatorFactory = resolver.inputValidatorFactory

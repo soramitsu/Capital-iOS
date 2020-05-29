@@ -45,6 +45,7 @@ extension TransferPresenter: OperationDefinitionPresenterProtocol {
             let titles: [String] = try assets.map { (asset) in
                 let locale = localizationManager?.selectedLocale ?? Locale.current
                 return try viewModelFactory.createAssetSelectionTitle(inputState,
+                                                                      asset: asset,
                                                                       payload: payload,
                                                                       locale: locale)
             }

@@ -74,7 +74,8 @@ class TransferSetupTests: NetworkBaseTests {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                       cacheFacade: cacheFacade,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: networkOperationFactory,
+                                                      identifierFactory: SingleProviderIdentifierFactory())
 
         let view = MockTransferViewProtocol()
         let coordinator = MockTransferCoordinatorProtocol()
