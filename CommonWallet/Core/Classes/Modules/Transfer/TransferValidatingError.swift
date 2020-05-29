@@ -7,7 +7,7 @@
 import Foundation
 
 public enum TransferValidatingError: Error {
-    case unsufficientFunds(assetId: String)
+    case unsufficientFunds(assetId: String, available: Decimal)
     case missingBalance(assetId: String)
     case zeroAmount
     case minViolation(value: Decimal)

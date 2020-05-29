@@ -23,7 +23,7 @@ final class WithdrawConfirmationAssembly: WithdrawConfirmationAssemblyProtocol {
 
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
-        let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = resolver.amountFormatterFactory.createTokenFormatter(for: asset)
 
         // TODO: Move to multifee variant
         let feeId = info.fees.first?.feeDescription.identifier ?? ""

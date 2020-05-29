@@ -94,7 +94,8 @@ class ContactsLocalEngineTests: NetworkBaseTests {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                       cacheFacade: cacheFacade,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: networkOperationFactory,
+                                                      identifierFactory: SingleProviderIdentifierFactory())
         let dataProvider = try dataProviderFactory.createContactsDataProvider()
 
         let walletService = WalletService(operationFactory: networkOperationFactory)

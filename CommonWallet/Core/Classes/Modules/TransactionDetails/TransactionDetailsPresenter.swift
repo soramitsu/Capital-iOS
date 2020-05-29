@@ -52,13 +52,15 @@ final class TransactionDetailsPresenter {
         view?.didReceive(viewModels: mainViewModels)
 
         if transactionType.isIncome,
-            configuration.sendBackTransactionTypes.contains(transactionType.backendName) {
+            configuration.sendBackTransactionTypes.contains(transactionType.backendName),
+            asset.modes.contains(.transfer) {
             let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendBack)
             view?.didReceive(accessoryViewModel: accessoryViewModel)
         }
 
         if !transactionType.isIncome,
-            configuration.sendAgainTransactionTypes.contains(transactionType.backendName) {
+            configuration.sendAgainTransactionTypes.contains(transactionType.backendName),
+            asset.modes.contains(.transfer) {
             let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendAgain)
             view?.didReceive(accessoryViewModel: accessoryViewModel)
         }

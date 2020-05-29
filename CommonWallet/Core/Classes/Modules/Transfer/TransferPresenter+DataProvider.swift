@@ -13,12 +13,7 @@ extension TransferPresenter {
             self.balances = balances
         }
 
-        guard let balances = self.balances else {
-            return
-        }
-
-        guard balances.first(where: { $0.identifier == selectedAsset.identifier}) != nil else {
-
+        guard selectedBalance != nil else {
                 if confirmationState != nil {
                     confirmationState = nil
 
@@ -166,7 +161,7 @@ extension TransferPresenter {
 
         let result = try calculator.calculate(for: inputAmount)
 
-        let info = TransferInfo(source: account.accountId,
+        let info = TransferInfo(source: accountId,
                                 destination: payload.receiveInfo.accountId,
                                 amount: AmountDecimal(value: result.sending),
                                 asset: selectedAsset.identifier,

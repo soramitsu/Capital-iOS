@@ -113,28 +113,32 @@ final class SidechainDemo: DemoFactoryProtocol {
                                     name: LocalizableResource { _ in "XOR" },
                                     platform: LocalizableResource { _ in "Sora economy" },
                                     symbol: "ラ",
-                                    precision: 8)
+                                    precision: 8,
+                                    modes: [.view])
 
         let d3AssetId = "d3#demo"
         let d3Asset = WalletAsset(identifier: d3AssetId,
                                   name: LocalizableResource { _ in "D3" },
                                   platform: LocalizableResource { _ in "Digital identity" },
                                   symbol: "元",
-                                  precision: 2)
+                                  precision: 2,
+                                  modes: [.all])
 
         let vinceraAssetId = "vincera#demo"
         let vinceraAsset = WalletAsset(identifier: vinceraAssetId,
                                        name: LocalizableResource { _ in "PFV" },
                                        platform: LocalizableResource { _ in "Pay for vine" },
                                        symbol: "る",
-                                       precision: 2)
+                                       precision: 2,
+                                       modes: [.all])
 
         let moneaAssetId = "monea#demo"
         let moneaAsset = WalletAsset(identifier: moneaAssetId,
                                      name: LocalizableResource { _ in "FMT" },
                                      platform: LocalizableResource { _ in "Fast money transfer" },
                                      symbol: "金",
-                                     precision: 5)
+                                     precision: 5,
+                                     modes: [.all])
 
         return [soraAsset, d3Asset, vinceraAsset, moneaAsset]
     }

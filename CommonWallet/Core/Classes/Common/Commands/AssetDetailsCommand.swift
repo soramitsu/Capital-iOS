@@ -9,10 +9,6 @@ public protocol AssetDetailsCommadProtocol: WalletPresentationCommandProtocol {
     var ignoredWhenSingleAsset: Bool { get set }
 }
 
-enum AssetDetailsCommandError: Error {
-    case invalidAssetId
-}
-
 final class AssetDetailsCommand {
     let resolver: ResolverProtocol
     let assetId: String
@@ -35,7 +31,7 @@ extension AssetDetailsCommand: AssetDetailsCommadProtocol {
         }
 
         guard let asset = resolver.account.asset(for: assetId) else {
-            throw AssetDetailsCommandError.invalidAssetId
+            throw CommandError.invalidAssetId
         }
 
         guard

@@ -154,10 +154,8 @@ final class WalletTransactionDetailsFactory {
 
         let locale = resolver.localizationManager?.selectedLocale ?? Locale.current
 
-        let amountFormatter = resolver.amountFormatterFactory.createDisplayFormatter(for: asset)
-        let amountString = amountFormatter.value(for: locale).string(from: amount as NSNumber) ?? ""
-
-        let details = asset.symbol + amountString
+        let amountFormatter = resolver.amountFormatterFactory.createTokenFormatter(for: asset)
+        let details = amountFormatter.value(for: locale).string(from: amount) ?? ""
 
         let viewModel = WalletFormViewModel(layoutType: .accessory, title: title, details: details, icon: icon)
         viewModelList.append(viewModel)

@@ -46,7 +46,8 @@ struct TransferValidator: TransferValidating {
             }
 
             if value > balance.balance.decimalValue {
-                throw TransferValidatingError.unsufficientFunds(assetId: assetId)
+                throw TransferValidatingError.unsufficientFunds(assetId: assetId,
+                                                                available: balance.balance.decimalValue)
             }
         }
 

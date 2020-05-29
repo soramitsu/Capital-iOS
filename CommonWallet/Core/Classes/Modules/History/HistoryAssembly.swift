@@ -19,7 +19,8 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
-                                                      networkOperationFactory: resolver.networkOperationFactory)
+                                                      networkOperationFactory: resolver.networkOperationFactory,
+                                                      identifierFactory: resolver.singleValueIdentifierFactory)
 
         let assetIds = assets.map({ $0.identifier })
         guard

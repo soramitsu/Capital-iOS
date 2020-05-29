@@ -61,17 +61,16 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
         let feeDisplaySettings = feeDisplaySettingsFactory
             .createFeeSettingsForId(fee.feeDescription.identifier)
 
-        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: feeAsset)
+        let amountFormatter = amountFormatterFactory.createTokenFormatter(for: feeAsset)
 
-        guard let amountString = amountFormatter.value(for: locale)
-            .string(from: fee.value.decimalValue as NSNumber) else {
+        guard let details = amountFormatter.value(for: locale)
+            .string(from: fee.value.decimalValue) else {
             return FeeViewModel(title: L10n.Amount.defaultFee,
                                 details: "",
                                 isLoading: true,
                                 allowsEditing: fee.feeDescription.userCanDefine)
         }
 
-        let details = "\(feeAsset.symbol)\(amountString)"
         let title = feeDisplaySettings.operationTitle.value(for: locale)
 
         return FeeViewModel(title: title,
@@ -114,14 +113,13 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
             return accessoryViewModel
         }
 
-        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
-        guard let amountString = amountFormatter.value(for: locale).string(from: amount as NSNumber) else {
+        guard let title = amountFormatter.value(for: locale).string(from: amount) else {
             return accessoryViewModel
         }
 
-        accessoryViewModel.title = L10n.Withdraw.totalAmount(asset.symbol,
-                                                             amountString)
+        accessoryViewModel.title = L10n.Withdraw.totalAmount("", title)
         accessoryViewModel.numberOfLines = 2
 
         return accessoryViewModel
@@ -136,17 +134,17 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
     func createMinimumLimitErrorDetails(for asset: WalletAsset, locale: Locale) -> String {
         let amount = minimumLimit(for: asset)
 
-        let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+        let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
         let amountString: String
 
-        if let formattedAmount = amountFormatter.value(for: locale).string(from: amount as NSNumber) {
+        if let formattedAmount = amountFormatter.value(for: locale).string(from: amount) {
             amountString = formattedAmount
         } else {
             amountString = (amount as NSNumber).stringValue
         }
 
-        return L10n.Amount.Error.operationMinLimit("\(asset.symbol)\(amountString)")
+        return L10n.Amount.Error.operationMinLimit("\(amountString)")
     }
 
     func createSelectedAssetViewModel(for asset: WalletAsset?,
@@ -167,12 +165,12 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
                 subtitle = ""
             }
 
-            let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+            let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
             if let balanceData = balanceData,
                 let formattedBalance = amountFormatter.value(for: locale)
-                    .string(from: balanceData.balance.decimalValue as NSNumber) {
-                details = "\(asset.symbol)\(formattedBalance)"
+                    .string(from: balanceData.balance.decimalValue) {
+                details = formattedBalance
             } else {
                 details = ""
             }

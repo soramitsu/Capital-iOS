@@ -36,9 +36,12 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
 
             let config = resolver.receiveConfiguration
 
+            let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
+
             let presenter = try ReceiveAmountPresenter(view: view,
                                                        coordinator: coordinator,
-                                                       account: resolver.account,
+                                                       assets: eligibleAssets,
+                                                       accountId: resolver.account.accountId,
                                                        qrService: qrService,
                                                        sharingFactory: config.accountShareFactory,
                                                        receiveInfo: receiveInfo,

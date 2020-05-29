@@ -15,15 +15,18 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
 
         view.configuration = configuration
 
+        let visibleAssets = resolver.account.assets.filter { $0.modes.contains(.view) }
+
         let viewModelFactory = AccountModuleViewModelFactory(context: configuration.viewModelContext,
-                                                             assets: resolver.account.assets,
+                                                             assets: visibleAssets,
                                                              commandFactory: resolver.commandFactory,
                                                              commandDecoratorFactory: resolver.commandDecoratorFactory,
                                                              amountFormatterFactory: resolver.amountFormatterFactory)
 
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                      cacheFacade: CoreDataCacheFacade.shared,
-                                                     networkOperationFactory: resolver.networkOperationFactory)
+                                                     networkOperationFactory: resolver.networkOperationFactory,
+                                                     identifierFactory: resolver.singleValueIdentifierFactory)
 
         guard let balanceDataProvider = try? dataProviderFactory.createBalanceDataProvider() else {
             return nil
@@ -69,7 +72,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
-                                                      networkOperationFactory: resolver.networkOperationFactory)
+                                                      networkOperationFactory: resolver.networkOperationFactory,
+                                                      identifierFactory: resolver.singleValueIdentifierFactory)
 
         guard let balanceDataProvider = try? dataProviderFactory.createBalanceDataProvider() else {
             return nil

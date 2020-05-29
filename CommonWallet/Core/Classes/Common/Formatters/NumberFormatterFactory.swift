@@ -9,6 +9,7 @@ import SoraFoundation
 public protocol NumberFormatterFactoryProtocol {
     func createInputFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>
     func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>
+    func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenAmountFormatter>
 }
 
 public extension NumberFormatterFactoryProtocol {
@@ -27,6 +28,17 @@ public extension NumberFormatterFactoryProtocol {
     }
 
     func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter> {
+        createDisplayNumberFormatter(for: asset).localizableResource()
+    }
+
+    func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenAmountFormatter> {
+        let numberFormatter = createDisplayNumberFormatter(for: asset)
+
+        return TokenAmountFormatter(numberFormatter: numberFormatter,
+                                    tokenSymbol: asset?.symbol ?? "").localizableResource()
+    }
+
+    private func createDisplayNumberFormatter(for asset: WalletAsset?) -> NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.numberStyle = .decimal
@@ -36,7 +48,8 @@ public extension NumberFormatterFactoryProtocol {
         }
 
         numberFormatter.roundingMode = .down
-        return numberFormatter.localizableResource()
+
+        return numberFormatter
     }
 }
 

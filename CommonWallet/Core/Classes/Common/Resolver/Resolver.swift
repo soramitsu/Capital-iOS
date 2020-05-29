@@ -31,6 +31,7 @@ protocol ResolverProtocol: class {
     var feeCalculationFactory: FeeCalculationFactoryProtocol { get }
     var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol { get }
     var qrCoderFactory: WalletQRCoderFactoryProtocol { get }
+    var singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol { get }
 }
 
 final class Resolver: ResolverProtocol {
@@ -47,6 +48,7 @@ final class Resolver: ResolverProtocol {
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol
     var feeCalculationFactory: FeeCalculationFactoryProtocol
     var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
+    var singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     var navigation: NavigationProtocol?
 
@@ -80,7 +82,8 @@ final class Resolver: ResolverProtocol {
          withdrawConfiguration: WithdrawConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
-         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol) {
+         feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol,
+         singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol) {
         self.account = account
         self.networkOperationFactory = networkOperationFactory
         self.accountListConfiguration = accountListConfiguration
@@ -94,5 +97,6 @@ final class Resolver: ResolverProtocol {
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory
+        self.singleValueIdentifierFactory = singleValueIdentifierFactory
     }
 }

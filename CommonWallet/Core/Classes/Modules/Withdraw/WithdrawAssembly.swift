@@ -21,7 +21,8 @@ final class WithdrawAssembly: WithdrawAssemblyProtocol {
 
             let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: resolver.networkOperationFactory)
+                                                          networkOperationFactory: resolver.networkOperationFactory,
+                                                          identifierFactory: resolver.singleValueIdentifierFactory)
 
             let validatorFactory = resolver.inputValidatorFactory
             let formatterFactory = resolver.amountFormatterFactory

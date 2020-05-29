@@ -25,7 +25,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
 
             let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                           cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: resolver.networkOperationFactory)
+                                                          networkOperationFactory: resolver.networkOperationFactory,
+                                                          identifierFactory: resolver.singleValueIdentifierFactory)
 
             let generatingIconStyle = resolver.transferConfiguration.generatingIconStyle
             let inputValidatorFactory = resolver.inputValidatorFactory
@@ -34,7 +35,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let transactionSettings = resolver.transferConfiguration.settings
 
             let viewModelFactoryWrapper: TransferViewModelFactoryProtocol
-            let viewModelFactory = TransferViewModelFactory(account: resolver.account,
+            let viewModelFactory = TransferViewModelFactory(accountId: resolver.account.accountId,
+                                                            assets: resolver.account.assets,
                                                             amountFormatterFactory: amountFormatterFactory,
                                                             descriptionValidatorFactory: inputValidatorFactory,
                                                             feeDisplaySettingsFactory: feeDisplaySettingsFactory,
@@ -56,12 +58,15 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let errorHandler = resolver.transferConfiguration.errorHandler
             let feeEditing = resolver.transferConfiguration.feeEditing
 
+            let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
+
             let presenter = try  TransferPresenter(view: view,
                                                    coordinator: coordinator,
+                                                   assets: eligibleAssets,
+                                                   accountId: resolver.account.accountId,
                                                    payload: payload,
                                                    dataProviderFactory: dataProviderFactory,
                                                    feeCalculationFactory: resolver.feeCalculationFactory,
-                                                   account: resolver.account,
                                                    resultValidator: resultValidator,
                                                    changeHandler: changeHandler,
                                                    viewModelFactory: viewModelFactoryWrapper,

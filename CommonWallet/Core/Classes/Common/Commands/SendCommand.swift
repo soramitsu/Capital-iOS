@@ -5,11 +5,6 @@
 
 import Foundation
 
-enum SendCommandError: Error {
-    case invalidAssetId
-    case noAssets
-}
-
 final class SendCommand {
     let resolver: ResolverProtocol
 
@@ -26,12 +21,18 @@ final class SendCommand {
 
 extension SendCommand: WalletPresentationCommandProtocol {
     func execute() throws {
-        guard let assetId = selectedAssetId ?? resolver.account.assets.first?.identifier else {
-            throw SendCommandError.noAssets
+        let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
+
+        guard let assetId = selectedAssetId ?? eligibleAssets.first?.identifier else {
+            throw CommandError.noAssets
         }
 
         guard let asset = resolver.account.asset(for: assetId) else {
-            throw SendCommandError.invalidAssetId
+            throw CommandError.invalidAssetId
+        }
+
+        guard asset.modes.contains(.transfer) else {
+            throw CommandError.notEligibleAsset
         }
 
         guard

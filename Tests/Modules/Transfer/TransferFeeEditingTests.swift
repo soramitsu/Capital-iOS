@@ -109,7 +109,8 @@ class TransferFeeEditingTests: NetworkBaseTests {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                       cacheFacade: cacheFacade,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: networkOperationFactory,
+                                                      identifierFactory: SingleProviderIdentifierFactory())
 
         let view = MockTransferViewProtocol()
         let coordinator = MockTransferCoordinatorProtocol()
@@ -178,7 +179,8 @@ class TransferFeeEditingTests: NetworkBaseTests {
         let inputValidatorFactory = WalletInputValidatorFactoryDecorator(descriptionMaxLength: 64)
         let settings = WalletTransactionSettings.defaultSettings
 
-            let transferViewModelFactory = TransferViewModelFactory(account: accountSettings,
+            let transferViewModelFactory = TransferViewModelFactory(accountId: accountSettings.accountId,
+                                                                    assets: accountSettings.assets,
                                                                     amountFormatterFactory: NumberFormatterFactory(),
                                                                     descriptionValidatorFactory: inputValidatorFactory,
                                                                     feeDisplaySettingsFactory: FeeDisplaySettingsFactory(),
@@ -189,10 +191,11 @@ class TransferFeeEditingTests: NetworkBaseTests {
 
         let presenter = try TransferPresenter(view: view,
                                               coordinator: coordinator,
+                                              assets: accountSettings.assets,
+                                              accountId: accountSettings.accountId,
                                               payload: amountPayload,
                                               dataProviderFactory: dataProviderFactory,
                                               feeCalculationFactory: FeeCalculationFactory(),
-                                              account: accountSettings,
                                               resultValidator: validator,
                                               changeHandler: changeHandling,
                                               viewModelFactory: transferViewModelFactory,

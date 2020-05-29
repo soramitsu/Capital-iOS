@@ -7,10 +7,6 @@ import Foundation
 import RobinHood
 import SoraFoundation
 
-enum TransferPresenterInitError: Error {
-    case missingSelectedAsset
-}
-
 struct TransferCheckingState: OptionSet {
     typealias RawValue = UInt8
 
@@ -51,16 +47,29 @@ final class TransferPresenter {
     let dataProviderFactory: DataProviderFactoryProtocol
     let balanceDataProvider: SingleValueProvider<[BalanceData]>
 
-    let account: WalletAccountSettingsProtocol
+    let assets: [WalletAsset]
+    let accountId: String
     let payload: TransferPayload
     let receiverPosition: TransferReceiverPosition
 
+    var selectedBalance: BalanceData? {
+        balances?.first { $0.identifier == selectedAsset.identifier }
+    }
+
+    var inputState: TransferInputState {
+        TransferInputState(selectedAsset: selectedAsset,
+                           balance: selectedBalance,
+                           amount: amountInputViewModel.decimalAmount,
+                           metadata: metadata)
+    }
+
     init(view: TransferViewProtocol,
          coordinator: TransferCoordinatorProtocol,
+         assets: [WalletAsset],
+         accountId: String,
          payload: TransferPayload,
          dataProviderFactory: DataProviderFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
-         account: WalletAccountSettingsProtocol,
          resultValidator: TransferValidating,
          changeHandler: OperationDefinitionChangeHandling,
          viewModelFactory: TransferViewModelFactoryProtocol,
@@ -70,17 +79,17 @@ final class TransferPresenter {
          errorHandler: OperationDefinitionErrorHandling?,
          feeEditing: FeeEditing?) throws {
 
-        if let assetId = payload.receiveInfo.assetId, let asset = account.asset(for: assetId) {
-            selectedAsset = asset
-        } else if let asset = account.assets.first {
+        if let assetId = payload.receiveInfo.assetId,
+            let asset = assets.first(where: { $0.identifier == assetId }) {
             selectedAsset = asset
         } else {
-            throw TransferPresenterInitError.missingSelectedAsset
+            selectedAsset = assets[0]
         }
 
         self.view = view
         self.coordinator = coordinator
-        self.account = account
+        self.assets = assets
+        self.accountId = accountId
         self.payload = payload
         self.receiverPosition = receiverPosition
 
@@ -100,15 +109,20 @@ final class TransferPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
+        let state = TransferInputState(selectedAsset: selectedAsset,
+                                       balance: nil,
+                                       amount: payload.receiveInfo.amount?.decimalValue,
+                                       metadata: nil)
+
         descriptionInputViewModel = try viewModelFactory
-            .createDescriptionViewModelForDetails(payload.receiveInfo.details, payload: payload)
+            .createDescriptionViewModel(state,
+                                        details: payload.receiveInfo.details,
+                                        payload: payload,
+                                        locale: locale)
 
-        let decimalAmount = payload.receiveInfo.amount?.decimalValue
-
-        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      amount: decimalAmount,
-                                                                      payload: payload,
-                                                                      locale: locale)
+        amountInputViewModel = try viewModelFactory.createAmountViewModel(state,
+                                                                          payload: payload,
+                                                                          locale: locale)
 
         self.localizationManager = localizationManager
     }

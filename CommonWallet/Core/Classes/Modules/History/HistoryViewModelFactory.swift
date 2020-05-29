@@ -74,10 +74,10 @@ final class HistoryViewModelFactory {
         let amountDisplayString: String
 
         if let asset = assets[transaction.assetId] {
-            let amountFormatter = amountFormatterFactory.createDisplayFormatter(for: asset)
+            let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
             guard let displayString = amountFormatter.value(for: locale)
-                .string(from: (totalAmountValue as NSNumber)) else {
+                .string(from: totalAmountValue) else {
                 throw HistoryViewModelFactoryError.amountFormattingFailed
             }
 
@@ -102,11 +102,7 @@ final class HistoryViewModelFactory {
             viewModel.icon = transactionType.typeIcon
         }
 
-        if let asset = assets[transaction.assetId] {
-            viewModel.amount = asset.symbol + amountDisplayString
-        } else {
-            viewModel.amount = amountDisplayString
-        }
+        viewModel.amount = amountDisplayString
 
         return viewModel
     }

@@ -57,6 +57,9 @@ public protocol CommonWalletBuilderProtocol: class {
     @discardableResult
     func with(language: WalletLanguage) -> Self
 
+    @discardableResult
+    func with(singleProviderIdentifierFactory: SingleProviderIdentifierFactoryProtocol) -> Self
+
     func build() throws -> CommonWalletContextProtocol
 }
 
@@ -78,6 +81,8 @@ public final class CommonWalletBuilder {
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
     fileprivate lazy var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol = FeeDisplaySettingsFactory()
+    fileprivate lazy var singleProviderIdentifierFactory: SingleProviderIdentifierFactoryProtocol =
+        SingleProviderIdentifierFactory()
     fileprivate var logger: WalletLoggerProtocol?
     fileprivate var amountFormatterFactory: NumberFormatterFactoryProtocol?
     fileprivate var statusDateFormatter: LocalizableResource<DateFormatter>?
@@ -211,6 +216,11 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
+    public func with(singleProviderIdentifierFactory: SingleProviderIdentifierFactoryProtocol) -> Self {
+        self.singleProviderIdentifierFactory = singleProviderIdentifierFactory
+        return self
+    }
+
     public func build() throws -> CommonWalletContextProtocol {
         let resolver = try createResolver()
 
@@ -293,7 +303,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 withdrawConfiguration: withdrawConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
-                                feeDisplaySettingsFactory: feeDisplaySettingsFactory)
+                                feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                singleValueIdentifierFactory: singleProviderIdentifierFactory)
 
         resolver.style = style
 

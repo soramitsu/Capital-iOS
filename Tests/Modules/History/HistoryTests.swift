@@ -157,7 +157,8 @@ class HistoryTests: NetworkBaseTests {
 
         let dataProviderFactory = DataProviderFactory(accountSettings: accountSettings,
                                                       cacheFacade: cacheFacade,
-                                                      networkOperationFactory: networkOperationFactory)
+                                                      networkOperationFactory: networkOperationFactory,
+                                                      identifierFactory: SingleProviderIdentifierFactory())
 
         let dataProvider = try dataProviderFactory.createHistoryDataProvider(for: accountSettings.assets.map( { $0.identifier }))
 
