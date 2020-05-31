@@ -12,17 +12,20 @@ public struct WalletFormTokenViewStyle {
     public let contentInset: UIEdgeInsets
     public let iconTitleSpacing: CGFloat
     public let separatorStyle: WalletStrokeStyleProtocol
+    public let displayStyle: SelectedAssetViewDisplayStyle
 
     public init(title: WalletTextStyleProtocol,
                 subtitle: WalletTextStyleProtocol,
                 contentInset: UIEdgeInsets,
                 iconTitleSpacing: CGFloat,
-                separatorStyle: WalletStrokeStyleProtocol) {
+                separatorStyle: WalletStrokeStyleProtocol,
+                displayStyle: SelectedAssetViewDisplayStyle) {
         self.title = title
         self.subtitle = subtitle
         self.contentInset = contentInset
         self.iconTitleSpacing = iconTitleSpacing
         self.separatorStyle = separatorStyle
+        self.displayStyle = displayStyle
     }
 }
 

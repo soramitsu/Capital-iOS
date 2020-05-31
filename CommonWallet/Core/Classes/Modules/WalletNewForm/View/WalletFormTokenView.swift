@@ -25,6 +25,8 @@ class WalletFormTokenView: SelectedAssetView, WalletFormTokenViewProtocol, Walle
 
             borderedView.strokeColor = style.separatorStyle.color
             borderedView.strokeWidth = style.separatorStyle.lineWidth
+
+            displayStyle = style.displayStyle
         }
     }
 
