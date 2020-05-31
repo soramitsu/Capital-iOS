@@ -115,7 +115,8 @@ struct WalletFormViewModelBinder: WalletFormViewModelBinderProtocol {
                                               subtitle: style.formCellStyle.details,
                                               contentInset: Constants.contentInsets,
                                               iconTitleSpacing: Constants.horizontalSpacing,
-                                              separatorStyle: separatorStyle)
+                                              separatorStyle: separatorStyle,
+                                              displayStyle: .singleTitle)
         view.bind(viewModel: viewModel)
     }
 }
