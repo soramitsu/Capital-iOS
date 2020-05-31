@@ -5,14 +5,16 @@
 
 
 import Foundation
+import SoraFoundation
 
 final class TransferConfirmationModuleBuilder {
-    var customViewBinder: WalletFormViewModelBinderProtocol?
-    var customItemViewFactory: WalletFormItemViewFactoryProtocol?
-    var definitionFactory: WalletFormDefinitionFactoryProtocol?
-    var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
-    var completion: TransferCompletion = .showResult
-    var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
+    private var customViewBinder: WalletFormViewModelBinderProtocol?
+    private var customItemViewFactory: WalletFormItemViewFactoryProtocol?
+    private var definitionFactory: WalletFormDefinitionFactoryProtocol?
+    private var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
+    private var completion: TransferCompletion = .showResult
+    private var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
+    private var localizableTitle: LocalizableResource<String>?
 
     func build() -> TransferConfirmationConfigurationProtocol {
         TransferConfirmationConfiguration(customViewBinder: customViewBinder,
@@ -20,7 +22,8 @@ final class TransferConfirmationModuleBuilder {
                                           definitionFactory: definitionFactory,
                                           viewModelFactoryOverriding: viewModelFactoryOverriding,
                                           completion: completion,
-                                          accessoryViewType: accessoryViewType)
+                                          accessoryViewType: accessoryViewType,
+                                          localizableTitle: localizableTitle)
     }
 }
 
@@ -52,6 +55,11 @@ extension TransferConfirmationModuleBuilder: TransferConfirmationModuleBuilderPr
 
     func with(accessoryViewType: WalletAccessoryViewType) -> Self {
         self.accessoryViewType = accessoryViewType
+        return self
+    }
+
+    func with(localizableTitle: LocalizableResource<String>) -> Self {
+        self.localizableTitle = localizableTitle
         return self
     }
 }

@@ -5,6 +5,7 @@
 
 
 import Foundation
+import SoraFoundation
 
 public protocol TransferConfirmationModuleBuilderProtocol {
     @discardableResult
@@ -24,4 +25,7 @@ public protocol TransferConfirmationModuleBuilderProtocol {
 
     @discardableResult
     func with(accessoryViewType: WalletAccessoryViewType) -> Self
+
+    @discardableResult
+    func with(localizableTitle: LocalizableResource<String>) -> Self
 }

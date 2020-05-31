@@ -5,6 +5,7 @@
 
 
 import Foundation
+import SoraFoundation
 
 protocol TransferConfirmationConfigurationProtocol {
     var customViewBinder: WalletFormViewModelBinderProtocol? { get }
@@ -13,6 +14,7 @@ protocol TransferConfirmationConfigurationProtocol {
     var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding? { get }
     var completion: TransferCompletion { get }
     var accessoryViewType: WalletAccessoryViewType { get }
+    var localizableTitle: LocalizableResource<String>? { get }
 }
 
 struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProtocol {
@@ -22,4 +24,5 @@ struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProto
     let viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
     let completion: TransferCompletion
     let accessoryViewType: WalletAccessoryViewType
+    let localizableTitle: LocalizableResource<String>?
 }
