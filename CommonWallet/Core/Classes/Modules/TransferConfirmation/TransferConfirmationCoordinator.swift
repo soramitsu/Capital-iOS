@@ -6,7 +6,7 @@
 import Foundation
 
 
-final class ConfirmationCoordinator: ConfirmationCoordinatorProtocol {
+final class TransferConfirmationCoordinator: TransferConfirmationCoordinatorProtocol {
     let resolver: ResolverProtocol
 
     init(resolver: ResolverProtocol) {

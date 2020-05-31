@@ -22,8 +22,8 @@ class ConfirmationTests: NetworkBaseTests {
                                                                      operationSettings: operationSettings,
                                                                      networkResolver: networkResolver)
 
-            let view = MockWalletFormViewProtocol()
-            let coordinator = MockConfirmationCoordinatorProtocol()
+            let view = MockWalletNewFormViewProtocol()
+            let coordinator = MockTransferConfirmationCoordinatorProtocol()
 
             let resolver = MockResolverProtocol()
 
@@ -32,23 +32,29 @@ class ConfirmationTests: NetworkBaseTests {
             let transferInfo = try createRandomTransferInfo(for: accountSettings.accountId)
 
             let transferPayload = ConfirmationPayload(transferInfo: transferInfo,
-                                                      receiverName: UUID().uuidString,
-                                                      assetSymbol: accountSettings.assets[0].symbol)
-
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: WalletStyle().nameIconStyle)
+                                                      receiverName: UUID().uuidString)
 
             let eventCenter = WalletEventCenter()
 
             let transferObserver = MockWalletEventVisitorProtocol()
 
-            let presenter = ConfirmationPresenter(view: view,
-                                                  coordinator: coordinator,
-                                                  service: walletService,
-                                                  resolver: resolver,
-                                                  payload: transferPayload,
-                                                  accessoryViewModelFactory: accessoryViewModelFactory,
-                                                  eventCenter: eventCenter,
-                                                  feeDisplaySettings: FeeDisplaySettings.defaultSettings)
+            let generatingIconStyle = WalletStyle().nameIconStyle
+
+            let feeDisplayFactory = FeeDisplaySettingsFactory()
+
+            let numberFormatterFactory = NumberFormatterFactory()
+
+            let viewModelFactory = TransferConfirmationViewModelFactory(assets: accountSettings.assets,
+                                                                        feeDisplayFactory: feeDisplayFactory,
+                                                                        generatingIconStyle: generatingIconStyle,
+                                                                        amountFormatterFactory: numberFormatterFactory)
+
+            let presenter = TransferConfirmationPresenter(view: view,
+                                                          coordinator: coordinator,
+                                                          service: walletService,
+                                                          payload: transferPayload,
+                                                          eventCenter: eventCenter,
+                                                          viewModelFactory: viewModelFactory)
 
             // when
 
@@ -57,7 +63,7 @@ class ConfirmationTests: NetworkBaseTests {
             let transferEventExpectation = XCTestExpectation()
 
             stub(view) { stub in
-                when(stub).didReceive(viewModels: any([WalletFormViewModelProtocol].self)).then { _ in
+                when(stub).didReceive(viewModels: any([WalletFormViewBindingProtocol].self)).then { _ in
                     setupExpectation.fulfill()
                 }
 

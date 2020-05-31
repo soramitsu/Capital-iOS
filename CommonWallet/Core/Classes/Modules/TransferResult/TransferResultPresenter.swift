@@ -48,7 +48,7 @@ final class TransferResultPresenter {
 
         guard let amount = amountFormatter.value(for: locale)
             .string(from: decimalAmount) else {
-                let amount = "\(transferPayload.assetSymbol)\(transferPayload.transferInfo.amount.stringValue)"
+                let amount = "\(transferPayload.transferInfo.amount.stringValue)"
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
 

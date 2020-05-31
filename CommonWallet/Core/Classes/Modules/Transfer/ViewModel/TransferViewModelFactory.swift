@@ -236,38 +236,3 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
         return MultilineTitleIconViewModel(text: payload.receiverName, icon: icon)
     }
 }
-
-public protocol TransferViewModelFactoryOverriding {
-    func createFeeViewModel(_ inputState: TransferInputState,
-                            fee: Fee,
-                            payload: TransferPayload,
-                            locale: Locale) throws -> FeeViewModelProtocol?
-
-    func createAmountViewModel(_ inputState: TransferInputState,
-                               payload: TransferPayload,
-                               locale: Locale) throws -> AmountInputViewModelProtocol?
-
-    func createDescriptionViewModel(_ inputState: TransferInputState,
-                                    details: String?,
-                                    payload: TransferPayload,
-                                    locale: Locale) throws
-    -> DescriptionInputViewModelProtocol?
-
-    func createSelectedAssetViewModel(_ inputState: TransferInputState,
-                                      selectedAssetState: SelectedAssetState,
-                                      payload: TransferPayload,
-                                      locale: Locale) throws -> AssetSelectionViewModelProtocol?
-
-    func createAssetSelectionTitle(_ inputState: TransferInputState,
-                                   payload: TransferPayload,
-                                   locale: Locale) throws -> String?
-
-    func createReceiverViewModel(_ inputState: TransferInputState,
-                                 payload: TransferPayload,
-                                 locale: Locale) throws
-        -> MultilineTitleIconViewModelProtocol?
-
-    func createAccessoryViewModel(_ inputState: TransferInputState,
-                                  payload: TransferPayload?,
-                                  locale: Locale) throws -> AccessoryViewModelProtocol?
-}

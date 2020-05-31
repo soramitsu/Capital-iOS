@@ -3,15 +3,15 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
-protocol ConfirmationPresenterProtocol: WalletFormPresenterProtocol {}
+protocol TransferConfirmationPresenterProtocol: WalletNewFormPresenterProtocol {}
 
 
-protocol ConfirmationCoordinatorProtocol: class {
+protocol TransferConfirmationCoordinatorProtocol: class {
     func showResult(payload: ConfirmationPayload)
 }
 
 
-protocol ConfirmationAssemblyProtocol: class {
+protocol TransferConfirmationAssemblyProtocol: class {
 	static func assembleView(with resolver: ResolverProtocol, payload: ConfirmationPayload)
-        -> WalletFormViewProtocol?
+        -> WalletNewFormViewProtocol?
 }

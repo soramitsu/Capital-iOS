@@ -5,8 +5,12 @@
 
 import Foundation
 
-struct ConfirmationPayload {
-    var transferInfo: TransferInfo
-    var receiverName: String
-    var assetSymbol: String
+public struct ConfirmationPayload {
+    public let transferInfo: TransferInfo
+    public let receiverName: String
+
+    public init(transferInfo: TransferInfo, receiverName: String) {
+        self.transferInfo = transferInfo
+        self.receiverName = receiverName
+    }
 }

@@ -24,8 +24,7 @@ class TransferResultTests: NetworkBaseTests {
             let transferInfo = try createRandomTransferInfo(for: accountSettings.accountId)
 
             let transferPayload = ConfirmationPayload(transferInfo: transferInfo,
-                                                      receiverName: UUID().uuidString,
-                                                      assetSymbol: accountSettings.assets[0].symbol)
+                                                      receiverName: UUID().uuidString)
 
             let presenter = TransferResultPresenter(view: view,
                                                     coordinator: coordinator,

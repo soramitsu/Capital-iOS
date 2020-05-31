@@ -14,7 +14,8 @@ final class TransferCoordinator: TransferCoordinatorProtocol {
     }
     
     func confirm(with payload: ConfirmationPayload) {
-        guard let confirmationView = ConfirmationAssembly.assembleView(with: resolver, payload: payload) else {
+        guard let confirmationView = TransferConfirmationAssembly.assembleView(with: resolver,
+                                                                               payload: payload) else {
             return
         }
         
