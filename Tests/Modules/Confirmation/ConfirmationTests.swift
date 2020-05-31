@@ -75,7 +75,7 @@ class ConfirmationTests: NetworkBaseTests {
             }
 
             stub(coordinator) { stub in
-                when(stub).showResult(payload: any(ConfirmationPayload.self)).then { _ in
+                when(stub).proceed(payload: any(ConfirmationPayload.self)).then { _ in
                     confirmExpectation.fulfill()
                 }
             }

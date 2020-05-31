@@ -38,7 +38,7 @@ final class TransferConfirmationPresenter {
         case .success:
             eventCenter.notify(with: TransferCompleteEvent(payload: payload))
             
-            coordinator.showResult(payload: payload)
+            coordinator.proceed(payload: payload)
         case .failure:
             view?.showError(message: L10n.Transaction.Error.fail)
         }

@@ -80,6 +80,22 @@ public struct WalletFormSpentAmountModel: WalletFormViewBindingProtocol {
     }
 }
 
+public struct WalletFormTokenViewModel: WalletFormViewBindingProtocol {
+    public let title: String
+    public let subtitle: String
+    public let icon: UIImage?
+
+    public init(title: String, subtitle: String, icon: UIImage? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.icon = icon
+    }
+
+    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+        definition.defineViewForTokenViewModel(self)
+    }
+}
+
 public struct WalletFormSeparatedViewModel<T: WalletFormViewBindingProtocol>: WalletFormViewBindingProtocol {
     public let content: T
     public let borderType: BorderType

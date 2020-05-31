@@ -19,6 +19,7 @@ protocol ResolverProtocol: class {
     var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol { get }
     var transferConfiguration: TransferConfigurationProtocol { get }
     var withdrawConfiguration: WithdrawConfigurationProtocol { get }
+    var transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol { get }
     var navigation: NavigationProtocol? { get }
     var logger: WalletLoggerProtocol? { get }
     var localizationManager: LocalizationManagerProtocol? { get }
@@ -45,6 +46,7 @@ final class Resolver: ResolverProtocol {
     var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol
     var transferConfiguration: TransferConfigurationProtocol
     var withdrawConfiguration: WithdrawConfigurationProtocol
+    var transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol
     var inputValidatorFactory: WalletInputValidatorFactoryProtocol
     var feeCalculationFactory: FeeCalculationFactoryProtocol
     var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
@@ -80,6 +82,7 @@ final class Resolver: ResolverProtocol {
          transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol,
          transferConfiguration: TransferConfigurationProtocol,
          withdrawConfiguration: WithdrawConfigurationProtocol,
+         transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol,
          inputValidatorFactory: WalletInputValidatorFactoryProtocol,
          feeCalculationFactory: FeeCalculationFactoryProtocol,
          feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol,
@@ -94,6 +97,7 @@ final class Resolver: ResolverProtocol {
         self.transactionDetailsConfiguration = transactionDetailsConfiguration
         self.transferConfiguration = transferConfiguration
         self.withdrawConfiguration = withdrawConfiguration
+        self.transferConfirmationConfiguration = transferConfirmationConfiguration
         self.inputValidatorFactory = inputValidatorFactory
         self.feeCalculationFactory = feeCalculationFactory
         self.feeDisplaySettingsFactory = feeDisplaySettingsFactory

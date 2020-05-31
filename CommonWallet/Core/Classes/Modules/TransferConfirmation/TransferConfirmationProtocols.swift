@@ -7,7 +7,7 @@ protocol TransferConfirmationPresenterProtocol: WalletNewFormPresenterProtocol {
 
 
 protocol TransferConfirmationCoordinatorProtocol: class {
-    func showResult(payload: ConfirmationPayload)
+    func proceed(payload: ConfirmationPayload)
 }
 
 

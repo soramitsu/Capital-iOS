@@ -6,7 +6,7 @@
 
 import Foundation
 
-public protocol TransferConfirmationViewModelFactoryProtocol {
+protocol TransferConfirmationViewModelFactoryProtocol {
     func createViewModelsFromPayload(_ payload: ConfirmationPayload,
                                      locale: Locale) -> [WalletFormViewBindingProtocol]
 

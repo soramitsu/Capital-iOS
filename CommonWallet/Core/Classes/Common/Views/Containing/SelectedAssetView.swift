@@ -16,7 +16,7 @@ public enum SelectedAssetViewDisplayStyle {
     case separatedDetails
 }
 
-final class SelectedAssetView: UIControl {
+class SelectedAssetView: UIControl {
     private(set) var borderedView: BorderedContainerView = BorderedContainerView()
     private(set) var detailsControl: ActionTitleControl = ActionTitleControl()
     private(set) var titleLabel = UILabel()

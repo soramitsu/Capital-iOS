@@ -9512,16 +9512,16 @@ import Cuckoo
     
     
     
-     func showResult(payload: ConfirmationPayload)  {
+     func proceed(payload: ConfirmationPayload)  {
         
-    return cuckoo_manager.call("showResult(payload: ConfirmationPayload)",
+    return cuckoo_manager.call("proceed(payload: ConfirmationPayload)",
             parameters: (payload),
             escapingParameters: (payload),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.showResult(payload: payload))
+            defaultCall: __defaultImplStub!.proceed(payload: payload))
         
     }
     
@@ -9534,9 +9534,9 @@ import Cuckoo
 	    }
 	    
 	    
-	    func showResult<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ConfirmationPayload)> where M1.MatchedType == ConfirmationPayload {
+	    func proceed<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(ConfirmationPayload)> where M1.MatchedType == ConfirmationPayload {
 	        let matchers: [Cuckoo.ParameterMatcher<(ConfirmationPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTransferConfirmationCoordinatorProtocol.self, method: "showResult(payload: ConfirmationPayload)", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockTransferConfirmationCoordinatorProtocol.self, method: "proceed(payload: ConfirmationPayload)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -9556,9 +9556,9 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func showResult<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.__DoNotUse<(ConfirmationPayload), Void> where M1.MatchedType == ConfirmationPayload {
+	    func proceed<M1: Cuckoo.Matchable>(payload: M1) -> Cuckoo.__DoNotUse<(ConfirmationPayload), Void> where M1.MatchedType == ConfirmationPayload {
 	        let matchers: [Cuckoo.ParameterMatcher<(ConfirmationPayload)>] = [wrap(matchable: payload) { $0 }]
-	        return cuckoo_manager.verify("showResult(payload: ConfirmationPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("proceed(payload: ConfirmationPayload)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -9570,7 +9570,7 @@ import Cuckoo
     
 
     
-     func showResult(payload: ConfirmationPayload)   {
+     func proceed(payload: ConfirmationPayload)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     

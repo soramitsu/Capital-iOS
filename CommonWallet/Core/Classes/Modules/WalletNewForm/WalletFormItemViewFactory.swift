@@ -16,14 +16,19 @@ public typealias WalletFormItemView = UIView & WalletFormBordering
 public protocol WalletFormItemViewFactoryProtocol {
     func createDetailsFormView() -> WalletFormItemView & WalletFormDetailsViewProtocol
     func createFormTitleIconView() -> WalletFormItemView & WalletFormTitleIconViewProtocol
+    func createTokenView() -> WalletFormItemView & WalletFormTokenViewProtocol
 }
 
-class WalletFormItemViewFactory: WalletFormItemViewFactoryProtocol {
+struct WalletFormItemViewFactory: WalletFormItemViewFactoryProtocol {
     func createDetailsFormView() -> WalletFormItemView & WalletFormDetailsViewProtocol {
         WalletFormDetailsView()
     }
 
     func createFormTitleIconView() -> WalletFormItemView & WalletFormTitleIconViewProtocol {
         WalletFormTitleIconView()
+    }
+
+    func createTokenView() -> WalletFormItemView & WalletFormTokenViewProtocol {
+        WalletFormTokenView()
     }
 }

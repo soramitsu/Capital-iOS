@@ -12,9 +12,10 @@ public protocol WalletFormViewModelBinderProtocol {
     func bind(viewModel: WalletFormSingleHeaderModel, to view: WalletFormTitleIconViewProtocol)
     func bind(viewModel: WalletFormDetailsHeaderModel, to view: WalletFormTitleIconViewProtocol)
     func bind(viewModel: WalletFormSpentAmountModel, to view: WalletFormDetailsViewProtocol)
+    func bind(viewModel: WalletFormTokenViewModel, to view: WalletFormTokenViewProtocol)
 }
 
-class WalletFormViewModelBinder: WalletFormViewModelBinderProtocol {
+struct WalletFormViewModelBinder: WalletFormViewModelBinderProtocol {
     private struct Constants {
         static let separatorWidth: CGFloat = 1.0
         static let contentInsets: UIEdgeInsets = UIEdgeInsets(top: 18.0,
@@ -104,5 +105,17 @@ class WalletFormViewModelBinder: WalletFormViewModelBinderProtocol {
                                                             details: viewModel.amount,
                                                             detailsIcon: style.amountChangeStyle.decrease)
         view.bind(viewModel: targetViewModel)
+    }
+
+    func bind(viewModel: WalletFormTokenViewModel, to view: WalletFormTokenViewProtocol) {
+        let separatorStyle = WalletStrokeStyle(color: style.formCellStyle.separator,
+                                               lineWidth: Constants.separatorWidth)
+
+        view.style = WalletFormTokenViewStyle(title: style.formCellStyle.details,
+                                              subtitle: style.formCellStyle.details,
+                                              contentInset: Constants.contentInsets,
+                                              iconTitleSpacing: Constants.horizontalSpacing,
+                                              separatorStyle: separatorStyle)
+        view.bind(viewModel: viewModel)
     }
 }

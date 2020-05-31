@@ -17,6 +17,8 @@ public protocol WalletFormDefiningProtocol {
 
     func defineViewForSpentAmountModel(_ model: WalletFormSpentAmountModel) -> WalletFormItemView?
 
+    func defineViewForTokenViewModel(_ model: WalletFormTokenViewModel) -> WalletFormItemView?
+
     func defineViewForSeparatedViewModel<T>(_ model: WalletFormSeparatedViewModel<T>)
         -> WalletFormItemView? where T: WalletFormViewBindingProtocol
 }
@@ -61,6 +63,13 @@ class WalletFormDefinition: WalletFormDefiningProtocol {
 
     func defineViewForSpentAmountModel(_ model: WalletFormSpentAmountModel) -> WalletFormItemView? {
         let view = itemViewFactory.createDetailsFormView()
+        binder.bind(viewModel: model, to: view)
+        view.borderType = []
+        return view
+    }
+
+    func defineViewForTokenViewModel(_ model: WalletFormTokenViewModel) -> WalletFormItemView? {
+        let view = itemViewFactory.createTokenView()
         binder.bind(viewModel: model, to: view)
         view.borderType = []
         return view

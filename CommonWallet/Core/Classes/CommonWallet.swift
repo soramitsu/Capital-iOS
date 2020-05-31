@@ -19,6 +19,7 @@ public protocol CommonWalletBuilderProtocol: class {
     var transactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtocol { get }
     var transferModuleBuilder: TransferModuleBuilderProtocol { get }
     var withdrawModuleBuilder: WithdrawModuleBuilderProtocol { get }
+    var transferConfirmationBuilder: TransferConfirmationModuleBuilderProtocol { get }
     var styleBuilder: WalletStyleBuilderProtocol { get }
 
     @discardableResult
@@ -76,6 +77,7 @@ public final class CommonWalletBuilder {
     fileprivate var privateTransactionDetailsModuleBuilder: TransactionDetailsModuleBuilder
     fileprivate var privateTransferModuleBuilder: TransferModuleBuilder
     fileprivate var privateWithdrawModuleBuilder: WithdrawModuleBuilder
+    fileprivate var privateTransferConfirmationBuilder: TransferConfirmationModuleBuilder
     fileprivate var privateStyleBuilder: WalletStyleBuilder
     fileprivate var account: WalletAccountSettingsProtocol
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
@@ -104,6 +106,7 @@ public final class CommonWalletBuilder {
         privateTransactionDetailsModuleBuilder = TransactionDetailsModuleBuilder()
         privateTransferModuleBuilder = TransferModuleBuilder()
         privateWithdrawModuleBuilder = WithdrawModuleBuilder()
+        privateTransferConfirmationBuilder = TransferConfirmationModuleBuilder()
         privateStyleBuilder = WalletStyleBuilder()
     }
 }
@@ -139,6 +142,10 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
 
     public var withdrawModuleBuilder: WithdrawModuleBuilderProtocol {
         return privateWithdrawModuleBuilder
+    }
+
+    public var transferConfirmationBuilder: TransferConfirmationModuleBuilderProtocol {
+        return privateTransferConfirmationBuilder
     }
 
     public var styleBuilder: WalletStyleBuilderProtocol {
@@ -288,6 +295,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         privateWithdrawModuleBuilder.style = style
         let withdrawConfiguration = privateWithdrawModuleBuilder.build()
 
+        let transferConfirmationConfiguration = privateTransferConfirmationBuilder.build()
+
         let decorator = WalletInputValidatorFactoryDecorator(descriptionMaxLength: transferDescriptionLimit)
         decorator.underlyingFactory = inputValidatorFactory
 
@@ -301,6 +310,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
                                 transactionDetailsConfiguration: transactionDetailsConfiguration,
                                 transferConfiguration: transferConfiguration,
                                 withdrawConfiguration: withdrawConfiguration,
+                                transferConfirmationConfiguration: transferConfirmationConfiguration,
                                 inputValidatorFactory: decorator,
                                 feeCalculationFactory: feeCalculationFactory,
                                 feeDisplaySettingsFactory: feeDisplaySettingsFactory,

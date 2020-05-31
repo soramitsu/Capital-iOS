@@ -1899,6 +1899,20 @@ import SoraFoundation
     
     
     
+     var transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol {
+        get {
+            return cuckoo_manager.getter("transferConfirmationConfiguration",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.transferConfirmationConfiguration)
+        }
+        
+    }
+    
+    
+    
      var navigation: NavigationProtocol? {
         get {
             return cuckoo_manager.getter("navigation",
@@ -2152,6 +2166,11 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var transferConfirmationConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, TransferConfirmationConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transferConfirmationConfiguration")
+	    }
+	    
+	    
 	    var navigation: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, NavigationProtocol?> {
 	        return .init(manager: cuckoo_manager, name: "navigation")
 	    }
@@ -2289,6 +2308,11 @@ import SoraFoundation
 	    
 	    var withdrawConfiguration: Cuckoo.VerifyReadOnlyProperty<WithdrawConfigurationProtocol> {
 	        return .init(manager: cuckoo_manager, name: "withdrawConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var transferConfirmationConfiguration: Cuckoo.VerifyReadOnlyProperty<TransferConfirmationConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "transferConfirmationConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2455,6 +2479,14 @@ import SoraFoundation
      var withdrawConfiguration: WithdrawConfigurationProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (WithdrawConfigurationProtocol).self)
+        }
+        
+    }
+    
+    
+     var transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (TransferConfirmationConfigurationProtocol).self)
         }
         
     }

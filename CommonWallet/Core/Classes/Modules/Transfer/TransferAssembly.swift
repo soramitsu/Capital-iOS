@@ -28,27 +28,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                           networkOperationFactory: resolver.networkOperationFactory,
                                                           identifierFactory: resolver.singleValueIdentifierFactory)
 
-            let generatingIconStyle = resolver.transferConfiguration.generatingIconStyle
-            let inputValidatorFactory = resolver.inputValidatorFactory
-            let amountFormatterFactory = resolver.amountFormatterFactory
-            let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
-            let transactionSettings = resolver.transferConfiguration.settings
-
-            let viewModelFactoryWrapper: TransferViewModelFactoryProtocol
-            let viewModelFactory = TransferViewModelFactory(accountId: resolver.account.accountId,
-                                                            assets: resolver.account.assets,
-                                                            amountFormatterFactory: amountFormatterFactory,
-                                                            descriptionValidatorFactory: inputValidatorFactory,
-                                                            feeDisplaySettingsFactory: feeDisplaySettingsFactory,
-                                                            transactionSettings: transactionSettings,
-                                                            generatingIconStyle: generatingIconStyle)
-
-            if let overriding = resolver.transferConfiguration.transferViewModelFactory {
-                viewModelFactoryWrapper = TransferViewModelFactoryWrapper(overriding: overriding,
-                                                                          factory: viewModelFactory)
-            } else {
-                viewModelFactoryWrapper = viewModelFactory
-            }
+            let viewModelFactory = createViewModelFactory(from: resolver)
 
             let headerFactory = resolver.transferConfiguration.headerFactory
             let receiverPosition = resolver.transferConfiguration.receiverPosition
@@ -69,7 +49,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                    feeCalculationFactory: resolver.feeCalculationFactory,
                                                    resultValidator: resultValidator,
                                                    changeHandler: changeHandler,
-                                                   viewModelFactory: viewModelFactoryWrapper,
+                                                   viewModelFactory: viewModelFactory,
                                                    headerFactory: headerFactory,
                                                    receiverPosition: receiverPosition,
                                                    localizationManager: resolver.localizationManager,
@@ -87,5 +67,28 @@ final class TransferAssembly: TransferAssemblyProtocol {
             return nil
         }
     }
-    
+
+    private static func createViewModelFactory(from resolver: ResolverProtocol) -> TransferViewModelFactoryProtocol {
+
+        let generatingIconStyle = resolver.transferConfiguration.generatingIconStyle
+        let inputValidatorFactory = resolver.inputValidatorFactory
+        let amountFormatterFactory = resolver.amountFormatterFactory
+        let feeDisplaySettingsFactory = resolver.feeDisplaySettingsFactory
+        let transactionSettings = resolver.transferConfiguration.settings
+
+        let viewModelFactory = TransferViewModelFactory(accountId: resolver.account.accountId,
+                                                        assets: resolver.account.assets,
+                                                        amountFormatterFactory: amountFormatterFactory,
+                                                        descriptionValidatorFactory: inputValidatorFactory,
+                                                        feeDisplaySettingsFactory: feeDisplaySettingsFactory,
+                                                        transactionSettings: transactionSettings,
+                                                        generatingIconStyle: generatingIconStyle)
+
+        if let overriding = resolver.transferConfiguration.transferViewModelFactory {
+            return TransferViewModelFactoryWrapper(overriding: overriding,
+                                                   factory: viewModelFactory)
+        } else {
+            return viewModelFactory
+        }
+    }
 }
