@@ -24,6 +24,10 @@ public extension TransferConfirmationViewModelFactoryOverriding {
                                              locale: Locale) -> AccessoryViewModelProtocol? {
         nil
     }
+
+    func generateReceiverIconForName(_ name: String, style: WalletNameIconStyleProtocol) -> UIImage? {
+        UIImage.createAvatar(fullName: name, style: style)
+    }
 }
 
 struct TransferConfirmationModelFactoryWrapper: TransferConfirmationViewModelFactoryProtocol {
