@@ -88,9 +88,10 @@ class SelectedAssetView: UIControl {
 
     override var isHighlighted: Bool {
         didSet {
-            titleLabel.alpha = isHighlighted ? opacityValueWhenHighlighted : 1.0
-            iconImageView?.alpha = isHighlighted ? opacityValueWhenHighlighted : 1.0
-            detailsControl.isHighlighted = isHighlighted
+            let canSelect = viewModel?.state.canSelect ?? false
+            titleLabel.alpha = isHighlighted && canSelect ? opacityValueWhenHighlighted : 1.0
+            iconImageView?.alpha = isHighlighted && canSelect ? opacityValueWhenHighlighted : 1.0
+            detailsControl.isHighlighted = isHighlighted && canSelect
         }
     }
 
