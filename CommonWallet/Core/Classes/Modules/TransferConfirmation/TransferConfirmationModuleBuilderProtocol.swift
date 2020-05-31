@@ -21,4 +21,7 @@ public protocol TransferConfirmationModuleBuilderProtocol {
 
     @discardableResult
     func with(completion: TransferCompletion) -> Self
+
+    @discardableResult
+    func with(accessoryViewType: WalletAccessoryViewType) -> Self
 }

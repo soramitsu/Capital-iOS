@@ -20,6 +20,8 @@ class WalletNewFormViewController: UIViewController {
 
     var presenter: WalletNewFormPresenterProtocol!
 
+    var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
+
     private var accessoryView: AccessoryViewProtocol?
 
     private var containerView = ScrollableContainerView()
@@ -98,7 +100,7 @@ class WalletNewFormViewController: UIViewController {
             return
         }
 
-        let accesory = accessoryViewFactory.createAccessoryView(from: .titleIconActionBar,
+        let accesory = accessoryViewFactory.createAccessoryView(from: accessoryViewType,
                                                                 style: style.accessoryStyle,
                                                                 target: self,
                                                                 completionSelector: #selector(performAction))

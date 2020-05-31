@@ -12,6 +12,7 @@ protocol TransferConfirmationConfigurationProtocol {
     var definitionFactory: WalletFormDefinitionFactoryProtocol? { get }
     var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding? { get }
     var completion: TransferCompletion { get }
+    var accessoryViewType: WalletAccessoryViewType { get }
 }
 
 struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProtocol {
@@ -19,5 +20,6 @@ struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProto
     let customItemViewFactory: WalletFormItemViewFactoryProtocol?
     let definitionFactory: WalletFormDefinitionFactoryProtocol?
     let viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
-    var completion: TransferCompletion
+    let completion: TransferCompletion
+    let accessoryViewType: WalletAccessoryViewType
 }

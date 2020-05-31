@@ -12,13 +12,15 @@ final class TransferConfirmationModuleBuilder {
     var definitionFactory: WalletFormDefinitionFactoryProtocol?
     var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
     var completion: TransferCompletion = .showResult
+    var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
 
     func build() -> TransferConfirmationConfigurationProtocol {
         TransferConfirmationConfiguration(customViewBinder: customViewBinder,
                                           customItemViewFactory: customItemViewFactory,
                                           definitionFactory: definitionFactory,
                                           viewModelFactoryOverriding: viewModelFactoryOverriding,
-                                          completion: completion)
+                                          completion: completion,
+                                          accessoryViewType: accessoryViewType)
     }
 }
 
@@ -45,6 +47,11 @@ extension TransferConfirmationModuleBuilder: TransferConfirmationModuleBuilderPr
 
     func with(completion: TransferCompletion) -> Self {
         self.completion = completion
+        return self
+    }
+
+    func with(accessoryViewType: WalletAccessoryViewType) -> Self {
+        self.accessoryViewType = accessoryViewType
         return self
     }
 }

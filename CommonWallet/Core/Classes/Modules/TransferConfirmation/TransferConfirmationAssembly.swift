@@ -19,6 +19,7 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
                                                accessoryViewFactory: AccessoryViewFactory.self)
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)
         view.localizableTitle = LocalizableResource { _ in L10n.Confirmation.title }
+        view.accessoryViewType = resolver.transferConfirmationConfiguration.accessoryViewType
 
         let transferCompletion = resolver.transferConfirmationConfiguration.completion
         let coordinator = TransferConfirmationCoordinator(resolver: resolver,

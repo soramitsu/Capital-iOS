@@ -14,7 +14,7 @@ public protocol TransferConfirmationViewModelFactoryOverriding {
                                              locale: Locale) -> AccessoryViewModelProtocol?
 }
 
-extension TransferConfirmationViewModelFactoryOverriding {
+public extension TransferConfirmationViewModelFactoryOverriding {
     func createViewModelsFromPayload(_ payload: ConfirmationPayload,
                                      locale: Locale) -> [WalletFormViewBindingProtocol]? {
         nil

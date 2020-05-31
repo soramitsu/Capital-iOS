@@ -85,7 +85,9 @@ final class SidechainDemo: DemoFactoryProtocol {
             .with(errorContentInsets: UIEdgeInsets(top: 8.0, left: 0.0, bottom: 0.0, right: 0.0))
             .with(errorHandler: SidechainTransferErrorHandler())
 
-        walletBuilder.transferConfirmationBuilder.with(completion: .hide)
+        walletBuilder.transferConfirmationBuilder
+            .with(completion: .hide)
+            .with(accessoryViewType: .onlyActionBar)
 
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)
