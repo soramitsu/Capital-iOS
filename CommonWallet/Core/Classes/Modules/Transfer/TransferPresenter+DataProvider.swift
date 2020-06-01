@@ -186,8 +186,7 @@ extension TransferPresenter {
             let transferInfo = try prepareTransferInfo()
 
             let composedPayload = ConfirmationPayload(transferInfo: transferInfo,
-                                                      receiverName: payload.receiverName,
-                                                      assetSymbol: selectedAsset.symbol)
+                                                      receiverName: payload.receiverName)
 
             coordinator.confirm(with: composedPayload)
         } catch {

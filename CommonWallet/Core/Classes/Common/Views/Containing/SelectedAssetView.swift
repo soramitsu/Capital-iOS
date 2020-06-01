@@ -16,7 +16,7 @@ public enum SelectedAssetViewDisplayStyle {
     case separatedDetails
 }
 
-final class SelectedAssetView: UIControl {
+class SelectedAssetView: UIControl {
     private(set) var borderedView: BorderedContainerView = BorderedContainerView()
     private(set) var detailsControl: ActionTitleControl = ActionTitleControl()
     private(set) var titleLabel = UILabel()
@@ -88,9 +88,10 @@ final class SelectedAssetView: UIControl {
 
     override var isHighlighted: Bool {
         didSet {
-            titleLabel.alpha = isHighlighted ? opacityValueWhenHighlighted : 1.0
-            iconImageView?.alpha = isHighlighted ? opacityValueWhenHighlighted : 1.0
-            detailsControl.isHighlighted = isHighlighted
+            let canSelect = viewModel?.state.canSelect ?? false
+            titleLabel.alpha = isHighlighted && canSelect ? opacityValueWhenHighlighted : 1.0
+            iconImageView?.alpha = isHighlighted && canSelect ? opacityValueWhenHighlighted : 1.0
+            detailsControl.isHighlighted = isHighlighted && canSelect
         }
     }
 
