@@ -63,7 +63,7 @@ class WithdrawServiceTests: NetworkBaseTests {
 
     private func performRequest(for mock: WithdrawMock,
                                 info: WithdrawInfo,
-                                errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws -> Result<Void, Error>? {
+                                errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws -> Result<Data, Error>? {
         let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
         let urlTemplateGetExpectation = XCTestExpectation()
@@ -108,7 +108,7 @@ class WithdrawServiceTests: NetworkBaseTests {
 
         let transferExpectation = XCTestExpectation()
 
-        var result: Result<Void, Error>?
+        var result: Result<Data, Error>?
 
         walletService.withdraw(info: info, runCompletionIn: .main) { (optionalResult) in
             result = optionalResult

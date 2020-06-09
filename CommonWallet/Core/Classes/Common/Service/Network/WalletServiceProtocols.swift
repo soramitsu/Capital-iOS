@@ -9,6 +9,7 @@ import RobinHood
 typealias BalanceCompletionBlock = (Result<[BalanceData]?, Error>?) -> Void
 typealias TransactionHistoryBlock = (Result<AssetTransactionPageData?, Error>?) -> Void
 typealias EmptyResultCompletionBlock = (Result<Void, Error>?) -> Void
+typealias DataResultCompletionBlock = (Result<Data, Error>?) -> Void
 typealias SearchCompletionBlock = (Result<[SearchData]?, Error>?) -> Void
 typealias WithdrawalMetadataCompletionBlock = (Result<WithdrawMetaData?, Error>?) -> Void
 typealias TransferMetadataCompletionBlock = (Result<TransferMetaData?, Error>?) -> Void
@@ -35,7 +36,7 @@ protocol WalletServiceProtocol {
     @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> CancellableCall
+                  completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall
 
     @discardableResult
     func search(for searchString: String,
@@ -55,5 +56,5 @@ protocol WalletServiceProtocol {
     @discardableResult
     func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> CancellableCall
+                  completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall
 }

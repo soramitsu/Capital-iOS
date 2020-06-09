@@ -2679,9 +2679,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
     
     
     
-    public func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Void> {
+    public func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data> {
         
-    return cuckoo_manager.call("transferOperation(_: TransferInfo) -> CompoundOperationWrapper<Void>",
+    return cuckoo_manager.call("transferOperation(_: TransferInfo) -> CompoundOperationWrapper<Data>",
             parameters: (info),
             escapingParameters: (info),
             superclassCall:
@@ -2739,9 +2739,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
     
     
     
-    public func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Void> {
+    public func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Data> {
         
-    return cuckoo_manager.call("withdrawOperation(_: WithdrawInfo) -> CompoundOperationWrapper<Void>",
+    return cuckoo_manager.call("withdrawOperation(_: WithdrawInfo) -> CompoundOperationWrapper<Data>",
             parameters: (info),
             escapingParameters: (info),
             superclassCall:
@@ -2776,9 +2776,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferMetadataOperation(_: TransferMetadataInfo) -> CompoundOperationWrapper<TransferMetaData?>", parameterMatchers: matchers))
 	    }
 	    
-	    func transferOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferInfo), CompoundOperationWrapper<Void>> where M1.MatchedType == TransferInfo {
+	    func transferOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferInfo), CompoundOperationWrapper<Data>> where M1.MatchedType == TransferInfo {
 	        let matchers: [Cuckoo.ParameterMatcher<(TransferInfo)>] = [wrap(matchable: info) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferOperation(_: TransferInfo) -> CompoundOperationWrapper<Void>", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "transferOperation(_: TransferInfo) -> CompoundOperationWrapper<Data>", parameterMatchers: matchers))
 	    }
 	    
 	    func searchOperation<M1: Cuckoo.Matchable>(_ searchString: M1) -> Cuckoo.ProtocolStubFunction<(String), CompoundOperationWrapper<[SearchData]?>> where M1.MatchedType == String {
@@ -2796,9 +2796,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "withdrawalMetadataOperation(_: WithdrawMetadataInfo) -> CompoundOperationWrapper<WithdrawMetaData?>", parameterMatchers: matchers))
 	    }
 	    
-	    func withdrawOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(WithdrawInfo), CompoundOperationWrapper<Void>> where M1.MatchedType == WithdrawInfo {
+	    func withdrawOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(WithdrawInfo), CompoundOperationWrapper<Data>> where M1.MatchedType == WithdrawInfo {
 	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo)>] = [wrap(matchable: info) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "withdrawOperation(_: WithdrawInfo) -> CompoundOperationWrapper<Void>", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "withdrawOperation(_: WithdrawInfo) -> CompoundOperationWrapper<Data>", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -2836,9 +2836,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	    }
 	    
 	    @discardableResult
-	    func transferOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.__DoNotUse<(TransferInfo), CompoundOperationWrapper<Void>> where M1.MatchedType == TransferInfo {
+	    func transferOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.__DoNotUse<(TransferInfo), CompoundOperationWrapper<Data>> where M1.MatchedType == TransferInfo {
 	        let matchers: [Cuckoo.ParameterMatcher<(TransferInfo)>] = [wrap(matchable: info) { $0 }]
-	        return cuckoo_manager.verify("transferOperation(_: TransferInfo) -> CompoundOperationWrapper<Void>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("transferOperation(_: TransferInfo) -> CompoundOperationWrapper<Data>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -2860,9 +2860,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	    }
 	    
 	    @discardableResult
-	    func withdrawOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.__DoNotUse<(WithdrawInfo), CompoundOperationWrapper<Void>> where M1.MatchedType == WithdrawInfo {
+	    func withdrawOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.__DoNotUse<(WithdrawInfo), CompoundOperationWrapper<Data>> where M1.MatchedType == WithdrawInfo {
 	        let matchers: [Cuckoo.ParameterMatcher<(WithdrawInfo)>] = [wrap(matchable: info) { $0 }]
-	        return cuckoo_manager.verify("withdrawOperation(_: WithdrawInfo) -> CompoundOperationWrapper<Void>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("withdrawOperation(_: WithdrawInfo) -> CompoundOperationWrapper<Data>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -2886,8 +2886,8 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
         return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<TransferMetaData?>).self)
     }
     
-    public func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Void>  {
-        return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<Void>).self)
+    public func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data>  {
+        return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<Data>).self)
     }
     
     public func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?>  {
@@ -2902,8 +2902,8 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
         return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<WithdrawMetaData?>).self)
     }
     
-    public func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Void>  {
-        return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<Void>).self)
+    public func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Data>  {
+        return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<Data>).self)
     }
     
 }

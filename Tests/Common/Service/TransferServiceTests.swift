@@ -63,7 +63,7 @@ class TransferServiceTests: NetworkBaseTests {
 
     private func performRequest(for mock: TransferMock,
                                 info: TransferInfo,
-                                errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws -> Result<Void, Error>? {
+                                errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws -> Result<Data, Error>? {
         let networkResolver = MockMiddlewareNetworkResolverProtocol()
 
         let urlTemplateGetExpectation = XCTestExpectation()
@@ -108,7 +108,7 @@ class TransferServiceTests: NetworkBaseTests {
 
         let transferExpectation = XCTestExpectation()
 
-        var result: Result<Void, Error>?
+        var result: Result<Data, Error>?
 
         walletService.transfer(info: info, runCompletionIn: .main) { (optionalResult) in
             result = optionalResult
