@@ -10,6 +10,7 @@ final class CardAssetCollectionViewCell: UICollectionViewCell {
     @IBOutlet private var backgroundRoundedView: RoundedView!
     @IBOutlet private var leftRoundedView: RoundedView!
     @IBOutlet private var symbolLabel: UILabel!
+    @IBOutlet private var symbolImageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var subtitleLabel: UILabel!
     @IBOutlet private var accessoryLabel: UILabel!
@@ -48,7 +49,15 @@ final class CardAssetCollectionViewCell: UICollectionViewCell {
 
     private func applyContent() {
         if let assetViewModel = assetViewModel {
-            symbolLabel.text = assetViewModel.symbol
+            symbolLabel.isHidden = assetViewModel.iconSymbol != nil
+            symbolImageView.isHidden = assetViewModel.iconSymbol == nil
+
+            if let icon = assetViewModel.iconSymbol {
+                symbolImageView.image = icon
+            } else {
+                symbolLabel.text = assetViewModel.symbol
+            }
+
             titleLabel.text = assetViewModel.amount
             subtitleLabel.text = assetViewModel.details
             accessoryLabel.text = assetViewModel.accessoryDetails

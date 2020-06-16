@@ -8,7 +8,8 @@ import Foundation
 public protocol AssetViewModelProtocol: WalletViewModelProtocol {
     var assetId: String { get }
     var amount: String { get }
-    var symbol: String { get }
+    var symbol: String? { get }
+    var iconSymbol: UIImage? { get }
     var details: String { get }
     var accessoryDetails: String? { get }
     var imageViewModel: WalletImageViewModelProtocol? { get }
@@ -22,7 +23,8 @@ final class AssetViewModel: AssetViewModelProtocol {
 
     var assetId: String = ""
     var amount: String = ""
-    var symbol: String = ""
+    var symbol: String?
+    var iconSymbol: UIImage?
     var details: String = ""
     var accessoryDetails: String?
     var imageViewModel: WalletImageViewModelProtocol?

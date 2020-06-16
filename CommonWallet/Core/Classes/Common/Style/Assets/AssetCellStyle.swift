@@ -10,14 +10,14 @@ public enum AssetCellStyle {
 }
 
 public struct CardAssetStyle {
-    public var backgroundColor: UIColor
-    public var leftFillColor: UIColor
-    public var symbol: WalletTextStyleProtocol
-    public var title: WalletTextStyleProtocol
-    public var subtitle: WalletTextStyleProtocol
-    public var accessory: WalletTextStyleProtocol
-    public var shadow: WalletShadowStyleProtocol
-    public var cornerRadius: CGFloat
+    public let backgroundColor: UIColor
+    public let leftFillColor: UIColor
+    public let symbol: WalletTextStyleProtocol
+    public let title: WalletTextStyleProtocol
+    public let subtitle: WalletTextStyleProtocol
+    public let accessory: WalletTextStyleProtocol
+    public let shadow: WalletShadowStyleProtocol
+    public let cornerRadius: CGFloat
 
     public init(backgroundColor: UIColor,
                 leftFillColor: UIColor,
