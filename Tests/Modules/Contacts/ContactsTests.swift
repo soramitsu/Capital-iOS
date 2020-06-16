@@ -151,7 +151,8 @@ class ContactsTests: NetworkBaseTests {
                                           actionViewModelFactory: actionViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
                                           currentAccountId: accountSettings.accountId,
-                                          localSearchEngine: nil)
+                                          localSearchEngine: nil,
+                                          canFindItself: false)
 
         presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 

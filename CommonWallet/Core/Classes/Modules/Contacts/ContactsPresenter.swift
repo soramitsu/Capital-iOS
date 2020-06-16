@@ -30,6 +30,7 @@ final class ContactsPresenter: NSObject {
     private let actionViewModelFactory: ContactsActionViewModelFactoryProtocol
     private let currentAccountId: String
     private let localSearchEngine: ContactsLocalSearchEngineProtocol?
+    private let canFindItself: Bool
 
     private let selectedAsset: WalletAsset
 
@@ -54,7 +55,8 @@ final class ContactsPresenter: NSObject {
          actionViewModelFactory: ContactsActionViewModelFactoryProtocol,
          selectedAsset: WalletAsset,
          currentAccountId: String,
-         localSearchEngine: ContactsLocalSearchEngineProtocol?) {
+         localSearchEngine: ContactsLocalSearchEngineProtocol?,
+         canFindItself: Bool) {
         self.view = view
         self.coordinator = coordinator
         self.dataProvider = dataProvider
@@ -64,6 +66,7 @@ final class ContactsPresenter: NSObject {
         self.selectedAsset = selectedAsset
         self.currentAccountId = currentAccountId
         self.localSearchEngine = localSearchEngine
+        self.canFindItself = canFindItself
     }
 
     private func setupViewModelActions() {
@@ -133,9 +136,15 @@ final class ContactsPresenter: NSObject {
     }
 
     private func handleSearch(with foundData: [SearchData]) {
-        viewModel.found = foundData.filter {
-            $0.accountId != currentAccountId
-        }.map {
+        let filtered: [SearchData]
+
+        if canFindItself {
+            filtered = foundData
+        } else {
+            filtered = foundData.filter { $0.accountId != currentAccountId }
+        }
+
+        viewModel.found = filtered.map {
             viewModelFactory.createContactViewModelFromContact($0,
                                                                accountId: currentAccountId,
                                                                assetId: selectedAsset.identifier,

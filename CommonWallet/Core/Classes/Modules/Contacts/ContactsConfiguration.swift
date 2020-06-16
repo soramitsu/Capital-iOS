@@ -19,6 +19,7 @@ protocol ContactsConfigurationProtocol {
     var scanPosition: WalletContactsScanPosition { get }
     var withdrawOptionsPosition: WalletContactsWithdrawPosition { get }
     var supportsLiveSearch: Bool { get }
+    var canFindItself: Bool { get }
     var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol? { get }
     var localSearchEngine: ContactsLocalSearchEngineProtocol? { get }
 }
@@ -36,6 +37,7 @@ struct ContactsConfiguration: ContactsConfigurationProtocol {
     var scanPosition: WalletContactsScanPosition
     var withdrawOptionsPosition: WalletContactsWithdrawPosition
     var supportsLiveSearch: Bool
+    var canFindItself: Bool
     var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
     var localSearchEngine: ContactsLocalSearchEngineProtocol?
 }
