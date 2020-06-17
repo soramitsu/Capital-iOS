@@ -144,7 +144,7 @@ final class WithdrawConfirmationPresenter {
         view?.didReceive(accessoryViewModel: accesoryViewModel)
     }
 
-    private func handleWithdraw(result: Result<Void, Error>) {
+    private func handleWithdraw(result: Result<Data, Error>) {
         switch result {
         case .success:
             eventCenter.notify(with: WithdrawCompleteEvent(withdrawInfo: withdrawInfo))

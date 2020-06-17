@@ -50,6 +50,8 @@ final class ContactsModuleBuilder {
     fileprivate var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
 
     fileprivate var localSearchEngine: ContactsLocalSearchEngineProtocol?
+
+    fileprivate var canFindItself: Bool = false
     
     func build() -> ContactsConfigurationProtocol {
         let cellStyle = ContactsCellStyle(contactStyle: contactStyle, sendOptionStyle: sendOptionStyle)
@@ -64,6 +66,7 @@ final class ContactsModuleBuilder {
                                      scanPosition: scanPosition,
                                      withdrawOptionsPosition: withdrawOptionsPosition,
                                      supportsLiveSearch: supportsLiveSearch,
+                                     canFindItself: canFindItself,
                                      viewModelFactoryWrapper: viewModelFactoryWrapper,
                                      localSearchEngine: localSearchEngine)
     }
@@ -140,6 +143,11 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
 
     func with(supportsLiveSearch: Bool) -> Self {
         self.supportsLiveSearch = supportsLiveSearch
+        return self
+    }
+
+    func with(canFindItself: Bool) -> Self {
+        self.canFindItself = canFindItself
         return self
     }
 }

@@ -14,12 +14,12 @@ public protocol WalletNetworkOperationFactoryProtocol {
         -> CompoundOperationWrapper<AssetTransactionPageData?>
 
     func transferMetadataOperation(_ info: TransferMetadataInfo) -> CompoundOperationWrapper<TransferMetaData?>
-    func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Void>
+    func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data>
     func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?>
     func contactsOperation() -> CompoundOperationWrapper<[SearchData]?>
 
     func withdrawalMetadataOperation(_ info: WithdrawMetadataInfo)
         -> CompoundOperationWrapper<WithdrawMetaData?>
 
-    func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Void>
+    func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Data>
 }

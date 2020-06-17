@@ -86,7 +86,7 @@ extension WalletService: WalletServiceProtocol {
     @discardableResult
     func transfer(info: TransferInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock)
+                  completionBlock: @escaping DataResultCompletionBlock)
         -> CancellableCall {
 
         let operationWrapper = operationFactory.transferOperation(info)
@@ -160,7 +160,7 @@ extension WalletService: WalletServiceProtocol {
     @discardableResult
     func withdraw(info: WithdrawInfo,
                   runCompletionIn queue: DispatchQueue,
-                  completionBlock: @escaping EmptyResultCompletionBlock) -> CancellableCall {
+                  completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall {
         let operationWrapper = operationFactory.withdrawOperation(info)
 
         operationWrapper.targetOperation.completionBlock = {

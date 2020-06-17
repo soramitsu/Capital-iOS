@@ -46,6 +46,9 @@ public protocol ContactsModuleBuilderProtocol: class {
     func with(supportsLiveSearch: Bool) -> Self
 
     @discardableResult
+    func with(canFindItself: Bool) -> Self
+
+    @discardableResult
     func with(scanPosition: WalletContactsScanPosition) -> Self
 
     @discardableResult

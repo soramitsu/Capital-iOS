@@ -137,15 +137,20 @@ public extension MiddlewareOperationFactoryProtocol {
         return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Void> {
+    func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data> {
         let urlTemplate = networkResolver.urlTemplate(for: .transfer)
+
+        let transactionOperation: BaseOperation<IRTransaction> = ClosureOperation {
+            try self.createTransferTransaction(for: info)
+        }
 
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
             }
 
-            let transaction = try self.createTransferTransaction(for: info)
+            let transaction = try transactionOperation
+                .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
 
             let transactionData = try IRSerializationFactory.serializeTransaction(transaction)
             let transactionInfo = TransactionInfo(transaction: transactionData)
@@ -157,7 +162,7 @@ public extension MiddlewareOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<Void> { (data) in
+        let resultFactory = AnyNetworkResultFactory<Data> { (data) in
             let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
@@ -167,12 +172,19 @@ public extension MiddlewareOperationFactoryProtocol {
                     throw ResultStatusError(statusData: resultData.status)
                 }
             }
+
+            let transaction = try transactionOperation
+                .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+            return try transaction.transactionHash()
         }
 
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .transfer)
 
-        return CompoundOperationWrapper(targetOperation: operation)
+        operation.addDependency(transactionOperation)
+
+        return CompoundOperationWrapper(targetOperation: operation, dependencies: [transactionOperation])
     }
 
     func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?> {
@@ -286,15 +298,20 @@ public extension MiddlewareOperationFactoryProtocol {
         return CompoundOperationWrapper(targetOperation: operation)
     }
 
-    func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Void> {
+    func withdrawOperation(_ info: WithdrawInfo) -> CompoundOperationWrapper<Data> {
         let urlTemplate = networkResolver.urlTemplate(for: .withdraw)
+
+        let transactionOperation: BaseOperation<IRTransaction> = ClosureOperation {
+            try self.createWithdrawTransaction(for: info)
+        }
 
         let requestFactory = BlockNetworkRequestFactory {
             guard let serviceUrl = URL(string: urlTemplate) else {
                 throw NetworkBaseError.invalidUrl
             }
 
-            let transaction = try self.createWithdrawTransaction(for: info)
+            let transaction = try transactionOperation
+                .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
 
             let transactionData = try IRSerializationFactory.serializeTransaction(transaction)
             let transactionInfo = TransactionInfo(transaction: transactionData)
@@ -307,7 +324,7 @@ public extension MiddlewareOperationFactoryProtocol {
             return request
         }
 
-        let resultFactory = AnyNetworkResultFactory<Void> { data in
+        let resultFactory = AnyNetworkResultFactory<Data> { data in
             let resultData = try self.decoder.decode(ResultData<Bool>.self, from: data)
 
             guard resultData.status.isSuccess else {
@@ -317,12 +334,19 @@ public extension MiddlewareOperationFactoryProtocol {
                     throw ResultStatusError(statusData: resultData.status)
                 }
             }
+
+            let transaction = try transactionOperation
+            .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+            return try transaction.transactionHash()
         }
 
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)
         operation.requestModifier = networkResolver.adapter(for: .withdraw)
 
-        return CompoundOperationWrapper(targetOperation: operation)
+        operation.addDependency(transactionOperation)
+
+        return CompoundOperationWrapper(targetOperation: operation, dependencies: [transactionOperation])
     }
 
     // MARK: Private

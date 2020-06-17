@@ -33,7 +33,7 @@ final class TransferConfirmationPresenter {
         self.viewModelFactory = viewModelFactory
     }
 
-    private func handleTransfer(result: Result<Void, Error>) {
+    private func handleTransfer(result: Result<Data, Error>) {
         switch result {
         case .success:
             eventCenter.notify(with: TransferCompleteEvent(payload: payload))
