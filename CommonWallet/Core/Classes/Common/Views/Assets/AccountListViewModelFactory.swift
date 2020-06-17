@@ -8,26 +8,32 @@ import Foundation
 public protocol AccountListViewModelFactoryProtocol: class {
     func createAssetViewModel(for asset: WalletAsset,
                               balance: BalanceData,
-                              commandFactory: WalletCommandFactoryProtocol) -> AssetViewModelProtocol?
+                              commandFactory: WalletCommandFactoryProtocol,
+                              locale: Locale) -> AssetViewModelProtocol?
     func createActionsViewModel(for assetId: String?,
-                                commandFactory: WalletCommandFactoryProtocol) -> ActionsViewModelProtocol?
-    func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?) -> WalletViewModelProtocol?
+                                commandFactory: WalletCommandFactoryProtocol,
+                                locale: Locale) -> ActionsViewModelProtocol?
+    func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?,
+                                 locale: Locale) -> WalletViewModelProtocol?
 }
 
-extension AccountListViewModelFactoryProtocol {
+public extension AccountListViewModelFactoryProtocol {
     func createAssetViewModel(for asset: WalletAsset,
                               balance: BalanceData,
-                              commandFactory: WalletCommandFactoryProtocol)
+                              commandFactory: WalletCommandFactoryProtocol,
+                              locale: Locale)
         -> AssetViewModelProtocol? {
         return nil
     }
 
     func createActionsViewModel(for assetId: String?,
-                                commandFactory: WalletCommandFactoryProtocol) -> ActionsViewModelProtocol? {
+                                commandFactory: WalletCommandFactoryProtocol,
+                                locale: Locale) -> ActionsViewModelProtocol? {
         return nil
     }
 
-    func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?) -> WalletViewModelProtocol? {
+    func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?,
+                                 locale: Locale) -> WalletViewModelProtocol? {
         return nil
     }
 }
