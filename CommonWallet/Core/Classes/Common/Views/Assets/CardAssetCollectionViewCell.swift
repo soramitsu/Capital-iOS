@@ -49,11 +49,13 @@ final class CardAssetCollectionViewCell: UICollectionViewCell {
 
     private func applyContent() {
         if let assetViewModel = assetViewModel {
-            symbolLabel.isHidden = assetViewModel.iconSymbol != nil
-            symbolImageView.isHidden = assetViewModel.iconSymbol == nil
+            symbolLabel.isHidden = assetViewModel.imageViewModel != nil
+            symbolImageView.isHidden = assetViewModel.imageViewModel == nil
 
-            if let icon = assetViewModel.iconSymbol {
-                symbolImageView.image = icon
+            if let iconViewModel = assetViewModel.imageViewModel {
+                iconViewModel.loadImage { [weak self] (icon, _) in
+                    self?.symbolImageView.image = icon
+                }
             } else {
                 symbolLabel.text = assetViewModel.symbol
             }
@@ -63,6 +65,10 @@ final class CardAssetCollectionViewCell: UICollectionViewCell {
             accessoryLabel.text = assetViewModel.accessoryDetails
         }
     }
+
+    private func cancelLoading() {
+        assetViewModel?.imageViewModel?.cancel()
+    }
 }
 
 extension CardAssetCollectionViewCell: WalletViewProtocol {
@@ -71,6 +77,8 @@ extension CardAssetCollectionViewCell: WalletViewProtocol {
     }
 
     func bind(viewModel: WalletViewModelProtocol) {
+        cancelLoading()
+
         guard let assetViewModel = viewModel as? AssetViewModelProtocol else {
             return
         }
