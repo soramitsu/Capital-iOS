@@ -146,7 +146,8 @@ func createRandomAssetTransactionData(includeFee: Bool = true,
                                 fee: fee,
                                 timestamp: Int64(Date().timeIntervalSince1970),
                                 type: type,
-                                reason: reason)
+                                reason: reason,
+                                context: nil)
 }
 
 func createRandomTransactionType() -> WalletTransactionType {

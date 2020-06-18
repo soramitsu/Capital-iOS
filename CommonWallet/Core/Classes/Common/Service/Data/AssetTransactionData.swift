@@ -28,6 +28,7 @@ public struct AssetTransactionData: Codable, Equatable {
         case timestamp
         case type
         case reason
+        case context
     }
 
     public let transactionId: String
@@ -43,6 +44,7 @@ public struct AssetTransactionData: Codable, Equatable {
     public let timestamp: Int64
     public let type: String
     public let reason: String?
+    public let context: [String: String]?
 
     public init(transactionId: String,
                 status: AssetTransactionStatus,
@@ -56,7 +58,8 @@ public struct AssetTransactionData: Codable, Equatable {
                 fee: AmountDecimal?,
                 timestamp: Int64,
                 type: String,
-                reason: String?) {
+                reason: String?,
+                context: [String: String]?) {
         self.transactionId = transactionId
         self.status = status
         self.assetId = assetId
@@ -70,6 +73,7 @@ public struct AssetTransactionData: Codable, Equatable {
         self.timestamp = timestamp
         self.type = type
         self.reason = reason
+        self.context = context
     }
 }
 
