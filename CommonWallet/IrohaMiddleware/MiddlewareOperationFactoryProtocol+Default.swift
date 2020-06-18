@@ -68,12 +68,15 @@ public extension MiddlewareOperationFactoryProtocol {
     }
 
     func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest,
-                                          pagination: OffsetPagination)
+                                          pagination: Pagination)
         -> CompoundOperationWrapper<AssetTransactionPageData?> {
+        let middlewarePagination = MiddlewarePagination(pagination: pagination)
+
         let urlTemplate = networkResolver.urlTemplate(for: .history)
 
         let requestFactory = BlockNetworkRequestFactory {
-            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildURL(with: pagination)
+            let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate)
+                .buildURL(with: middlewarePagination)
 
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = HttpMethod.post.rawValue
@@ -83,7 +86,7 @@ public extension MiddlewareOperationFactoryProtocol {
         }
 
         let resultFactory = AnyNetworkResultFactory<AssetTransactionPageData?> { (data) in
-            let resultData = try self.decoder.decode(MultifieldResultData<AssetTransactionPageData>.self,
+            let resultData = try self.decoder.decode(MultifieldResultData<MiddlewareTransactionPageData>.self,
                                                      from: data)
 
             guard resultData.status.isSuccess else {
@@ -94,7 +97,20 @@ public extension MiddlewareOperationFactoryProtocol {
                 }
             }
 
-            return resultData.result
+            guard let transactions = resultData.result?.transactions else {
+                return AssetTransactionPageData(transactions: [], context: nil)
+            }
+
+            let context: PaginationContext?
+
+            if transactions.count == middlewarePagination.count {
+                context = PaginationContext(offset: middlewarePagination.offset + middlewarePagination.count)
+            } else {
+                context = nil
+            }
+
+            return AssetTransactionPageData(transactions: transactions,
+                                            context: context)
         }
 
         let operation = NetworkOperation(requestFactory: requestFactory, resultFactory: resultFactory)

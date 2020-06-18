@@ -10,9 +10,8 @@ import SoraFoundation
 class HistoryViewModelFactoryTests: XCTestCase {
     func testFeeInclusion() {
         do {
-            var assetDataWithFee = try createRandomAssetTransactionData(includeFee: true)
-
-            let asset = WalletAsset(identifier: assetDataWithFee.assetId,
+            let assetId = try createRandomAssetId()
+            let asset = WalletAsset(identifier: assetId,
                                     name: LocalizableResource { _ in "" },
                                     platform: LocalizableResource { _ in "" },
                                     symbol: "",
@@ -23,7 +22,9 @@ class HistoryViewModelFactoryTests: XCTestCase {
                 return
             }
 
-            assetDataWithFee.type = type
+            let assetDataWithFee = try createRandomAssetTransactionData(includeFee: true,
+                                                                        txAssetId: assetId,
+                                                                        txType: type)
 
             for includesFee in [false, true] {
                 var viewModels: [TransactionSectionViewModel] = []

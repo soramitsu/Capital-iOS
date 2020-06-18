@@ -116,13 +116,24 @@ func createRandomReceiveInfo() throws -> ReceiveInfo {
                        details: details)
 }
 
-func createRandomAssetTransactionData(includeFee: Bool = true) throws -> AssetTransactionData {
+func createRandomAssetTransactionData(includeFee: Bool = true,
+                                      txAssetId: String? = nil,
+                                      txType: String? = nil) throws -> AssetTransactionData {
     let transactionId = try createRandomTransactionHash()
     let status: AssetTransactionStatus = [.commited, .pending, .rejected].randomElement()!
-    let assetId = try createRandomAssetId()
+
+    let assetId: String
+
+    if let currentAssetId = txAssetId {
+        assetId = currentAssetId
+    } else {
+        assetId = try createRandomAssetId()
+    }
+
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 0...1000)))
     let fee: AmountDecimal? = includeFee ? AmountDecimal(value: Decimal(UInt.random(in: 0...1000))) : nil
     let reason: String? = status == .rejected ? UUID().uuidString : nil
+    let type = txType ?? WalletTransactionType.required.randomElement()!.backendName
     return AssetTransactionData(transactionId: (transactionId as NSData).toHexString(),
                                 status: status,
                                 assetId: assetId,
@@ -134,7 +145,7 @@ func createRandomAssetTransactionData(includeFee: Bool = true) throws -> AssetTr
                                 amount: amount,
                                 fee: fee,
                                 timestamp: Int64(Date().timeIntervalSince1970),
-                                type: WalletTransactionType.required.randomElement()!.backendName,
+                                type: type,
                                 reason: reason)
 }
 

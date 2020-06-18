@@ -10,7 +10,7 @@ public protocol WalletNetworkOperationFactoryProtocol {
     func fetchBalanceOperation(_ assets: [String]) -> CompoundOperationWrapper<[BalanceData]?>
 
     func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest,
-                                          pagination: OffsetPagination)
+                                          pagination: Pagination)
         -> CompoundOperationWrapper<AssetTransactionPageData?>
 
     func transferMetadataOperation(_ info: TransferMetadataInfo) -> CompoundOperationWrapper<TransferMetaData?>
