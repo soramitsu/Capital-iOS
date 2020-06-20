@@ -14,14 +14,18 @@ protocol HistoryConfigurationProtocol {
     var includesFeeInAmount: Bool { get }
     var emptyStateDataSource: EmptyStateDataSource? { get }
     var emptyStateDelegate: EmptyStateDelegate? { get }
+    var registeredCellsMetadata: [String: Any] { get }
+    var itemViewModelFactory: HistoryItemViewModelFactoryProtocol? { get }
 }
 
 struct HistoryConfiguration: HistoryConfigurationProtocol {
-    var viewStyle: HistoryViewStyleProtocol
-    var cellStyle: TransactionCellStyleProtocol
-    var headerStyle: TransactionHeaderStyleProtocol
-    var supportsFilter: Bool
-    var includesFeeInAmount: Bool
-    var emptyStateDataSource: EmptyStateDataSource?
+    let viewStyle: HistoryViewStyleProtocol
+    let cellStyle: TransactionCellStyleProtocol
+    let headerStyle: TransactionHeaderStyleProtocol
+    let supportsFilter: Bool
+    let includesFeeInAmount: Bool
+    let emptyStateDataSource: EmptyStateDataSource?
     weak var emptyStateDelegate: EmptyStateDelegate?
+    let registeredCellsMetadata: [String : Any]
+    let itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
 }

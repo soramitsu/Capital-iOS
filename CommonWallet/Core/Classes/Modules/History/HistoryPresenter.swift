@@ -349,23 +349,6 @@ extension HistoryPresenter: HistoryPresenterProtocol {
     func sectionModel(at index: Int) -> TransactionSectionViewModelProtocol {
         return viewModels[index]
     }
-
-    func showTransaction(at index: Int, in section: Int) {
-        let viewModel = viewModels[section].items[index]
-
-        var optionalTransaction: AssetTransactionData?
-
-        for page in pages {
-            if let transation = page.transactions.first(where: {$0.transactionId == viewModel.transactionId}) {
-                optionalTransaction = transation
-                break
-            }
-        }
-
-        if let transaction = optionalTransaction {
-            coordinator.presentDetails(for: transaction)
-        }
-    }
     
     func showFilter() {
         coordinator.presentFilter(filter: filter, assets: assets)

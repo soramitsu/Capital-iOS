@@ -12,7 +12,7 @@ enum HistoryHeaderType {
 }
 
 typealias HistoryViewModelChange =
-    SectionedListDifference<TransactionSectionViewModel, TransactionItemViewModel>
+    SectionedListDifference<TransactionSectionViewModel, WalletViewModelProtocol>
 
 
 protocol HistoryViewProtocol: ControllerBackedProtocol, Draggable {
@@ -30,12 +30,10 @@ protocol HistoryPresenterProtocol: class {
 
     func numberOfSections() -> Int
     func sectionModel(at index: Int) -> TransactionSectionViewModelProtocol
-    func showTransaction(at index: Int, in section: Int)
 }
 
 
 protocol HistoryCoordinatorProtocol: class {
-    func presentDetails(for transaction: AssetTransactionData)
     func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])
 }
 
