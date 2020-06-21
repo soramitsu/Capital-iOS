@@ -157,6 +157,30 @@ struct WalletTransactionDetailsFactory {
         }
     }
 
+    private func populateAmountReceived(into viewModelList: inout [WalletFormViewBindingProtocol],
+                                        data: AssetTransactionData,
+                                        locale: Locale) {
+        guard let asset = assets.first(where: { $0.identifier == data.assetId }) else {
+            return
+        }
+
+        let amount = data.amount.decimalValue
+
+        let formatter = amountFormatterFactory.createTokenFormatter(for: asset)
+
+        guard let displayAmount = formatter.value(for: locale).string(from: amount) else {
+            return
+        }
+
+        let viewModel = WalletNewFormDetailsViewModel(title: L10n.Amount.title,
+                                                      titleIcon: nil,
+                                                      details: displayAmount,
+                                                      detailsIcon: nil)
+
+        let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+        viewModelList.append(separator)
+    }
+
     private func populateAmountSent(into viewModelList: inout [WalletFormViewBindingProtocol],
                                     data: AssetTransactionData,
                                     locale: Locale) {
@@ -291,6 +315,11 @@ struct WalletTransactionDetailsFactory {
 extension WalletTransactionDetailsFactory: WalletTransactionDetailsFactoryProtocol {
     func createViewModelsFromTransaction(data: AssetTransactionData,
                                          locale: Locale) -> [WalletFormViewBindingProtocol] {
+        guard let transactionType = transactionTypes
+            .first(where: { $0.backendName == data.type }) else {
+            return []
+        }
+
         var viewModelList: [WalletFormViewBindingProtocol] = []
 
         populatePeerId(into: &viewModelList, data: data)
@@ -300,11 +329,22 @@ extension WalletTransactionDetailsFactory: WalletTransactionDetailsFactoryProtoc
         populateTime(into: &viewModelList, data: data, locale: locale)
         populateType(into: &viewModelList, data: data, locale: locale)
         populatePeerName(into: &viewModelList, data: data)
-        populateAmountSent(into: &viewModelList, data: data, locale: locale)
-        populateMainFeeAmount(in: &viewModelList, data: data, locale: locale)
-        populateTotalAmount(in: &viewModelList, data: data, locale: locale)
+
+        if transactionType.isIncome {
+            populateAmountReceived(into: &viewModelList,
+                                   data: data,
+                                   locale: locale)
+        } else {
+            populateAmountSent(into: &viewModelList, data: data, locale: locale)
+            populateMainFeeAmount(in: &viewModelList, data: data, locale: locale)
+            populateTotalAmount(in: &viewModelList, data: data, locale: locale)
+        }
+
         populateNote(in: &viewModelList, data: data)
-        populateSecondaryFees(in: &viewModelList, data: data, locale: locale)
+
+        if !transactionType.isIncome {
+            populateSecondaryFees(in: &viewModelList, data: data, locale: locale)
+        }
 
         return viewModelList
     }
