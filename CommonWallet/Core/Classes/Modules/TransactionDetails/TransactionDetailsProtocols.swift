@@ -3,7 +3,7 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
-protocol TransactionDetailsPresenterProtocol: WalletFormPresenterProtocol {}
+protocol TransactionDetailsPresenterProtocol: WalletNewFormPresenterProtocol {}
 
 
 protocol TransactionDetailsCoordinatorProtocol: class {
@@ -13,5 +13,5 @@ protocol TransactionDetailsCoordinatorProtocol: class {
 
 protocol TransactionDetailsAssemblyProtocol: class {
 	static func assembleView(resolver: ResolverProtocol, transactionDetails: AssetTransactionData)
-        -> WalletFormViewProtocol?
+        -> WalletNewFormViewProtocol?
 }

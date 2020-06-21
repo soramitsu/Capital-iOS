@@ -131,7 +131,18 @@ func createRandomAssetTransactionData(includeFee: Bool = true,
     }
 
     let amount = AmountDecimal(value: Decimal(UInt.random(in: 0...1000)))
-    let fee: AmountDecimal? = includeFee ? AmountDecimal(value: Decimal(UInt.random(in: 0...1000))) : nil
+
+    var fees: [AssetTransactionFee] = []
+
+    if includeFee {
+        let value = AmountDecimal(value: Decimal(UInt.random(in: 0...1000)))
+        let fee = AssetTransactionFee(identifier: UUID().uuidString,
+                                      assetId: assetId,
+                                      amount: value,
+                                      context: nil)
+        fees.append(fee)
+    }
+
     let reason: String? = status == .rejected ? UUID().uuidString : nil
     let type = txType ?? WalletTransactionType.required.randomElement()!.backendName
     return AssetTransactionData(transactionId: (transactionId as NSData).toHexString(),
@@ -143,7 +154,7 @@ func createRandomAssetTransactionData(includeFee: Bool = true,
                                 peerName: UUID().uuidString,
                                 details: UUID().uuidString,
                                 amount: amount,
-                                fee: fee,
+                                fees: fees,
                                 timestamp: Int64(Date().timeIntervalSince1970),
                                 type: type,
                                 reason: reason,

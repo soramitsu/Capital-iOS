@@ -7,242 +7,338 @@
 import Foundation
 import SoraFoundation
 
-public protocol WalletTransactionDetailsFactoryProtocol {
-    func createForm(from data: AssetTransactionData,
-                    type: WalletTransactionType,
-                    asset: WalletAsset) -> [WalletFormViewModelProtocol]
+protocol WalletTransactionDetailsFactoryProtocol {
+    func createViewModelsFromTransaction(data: AssetTransactionData,
+                                         locale: Locale) -> [WalletFormViewBindingProtocol]
+
+    func createAccessoryViewModelFromTransaction(data: AssetTransactionData,
+                                                 locale: Locale) -> AccessoryViewModelProtocol?
 }
 
-final class WalletTransactionDetailsFactory {
-    private let resolver: ResolverProtocol
+struct WalletTransactionDetailsFactory {
+    let transactionTypes: [WalletTransactionType]
+    let assets: [WalletAsset]
+    let feeDisplayFactory: FeeDisplaySettingsFactoryProtocol
+    let generatingIconStyle: WalletNameIconStyleProtocol
+    let amountFormatterFactory: NumberFormatterFactoryProtocol
+    let localizableDataFormatter: LocalizableResource<DateFormatter>
+    let sendBackTypes: [String]
+    let sendAgainTypes: [String]
 
-    init(resolver: ResolverProtocol) {
-        self.resolver = resolver
-    }
-
-    private func populateTransactionId(into viewModelList: inout [WalletFormViewModelProtocol],
+    private func populateTransactionId(into viewModelList: inout [WalletFormViewBindingProtocol],
                                        data: AssetTransactionData) {
-        let actionsFactory = resolver.transactionDetailsConfiguration.fieldActionFactory
-        var command: WalletCommandProtocol?
+        let headerViewModel = WalletFormDetailsHeaderModel(title: L10n.Transaction.id)
+        viewModelList.append(headerViewModel)
 
-        if let actions = actionsFactory.createActions(for: .transactionId, data: data), actions.count > 0 {
-            command = ActionSheetCommand(resolver: resolver,
-                                         source: data,
-                                         title: LocalizableResource { _ in L10n.Common.optionsTitle },
-                                         options: actions)
-        }
-
-        let idViewModel = WalletFormViewModel(layoutType: .details,
-                                              title: L10n.Transaction.id,
-                                              details: data.transactionId,
-                                              command: command)
-        viewModelList.append(idViewModel)
+        let viewModel = MultilineTitleIconViewModel(text: data.transactionId)
+        let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+        viewModelList.append(separator)
     }
 
-    private func populateStatus(into viewModelList: inout [WalletFormViewModelProtocol],
-                                status: AssetTransactionStatus) {
-        let viewModel: WalletFormViewModelProtocol
-        switch status {
+    private func populateStatus(into viewModelList: inout [WalletFormViewBindingProtocol],
+                                data: AssetTransactionData) {
+        let viewModel: WalletNewFormDetailsViewModel
+        switch data.status {
         case .commited:
-            viewModel = WalletFormViewModel(layoutType: .accessory,
-                                            title: L10n.Status.title,
-                                            details: L10n.Status.success,
-                                            detailsColor: resolver.style.statusStyleContainer.approved.color,
-                                            icon: resolver.style.statusStyleContainer.approved.icon)
+            viewModel = WalletNewFormDetailsViewModel(title: L10n.Status.title,
+                                                      titleIcon: nil,
+                                                      details: L10n.Status.success,
+                                                      detailsIcon: nil)
         case .pending:
-            viewModel = WalletFormViewModel(layoutType: .accessory,
-                                            title: L10n.Status.title,
-                                            details: L10n.Status.pending,
-                                            detailsColor: resolver.style.statusStyleContainer.pending.color,
-                                            icon: resolver.style.statusStyleContainer.pending.icon)
+            viewModel = WalletNewFormDetailsViewModel(title: L10n.Status.title,
+                                                      titleIcon: nil,
+                                                      details: L10n.Status.pending,
+                                                      detailsIcon: nil)
         case .rejected:
-            viewModel = WalletFormViewModel(layoutType: .accessory,
-                                            title: L10n.Status.title,
-                                            details: L10n.Status.rejected,
-                                            detailsColor: resolver.style.statusStyleContainer.rejected.color,
-                                            icon: resolver.style.statusStyleContainer.rejected.icon)
+            viewModel = WalletNewFormDetailsViewModel(title: L10n.Status.title,
+                                                      titleIcon: nil,
+                                                      details: L10n.Status.rejected,
+                                                      detailsIcon: nil)
         }
 
-        viewModelList.append(viewModel)
+        let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+        viewModelList.append(separator)
     }
 
-    private func populateRejected(into viewModelList: inout [WalletFormViewModelProtocol],
+    private func populateRejected(into viewModelList: inout [WalletFormViewBindingProtocol],
                                   data: AssetTransactionData) {
         if data.status == .rejected, let reason = data.reason, !reason.isEmpty {
-            let reasonViewModel = WalletFormViewModel(layoutType: .details,
-                                                      title: L10n.Transaction.reason,
-                                                      details: reason)
-            viewModelList.append(reasonViewModel)
+            let headerViewModel = WalletFormDetailsHeaderModel(title: L10n.Transaction.reason)
+            viewModelList.append(headerViewModel)
+
+            let viewModel = MultilineTitleIconViewModel(text: reason)
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
         }
     }
 
-    private func populateTime(into viewModelList: inout [WalletFormViewModelProtocol], timestamp: Int64) {
-        let transactionDate = Date(timeIntervalSince1970: TimeInterval(timestamp))
+    private func populateTime(into viewModelList: inout [WalletFormViewBindingProtocol],
+                              data: AssetTransactionData,
+                              locale: Locale) {
+        let transactionDate = Date(timeIntervalSince1970: TimeInterval(data.timestamp))
 
-        let locale = resolver.localizationManager?.selectedLocale ?? Locale.current
-        let timeDetails = resolver.statusDateFormatter.value(for: locale).string(from: transactionDate)
+        let timeDetails = localizableDataFormatter.value(for: locale).string(from: transactionDate)
 
-        let timeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                title: L10n.Transaction.date,
-                                                details: timeDetails)
-        viewModelList.append(timeViewModel)
+        let viewModel = WalletNewFormDetailsViewModel(title: L10n.Transaction.date,
+                                                      titleIcon: nil,
+                                                      details: timeDetails,
+                                                      detailsIcon: nil)
+
+        let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+        viewModelList.append(separator)
     }
 
-    private func populateType(into viewModelList: inout [WalletFormViewModelProtocol],
-                              type: WalletTransactionType) {
-        let locale = resolver.localizationManager?.selectedLocale ?? Locale.current
-        let typeDisplayName = type.displayName.value(for: locale)
+    private func populateType(into viewModelList: inout [WalletFormViewBindingProtocol],
+                              data: AssetTransactionData,
+                              locale: Locale) {
+        guard let transactionType = transactionTypes.first(where: { $0.backendName == data.type }) else {
+            return
+        }
+
+        let typeDisplayName = transactionType.displayName.value(for: locale)
         if !typeDisplayName.isEmpty {
-            let typeViewModel = WalletFormViewModel(layoutType: .accessory,
-                                                    title: L10n.Transaction.type,
-                                                    details: typeDisplayName)
-            viewModelList.append(typeViewModel)
+            let viewModel = WalletNewFormDetailsViewModel(title: L10n.Transaction.type,
+                                                          titleIcon: nil,
+                                                          details: typeDisplayName,
+                                                          detailsIcon: nil)
+
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
         }
     }
 
-    private func populatePeer(into viewModelList: inout [WalletFormViewModelProtocol],
-                              data: AssetTransactionData,
-                              peerIdTitle: String,
-                              peerNameTitle: String) {
-        if !data.peerId.isEmpty {
-            let fieldActionFactory = resolver.transactionDetailsConfiguration.fieldActionFactory
-            var command: WalletCommandProtocol?
+    private func populatePeerId(into viewModelList: inout [WalletFormViewBindingProtocol],
+                                data: AssetTransactionData) {
 
-            if let actions = fieldActionFactory.createActions(for: .peerId, data: data), actions.count > 0 {
-                command = ActionSheetCommand(resolver: resolver,
-                                             source: data,
-                                             title: LocalizableResource { _ in L10n.Common.optionsTitle },
-                                             options: actions)
-            }
-
-            let peerId = WalletFormViewModel(layoutType: .details,
-                                             title: peerIdTitle,
-                                             details: data.peerId,
-                                             command: command)
-            viewModelList.insert(peerId, at: 0)
+        guard
+            !data.peerId.isEmpty,
+            let transactionType = transactionTypes.first(where: { $0.backendName == data.type }) else {
+            return
         }
 
-        let peerName = WalletFormViewModel(layoutType: .accessory,
-                                           title: peerNameTitle,
-                                           details: data.localizedPeerName)
-        viewModelList.append(peerName)
-    }
+        if transactionType == WalletTransactionType.incoming {
+            let headerViewModel = WalletFormDetailsHeaderModel(title: L10n.Transaction.senderId)
+            viewModelList.append(headerViewModel)
 
-    private func populatePeer(into viewModelList: inout [WalletFormViewModelProtocol],
-                              data: AssetTransactionData,
-                              type: WalletTransactionType) {
-        if type.backendName == WalletTransactionType.incoming.backendName {
-            populatePeer(into: &viewModelList,
-                         data: data,
-                         peerIdTitle: L10n.Transaction.senderId,
-                         peerNameTitle: L10n.Transaction.sender)
+            let viewModel = MultilineTitleIconViewModel(text: data.peerId)
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
         }
 
-        if type.backendName == WalletTransactionType.outgoing.backendName {
-            populatePeer(into: &viewModelList,
-                         data: data,
-                         peerIdTitle: L10n.Transaction.recipientId,
-                         peerNameTitle: L10n.Transaction.recipient)
+        if transactionType == WalletTransactionType.outgoing {
+            let headerViewModel = WalletFormDetailsHeaderModel(title: L10n.Transaction.recipientId)
+            viewModelList.append(headerViewModel)
+
+            let viewModel = MultilineTitleIconViewModel(text: data.peerId)
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
         }
     }
 
-    private func populateAmount(into viewModelList: inout [WalletFormViewModelProtocol],
-                                asset: WalletAsset,
-                                amount: Decimal,
-                                title: String,
-                                icon: UIImage?) {
+    private func populatePeerName(into viewModelList: inout [WalletFormViewBindingProtocol],
+                                  data: AssetTransactionData) {
+        guard
+            let transactionType = transactionTypes.first(where: { $0.backendName == data.type }) else {
+            return
+        }
 
-        let locale = resolver.localizationManager?.selectedLocale ?? Locale.current
+        if transactionType == WalletTransactionType.incoming {
+            let viewModel = WalletNewFormDetailsViewModel(title: L10n.Transaction.sender,
+                                                          details: data.localizedPeerName)
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
+        }
 
-        let amountFormatter = resolver.amountFormatterFactory.createTokenFormatter(for: asset)
-        let details = amountFormatter.value(for: locale).string(from: amount) ?? ""
-
-        let viewModel = WalletFormViewModel(layoutType: .accessory, title: title, details: details, icon: icon)
-        viewModelList.append(viewModel)
+        if transactionType == WalletTransactionType.outgoing {
+            let viewModel = WalletNewFormDetailsViewModel(title: L10n.Transaction.recipient,
+                                                          details: data.localizedPeerName)
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
+        }
     }
 
-    private func populateAmount(into viewModelList: inout [WalletFormViewModelProtocol],
-                                data: AssetTransactionData,
-                                type: WalletTransactionType,
-                                asset: WalletAsset,
-                                feeSettings: FeeDisplaySettingsProtocol) {
+    private func populateAmountSent(into viewModelList: inout [WalletFormViewBindingProtocol],
+                                    data: AssetTransactionData,
+                                    locale: Locale) {
+        guard let asset = assets.first(where: { $0.identifier == data.assetId }) else {
+            return
+        }
+
         let amount = data.amount.decimalValue
 
-        let icon = type.isIncome ? resolver.style.amountChangeStyle.increase
-            : resolver.style.amountChangeStyle.decrease
+        let formatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
-        if !type.isIncome,
-            let fee = feeSettings.displayStrategy.decimalValue(from: data.fee?.decimalValue) {
+        guard let displayAmount = formatter.value(for: locale).string(from: amount) else {
+            return
+        }
 
-            let totalAmount = amount + fee
+        let viewModel = WalletNewFormDetailsViewModel(title: L10n.Transaction.sent,
+                                                      titleIcon: nil,
+                                                      details: displayAmount,
+                                                      detailsIcon: nil)
 
-            let locale = resolver.localizationManager?.selectedLocale ?? Locale.current
-            let feeTitle = feeSettings.displayName.value(for: locale)
+        let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+        viewModelList.append(separator)
+    }
 
-            populateAmount(into: &viewModelList,
-                           asset: asset,
-                           amount: amount,
-                           title: L10n.Transaction.sent,
-                           icon: nil)
+    private func populateMainFeeAmount(in viewModelList: inout [WalletFormViewBindingProtocol],
+                                       data: AssetTransactionData,
+                                       locale: Locale) {
+        let asset = assets.first(where: { $0.identifier == data.assetId })
 
-            populateAmount(into: &viewModelList,
-                           asset: asset,
-                           amount: fee,
-                           title: feeTitle,
-                           icon: nil)
+        let formatter = amountFormatterFactory.createTokenFormatter(for: asset).value(for: locale)
 
-            populateAmount(into: &viewModelList,
-                           asset: asset,
-                           amount: totalAmount,
-                           title: L10n.Amount.total,
-                           icon: icon)
+        for fee in data.fees where fee.assetId == data.assetId {
 
-        } else {
-            populateAmount(into: &viewModelList,
-                           asset: asset,
-                           amount: amount,
-                           title: L10n.Amount.title,
-                           icon: icon)
+            let feeDisplaySettings = feeDisplayFactory
+                .createFeeSettingsForId(fee.identifier)
+
+            guard let decimalAmount = feeDisplaySettings
+                .displayStrategy.decimalValue(from: fee.amount.decimalValue) else {
+                continue
+            }
+
+            guard let amount = formatter.string(from: decimalAmount) else {
+                continue
+            }
+
+            let title = feeDisplaySettings.displayName.value(for: locale)
+
+            let viewModel = WalletNewFormDetailsViewModel(title: title,
+                                                          titleIcon: nil,
+                                                          details: amount,
+                                                          detailsIcon: nil)
+
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+            viewModelList.append(separator)
         }
     }
 
-    private func populateDetails(into viewModelList: inout [WalletFormViewModelProtocol], text: String) {
-        if !text.isEmpty {
-            let descriptionViewModel = WalletFormViewModel(layoutType: .details,
-                                                           title: L10n.Common.description,
-                                                           details: text)
+    func populateSecondaryFees(in viewModelList: inout [WalletFormViewBindingProtocol],
+                               data: AssetTransactionData,
+                               locale: Locale) {
+        for fee in data.fees where fee.assetId != data.assetId {
 
-            viewModelList.append(descriptionViewModel)
+            let asset = assets.first(where: { $0.identifier == fee.assetId })
+
+            let formatter = amountFormatterFactory.createTokenFormatter(for: asset).value(for: locale)
+
+            let feeDisplaySettings = feeDisplayFactory
+                .createFeeSettingsForId(fee.identifier)
+
+            guard let decimalAmount = feeDisplaySettings
+                .displayStrategy.decimalValue(from: fee.amount.decimalValue) else {
+                continue
+            }
+
+            guard let amount = formatter.string(from: decimalAmount) else {
+                continue
+            }
+
+            let title = feeDisplaySettings.displayName.value(for: locale)
+
+            let viewModel = WalletNewFormDetailsViewModel(title: title,
+                                                          titleIcon: nil,
+                                                          details: amount,
+                                                          detailsIcon: nil)
+
+            let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.top])
+            viewModelList.append(separator)
         }
+    }
+
+    func populateTotalAmount(in viewModelList: inout [WalletFormViewBindingProtocol],
+                             data: AssetTransactionData,
+                             locale: Locale) {
+        let asset = assets.first(where: { $0.identifier == data.assetId })
+
+        let formatter = amountFormatterFactory.createTokenFormatter(for: asset).value(for: locale)
+
+        let totalAmountDecimal: Decimal = data.fees
+            .reduce(data.amount.decimalValue) { (result, fee) in
+            if fee.assetId == data.assetId {
+                return result + fee.amount.decimalValue
+            } else {
+                return result
+            }
+        }
+
+        guard let totalAmount = formatter.string(from: totalAmountDecimal) else {
+            return
+        }
+
+        let viewModel = WalletFormSpentAmountModel(title: L10n.Amount.total,
+                                                   amount: totalAmount)
+
+        let separator = WalletFormSeparatedViewModel(content: viewModel, borderType: [.bottom])
+        viewModelList.append(separator)
+    }
+
+    func populateNote(in viewModelList: inout [WalletFormViewBindingProtocol],
+                      data: AssetTransactionData) {
+        guard !data.details.isEmpty else {
+            return
+        }
+
+        let headerViewModel = WalletFormDetailsHeaderModel(title: L10n.Common.description)
+        viewModelList.append(headerViewModel)
+
+        let viewModel = MultilineTitleIconViewModel(text: data.details)
+        viewModelList.append(viewModel)
     }
 }
 
 extension WalletTransactionDetailsFactory: WalletTransactionDetailsFactoryProtocol {
-    func createForm(from data: AssetTransactionData,
-                    type: WalletTransactionType,
-                    asset: WalletAsset) -> [WalletFormViewModelProtocol] {
+    func createViewModelsFromTransaction(data: AssetTransactionData,
+                                         locale: Locale) -> [WalletFormViewBindingProtocol] {
+        var viewModelList: [WalletFormViewBindingProtocol] = []
 
-        // TODO: Move to multifee variant
-        let feeSettings = resolver.feeDisplaySettingsFactory.createFeeSettingsForId("")
+        populatePeerId(into: &viewModelList, data: data)
+        populateTransactionId(into: &viewModelList, data: data)
+        populateStatus(into: &viewModelList, data: data)
+        populateRejected(into: &viewModelList, data: data)
+        populateTime(into: &viewModelList, data: data, locale: locale)
+        populateType(into: &viewModelList, data: data, locale: locale)
+        populatePeerName(into: &viewModelList, data: data)
+        populateAmountSent(into: &viewModelList, data: data, locale: locale)
+        populateMainFeeAmount(in: &viewModelList, data: data, locale: locale)
+        populateTotalAmount(in: &viewModelList, data: data, locale: locale)
+        populateNote(in: &viewModelList, data: data)
+        populateSecondaryFees(in: &viewModelList, data: data, locale: locale)
 
-        var viewModels: [WalletFormViewModelProtocol] = []
+        return viewModelList
+    }
 
-        populateTransactionId(into: &viewModels, data: data)
+    func createAccessoryViewModelFromTransaction(data: AssetTransactionData,
+                                                 locale: Locale) -> AccessoryViewModelProtocol? {
+        guard let transactionType = transactionTypes.first(where: { $0.backendName == data.type }) else {
+            return nil
+        }
 
-        populateStatus(into: &viewModels, status: data.status)
+        guard let asset = assets.first(where: { $0.identifier == data.assetId }) else {
+            return nil
+        }
 
-        populateRejected(into: &viewModels, data: data)
+        if transactionType.isIncome,
+            sendBackTypes.contains(transactionType.backendName),
+            asset.modes.contains(.transfer) {
+            let peerName = data.localizedPeerName
+            let icon = UIImage.createAvatar(fullName: peerName, style: generatingIconStyle)
+            return AccessoryViewModel(title: peerName,
+                                      action: L10n.Transaction.sendBack,
+                                      icon: icon)
+        }
 
-        populateTime(into: &viewModels, timestamp: data.timestamp)
+        if !transactionType.isIncome,
+            sendAgainTypes.contains(transactionType.backendName),
+            asset.modes.contains(.transfer) {
+            let peerName = data.localizedPeerName
+            let icon = UIImage.createAvatar(fullName: peerName, style: generatingIconStyle)
+            return AccessoryViewModel(title: peerName,
+                                      action: L10n.Transaction.sendBack,
+                                      icon: icon)
+        }
 
-        populateType(into: &viewModels, type: type)
-
-        populatePeer(into: &viewModels, data: data, type: type)
-
-        populateAmount(into: &viewModels, data: data, type: type, asset: asset, feeSettings: feeSettings)
-
-        populateDetails(into: &viewModels, text: data.details)
-
-        return viewModels
+        return nil
     }
 }

@@ -8,46 +8,78 @@ import SoraFoundation
 
 final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
     static func assembleView(resolver: ResolverProtocol,
-                             transactionDetails: AssetTransactionData) -> WalletFormViewProtocol? {
+                             transactionDetails: AssetTransactionData) -> WalletNewFormViewProtocol? {
 
-        guard
-            let transactionType = resolver.transactionTypeList
-                .first(where: { $0.backendName == transactionDetails.type }) else {
+        guard resolver.transactionTypeList
+                .first(where: { $0.backendName == transactionDetails.type }) != nil else {
                     resolver.logger?.error("Can't find transaction type for value \(transactionDetails.type)")
                     return nil
         }
 
-        guard let asset = resolver.account.assets
-            .first(where: { $0.identifier == transactionDetails.assetId }) else {
+        guard resolver.account.assets
+                .first(where: { $0.identifier == transactionDetails.assetId }) != nil else {
                 resolver.logger?.error("Can't find transaction asset for value \(transactionDetails.assetId)")
                 return nil
         }
 
-        let view = WalletFormViewController(nibName: "WalletFormViewController", bundle: Bundle(for: self))
-        view.accessoryViewFactory = AccessoryViewFactory.self
-        view.style = resolver.style
+        let formDefinition = createFormDefinition(from: resolver)
+
+        let view = WalletNewFormViewController(definition: formDefinition,
+                                               style: resolver.style,
+                                               accessoryViewFactory: AccessoryViewFactory.self)
 
         view.localizableTitle = LocalizableResource { _ in L10n.Transaction.details }
 
         let coordinator = TransactionDetailsCoordinator(resolver: resolver)
 
-        let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style: resolver.style.nameIconStyle)
+        let defaultViewModelFactory = createViewModelFactory(from: resolver)
+        let viewModelFactory: WalletTransactionDetailsFactoryProtocol
 
-        let viewModelFactory = WalletTransactionDetailsFactory(resolver: resolver)
-
+        if let overriding = resolver.transactionDetailsConfiguration.viewModelFactory {
+            viewModelFactory = WalletTransactionDetailsFactoryWrapper(overriding: overriding,
+                                                                      defaultFactory: defaultViewModelFactory)
+        } else {
+            viewModelFactory = defaultViewModelFactory
+        }
 
         let presenter = TransactionDetailsPresenter(view: view,
                                                     coordinator: coordinator,
-                                                    configuration: resolver.transactionDetailsConfiguration,
-                                                    detailsViewModelFactory: viewModelFactory,
-                                                    accessoryViewModelFactory: accessoryViewModelFactory,
                                                     transactionData: transactionDetails,
-                                                    transactionType: transactionType, asset: asset)
+                                                    detailsViewModelFactory: viewModelFactory)
         view.presenter = presenter
 
         view.localizationManager = resolver.localizationManager
         presenter.localizationManager = resolver.localizationManager
 
         return view
+    }
+
+    private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefiningProtocol {
+        let formBinder = resolver.transactionDetailsConfiguration.customViewBinder ??
+                WalletFormViewModelBinder(style: resolver.style)
+
+        let formItemFactory = resolver.transactionDetailsConfiguration.customItemViewFactory ??
+            WalletFormItemViewFactory()
+
+        if let definitionFactory = resolver.transactionDetailsConfiguration.definitionFactory {
+            return definitionFactory.createDefinitionWithBinder(formBinder,
+                                                                itemFactory: formItemFactory)
+        } else {
+            return WalletFormDefinition(binder: formBinder,
+                                        itemViewFactory: formItemFactory)
+        }
+    }
+
+    private static func createViewModelFactory(from resolver: ResolverProtocol) -> WalletTransactionDetailsFactory {
+        let sendBackTypes = resolver.transactionDetailsConfiguration.sendBackTransactionTypes
+        let sendAgainTypes = resolver.transactionDetailsConfiguration.sendAgainTransactionTypes
+        return WalletTransactionDetailsFactory(transactionTypes: resolver.transactionTypeList,
+                                               assets: resolver.account.assets,
+                                               feeDisplayFactory: resolver.feeDisplaySettingsFactory,
+                                               generatingIconStyle: resolver.style.nameIconStyle,
+                                               amountFormatterFactory: resolver.amountFormatterFactory,
+                                               localizableDataFormatter: resolver.statusDateFormatter,
+                                               sendBackTypes: sendBackTypes,
+                                               sendAgainTypes: sendAgainTypes)
     }
 }

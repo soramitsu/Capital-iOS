@@ -21,7 +21,8 @@ struct HistoryItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
     let assets: [WalletAsset]
     let commandFactory: WalletCommandFactoryProtocol
 
-    func createItemFromData(_ data: AssetTransactionData, locale: Locale) throws -> WalletViewModelProtocol {
+    func createItemFromData(_ data: AssetTransactionData, locale: Locale) throws
+        -> WalletViewModelProtocol {
         let amountValue = data.amount.decimalValue
 
         var totalAmountValue = amountValue

@@ -26,6 +26,6 @@ struct HistoryConfiguration: HistoryConfigurationProtocol {
     let includesFeeInAmount: Bool
     let emptyStateDataSource: EmptyStateDataSource?
     weak var emptyStateDelegate: EmptyStateDelegate?
-    let registeredCellsMetadata: [String : Any]
+    let registeredCellsMetadata: [String: Any]
     let itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
 }

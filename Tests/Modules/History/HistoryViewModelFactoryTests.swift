@@ -28,11 +28,15 @@ class HistoryViewModelFactoryTests: XCTestCase {
 
             for includesFee in [false, true] {
                 var viewModels: [TransactionSectionViewModel] = []
-                let viewModelFactory = createViewModelFactory(for: [asset], includesFee: includesFee)
+                let numberFormatterFactory = NumberFormatterFactory()
+                let viewModelFactory =
+                    createViewModelFactory(for: [asset],
+                                           numberFormatterFactory: numberFormatterFactory,
+                                           includesFee: includesFee)
 
                 _ = try viewModelFactory.merge(newItems: [assetDataWithFee], into: &viewModels, locale: Locale.current)
 
-                guard let viewModel = viewModels.first?.items.first else {
+                guard let viewModel = viewModels.first?.items.first as? TransactionItemViewModel else {
                     XCTFail("Unexpected empty view model")
                     return
                 }
@@ -42,23 +46,26 @@ class HistoryViewModelFactoryTests: XCTestCase {
                 var expectedAmount = amount
 
                 if includesFee {
-                    guard let fee = assetDataWithFee.fee?.decimalValue else {
-                        XCTFail("Unexpected missing fee")
-                        return
+                    let fee = assetDataWithFee.fees.reduce(Decimal(0)) { result, item in
+                        if item.assetId == assetDataWithFee.assetId {
+                            return result + item.amount.decimalValue
+                        } else {
+                            return result
+                        }
                     }
 
                     expectedAmount += fee
                 }
 
-                let amountFormatter = viewModelFactory.amountFormatterFactory.createDisplayFormatter(for: asset)
+                let amountFormatter = numberFormatterFactory.createTokenFormatter(for: asset)
 
                 guard let currentAmount = amountFormatter.value(for: Locale.current)
-                    .number(from: viewModel.amount) else {
+                    .string(from: expectedAmount) else {
                     XCTFail("Unexpected current amount")
                     return
                 }
 
-                XCTAssertEqual(expectedAmount, currentAmount.decimalValue)
+                XCTAssertEqual(currentAmount, viewModel.amount)
             }
 
         } catch {
@@ -69,16 +76,21 @@ class HistoryViewModelFactoryTests: XCTestCase {
     // MARK: Private
 
     private func createViewModelFactory(for assets: [WalletAsset],
+                                        numberFormatterFactory: NumberFormatterFactoryProtocol,
                                         includesFee: Bool) -> HistoryViewModelFactory {
         let dateFormatterFactory = TransactionListSectionFormatterFactory.self
         let dateFormatterProvider = DateFormatterProvider(dateFormatterFactory: dateFormatterFactory,
                                                           dayChangeHandler: DayChangeHandler())
 
+        let commandFactory = createMockedCommandFactory()
+
+        let itemViewModelFactory = HistoryItemViewModelFactory(amountFormatterFactory: numberFormatterFactory,
+                                                               includesFeeInAmount: includesFee, transactionTypes: WalletTransactionType.required,
+                                                               assets: assets,
+                                                               commandFactory: commandFactory)
+
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatterFactory: NumberFormatterFactory(),
-                                                       assets: assets,
-                                                       transactionTypes: WalletTransactionType.required,
-                                                       includesFeeInAmount: includesFee)
+                                                       itemViewModelFactory: itemViewModelFactory)
 
         return viewModelFactory
     }

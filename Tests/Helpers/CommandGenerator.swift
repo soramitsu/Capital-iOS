@@ -29,6 +29,7 @@ func createMockedCommandFactory() -> MockWalletCommandFactoryProtocol {
         when(stub).prepareWithdrawCommand(for: any(), optionId: any()).then { (_, _) in return command }
         when(stub).prepareScanReceiverCommand().then { _ in return command }
         when(stub).prepareAssetDetailsCommand(for: any()).then { _ in return assetCommand }
+        when(stub).prepareTransactionDetailsCommand(with: any()).then { _ in return command }
     }
 
     return commandFactory

@@ -67,6 +67,10 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
 
     fileprivate var itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
 
+    init() {
+        registerItemCell()
+    }
+
     func build() -> HistoryConfigurationProtocol {
         return HistoryConfiguration(viewStyle: historyViewStyle,
                                     cellStyle: transactionCellStyle,

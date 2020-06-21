@@ -15,30 +15,12 @@ class TransactionDetailsTests: XCTestCase {
         do {
             // given
 
-            let accountSettings = try createRandomAccountSettings(for: 1)
-
-            let view = MockWalletFormViewProtocol()
+            let view = MockWalletNewFormViewProtocol()
             let coordinator = MockTransactionDetailsCoordinatorProtocol()
 
-            let resolver = MockResolverProtocol()
+            let style = WalletStyle()
 
             let feeSettingsFactory = FeeDisplaySettingsFactory()
-
-            let configuration = TransactionDetailsConfiguration(sendBackTransactionTypes: [],
-                                                                sendAgainTransactionTypes: [],
-                                                                fieldActionFactory: WalletFieldActionFactory())
-
-            let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
-
-            stub(resolver) { stub in
-                when(stub).amountFormatterFactory.get.thenReturn(NumberFormatterFactory())
-                when(stub).statusDateFormatter.get.thenReturn(DateFormatter().localizableResource())
-                when(stub).style.get.thenReturn(WalletStyle())
-                when(stub).account.get.thenReturn(accountSettings)
-                when(stub).feeDisplaySettingsFactory.get.thenReturn(feeSettingsFactory)
-                when(stub).transactionDetailsConfiguration.get.thenReturn(configuration)
-                when(stub).localizationManager.get.thenReturn(localizationManager)
-            }
 
             let transactionData = try createRandomAssetTransactionData()
             let asset = WalletAsset(identifier: transactionData.assetId,
@@ -55,19 +37,23 @@ class TransactionDetailsTests: XCTestCase {
                 transactionType = WalletTransactionType.outgoing
             }
 
-            let accessoryViewModelFactory = ContactAccessoryViewModelFactory(style:
-                resolver.style.nameIconStyle)
+            let amountFormatterFactory = NumberFormatterFactory()
 
-            let viewModelFactory = WalletTransactionDetailsFactory(resolver: resolver)
+            let statusFormatter = DateFormatter().localizableResource()
+
+            let viewModelFactory = WalletTransactionDetailsFactory(transactionTypes: [transactionType],
+                                                                   assets: [asset],
+                                                                   feeDisplayFactory: feeSettingsFactory,
+                                                                   generatingIconStyle: style.nameIconStyle,
+                                                                   amountFormatterFactory: amountFormatterFactory,
+                                                                   localizableDataFormatter: statusFormatter,
+                                                                   sendBackTypes: [transactionType.backendName],
+                                                                   sendAgainTypes: [transactionType.backendName])
 
             let presenter = TransactionDetailsPresenter(view: view,
                                                         coordinator: coordinator,
-                                                        configuration:  configuration,
-                                                        detailsViewModelFactory: viewModelFactory,
-                                                        accessoryViewModelFactory: accessoryViewModelFactory,
                                                         transactionData: transactionData,
-                                                        transactionType: transactionType,
-                                                        asset: asset)
+                                                        detailsViewModelFactory: viewModelFactory)
 
             // when
 
@@ -80,10 +66,12 @@ class TransactionDetailsTests: XCTestCase {
 
                 when(stub).didReceive(accessoryViewModel: any()).thenDoNothing()
 
+                when(stub).didStartLoading().thenDoNothing()
+                when(stub).didStopLoading().thenDoNothing()
                 when(stub).isSetup.get.thenReturn(false, true)
             }
 
-            presenter.localizationManager = localizationManager
+            presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
 
             presenter.setup()
 
