@@ -54,7 +54,7 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         return view
     }
 
-    private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefiningProtocol {
+    private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefining {
         let binder: WalletFormViewModelBinderProtocol
 
         if let formBinder = resolver.transactionDetailsConfiguration.customViewBinder {
@@ -75,12 +75,8 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         }
 
         if let definitionFactory = resolver.transactionDetailsConfiguration.definitionFactory {
-            let defaultDefinition = WalletFormDefinition(binder: binder,
-                                                         itemViewFactory: itemFactory)
-            let definition = definitionFactory.createDefinitionWithBinder(binder,
-                                                                          itemFactory: itemFactory)
-            return WalletFormDefinitionWrapper(overriding: definition,
-                                               defaultDefinition: defaultDefinition)
+            return definitionFactory.createDefinitionWithBinder(binder,
+                                                                itemFactory: itemFactory)
         } else {
             return WalletFormDefinition(binder: binder,
                                         itemViewFactory: itemFactory)

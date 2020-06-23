@@ -13,7 +13,7 @@ class WalletNewFormViewController: UIViewController {
     }
 
     let style: WalletStyleProtocol
-    let definition: WalletFormDefiningProtocol
+    let definition: WalletFormDefining
     let accessoryViewFactory: AccessoryViewFactoryProtocol.Type
 
     var localizableTitle: LocalizableResource<String>?
@@ -26,7 +26,7 @@ class WalletNewFormViewController: UIViewController {
 
     private var containerView = ScrollableContainerView()
 
-    init(definition: WalletFormDefiningProtocol,
+    init(definition: WalletFormDefining,
          style: WalletStyleProtocol,
          accessoryViewFactory: AccessoryViewFactoryProtocol.Type) {
         self.style = style

@@ -6,7 +6,10 @@
 
 import Foundation
 
-public protocol WalletFormDefiningProtocol {
+public protocol WalletFormDefining {
+    var binder: WalletFormViewModelBinderProtocol { get }
+    var itemViewFactory: WalletFormItemViewFactoryProtocol { get }
+
     func defineViewForDetailsModel(_ model: WalletNewFormDetailsViewModel) -> WalletFormItemView?
 
     func defineViewForMultilineTitleIconModel(_ model: MultilineTitleIconViewModel) -> WalletFormItemView?
@@ -23,15 +26,7 @@ public protocol WalletFormDefiningProtocol {
         -> WalletFormItemView? where T: WalletFormViewBindingProtocol
 }
 
-class WalletFormDefinition: WalletFormDefiningProtocol {
-
-    let binder: WalletFormViewModelBinderProtocol
-    let itemViewFactory: WalletFormItemViewFactoryProtocol
-
-    init(binder: WalletFormViewModelBinderProtocol, itemViewFactory: WalletFormItemViewFactoryProtocol) {
-        self.binder = binder
-        self.itemViewFactory = itemViewFactory
-    }
+public extension WalletFormDefining {
 
     func defineViewForDetailsModel(_ model: WalletNewFormDetailsViewModel) -> WalletFormItemView? {
         let view = itemViewFactory.createDetailsFormView()
@@ -80,5 +75,15 @@ class WalletFormDefinition: WalletFormDefiningProtocol {
         let view = model.content.accept(definition: self)
         view?.borderType = model.borderType
         return view
+    }
+}
+
+final class WalletFormDefinition: WalletFormDefining {
+    let binder: WalletFormViewModelBinderProtocol
+    let itemViewFactory: WalletFormItemViewFactoryProtocol
+
+    init(binder: WalletFormViewModelBinderProtocol, itemViewFactory: WalletFormItemViewFactoryProtocol) {
+        self.binder = binder
+        self.itemViewFactory = itemViewFactory
     }
 }
