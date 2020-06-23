@@ -55,18 +55,35 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
     }
 
     private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefiningProtocol {
-        let formBinder = resolver.transactionDetailsConfiguration.customViewBinder ??
-                WalletFormViewModelBinder(style: resolver.style)
+        let binder: WalletFormViewModelBinderProtocol
 
-        let formItemFactory = resolver.transactionDetailsConfiguration.customItemViewFactory ??
-            WalletFormItemViewFactory()
+        if let formBinder = resolver.transactionDetailsConfiguration.customViewBinder {
+            let defaultBinder = WalletFormViewModelBinder(style: resolver.style)
+            binder = WalletFormViewModelBinderWrapper(overriding: formBinder,
+                                                      defaultBinder: defaultBinder)
+        } else {
+            binder = WalletFormViewModelBinder(style: resolver.style)
+        }
+
+        let itemFactory: WalletFormItemViewFactoryProtocol
+
+        if let formItemFactory = resolver.transactionDetailsConfiguration.customItemViewFactory {
+            itemFactory = WalletFormItemViewFactoryWrapper(overriding: formItemFactory,
+                                                           defaultFactory: WalletFormItemViewFactory())
+        } else {
+            itemFactory = WalletFormItemViewFactory()
+        }
 
         if let definitionFactory = resolver.transactionDetailsConfiguration.definitionFactory {
-            return definitionFactory.createDefinitionWithBinder(formBinder,
-                                                                itemFactory: formItemFactory)
+            let defaultDefinition = WalletFormDefinition(binder: binder,
+                                                         itemViewFactory: itemFactory)
+            let definition = definitionFactory.createDefinitionWithBinder(binder,
+                                                                          itemFactory: itemFactory)
+            return WalletFormDefinitionWrapper(overriding: definition,
+                                               defaultDefinition: defaultDefinition)
         } else {
-            return WalletFormDefinition(binder: formBinder,
-                                        itemViewFactory: formItemFactory)
+            return WalletFormDefinition(binder: binder,
+                                        itemViewFactory: itemFactory)
         }
     }
 

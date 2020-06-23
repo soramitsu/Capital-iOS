@@ -9,16 +9,14 @@ import Foundation
 final class TransactionDetailsModuleBuilder {
     private var sendBackTransactionTypes: [String] = []
     private var sendAgainTransactionTypes: [String] = []
-    private lazy var fieldActionFactory: WalletFieldActionFactoryProtocol = WalletFieldActionFactory()
-    private var customViewBinder: WalletFormViewModelBinderProtocol?
-    private var customItemViewFactory: WalletFormItemViewFactoryProtocol?
+    private var customViewBinder: WalletFormViewModelBinderOverriding?
+    private var customItemViewFactory: WalletFormItemViewFactoryOverriding?
     private var definitionFactory: WalletFormDefinitionFactoryProtocol?
     private var viewModelFactory: WalletTransactionDetailsFactoryOverriding?
 
     func build() -> TransactionDetailsConfigurationProtocol {
         return TransactionDetailsConfiguration(sendBackTransactionTypes: sendBackTransactionTypes,
                                                sendAgainTransactionTypes: sendAgainTransactionTypes,
-                                               fieldActionFactory: fieldActionFactory,
                                                customViewBinder: customViewBinder,
                                                customItemViewFactory: customItemViewFactory,
                                                definitionFactory: definitionFactory,
@@ -37,17 +35,12 @@ extension TransactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtoc
         return self
     }
 
-    func with(fieldActionFactory: WalletFieldActionFactoryProtocol) -> Self {
-        self.fieldActionFactory = fieldActionFactory
-        return self
-    }
-
-    func with(viewBinder: WalletFormViewModelBinderProtocol) -> Self {
+    func with(viewBinder: WalletFormViewModelBinderOverriding) -> Self {
         self.customViewBinder = viewBinder
         return self
     }
 
-    func with(itemViewFactory: WalletFormItemViewFactoryProtocol) -> Self {
+    func with(itemViewFactory: WalletFormItemViewFactoryOverriding) -> Self {
         self.customItemViewFactory = itemViewFactory
         return self
     }
