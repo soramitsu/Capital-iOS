@@ -43,8 +43,17 @@ final class AccountModuleViewModelFactory {
     private func createDefaultAssetViewModel(for asset: WalletAsset,
                                              balanceData: BalanceData,
                                              locale: Locale) -> AssetViewModelProtocol {
-        let assetDetailsCommand = assets.count > 1 ?
+        var assetDetailsCommand: WalletCommandProtocol? = assets.count > 1 ?
         commandFactory.prepareAssetDetailsCommand(for: asset.identifier) : nil
+
+        if
+            let assetCommandDecorator = commandDecoratorFactory?
+                .createAssetDetailsDecorator(with: commandFactory,
+                                             asset: asset,
+                                             balanceData: balanceData) {
+            assetCommandDecorator.undelyingCommand = assetDetailsCommand
+            assetDetailsCommand = assetCommandDecorator
+        }
 
         let assetCellStyle = context.assetCellStyleFactory.createCellStyle(for: asset)
 

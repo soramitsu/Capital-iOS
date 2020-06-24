@@ -14,16 +14,25 @@ public protocol WalletCommandDecoratorFactoryProtocol: class {
         -> WalletCommandDecoratorProtocol?
     func createReceiveCommandDecorator(with commandFactory: WalletCommandFactoryProtocol)
         -> WalletCommandDecoratorProtocol?
+    func createAssetDetailsDecorator(with commandFactory: WalletCommandFactoryProtocol,
+                                     asset: WalletAsset,
+                                     balanceData: BalanceData?) -> WalletCommandDecoratorProtocol?
 }
 
-extension WalletCommandDecoratorFactoryProtocol {
+public extension WalletCommandDecoratorFactoryProtocol {
     func createSendCommandDecorator(with commandFactory: WalletCommandFactoryProtocol)
         -> WalletCommandDecoratorProtocol? {
-        return nil
+        nil
     }
 
     func createReceiveCommandDecorator(with commandFactory: WalletCommandFactoryProtocol)
         -> WalletCommandDecoratorProtocol? {
-        return nil
+        nil
+    }
+
+    func createAssetDetailsDecorator(with commandFactory: WalletCommandFactoryProtocol,
+                                     asset: WalletAsset,
+                                     balanceData: BalanceData?) -> WalletCommandDecoratorProtocol? {
+        nil
     }
 }
