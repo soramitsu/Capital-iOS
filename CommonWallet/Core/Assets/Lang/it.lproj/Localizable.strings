@@ -42,7 +42,7 @@
 "transaction.sent" = "Importo inviato";
 "transaction.fee" = "Commissione";
 "transaction.send_back" = "Invia di nuovo";
-"transaction.id" = "Identificatore";
+"transaction.id" = "ID transazione";
 "transaction.date" = "Data e ora";
 "transaction.reason" = "Motivo";
 "transaction.type" = "Tipo";
@@ -95,5 +95,7 @@
 "common.cancel" = "Annulla";
 "transaction.recipient_id" = "ID ricevitore";
 "transaction.send_again" = "Invia di nuovo";
-"invoice_scan.error.user_not_found" = "Impossibile trovare un utente da QR";
+"invoice_scan.error.user_not_found" = "Impossibile trovare un utente dal codice QR";
 "operation.fee_title" = "Commissione della transazione";
+"confirmation.title.v1" = "Conferma transazione";
+"transaction.details.v1" = "Dettagli della Transazione";
