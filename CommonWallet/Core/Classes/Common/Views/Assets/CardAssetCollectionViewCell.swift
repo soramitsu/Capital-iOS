@@ -10,6 +10,7 @@ final class CardAssetCollectionViewCell: UICollectionViewCell {
     @IBOutlet private var backgroundRoundedView: RoundedView!
     @IBOutlet private var leftRoundedView: RoundedView!
     @IBOutlet private var symbolLabel: UILabel!
+    @IBOutlet private var symbolImageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var subtitleLabel: UILabel!
     @IBOutlet private var accessoryLabel: UILabel!
@@ -48,11 +49,25 @@ final class CardAssetCollectionViewCell: UICollectionViewCell {
 
     private func applyContent() {
         if let assetViewModel = assetViewModel {
-            symbolLabel.text = assetViewModel.symbol
+            symbolLabel.isHidden = assetViewModel.imageViewModel != nil
+            symbolImageView.isHidden = assetViewModel.imageViewModel == nil
+
+            if let iconViewModel = assetViewModel.imageViewModel {
+                iconViewModel.loadImage { [weak self] (icon, _) in
+                    self?.symbolImageView.image = icon
+                }
+            } else {
+                symbolLabel.text = assetViewModel.symbol
+            }
+
             titleLabel.text = assetViewModel.amount
             subtitleLabel.text = assetViewModel.details
             accessoryLabel.text = assetViewModel.accessoryDetails
         }
+    }
+
+    private func cancelLoading() {
+        assetViewModel?.imageViewModel?.cancel()
     }
 }
 
@@ -62,6 +77,8 @@ extension CardAssetCollectionViewCell: WalletViewProtocol {
     }
 
     func bind(viewModel: WalletViewModelProtocol) {
+        cancelLoading()
+
         guard let assetViewModel = viewModel as? AssetViewModelProtocol else {
             return
         }

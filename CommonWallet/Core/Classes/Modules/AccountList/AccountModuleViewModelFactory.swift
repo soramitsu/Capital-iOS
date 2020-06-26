@@ -135,7 +135,10 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                 }
 
                 if let assetViewModel = context.accountListViewModelFactory?
-                    .createAssetViewModel(for: asset, balance: balance, commandFactory: commandFactory) {
+                    .createAssetViewModel(for: asset,
+                                          balance: balance,
+                                          commandFactory: commandFactory,
+                                          locale: locale) {
                     return assetViewModel
                 } else {
                     return createDefaultAssetViewModel(for: asset, balanceData: balance, locale: locale)
@@ -151,7 +154,9 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
             viewModels.insert(contentsOf: assetViewModels, at: context.viewModelFactoryContainer.assetsIndex)
 
             if !collapsingRange.isEmpty {
-                if let showMoreViewModel = context.accountListViewModelFactory?.createShowMoreViewModel(for: delegate) {
+                if let showMoreViewModel = context.accountListViewModelFactory?
+                    .createShowMoreViewModel(for: delegate,
+                                             locale: locale) {
                     viewModels.append(showMoreViewModel)
                 } else {
                     let showMoreViewModel = createDefaultShowMoreViewModel(with: delegate)
@@ -173,8 +178,9 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
                 let actionsIndex = context.viewModelFactoryContainer.actionsIndex + assetsBlockLength - 1
 
                 if let actionsViewModel = context.accountListViewModelFactory?
-                    .createActionsViewModel(for: assetId, commandFactory: commandFactory) {
-
+                    .createActionsViewModel(for: assetId,
+                                            commandFactory: commandFactory,
+                                            locale: locale) {
                     viewModels.insert(actionsViewModel, at: actionsIndex)
                 } else {
                     let actionsViewModel = createDefaultActionsViewModel()
