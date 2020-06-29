@@ -19,6 +19,7 @@ public enum WalletLanguage: String, CaseIterable {
     case italian = "it"
     case french = "fr"
     case ukrainian = "uk"
+    case chinese = "zh-Hans"
 }
 
 
