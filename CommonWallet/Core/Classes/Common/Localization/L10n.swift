@@ -122,6 +122,11 @@ public enum L10n {
         public static var hint: String { return localize("confirmation.hint") }
         /// Confirmation
         public static var title: String { return localize("confirmation.title") }
+
+        public enum Title {
+            /// Confirm Transaction
+            public static var v1: String { return localize("confirmation.title.v1") }
+        }
     }
 
     public enum Contacts {
@@ -249,6 +254,11 @@ public enum L10n {
         public static var sent: String { return localize("transaction.sent") }
         /// Type
         public static var type: String { return localize("transaction.type") }
+
+        public enum Details {
+            /// Transaction Details
+            public static var v1: String { return localize("transaction.details.v1") }
+        }
 
         public enum Error {
             /// Transaction failed. Please, try again later.

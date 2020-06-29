@@ -97,3 +97,5 @@
 "transaction.send_again" = "もう一度送信";
 "invoice_scan.error.user_not_found" = "QR からユーザーを見つけることができません。";
 "operation.fee_title" = "取引手数料";
+"confirmation.title.v1" = "確認";
+"transaction.details.v1" = "取引の詳細";

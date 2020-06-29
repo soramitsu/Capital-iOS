@@ -97,3 +97,5 @@
 "transaction.send_again" = "Enviar de nuevo";
 "invoice_scan.error.user_not_found" = "No se puede encontrar un usuario de QR";
 "operation.fee_title" = "Tarifa de transacción";
+"confirmation.title.v1" = "Confirmación";
+"transaction.details.v1" = "Detalles de la Transacción";

@@ -97,3 +97,5 @@
 "transaction.send_again" = "ផ្ញើម្តងទៀត";
 "invoice_scan.error.user_not_found" = "មិនអាចរកឃើញអ្នកប្រើប្រាស់ពី QR";
 "operation.fee_title" = "ថ្លៃប្រតិបត្តិការ";
+"confirmation.title.v1" = "បញ្ជាក់";
+"transaction.details.v1" = "ព័ត៌មានប្រតិបត្តិការ";

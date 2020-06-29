@@ -97,3 +97,5 @@
 "transaction.send_again" = "Отправить";
 "invoice_scan.error.user_not_found" = "Не удается найти пользователя";
 "operation.fee_title" = "Транзакцияның хаҡы";
+"confirmation.title.v1" = "Транзакцияның хаҡы";
+"transaction.details.v1" = "Транзакцияның Деталдәре";
