@@ -9,5 +9,5 @@ import Foundation
 public protocol WalletFormDefinitionFactoryProtocol {
     func createDefinitionWithBinder(_ binder: WalletFormViewModelBinderProtocol,
                                     itemFactory: WalletFormItemViewFactoryProtocol)
-        -> WalletFormDefiningProtocol
+        -> WalletFormDefining
 }

@@ -8,11 +8,11 @@ import Foundation
 import SoraUI
 
 public protocol WalletFormViewBindingProtocol {
-    func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView?
+    func accept(definition: WalletFormDefining) -> WalletFormItemView?
 }
 
 extension MultilineTitleIconViewModel: WalletFormViewBindingProtocol {
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForMultilineTitleIconModel(self)
     }
 }
@@ -33,7 +33,7 @@ public struct WalletNewFormDetailsViewModel: WalletFormViewBindingProtocol {
         self.detailsIcon = detailsIcon
     }
 
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForDetailsModel(self)
     }
 }
@@ -47,7 +47,7 @@ public struct WalletFormSingleHeaderModel: WalletFormViewBindingProtocol {
         self.icon = icon
     }
 
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForSingleHeaderModel(self)
     }
 }
@@ -61,7 +61,7 @@ public struct WalletFormDetailsHeaderModel: WalletFormViewBindingProtocol {
         self.icon = icon
     }
 
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForDetailsHeaderModel(self)
     }
 }
@@ -75,7 +75,7 @@ public struct WalletFormSpentAmountModel: WalletFormViewBindingProtocol {
         self.amount = amount
     }
 
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForSpentAmountModel(self)
     }
 }
@@ -91,7 +91,7 @@ public struct WalletFormTokenViewModel: WalletFormViewBindingProtocol {
         self.icon = icon
     }
 
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForTokenViewModel(self)
     }
 }
@@ -105,7 +105,7 @@ public struct WalletFormSeparatedViewModel<T: WalletFormViewBindingProtocol>: Wa
         self.borderType = borderType
     }
 
-    public func accept(definition: WalletFormDefiningProtocol) -> WalletFormItemView? {
+    public func accept(definition: WalletFormDefining) -> WalletFormItemView? {
         definition.defineViewForSeparatedViewModel(self)
     }
 }

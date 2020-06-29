@@ -23,7 +23,7 @@ protocol WalletServiceProtocol {
 
     @discardableResult
     func fetchTransactionHistory(for filter: WalletHistoryRequest,
-                                 pagination: OffsetPagination,
+                                 pagination: Pagination,
                                  runCompletionIn queue: DispatchQueue,
                                  completionBlock: @escaping TransactionHistoryBlock) -> CancellableCall
 

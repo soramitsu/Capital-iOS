@@ -52,7 +52,7 @@ final class DataProviderFactory {
                                     targetIdentifier: String,
                                     using syncQueue: DispatchQueue) throws
         -> SingleValueProvider<AssetTransactionPageData> {
-            let pagination = OffsetPagination(offset: 0, count: DataProviderFactory.historyItemsPerPage)
+            let pagination = Pagination(count: DataProviderFactory.historyItemsPerPage)
 
             let source: AnySingleValueProviderSource<AssetTransactionPageData> =
                 AnySingleValueProviderSource {

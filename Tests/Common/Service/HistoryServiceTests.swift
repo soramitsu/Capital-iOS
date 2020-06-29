@@ -11,7 +11,7 @@ class HistoryServiceTests: NetworkBaseTests {
 
     func testHistorySuccess() throws {
         let transactionsPerPage: Int = 100
-        let pagination = OffsetPagination(offset: 0, count: transactionsPerPage)
+        let pagination = Pagination(count: transactionsPerPage)
         let optionalResult = try performFetch(for: .success,
                                               pagination: pagination,
                                               errorFactory: nil)
@@ -28,7 +28,7 @@ class HistoryServiceTests: NetworkBaseTests {
 
     func testHistoryDefaultErrorHandling() throws {
         let transactionsPerPage: Int = 100
-        let pagination = OffsetPagination(offset: 0, count: transactionsPerPage)
+        let pagination = Pagination(count: transactionsPerPage)
         let optionalResult = try performFetch(for: .error,
                                               pagination: pagination,
                                               errorFactory: nil)
@@ -46,7 +46,7 @@ class HistoryServiceTests: NetworkBaseTests {
 
     func testHistoryCustomErrorHandling() throws {
         let transactionsPerPage: Int = 100
-        let pagination = OffsetPagination(offset: 0, count: transactionsPerPage)
+        let pagination = Pagination(count: transactionsPerPage)
 
         let expectedError = MockNetworkError.historyError
         let optionalResult = try performFetch(for: .error,
@@ -67,7 +67,7 @@ class HistoryServiceTests: NetworkBaseTests {
     // MARK: Private
 
     private func performFetch(for mock: FetchHistoryMock,
-                              pagination: OffsetPagination,
+                              pagination: Pagination,
                               errorFactory: MiddlewareNetworkErrorFactoryProtocol?) throws
         -> Result<AssetTransactionPageData?, Error>? {
 

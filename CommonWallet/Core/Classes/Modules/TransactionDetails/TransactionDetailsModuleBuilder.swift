@@ -9,12 +9,18 @@ import Foundation
 final class TransactionDetailsModuleBuilder {
     private var sendBackTransactionTypes: [String] = []
     private var sendAgainTransactionTypes: [String] = []
-    private lazy var fieldActionFactory: WalletFieldActionFactoryProtocol = WalletFieldActionFactory()
+    private var customViewBinder: WalletFormViewModelBinderOverriding?
+    private var customItemViewFactory: WalletFormItemViewFactoryOverriding?
+    private var definitionFactory: WalletFormDefinitionFactoryProtocol?
+    private var viewModelFactory: WalletTransactionDetailsFactoryOverriding?
 
     func build() -> TransactionDetailsConfigurationProtocol {
         return TransactionDetailsConfiguration(sendBackTransactionTypes: sendBackTransactionTypes,
                                                sendAgainTransactionTypes: sendAgainTransactionTypes,
-                                               fieldActionFactory: fieldActionFactory)
+                                               customViewBinder: customViewBinder,
+                                               customItemViewFactory: customItemViewFactory,
+                                               definitionFactory: definitionFactory,
+                                               viewModelFactory: viewModelFactory)
     }
 }
 
@@ -29,8 +35,23 @@ extension TransactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtoc
         return self
     }
 
-    func with(fieldActionFactory: WalletFieldActionFactoryProtocol) -> Self {
-        self.fieldActionFactory = fieldActionFactory
+    func with(viewBinder: WalletFormViewModelBinderOverriding) -> Self {
+        self.customViewBinder = viewBinder
+        return self
+    }
+
+    func with(itemViewFactory: WalletFormItemViewFactoryOverriding) -> Self {
+        self.customItemViewFactory = itemViewFactory
+        return self
+    }
+
+    func with(definitionFactory: WalletFormDefinitionFactoryProtocol) -> Self {
+        self.definitionFactory = definitionFactory
+        return self
+    }
+
+    func with(viewModelFactory: WalletTransactionDetailsFactoryOverriding) -> Self {
+        self.viewModelFactory = viewModelFactory
         return self
     }
 }

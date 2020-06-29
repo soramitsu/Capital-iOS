@@ -12,10 +12,10 @@ final class HistoryPresenter {
 
     enum DataState {
         case waitingCached
-        case loading(page: OffsetPagination, previousPage: OffsetPagination?)
-        case loaded(page: OffsetPagination?, canLoadMore: Bool)
-        case filtering(page: OffsetPagination, previousPage: OffsetPagination?)
-        case filtered(page: OffsetPagination?, canLoadMore: Bool)
+        case loading(page: Pagination, previousPage: Pagination?)
+        case loaded(page: Pagination?, nextContext: PaginationContext?)
+        case filtering(page: Pagination, previousPage: Pagination?)
+        case filtered(page: Pagination?, nextContext: PaginationContext?)
     }
 
     weak var view: HistoryViewProtocol?
@@ -140,7 +140,7 @@ final class HistoryPresenter {
         dataProvider.removeObserver(self)
     }
 
-    private func loadTransactions(for pagination: OffsetPagination) {
+    private func loadTransactions(for pagination: Pagination) {
         walletService.fetchTransactionHistory(for: filter,
                                               pagination: pagination,
                                               runCompletionIn: .main) { [weak self] (optionalResult) in
@@ -164,10 +164,9 @@ final class HistoryPresenter {
             do {
                 let loadedTransactionData = transactionData ?? AssetTransactionPageData(transactions: [])
 
-                let loadedPage = OffsetPagination(offset: 0, count: loadedTransactionData.transactions.count)
-                let newState = DataState.loaded(page: loadedPage, canLoadMore: false)
-                try reloadView(with: loadedTransactionData,
-                               andSwitch: newState)
+                let loadedPage = Pagination(count: loadedTransactionData.transactions.count)
+                let newState = DataState.loaded(page: loadedPage, nextContext: loadedTransactionData.context)
+                try reloadView(with: loadedTransactionData, andSwitch: newState)
                 reload()
             } catch {
                 logger?.error("Did receive cache processing error \(error)")
@@ -175,16 +174,13 @@ final class HistoryPresenter {
         case .loading, .loaded:
             do {
                 if let transactionData = transactionData {
-                    let loadedPage = OffsetPagination(offset: 0, count: transactionData.transactions.count)
-                    let newState = DataState.loaded(page: loadedPage,
-                                                    canLoadMore: loadedPage.count == transactionsPerPage)
-                    try reloadView(with: transactionData,
-                                   andSwitch: newState)
-                } else if pages.count > 0 {
-                    let loadedPage = OffsetPagination(offset: 0, count: pages[0].transactions.count)
-                    let newState = DataState.loaded(page: loadedPage,
-                                                    canLoadMore: loadedPage.count == transactionsPerPage)
-                    try reloadView(with: pages[0], andSwitch: newState)
+                    let loadedPage = Pagination(count: transactionData.transactions.count)
+                    let newState = DataState.loaded(page: loadedPage, nextContext: transactionData.context)
+                    try reloadView(with: transactionData, andSwitch: newState)
+                } else if let firstPage = pages.first {
+                    let loadedPage = Pagination(count: firstPage.transactions.count)
+                    let newState = DataState.loaded(page: loadedPage, nextContext: firstPage.context)
+                    try reloadView(with: firstPage, andSwitch: newState)
                 } else {
                     logger?.error("Inconsistent data loading before cache")
                 }
@@ -200,10 +196,11 @@ final class HistoryPresenter {
         case .waitingCached:
             logger?.error("Cache unexpectedly failed \(error)")
         case .loading:
-            if pages.count > 0 {
+            if let firstPage = pages.first {
                 do {
-                    let loadedPage = OffsetPagination(offset: 0, count: pages[0].transactions.count)
-                    try reloadView(with: pages[0], andSwitch: .loaded(page: loadedPage, canLoadMore: false))
+                    let loadedPage = Pagination(count: firstPage.transactions.count, context: nil)
+                    try reloadView(with: firstPage,
+                                   andSwitch: .loaded(page: loadedPage, nextContext: firstPage.context))
                 } catch {
                     logger?.error("Did receive cache processing error \(error)")
                 }
@@ -216,67 +213,62 @@ final class HistoryPresenter {
         }
     }
 
-    private func handleNext(transactionData: AssetTransactionPageData, for pagination: OffsetPagination) {
+    private func handleNext(transactionData: AssetTransactionPageData, for pagination: Pagination) {
         switch dataLoadingState {
         case .waitingCached:
             logger?.error("Unexpected page loading before cache")
-        case .loading(let currentPage, _):
-            if currentPage.offset == pagination.offset {
+        case .loading(let currentPagination, _):
+            if currentPagination == pagination {
                 do {
-                    let loadedPage = OffsetPagination(offset: pagination.offset,
-                                                      count: transactionData.transactions.count)
-                    let newState = DataState.loaded(page: pagination,
-                                                    canLoadMore: loadedPage.count == transactionsPerPage)
-                    try appendPage(with: transactionData,
-                                   andSwitch: newState)
+                    let loadedPage = Pagination(count: transactionData.transactions.count, context: pagination.context)
+                    let newState = DataState.loaded(page: loadedPage, nextContext: transactionData.context)
+                    try appendPage(with: transactionData, andSwitch: newState)
                 } catch {
                     logger?.error("Did receive page processing error \(error)")
                 }
             } else {
-                logger?.debug("Unexpected loaded page offset \(pagination.offset) but expected \(currentPage.offset)")
+                logger?.debug("Unexpected loaded page with context \(String(describing: pagination.context))")
             }
         case .loaded, .filtered:
-            logger?.debug("Page offset \(pagination.offset) loaded but not expected")
-        case .filtering(let page, _):
-            if page.offset == pagination.offset {
+            logger?.debug("Context loaded \(String(describing: pagination.context)) loaded but not expected")
+        case .filtering(let currentPagination, _):
+            if currentPagination == pagination {
                 do {
-                    let loadedPage = OffsetPagination(offset: pagination.offset,
-                                                      count: transactionData.transactions.count)
-                    let newState = DataState.filtered(page: pagination,
-                                                      canLoadMore: loadedPage.count == transactionsPerPage)
-                    try appendPage(with: transactionData,
-                                   andSwitch: newState)
+                    let loadedPage = Pagination(count: transactionData.transactions.count,
+                                                context: pagination.context)
+                    let newState = DataState.filtered(page: loadedPage, nextContext: transactionData.context)
+                    try appendPage(with: transactionData, andSwitch: newState)
                 } catch {
                     logger?.error("Did receive page processing error \(error)")
                 }
             } else {
-                logger?.debug("Unexpected loaded page offset \(pagination.offset) but expected \(page.offset)")
+                logger?.debug("Context loaded \(String(describing: pagination.context)) but not expected")
             }
         }
     }
 
-    private func handleNext(error: Error, for pagination: OffsetPagination) {
+    private func handleNext(error: Error, for pagination: Pagination) {
         switch dataLoadingState {
         case .waitingCached:
             logger?.error("Cached data expected but received page error \(error)")
         case .loading(let currentPage, let previousPage):
-            if currentPage.offset == pagination.offset {
-                logger?.debug("Loading page \(pagination) failed")
+            if currentPage == pagination {
+                logger?.debug("Loading page with context \(String(describing: pagination.context)) failed")
 
-                dataLoadingState = .loaded(page: previousPage, canLoadMore: true)
+                dataLoadingState = .loaded(page: previousPage, nextContext: currentPage.context)
             } else {
-                logger?.debug("Loading offset \(pagination.offset) failed \(error) but expecting \(currentPage.offset)")
+                logger?.debug("Unexpected pagination context \(String(describing: pagination.context))")
             }
         case .filtering(let currentPage, let previousPage):
-            if currentPage.offset == pagination.offset {
-                logger?.debug("Loading page \(pagination) failed")
+            if currentPage == pagination {
+                logger?.debug("Loading page with context \(String(describing: pagination.context)) failed")
                 
-                dataLoadingState = .filtered(page: previousPage, canLoadMore: true)
+                dataLoadingState = .filtered(page: previousPage, nextContext: currentPage.context)
             } else {
-                logger?.debug("Loading offset \(pagination.offset) failed \(error) but expecting \(currentPage.offset)")
+                logger?.debug("Unexpected failed page with context \(String(describing: pagination.context))")
             }
         case .loaded, .filtered:
-            logger?.debug("Loading page offset \(pagination.offset) failed \(error) but not expected")
+            logger?.debug("Failed page already loaded")
         }
     }
 }
@@ -314,8 +306,7 @@ extension HistoryPresenter: HistoryPresenterProtocol {
             break
         }
 
-        dataLoadingState = .loading(page: OffsetPagination(offset: 0, count: transactionsPerPage),
-                                    previousPage: nil)
+        dataLoadingState = .loading(page: Pagination(count: transactionsPerPage), previousPage: nil)
 
         dataProvider.refresh()
     }
@@ -326,13 +317,9 @@ extension HistoryPresenter: HistoryPresenterProtocol {
             return false
         case .loading(_, let previousPage):
             return previousPage != nil
-        case .loaded(let currentPage, let canLoadMore):
-            if let currentPage = currentPage, canLoadMore {
-                let nextPage: OffsetPagination
-
-                nextPage = OffsetPagination(offset: currentPage.offset + currentPage.count,
-                                            count: transactionsPerPage)
-
+        case .loaded(let currentPage, let context):
+            if let currentPage = currentPage, context != nil {
+                let nextPage = Pagination(count: transactionsPerPage, context: context)
                 dataLoadingState = .loading(page: nextPage, previousPage: currentPage)
                 loadTransactions(for: nextPage)
 
@@ -342,13 +329,9 @@ extension HistoryPresenter: HistoryPresenterProtocol {
             }
         case .filtering(_, let previousPage):
             return previousPage != nil
-        case .filtered(let page, let canLoadMore):
-            if let currentPage = page, canLoadMore {
-                let nextPage: OffsetPagination
-                
-                nextPage = OffsetPagination(offset: currentPage.offset + currentPage.count,
-                                            count: transactionsPerPage)
-                
+        case .filtered(let page, let context):
+            if let currentPage = page, context != nil {
+                let nextPage = Pagination(count: transactionsPerPage, context: context)
                 dataLoadingState = .filtering(page: nextPage, previousPage: currentPage)
                 loadTransactions(for: nextPage)
                 
@@ -365,23 +348,6 @@ extension HistoryPresenter: HistoryPresenterProtocol {
 
     func sectionModel(at index: Int) -> TransactionSectionViewModelProtocol {
         return viewModels[index]
-    }
-
-    func showTransaction(at index: Int, in section: Int) {
-        let viewModel = viewModels[section].items[index]
-
-        var optionalTransaction: AssetTransactionData?
-
-        for page in pages {
-            if let transation = page.transactions.first(where: {$0.transactionId == viewModel.transactionId}) {
-                optionalTransaction = transation
-                break
-            }
-        }
-
-        if let transaction = optionalTransaction {
-            coordinator.presentDetails(for: transaction)
-        }
     }
     
     func showFilter() {
@@ -405,7 +371,7 @@ extension HistoryPresenter: HistoryCoordinatorDelegate {
                 return
             }
 
-            let pagination = OffsetPagination(offset: 0, count: transactionsPerPage)
+            let pagination = Pagination(count: transactionsPerPage)
             resetView(with: .filtering(page: pagination, previousPage: nil))
             loadTransactions(for: pagination)
         }

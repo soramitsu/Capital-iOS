@@ -8,62 +8,31 @@ import SoraFoundation
 
 
 final class TransactionDetailsPresenter {
-    weak var view: WalletFormViewProtocol?
+    weak var view: WalletNewFormViewProtocol?
     var coordinator: TransactionDetailsCoordinatorProtocol
-
-    let configuration: TransactionDetailsConfigurationProtocol
     let transactionData: AssetTransactionData
-    let transactionType: WalletTransactionType
-    let asset: WalletAsset
-    let accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol
     let viewModelFactory: WalletTransactionDetailsFactoryProtocol
 
-    init(view: WalletFormViewProtocol,
+    init(view: WalletNewFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
-         configuration: TransactionDetailsConfigurationProtocol,
-         detailsViewModelFactory: WalletTransactionDetailsFactoryProtocol,
-         accessoryViewModelFactory: ContactAccessoryViewModelFactoryProtocol,
          transactionData: AssetTransactionData,
-         transactionType: WalletTransactionType,
-         asset: WalletAsset) {
+         detailsViewModelFactory: WalletTransactionDetailsFactoryProtocol) {
         self.view = view
         self.coordinator = coordinator
-        self.configuration = configuration
         self.transactionData = transactionData
-        self.transactionType = transactionType
-        self.asset = asset
         self.viewModelFactory = detailsViewModelFactory
-        self.accessoryViewModelFactory = accessoryViewModelFactory
-    }
-
-    private func createAccessoryViewModel(actionTitle: String) -> AccessoryViewModel {
-        let peerName = transactionData.localizedPeerName
-
-        return accessoryViewModelFactory.createViewModel(from: peerName,
-                                                         fullName: peerName,
-                                                         action: actionTitle)
     }
 
     private func updateView() {
-        let mainViewModels = viewModelFactory.createForm(from: transactionData,
-                                                         type: transactionType,
-                                                         asset: asset)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        let mainViewModels = viewModelFactory.createViewModelsFromTransaction(data: transactionData,
+                                                                              locale: locale)
 
         view?.didReceive(viewModels: mainViewModels)
 
-        if transactionType.isIncome,
-            configuration.sendBackTransactionTypes.contains(transactionType.backendName),
-            asset.modes.contains(.transfer) {
-            let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendBack)
-            view?.didReceive(accessoryViewModel: accessoryViewModel)
-        }
-
-        if !transactionType.isIncome,
-            configuration.sendAgainTransactionTypes.contains(transactionType.backendName),
-            asset.modes.contains(.transfer) {
-            let accessoryViewModel = createAccessoryViewModel(actionTitle: L10n.Transaction.sendAgain)
-            view?.didReceive(accessoryViewModel: accessoryViewModel)
-        }
+        let accessoryViewModel = viewModelFactory
+            .createAccessoryViewModelFromTransaction(data: transactionData, locale: locale)
+        view?.didReceive(accessoryViewModel: accessoryViewModel)
     }
 }
 

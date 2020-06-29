@@ -167,11 +167,15 @@ class HistoryTests: NetworkBaseTests {
         let dateFormatterProvider = DateFormatterProvider(dateFormatterFactory: TransactionListSectionFormatterFactory.self,
                                                           dayChangeHandler: DayChangeHandler())
 
+        let commandFactory = createMockedCommandFactory()
+        let itemViewModelFactory = HistoryItemViewModelFactory(amountFormatterFactory: NumberFormatterFactory(),
+                                                               includesFeeInAmount: false,
+                                                               transactionTypes: WalletTransactionType.required,
+                                                               assets: accountSettings.assets,
+                                                               commandFactory: commandFactory)
+
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatterFactory: NumberFormatterFactory(),
-                                                       assets: accountSettings.assets,
-                                                       transactionTypes: WalletTransactionType.required,
-                                                       includesFeeInAmount: false)
+                                                       itemViewModelFactory: itemViewModelFactory)
 
         let eventCenter = MockWalletEventCenterProtocol()
 

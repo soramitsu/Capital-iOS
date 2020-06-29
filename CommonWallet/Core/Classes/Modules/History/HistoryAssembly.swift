@@ -33,11 +33,16 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
                                                           dayChangeHandler: DayChangeHandler())
 
         let includesFeeInAmount = resolver.historyConfiguration.includesFeeInAmount
+
+        let itemViewModelFactory = resolver.historyConfiguration.itemViewModelFactory ??
+            HistoryItemViewModelFactory(amountFormatterFactory: resolver.amountFormatterFactory,
+                                        includesFeeInAmount: includesFeeInAmount,
+                                        transactionTypes: resolver.transactionTypeList,
+                                        assets: assets,
+                                        commandFactory: resolver.commandFactory)
+        
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       amountFormatterFactory: resolver.amountFormatterFactory,
-                                                       assets: assets,
-                                                       transactionTypes: resolver.transactionTypeList,
-                                                       includesFeeInAmount: includesFeeInAmount)
+                                                       itemViewModelFactory: itemViewModelFactory)
 
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
  

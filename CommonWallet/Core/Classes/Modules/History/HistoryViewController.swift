@@ -17,11 +17,8 @@ private struct NavigationItemState {
 
 final class HistoryViewController: UIViewController {
     private struct Constants {
-        static let cellId = "transactionCellId"
-        static let cellNibName = "TransactionTableViewCell"
         static let sectionNibName = "SeparatedSectionView"
         static let headerHeight: CGFloat = 45.0
-        static let cellHeight: CGFloat = 55.0
         static let sectionHeight: CGFloat = 44.0
         static let compactTitleLeft: CGFloat = 20.0
         static let multiplierToActivateNextLoading: CGFloat = 1.5
@@ -141,8 +138,15 @@ final class HistoryViewController: UIViewController {
     }
 
     private func configureTableView() {
-        let cellNib = UINib(nibName: Constants.cellNibName, bundle: Bundle(for: type(of: self)))
-        tableView.register(cellNib, forCellReuseIdentifier: Constants.cellId)
+        configuration?.registeredCellsMetadata.forEach { (reuseIdentifier, metadata) in
+            if let cellClass = metadata as? UITableViewCell.Type {
+                tableView.register(cellClass, forCellReuseIdentifier: reuseIdentifier)
+            }
+
+            if let nib = metadata as? UINib {
+                tableView.register(nib, forCellReuseIdentifier: reuseIdentifier)
+            }
+        }
 
         pageLoadingView = PageLoadingView()
         pageLoadingView.verticalMargin = Constants.loadingViewMargin
@@ -401,7 +405,7 @@ extension HistoryViewController: HistoryViewProtocol {
         }
     }
 
-    private func applyRow(change: ListDifference<TransactionItemViewModel>, for sectionIndex: Int) {
+    private func applyRow(change: ListDifference<WalletViewModelProtocol>, for sectionIndex: Int) {
         switch change {
         case .insert(let index, _):
             tableView.insertRows(at: [IndexPath(row: index, section: sectionIndex)], with: .fade)
@@ -455,22 +459,28 @@ extension HistoryViewController: UITableViewDataSource {
         return presenter.sectionModel(at: section).items.count
     }
 
-    // swiftlint:disable force_cast
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellId,
-                                                 for: indexPath) as! TransactionTableViewCell
-
         let sectionViewModel = presenter.sectionModel(at: indexPath.section)
+        let itemViewModel = sectionViewModel.items[indexPath.row]
 
-        if cell.style == nil {
-            cell.style = configuration?.cellStyle
+        let cell = tableView.dequeueReusableCell(withIdentifier: itemViewModel.cellReuseIdentifier,
+                                                 for: indexPath)
+
+        if
+            let defaultCell = cell as? TransactionTableViewCell,
+            let defaultViewModel = itemViewModel as? TransactionItemViewModelProtocol {
+            if defaultCell.style == nil {
+                defaultCell.style = configuration?.cellStyle
+            }
+
+            if defaultCell.statusStyleProvider == nil {
+                defaultCell.statusStyleProvider = statusStyleProvider
+            }
+
+            defaultCell.bind(viewModel: defaultViewModel)
+        } else if let customCell = cell as? WalletViewProtocol {
+            customCell.bind(viewModel: itemViewModel)
         }
-
-        if cell.statusStyleProvider == nil {
-            cell.statusStyleProvider = statusStyleProvider
-        }
-
-        cell.bind(viewModel: sectionViewModel.items[indexPath.row])
 
         return cell
     }
@@ -497,7 +507,8 @@ extension HistoryViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.cellHeight
+        let items = presenter.sectionModel(at: indexPath.section).items
+        return items[indexPath.row].itemHeight
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -507,7 +518,8 @@ extension HistoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        presenter.showTransaction(at: indexPath.row, in: indexPath.section)
+        let items = presenter.sectionModel(at: indexPath.section).items
+        try? items[indexPath.row].command?.execute()
     }
     
 }

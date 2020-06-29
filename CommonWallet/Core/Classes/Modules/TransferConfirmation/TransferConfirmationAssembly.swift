@@ -12,7 +12,7 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol, payload: ConfirmationPayload)
         -> WalletNewFormViewProtocol? {
 
-        let formDefinition: WalletFormDefiningProtocol = createFormDefinition(from: resolver)
+        let formDefinition: WalletFormDefining = createFormDefinition(from: resolver)
 
         let view = WalletNewFormViewController(definition: formDefinition,
                                                style: resolver.style,
@@ -47,7 +47,7 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
         return view
     }
 
-    private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefiningProtocol {
+    private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefining {
         let formBinder = resolver.transferConfirmationConfiguration.customViewBinder ??
                 WalletFormViewModelBinder(style: resolver.style)
 

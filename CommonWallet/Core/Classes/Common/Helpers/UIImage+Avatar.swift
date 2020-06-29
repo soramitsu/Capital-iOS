@@ -8,8 +8,8 @@ import UIKit
 
 
 extension UIImage {
-    static func createAvatar(fullName: String,
-                             style: WalletNameIconStyleProtocol) -> UIImage? {
+    public static func createAvatar(fullName: String,
+                                    style: WalletNameIconStyleProtocol) -> UIImage? {
         let nameComponents = fullName.components(separatedBy: .whitespaces)
         let firstName = nameComponents.first ?? ""
         let lastName = nameComponents.last ?? ""
@@ -26,13 +26,13 @@ extension UIImage {
                             strokeWidth: style.stroke?.lineWidth ?? 0.0)
     }
 
-    static func createAvatar(symbols: String,
-                             radius: CGFloat,
-                             fillColor: UIColor,
-                             textFont: UIFont,
-                             textColor: UIColor,
-                             strokeColor: UIColor? = nil,
-                             strokeWidth: CGFloat = 0.0) -> UIImage? {
+    public static func createAvatar(symbols: String,
+                                    radius: CGFloat,
+                                    fillColor: UIColor,
+                                    textFont: UIFont,
+                                    textColor: UIColor,
+                                    strokeColor: UIColor? = nil,
+                                    strokeWidth: CGFloat = 0.0) -> UIImage? {
         let size = CGSize(width: 2.0 * radius, height: 2.0 * radius)
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
 

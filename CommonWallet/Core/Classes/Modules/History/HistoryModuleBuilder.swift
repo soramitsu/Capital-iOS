@@ -7,6 +7,15 @@ import Foundation
 import SoraUI
 
 public protocol HistoryModuleBuilderProtocol: class {
+    var itemCellIdentifier: String { get }
+
+    @discardableResult
+    func with<Cell>(cellClass: Cell.Type?,
+                    for reuseIdentifier: String) -> Self where Cell: UITableViewCell & WalletViewProtocol
+
+    @discardableResult
+    func with(cellNib: UINib?, for reuseIdentifier: String) -> Self
+
     @discardableResult
     func with(historyViewStyle: HistoryViewStyleProtocol) -> Self
 
@@ -27,6 +36,9 @@ public protocol HistoryModuleBuilderProtocol: class {
 
     @discardableResult
     func with(includesFeeInAmount: Bool) -> Self
+
+    @discardableResult
+    func with(itemViewModelFactory: HistoryItemViewModelFactoryProtocol) -> Self
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
@@ -51,6 +63,14 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
         return TransactionHeaderStyle.createDefaultStyle(with: walletStyle)
     }()
 
+    fileprivate var registeredCellsMetadata = [String: Any]()
+
+    fileprivate var itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
+
+    init() {
+        registerItemCell()
+    }
+
     func build() -> HistoryConfigurationProtocol {
         return HistoryConfiguration(viewStyle: historyViewStyle,
                                     cellStyle: transactionCellStyle,
@@ -58,11 +78,24 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
                                     supportsFilter: supportsFilter,
                                     includesFeeInAmount: includesFeeInAmount,
                                     emptyStateDataSource: emptyStateDataSource,
-                                    emptyStateDelegate: emptyStateDelegate)
+                                    emptyStateDelegate: emptyStateDelegate,
+                                    registeredCellsMetadata: registeredCellsMetadata,
+                                    itemViewModelFactory: itemViewModelFactory)
+    }
+
+    fileprivate func registerItemCell() {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: HistoryModuleConstants.historyCellNibName, bundle: bundle)
+
+        registeredCellsMetadata[HistoryModuleConstants.historyCellIdentifier] = nib
     }
 }
 
 extension HistoryModuleBuilder {
+    var itemCellIdentifier: String {
+        HistoryModuleConstants.historyCellIdentifier
+    }
+
     func with(historyViewStyle: HistoryViewStyleProtocol) -> Self {
         self.historyViewStyle = historyViewStyle
         return self
@@ -95,6 +128,22 @@ extension HistoryModuleBuilder {
 
     func with(includesFeeInAmount: Bool) -> Self {
         self.includesFeeInAmount = includesFeeInAmount
+        return self
+    }
+
+    func with<Cell>(cellClass: Cell.Type?,
+                    for reuseIdentifier: String) -> Self where Cell: UITableViewCell & WalletViewProtocol {
+        registeredCellsMetadata[reuseIdentifier] = cellClass
+        return self
+    }
+
+    func with(cellNib: UINib?, for reuseIdentifier: String) -> Self {
+        registeredCellsMetadata[reuseIdentifier] = cellNib
+        return self
+    }
+
+    func with(itemViewModelFactory: HistoryItemViewModelFactoryProtocol) -> Self {
+        self.itemViewModelFactory = itemViewModelFactory
         return self
     }
 }

@@ -7,11 +7,20 @@ import Foundation
 
 public protocol TransactionDetailsModuleBuilderProtocol: class {
     @discardableResult
+    func with(viewBinder: WalletFormViewModelBinderOverriding) -> Self
+
+    @discardableResult
+    func with(itemViewFactory: WalletFormItemViewFactoryOverriding) -> Self
+
+    @discardableResult
+    func with(definitionFactory: WalletFormDefinitionFactoryProtocol) -> Self
+
+    @discardableResult
+    func with(viewModelFactory: WalletTransactionDetailsFactoryOverriding) -> Self
+
+    @discardableResult
     func with(sendBackTransactionTypes: [String]) -> Self
 
     @discardableResult
     func with(sendAgainTransactionTypes: [String]) -> Self
-
-    @discardableResult
-    func with(fieldActionFactory: WalletFieldActionFactoryProtocol) -> Self
 }

@@ -5645,21 +5645,6 @@ import RobinHood
         
     }
     
-    
-    
-     func showTransaction(at index: Int, in section: Int)  {
-        
-    return cuckoo_manager.call("showTransaction(at: Int, in: Int)",
-            parameters: (index, section),
-            escapingParameters: (index, section),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.showTransaction(at: index, in: section))
-        
-    }
-    
 
 	 struct __StubbingProxy_HistoryPresenterProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -5702,11 +5687,6 @@ import RobinHood
 	    func sectionModel<M1: Cuckoo.Matchable>(at index: M1) -> Cuckoo.ProtocolStubFunction<(Int), TransactionSectionViewModelProtocol> where M1.MatchedType == Int {
 	        let matchers: [Cuckoo.ParameterMatcher<(Int)>] = [wrap(matchable: index) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryPresenterProtocol.self, method: "sectionModel(at: Int) -> TransactionSectionViewModelProtocol", parameterMatchers: matchers))
-	    }
-	    
-	    func showTransaction<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(at index: M1, in section: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(Int, Int)> where M1.MatchedType == Int, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(Int, Int)>] = [wrap(matchable: index) { $0.0 }, wrap(matchable: section) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryPresenterProtocol.self, method: "showTransaction(at: Int, in: Int)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -5767,12 +5747,6 @@ import RobinHood
 	        return cuckoo_manager.verify("sectionModel(at: Int) -> TransactionSectionViewModelProtocol", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
-	    @discardableResult
-	    func showTransaction<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(at index: M1, in section: M2) -> Cuckoo.__DoNotUse<(Int, Int), Void> where M1.MatchedType == Int, M2.MatchedType == Int {
-	        let matchers: [Cuckoo.ParameterMatcher<(Int, Int)>] = [wrap(matchable: index) { $0.0 }, wrap(matchable: section) { $0.1 }]
-	        return cuckoo_manager.verify("showTransaction(at: Int, in: Int)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
 	}
 }
 
@@ -5810,10 +5784,6 @@ import RobinHood
         return DefaultValueRegistry.defaultValue(for: (TransactionSectionViewModelProtocol).self)
     }
     
-     func showTransaction(at index: Int, in section: Int)   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
 }
 
 
@@ -5843,21 +5813,6 @@ import RobinHood
     
     
     
-     func presentDetails(for transaction: AssetTransactionData)  {
-        
-    return cuckoo_manager.call("presentDetails(for: AssetTransactionData)",
-            parameters: (transaction),
-            escapingParameters: (transaction),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.presentDetails(for: transaction))
-        
-    }
-    
-    
-    
      func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])  {
         
     return cuckoo_manager.call("presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])",
@@ -5879,11 +5834,6 @@ import RobinHood
 	        self.cuckoo_manager = manager
 	    }
 	    
-	    
-	    func presentDetails<M1: Cuckoo.Matchable>(for transaction: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(AssetTransactionData)> where M1.MatchedType == AssetTransactionData {
-	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryCoordinatorProtocol.self, method: "presentDetails(for: AssetTransactionData)", parameterMatchers: matchers))
-	    }
 	    
 	    func presentFilter<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(filter: M1, assets: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletHistoryRequest?, [WalletAsset])> where M1.OptionalMatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset] {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest?, [WalletAsset])>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }]
@@ -5907,12 +5857,6 @@ import RobinHood
 	
 	    
 	    @discardableResult
-	    func presentDetails<M1: Cuckoo.Matchable>(for transaction: M1) -> Cuckoo.__DoNotUse<(AssetTransactionData), Void> where M1.MatchedType == AssetTransactionData {
-	        let matchers: [Cuckoo.ParameterMatcher<(AssetTransactionData)>] = [wrap(matchable: transaction) { $0 }]
-	        return cuckoo_manager.verify("presentDetails(for: AssetTransactionData)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
 	    func presentFilter<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(filter: M1, assets: M2) -> Cuckoo.__DoNotUse<(WalletHistoryRequest?, [WalletAsset]), Void> where M1.OptionalMatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset] {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest?, [WalletAsset])>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }]
 	        return cuckoo_manager.verify("presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
@@ -5926,10 +5870,6 @@ import RobinHood
 
     
 
-    
-     func presentDetails(for transaction: AssetTransactionData)   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
     
      func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)

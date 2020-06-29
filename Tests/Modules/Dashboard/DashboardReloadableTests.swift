@@ -45,7 +45,6 @@ class DashboardReloadableTests: XCTestCase {
             when(stub).setup().thenDoNothing()
             when(stub).numberOfSections().thenReturn(0)
             when(stub).loadNext().thenReturn(false)
-            when(stub).showTransaction(at: any(), in: any()).thenDoNothing()
             when(stub).reloadCache().thenDoNothing()
             when(stub).reload().thenDoNothing()
         }

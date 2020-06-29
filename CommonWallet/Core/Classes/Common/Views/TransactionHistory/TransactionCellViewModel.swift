@@ -5,8 +5,7 @@
 
 import Foundation
 
-public protocol TransactionItemViewModelProtocol: class {
-    var transactionId: String { get }
+public protocol TransactionItemViewModelProtocol: WalletViewModelProtocol {
     var amount: String { get }
     var title: String { get }
     var incoming: Bool { get }
@@ -15,28 +14,44 @@ public protocol TransactionItemViewModelProtocol: class {
 }
 
 final class TransactionItemViewModel: TransactionItemViewModelProtocol {
-    var transactionId: String
-    var amount: String = ""
-    var title: String = ""
-    var incoming: Bool = false
-    var status: AssetTransactionStatus = .commited
-    var icon: UIImage?
+    let cellReuseIdentifier: String
+    let itemHeight: CGFloat
+    let amount: String
+    let title: String
+    let incoming: Bool
+    let status: AssetTransactionStatus
+    let icon: UIImage?
+    let command: WalletCommandProtocol?
     
-    init(transactionId: String) {
-        self.transactionId = transactionId
+    init(cellReuseIdentifier: String,
+         itemHeight: CGFloat,
+         amount: String,
+         title: String,
+         incoming: Bool,
+         status: AssetTransactionStatus,
+         icon: UIImage?,
+         command: WalletCommandProtocol?) {
+        self.cellReuseIdentifier = cellReuseIdentifier
+        self.itemHeight = itemHeight
+        self.amount = amount
+        self.title = title
+        self.incoming = incoming
+        self.status = status
+        self.icon = icon
+        self.command = command
     }
 }
 
 protocol TransactionSectionViewModelProtocol: class {
     var title: String { get }
-    var items: [TransactionItemViewModelProtocol] { get }
+    var items: [WalletViewModelProtocol] { get }
 }
 
 final class TransactionSectionViewModel: TransactionSectionViewModelProtocol {
     var title: String
-    var items: [TransactionItemViewModelProtocol]
+    var items: [WalletViewModelProtocol]
 
-    init(title: String, items: [TransactionItemViewModelProtocol]) {
+    init(title: String, items: [WalletViewModelProtocol]) {
         self.title = title
         self.items = items
     }

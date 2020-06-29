@@ -24,25 +24,27 @@ public struct AssetTransactionData: Codable, Equatable {
         case peerLastName
         case details
         case amount
-        case fee
+        case fees
         case timestamp
         case type
         case reason
+        case context
     }
 
-    public var transactionId: String
-    public var status: AssetTransactionStatus
-    public var assetId: String
-    public var peerId: String
-    public var peerFirstName: String?
-    public var peerLastName: String?
-    public var peerName: String?
-    public var details: String
-    public var amount: AmountDecimal
-    public var fee: AmountDecimal?
-    public var timestamp: Int64
-    public var type: String
-    public var reason: String?
+    public let transactionId: String
+    public let status: AssetTransactionStatus
+    public let assetId: String
+    public let peerId: String
+    public let peerFirstName: String?
+    public let peerLastName: String?
+    public let peerName: String?
+    public let details: String
+    public let amount: AmountDecimal
+    public let fees: [AssetTransactionFee]
+    public let timestamp: Int64
+    public let type: String
+    public let reason: String?
+    public let context: [String: String]?
 
     public init(transactionId: String,
                 status: AssetTransactionStatus,
@@ -53,10 +55,11 @@ public struct AssetTransactionData: Codable, Equatable {
                 peerName: String?,
                 details: String,
                 amount: AmountDecimal,
-                fee: AmountDecimal?,
+                fees: [AssetTransactionFee],
                 timestamp: Int64,
                 type: String,
-                reason: String?) {
+                reason: String?,
+                context: [String: String]?) {
         self.transactionId = transactionId
         self.status = status
         self.assetId = assetId
@@ -66,17 +69,21 @@ public struct AssetTransactionData: Codable, Equatable {
         self.peerName = peerName
         self.details = details
         self.amount = amount
-        self.fee = fee
+        self.fees = fees
         self.timestamp = timestamp
         self.type = type
         self.reason = reason
+        self.context = context
     }
 }
 
 public struct AssetTransactionPageData: Codable, Equatable {
-    public var transactions: [AssetTransactionData]
+    public let transactions: [AssetTransactionData]
+    public let context: PaginationContext?
 
-    public init(transactions: [AssetTransactionData]) {
+    public init(transactions: [AssetTransactionData],
+                context: PaginationContext? = nil) {
         self.transactions = transactions
+        self.context = context
     }
 }

@@ -8,12 +8,18 @@ import Foundation
 protocol TransactionDetailsConfigurationProtocol {
     var sendBackTransactionTypes: [String] { get }
     var sendAgainTransactionTypes: [String] { get }
-    var fieldActionFactory: WalletFieldActionFactoryProtocol { get }
+    var customViewBinder: WalletFormViewModelBinderOverriding? { get }
+    var customItemViewFactory: WalletFormItemViewFactoryOverriding? { get }
+    var definitionFactory: WalletFormDefinitionFactoryProtocol? { get }
+    var viewModelFactory: WalletTransactionDetailsFactoryOverriding? { get }
 }
 
 
 struct TransactionDetailsConfiguration: TransactionDetailsConfigurationProtocol {
-    var sendBackTransactionTypes: [String]
-    var sendAgainTransactionTypes: [String]
-    var fieldActionFactory: WalletFieldActionFactoryProtocol
+    let sendBackTransactionTypes: [String]
+    let sendAgainTransactionTypes: [String]
+    let customViewBinder: WalletFormViewModelBinderOverriding?
+    let customItemViewFactory: WalletFormItemViewFactoryOverriding?
+    let definitionFactory: WalletFormDefinitionFactoryProtocol?
+    let viewModelFactory: WalletTransactionDetailsFactoryOverriding?
 }

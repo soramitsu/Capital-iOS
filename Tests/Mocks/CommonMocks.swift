@@ -2649,9 +2649,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
     
     
     
-    public func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest, pagination: OffsetPagination) -> CompoundOperationWrapper<AssetTransactionPageData?> {
+    public func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest, pagination: Pagination) -> CompoundOperationWrapper<AssetTransactionPageData?> {
         
-    return cuckoo_manager.call("fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: OffsetPagination) -> CompoundOperationWrapper<AssetTransactionPageData?>",
+    return cuckoo_manager.call("fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: Pagination) -> CompoundOperationWrapper<AssetTransactionPageData?>",
             parameters: (filter, pagination),
             escapingParameters: (filter, pagination),
             superclassCall:
@@ -2766,9 +2766,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchBalanceOperation(_: [String]) -> CompoundOperationWrapper<[BalanceData]?>", parameterMatchers: matchers))
 	    }
 	    
-	    func fetchTransactionHistoryOperation<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ filter: M1, pagination: M2) -> Cuckoo.ProtocolStubFunction<(WalletHistoryRequest, OffsetPagination), CompoundOperationWrapper<AssetTransactionPageData?>> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == OffsetPagination {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, OffsetPagination)>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: pagination) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: OffsetPagination) -> CompoundOperationWrapper<AssetTransactionPageData?>", parameterMatchers: matchers))
+	    func fetchTransactionHistoryOperation<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ filter: M1, pagination: M2) -> Cuckoo.ProtocolStubFunction<(WalletHistoryRequest, Pagination), CompoundOperationWrapper<AssetTransactionPageData?>> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == Pagination {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, Pagination)>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: pagination) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockWalletNetworkOperationFactoryProtocol.self, method: "fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: Pagination) -> CompoundOperationWrapper<AssetTransactionPageData?>", parameterMatchers: matchers))
 	    }
 	    
 	    func transferMetadataOperation<M1: Cuckoo.Matchable>(_ info: M1) -> Cuckoo.ProtocolStubFunction<(TransferMetadataInfo), CompoundOperationWrapper<TransferMetaData?>> where M1.MatchedType == TransferMetadataInfo {
@@ -2824,9 +2824,9 @@ public class MockWalletNetworkOperationFactoryProtocol: WalletNetworkOperationFa
 	    }
 	    
 	    @discardableResult
-	    func fetchTransactionHistoryOperation<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ filter: M1, pagination: M2) -> Cuckoo.__DoNotUse<(WalletHistoryRequest, OffsetPagination), CompoundOperationWrapper<AssetTransactionPageData?>> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == OffsetPagination {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, OffsetPagination)>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: pagination) { $0.1 }]
-	        return cuckoo_manager.verify("fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: OffsetPagination) -> CompoundOperationWrapper<AssetTransactionPageData?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func fetchTransactionHistoryOperation<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ filter: M1, pagination: M2) -> Cuckoo.__DoNotUse<(WalletHistoryRequest, Pagination), CompoundOperationWrapper<AssetTransactionPageData?>> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == Pagination {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, Pagination)>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: pagination) { $0.1 }]
+	        return cuckoo_manager.verify("fetchTransactionHistoryOperation(_: WalletHistoryRequest, pagination: Pagination) -> CompoundOperationWrapper<AssetTransactionPageData?>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -2878,7 +2878,7 @@ public class WalletNetworkOperationFactoryProtocolStub: WalletNetworkOperationFa
         return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<[BalanceData]?>).self)
     }
     
-    public func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest, pagination: OffsetPagination) -> CompoundOperationWrapper<AssetTransactionPageData?>  {
+    public func fetchTransactionHistoryOperation(_ filter: WalletHistoryRequest, pagination: Pagination) -> CompoundOperationWrapper<AssetTransactionPageData?>  {
         return DefaultValueRegistry.defaultValue(for: (CompoundOperationWrapper<AssetTransactionPageData?>).self)
     }
     
