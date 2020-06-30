@@ -60,7 +60,7 @@ public protocol CommonWalletBuilderProtocol: class {
 
     @discardableResult
     func with(singleProviderIdentifierFactory: SingleProviderIdentifierFactoryProtocol) -> Self
-
+    
     func build() throws -> CommonWalletContextProtocol
 }
 

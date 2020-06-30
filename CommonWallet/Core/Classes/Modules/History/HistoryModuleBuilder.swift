@@ -39,6 +39,7 @@ public protocol HistoryModuleBuilderProtocol: class {
 
     @discardableResult
     func with(itemViewModelFactory: HistoryItemViewModelFactoryProtocol) -> Self
+
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
@@ -146,4 +147,5 @@ extension HistoryModuleBuilder {
         self.itemViewModelFactory = itemViewModelFactory
         return self
     }
+    
 }
