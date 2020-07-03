@@ -12,6 +12,7 @@ final class AccountListViewController: UIViewController, AdaptiveDesignable {
     var configuration: AccountListConfigurationProtocol?
 
     @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var backgroundImageView: UIImageView!
 
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
@@ -61,6 +62,7 @@ final class AccountListViewController: UIViewController, AdaptiveDesignable {
     private func configureStyle() {
         if let style = configuration?.viewStyle {
             refreshControl.tintColor = style.refreshIndicatorStyle
+            backgroundImageView.image = style.backgroundImage
         }
     }
 

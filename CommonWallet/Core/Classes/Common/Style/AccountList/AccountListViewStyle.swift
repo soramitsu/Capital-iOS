@@ -7,13 +7,16 @@ import Foundation
 
 public protocol AccountListViewStyleProtocol {
     var refreshIndicatorStyle: UIColor { get }
+    var backgroundImage: UIImage? { get }
 }
 
 public struct AccountListViewStyle: AccountListViewStyleProtocol {
     public var refreshIndicatorStyle: UIColor
+    public var backgroundImage: UIImage?
 
     public init(refreshIndicatorStyle: UIColor) {
         self.refreshIndicatorStyle = refreshIndicatorStyle
+        self.backgroundImage = nil
     }
 }
 
