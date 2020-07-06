@@ -148,6 +148,9 @@
 		8B8B4C8222AEC4C500D77443 /* sora-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B8B4C7E22AEC4C500D77443 /* sora-SemiBold.otf */; };
 		8B8B4C8422AEC4DC00D77443 /* DemoStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B4C8322AEC4DC00D77443 /* DemoStyle.swift */; };
 		8BB829CD22B2D81700BACD59 /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB829CC22B2D81600BACD59 /* FilterTests.swift */; };
+		F80A57CC24B2F3DA0088E301 /* HistoryDemoItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80A57CB24B2F3DA0088E301 /* HistoryDemoItemViewModelFactory.swift */; };
+		F89E92C624AB509F002AF2B6 /* HistoryDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89E92C524AB509F002AF2B6 /* HistoryDemo.swift */; };
+		F89E92CD24AB5941002AF2B6 /* HistoryDemoTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89E92CC24AB5941002AF2B6 /* HistoryDemoTransactionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -290,6 +293,9 @@
 		B94F9DD558B6B7EDEFD2FD7B /* Pods-CommonWallet_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommonWallet_Tests.debug.xcconfig"; path = "Target Support Files/Pods-CommonWallet_Tests/Pods-CommonWallet_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EB95CD26216DE788986A8656 /* CommonWallet.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = CommonWallet.podspec; path = ../CommonWallet.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F73BA0AE70283E2FB349470C /* Pods_CommonWallet_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CommonWallet_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F80A57CB24B2F3DA0088E301 /* HistoryDemoItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDemoItemViewModelFactory.swift; sourceTree = "<group>"; };
+		F89E92C524AB509F002AF2B6 /* HistoryDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDemo.swift; sourceTree = "<group>"; };
+		F89E92CC24AB5941002AF2B6 /* HistoryDemoTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDemoTransactionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -700,6 +706,7 @@
 		84C180572253ACF400F19858 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				F89E92C424AB507D002AF2B6 /* History */,
 				841562282452199D002400F2 /* Sidechain */,
 				8B42312623AA3D9400B106AF /* Localized */,
 				84D8D9A822F730CF00C9B9C7 /* CommandDecorator */,
@@ -826,6 +833,24 @@
 				39D75902F274392853E47184 /* Pods-CommonWallet_Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F89E92C424AB507D002AF2B6 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				F89E92C924AB55D6002AF2B6 /* Views */,
+				F89E92C524AB509F002AF2B6 /* HistoryDemo.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		F89E92C924AB55D6002AF2B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F89E92CC24AB5941002AF2B6 /* HistoryDemoTransactionCell.swift */,
+				F80A57CB24B2F3DA0088E301 /* HistoryDemoItemViewModelFactory.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1202,8 +1227,10 @@
 				84FA00962269BA20005DA950 /* DefaultEmptyStateDataSource+Module.swift in Sources */,
 				84C1805D2253B01000F19858 /* DemoNetworkResolver.swift in Sources */,
 				848B6EBE224D5A1100E8A3C9 /* ServiceMock.swift in Sources */,
+				F80A57CC24B2F3DA0088E301 /* HistoryDemoItemViewModelFactory.swift in Sources */,
 				84F5B97224629B02004E658C /* SidechainTransferHeaderFactory.swift in Sources */,
 				84D8D9A622F72C8B00C9B9C7 /* CommandDecoratorDemo.swift in Sources */,
+				F89E92CD24AB5941002AF2B6 /* HistoryDemoTransactionCell.swift in Sources */,
 				607FACD81AFB9204008FA782 /* DemoListViewController.swift in Sources */,
 				84C1806922551D4000F19858 /* DemoHeaderCell.swift in Sources */,
 				8415622A245219BF002400F2 /* SidechainDemo.swift in Sources */,
@@ -1212,6 +1239,7 @@
 				848B6EC0224D5A1100E8A3C9 /* BaseServiceMock.swift in Sources */,
 				84C1805B2253AD8600F19858 /* DefaultDemo.swift in Sources */,
 				84D8D9AC22F7315900C9B9C7 /* DialogCommandDecorator.swift in Sources */,
+				F89E92C624AB509F002AF2B6 /* HistoryDemo.swift in Sources */,
 				84D8D9AA22F730F300C9B9C7 /* DialogCommandDecoratorFactory.swift in Sources */,
 				84C1806D22551E0600F19858 /* DemoHeaderViewModel.swift in Sources */,
 				8B42312823AA3DB100B106AF /* LocalizedDemo.swift in Sources */,
