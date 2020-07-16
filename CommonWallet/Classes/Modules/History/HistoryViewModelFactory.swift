@@ -32,6 +32,11 @@ final class HistoryViewModelFactory {
     private(set) var assets: [String: WalletAsset]
     private(set) var transactionTypes: [String: WalletTransactionType]
     private(set) var includesFeeInAmount: Bool
+    private lazy var dateFormatter: DateFormatter = {
+        let item = DateFormatter()
+        item.dateStyle = .long
+        return item
+    }()
 
     weak var delegate: HistoryViewModelFactoryDelegate?
 
@@ -116,6 +121,18 @@ final class HistoryViewModelFactory {
 private typealias SearchableSection = (section: TransactionSectionViewModel, index: Int)
 
 extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
+    private func sectionTtitle(for date: Date, locale: Locale) -> String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) {
+            return L10n.Common.today
+        }
+        if calendar.isDateInYesterday(date) {
+            return L10n.Common.yesterday
+        }
+        dateFormatter.locale = locale
+        return dateFormatter.string(from: date)
+    }
+    
     func merge(newItems: [AssetTransactionData],
                into existingViewModels: inout [TransactionSectionViewModel],
                locale: Locale) throws
@@ -132,7 +149,7 @@ extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
                 let viewModel = try self.createViewModel(from: event, locale: locale)
 
                 let eventDate = Date(timeIntervalSince1970: TimeInterval(event.timestamp))
-                let sectionTitle = dateFormatterProvider.dateFormatter.value(for: locale).string(from: eventDate)
+                let sectionTitle = sectionTtitle(for: eventDate, locale: locale)
 
                 if let searchableSection = searchableSections[sectionTitle] {
                     let itemChange = ListDifference.insert(index: searchableSection.section.items.count, new: viewModel)

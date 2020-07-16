@@ -16,6 +16,11 @@ final class LocalizedDemo: DemoFactoryProtocol {
     var completionBlock: DemoCompletionBlock?
 
     private func createWallet(for language: WalletLanguage) throws -> UIViewController {
+        
+        let dateFotmatter = DateFormatter()
+        dateFotmatter.dateStyle = .long
+        dateFotmatter.timeStyle = .medium
+        
         let accountId = try IRAccountIdFactory.account(withIdentifier: "julio@demo")
         let assets = try createAssets()
 
@@ -41,6 +46,8 @@ final class LocalizedDemo: DemoFactoryProtocol {
             .with(transactionTypeList: [withdrawType])
             .with(language: language)
             .with(inputValidatorFactory: DemoInputValidatorFactory())
+            .with(statusDateFormatter: dateFotmatter.localizableResource())
+            
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
                                              color: .black)
