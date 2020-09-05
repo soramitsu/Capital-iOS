@@ -7,7 +7,8 @@
 import Foundation
 
 protocol ContactsActionViewModelFactoryProtocol {
-    func createOptionListForAccountId(_ accountId: String, assetId: String) -> [SendOptionViewModelProtocol]
+    func createOptionListForAccountId(_ accountId: String, assetId: String, locale: Locale?)
+        -> [SendOptionViewModelProtocol]
     func createBarActionForAccountId(_ accountId: String, assetId: String)
         -> WalletBarActionViewModelProtocol?
 }
@@ -25,7 +26,7 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
         self.withdrawOptions = withdrawOptions
     }
 
-    func createOptionListForAccountId(_ accountId: String, assetId: String) -> [SendOptionViewModelProtocol] {
+    func createOptionListForAccountId(_ accountId: String, assetId: String, locale: Locale?) -> [SendOptionViewModelProtocol] {
         var viewModels: [SendOptionViewModelProtocol] = []
 
         if scanPosition == .tableAction {
