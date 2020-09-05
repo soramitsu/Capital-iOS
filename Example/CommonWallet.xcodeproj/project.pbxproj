@@ -113,6 +113,7 @@
 		84C1806F22551FCF00F19858 /* DemoHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1806E22551FCF00F19858 /* DemoHeaderCell.xib */; };
 		84C180712255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C180702255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift */; };
 		84C1807322554BBF00F19858 /* ViewModelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1807222554BBF00F19858 /* ViewModelGenerator.swift */; };
+		84C423F625038E7B0032CE34 /* SidechainContactsActionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C423F525038E7B0032CE34 /* SidechainContactsActionFactory.swift */; };
 		84CB804D23E20D130000DF97 /* NumberFormater+Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CB804C23E20D130000DF97 /* NumberFormater+Money.swift */; };
 		84D8D9A422F717DA00C9B9C7 /* MockNetworkResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */; };
 		84D8D9A622F72C8B00C9B9C7 /* CommandDecoratorDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8D9A522F72C8B00C9B9C7 /* CommandDecoratorDemo.swift */; };
@@ -258,6 +259,7 @@
 		84C1806E22551FCF00F19858 /* DemoHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoHeaderCell.xib; sourceTree = "<group>"; };
 		84C180702255471A00F19858 /* AccountListViewModelFactoryContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListViewModelFactoryContainerTests.swift; sourceTree = "<group>"; };
 		84C1807222554BBF00F19858 /* ViewModelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelGenerator.swift; sourceTree = "<group>"; };
+		84C423F525038E7B0032CE34 /* SidechainContactsActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainContactsActionFactory.swift; sourceTree = "<group>"; };
 		84CB804C23E20D130000DF97 /* NumberFormater+Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormater+Money.swift"; sourceTree = "<group>"; };
 		84D8D9A222F7178300C9B9C7 /* MockNetworkResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkResolver.swift; sourceTree = "<group>"; };
 		84D8D9A522F72C8B00C9B9C7 /* CommandDecoratorDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandDecoratorDemo.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				84F5B97124629B02004E658C /* SidechainTransferHeaderFactory.swift */,
 				84F5B9752462ADD8004E658C /* SidechainTransferSeparatorsDistribution.swift */,
 				841B76512472756600370FE3 /* SidechainTransferErrorHandler.swift */,
+				84C423F525038E7B0032CE34 /* SidechainContactsActionFactory.swift */,
 			);
 			path = Sidechain;
 			sourceTree = "<group>";
@@ -1228,6 +1231,7 @@
 				84C1805D2253B01000F19858 /* DemoNetworkResolver.swift in Sources */,
 				848B6EBE224D5A1100E8A3C9 /* ServiceMock.swift in Sources */,
 				F80A57CC24B2F3DA0088E301 /* HistoryDemoItemViewModelFactory.swift in Sources */,
+				84C423F625038E7B0032CE34 /* SidechainContactsActionFactory.swift in Sources */,
 				84F5B97224629B02004E658C /* SidechainTransferHeaderFactory.swift in Sources */,
 				84D8D9A622F72C8B00C9B9C7 /* CommandDecoratorDemo.swift in Sources */,
 				F89E92CD24AB5941002AF2B6 /* HistoryDemoTransactionCell.swift in Sources */,

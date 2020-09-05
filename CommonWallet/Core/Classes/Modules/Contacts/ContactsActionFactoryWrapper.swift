@@ -13,6 +13,18 @@ public protocol ContactsActionFactoryWrapperProtocol {
         -> WalletBarActionViewModelProtocol?
 }
 
+public extension ContactsActionFactoryWrapperProtocol {
+    func createOptionListForAccountId(_ accountId: String, assetId: String)
+        -> [SendOptionViewModelProtocol]? {
+        nil
+    }
+
+    func createBarActionForAccountId(_ accountId: String, assetId: String)
+        -> WalletBarActionViewModelProtocol? {
+        nil
+    }
+}
+
 final class ContactsActionFactoryWrapper: ContactsActionViewModelFactoryProtocol {
     let customFactory: ContactsActionFactoryWrapperProtocol
     let defaultFactory: ContactsActionViewModelFactoryProtocol

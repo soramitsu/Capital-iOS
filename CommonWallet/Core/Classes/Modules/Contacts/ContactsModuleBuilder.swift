@@ -70,6 +70,7 @@ final class ContactsModuleBuilder {
                                      supportsLiveSearch: supportsLiveSearch,
                                      canFindItself: canFindItself,
                                      viewModelFactoryWrapper: viewModelFactoryWrapper,
+                                     actionFactoryWrapper: actionFactoryWrapper,
                                      localSearchEngine: localSearchEngine)
     }
     
