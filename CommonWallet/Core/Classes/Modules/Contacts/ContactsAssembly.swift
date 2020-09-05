@@ -43,16 +43,27 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
 
         let withdrawOptions = config.withdrawOptionsPosition == .tableAction ? resolver.account.withdrawOptions : []
 
-        let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
-                                                                    scanPosition: config.scanPosition,
-                                                                    withdrawOptions: withdrawOptions)
+        let actionFactory: ContactsActionViewModelFactoryProtocol
+
+        if let customActionFactory = config.actionFactoryWrapper {
+            let defaultFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
+                                                                scanPosition: config.scanPosition,
+                                                                withdrawOptions: withdrawOptions)
+
+            actionFactory = ContactsActionFactoryWrapper(customFactory: customActionFactory,
+                                                         defaultFactory: defaultFactory)
+        } else {
+            actionFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
+                                                           scanPosition: config.scanPosition,
+                                                           withdrawOptions: withdrawOptions)
+        }
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
                                           dataProvider: contactsDataProvider,
                                           walletService: walletService,
                                           viewModelFactory: viewModelFactory,
-                                          actionViewModelFactory: actionViewModelFactory,
+                                          actionViewModelFactory: actionFactory,
                                           selectedAsset: selectedAsset,
                                           currentAccountId: resolver.account.accountId,
                                           localSearchEngine: config.localSearchEngine,

@@ -49,6 +49,8 @@ final class ContactsModuleBuilder {
 
     fileprivate var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
 
+    fileprivate var actionFactoryWrapper: ContactsActionFactoryWrapperProtocol?
+
     fileprivate var localSearchEngine: ContactsLocalSearchEngineProtocol?
 
     fileprivate var canFindItself: Bool = false
@@ -78,6 +80,11 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
 
     func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self {
         self.viewModelFactoryWrapper = viewModelFactoryWrapper
+        return self
+    }
+
+    func with(actionFactoryWrapper: ContactsActionFactoryWrapperProtocol) -> Self {
+        self.actionFactoryWrapper = actionFactoryWrapper
         return self
     }
 

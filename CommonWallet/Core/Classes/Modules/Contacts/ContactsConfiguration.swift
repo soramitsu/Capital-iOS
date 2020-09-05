@@ -21,6 +21,7 @@ protocol ContactsConfigurationProtocol {
     var supportsLiveSearch: Bool { get }
     var canFindItself: Bool { get }
     var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol? { get }
+    var actionFactoryWrapper: ContactsActionFactoryWrapperProtocol? { get }
     var localSearchEngine: ContactsLocalSearchEngineProtocol? { get }
 }
 
@@ -39,5 +40,6 @@ struct ContactsConfiguration: ContactsConfigurationProtocol {
     var supportsLiveSearch: Bool
     var canFindItself: Bool
     var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
+    var actionFactoryWrapper: ContactsActionFactoryWrapperProtocol?
     var localSearchEngine: ContactsLocalSearchEngineProtocol?
 }

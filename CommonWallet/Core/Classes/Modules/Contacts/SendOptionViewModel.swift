@@ -13,21 +13,20 @@ public protocol SendOptionViewModelProtocol: WalletViewModelProtocol {
     
 }
 
+public extension SendOptionViewModelProtocol {
+    var cellReuseIdentifier: String { ContactConstants.optionCellIdentifier }
+    var itemHeight: CGFloat { ContactConstants.optionCellHeight }
+}
+
 
 final class SendOptionViewModel: SendOptionViewModelProtocol {
-    var cellReuseIdentifier: String
-    var itemHeight: CGFloat
-    
     var title: String = ""
     var icon: UIImage?
     
     var command: WalletCommandProtocol?
 
     
-    init(cellReuseIdentifier: String, itemHeight: CGFloat, command: WalletCommandProtocol) {
-        self.cellReuseIdentifier = cellReuseIdentifier
-        self.itemHeight = itemHeight
+    init(command: WalletCommandProtocol) {
         self.command = command
     }
-    
 }
