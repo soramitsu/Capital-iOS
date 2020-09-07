@@ -59,8 +59,11 @@ final class SidechainDemo: DemoFactoryProtocol {
             .with(emptyStateDataSource: DefaultEmptyStateDataSource.history)
             .with(supportsFilter: true)
 
+        let contactsActionFactory = SidechainContactsActionFactory()
+
         let searchPlaceholder = LocalizableResource { _ in "Enter username" }
         walletBuilder.contactsModuleBuilder
+            .with(actionFactoryWrapper: contactsActionFactory)
             .with(searchPlaceholder: searchPlaceholder)
             .with(contactsEmptyStateDataSource: DefaultEmptyStateDataSource.contacts)
             .with(searchEmptyStateDataSource: DefaultEmptyStateDataSource.search)
@@ -101,6 +104,7 @@ final class SidechainDemo: DemoFactoryProtocol {
             .with(small: .demoSmall)
 
         let walletContext = try walletBuilder.build()
+        contactsActionFactory.commandFactory = walletContext
 
         try mock(networkResolver: networkResolver, with: assets)
 

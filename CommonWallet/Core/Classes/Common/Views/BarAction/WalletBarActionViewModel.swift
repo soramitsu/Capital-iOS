@@ -6,17 +6,22 @@
 
 import Foundation
 
-enum WalletBarActionDisplayType {
+public enum WalletBarActionDisplayType {
     case title(_ title: String)
     case icon(_ image: UIImage)
 }
 
-protocol WalletBarActionViewModelProtocol {
+public protocol WalletBarActionViewModelProtocol {
     var displayType: WalletBarActionDisplayType { get }
     var command: WalletCommandProtocol { get }
 }
 
-struct WalletBarActionViewModel: WalletBarActionViewModelProtocol {
-    let displayType: WalletBarActionDisplayType
-    let command: WalletCommandProtocol
+public struct WalletBarActionViewModel: WalletBarActionViewModelProtocol {
+    public let displayType: WalletBarActionDisplayType
+    public let command: WalletCommandProtocol
+
+    public init(displayType: WalletBarActionDisplayType, command: WalletCommandProtocol) {
+        self.displayType = displayType
+        self.command = command
+    }
 }

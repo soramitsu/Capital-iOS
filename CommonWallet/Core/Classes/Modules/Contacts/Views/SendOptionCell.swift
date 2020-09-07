@@ -50,7 +50,7 @@ extension SendOptionCell: WalletViewProtocol {
     }
     
     func bind(viewModel: WalletViewModelProtocol) {
-        guard let sendOptionViewModel = viewModel as? SendOptionViewModel else {
+        guard let sendOptionViewModel = viewModel as? SendOptionViewModelProtocol else {
             return
         }
         

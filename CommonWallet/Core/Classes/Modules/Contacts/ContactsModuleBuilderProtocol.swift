@@ -13,6 +13,9 @@ public protocol ContactsModuleBuilderProtocol: class {
     func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self
 
     @discardableResult
+    func with(actionFactoryWrapper: ContactsActionFactoryWrapperProtocol) -> Self
+
+    @discardableResult
     func with(localSearchEngine: ContactsLocalSearchEngineProtocol) -> Self
 
     @discardableResult

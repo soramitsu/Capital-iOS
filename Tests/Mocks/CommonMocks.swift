@@ -3897,19 +3897,19 @@ import Cuckoo
 import Foundation
 
 
- class MockWalletBarActionViewModelProtocol: WalletBarActionViewModelProtocol, Cuckoo.ProtocolMock {
+public class MockWalletBarActionViewModelProtocol: WalletBarActionViewModelProtocol, Cuckoo.ProtocolMock {
     
-     typealias MocksType = WalletBarActionViewModelProtocol
+    public typealias MocksType = WalletBarActionViewModelProtocol
     
-     typealias Stubbing = __StubbingProxy_WalletBarActionViewModelProtocol
-     typealias Verification = __VerificationProxy_WalletBarActionViewModelProtocol
+    public typealias Stubbing = __StubbingProxy_WalletBarActionViewModelProtocol
+    public typealias Verification = __VerificationProxy_WalletBarActionViewModelProtocol
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
     private var __defaultImplStub: WalletBarActionViewModelProtocol?
 
-     func enableDefaultImplementation(_ stub: WalletBarActionViewModelProtocol) {
+    public func enableDefaultImplementation(_ stub: WalletBarActionViewModelProtocol) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -3918,7 +3918,7 @@ import Foundation
     
     
     
-     var displayType: WalletBarActionDisplayType {
+    public var displayType: WalletBarActionDisplayType {
         get {
             return cuckoo_manager.getter("displayType",
                 superclassCall:
@@ -3932,7 +3932,7 @@ import Foundation
     
     
     
-     var command: WalletCommandProtocol {
+    public var command: WalletCommandProtocol {
         get {
             return cuckoo_manager.getter("command",
                 superclassCall:
@@ -3949,10 +3949,10 @@ import Foundation
 
     
 
-	 struct __StubbingProxy_WalletBarActionViewModelProtocol: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_WalletBarActionViewModelProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
@@ -3969,12 +3969,12 @@ import Foundation
 	    
 	}
 
-	 struct __VerificationProxy_WalletBarActionViewModelProtocol: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_WalletBarActionViewModelProtocol: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -3996,10 +3996,10 @@ import Foundation
 	}
 }
 
- class WalletBarActionViewModelProtocolStub: WalletBarActionViewModelProtocol {
+public class WalletBarActionViewModelProtocolStub: WalletBarActionViewModelProtocol {
     
     
-     var displayType: WalletBarActionDisplayType {
+    public var displayType: WalletBarActionDisplayType {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletBarActionDisplayType).self)
         }
@@ -4007,7 +4007,7 @@ import Foundation
     }
     
     
-     var command: WalletCommandProtocol {
+    public var command: WalletCommandProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (WalletCommandProtocol).self)
         }

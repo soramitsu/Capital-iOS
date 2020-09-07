@@ -7,8 +7,10 @@
 import Foundation
 
 protocol ContactsActionViewModelFactoryProtocol {
-    func createOptionListForAccountId(_ accountId: String, assetId: String) -> [SendOptionViewModelProtocol]
-    func createBarActionForAccountId(_ accountId: String, assetId: String) -> WalletBarActionViewModel?
+    func createOptionListForAccountId(_ accountId: String, assetId: String, locale: Locale?)
+        -> [SendOptionViewModelProtocol]
+    func createBarActionForAccountId(_ accountId: String, assetId: String)
+        -> WalletBarActionViewModelProtocol?
 }
 
 final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtocol {
@@ -24,7 +26,7 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
         self.withdrawOptions = withdrawOptions
     }
 
-    func createOptionListForAccountId(_ accountId: String, assetId: String) -> [SendOptionViewModelProtocol] {
+    func createOptionListForAccountId(_ accountId: String, assetId: String, locale: Locale?) -> [SendOptionViewModelProtocol] {
         var viewModels: [SendOptionViewModelProtocol] = []
 
         if scanPosition == .tableAction {
@@ -37,7 +39,8 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
         return viewModels
     }
 
-    func createBarActionForAccountId(_ accountId: String, assetId: String) -> WalletBarActionViewModel? {
+    func createBarActionForAccountId(_ accountId: String, assetId: String)
+        -> WalletBarActionViewModelProtocol? {
         guard scanPosition == .barButton else {
             return nil
         }
@@ -54,9 +57,7 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
 
     private func createScanViewModel() -> SendOptionViewModelProtocol {
         let scanCommand = commandFactory.prepareScanReceiverCommand()
-        let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.optionCellIdentifier,
-                                            itemHeight: ContactConstants.optionCellHeight,
-                                            command: scanCommand)
+        let viewModel = SendOptionViewModel(command: scanCommand)
 
         viewModel.title =  L10n.Contacts.scan
         viewModel.icon = UIImage(named: "iconQr", in: Bundle(for: type(of: self)), compatibleWith: nil)
@@ -69,9 +70,7 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
         let withdrawCommand = commandFactory.prepareWithdrawCommand(for: assetId,
                                                                     optionId: option.identifier)
 
-        let viewModel = SendOptionViewModel(cellReuseIdentifier: ContactConstants.optionCellIdentifier,
-                                            itemHeight: ContactConstants.optionCellHeight,
-                                            command: withdrawCommand)
+        let viewModel = SendOptionViewModel(command: withdrawCommand)
 
         viewModel.title = option.longTitle
         viewModel.icon = option.icon
