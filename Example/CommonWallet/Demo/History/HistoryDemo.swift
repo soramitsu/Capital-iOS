@@ -54,7 +54,9 @@ final class HistoryDemo: DemoFactoryProtocol {
             .builder(with: account, networkOperationFactory: networkFactory)
             .with(transactionTypeList: [withdrawType])
             .with(inputValidatorFactory: DemoInputValidatorFactory())
-        walletBuilder.historyModuleBuilder.with(cellClass: HistoryDemoTransactionCell.self, for: HistoryDemoHistoryModuleConstants.historyCellIdentifier)
+        walletBuilder.historyModuleBuilder
+            .with(cellClass: HistoryDemoTransactionCell.self,
+                  for: HistoryDemoHistoryModuleConstants.historyCellIdentifier)
         walletBuilder.historyModuleBuilder.with(itemViewModelFactory: historyItemViewModelFactory)
 
         let demoTitleStyle = WalletTextStyle(font: UIFont(name: "HelveticaNeue-Bold", size: 16.0)!,
