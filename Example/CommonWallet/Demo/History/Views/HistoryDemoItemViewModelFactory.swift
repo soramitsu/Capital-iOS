@@ -140,7 +140,8 @@ class HistoryDemoItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
         let eventDate = Date(timeIntervalSince1970: TimeInterval(data.timestamp))
         let dateString = localizableDateFormatter.value(for: locale).string(from: eventDate)
 
-        let viewModel = HistoryDemoTransactionItemViewModel(cellReuseIdentifier: HistoryDemoHistoryModuleConstants.historyCellIdentifier,
+        let viewModel = HistoryDemoTransactionItemViewModel(cellReuseIdentifier:
+            HistoryDemoHistoryModuleConstants.historyCellIdentifier,
                                                  itemHeight: HistoryDemoHistoryModuleConstants.historyCellHeight,
                                                  amount: amountDisplayString,
                                                  title: title,
