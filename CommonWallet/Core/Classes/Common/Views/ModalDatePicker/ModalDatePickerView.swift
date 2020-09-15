@@ -15,14 +15,14 @@ protocol ModalDatePickerViewDelegate: class {
 }
 
 
-final class ModalDatePickerView: UIView, ModalInputViewProtocol {
+final class ModalDatePickerView: UIView, ModalViewProtocol {
     
     @IBOutlet private(set) var backgroundView: RoundedView!
     @IBOutlet private var doneButton: UIButton!
     @IBOutlet private(set) var pickerView: UIDatePicker!
 
     weak var delegate: ModalDatePickerViewDelegate?
-    weak var presenter: ModalInputViewPresenterProtocol?
+    weak var presenter: ModalPresenterProtocol?
     var context: AnyObject?
 
     private var isPickerInitialized: Bool = false
@@ -51,9 +51,9 @@ final class ModalDatePickerView: UIView, ModalInputViewProtocol {
 }
 
 
-extension ModalDatePickerView: ModalInputViewPresenterDelegate {
+extension ModalDatePickerView: ModalPresenterDelegate {
     
-    func presenterShouldHide(_ presenter: ModalInputViewPresenterProtocol) -> Bool {
+    func presenterShouldHide(_ presenter: ModalPresenterProtocol) -> Bool {
         delegate?.modalDatePickerViewDidCancel(self)
         return true
     }

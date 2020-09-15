@@ -28,7 +28,7 @@ final class ModalPickerViewFactory {
         pickerView.initialSelectedIndex = initialIndex
         pickerView.delegate = delegate
 
-        let configuration: ModalInputPresentationConfiguration
+        let configuration: ModalSheetPresentationConfiguration
 
         if let style = style {
             pickerView.backgroundView.fillColor = style.modalActionStyle.fill
@@ -50,12 +50,12 @@ final class ModalPickerViewFactory {
             pickerView.textColor = style.bodyTextColor
             pickerView.font = style.bodyRegularFont
 
-            configuration = ModalInputPresentationConfiguration(shadowOpacity: style.modalActionStyle.backdropOpacity)
+            configuration = ModalSheetPresentationConfiguration(shadowOpacity: style.modalActionStyle.backdropOpacity)
         } else {
-            configuration = ModalInputPresentationConfiguration()
+            configuration = ModalSheetPresentationConfiguration()
         }
 
-        let modalPresentationFactory = ModalInputPresentationFactory(configuration: configuration)
+        let modalPresentationFactory = ModalSheetPresentationFactory(configuration: configuration)
 
         let viewController = CustomPresentationController(view: pickerView,
                                                           modalPresentationFactory: modalPresentationFactory)

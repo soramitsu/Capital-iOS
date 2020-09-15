@@ -39,7 +39,7 @@ final class ModalDatePickerViewFactory {
         picker.pickerView.locale = locale
         picker.delegate = delegate
 
-        let configuration: ModalInputPresentationConfiguration
+        let configuration: ModalSheetPresentationConfiguration
 
         if let style = style {
             picker.backgroundView.fillColor = style.modalActionStyle.fill
@@ -61,12 +61,12 @@ final class ModalDatePickerViewFactory {
             picker.textColor = style.bodyTextColor
             picker.font = style.bodyRegularFont
 
-            configuration = ModalInputPresentationConfiguration(shadowOpacity: style.modalActionStyle.backdropOpacity)
+            configuration = ModalSheetPresentationConfiguration(shadowOpacity: style.modalActionStyle.backdropOpacity)
         } else {
-            configuration = ModalInputPresentationConfiguration()
+            configuration = ModalSheetPresentationConfiguration()
         }
 
-        let modalPresentationFactory = ModalInputPresentationFactory(configuration: configuration)
+        let modalPresentationFactory = ModalSheetPresentationFactory(configuration: configuration)
 
         let viewController = CustomPresentationController(view: picker,
                                                           modalPresentationFactory: modalPresentationFactory)

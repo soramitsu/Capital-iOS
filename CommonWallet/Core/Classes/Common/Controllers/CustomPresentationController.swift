@@ -7,15 +7,12 @@ import Foundation
 import SoraUI
 
 final class CustomPresentationController: UIViewController, ControllerBackedProtocol {
-    private(set) var modalPresentationFactory: ModalInputPresentationFactory?
-
-    init(view: UIView, modalPresentationFactory: ModalInputPresentationFactory) {
-        self.modalPresentationFactory = modalPresentationFactory
-
+    init(view: UIView, modalPresentationFactory: ModalSheetPresentationFactory) {
         super.init(nibName: nil, bundle: nil)
 
         self.view = view
-        self.transitioningDelegate = modalPresentationFactory
+        self.modalTransitioningFactory = modalPresentationFactory
+        self.preferredContentSize = view.frame.size
         self.modalPresentationStyle = .custom
     }
 
