@@ -38,6 +38,7 @@ final class ContactCell: UITableViewCell, ContactsCellStylable {
         if let style = style?.contactStyle {
             nameLabel.font = style.title.font
             nameLabel.textColor = style.title.color
+            nameLabel.lineBreakMode = style.lineBreakMode
             accessoryImageView.image = style.accessoryIcon
         }
     }

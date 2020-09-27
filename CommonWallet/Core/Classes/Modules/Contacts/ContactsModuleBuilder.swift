@@ -28,9 +28,8 @@ final class ContactsModuleBuilder {
         return ContactsViewStyle.createDefaultStyle(with: walletStyle)
     }()
     
-    fileprivate lazy var sectionStyle: WalletTextStyleProtocol = {
-        return WalletTextStyle(font: walletStyle.bodyRegularFont,
-                               color: walletStyle.captionTextColor)
+    fileprivate lazy var sectionStyle: ContactsSectionStyleProtocol = {
+        return ContactsSectionStyle.createDefaultStyle(with: walletStyle)
     }()
 
     fileprivate weak var contactsEmptyStateDelegate: EmptyStateDelegate?
@@ -109,7 +108,7 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
         return self
     }
     
-    func with(sectionHeaderStyle: WalletTextStyleProtocol) -> Self {
+    func with(sectionHeaderStyle: ContactsSectionStyleProtocol) -> Self {
         self.sectionStyle = sectionHeaderStyle
         return self
     }

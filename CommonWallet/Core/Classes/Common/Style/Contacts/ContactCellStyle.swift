@@ -10,6 +10,7 @@ public protocol ContactCellStyleProtocol {
     var title: WalletTextStyleProtocol { get }
     var nameIcon: WalletNameIconStyleProtocol { get }
     var accessoryIcon: UIImage? { get }
+    var lineBreakMode: NSLineBreakMode { get }
 }
 
 
@@ -17,13 +18,16 @@ public struct ContactCellStyle: ContactCellStyleProtocol {
     public var title: WalletTextStyleProtocol
     public var nameIcon: WalletNameIconStyleProtocol
     public var accessoryIcon: UIImage?
+    public var lineBreakMode: NSLineBreakMode
     
     public init(title: WalletTextStyleProtocol,
                 nameIcon: WalletNameIconStyleProtocol,
-                accessoryIcon: UIImage?) {
+                accessoryIcon: UIImage?,
+                lineBreakMode: NSLineBreakMode) {
         self.title = title
         self.nameIcon = nameIcon
         self.accessoryIcon = accessoryIcon
+        self.lineBreakMode = lineBreakMode
     }
 
 }
@@ -38,7 +42,8 @@ extension ContactCellStyle {
                                     compatibleWith: nil)
         return ContactCellStyle(title: title,
                                 nameIcon: style.nameIconStyle,
-                                accessoryIcon: accessoryIcon)
+                                accessoryIcon: accessoryIcon,
+                                lineBreakMode: .byTruncatingTail)
     }
 
 }

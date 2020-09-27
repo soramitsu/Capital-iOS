@@ -10,18 +10,30 @@ import UIKit
 final class ContactSectionHeader: UIView {
     
     @IBOutlet private var titleLabel: UILabel!
+
+    private var originalTitle: String?
     
-    var style: WalletTextStyleProtocol? {
+    var style: ContactsSectionStyleProtocol? {
         didSet {
             if let style = style {
-                titleLabel.font = style.font
-                titleLabel.textColor = style.color
+                titleLabel.font = style.title.font
+                titleLabel.textColor = style.title.color
             }
+
+            setupTitle()
         }
     }
     
     func set(title: String) {
-        titleLabel.text = title
+        originalTitle = title
+        setupTitle()
     }
-    
+
+    private func setupTitle() {
+        if let uppercase = style?.uppercased, uppercase {
+            titleLabel.text = originalTitle?.uppercased()
+        } else {
+            titleLabel.text = originalTitle
+        }
+    }
 }

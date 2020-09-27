@@ -10,7 +10,7 @@ import SoraFoundation
 protocol ContactsConfigurationProtocol {
     var cellStyle: ContactsCellStyle { get }
     var viewStyle: ContactsViewStyleProtocol { get }
-    var sectionStyle: WalletTextStyleProtocol { get }
+    var sectionStyle: ContactsSectionStyleProtocol { get }
     var searchPlaceholder: LocalizableResource<String> { get }
     var contactsEmptyStateDataSource: EmptyStateDataSource? { get }
     var contactsEmptyStateDelegate: EmptyStateDelegate? { get }
@@ -29,7 +29,7 @@ protocol ContactsConfigurationProtocol {
 struct ContactsConfiguration: ContactsConfigurationProtocol {
     var cellStyle: ContactsCellStyle
     var viewStyle: ContactsViewStyleProtocol
-    var sectionStyle: WalletTextStyleProtocol
+    var sectionStyle: ContactsSectionStyleProtocol
     var searchPlaceholder: LocalizableResource<String>
     var contactsEmptyStateDataSource: EmptyStateDataSource?
     weak var contactsEmptyStateDelegate: EmptyStateDelegate?
