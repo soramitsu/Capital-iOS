@@ -123,8 +123,8 @@ final class ContactsViewController: UIViewController {
 
             searchField.font = style.searchTextStyle.font
             searchField.textColor = style.searchTextStyle.color
-            searchBorderView.strokeColor = .thinBorder
-            tableView.separatorColor = .thinBorder
+            searchBorderView.strokeColor = style.searchSeparatorColor
+            tableView.separatorColor = style.tableSeparatorColor
         }
 
         if let caretColor = style?.caretColor {

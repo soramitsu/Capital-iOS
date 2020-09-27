@@ -14,7 +14,8 @@ public protocol ContactsViewStyleProtocol {
     var searchIndicatorStyle: UIColor { get }
     var searchFieldStyle: WalletRoundedViewStyleProtocol { get }
     var searchIcon: UIImage? { get }
-    var separatorColor: UIColor { get }
+    var searchSeparatorColor: UIColor { get }
+    var tableSeparatorColor: UIColor { get }
     var actionsSeparator: WalletStrokeStyleProtocol { get }
 }
 
@@ -27,7 +28,8 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
     public var searchFieldStyle: WalletRoundedViewStyleProtocol
     public var searchIndicatorStyle: UIColor
     public var searchIcon: UIImage?
-    public var separatorColor: UIColor
+    public var searchSeparatorColor: UIColor
+    public var tableSeparatorColor: UIColor
     public var actionsSeparator: WalletStrokeStyleProtocol
 
     public init(backgroundColor: UIColor,
@@ -37,7 +39,8 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
                 searchFieldStyle: WalletRoundedViewStyleProtocol,
                 searchIndicatorStyle: UIColor,
                 searchIcon: UIImage?,
-                separatorColor: UIColor,
+                searchSeparatorColor: UIColor,
+                tableSeparatorColor: UIColor,
                 actionsSeparator: WalletStrokeStyleProtocol) {
         self.backgroundColor = backgroundColor
         self.searchTextStyle = searchTextStyle
@@ -46,7 +49,8 @@ public struct ContactsViewStyle: ContactsViewStyleProtocol {
         self.searchFieldStyle = searchFieldStyle
         self.searchIndicatorStyle = searchIndicatorStyle
         self.searchIcon = searchIcon
-        self.separatorColor = separatorColor
+        self.searchSeparatorColor = searchSeparatorColor
+        self.tableSeparatorColor = tableSeparatorColor
         self.actionsSeparator = actionsSeparator
     }
 
@@ -68,7 +72,8 @@ extension ContactsViewStyle {
                                  searchFieldStyle: searchFieldStyle,
                                  searchIndicatorStyle: .greyText,
                                  searchIcon: searchIcon,
-                                 separatorColor: style.thinBorderColor,
+                                 searchSeparatorColor: style.thinBorderColor,
+                                 tableSeparatorColor: style.thinBorderColor,
                                  actionsSeparator: WalletStrokeStyle(color: style.accentColor))
     }
 
