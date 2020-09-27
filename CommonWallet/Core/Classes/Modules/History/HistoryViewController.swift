@@ -106,7 +106,7 @@ final class HistoryViewController: UIViewController {
             backgroundView.strokeColor = viewStyle.borderStyle.color
             backgroundView.strokeWidth = viewStyle.borderStyle.lineWidth
 
-            contentView.backgroundColor = .clear
+            contentView.backgroundColor = viewStyle.fillColor
 
             titleLabel.textColor = viewStyle.titleStyle.color
             titleLabel.font = viewStyle.titleStyle.font
