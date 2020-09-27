@@ -11,6 +11,7 @@ public protocol ContactCellStyleProtocol {
     var nameIcon: WalletNameIconStyleProtocol { get }
     var accessoryIcon: UIImage? { get }
     var lineBreakMode: NSLineBreakMode { get }
+    var selectionColor: UIColor? { get }
 }
 
 
@@ -19,15 +20,18 @@ public struct ContactCellStyle: ContactCellStyleProtocol {
     public var nameIcon: WalletNameIconStyleProtocol
     public var accessoryIcon: UIImage?
     public var lineBreakMode: NSLineBreakMode
+    public var selectionColor: UIColor?
     
     public init(title: WalletTextStyleProtocol,
                 nameIcon: WalletNameIconStyleProtocol,
                 accessoryIcon: UIImage?,
-                lineBreakMode: NSLineBreakMode) {
+                lineBreakMode: NSLineBreakMode,
+                selectionColor: UIColor?) {
         self.title = title
         self.nameIcon = nameIcon
         self.accessoryIcon = accessoryIcon
         self.lineBreakMode = lineBreakMode
+        self.selectionColor = selectionColor
     }
 
 }
@@ -43,7 +47,8 @@ extension ContactCellStyle {
         return ContactCellStyle(title: title,
                                 nameIcon: style.nameIconStyle,
                                 accessoryIcon: accessoryIcon,
-                                lineBreakMode: .byTruncatingTail)
+                                lineBreakMode: .byTruncatingTail,
+                                selectionColor: nil)
     }
 
 }
