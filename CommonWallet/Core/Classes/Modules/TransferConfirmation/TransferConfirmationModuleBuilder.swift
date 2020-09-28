@@ -9,7 +9,7 @@ import SoraFoundation
 
 final class TransferConfirmationModuleBuilder {
     private var customViewBinder: WalletFormViewModelBinderProtocol?
-    private var customItemViewFactory: WalletFormItemViewFactoryProtocol?
+    private var customItemViewFactory: WalletFormItemViewFactoryOverriding?
     private var definitionFactory: WalletFormDefinitionFactoryProtocol?
     private var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
     private var completion: TransferCompletion = .showResult
@@ -33,7 +33,7 @@ extension TransferConfirmationModuleBuilder: TransferConfirmationModuleBuilderPr
         return self
     }
     
-    func with(itemViewFactory: WalletFormItemViewFactoryProtocol) -> Self {
+    func with(itemViewFactory: WalletFormItemViewFactoryOverriding) -> Self {
         customItemViewFactory = itemViewFactory
         return self
     }

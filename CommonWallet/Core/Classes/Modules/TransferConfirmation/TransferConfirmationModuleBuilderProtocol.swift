@@ -12,7 +12,7 @@ public protocol TransferConfirmationModuleBuilderProtocol {
     func with(viewBinder: WalletFormViewModelBinderProtocol) -> Self
 
     @discardableResult
-    func with(itemViewFactory: WalletFormItemViewFactoryProtocol) -> Self
+    func with(itemViewFactory: WalletFormItemViewFactoryOverriding) -> Self
 
     @discardableResult
     func with(definitionFactory: WalletFormDefinitionFactoryProtocol) -> Self
