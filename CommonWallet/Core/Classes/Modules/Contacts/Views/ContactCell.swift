@@ -38,7 +38,16 @@ final class ContactCell: UITableViewCell, ContactsCellStylable {
         if let style = style?.contactStyle {
             nameLabel.font = style.title.font
             nameLabel.textColor = style.title.color
+            nameLabel.lineBreakMode = style.lineBreakMode
             accessoryImageView.image = style.accessoryIcon
+
+            if let selectionColor = style.selectionColor {
+                let selectionView = UIView()
+                selectionView.backgroundColor = selectionColor
+                self.selectedBackgroundView = selectionView
+            } else {
+                self.selectedBackgroundView = nil
+            }
         }
     }
     

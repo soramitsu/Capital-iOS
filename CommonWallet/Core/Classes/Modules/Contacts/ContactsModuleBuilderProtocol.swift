@@ -28,7 +28,7 @@ public protocol ContactsModuleBuilderProtocol: class {
     func with(viewStyle: ContactsViewStyleProtocol) -> Self
     
     @discardableResult
-    func with(sectionHeaderStyle: WalletTextStyleProtocol) -> Self
+    func with(sectionHeaderStyle: ContactsSectionStyleProtocol) -> Self
 
     @discardableResult
     func with(searchPlaceholder: LocalizableResource<String>) -> Self

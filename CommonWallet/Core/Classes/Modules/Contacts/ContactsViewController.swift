@@ -88,8 +88,21 @@ final class ContactsViewController: UIViewController {
     private func setupLocalization() {
         title = L10n.Contacts.moduleTitle
 
-        if let locale = localizationManager?.selectedLocale {
-            searchField.placeholder = configuration?.searchPlaceholder.value(for: locale)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        if let placeholder = configuration?.searchPlaceholder.value(for: locale) {
+
+            if let style = configuration?.viewStyle {
+                let attributes: [NSAttributedString.Key: Any] = [
+                    NSAttributedString.Key.foregroundColor: style.searchPlaceholderStyle.color,
+                    NSAttributedString.Key.font: style.searchPlaceholderStyle.font
+                ]
+                let attributedString = NSAttributedString(string: placeholder,
+                                                          attributes: attributes)
+                searchField.attributedPlaceholder = attributedString
+            } else {
+                searchField.placeholder = placeholder
+            }
         }
     }
     
@@ -97,11 +110,21 @@ final class ContactsViewController: UIViewController {
         if let style = configuration?.viewStyle {
             view.backgroundColor = style.backgroundColor
             headerView.backgroundColor = style.searchHeaderBackgroundColor
-            searchFieldBackgroundView.fillColor = style.searchFieldColor
+            searchFieldBackgroundView.fillColor = style.searchFieldStyle.fill
+
+            if let searchStroke = style.searchFieldStyle.stroke {
+                searchFieldBackgroundView.strokeColor = searchStroke.color
+                searchFieldBackgroundView.strokeWidth = searchStroke.lineWidth
+            }
+
+            if let cornerRadius = style.searchFieldStyle.cornerRadius {
+                searchFieldBackgroundView.cornerRadius = cornerRadius
+            }
+
             searchField.font = style.searchTextStyle.font
             searchField.textColor = style.searchTextStyle.color
-            searchBorderView.strokeColor = .thinBorder
-            tableView.separatorColor = .thinBorder
+            searchBorderView.strokeColor = style.searchSeparatorColor
+            tableView.separatorColor = style.tableSeparatorColor
         }
 
         if let caretColor = style?.caretColor {

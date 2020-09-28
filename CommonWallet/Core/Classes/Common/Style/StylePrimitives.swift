@@ -27,6 +27,12 @@ public protocol WalletLinkStyleProtocol {
     var highlighted: UIColor { get }
 }
 
+public protocol WalletRoundedViewStyleProtocol {
+    var fill: UIColor { get }
+    var stroke: WalletStrokeStyleProtocol? { get }
+    var cornerRadius: CGFloat? { get }
+}
+
 public protocol WalletRoundedButtonStyleProtocol {
     var background: UIColor { get }
     var title: WalletTextStyleProtocol { get }
@@ -119,6 +125,20 @@ public struct WalletStrokeStyle: WalletStrokeStyleProtocol {
     public init(color: UIColor, lineWidth: CGFloat = 1.0) {
         self.color = color
         self.lineWidth = lineWidth
+    }
+}
+
+public struct WalletRoundedViewStyle: WalletRoundedViewStyleProtocol {
+    public var fill: UIColor
+    public var stroke: WalletStrokeStyleProtocol?
+    public var cornerRadius: CGFloat?
+
+    public init(fill: UIColor,
+                cornerRadius: CGFloat? = nil,
+                stroke: WalletStrokeStyleProtocol? = nil) {
+        self.fill = fill
+        self.stroke = stroke
+        self.cornerRadius = cornerRadius
     }
 }
 
