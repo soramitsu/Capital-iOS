@@ -8,7 +8,7 @@ import Foundation
 import SoraFoundation
 
 protocol TransferConfirmationConfigurationProtocol {
-    var customViewBinder: WalletFormViewModelBinderProtocol? { get }
+    var customViewBinder: WalletFormViewModelBinderOverriding? { get }
     var customItemViewFactory: WalletFormItemViewFactoryOverriding? { get }
     var definitionFactory: WalletFormDefinitionFactoryProtocol? { get }
     var viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding? { get }
@@ -18,7 +18,7 @@ protocol TransferConfirmationConfigurationProtocol {
 }
 
 struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProtocol {
-    let customViewBinder: WalletFormViewModelBinderProtocol?
+    let customViewBinder: WalletFormViewModelBinderOverriding?
     let customItemViewFactory: WalletFormItemViewFactoryOverriding?
     let definitionFactory: WalletFormDefinitionFactoryProtocol?
     let viewModelFactoryOverriding: TransferConfirmationViewModelFactoryOverriding?
