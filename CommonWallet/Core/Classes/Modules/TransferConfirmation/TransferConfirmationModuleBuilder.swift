@@ -8,6 +8,7 @@ import Foundation
 import SoraFoundation
 
 final class TransferConfirmationModuleBuilder {
+    private var accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
     private var customViewBinder: WalletFormViewModelBinderOverriding?
     private var customItemViewFactory: WalletFormItemViewFactoryOverriding?
     private var definitionFactory: WalletFormDefinitionFactoryProtocol?
@@ -23,7 +24,8 @@ final class TransferConfirmationModuleBuilder {
                                           viewModelFactoryOverriding: viewModelFactoryOverriding,
                                           completion: completion,
                                           accessoryViewType: accessoryViewType,
-                                          localizableTitle: localizableTitle)
+                                          localizableTitle: localizableTitle,
+                                          accessoryViewFactory: accessoryViewFactory)
     }
 }
 
@@ -60,6 +62,11 @@ extension TransferConfirmationModuleBuilder: TransferConfirmationModuleBuilderPr
 
     func with(localizableTitle: LocalizableResource<String>) -> Self {
         self.localizableTitle = localizableTitle
+        return self
+    }
+
+    func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self {
+        self.accessoryViewFactory = accessoryViewFactory
         return self
     }
 }

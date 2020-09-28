@@ -14,9 +14,12 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
 
         let formDefinition: WalletFormDefining = createFormDefinition(from: resolver)
 
+        let accessoryViewFactory = resolver.transferConfirmationConfiguration.accessoryViewFactory
+                ?? AccessoryViewFactory.self
+
         let view = WalletNewFormViewController(definition: formDefinition,
                                                style: resolver.style,
-                                               accessoryViewFactory: AccessoryViewFactory.self)
+                                               accessoryViewFactory: accessoryViewFactory)
         view.loadingViewFactory = WalletLoadingOverlayFactory(style: resolver.style.loadingOverlayStyle)
         view.localizableTitle = resolver.transferConfirmationConfiguration.localizableTitle ??
             LocalizableResource { _ in L10n.Confirmation.title }

@@ -15,6 +15,10 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                                    defaultStyle: resolver.style)
             let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
 
+            if let accessoryViewFactory = resolver.transferConfiguration.accessoryViewFactory {
+                view.accessoryViewFactory = accessoryViewFactory
+            }
+
             view.localizableTitle = resolver.transferConfiguration.localizableTitle ??
                 LocalizableResource { _ in L10n.Amount.moduleTitle }
 

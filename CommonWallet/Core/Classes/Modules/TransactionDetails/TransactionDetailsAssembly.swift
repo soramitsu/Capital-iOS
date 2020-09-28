@@ -24,9 +24,12 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
 
         let formDefinition = createFormDefinition(from: resolver)
 
+        let accessoryViewFactory = resolver.transferConfiguration.accessoryViewFactory
+            ?? AccessoryViewFactory.self
+
         let view = WalletNewFormViewController(definition: formDefinition,
                                                style: resolver.style,
-                                               accessoryViewFactory: AccessoryViewFactory.self)
+                                               accessoryViewFactory: accessoryViewFactory)
 
         view.localizableTitle = LocalizableResource { _ in L10n.Transaction.details }
 

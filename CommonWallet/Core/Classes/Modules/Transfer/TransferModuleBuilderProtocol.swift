@@ -79,4 +79,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(transferViewModelFactory: TransferViewModelFactoryOverriding) -> Self
+
+    @discardableResult
+    func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self
 }

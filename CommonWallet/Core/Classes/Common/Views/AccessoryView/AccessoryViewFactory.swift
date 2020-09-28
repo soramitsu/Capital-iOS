@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol AccessoryViewFactoryProtocol {
+public protocol AccessoryViewFactoryProtocol {
     static func createAccessoryView(from type: WalletAccessoryViewType,
                                     style: WalletAccessoryStyleProtocol?,
                                     target: Any?,

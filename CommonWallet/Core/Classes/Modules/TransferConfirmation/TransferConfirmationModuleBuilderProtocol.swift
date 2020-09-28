@@ -28,4 +28,7 @@ public protocol TransferConfirmationModuleBuilderProtocol {
 
     @discardableResult
     func with(localizableTitle: LocalizableResource<String>) -> Self
+
+    @discardableResult
+    func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self
 }
