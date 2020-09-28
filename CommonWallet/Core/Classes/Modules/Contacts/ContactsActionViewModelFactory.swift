@@ -26,7 +26,9 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
         self.withdrawOptions = withdrawOptions
     }
 
-    func createOptionListForAccountId(_ accountId: String, assetId: String, locale: Locale?) -> [SendOptionViewModelProtocol] {
+    func createOptionListForAccountId(_ accountId: String,
+                                      assetId: String,
+                                      locale: Locale?) -> [SendOptionViewModelProtocol] {
         var viewModels: [SendOptionViewModelProtocol] = []
 
         if scanPosition == .tableAction {

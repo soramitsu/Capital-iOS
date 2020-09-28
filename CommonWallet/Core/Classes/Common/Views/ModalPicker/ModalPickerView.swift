@@ -11,13 +11,13 @@ protocol ModalPickerViewDelegate: class {
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?)
 }
 
-final class ModalPickerView: UIView, ModalInputViewProtocol {
+final class ModalPickerView: UIView, ModalViewProtocol {
     @IBOutlet private(set) var backgroundView: RoundedView!
     @IBOutlet private var doneButton: UIButton!
     @IBOutlet private var pickerView: UIPickerView!
 
     weak var delegate: ModalPickerViewDelegate?
-    weak var presenter: ModalInputViewPresenterProtocol?
+    weak var presenter: ModalPresenterProtocol?
     var context: AnyObject?
 
     private var isPickerInitialized: Bool = false
@@ -95,8 +95,8 @@ extension ModalPickerView: UIPickerViewDelegate {
     }
 }
 
-extension ModalPickerView: ModalInputViewPresenterDelegate {
-    func presenterShouldHide(_ presenter: ModalInputViewPresenterProtocol) -> Bool {
+extension ModalPickerView: ModalPresenterDelegate {
+    func presenterShouldHide(_ presenter: ModalPresenterProtocol) -> Bool {
         delegate?.modalPickerViewDidCancel(self)
         return true
     }

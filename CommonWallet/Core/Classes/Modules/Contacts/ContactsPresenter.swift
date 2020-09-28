@@ -71,8 +71,10 @@ final class ContactsPresenter: NSObject {
 
     private func setupViewModelActions() {
         let locale = localizationManager?.selectedLocale
-        let actions = actionViewModelFactory.createOptionListForAccountId(currentAccountId,
-                                                                          assetId: selectedAsset.identifier, locale: locale)
+        let actions = actionViewModelFactory
+            .createOptionListForAccountId(currentAccountId,
+                                          assetId: selectedAsset.identifier,
+                                          locale: locale)
 
         viewModel.actions = actions
     }
