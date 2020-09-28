@@ -11,7 +11,13 @@ public protocol AccessoryViewProtocol: class {
 
     var isActionEnabled: Bool { get set }
 
+    var extendsUnderSafeArea: Bool { get }
+
     func bind(viewModel: AccessoryViewModelProtocol)
+}
+
+public extension AccessoryViewProtocol {
+    var extendsUnderSafeArea: Bool { false }
 }
 
 final class AccessoryView: UIView {

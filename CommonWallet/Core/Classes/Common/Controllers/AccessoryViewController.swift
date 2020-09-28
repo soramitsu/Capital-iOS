@@ -70,16 +70,31 @@ class AccessoryViewController: UIViewController {
         accessoryView.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         accessoryView.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
-        let height = accessoryView.contentView.frame.height
-        accessoryView.contentView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        let height: CGFloat
 
-        if #available(iOS 11.0, *) {
-            bottomConstraint = accessoryView.contentView.bottomAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
-        } else {
+        if accessoryView.extendsUnderSafeArea {
             bottomConstraint = accessoryView.contentView.bottomAnchor
                 .constraint(equalTo: view.bottomAnchor, constant: 0.0)
+
+            if #available(iOS 11.0, *) {
+                height = accessoryView.contentView.frame.height + view.safeAreaInsets.bottom
+            } else {
+                height = accessoryView.contentView.frame.height
+            }
+        } else {
+            height = accessoryView.contentView.frame.height
+
+            if #available(iOS 11.0, *) {
+                bottomConstraint = accessoryView.contentView.bottomAnchor
+                    .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
+            } else {
+                bottomConstraint = accessoryView.contentView.bottomAnchor
+                    .constraint(equalTo: view.bottomAnchor, constant: 0.0)
+            }
+
         }
+
+        accessoryView.contentView.heightAnchor.constraint(equalToConstant: height).isActive = true
 
         bottomConstraint?.isActive = true
     }
