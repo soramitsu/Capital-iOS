@@ -5,13 +5,22 @@
 
 
 import Foundation
+import SoraUI
+
+public protocol AmountInputViewProtocol {
+    var contentInsets: UIEdgeInsets { get }
+    var borderType: BorderType { get set }
+    var inputViewModel: AmountInputViewModelProtocol? { get }
+}
+
+public typealias WalletAmountInputView = UIView & AmountInputViewProtocol
 
 protocol OperationDefinitionViewFactoryProtocol {
     func createHeaderViewForItem(type: OperationDefinitionType) -> MultilineTitleIconView
     func createErrorViewForItem(type: OperationDefinitionType) -> ContainingErrorView
     func createAssetView() -> SelectedAssetView
     func createReceiverView() -> ReceiverFormView
-    func createAmountView() -> AmountInputView
+    func createAmountView() -> WalletAmountInputView
     func createFeeView() -> FeeView
     func createDescriptionView() -> DescriptionInputView
 }
@@ -96,7 +105,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         return view
     }
 
-    func createAmountView() -> AmountInputView {
+    func createAmountView() -> WalletAmountInputView {
         let optionalView = UINib(nibName: "AmountInputView", bundle: Bundle(for: SelectedAssetView.self))
             .instantiate(withOwner: nil, options: nil)
             .first

@@ -7,7 +7,7 @@
 import Foundation
 import SoraUI
 
-final class AmountInputView: UIView {
+final class AmountInputView: WalletAmountInputView {
     @IBOutlet private(set) var borderedView: BorderedContainerView!
     @IBOutlet private(set) var assetLabel: UILabel!
     @IBOutlet private(set) var amountField: UITextField!
@@ -65,6 +65,16 @@ final class AmountInputView: UIView {
             if superview != nil {
                 setNeedsLayout()
             }
+        }
+    }
+
+    var borderType: BorderType {
+        get {
+            borderedView.borderType
+        }
+
+        set {
+            borderedView.borderType = newValue
         }
     }
 

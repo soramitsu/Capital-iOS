@@ -37,7 +37,7 @@ class OperationDefinitionViewController: AccessoryViewController {
     private var containerView = ScrollableContainerView()
 
     private var selectedAssetDef: OperationDefinition<SelectedAssetView>!
-    private var amountInputDef: OperationDefinition<AmountInputView>!
+    private var amountInputDef: OperationDefinition<WalletAmountInputView>!
     private var feeDefs: [OperationDefinition<FeeView>] = []
     private var descriptionInputDef: OperationDefinition<DescriptionInputView>!
     private var receiverDef: OperationDefinition<ReceiverFormView>?
@@ -121,9 +121,9 @@ class OperationDefinitionViewController: AccessoryViewController {
         receiverDef?.mainView.borderedView.borderType = separatorsDistribution.receiverBorderType
 
         if feeDefs.count > 0 {
-            amountInputDef.mainView.borderedView.borderType = separatorsDistribution.amountWithFeeBorderType
+            amountInputDef.mainView.borderType = separatorsDistribution.amountWithFeeBorderType
         } else {
-            amountInputDef.mainView.borderedView.borderType = separatorsDistribution.amountWithoutFeeBorderType
+            amountInputDef.mainView.borderType = separatorsDistribution.amountWithoutFeeBorderType
         }
 
         if feeDefs.count == 1 {
@@ -248,7 +248,7 @@ class OperationDefinitionViewController: AccessoryViewController {
 
         view.layoutIfNeeded()
 
-        if amountInputDef.mainView.amountField.isFirstResponder {
+        if amountInputDef.mainView.isFirstResponder {
             scrollToAmount(animated: false)
         }
 
@@ -260,7 +260,7 @@ class OperationDefinitionViewController: AccessoryViewController {
     @objc override func actionAccessory() {
         super.actionAccessory()
 
-        amountInputDef.mainView.amountField.resignFirstResponder()
+        amountInputDef.mainView.resignFirstResponder()
         descriptionInputDef.mainView.textView.resignFirstResponder()
 
         presenter.proceed()
