@@ -90,10 +90,13 @@ class OperationDefinitionViewController: AccessoryViewController {
 
         self.amountInputView = amountInputView
 
-        let amountHeight = Constants.amountHeight + amountInputView.contentInsets.top
-            + amountInputView.contentInsets.bottom
-        amountInputView.heightAnchor
-            .constraint(equalToConstant: amountHeight).isActive = true
+        if amountInputView.intrinsicContentSize.height == UIView.noIntrinsicMetric {
+            let amountHeight = Constants.amountHeight + amountInputView.contentInsets.top
+                + amountInputView.contentInsets.bottom
+            amountInputView.heightAnchor
+                .constraint(equalToConstant: amountHeight).isActive = true
+        }
+
         amountInputDef = OperationDefinition(mainView: amountInputView)
 
         let views: [UIView] = [selectedAssetView, amountInputView]
