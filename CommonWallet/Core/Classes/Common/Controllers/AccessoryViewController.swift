@@ -19,6 +19,7 @@ class AccessoryViewController: UIViewController {
     private(set) var accessoryView: AccessoryViewProtocol?
     private(set) var keyboardHandler: KeyboardHandler?
     private(set) var bottomConstraint: NSLayoutConstraint?
+    private(set) var heightAnchor: NSLayoutConstraint?
 
     private var isFirstLayoutCompleted: Bool = false
     private var keyboardFrameOnFirstLayout: CGRect?
@@ -70,28 +71,14 @@ class AccessoryViewController: UIViewController {
         accessoryView.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         accessoryView.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
-        let height: CGFloat
+        let height: CGFloat = accessoryView.contentView.frame.height
 
-        if accessoryView.extendsUnderSafeArea {
+        if #available(iOS 11.0, *) {
+            bottomConstraint = accessoryView.contentView.bottomAnchor
+                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
+        } else {
             bottomConstraint = accessoryView.contentView.bottomAnchor
                 .constraint(equalTo: view.bottomAnchor, constant: 0.0)
-
-            if #available(iOS 11.0, *) {
-                height = accessoryView.contentView.frame.height + view.safeAreaInsets.bottom
-            } else {
-                height = accessoryView.contentView.frame.height
-            }
-        } else {
-            height = accessoryView.contentView.frame.height
-
-            if #available(iOS 11.0, *) {
-                bottomConstraint = accessoryView.contentView.bottomAnchor
-                    .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
-            } else {
-                bottomConstraint = accessoryView.contentView.bottomAnchor
-                    .constraint(equalTo: view.bottomAnchor, constant: 0.0)
-            }
-
         }
 
         accessoryView.contentView.heightAnchor.constraint(equalToConstant: height).isActive = true
