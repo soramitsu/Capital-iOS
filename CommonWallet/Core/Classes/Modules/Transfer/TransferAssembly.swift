@@ -11,59 +11,17 @@ final class TransferAssembly: TransferAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: TransferPayload) -> TransferViewProtocol? {
         do {
-            let containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
-                                                                   defaultStyle: resolver.style)
-            let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
-
-            if let accessoryViewFactory = resolver.transferConfiguration.accessoryViewFactory {
-                view.accessoryViewFactory = accessoryViewFactory
+            guard let view = createView(resolver) else {
+                return nil
             }
 
-            view.localizableTitle = resolver.transferConfiguration.localizableTitle ??
-                LocalizableResource { _ in L10n.Amount.moduleTitle }
-
-            view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
-            view.accessoryViewType = resolver.transferConfiguration.accessoryViewType
-
             let coordinator = TransferCoordinator(resolver: resolver)
-
-            let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
-                                                          cacheFacade: CoreDataCacheFacade.shared,
-                                                          networkOperationFactory: resolver.networkOperationFactory,
-                                                          identifierFactory: resolver.singleValueIdentifierFactory)
-
-            let viewModelFactory = createViewModelFactory(from: resolver)
-
-            let headerFactory = resolver.transferConfiguration.headerFactory
-            let receiverPosition = resolver.transferConfiguration.receiverPosition
-
-            let resultValidator = resolver.transferConfiguration.resultValidator
-            let changeHandler = resolver.transferConfiguration.changeHandler
-            let errorHandler = resolver.transferConfiguration.errorHandler
-            let feeEditing = resolver.transferConfiguration.feeEditing
-
-            let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
-
-            let presenter = try  TransferPresenter(view: view,
-                                                   coordinator: coordinator,
-                                                   assets: eligibleAssets,
-                                                   accountId: resolver.account.accountId,
-                                                   payload: payload,
-                                                   dataProviderFactory: dataProviderFactory,
-                                                   feeCalculationFactory: resolver.feeCalculationFactory,
-                                                   resultValidator: resultValidator,
-                                                   changeHandler: changeHandler,
-                                                   viewModelFactory: viewModelFactory,
-                                                   headerFactory: headerFactory,
-                                                   receiverPosition: receiverPosition,
-                                                   localizationManager: resolver.localizationManager,
-                                                   errorHandler: errorHandler,
-                                                   feeEditing: feeEditing)
-            presenter.logger = resolver.logger
+            let presenter = try createPresenter(resolver,
+                                                payload: payload,
+                                                view: view,
+                                                coordinator: coordinator)
 
             view.presenter = presenter
-
-            view.localizationManager = resolver.localizationManager
 
             return view
         } catch {
@@ -94,5 +52,77 @@ final class TransferAssembly: TransferAssemblyProtocol {
         } else {
             return viewModelFactory
         }
+    }
+
+    private static func createView(_ resolver: ResolverProtocol) -> TransferViewController? {
+        let containingFactory: OperationDefinitionViewFactoryProtocol
+
+        if let factoryOverriding = resolver.transferConfiguration.operationDefinitionFactory {
+            let defaultFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
+                                                                defaultStyle: resolver.style)
+            containingFactory = OperationDefinitionViewFactoryWrapper(overriding: factoryOverriding,
+                                                                      factory: defaultFactory)
+        } else {
+            containingFactory = OperationDefinitionViewFactory(style: resolver.transferConfiguration.style,
+                                                               defaultStyle: resolver.style)
+        }
+
+        let view = TransferViewController(containingFactory: containingFactory, style: resolver.style)
+
+        if let accessoryViewFactory = resolver.transferConfiguration.accessoryViewFactory {
+            view.accessoryViewFactory = accessoryViewFactory
+        }
+
+        view.localizableTitle = resolver.transferConfiguration.localizableTitle ??
+            LocalizableResource { _ in L10n.Amount.moduleTitle }
+
+        view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
+        view.accessoryViewType = resolver.transferConfiguration.accessoryViewType
+
+        view.localizationManager = resolver.localizationManager
+
+        return view
+    }
+
+    private static func createPresenter(_ resolver: ResolverProtocol,
+                                        payload: TransferPayload,
+                                        view: TransferViewProtocol,
+                                        coordinator: TransferCoordinatorProtocol) throws
+        -> TransferPresenter {
+        let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
+                                                      cacheFacade: CoreDataCacheFacade.shared,
+                                                      networkOperationFactory: resolver.networkOperationFactory,
+                                                      identifierFactory: resolver.singleValueIdentifierFactory)
+
+        let viewModelFactory = createViewModelFactory(from: resolver)
+
+        let headerFactory = resolver.transferConfiguration.headerFactory
+        let receiverPosition = resolver.transferConfiguration.receiverPosition
+
+        let resultValidator = resolver.transferConfiguration.resultValidator
+        let changeHandler = resolver.transferConfiguration.changeHandler
+        let errorHandler = resolver.transferConfiguration.errorHandler
+        let feeEditing = resolver.transferConfiguration.feeEditing
+
+        let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
+
+        let presenter = try  TransferPresenter(view: view,
+                                               coordinator: coordinator,
+                                               assets: eligibleAssets,
+                                               accountId: resolver.account.accountId,
+                                               payload: payload,
+                                               dataProviderFactory: dataProviderFactory,
+                                               feeCalculationFactory: resolver.feeCalculationFactory,
+                                               resultValidator: resultValidator,
+                                               changeHandler: changeHandler,
+                                               viewModelFactory: viewModelFactory,
+                                               headerFactory: headerFactory,
+                                               receiverPosition: receiverPosition,
+                                               localizationManager: resolver.localizationManager,
+                                               errorHandler: errorHandler,
+                                               feeEditing: feeEditing)
+        presenter.logger = resolver.logger
+
+        return presenter
     }
 }

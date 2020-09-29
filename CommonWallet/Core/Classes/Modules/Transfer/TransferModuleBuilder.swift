@@ -14,6 +14,8 @@ final class TransferModuleBuilder {
         static let amountHorizontalSpacing: CGFloat = 0
     }
 
+    private var operationDefinitionFactory: OperationDefinitionViewFactoryOverriding?
+
     private var accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
 
     private var transferViewModelFactory: TransferViewModelFactoryOverriding?
@@ -169,7 +171,8 @@ final class TransferModuleBuilder {
                                      transferViewModelFactory: transferViewModelFactory,
                                      errorHandler: errorHandler,
                                      feeEditing: feeEditing,
-                                     accessoryViewFactory: accessoryViewFactory)
+                                     accessoryViewFactory: accessoryViewFactory,
+                                     operationDefinitionFactory: operationDefinitionFactory)
     }
 }
 
@@ -297,6 +300,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self {
         self.accessoryViewFactory = accessoryViewFactory
+        return self
+    }
+
+    func with(operationDefinitionFactory: OperationDefinitionViewFactoryOverriding) -> Self {
+        self.operationDefinitionFactory = operationDefinitionFactory
         return self
     }
 }

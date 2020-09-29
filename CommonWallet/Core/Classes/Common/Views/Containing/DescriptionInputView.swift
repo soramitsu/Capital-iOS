@@ -7,7 +7,21 @@
 import Foundation
 import SoraUI
 
-final class DescriptionInputView: UIView {
+public protocol DescriptionInputViewProtocol {
+    var borderType: BorderType { get set }
+    var viewModel: DescriptionInputViewModelProtocol? { get }
+    var selectedFrame: CGRect? { get }
+
+    var isFirstResponder: Bool { get }
+
+    func resignFirstResponder() -> Bool
+
+    func bind(viewModel: DescriptionInputViewModelProtocol)
+}
+
+public typealias BaseDescriptionInputView = UIView & DescriptionInputViewProtocol
+
+final class DescriptionInputView: BaseDescriptionInputView {
     @IBOutlet private(set) var borderedView: BorderedContainerView!
     @IBOutlet private(set) var placeholderLabel: UILabel!
     @IBOutlet private(set) var keyboardIndicator: ActionTitleControl!
@@ -17,6 +31,16 @@ final class DescriptionInputView: UIView {
     @IBOutlet private var topConstraint: NSLayoutConstraint!
 
     private var preferredWidth: CGFloat = 0.0
+
+    var borderType: BorderType {
+        get {
+            borderedView.borderType
+        }
+
+        set {
+            borderedView.borderType = newValue
+        }
+    }
 
     var keyboardIndicatorSpacing: CGFloat = 8.0 {
         didSet {
@@ -34,6 +58,20 @@ final class DescriptionInputView: UIView {
         didSet {
             updateIndicatorState()
         }
+    }
+
+    var selectedFrame: CGRect? {
+        guard let selectionRange = textView.selectedTextRange else {
+            return nil
+        }
+
+        let caretRectangle = textView.caretRect(for: selectionRange.start)
+
+        return convert(caretRectangle, from: textView)
+    }
+
+    override var isFirstResponder: Bool {
+        textView.isFirstResponder
     }
 
     private(set) var viewModel: DescriptionInputViewModelProtocol?
@@ -55,6 +93,10 @@ final class DescriptionInputView: UIView {
                 invalidateIntrinsicContentSize()
             }
         }
+    }
+
+    override func resignFirstResponder() -> Bool {
+        return textView.resignFirstResponder()
     }
 
     override var intrinsicContentSize: CGSize {

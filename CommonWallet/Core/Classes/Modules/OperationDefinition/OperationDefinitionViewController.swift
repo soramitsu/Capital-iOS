@@ -36,11 +36,20 @@ class OperationDefinitionViewController: AccessoryViewController {
 
     private var containerView = ScrollableContainerView()
 
-    private var selectedAssetDef: OperationDefinition<SelectedAssetView>!
-    private var amountInputDef: OperationDefinition<WalletAmountInputView>!
-    private var feeDefs: [OperationDefinition<FeeView>] = []
-    private var descriptionInputDef: OperationDefinition<DescriptionInputView>!
-    private var receiverDef: OperationDefinition<ReceiverFormView>?
+    private var selectedAssetDef: OperationDefinition<UIView>!
+    private var selectedAssetView: BaseSelectedAssetView!
+
+    private var amountInputDef: OperationDefinition<UIView>!
+    private var amountInputView: BaseAmountInputView!
+
+    private var feeDefs: [OperationDefinition<UIView>] = []
+    private var feeViews: [BaseFeeView] = []
+
+    private var descriptionInputDef: OperationDefinition<UIView>?
+    private var descriptionInputView: BaseDescriptionInputView?
+
+    private var receiverDef: OperationDefinition<UIView>?
+    private var receiverView: BaseReceiverView?
 
     init(containingFactory: OperationDefinitionViewFactoryProtocol, style: WalletStyleProtocol) {
         self.containingFactory = containingFactory
@@ -74,18 +83,20 @@ class OperationDefinitionViewController: AccessoryViewController {
     private func configureContentView() {
         let selectedAssetView = containingFactory.createAssetView()
         selectedAssetView.delegate = self
-        selectedAssetDef = OperationDefinition(mainView: selectedAssetView)
+        self.selectedAssetDef = OperationDefinition(mainView: selectedAssetView)
+        self.selectedAssetView = selectedAssetView
 
         let amountInputView = containingFactory.createAmountView()
+
+        self.amountInputView = amountInputView
+
         let amountHeight = Constants.amountHeight + amountInputView.contentInsets.top
             + amountInputView.contentInsets.bottom
-        amountInputView.heightAnchor.constraint(equalToConstant: amountHeight).isActive = true
+        amountInputView.heightAnchor
+            .constraint(equalToConstant: amountHeight).isActive = true
         amountInputDef = OperationDefinition(mainView: amountInputView)
 
-        let descriptionInputView = containingFactory.createDescriptionView()
-        descriptionInputDef = OperationDefinition(mainView: descriptionInputView)
-
-        let views: [UIView] = [selectedAssetView, amountInputView, descriptionInputView]
+        let views: [UIView] = [selectedAssetView, amountInputView]
 
         views.forEach {
             containerView.stackView.addArrangedSubview($0)
@@ -116,28 +127,28 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func updateSeparators() {
-        selectedAssetDef.mainView.borderedView.borderType = separatorsDistribution.assetBorderType
+        selectedAssetView.borderType = separatorsDistribution.assetBorderType
 
-        receiverDef?.mainView.borderedView.borderType = separatorsDistribution.receiverBorderType
+        receiverView?.borderType = separatorsDistribution.receiverBorderType
 
         if feeDefs.count > 0 {
-            amountInputDef.mainView.borderType = separatorsDistribution.amountWithFeeBorderType
+            amountInputView.borderType = separatorsDistribution.amountWithFeeBorderType
         } else {
-            amountInputDef.mainView.borderType = separatorsDistribution.amountWithoutFeeBorderType
+            amountInputView.borderType = separatorsDistribution.amountWithoutFeeBorderType
         }
 
         if feeDefs.count == 1 {
-            feeDefs.first?.mainView.borderedView.borderType = separatorsDistribution.singleFeeBorderType
+            feeViews.first?.borderType = separatorsDistribution.singleFeeBorderType
         } else if feeDefs.count > 1 {
-            feeDefs.first?.mainView.borderedView.borderType = separatorsDistribution.firstFeeBorderType
-            feeDefs.last?.mainView.borderedView.borderType = separatorsDistribution.lastFeeBorderType
+            feeViews.first?.borderType = separatorsDistribution.firstFeeBorderType
+            feeViews.last?.borderType = separatorsDistribution.lastFeeBorderType
 
-            feeDefs[1..<feeDefs.count-1].forEach { feeDef in
-                feeDef.mainView.borderedView.borderType = separatorsDistribution.middleFeeBorderType
+            feeViews[1..<feeDefs.count-1].forEach { feeView in
+                feeView.borderType = separatorsDistribution.middleFeeBorderType
             }
         }
 
-        descriptionInputDef.mainView.borderedView.borderType = separatorsDistribution.descriptionBorderType
+        descriptionInputView?.borderType = separatorsDistribution.descriptionBorderType
     }
 
     private func updatingDef<T: UIView>(_ definition: OperationDefinition<T>,
@@ -213,8 +224,8 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func updateConfirmationState() {
-        let isEnabled = (amountInputDef.mainView.inputViewModel?.isValid ?? false) &&
-            (descriptionInputDef.mainView.viewModel?.isValid ?? false)
+        let isEnabled = (amountInputView.inputViewModel?.isValid ?? false) &&
+            (descriptionInputView?.viewModel?.isValid ?? true)
 
         accessoryView?.isActionEnabled = isEnabled
     }
@@ -226,12 +237,10 @@ class OperationDefinitionViewController: AccessoryViewController {
     }
 
     private func scrollToDescription(animated: Bool) {
-        if let selectionRange = descriptionInputDef.mainView.textView.selectedTextRange {
-            var caretRectangle = descriptionInputDef.mainView.textView.caretRect(for: selectionRange.start)
-            caretRectangle.origin.x += descriptionInputDef.mainView.textView.frame.minX
-            caretRectangle.origin.y += descriptionInputDef.mainView.textView.frame.minY
-
-            let scrollFrame = containerView.scrollView.convert(caretRectangle, from: descriptionInputDef.mainView)
+        if let descriptionView = descriptionInputView,
+            let selectedFrame = descriptionView.selectedFrame {
+            let scrollFrame = containerView.scrollView.convert(selectedFrame,
+                                                               from: descriptionView)
             containerView.scrollView.scrollRectToVisible(scrollFrame, animated: animated)
         }
     }
@@ -248,11 +257,11 @@ class OperationDefinitionViewController: AccessoryViewController {
 
         view.layoutIfNeeded()
 
-        if amountInputDef.mainView.isFirstResponder {
+        if amountInputView.isFirstResponder {
             scrollToAmount(animated: false)
         }
 
-        if descriptionInputDef.mainView.textView.isFirstResponder {
+        if let descriptionView = descriptionInputView, descriptionView.isFirstResponder {
             scrollToDescription(animated: false)
         }
     }
@@ -261,7 +270,7 @@ class OperationDefinitionViewController: AccessoryViewController {
         super.actionAccessory()
 
         amountInputDef.mainView.resignFirstResponder()
-        descriptionInputDef.mainView.textView.resignFirstResponder()
+        descriptionInputView?.resignFirstResponder()
 
         presenter.proceed()
     }
@@ -279,7 +288,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
     }
 
     func set(assetViewModel: AssetSelectionViewModelProtocol) {
-        selectedAssetDef.mainView.bind(viewModel: assetViewModel)
+        selectedAssetView.bind(viewModel: assetViewModel)
 
         updateConfirmationState()
     }
@@ -302,11 +311,11 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
     }
 
     func set(amountViewModel: AmountInputViewModelProtocol) {
-        self.amountInputDef.mainView.inputViewModel?.observable.remove(observer: self)
+        self.amountInputView.inputViewModel?.observable.remove(observer: self)
 
         amountViewModel.observable.add(observer: self)
 
-        amountInputDef.mainView.bind(inputViewModel: amountViewModel)
+        amountInputView.bind(inputViewModel: amountViewModel)
 
         updateConfirmationState()
     }
@@ -333,10 +342,13 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
     }
 
     func set(receiverViewModel: MultilineTitleIconViewModelProtocol) {
-        if receiverDef == nil {
+        if let receiveView = receiverView {
+            receiveView.bind(viewModel: receiverViewModel)
+        } else {
             let mainView = containingFactory.createReceiverView()
 
             receiverDef = OperationDefinition(mainView: mainView)
+            receiverView = mainView
 
             let anchorView = selectedAssetDef.errorView ?? selectedAssetDef.mainView
 
@@ -362,28 +374,59 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
     }
 
     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?) {
+        guard let descriptionDef = descriptionInputDef else {
+            return
+        }
+
         if let viewModel = viewModel {
-            descriptionInputDef = updatingDef(descriptionInputDef, type: .description, withHeader: viewModel)
+            descriptionInputDef = updatingDef(descriptionDef, type: .description, withHeader: viewModel)
         } else {
-            descriptionInputDef = updatingDefByRemovingHeader(descriptionInputDef)
+            descriptionInputDef = updatingDefByRemovingHeader(descriptionDef)
         }
     }
 
     func set(descriptionViewModel: DescriptionInputViewModelProtocol) {
-        descriptionInputDef.mainView.viewModel?.observable.remove(observer: self)
-        descriptionViewModel.observable.add(observer: self)
+        if descriptionInputDef == nil {
+            let view = containingFactory.createDescriptionView()
 
-        descriptionInputDef.mainView.bind(viewModel: descriptionViewModel)
+            descriptionInputDef = OperationDefinition(mainView: view)
+            descriptionInputView = view
+
+            let anchorView: UIView
+
+            if let lastFee = feeDefs.last {
+                anchorView = lastFee.errorView ?? lastFee.mainView
+            } else {
+                anchorView = amountInputDef.errorView ?? amountInputDef.mainView
+            }
+
+            arrange(newView: view, after: anchorView)
+
+            descriptionViewModel.observable.add(observer: self)
+
+            view.bind(viewModel: descriptionViewModel)
+
+            updateSeparators()
+        } else {
+            descriptionInputView?.viewModel?.observable.remove(observer: self)
+            descriptionViewModel.observable.add(observer: self)
+
+            descriptionInputView?.bind(viewModel: descriptionViewModel)
+        }
 
         updateConfirmationState()
     }
 
     func presentDescriptionError(_ message: String?) {
+        guard let descriptionDef = descriptionInputDef else {
+            return
+        }
+
         if let message = message {
             let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
-            descriptionInputDef = updatingDef(descriptionInputDef, type: .description, withError: viewModel)
+            descriptionInputDef = updatingDef(descriptionDef, type: .description, withError: viewModel)
         } else {
-            descriptionInputDef = updatingDefByRemovingError(descriptionInputDef)
+            descriptionInputDef = updatingDefByRemovingError(descriptionDef)
         }
     }
 
@@ -410,6 +453,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
                 let feeView = containingFactory.createFeeView()
 
                 feeDefs.append(OperationDefinition(mainView: feeView))
+                feeViews.append(feeView)
 
                 arrange(newView: feeView, after: anchorView)
 
@@ -434,7 +478,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         }
 
         for (index, viewModel) in feeViewModels.enumerated() {
-            feeDefs[index].mainView.bind(viewModel: viewModel)
+            feeViews[index].bind(viewModel: viewModel)
         }
 
         updateSeparators()
@@ -459,7 +503,7 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 }
 
 extension OperationDefinitionViewController: SelectedAssetViewDelegate {
-    func selectedAssetViewDidChange(_ view: SelectedAssetView) {
+    func selectedAssetViewDidChange(_ view: SelectedAssetViewProtocol) {
         if view.activated {
             presenter.presentAssetSelection()
         }

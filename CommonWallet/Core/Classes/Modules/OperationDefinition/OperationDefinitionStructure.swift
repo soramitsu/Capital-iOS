@@ -20,10 +20,12 @@ extension OperationDefinitionType {
 
 struct OperationDefinition<Item> {
     let mainView: Item
-    var titleView: MultilineTitleIconView?
-    var errorView: MultilineTitleIconView?
+    var titleView: BaseOperationDefinitionHeaderView?
+    var errorView: BaseOperationDefinitionErrorView?
 
-    init(mainView: Item, titleView: MultilineTitleIconView? = nil, errorView: MultilineTitleIconView? = nil) {
+    init(mainView: Item,
+         titleView: BaseOperationDefinitionHeaderView? = nil,
+         errorView: BaseOperationDefinitionErrorView? = nil) {
         self.mainView = mainView
         self.titleView = titleView
         self.errorView = errorView

@@ -7,8 +7,18 @@
 import Foundation
 import SoraUI
 
-protocol SelectedAssetViewDelegate: class {
-    func selectedAssetViewDidChange(_ view: SelectedAssetView)
+public typealias BaseSelectedAssetView = UIControl & SelectedAssetViewProtocol
+
+public protocol SelectedAssetViewProtocol: class {
+    var delegate: SelectedAssetViewDelegate? { get set }
+    var activated: Bool { get }
+    var borderType: BorderType { get set }
+
+    func bind(viewModel: AssetSelectionViewModelProtocol)
+}
+
+public protocol SelectedAssetViewDelegate: class {
+    func selectedAssetViewDidChange(_ view: SelectedAssetViewProtocol)
 }
 
 public enum SelectedAssetViewDisplayStyle {
@@ -16,12 +26,22 @@ public enum SelectedAssetViewDisplayStyle {
     case separatedDetails
 }
 
-class SelectedAssetView: UIControl {
+class SelectedAssetView: BaseSelectedAssetView {
     private(set) var borderedView: BorderedContainerView = BorderedContainerView()
     private(set) var detailsControl: ActionTitleControl = ActionTitleControl()
     private(set) var titleLabel = UILabel()
 
     private var iconImageView: UIImageView?
+
+    var borderType: BorderType {
+        get {
+            borderedView.borderType
+        }
+
+        set {
+            borderedView.borderType = newValue
+        }
+    }
 
     var activated: Bool {
         detailsControl.isActivated

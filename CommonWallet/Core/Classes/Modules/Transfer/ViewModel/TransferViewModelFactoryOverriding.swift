@@ -20,7 +20,7 @@ public protocol TransferViewModelFactoryOverriding {
                                     details: String?,
                                     payload: TransferPayload,
                                     locale: Locale) throws
-    -> DescriptionInputViewModelProtocol?
+    -> WalletOverridingResult<DescriptionInputViewModelProtocol?>?
 
     func createSelectedAssetViewModel(_ inputState: TransferInputState,
                                       selectedAssetState: SelectedAssetState,
@@ -59,7 +59,7 @@ public extension TransferViewModelFactoryOverriding {
                                     details: String?,
                                     payload: TransferPayload,
                                     locale: Locale) throws
-        -> DescriptionInputViewModelProtocol? {
+        -> WalletOverridingResult<DescriptionInputViewModelProtocol?>? {
         return nil
     }
 
@@ -114,15 +114,18 @@ struct TransferViewModelFactoryWrapper: TransferViewModelFactoryProtocol {
                                     details: String?,
                                     payload: TransferPayload,
                                     locale: Locale) throws
-        -> DescriptionInputViewModelProtocol {
-        try overriding.createDescriptionViewModel(inputState,
-                                                  details: details,
-                                                  payload: payload,
-                                                  locale: locale) ??
-        (try factory.createDescriptionViewModel(inputState,
-                                                details: details,
-                                                payload: payload,
-                                                locale: locale))
+        -> DescriptionInputViewModelProtocol? {
+        if let result = try overriding.createDescriptionViewModel(inputState,
+                                                                  details: details,
+                                                                  payload: payload,
+                                                                  locale: locale) {
+            return result.item
+        }
+
+        return try factory.createDescriptionViewModel(inputState,
+                                                      details: details,
+                                                      payload: payload,
+                                                      locale: locale)
     }
 
     func createSelectedAssetViewModel(_ inputState: TransferInputState,

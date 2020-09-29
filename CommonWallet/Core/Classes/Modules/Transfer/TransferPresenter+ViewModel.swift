@@ -114,9 +114,13 @@ extension TransferPresenter {
     }
 
     func setupDescriptionViewModel() {
+        guard let descriptionViewModel = descriptionInputViewModel else {
+            return
+        }
+
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        view?.set(descriptionViewModel: descriptionInputViewModel)
+        view?.set(descriptionViewModel: descriptionViewModel)
 
         let descriptionTitle = headerFactory
             .createDescriptionTitle(assetId: selectedAsset.identifier,
@@ -130,21 +134,23 @@ extension TransferPresenter {
         do {
             let locale = localizationManager?.selectedLocale ?? Locale.current
 
-            let text = descriptionInputViewModel.text
+            let text = descriptionInputViewModel?.text
             descriptionInputViewModel = try viewModelFactory
                 .createDescriptionViewModel(inputState,
                                             details: text,
                                             payload: payload,
                                             locale: locale)
 
-            view?.set(descriptionViewModel: descriptionInputViewModel)
+            if let descriptionViewModel = descriptionInputViewModel {
+                view?.set(descriptionViewModel: descriptionViewModel)
 
-            let descriptionTitle = headerFactory
-                .createDescriptionTitle(assetId: selectedAsset.identifier,
-                                        receiverId: payload.receiveInfo.accountId,
-                                        locale: locale)
+                let descriptionTitle = headerFactory
+                    .createDescriptionTitle(assetId: selectedAsset.identifier,
+                                            receiverId: payload.receiveInfo.accountId,
+                                            locale: locale)
 
-            view?.setDescriptionHeader(descriptionTitle)
+                view?.setDescriptionHeader(descriptionTitle)
+            }
         } catch {
             if !attempHandleError(error) {
                 logger?.error("Can't handle description update view model error \(error)")

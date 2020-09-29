@@ -3,12 +3,29 @@
 * SPDX-License-Identifier: GPL-3.0
 */
 
-
 import Foundation
 import SoraUI
 
-final class ReceiverFormView: MultilineTitleIconView {
+public protocol ReceiverViewProtocol {
+    var borderType: BorderType { get set }
+
+    func bind(viewModel: MultilineTitleIconViewModelProtocol)
+}
+
+public typealias BaseReceiverView = UIView & ReceiverViewProtocol
+
+final class ReceiverFormView: MultilineTitleIconView, ReceiverViewProtocol {
     private(set) var borderedView = BorderedContainerView()
+
+    var borderType: BorderType {
+        get {
+            borderedView.borderType
+        }
+
+        set {
+            borderedView.borderType = newValue
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

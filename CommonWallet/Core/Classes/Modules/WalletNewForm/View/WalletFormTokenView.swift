@@ -30,16 +30,6 @@ class WalletFormTokenView: SelectedAssetView, WalletFormTokenViewProtocol, Walle
         }
     }
 
-    var borderType: BorderType {
-        get {
-            borderedView.borderType
-        }
-
-        set {
-            borderedView.borderType = newValue
-        }
-    }
-
     func bind(viewModel: WalletFormTokenViewModel) {
         let state = SelectedAssetState(isSelecting: false, canSelect: false)
         let selectedAssetViewModel = AssetSelectionViewModel(title: viewModel.title,
