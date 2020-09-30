@@ -48,12 +48,24 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
     }
 
     private static func createFormDefinition(from resolver: ResolverProtocol) -> WalletFormDefining {
-        let formBinder = resolver.transferConfirmationConfiguration.customViewBinder ??
-                WalletFormViewModelBinder(style: resolver.style)
+        let formBinder: WalletFormViewModelBinderProtocol
 
-        let formItemFactory = resolver.transferConfirmationConfiguration.customItemViewFactory ??
-            WalletFormItemViewFactory()
+        if let customBinder = resolver.transferConfirmationConfiguration.customViewBinder {
+            let defaultBinder = WalletFormViewModelBinder(style: resolver.style)
+            formBinder = WalletFormViewModelBinderWrapper(overriding: customBinder,
+                                                          defaultBinder: defaultBinder)
+        } else {
+            formBinder = WalletFormViewModelBinder(style: resolver.style)
+        }
 
+        let formItemFactory: WalletFormItemViewFactoryProtocol
+
+        if let customItemViewFactory = resolver.transferConfirmationConfiguration.customItemViewFactory {
+            formItemFactory = WalletFormItemViewFactoryWrapper(overriding: customItemViewFactory,
+                                                               defaultFactory: WalletFormItemViewFactory())
+        } else {
+            formItemFactory = WalletFormItemViewFactory()
+        }
         if let definitionFactory = resolver.transferConfirmationConfiguration.definitionFactory {
             return definitionFactory.createDefinitionWithBinder(formBinder,
                                                                 itemFactory: formItemFactory)

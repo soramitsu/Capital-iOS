@@ -9,10 +9,10 @@ import SoraFoundation
 
 public protocol TransferConfirmationModuleBuilderProtocol {
     @discardableResult
-    func with(viewBinder: WalletFormViewModelBinderProtocol) -> Self
+    func with(viewBinder: WalletFormViewModelBinderOverriding) -> Self
 
     @discardableResult
-    func with(itemViewFactory: WalletFormItemViewFactoryProtocol) -> Self
+    func with(itemViewFactory: WalletFormItemViewFactoryOverriding) -> Self
 
     @discardableResult
     func with(definitionFactory: WalletFormDefinitionFactoryProtocol) -> Self
