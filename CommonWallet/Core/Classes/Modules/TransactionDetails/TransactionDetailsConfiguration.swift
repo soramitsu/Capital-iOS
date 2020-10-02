@@ -12,6 +12,7 @@ protocol TransactionDetailsConfigurationProtocol {
     var customItemViewFactory: WalletFormItemViewFactoryOverriding? { get }
     var definitionFactory: WalletFormDefinitionFactoryProtocol? { get }
     var viewModelFactory: WalletTransactionDetailsFactoryOverriding? { get }
+    var accessoryViewFactory: AccessoryViewFactoryProtocol.Type? { get }
 }
 
 
@@ -22,4 +23,5 @@ struct TransactionDetailsConfiguration: TransactionDetailsConfigurationProtocol 
     let customItemViewFactory: WalletFormItemViewFactoryOverriding?
     let definitionFactory: WalletFormDefinitionFactoryProtocol?
     let viewModelFactory: WalletTransactionDetailsFactoryOverriding?
+    let accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
 }

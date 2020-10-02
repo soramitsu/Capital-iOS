@@ -14,6 +14,8 @@ final class TransferModuleBuilder {
         static let amountHorizontalSpacing: CGFloat = 0
     }
 
+    private var accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
+
     private var transferViewModelFactory: TransferViewModelFactoryOverriding?
 
     private lazy var settings: WalletTransactionSettingsProtocol =
@@ -166,7 +168,8 @@ final class TransferModuleBuilder {
                                      localizableTitle: localizableTitle,
                                      transferViewModelFactory: transferViewModelFactory,
                                      errorHandler: errorHandler,
-                                     feeEditing: feeEditing)
+                                     feeEditing: feeEditing,
+                                     accessoryViewFactory: accessoryViewFactory)
     }
 }
 
@@ -289,6 +292,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(feeEditing: FeeEditing) -> Self {
         self.feeEditing = feeEditing
+        return self
+    }
+
+    func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self {
+        self.accessoryViewFactory = accessoryViewFactory
         return self
     }
 }

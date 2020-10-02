@@ -15,6 +15,7 @@ protocol TransferConfirmationConfigurationProtocol {
     var completion: TransferCompletion { get }
     var accessoryViewType: WalletAccessoryViewType { get }
     var localizableTitle: LocalizableResource<String>? { get }
+    var accessoryViewFactory: AccessoryViewFactoryProtocol.Type? { get }
 }
 
 struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProtocol {
@@ -25,4 +26,5 @@ struct TransferConfirmationConfiguration: TransferConfirmationConfigurationProto
     let completion: TransferCompletion
     let accessoryViewType: WalletAccessoryViewType
     let localizableTitle: LocalizableResource<String>?
+    let accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
 }

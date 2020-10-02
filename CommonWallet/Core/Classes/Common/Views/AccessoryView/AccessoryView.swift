@@ -6,12 +6,18 @@
 import Foundation
 import SoraUI
 
-protocol AccessoryViewProtocol: class {
+public protocol AccessoryViewProtocol: class {
     var contentView: UIView { get }
 
     var isActionEnabled: Bool { get set }
 
+    var extendsUnderSafeArea: Bool { get }
+
     func bind(viewModel: AccessoryViewModelProtocol)
+}
+
+public extension AccessoryViewProtocol {
+    var extendsUnderSafeArea: Bool { false }
 }
 
 final class AccessoryView: UIView {

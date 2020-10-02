@@ -26,6 +26,9 @@ class WalletNewFormViewController: UIViewController {
 
     private var containerView = ScrollableContainerView()
 
+    private var needsCheckExtension: Bool = true
+    private var heightConstraint: NSLayoutConstraint?
+
     init(definition: WalletFormDefining,
          style: WalletStyleProtocol,
          accessoryViewFactory: AccessoryViewFactoryProtocol.Type) {
@@ -56,6 +59,20 @@ class WalletNewFormViewController: UIViewController {
         setupLocalization()
 
         presenter.setup()
+    }
+
+    override func viewDidLayoutSubviews() {
+        if needsCheckExtension,
+            let accessoryView = accessoryView, accessoryView.extendsUnderSafeArea {
+            if #available(iOS 11.0, *) {
+                heightConstraint?.constant = accessoryView.contentView.frame.height +
+                    view.safeAreaInsets.bottom
+            }
+        }
+
+        needsCheckExtension = false
+
+        super.viewDidLayoutSubviews()
     }
 
     private func configureStyle() {
@@ -108,22 +125,28 @@ class WalletNewFormViewController: UIViewController {
         accesory.contentView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(accesory.contentView)
 
-        if #available(iOS 11.0, *) {
-            accesory.contentView.bottomAnchor
-                .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0).isActive = true
-        } else {
+        if accesory.extendsUnderSafeArea {
             accesory.contentView.bottomAnchor
                 .constraint(equalTo: view.bottomAnchor, constant: 0.0).isActive = true
+        } else {
+            if #available(iOS 11.0, *) {
+                accesory.contentView.bottomAnchor
+                    .constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0).isActive = true
+            } else {
+                accesory.contentView.bottomAnchor
+                    .constraint(equalTo: view.bottomAnchor, constant: 0.0).isActive = true
+            }
         }
+
+        heightConstraint = accesory.contentView
+            .heightAnchor.constraint(equalToConstant: accesory.contentView.frame.size.height)
+        heightConstraint?.isActive = true
 
         accesory.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                              constant: 0.0).isActive = true
 
         accesory.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                        constant: 0.0).isActive = true
-
-        accesory.contentView
-            .heightAnchor.constraint(equalToConstant: accesory.contentView.frame.size.height).isActive = true
 
         accessoryView = accesory
     }

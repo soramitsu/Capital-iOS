@@ -23,4 +23,7 @@ public protocol TransactionDetailsModuleBuilderProtocol: class {
 
     @discardableResult
     func with(sendAgainTransactionTypes: [String]) -> Self
+
+    @discardableResult
+    func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self
 }

@@ -7,6 +7,7 @@ import Foundation
 
 
 final class TransactionDetailsModuleBuilder {
+    private var accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
     private var sendBackTransactionTypes: [String] = []
     private var sendAgainTransactionTypes: [String] = []
     private var customViewBinder: WalletFormViewModelBinderOverriding?
@@ -20,7 +21,8 @@ final class TransactionDetailsModuleBuilder {
                                                customViewBinder: customViewBinder,
                                                customItemViewFactory: customItemViewFactory,
                                                definitionFactory: definitionFactory,
-                                               viewModelFactory: viewModelFactory)
+                                               viewModelFactory: viewModelFactory,
+                                               accessoryViewFactory: accessoryViewFactory)
     }
 }
 
@@ -52,6 +54,11 @@ extension TransactionDetailsModuleBuilder: TransactionDetailsModuleBuilderProtoc
 
     func with(viewModelFactory: WalletTransactionDetailsFactoryOverriding) -> Self {
         self.viewModelFactory = viewModelFactory
+        return self
+    }
+
+    func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self {
+        self.accessoryViewFactory = accessoryViewFactory
         return self
     }
 }
