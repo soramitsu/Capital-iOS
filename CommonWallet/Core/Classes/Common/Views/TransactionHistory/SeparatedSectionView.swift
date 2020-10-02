@@ -16,21 +16,37 @@ final class SeparatedSectionView: UIView {
         }
     }
 
+    private var originalTitle: String?
+
     var title: String? {
         return titleLabel.text
     }
 
     func bind(title: String) {
-        titleLabel.text = title
+        self.originalTitle = title
+
+        applyUppercased()
     }
 
     private func applyStyle() {
         if let style = style {
+            backgroundColor = style.background
+
             titleLabel.textColor = style.title.color
             titleLabel.font = style.title.font
 
             separatorView.strokeColor = style.separatorColor
             separatorView.strokeWidth = style.separatorWidth
+
+            applyUppercased()
+        }
+    }
+
+    private func applyUppercased() {
+        if let style = style, style.upppercased {
+            titleLabel.text = originalTitle?.uppercased()
+        } else {
+            titleLabel.text = originalTitle
         }
     }
 }

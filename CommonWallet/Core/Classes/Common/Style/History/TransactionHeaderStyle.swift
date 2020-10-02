@@ -10,6 +10,7 @@ public protocol TransactionHeaderStyleProtocol {
     var title: WalletTextStyleProtocol { get }
     var separatorColor: UIColor { get }
     var separatorWidth: CGFloat { get }
+    var upppercased: Bool { get }
 }
 
 public struct TransactionHeaderStyle: TransactionHeaderStyleProtocol {
@@ -17,15 +18,18 @@ public struct TransactionHeaderStyle: TransactionHeaderStyleProtocol {
     public var title: WalletTextStyleProtocol
     public var separatorColor: UIColor
     public var separatorWidth: CGFloat
+    public var upppercased: Bool
 
     public init(background: UIColor,
                 title: WalletTextStyleProtocol,
                 separatorColor: UIColor,
-                separatorWidth: CGFloat = 1.0) {
+                separatorWidth: CGFloat = 1.0,
+                upppercased: Bool = false) {
         self.background = background
         self.title = title
         self.separatorColor = separatorColor
         self.separatorWidth = separatorWidth
+        self.upppercased = upppercased
     }
 }
 
