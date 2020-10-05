@@ -16,7 +16,7 @@ public struct WalletViewModelObserverWrapper<Observer> where Observer: AnyObject
 public final class WalletViewModelObserverContainer<Observer> where Observer: AnyObject {
     private(set) var observers: [WalletViewModelObserverWrapper<Observer>] = []
 
-    func add(observer: Observer) {
+    public func add(observer: Observer) {
         observers = observers.filter { $0.observer != nil }
 
         guard !observers.contains(where: { $0.observer === observer }) else {
@@ -26,7 +26,7 @@ public final class WalletViewModelObserverContainer<Observer> where Observer: An
         observers.append(WalletViewModelObserverWrapper(observer: observer))
     }
 
-    func remove(observer: Observer) {
+    public func remove(observer: Observer) {
         observers = observers.filter { $0.observer != nil && $0.observer !== observer }
     }
 }

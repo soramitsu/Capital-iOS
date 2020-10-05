@@ -5,15 +5,16 @@
 
 
 import Foundation
+import SoraUI
 
-protocol OperationDefinitionViewFactoryProtocol {
-    func createHeaderViewForItem(type: OperationDefinitionType) -> MultilineTitleIconView
-    func createErrorViewForItem(type: OperationDefinitionType) -> ContainingErrorView
-    func createAssetView() -> SelectedAssetView
-    func createReceiverView() -> ReceiverFormView
-    func createAmountView() -> AmountInputView
-    func createFeeView() -> FeeView
-    func createDescriptionView() -> DescriptionInputView
+public protocol OperationDefinitionViewFactoryProtocol {
+    func createHeaderViewForItem(type: OperationDefinitionType) -> BaseOperationDefinitionHeaderView
+    func createErrorViewForItem(type: OperationDefinitionType) -> BaseOperationDefinitionErrorView
+    func createAssetView() -> BaseSelectedAssetView
+    func createReceiverView() -> BaseReceiverView
+    func createAmountView() -> BaseAmountInputView
+    func createFeeView() -> BaseFeeView
+    func createDescriptionView() -> BaseDescriptionInputView
 }
 
 struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
@@ -25,7 +26,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         self.defaultStyle = defaultStyle
     }
 
-    func createHeaderViewForItem(type: OperationDefinitionType) -> MultilineTitleIconView {
+    func createHeaderViewForItem(type: OperationDefinitionType) -> BaseOperationDefinitionHeaderView {
         switch type {
         case .asset:
             return createHeaderViewForStyle(style.assetStyle.containingHeaderStyle)
@@ -40,7 +41,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         }
     }
 
-    func createErrorViewForItem(type: OperationDefinitionType) -> ContainingErrorView {
+    func createErrorViewForItem(type: OperationDefinitionType) -> BaseOperationDefinitionErrorView {
         switch type {
         case .asset:
             return createErrorViewForStyle(style.assetStyle.containingErrorStyle)
@@ -55,7 +56,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         }
     }
 
-    func createAssetView() -> SelectedAssetView {
+    func createAssetView() -> BaseSelectedAssetView {
         let view = SelectedAssetView()
 
         view.backgroundColor = .clear
@@ -81,7 +82,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         return view
     }
 
-    func createReceiverView() -> ReceiverFormView {
+    func createReceiverView() -> BaseReceiverView {
         let view = ReceiverFormView()
 
         view.borderedView.strokeColor = style.receiverStyle.separatorStyle.color
@@ -96,7 +97,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         return view
     }
 
-    func createAmountView() -> AmountInputView {
+    func createAmountView() -> BaseAmountInputView {
         let optionalView = UINib(nibName: "AmountInputView", bundle: Bundle(for: SelectedAssetView.self))
             .instantiate(withOwner: nil, options: nil)
             .first
@@ -131,7 +132,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         return view
     }
 
-    func createFeeView() -> FeeView {
+    func createFeeView() -> BaseFeeView {
         let view = FeeView()
 
         view.backgroundColor = .clear
@@ -156,7 +157,7 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         return view
     }
 
-    func createDescriptionView() -> DescriptionInputView {
+    func createDescriptionView() -> BaseDescriptionInputView {
         let optionalView = UINib(nibName: "DescriptionInputView", bundle: Bundle(for: DescriptionInputView.self))
             .instantiate(withOwner: nil, options: nil)
             .first
@@ -192,7 +193,8 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
 
     // MARK: Private
 
-    private func createHeaderViewForStyle(_ style: WalletContainingHeaderStyle) -> MultilineTitleIconView {
+    private func createHeaderViewForStyle(_ style: WalletContainingHeaderStyle)
+        -> BaseOperationDefinitionHeaderView {
         let view = MultilineTitleIconView()
 
         view.titleLabel.textColor = style.titleStyle.color
@@ -204,7 +206,8 @@ struct OperationDefinitionViewFactory: OperationDefinitionViewFactoryProtocol {
         return view
     }
 
-    private func createErrorViewForStyle(_ style: WalletContainingErrorStyle) -> ContainingErrorView {
+    private func createErrorViewForStyle(_ style: WalletContainingErrorStyle)
+        -> BaseOperationDefinitionErrorView {
         let view = ContainingErrorView()
 
         view.titleLabel.textColor = style.inlineErrorStyle.titleColor

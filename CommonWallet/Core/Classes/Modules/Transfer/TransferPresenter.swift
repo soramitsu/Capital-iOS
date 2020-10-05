@@ -29,7 +29,7 @@ final class TransferPresenter {
     var logger: WalletLoggerProtocol?
     
     var amountInputViewModel: AmountInputViewModelProtocol
-    var descriptionInputViewModel: DescriptionInputViewModelProtocol
+    var descriptionInputViewModel: DescriptionInputViewModelProtocol?
     var metadataProvider: SingleValueProvider<TransferMetaData>
     var balances: [BalanceData]?
     var metadata: TransferMetaData?

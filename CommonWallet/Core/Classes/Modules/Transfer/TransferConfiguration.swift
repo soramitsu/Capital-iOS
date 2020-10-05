@@ -22,6 +22,7 @@ protocol TransferConfigurationProtocol {
     var errorHandler: OperationDefinitionErrorHandling? { get }
     var feeEditing: FeeEditing? { get }
     var accessoryViewFactory: AccessoryViewFactoryProtocol.Type? { get }
+    var operationDefinitionFactory: OperationDefinitionViewFactoryOverriding? { get }
 }
 
 struct TransferConfiguration: TransferConfigurationProtocol {
@@ -39,4 +40,5 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let errorHandler: OperationDefinitionErrorHandling?
     let feeEditing: FeeEditing?
     let accessoryViewFactory: AccessoryViewFactoryProtocol.Type?
+    let operationDefinitionFactory: OperationDefinitionViewFactoryOverriding?
 }

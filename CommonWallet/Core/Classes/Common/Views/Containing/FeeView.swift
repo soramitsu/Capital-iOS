@@ -7,12 +7,20 @@
 import Foundation
 import SoraUI
 
+public protocol FeeViewProtocol: class {
+    var borderType: BorderType { get set }
+
+    func bind(viewModel: FeeViewModelProtocol)
+}
+
+public typealias BaseFeeView = UIView & FeeViewProtocol
+
 public enum FeeViewDisplayStyle {
     case singleTitle
     case separatedDetails
 }
 
-final class FeeView: UIView {
+final class FeeView: BaseFeeView {
     private(set) var titleLabel = UILabel()
     private(set) var detailsLabel: UILabel?
     private(set) var editingIconImageView: UIImageView?
@@ -20,6 +28,16 @@ final class FeeView: UIView {
     private(set) var borderedView: BorderedContainerView = BorderedContainerView()
 
     private(set) var viewModel: FeeViewModelProtocol?
+
+    var borderType: BorderType {
+        get {
+            borderedView.borderType
+        }
+
+        set {
+            borderedView.borderType = newValue
+        }
+    }
 
     var displayType: FeeViewDisplayStyle = .singleTitle {
         didSet {

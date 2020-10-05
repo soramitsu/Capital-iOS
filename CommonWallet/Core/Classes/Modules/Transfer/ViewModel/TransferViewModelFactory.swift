@@ -37,7 +37,7 @@ protocol TransferViewModelFactoryProtocol {
                                     details: String?,
                                     payload: TransferPayload,
                                     locale: Locale) throws
-        -> DescriptionInputViewModelProtocol
+        -> DescriptionInputViewModelProtocol?
 
     func createSelectedAssetViewModel(_ inputState: TransferInputState,
                                       selectedAssetState: SelectedAssetState,
@@ -144,7 +144,7 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
                                     details: String?,
                                     payload: TransferPayload,
                                     locale: Locale) throws
-    -> DescriptionInputViewModelProtocol {
+    -> DescriptionInputViewModelProtocol? {
         guard let validator = descriptionValidatorFactory.createTransferDescriptionValidator() else {
                 throw TransferViewModelFactoryError.missingValidator
         }

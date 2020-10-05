@@ -358,7 +358,7 @@ extension ReceiveAmountViewController: ReceiveAmountViewProtocol {
 }
 
 extension ReceiveAmountViewController: SelectedAssetViewDelegate {
-    func selectedAssetViewDidChange(_ view: SelectedAssetView) {
+    func selectedAssetViewDidChange(_ view: SelectedAssetViewProtocol) {
         if view.activated {
             presenter.presentAssetSelection()
         }

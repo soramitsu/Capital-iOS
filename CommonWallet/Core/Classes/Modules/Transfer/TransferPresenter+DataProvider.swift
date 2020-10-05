@@ -161,11 +161,13 @@ extension TransferPresenter {
 
         let result = try calculator.calculate(for: inputAmount)
 
+        let details = descriptionInputViewModel?.text ?? ""
+
         let info = TransferInfo(source: accountId,
                                 destination: payload.receiveInfo.accountId,
                                 amount: AmountDecimal(value: result.sending),
                                 asset: selectedAsset.identifier,
-                                details: descriptionInputViewModel.text,
+                                details: details,
                                 fees: result.fees)
 
         return try resultValidator.validate(info: info,

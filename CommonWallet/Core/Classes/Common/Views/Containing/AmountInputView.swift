@@ -7,7 +7,21 @@
 import Foundation
 import SoraUI
 
-final class AmountInputView: UIView {
+public typealias BaseAmountInputView = AmountInputViewProtocol & UIView
+
+public protocol AmountInputViewProtocol: class {
+    var contentInsets: UIEdgeInsets { get }
+    var borderType: BorderType { get set }
+    var inputViewModel: AmountInputViewModelProtocol? { get }
+
+    var isFirstResponder: Bool { get }
+
+    func resignFirstResponder() -> Bool
+
+    func bind(inputViewModel: AmountInputViewModelProtocol)
+}
+
+final class AmountInputView: BaseAmountInputView {
     @IBOutlet private(set) var borderedView: BorderedContainerView!
     @IBOutlet private(set) var assetLabel: UILabel!
     @IBOutlet private(set) var amountField: UITextField!
@@ -66,6 +80,24 @@ final class AmountInputView: UIView {
                 setNeedsLayout()
             }
         }
+    }
+
+    var borderType: BorderType {
+        get {
+            borderedView.borderType
+        }
+
+        set {
+            borderedView.borderType = newValue
+        }
+    }
+
+    override var isFirstResponder: Bool {
+        return amountField.isFirstResponder
+    }
+
+    override func resignFirstResponder() -> Bool {
+        return amountField.resignFirstResponder()
     }
 
     func bind(inputViewModel: AmountInputViewModelProtocol) {

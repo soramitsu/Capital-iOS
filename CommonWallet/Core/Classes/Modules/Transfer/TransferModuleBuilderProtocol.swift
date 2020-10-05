@@ -82,4 +82,7 @@ public protocol TransferModuleBuilderProtocol {
 
     @discardableResult
     func with(accessoryViewFactory: AccessoryViewFactoryProtocol.Type) -> Self
+
+    @discardableResult
+    func with(operationDefinitionFactory: OperationDefinitionViewFactoryOverriding) -> Self
 }
