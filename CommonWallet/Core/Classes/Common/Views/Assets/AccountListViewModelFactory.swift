@@ -22,13 +22,13 @@ public extension AccountListViewModelFactoryProtocol {
                               balance: BalanceData,
                               commandFactory: WalletCommandFactoryProtocol,
                               locale: Locale)
-        -> AssetViewModelProtocol? {
+        -> WalletViewModelProtocol? {
         return nil
     }
 
     func createActionsViewModel(for assetId: String?,
                                 commandFactory: WalletCommandFactoryProtocol,
-                                locale: Locale) -> ActionsViewModelProtocol? {
+                                locale: Locale) -> WalletViewModelProtocol? {
         return nil
     }
 
