@@ -47,16 +47,15 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
     }
 
     static func assembleView(with resolver: ResolverProtocol, detailsAsset: WalletAsset) -> AccountListViewProtocol? {
-        let view = AccountListViewController(nibName: "AccountListViewController", bundle: Bundle(for: self))
-
         let coordinator = AccountListCoordinator(resolver: resolver)
 
-        let configuration = resolver.accountListConfiguration
-        view.configuration = configuration
+        let listConfiguration = resolver.accountListConfiguration
+        let detailsConfiguration = resolver.accountDetailsConfiguration
 
-        let accountContext = configuration.viewModelContext
+        let accountContext = listConfiguration.viewModelContext
         let emptyViewModelFactoryContainer = AccountListViewModelFactoryContainer()
-        let listViewModelFactory = accountContext.accountListViewModelFactory
+        let listViewModelFactory = detailsConfiguration.listViewModelFactory ?? accountContext.accountListViewModelFactory
+
         let detailsContext = AccountListViewModelContext(viewModelFactoryContainer: emptyViewModelFactoryContainer,
                                                          accountListViewModelFactory: listViewModelFactory,
                                                          assetCellStyleFactory: accountContext.assetCellStyleFactory,
@@ -79,15 +78,35 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
             return nil
         }
 
-        let presenter = AccountListPresenter(view: view,
-                                             coordinator: coordinator,
-                                             balanceDataProvider: balanceDataProvider,
-                                             viewModelFactory: viewModelFactory,
-                                             eventCenter: resolver.eventCenter)
-        presenter.logger = resolver.logger
+        if let containingViewFactory = detailsConfiguration.containingViewFactory {
+            let view = containingViewFactory.createView()
+            let viewController = AccountDetailsContainingController(containingView: view)
 
-        view.presenter = presenter
+            let presenter = AccountListPresenter(view: viewController,
+                                                 coordinator: coordinator,
+                                                 balanceDataProvider: balanceDataProvider,
+                                                 viewModelFactory: viewModelFactory,
+                                                 eventCenter: resolver.eventCenter)
+            presenter.logger = resolver.logger
 
-        return view
+            viewController.presenter = presenter
+
+            return viewController
+        } else {
+            let view = AccountListViewController(nibName: "AccountListViewController",
+                                                 bundle: Bundle(for: self))
+            view.configuration = listConfiguration
+
+            let presenter = AccountListPresenter(view: view,
+                                                 coordinator: coordinator,
+                                                 balanceDataProvider: balanceDataProvider,
+                                                 viewModelFactory: viewModelFactory,
+                                                 eventCenter: resolver.eventCenter)
+            presenter.logger = resolver.logger
+
+            view.presenter = presenter
+
+            return view
+        }
     }
 }

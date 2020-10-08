@@ -138,7 +138,7 @@ extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
         var collapsingRange = viewModels.count..<viewModels.count
 
         if balances.count > 0 {
-            let assetViewModels: [AssetViewModelProtocol] = balances.compactMap { (balance) in
+            let assetViewModels: [WalletViewModelProtocol] = balances.compactMap { (balance) in
                 guard let asset = assets.first(where: { $0.identifier == balance.identifier }) else {
                     return nil
                 }

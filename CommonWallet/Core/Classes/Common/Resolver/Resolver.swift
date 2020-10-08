@@ -12,6 +12,7 @@ protocol ResolverProtocol: class {
     var eventCenter: WalletEventCenterProtocol { get }
     var style: WalletStyleProtocol { get }
     var accountListConfiguration: AccountListConfigurationProtocol { get }
+    var accountDetailsConfiguration: AccountDetailsConfigurationProtocol { get }
     var historyConfiguration: HistoryConfigurationProtocol { get }
     var contactsConfiguration: ContactsConfigurationProtocol { get }
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol { get }
@@ -39,6 +40,7 @@ final class Resolver: ResolverProtocol {
     var account: WalletAccountSettingsProtocol
     var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     var accountListConfiguration: AccountListConfigurationProtocol
+    var accountDetailsConfiguration: AccountDetailsConfigurationProtocol
     var historyConfiguration: HistoryConfigurationProtocol
     var contactsConfiguration: ContactsConfigurationProtocol
     var invoiceScanConfiguration: InvoiceScanConfigurationProtocol
@@ -75,6 +77,7 @@ final class Resolver: ResolverProtocol {
     init(account: WalletAccountSettingsProtocol,
          networkOperationFactory: WalletNetworkOperationFactoryProtocol,
          accountListConfiguration: AccountListConfigurationProtocol,
+         accountDetailsConfiguration: AccountDetailsConfigurationProtocol,
          historyConfiguration: HistoryConfigurationProtocol,
          contactsConfiguration: ContactsConfigurationProtocol,
          invoiceScanConfiguration: InvoiceScanConfigurationProtocol,
@@ -90,6 +93,7 @@ final class Resolver: ResolverProtocol {
         self.account = account
         self.networkOperationFactory = networkOperationFactory
         self.accountListConfiguration = accountListConfiguration
+        self.accountDetailsConfiguration = accountDetailsConfiguration
         self.historyConfiguration = historyConfiguration
         self.contactsConfiguration = contactsConfiguration
         self.invoiceScanConfiguration = invoiceScanConfiguration
