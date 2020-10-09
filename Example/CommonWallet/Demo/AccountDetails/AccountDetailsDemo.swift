@@ -55,7 +55,7 @@ final class AccountDetailsDemo: DemoFactoryProtocol {
             .inserting(viewModelFactory: { demoHeaderViewModel }, at: 0)
             .with(cellNib: demoHeaderNib, for: demoHeaderViewModel.cellReuseIdentifier)
 
-        try walletBuilder.accountDetailsModuleBuilder
+        walletBuilder.accountDetailsModuleBuilder
             .with(containingViewFactory: AssetDetailsContainingViewFactory())
 
         walletBuilder.historyModuleBuilder

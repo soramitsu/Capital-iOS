@@ -18,6 +18,9 @@ final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
                 return nil
         }
 
+        view.localizableTile = resolver.accountDetailsConfiguration.localizableTitle
+        view.additionalInsets = resolver.accountDetailsConfiguration.additionalInsets
+
         view.content = accountListView
         view.draggable = historyView
 

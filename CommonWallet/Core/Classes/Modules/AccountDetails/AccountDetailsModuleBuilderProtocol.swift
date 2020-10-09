@@ -5,6 +5,7 @@
 
 
 import Foundation
+import SoraFoundation
 
 public protocol AccountDetailsModuleBuilderProtocol {
     @discardableResult
@@ -12,4 +13,10 @@ public protocol AccountDetailsModuleBuilderProtocol {
 
     @discardableResult
     func with(listViewModelFactory: AccountListViewModelFactoryProtocol) -> Self
+
+    @discardableResult
+    func with(localizableTitle: LocalizableResource<String>) -> Self
+
+    @discardableResult
+    func with(additionalInsets: UIEdgeInsets) -> Self
 }
