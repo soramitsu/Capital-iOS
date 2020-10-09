@@ -4,6 +4,7 @@
 */
 
 import Foundation
+import RobinHood
 
 final class AccountListAssembly: AccountListAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol) -> AccountListViewProtocol? {
@@ -46,7 +47,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
         return view
     }
 
-    static func assembleView(with resolver: ResolverProtocol, detailsAsset: WalletAsset) -> AccountListViewProtocol? {
+    static func assembleView(with resolver: ResolverProtocol,
+                             detailsAsset: WalletAsset) -> AccountListViewProtocol? {
         let coordinator = AccountListCoordinator(resolver: resolver)
 
         let listConfiguration = resolver.accountListConfiguration
@@ -54,7 +56,8 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
 
         let accountContext = listConfiguration.viewModelContext
         let emptyViewModelFactoryContainer = AccountListViewModelFactoryContainer()
-        let listViewModelFactory = detailsConfiguration.listViewModelFactory ?? accountContext.accountListViewModelFactory
+        let listViewModelFactory = detailsConfiguration.listViewModelFactory ??
+            accountContext.accountListViewModelFactory
 
         let detailsContext = AccountListViewModelContext(viewModelFactoryContainer: emptyViewModelFactoryContainer,
                                                          accountListViewModelFactory: listViewModelFactory,
@@ -78,6 +81,20 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
             return nil
         }
 
+        return createDetailsController(with: coordinator,
+                                       resolver: resolver,
+                                       viewModelFactory: viewModelFactory,
+                                       balanceDataProvider: balanceDataProvider)
+    }
+
+    private static func createDetailsController(with coordinator: AccountListCoordinatorProtocol,
+                                                resolver: ResolverProtocol,
+                                                viewModelFactory: AccountModuleViewModelFactory,
+                                                balanceDataProvider: SingleValueProvider<[BalanceData]>)
+        -> AccountListViewProtocol? {
+        let detailsConfiguration = resolver.accountDetailsConfiguration
+            let listConfiguration = resolver.accountListConfiguration
+
         if let containingViewFactory = detailsConfiguration.containingViewFactory {
             let view = containingViewFactory.createView()
             let viewController = AccountDetailsContainingController(containingView: view)
@@ -88,6 +105,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
                                                  viewModelFactory: viewModelFactory,
                                                  eventCenter: resolver.eventCenter)
             presenter.logger = resolver.logger
+            presenter.localizationManager = resolver.localizationManager
 
             viewController.presenter = presenter
 
@@ -103,6 +121,7 @@ final class AccountListAssembly: AccountListAssemblyProtocol {
                                                  viewModelFactory: viewModelFactory,
                                                  eventCenter: resolver.eventCenter)
             presenter.logger = resolver.logger
+            presenter.localizationManager = resolver.localizationManager
 
             view.presenter = presenter
 
