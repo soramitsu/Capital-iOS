@@ -9,10 +9,10 @@ public protocol AccountListViewModelFactoryProtocol: class {
     func createAssetViewModel(for asset: WalletAsset,
                               balance: BalanceData,
                               commandFactory: WalletCommandFactoryProtocol,
-                              locale: Locale) -> AssetViewModelProtocol?
+                              locale: Locale) -> WalletViewModelProtocol?
     func createActionsViewModel(for assetId: String?,
                                 commandFactory: WalletCommandFactoryProtocol,
-                                locale: Locale) -> ActionsViewModelProtocol?
+                                locale: Locale) -> WalletViewModelProtocol?
     func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?,
                                  locale: Locale) -> WalletViewModelProtocol?
 }
@@ -22,13 +22,13 @@ public extension AccountListViewModelFactoryProtocol {
                               balance: BalanceData,
                               commandFactory: WalletCommandFactoryProtocol,
                               locale: Locale)
-        -> AssetViewModelProtocol? {
+        -> WalletViewModelProtocol? {
         return nil
     }
 
     func createActionsViewModel(for assetId: String?,
                                 commandFactory: WalletCommandFactoryProtocol,
-                                locale: Locale) -> ActionsViewModelProtocol? {
+                                locale: Locale) -> WalletViewModelProtocol? {
         return nil
     }
 

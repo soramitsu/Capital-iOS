@@ -7,22 +7,26 @@ import UIKit
 import SoraFoundation
 
 final class AccountDetailsViewController: ContainerViewController {
-    private struct Constants {
-        static let additionalTopInset: CGFloat = 10.0
-    }
-
     override var presentationNavigationItem: UINavigationItem? {
         return navigationController != nil ? navigationItem : nil
     }
 
     var presenter: AccountDetailsPresenterProtocol!
 
+    var localizableTile: LocalizableResource<String>?
+    var additionalInsets: UIEdgeInsets?
+
     var style: WalletStyleProtocol?
 
     override var inheritedInsets: UIEdgeInsets {
         var inset = super.inheritedInsets
 
-        inset.top += Constants.additionalTopInset
+        if let additionalInsets = additionalInsets {
+            inset.top += additionalInsets.top
+            inset.bottom += additionalInsets.bottom
+            inset.right += additionalInsets.right
+            inset.left += additionalInsets.left
+        }
 
         return inset
     }
@@ -37,7 +41,9 @@ final class AccountDetailsViewController: ContainerViewController {
     }
 
     private func setupLocalization() {
-        title = L10n.Account.detailsTitle
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
+        title = localizableTile?.value(for: locale) ?? L10n.Account.detailsTitle
     }
 
     private func configure() {

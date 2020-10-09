@@ -296,13 +296,15 @@ final class HistoryViewController: UIViewController {
             let adjustedProgress = min(progress / (1.0 - Constants.triggerProgressThreshold), 1.0)
 
             headerTop.constant = CGFloat(1.0 - adjustedProgress) * (fullInsets.top - cornerRadius) + cornerRadius
-            headerHeight.constant = Constants.headerHeight * CGFloat(adjustedProgress)
+            headerHeight.constant = Constants.headerHeight * CGFloat(adjustedProgress) +
+                fullInsets.top * CGFloat(1.0 - adjustedProgress)
         case .full:
             let adjustedProgress = max(progress - Constants.triggerProgressThreshold, 0.0)
                 / (1.0 - Constants.triggerProgressThreshold)
 
             headerTop.constant = CGFloat(1.0 - adjustedProgress) * (fullInsets.top - cornerRadius) + cornerRadius
-            headerHeight.constant = Constants.headerHeight * CGFloat(1.0 - adjustedProgress)
+            headerHeight.constant = Constants.headerHeight * CGFloat(1.0 - adjustedProgress) +
+                fullInsets.top * CGFloat(adjustedProgress)
         }
 
         if forcesLayoutUpdate {

@@ -12,6 +12,7 @@ public protocol CommonWalletBuilderProtocol: class {
         -> CommonWalletBuilderProtocol
 
     var accountListModuleBuilder: AccountListModuleBuilderProtocol { get }
+    var accountDetailsModuleBuilder: AccountDetailsModuleBuilderProtocol { get }
     var historyModuleBuilder: HistoryModuleBuilderProtocol { get }
     var invoiceScanModuleBuilder: InvoiceScanModuleBuilderProtocol { get }
     var contactsModuleBuilder: ContactsModuleBuilderProtocol { get }
@@ -70,6 +71,7 @@ public enum CommonWalletBuilderError: Error {
 
 public final class CommonWalletBuilder {
     fileprivate var privateAccountModuleBuilder: AccountListModuleBuilder
+    fileprivate var privateAccountDetailsModuleBuilder: AccountDetailsModuleBuilder
     fileprivate var privateHistoryModuleBuilder: HistoryModuleBuilder
     fileprivate var privateContactsModuleBuilder: ContactsModuleBuilder
     fileprivate var privateInvoiceScanModuleBuilder: InvoiceScanModuleBuilder
@@ -99,6 +101,7 @@ public final class CommonWalletBuilder {
         self.account = account
         self.networkOperationFactory = networkOperationFactory
         privateAccountModuleBuilder = AccountListModuleBuilder()
+        privateAccountDetailsModuleBuilder = AccountDetailsModuleBuilder()
         privateHistoryModuleBuilder = HistoryModuleBuilder()
         privateContactsModuleBuilder = ContactsModuleBuilder()
         privateInvoiceScanModuleBuilder = InvoiceScanModuleBuilder()
@@ -114,6 +117,10 @@ public final class CommonWalletBuilder {
 extension CommonWalletBuilder: CommonWalletBuilderProtocol {
     public var accountListModuleBuilder: AccountListModuleBuilderProtocol {
         return privateAccountModuleBuilder
+    }
+
+    public var accountDetailsModuleBuilder: AccountDetailsModuleBuilderProtocol {
+        return privateAccountDetailsModuleBuilder
     }
 
     public var historyModuleBuilder: HistoryModuleBuilderProtocol {
@@ -276,6 +283,8 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         privateAccountModuleBuilder.walletStyle = style
         let accountListConfiguration = try privateAccountModuleBuilder.build()
 
+        let accountDetailsConfiguration = try privateAccountDetailsModuleBuilder.build()
+
         privateHistoryModuleBuilder.walletStyle = style
         let historyConfiguration = privateHistoryModuleBuilder.build()
 
@@ -303,6 +312,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         let resolver = Resolver(account: account,
                                 networkOperationFactory: networkOperationFactory,
                                 accountListConfiguration: accountListConfiguration,
+                                accountDetailsConfiguration: accountDetailsConfiguration,
                                 historyConfiguration: historyConfiguration,
                                 contactsConfiguration: contactsConfiguration,
                                 invoiceScanConfiguration: invoiceScanConfiguration,

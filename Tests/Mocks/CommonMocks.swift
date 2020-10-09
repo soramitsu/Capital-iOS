@@ -1801,6 +1801,20 @@ import SoraFoundation
     
     
     
+     var accountDetailsConfiguration: AccountDetailsConfigurationProtocol {
+        get {
+            return cuckoo_manager.getter("accountDetailsConfiguration",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.accountDetailsConfiguration)
+        }
+        
+    }
+    
+    
+    
      var historyConfiguration: HistoryConfigurationProtocol {
         get {
             return cuckoo_manager.getter("historyConfiguration",
@@ -2131,6 +2145,11 @@ import SoraFoundation
 	    }
 	    
 	    
+	    var accountDetailsConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, AccountDetailsConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "accountDetailsConfiguration")
+	    }
+	    
+	    
 	    var historyConfiguration: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockResolverProtocol, HistoryConfigurationProtocol> {
 	        return .init(manager: cuckoo_manager, name: "historyConfiguration")
 	    }
@@ -2273,6 +2292,11 @@ import SoraFoundation
 	    
 	    var accountListConfiguration: Cuckoo.VerifyReadOnlyProperty<AccountListConfigurationProtocol> {
 	        return .init(manager: cuckoo_manager, name: "accountListConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var accountDetailsConfiguration: Cuckoo.VerifyReadOnlyProperty<AccountDetailsConfigurationProtocol> {
+	        return .init(manager: cuckoo_manager, name: "accountDetailsConfiguration", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	    
@@ -2423,6 +2447,14 @@ import SoraFoundation
      var accountListConfiguration: AccountListConfigurationProtocol {
         get {
             return DefaultValueRegistry.defaultValue(for: (AccountListConfigurationProtocol).self)
+        }
+        
+    }
+    
+    
+     var accountDetailsConfiguration: AccountDetailsConfigurationProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (AccountDetailsConfigurationProtocol).self)
         }
         
     }
