@@ -17,6 +17,9 @@ public protocol WalletCommandDecoratorFactoryProtocol: class {
     func createAssetDetailsDecorator(with commandFactory: WalletCommandFactoryProtocol,
                                      asset: WalletAsset,
                                      balanceData: BalanceData?) -> WalletCommandDecoratorProtocol?
+
+    func createTransferConfirmationDecorator(with commandFactory: WalletCommandFactoryProtocol,
+                                             payload: ConfirmationPayload) -> WalletCommandDecoratorProtocol?
 }
 
 public extension WalletCommandDecoratorFactoryProtocol {
@@ -33,6 +36,12 @@ public extension WalletCommandDecoratorFactoryProtocol {
     func createAssetDetailsDecorator(with commandFactory: WalletCommandFactoryProtocol,
                                      asset: WalletAsset,
                                      balanceData: BalanceData?) -> WalletCommandDecoratorProtocol? {
+        nil
+    }
+
+    func createTransferConfirmationDecorator(with commandFactory: WalletCommandFactoryProtocol,
+                                             payload: ConfirmationPayload)
+        -> WalletCommandDecoratorProtocol? {
         nil
     }
 }

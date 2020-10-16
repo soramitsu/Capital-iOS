@@ -14,11 +14,16 @@ final class TransferCoordinator: TransferCoordinatorProtocol {
     }
     
     func confirm(with payload: ConfirmationPayload) {
-        guard let confirmationView = TransferConfirmationAssembly.assembleView(with: resolver,
-                                                                               payload: payload) else {
-            return
+        let command = TransferConfirmationCommand(payload: payload,
+                                                  resolver: resolver)
+
+        if let decorator = resolver.commandDecoratorFactory?
+            .createTransferConfirmationDecorator(with: resolver.commandFactory, payload: payload) {
+            decorator.undelyingCommand = command
+
+            try? decorator.execute()
+        } else {
+            try? command.execute()
         }
-        
-        resolver.navigation?.push(confirmationView.controller)
     }
 }
