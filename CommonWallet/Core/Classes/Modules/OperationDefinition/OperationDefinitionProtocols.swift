@@ -18,6 +18,7 @@ protocol OperationDefinitionViewProtocol: class {
     func setReceiverHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(receiverViewModel: MultilineTitleIconViewModelProtocol)
     func presentReceiverError(_ message: String?)
+    func presentReceiverError(_ message: String?, _ command: WalletCommandProtocol)
 
     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(descriptionViewModel: DescriptionInputViewModelProtocol)

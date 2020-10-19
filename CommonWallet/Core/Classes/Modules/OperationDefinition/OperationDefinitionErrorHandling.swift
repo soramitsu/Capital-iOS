@@ -9,10 +9,12 @@ import Foundation
 public struct OperationDefinitionErrorMapping {
     public let type: OperationDefinitionType
     public let message: String
+    public let command: WalletCommandProtocol?
 
-    public init(type: OperationDefinitionType, message: String) {
+    public init(type: OperationDefinitionType, message: String, command: WalletCommandProtocol? = nil) {
         self.type = type
         self.message = message
+        self.command = command
     }
 }
 
