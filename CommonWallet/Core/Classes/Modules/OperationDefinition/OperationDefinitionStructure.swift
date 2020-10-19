@@ -30,4 +30,8 @@ struct OperationDefinition<Item> {
         self.titleView = titleView
         self.errorView = errorView
     }
+
+    var isValid: Bool {
+        return self.errorView == nil
+    }
 }

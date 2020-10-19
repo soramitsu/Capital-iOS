@@ -228,7 +228,7 @@ class OperationDefinitionViewController: AccessoryViewController {
 
     private func updateConfirmationState() {
         let isEnabled = (amountInputView.inputViewModel?.isValid ?? false) &&
-            (descriptionInputView?.viewModel?.isValid ?? true)
+            (descriptionInputView?.viewModel?.isValid ?? true) && (receiverDef?.isValid ?? true)
 
         accessoryView?.isActionEnabled = isEnabled
     }
@@ -370,6 +370,19 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
 
         if let message = message {
             let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon)
+            self.receiverDef = updatingDef(receiverDef, type: .receiver, withError: viewModel)
+        } else {
+            self.receiverDef = updatingDefByRemovingError(receiverDef)
+        }
+    }
+
+    func presentReceiverError(_ message: String?, _ command: WalletCommandProtocol){
+        guard let receiverDef = receiverDef else {
+            return
+        }
+
+        if let message = message {
+            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon, command: command)
             self.receiverDef = updatingDef(receiverDef, type: .receiver, withError: viewModel)
         } else {
             self.receiverDef = updatingDefByRemovingError(receiverDef)
