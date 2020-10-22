@@ -27,13 +27,16 @@ enum HistoryViewModelFactoryError: Error {
 final class HistoryViewModelFactory {
     let dateFormatterProvider: DateFormatterProviderProtocol
     let itemViewModelFactory: HistoryItemViewModelFactoryProtocol
+    let commandFactory: WalletCommandFactoryProtocol
 
     weak var delegate: HistoryViewModelFactoryDelegate?
 
     init(dateFormatterProvider: DateFormatterProviderProtocol,
-         itemViewModelFactory: HistoryItemViewModelFactoryProtocol) {
+         itemViewModelFactory: HistoryItemViewModelFactoryProtocol,
+         commandFactory: WalletCommandFactoryProtocol) {
         self.dateFormatterProvider = dateFormatterProvider
         self.itemViewModelFactory = itemViewModelFactory
+        self.commandFactory = commandFactory
 
         dateFormatterProvider.delegate = self
     }
@@ -55,7 +58,9 @@ extension HistoryViewModelFactory: HistoryViewModelFactoryProtocol {
             var changes = [SectionedListDifference<TransactionSectionViewModel, WalletViewModelProtocol>]()
 
             try newItems.forEach { (event) in
-                let viewModel = try itemViewModelFactory.createItemFromData(event, locale: locale)
+                let viewModel = try itemViewModelFactory.createItemFromData(event,
+                                                                            commandFactory: commandFactory,
+                                                                            locale: locale)
 
                 let eventDate = Date(timeIntervalSince1970: TimeInterval(event.timestamp))
                 let sectionTitle = dateFormatterProvider.dateFormatter.value(for: locale).string(from: eventDate)

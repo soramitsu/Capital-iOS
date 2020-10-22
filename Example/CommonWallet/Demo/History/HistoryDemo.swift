@@ -100,7 +100,6 @@ final class HistoryDemo: DemoFactoryProtocol {
 
         let walletContext = try walletBuilder.build()
 
-        historyItemViewModelFactory.commandFactory = walletContext
         try mock(networkResolver: networkResolver, with: assets)
 
         self.completionBlock = completionBlock

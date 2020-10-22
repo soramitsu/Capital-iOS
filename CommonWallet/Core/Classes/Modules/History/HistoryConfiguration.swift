@@ -5,6 +5,7 @@
 
 import Foundation
 import SoraUI
+import SoraFoundation
 
 protocol HistoryConfigurationProtocol {
     var viewStyle: HistoryViewStyleProtocol { get }
@@ -16,6 +17,7 @@ protocol HistoryConfigurationProtocol {
     var emptyStateDelegate: EmptyStateDelegate? { get }
     var registeredCellsMetadata: [String: Any] { get }
     var itemViewModelFactory: HistoryItemViewModelFactoryProtocol? { get }
+    var localizableTitle: LocalizableResource<String>? { get }
 }
 
 struct HistoryConfiguration: HistoryConfigurationProtocol {
@@ -28,4 +30,5 @@ struct HistoryConfiguration: HistoryConfigurationProtocol {
     weak var emptyStateDelegate: EmptyStateDelegate?
     let registeredCellsMetadata: [String: Any]
     let itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
+    let localizableTitle: LocalizableResource<String>?
 }

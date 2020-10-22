@@ -38,11 +38,11 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
             HistoryItemViewModelFactory(amountFormatterFactory: resolver.amountFormatterFactory,
                                         includesFeeInAmount: includesFeeInAmount,
                                         transactionTypes: resolver.transactionTypeList,
-                                        assets: assets,
-                                        commandFactory: resolver.commandFactory)
+                                        assets: assets)
         
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       itemViewModelFactory: itemViewModelFactory)
+                                                       itemViewModelFactory: itemViewModelFactory,
+                                                       commandFactory: resolver.commandFactory)
 
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
  

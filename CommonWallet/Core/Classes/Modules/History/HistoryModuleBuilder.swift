@@ -5,6 +5,7 @@
 
 import Foundation
 import SoraUI
+import SoraFoundation
 
 public protocol HistoryModuleBuilderProtocol: class {
     var itemCellIdentifier: String { get }
@@ -40,6 +41,8 @@ public protocol HistoryModuleBuilderProtocol: class {
     @discardableResult
     func with(itemViewModelFactory: HistoryItemViewModelFactoryProtocol) -> Self
 
+    @discardableResult
+    func with(localizableTitle: LocalizableResource<String>) -> Self
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
@@ -68,6 +71,8 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
 
     fileprivate var itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
 
+    fileprivate var localizableTitle: LocalizableResource<String>?
+
     init() {
         registerItemCell()
     }
@@ -81,7 +86,8 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
                                     emptyStateDataSource: emptyStateDataSource,
                                     emptyStateDelegate: emptyStateDelegate,
                                     registeredCellsMetadata: registeredCellsMetadata,
-                                    itemViewModelFactory: itemViewModelFactory)
+                                    itemViewModelFactory: itemViewModelFactory,
+                                    localizableTitle: localizableTitle)
     }
 
     fileprivate func registerItemCell() {
@@ -147,5 +153,9 @@ extension HistoryModuleBuilder {
         self.itemViewModelFactory = itemViewModelFactory
         return self
     }
-    
+
+    func with(localizableTitle: LocalizableResource<String>) -> Self {
+        self.localizableTitle = localizableTitle
+        return self
+    }
 }
