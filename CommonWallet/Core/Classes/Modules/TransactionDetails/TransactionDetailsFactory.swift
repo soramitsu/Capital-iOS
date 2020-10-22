@@ -9,9 +9,11 @@ import SoraFoundation
 
 protocol WalletTransactionDetailsFactoryProtocol {
     func createViewModelsFromTransaction(data: AssetTransactionData,
+                                         commandFactory: WalletCommandFactoryProtocol,
                                          locale: Locale) -> [WalletFormViewBindingProtocol]
 
     func createAccessoryViewModelFromTransaction(data: AssetTransactionData,
+                                                 commandFactory: WalletCommandFactoryProtocol,
                                                  locale: Locale) -> AccessoryViewModelProtocol?
 }
 
@@ -314,6 +316,7 @@ struct WalletTransactionDetailsFactory {
 
 extension WalletTransactionDetailsFactory: WalletTransactionDetailsFactoryProtocol {
     func createViewModelsFromTransaction(data: AssetTransactionData,
+                                         commandFactory: WalletCommandFactoryProtocol,
                                          locale: Locale) -> [WalletFormViewBindingProtocol] {
         guard let transactionType = transactionTypes
             .first(where: { $0.backendName == data.type }) else {
@@ -350,6 +353,7 @@ extension WalletTransactionDetailsFactory: WalletTransactionDetailsFactoryProtoc
     }
 
     func createAccessoryViewModelFromTransaction(data: AssetTransactionData,
+                                                 commandFactory: WalletCommandFactoryProtocol,
                                                  locale: Locale) -> AccessoryViewModelProtocol? {
         guard let transactionType = transactionTypes.first(where: { $0.backendName == data.type }) else {
             return nil

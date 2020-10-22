@@ -50,10 +50,12 @@ class TransactionDetailsTests: XCTestCase {
                                                                    sendBackTypes: [transactionType.backendName],
                                                                    sendAgainTypes: [transactionType.backendName])
 
+            let commandFactory = createMockedCommandFactory()
             let presenter = TransactionDetailsPresenter(view: view,
                                                         coordinator: coordinator,
                                                         transactionData: transactionData,
-                                                        detailsViewModelFactory: viewModelFactory)
+                                                        detailsViewModelFactory: viewModelFactory,
+                                                        commandFactory: commandFactory)
 
             // when
 
