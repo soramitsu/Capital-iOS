@@ -18,11 +18,13 @@ public protocol WalletTransactionDetailsFactoryOverriding {
 
 extension WalletTransactionDetailsFactoryOverriding {
     func createViewModelsFromTransaction(data: AssetTransactionData,
+                                         commandFactory: WalletCommandFactoryProtocol,
                                          locale: Locale) -> [WalletFormViewBindingProtocol]? {
         nil
     }
 
     func createAccessoryViewModelFromTransaction(data: AssetTransactionData,
+                                                 commandFactory: WalletCommandFactoryProtocol,
                                                  locale: Locale) -> AccessoryViewModelProtocol? {
         nil
     }
@@ -41,6 +43,7 @@ struct WalletTransactionDetailsFactoryWrapper: WalletTransactionDetailsFactoryPr
                                          locale: Locale)
         -> [WalletFormViewBindingProtocol] {
         if let result = overriding.createViewModelsFromTransaction(data: data,
+                                                                   commandFactory: commandFactory,
                                                                    locale: locale) {
             return result
         } else {
@@ -54,6 +57,7 @@ struct WalletTransactionDetailsFactoryWrapper: WalletTransactionDetailsFactoryPr
                                                  commandFactory: WalletCommandFactoryProtocol,
                                                  locale: Locale) -> AccessoryViewModelProtocol? {
         if let result = overriding.createAccessoryViewModelFromTransaction(data: data,
+                                                                           commandFactory: commandFactory,
                                                                            locale: locale) {
             return result
         } else {
