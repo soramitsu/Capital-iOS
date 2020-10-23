@@ -188,7 +188,7 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
     }
 
     func with<Cell>(cellClass: Cell.Type?,
-                    for reuseIdentifier: String) -> Self where Cell: UITableView & WalletViewProtocol {
+                    for reuseIdentifier: String) -> Self where Cell: UITableViewCell & WalletViewProtocol {
         registeredCellMetadata[reuseIdentifier] = cellClass
         return self
     }

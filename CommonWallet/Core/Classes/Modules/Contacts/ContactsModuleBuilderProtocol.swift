@@ -11,7 +11,7 @@ public protocol ContactsModuleBuilderProtocol: class {
 
     @discardableResult
     func with<Cell>(cellClass: Cell.Type?,
-                    for reuseIdentifier: String) -> Self where Cell: UITableView & WalletViewProtocol
+                    for reuseIdentifier: String) -> Self where Cell: UITableViewCell & WalletViewProtocol
 
     @discardableResult
     func with(cellNib: UINib?, for reuseIdentifier: String) -> Self
