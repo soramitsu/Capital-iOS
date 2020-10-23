@@ -72,7 +72,7 @@ final class ContactsViewController: UIViewController {
             return
         }
 
-        if configuration.cellStyle.displaysSeparatorForLastCell {
+        if configuration.sectionStyle.displaysSeparatorForLastCell {
             tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: 1.0))
         }
 
