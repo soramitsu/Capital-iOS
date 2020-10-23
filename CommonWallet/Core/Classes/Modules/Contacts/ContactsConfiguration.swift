@@ -8,6 +8,7 @@ import SoraUI
 import SoraFoundation
 
 protocol ContactsConfigurationProtocol {
+    var registeredCellMetadata: [String: Any]? { get }
     var cellStyle: ContactsCellStyle { get }
     var viewStyle: ContactsViewStyleProtocol { get }
     var sectionStyle: ContactsSectionStyleProtocol { get }
@@ -27,6 +28,7 @@ protocol ContactsConfigurationProtocol {
 
 
 struct ContactsConfiguration: ContactsConfigurationProtocol {
+    var registeredCellMetadata: [String: Any]?
     var cellStyle: ContactsCellStyle
     var viewStyle: ContactsViewStyleProtocol
     var sectionStyle: ContactsSectionStyleProtocol

@@ -53,10 +53,30 @@ final class ContactsModuleBuilder {
     fileprivate var localSearchEngine: ContactsLocalSearchEngineProtocol?
 
     fileprivate var canFindItself: Bool = false
-    
+
+    fileprivate var registeredCellMetadata = [String: Any]()
+
+    init() {
+        registerContactCell()
+        registerSendOptionsCell()
+    }
+
+    private func registerContactCell() {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: "ContactCell", bundle: bundle)
+        registeredCellMetadata[ContactConstants.contactCellIdentifier] = nib
+    }
+
+    private func registerSendOptionsCell() {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: "SendOptionCell", bundle: bundle)
+        registeredCellMetadata[ContactConstants.optionCellIdentifier] = nib
+    }
+
     func build() -> ContactsConfigurationProtocol {
         let cellStyle = ContactsCellStyle(contactStyle: contactStyle, sendOptionStyle: sendOptionStyle)
-        return ContactsConfiguration(cellStyle: cellStyle,
+        return ContactsConfiguration(registeredCellMetadata: registeredCellMetadata,
+                                     cellStyle: cellStyle,
                                      viewStyle: viewStyle,
                                      sectionStyle: sectionStyle,
                                      searchPlaceholder: searchPlaceholder,
@@ -155,6 +175,17 @@ extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
 
     func with(canFindItself: Bool) -> Self {
         self.canFindItself = canFindItself
+        return self
+    }
+
+    func with<Cell>(cellClass: Cell.Type?,
+                    for reuseIdentifier: String) -> Self where Cell: UITableView & WalletViewProtocol {
+        registeredCellMetadata[reuseIdentifier] = cellClass
+        return self
+    }
+
+    func with(cellNib: UINib?, for reuseIdentifier: String) -> Self {
+        registeredCellMetadata[reuseIdentifier] = cellNib
         return self
     }
 }

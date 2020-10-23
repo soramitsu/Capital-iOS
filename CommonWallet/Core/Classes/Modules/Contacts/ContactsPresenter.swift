@@ -24,6 +24,8 @@ final class ContactsPresenter: NSObject {
     var coordinator: ContactsCoordinatorProtocol
     
     private(set) var viewModel = ContactListViewModel()
+    private(set) var actionsSection: ContactSectionViewModelProtocol?
+
     private let dataProvider: SingleValueProvider<[SearchData]>
     private let walletService: WalletServiceProtocol
     private let viewModelFactory: ContactsViewModelFactoryProtocol
@@ -76,7 +78,12 @@ final class ContactsPresenter: NSObject {
                                           assetId: selectedAsset.identifier,
                                           locale: locale)
 
-        viewModel.actions = actions
+        if actions.count > 0 {
+            let section = ContactSectionViewModel(title: nil, items: actions)
+            self.actionsSection = section
+
+            viewModel.contacts = [section]
+        }
     }
 
     private func provideBarActionViewModel() {
@@ -113,13 +120,22 @@ final class ContactsPresenter: NSObject {
     
     private func handleContacts(with updatedContacts: [SearchData]?) {
         if let contacts = updatedContacts {
-            viewModel.contacts = contacts.filter {
+            let items = contacts.filter {
                 $0.accountId != currentAccountId
             }.map {
                 viewModelFactory.createContactViewModelFromContact($0,
                                                                    accountId: currentAccountId,
                                                                    assetId: selectedAsset.identifier,
                                                                    delegate: self)
+            }
+
+            let contactsSection = ContactSectionViewModel(title: L10n.Contacts.title,
+                                                          items: items)
+
+            if let actionsSection = actionsSection {
+                viewModel.contacts = [actionsSection, contactsSection]
+            } else {
+                viewModel.contacts = [contactsSection]
             }
         }
 
