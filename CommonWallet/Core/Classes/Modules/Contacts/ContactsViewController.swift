@@ -9,11 +9,6 @@ import SoraFoundation
 
 
 final class ContactsViewController: UIViewController {
-    
-    private struct Constants {
-        static let headerHeight: CGFloat = 55.0
-    }
-    
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var headerView: UIView!
     @IBOutlet private var searchField: UITextField!
@@ -73,9 +68,15 @@ final class ContactsViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: 1.0))
+        guard let configuration = configuration else {
+            return
+        }
 
-        configuration?.registeredCellMetadata?.forEach { (reuseIdentifier, metadata) in
+        if configuration.cellStyle.displaysSeparatorForLastCell {
+            tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: 1.0))
+        }
+
+        configuration.registeredCellMetadata?.forEach { (reuseIdentifier, metadata) in
             if let cellClass = metadata as? UITableViewCell.Type {
                 tableView.register(cellClass, forCellReuseIdentifier: reuseIdentifier)
             }
@@ -228,7 +229,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
         
-        return Constants.headerHeight
+        return configuration?.sectionStyle.height ?? 0.0
     }
     
 }
