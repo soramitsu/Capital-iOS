@@ -16,7 +16,7 @@ enum ContactListState {
     case search
 }
 
-protocol ContactSectionViewModelProtocol {
+public protocol ContactSectionViewModelProtocol {
     var title: String? { get }
     var items: [WalletViewModelProtocol] { get }
 }

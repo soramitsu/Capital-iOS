@@ -17,6 +17,9 @@ public protocol ContactsModuleBuilderProtocol: class {
     func with(cellNib: UINib?, for reuseIdentifier: String) -> Self
 
     @discardableResult
+    func with(listViewModelFactory: ContactsListViewModelFactoryProtocol) -> Self
+
+    @discardableResult
     func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self
 
     @discardableResult

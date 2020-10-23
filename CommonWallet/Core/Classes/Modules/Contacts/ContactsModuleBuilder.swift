@@ -46,6 +46,8 @@ final class ContactsModuleBuilder {
 
     fileprivate var withdrawOptionsPosition: WalletContactsWithdrawPosition = .tableAction
 
+    fileprivate var listViewModelFactory: ContactsListViewModelFactoryProtocol?
+
     fileprivate var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
 
     fileprivate var actionFactoryWrapper: ContactsActionFactoryWrapperProtocol?
@@ -90,6 +92,7 @@ final class ContactsModuleBuilder {
                                      canFindItself: canFindItself,
                                      viewModelFactoryWrapper: viewModelFactoryWrapper,
                                      actionFactoryWrapper: actionFactoryWrapper,
+                                     listViewModelFactory: listViewModelFactory,
                                      localSearchEngine: localSearchEngine)
     }
     
@@ -97,6 +100,12 @@ final class ContactsModuleBuilder {
 
 
 extension ContactsModuleBuilder: ContactsModuleBuilderProtocol {
+
+    @discardableResult
+    func with(listViewModelFactory: ContactsListViewModelFactoryProtocol) -> Self {
+        self.listViewModelFactory = listViewModelFactory
+        return self
+    }
 
     func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self {
         self.viewModelFactoryWrapper = viewModelFactoryWrapper

@@ -43,27 +43,35 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
 
         let withdrawOptions = config.withdrawOptionsPosition == .tableAction ? resolver.account.withdrawOptions : []
 
-        let actionFactory: ContactsActionViewModelFactoryProtocol
+        let listViewModelFactory: ContactsListViewModelFactoryProtocol
 
-        if let customActionFactory = config.actionFactoryWrapper {
-            let defaultFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
-                                                                scanPosition: config.scanPosition,
-                                                                withdrawOptions: withdrawOptions)
-
-            actionFactory = ContactsActionFactoryWrapper(customFactory: customActionFactory,
-                                                         defaultFactory: defaultFactory)
+        if let customViewModelFactory = config.listViewModelFactory {
+            listViewModelFactory = customViewModelFactory
         } else {
-            actionFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
-                                                           scanPosition: config.scanPosition,
-                                                           withdrawOptions: withdrawOptions)
+            let actionFactory: ContactsActionViewModelFactoryProtocol
+
+            if let customActionFactory = config.actionFactoryWrapper {
+                let defaultFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
+                                                                    scanPosition: config.scanPosition,
+                                                                    withdrawOptions: withdrawOptions)
+
+                actionFactory = ContactsActionFactoryWrapper(customFactory: customActionFactory,
+                                                             defaultFactory: defaultFactory)
+            } else {
+                actionFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
+                                                               scanPosition: config.scanPosition,
+                                                               withdrawOptions: withdrawOptions)
+            }
+
+            listViewModelFactory = ContactsListViewModelFactory(itemViewModelFactory: viewModelFactory,
+                                                                actionViewModelFactory: actionFactory)
         }
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
                                           dataProvider: contactsDataProvider,
                                           walletService: walletService,
-                                          viewModelFactory: viewModelFactory,
-                                          actionViewModelFactory: actionFactory,
+                                          listViewModelFactory: listViewModelFactory,
                                           selectedAsset: selectedAsset,
                                           currentAccountId: resolver.account.accountId,
                                           localSearchEngine: config.localSearchEngine,

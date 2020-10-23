@@ -170,12 +170,15 @@ class ContactsScanPositionTests: NetworkBaseTests {
                                   requestType: .contacts,
                                   httpMethod: .get)
 
+        let listViewModelFactory =
+            ContactsListViewModelFactory(itemViewModelFactory: viewModelFactory,
+                                         actionViewModelFactory: actionViewModelFactory)
+
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
                                           dataProvider: dataProvider,
                                           walletService: walletService,
-                                          viewModelFactory: viewModelFactory,
-                                          actionViewModelFactory: actionViewModelFactory,
+                                          listViewModelFactory: listViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
                                           currentAccountId: accountSettings.accountId,
                                           localSearchEngine: nil,

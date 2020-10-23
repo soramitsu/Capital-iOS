@@ -28,8 +28,7 @@ final class ContactsPresenter: NSObject {
 
     private let dataProvider: SingleValueProvider<[SearchData]>
     private let walletService: WalletServiceProtocol
-    private let viewModelFactory: ContactsViewModelFactoryProtocol
-    private let actionViewModelFactory: ContactsActionViewModelFactoryProtocol
+    private let listViewModelFactory: ContactsListViewModelFactoryProtocol
     private let currentAccountId: String
     private let localSearchEngine: ContactsLocalSearchEngineProtocol?
     private let canFindItself: Bool
@@ -53,8 +52,7 @@ final class ContactsPresenter: NSObject {
          coordinator: ContactsCoordinatorProtocol,
          dataProvider: SingleValueProvider<[SearchData]>,
          walletService: WalletServiceProtocol,
-         viewModelFactory: ContactsViewModelFactoryProtocol,
-         actionViewModelFactory: ContactsActionViewModelFactoryProtocol,
+         listViewModelFactory: ContactsListViewModelFactoryProtocol,
          selectedAsset: WalletAsset,
          currentAccountId: String,
          localSearchEngine: ContactsLocalSearchEngineProtocol?,
@@ -63,8 +61,7 @@ final class ContactsPresenter: NSObject {
         self.coordinator = coordinator
         self.dataProvider = dataProvider
         self.walletService = walletService
-        self.viewModelFactory = viewModelFactory
-        self.actionViewModelFactory = actionViewModelFactory
+        self.listViewModelFactory = listViewModelFactory
         self.selectedAsset = selectedAsset
         self.currentAccountId = currentAccountId
         self.localSearchEngine = localSearchEngine
@@ -72,22 +69,17 @@ final class ContactsPresenter: NSObject {
     }
 
     private func setupViewModelActions() {
-        let locale = localizationManager?.selectedLocale
-        let actions = actionViewModelFactory
-            .createOptionListForAccountId(currentAccountId,
-                                          assetId: selectedAsset.identifier,
-                                          locale: locale)
-
-        if actions.count > 0 {
-            let section = ContactSectionViewModel(title: nil, items: actions)
-            self.actionsSection = section
-
-            viewModel.contacts = [section]
-        }
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        viewModel.contacts = listViewModelFactory
+            .createContactViewModelListFromItems([],
+                                                 accountId: currentAccountId,
+                                                 assetId: selectedAsset.identifier,
+                                                 locale: locale,
+                                                 delegate: self)
     }
 
     private func provideBarActionViewModel() {
-        if let viewModel = actionViewModelFactory
+        if let viewModel = listViewModelFactory
             .createBarActionForAccountId(currentAccountId, assetId: selectedAsset.identifier) {
             view?.set(barViewModel: viewModel)
         }
@@ -122,21 +114,16 @@ final class ContactsPresenter: NSObject {
         if let contacts = updatedContacts {
             let items = contacts.filter {
                 $0.accountId != currentAccountId
-            }.map {
-                viewModelFactory.createContactViewModelFromContact($0,
-                                                                   accountId: currentAccountId,
-                                                                   assetId: selectedAsset.identifier,
-                                                                   delegate: self)
             }
 
-            let contactsSection = ContactSectionViewModel(title: L10n.Contacts.title,
-                                                          items: items)
+            let locale = localizationManager?.selectedLocale ?? Locale.current
 
-            if let actionsSection = actionsSection {
-                viewModel.contacts = [actionsSection, contactsSection]
-            } else {
-                viewModel.contacts = [contactsSection]
-            }
+            viewModel.contacts = listViewModelFactory
+                .createContactViewModelListFromItems(items,
+                                                     accountId: currentAccountId,
+                                                     assetId: selectedAsset.identifier,
+                                                     locale: locale,
+                                                     delegate: self)
         }
 
         switch contactsLoadingState {
@@ -163,12 +150,13 @@ final class ContactsPresenter: NSObject {
             filtered = foundData.filter { $0.accountId != currentAccountId }
         }
 
-        viewModel.found = filtered.map {
-            viewModelFactory.createContactViewModelFromContact($0,
-                                                               accountId: currentAccountId,
-                                                               assetId: selectedAsset.identifier,
-                                                               delegate: self)
-        }
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+        viewModel.found = listViewModelFactory
+            .createSearchViewModelListFromItems(filtered,
+                                                accountId: currentAccountId,
+                                                assetId: selectedAsset.identifier,
+                                                locale: locale,
+                                                delegate: self)
 
         switchViewModel(to: .search)
     }
