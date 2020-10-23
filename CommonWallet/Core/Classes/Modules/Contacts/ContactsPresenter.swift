@@ -189,7 +189,9 @@ final class ContactsPresenter: NSObject {
         searchOperation = nil
 
         if let localSearchResults = localSearchEngine?.search(query: searchPattern,
-                                                              assetId: selectedAsset.identifier) {
+                                                              accountId: currentAccountId,
+                                                              assetId: selectedAsset.identifier,
+                                                              delegate: self) {
             if isWaitingSearch {
                 cancelSearch()
             }
