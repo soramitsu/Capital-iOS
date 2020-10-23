@@ -21,9 +21,14 @@ public protocol ContactSectionViewModelProtocol {
     var items: [WalletViewModelProtocol] { get }
 }
 
-struct ContactSectionViewModel: ContactSectionViewModelProtocol {
-    let title: String?
-    let items: [WalletViewModelProtocol]
+public struct ContactSectionViewModel: ContactSectionViewModelProtocol {
+    public let title: String?
+    public let items: [WalletViewModelProtocol]
+
+    public init(title: String?, items: [WalletViewModelProtocol]) {
+        self.title = title
+        self.items = items
+    }
 }
 
 protocol ContactListViewModelProtocol {
