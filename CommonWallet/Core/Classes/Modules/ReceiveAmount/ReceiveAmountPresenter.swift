@@ -15,11 +15,12 @@ final class ReceiveAmountPresenter {
     private(set) var sharingFactory: AccountShareFactoryProtocol
     private(set) var assets: [WalletAsset]
     private(set) var accountId: String
-    private(set) var amountInputViewModel: AmountInputViewModel
+    private(set) var amountInputViewModel: AmountInputViewModel?
     private(set) var descriptionViewModel: DescriptionInputViewModel?
     private(set) var preferredQRSize: CGSize?
     private(set) var selectedAsset: WalletAsset
     private(set) var viewModelFactory: ReceiveViewModelFactoryProtocol
+    private(set) var fieldsInclusion: ReceiveFieldsInclusion
 
     private var currentImage: UIImage?
 
@@ -39,7 +40,7 @@ final class ReceiveAmountPresenter {
          sharingFactory: AccountShareFactoryProtocol,
          receiveInfo: ReceiveInfo,
          viewModelFactory: ReceiveViewModelFactoryProtocol,
-         shouldIncludeDescription: Bool,
+         fieldsInclusion: ReceiveFieldsInclusion,
          localizationManager: LocalizationManagerProtocol?) throws {
         self.view = view
         self.coordinator = coordinator
@@ -48,6 +49,7 @@ final class ReceiveAmountPresenter {
         self.assets = assets
         self.accountId = accountId
         self.viewModelFactory = viewModelFactory
+        self.fieldsInclusion = fieldsInclusion
 
         var currentAmount: Decimal?
 
@@ -63,13 +65,15 @@ final class ReceiveAmountPresenter {
             selectedAsset = assets[0]
         }
 
-        let locale = localizationManager?.selectedLocale ?? Locale.current
+        if fieldsInclusion.contains(.amount) {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      amount: currentAmount,
-                                                                      locale: locale)
+            amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                          amount: currentAmount,
+                                                                          locale: locale)
+        }
 
-        if shouldIncludeDescription {
+        if fieldsInclusion.contains(.description) {
             descriptionViewModel = try viewModelFactory
                 .createDescriptionViewModel(for: receiveInfo.details)
         }
@@ -78,6 +82,10 @@ final class ReceiveAmountPresenter {
     }
 
     private func setupSelectedAssetViewModel(isSelecting: Bool) {
+        guard fieldsInclusion.contains(.selectedAsset) else {
+            return
+        }
+
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         let state = SelectedAssetState(isSelecting: isSelecting,
@@ -119,7 +127,7 @@ final class ReceiveAmountPresenter {
 
         var amount: AmountDecimal?
 
-        if let decimalAmount = amountInputViewModel.decimalAmount, decimalAmount > 0 {
+        if let decimalAmount = amountInputViewModel?.decimalAmount, decimalAmount > 0 {
             amount = AmountDecimal(value: decimalAmount)
         }
 
@@ -145,18 +153,23 @@ final class ReceiveAmountPresenter {
     }
 
     private func updateAmountInputViewModel() {
+        guard let amountInputViewModel = amountInputViewModel else {
+            return
+        }
+
         let locale = localizationManager?.selectedLocale ?? Locale.current
         let amount = amountInputViewModel.decimalAmount
 
         amountInputViewModel.observable.remove(observer: self)
 
-        amountInputViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
-                                                                      amount: amount,
-                                                                      locale: locale)
+        let newViewModel = viewModelFactory.createAmountViewModel(for: selectedAsset,
+                                                                  amount: amount,
+                                                                  locale: locale)
+        self.amountInputViewModel = newViewModel
 
-        amountInputViewModel.observable.add(observer: self)
+        newViewModel.observable.add(observer: self)
 
-        view?.didReceive(amountInputViewModel: amountInputViewModel)
+        view?.didReceive(amountInputViewModel: newViewModel)
     }
 
     private func updateDescriptionViewModel() {
@@ -186,10 +199,12 @@ extension ReceiveAmountPresenter: ReceiveAmountPresenterProtocol {
 
         setupSelectedAssetViewModel(isSelecting: false)
 
-        amountInputViewModel.observable.remove(observer: self)
-        amountInputViewModel.observable.add(observer: self)
+        if let amountInputViewModel = amountInputViewModel {
+            amountInputViewModel.observable.remove(observer: self)
+            amountInputViewModel.observable.add(observer: self)
 
-        view?.didReceive(amountInputViewModel: amountInputViewModel)
+            view?.didReceive(amountInputViewModel: amountInputViewModel)
+        }
 
         if let descriptionViewModel = descriptionViewModel {
             descriptionViewModel.observable.remove(observer: self)

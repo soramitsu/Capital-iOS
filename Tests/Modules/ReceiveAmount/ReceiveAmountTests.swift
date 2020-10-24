@@ -117,7 +117,7 @@ class ReceiveAmountTests: XCTestCase {
                                                    sharingFactory: AccountShareFactory(),
                                                    receiveInfo: receiveInfo,
                                                    viewModelFactory: viewModelFactory,
-                                                   shouldIncludeDescription: true,
+                                                   fieldsInclusion: [.selectedAsset, .amount, .description],
                                                    localizationManager: localizationManager)
 
         presenter.setup(qrSize: CGSize(width: 100.0, height: 100.0))

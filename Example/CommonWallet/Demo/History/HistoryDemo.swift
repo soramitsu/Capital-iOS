@@ -82,7 +82,7 @@ final class HistoryDemo: DemoFactoryProtocol {
             .with(supportsLiveSearch: true)
 
         walletBuilder.receiveModuleBuilder
-            .with(shouldIncludeDescription: true)
+            .with(fieldsInclusion: [.selectedAsset, .amount, .description])
 
         walletBuilder.transactionDetailsModuleBuilder.with(sendBackTransactionTypes: ["INCOMING"])
         walletBuilder.transactionDetailsModuleBuilder.with(sendAgainTransactionTypes: ["OUTGOING"])
