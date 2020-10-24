@@ -25,7 +25,8 @@ class ContactsLocalEngineTests: NetworkBaseTests {
         let localResult = MockContactsLocalSearchResultProtocol()
 
         stub(localSearchEngine) { stub in
-            when(stub).search(query: any(), assetId: any()).then { (query, _) in
+            when(stub).search(query: any(), accountId: any(), assetId: any(), delegate: any()).then {
+                (query, _, _, _) in
                 if query == localQuery {
                     return [localResult]
                 }
@@ -138,12 +139,15 @@ class ContactsLocalEngineTests: NetworkBaseTests {
                                 httpMethod: .get,
                                 urlMockType: .regex)
 
+        let listViewModelFactory =
+            ContactsListViewModelFactory(itemViewModelFactory: viewModelFactory,
+                                         actionViewModelFactory: actionViewModelFactory)
+
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
                                           dataProvider: dataProvider,
                                           walletService: walletService,
-                                          viewModelFactory: viewModelFactory,
-                                          actionViewModelFactory: actionViewModelFactory,
+                                          listViewModelFactory: listViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
                                           currentAccountId: accountSettings.accountId,
                                           localSearchEngine: localSearchEngine,

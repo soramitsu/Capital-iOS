@@ -12,26 +12,33 @@ final class TransactionDetailsPresenter {
     var coordinator: TransactionDetailsCoordinatorProtocol
     let transactionData: AssetTransactionData
     let viewModelFactory: WalletTransactionDetailsFactoryProtocol
+    let commandFactory: WalletCommandFactoryProtocol
 
     init(view: WalletNewFormViewProtocol,
          coordinator: TransactionDetailsCoordinatorProtocol,
          transactionData: AssetTransactionData,
-         detailsViewModelFactory: WalletTransactionDetailsFactoryProtocol) {
+         detailsViewModelFactory: WalletTransactionDetailsFactoryProtocol,
+         commandFactory: WalletCommandFactoryProtocol) {
         self.view = view
         self.coordinator = coordinator
         self.transactionData = transactionData
         self.viewModelFactory = detailsViewModelFactory
+        self.commandFactory = commandFactory
     }
 
     private func updateView() {
         let locale = localizationManager?.selectedLocale ?? Locale.current
-        let mainViewModels = viewModelFactory.createViewModelsFromTransaction(data: transactionData,
-                                                                              locale: locale)
+        let mainViewModels = viewModelFactory
+            .createViewModelsFromTransaction(data: transactionData,
+                                             commandFactory: commandFactory,
+                                             locale: locale)
 
         view?.didReceive(viewModels: mainViewModels)
 
         let accessoryViewModel = viewModelFactory
-            .createAccessoryViewModelFromTransaction(data: transactionData, locale: locale)
+            .createAccessoryViewModelFromTransaction(data: transactionData,
+                                                     commandFactory: commandFactory,
+                                                     locale: locale)
         view?.didReceive(accessoryViewModel: accessoryViewModel)
     }
 }

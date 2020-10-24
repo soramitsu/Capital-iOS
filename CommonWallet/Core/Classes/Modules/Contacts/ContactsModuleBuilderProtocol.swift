@@ -10,6 +10,16 @@ import SoraFoundation
 public protocol ContactsModuleBuilderProtocol: class {
 
     @discardableResult
+    func with<Cell>(cellClass: Cell.Type?,
+                    for reuseIdentifier: String) -> Self where Cell: UITableViewCell & WalletViewProtocol
+
+    @discardableResult
+    func with(cellNib: UINib?, for reuseIdentifier: String) -> Self
+
+    @discardableResult
+    func with(listViewModelFactory: ContactsListViewModelFactoryProtocol) -> Self
+
+    @discardableResult
     func with(viewModelFactoryWrapper: ContactsFactoryWrapperProtocol) -> Self
 
     @discardableResult

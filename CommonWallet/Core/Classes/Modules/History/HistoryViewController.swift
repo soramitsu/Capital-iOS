@@ -128,7 +128,12 @@ final class HistoryViewController: UIViewController {
     }
 
     private func setupLocalization() {
-        titleLabel.text = L10n.History.title
+        if let localizableTitle = configuration?.localizableTitle {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            titleLabel.text = localizableTitle.value(for: locale)
+        } else {
+            titleLabel.text = L10n.History.title
+        }
     }
 
     private func configureFilter() {

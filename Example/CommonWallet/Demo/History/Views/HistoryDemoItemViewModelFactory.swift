@@ -50,7 +50,6 @@ class HistoryDemoTransactionItemViewModel: WalletViewModelProtocol {
 
 enum HistoryItemViewModelFactoryError: Error {
     case amountFormattingFailed
-    case commandFactoryNil
 }
 
 class HistoryDemoItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
@@ -59,7 +58,6 @@ class HistoryDemoItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
     let transactionTypes: [WalletTransactionType]
     let assets: [WalletAsset]
     let localizableDateFormatter: LocalizableResource<DateFormatter>
-    weak var commandFactory: WalletCommandFactoryProtocol?
     
     init(amountFormatterFactory: NumberFormatterFactoryProtocol,
          includesFeeInAmount: Bool,
@@ -74,6 +72,7 @@ class HistoryDemoItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
     }
 
     func createItemFromData(_ data: AssetTransactionData,
+                            commandFactory: WalletCommandFactoryProtocol,
                             locale: Locale) throws
         -> WalletViewModelProtocol {
         let amountValue = data.amount.decimalValue
@@ -134,9 +133,8 @@ class HistoryDemoItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
             icon = nil
         }
 
-        guard let command = commandFactory?.prepareTransactionDetailsCommand(with: data) else {
-            throw(HistoryItemViewModelFactoryError.commandFactoryNil)
-        }
+        let command = commandFactory.prepareTransactionDetailsCommand(with: data)
+
         let eventDate = Date(timeIntervalSince1970: TimeInterval(data.timestamp))
         let dateString = localizableDateFormatter.value(for: locale).string(from: eventDate)
 

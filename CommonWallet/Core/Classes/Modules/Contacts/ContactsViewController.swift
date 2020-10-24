@@ -9,11 +9,6 @@ import SoraFoundation
 
 
 final class ContactsViewController: UIViewController {
-    
-    private struct Constants {
-        static let headerHeight: CGFloat = 55.0
-    }
-    
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var headerView: UIView!
     @IBOutlet private var searchField: UITextField!
@@ -73,16 +68,23 @@ final class ContactsViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: 1.0))
+        guard let configuration = configuration else {
+            return
+        }
 
-        let bundle = Bundle(for: type(of: self))
-        var nib = UINib(nibName: "ContactCell", bundle: bundle)
-        
-        tableView.register(nib, forCellReuseIdentifier: ContactConstants.contactCellIdentifier)
+        if !configuration.sectionStyle.displaysSeparatorForLastCell {
+            tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.width, height: 1.0))
+        }
 
-        nib = UINib(nibName: "SendOptionCell", bundle: bundle)
-        
-        tableView.register(nib, forCellReuseIdentifier: ContactConstants.optionCellIdentifier)
+        configuration.registeredCellMetadata?.forEach { (reuseIdentifier, metadata) in
+            if let cellClass = metadata as? UITableViewCell.Type {
+                tableView.register(cellClass, forCellReuseIdentifier: reuseIdentifier)
+            }
+
+            if let nib = metadata as? UINib {
+                tableView.register(nib, forCellReuseIdentifier: reuseIdentifier)
+            }
+        }
     }
 
     private func setupLocalization() {
@@ -143,11 +145,11 @@ final class ContactsViewController: UIViewController {
 extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return contactsViewModel.sectionCount
+        return contactsViewModel.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactsViewModel.itemsCount(for: section)
+        return contactsViewModel.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -197,7 +199,13 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard !contactsViewModel.actions.isEmpty, section == 0 else {
+        guard section < tableView.numberOfSections - 1 else {
+            return nil
+        }
+
+        let separatorWidth = configuration?.viewStyle.actionsSeparator.lineWidth ?? 0.0
+
+        guard separatorWidth > 0.0 else {
             return nil
         }
 
@@ -209,7 +217,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        guard !contactsViewModel.actions.isEmpty, section == 0 else {
+        guard section < tableView.numberOfSections - 1 else {
             return 0.0
         }
 
@@ -221,7 +229,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
         
-        return Constants.headerHeight
+        return configuration?.sectionStyle.height ?? 0.0
     }
     
 }
@@ -365,12 +373,7 @@ extension ContactsViewController: EmptyStateViewOwnerProtocol {
     }
 
     var displayInsetsForEmptyState: UIEdgeInsets {
-        let topInset: CGFloat = contactsViewModel.actions.reduce(0.0) { (result, action) -> CGFloat in
-            return result + action.itemHeight
-        }
-
-        return UIEdgeInsets(top: 2.0 * topInset + Constants.headerHeight,
-                            left: 0.0, bottom: 0.0, right: 0.0)
+        return .zero
     }
 }
 

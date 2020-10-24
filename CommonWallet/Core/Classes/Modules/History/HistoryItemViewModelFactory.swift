@@ -8,6 +8,7 @@ import Foundation
 
 public protocol HistoryItemViewModelFactoryProtocol {
     func createItemFromData(_ data: AssetTransactionData,
+                            commandFactory: WalletCommandFactoryProtocol,
                             locale: Locale) throws -> WalletViewModelProtocol
 }
 
@@ -20,9 +21,9 @@ struct HistoryItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
     let includesFeeInAmount: Bool
     let transactionTypes: [WalletTransactionType]
     let assets: [WalletAsset]
-    let commandFactory: WalletCommandFactoryProtocol
 
     func createItemFromData(_ data: AssetTransactionData,
+                            commandFactory: WalletCommandFactoryProtocol,
                             locale: Locale) throws
         -> WalletViewModelProtocol {
         let amountValue = data.amount.decimalValue

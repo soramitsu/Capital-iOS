@@ -24,7 +24,7 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
 
         let formDefinition = createFormDefinition(from: resolver)
 
-        let accessoryViewFactory = resolver.transferConfiguration.accessoryViewFactory
+        let accessoryViewFactory = resolver.transactionDetailsConfiguration.accessoryViewFactory
             ?? AccessoryViewFactory.self
 
         let view = WalletNewFormViewController(definition: formDefinition,
@@ -48,7 +48,8 @@ final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
         let presenter = TransactionDetailsPresenter(view: view,
                                                     coordinator: coordinator,
                                                     transactionData: transactionDetails,
-                                                    detailsViewModelFactory: viewModelFactory)
+                                                    detailsViewModelFactory: viewModelFactory,
+                                                    commandFactory: resolver.commandFactory)
         view.presenter = presenter
 
         view.localizationManager = resolver.localizationManager

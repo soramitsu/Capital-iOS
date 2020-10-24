@@ -10,7 +10,8 @@ struct ContactsCellStyle {
     let contactStyle: ContactCellStyleProtocol
     let sendOptionStyle: SendOptionCellStyleProtocol
 
-    public init(contactStyle: ContactCellStyleProtocol, sendOptionStyle: SendOptionCellStyleProtocol) {
+    public init(contactStyle: ContactCellStyleProtocol,
+                sendOptionStyle: SendOptionCellStyleProtocol) {
         self.contactStyle = contactStyle
         self.sendOptionStyle = sendOptionStyle
     }

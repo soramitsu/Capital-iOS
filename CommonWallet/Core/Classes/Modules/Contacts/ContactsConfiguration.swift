@@ -8,6 +8,7 @@ import SoraUI
 import SoraFoundation
 
 protocol ContactsConfigurationProtocol {
+    var registeredCellMetadata: [String: Any]? { get }
     var cellStyle: ContactsCellStyle { get }
     var viewStyle: ContactsViewStyleProtocol { get }
     var sectionStyle: ContactsSectionStyleProtocol { get }
@@ -22,11 +23,13 @@ protocol ContactsConfigurationProtocol {
     var canFindItself: Bool { get }
     var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol? { get }
     var actionFactoryWrapper: ContactsActionFactoryWrapperProtocol? { get }
+    var listViewModelFactory: ContactsListViewModelFactoryProtocol? { get }
     var localSearchEngine: ContactsLocalSearchEngineProtocol? { get }
 }
 
 
 struct ContactsConfiguration: ContactsConfigurationProtocol {
+    var registeredCellMetadata: [String: Any]?
     var cellStyle: ContactsCellStyle
     var viewStyle: ContactsViewStyleProtocol
     var sectionStyle: ContactsSectionStyleProtocol
@@ -41,5 +44,6 @@ struct ContactsConfiguration: ContactsConfigurationProtocol {
     var canFindItself: Bool
     var viewModelFactoryWrapper: ContactsFactoryWrapperProtocol?
     var actionFactoryWrapper: ContactsActionFactoryWrapperProtocol?
+    var listViewModelFactory: ContactsListViewModelFactoryProtocol?
     var localSearchEngine: ContactsLocalSearchEngineProtocol?
 }

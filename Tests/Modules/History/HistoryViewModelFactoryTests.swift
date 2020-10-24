@@ -86,11 +86,11 @@ class HistoryViewModelFactoryTests: XCTestCase {
 
         let itemViewModelFactory = HistoryItemViewModelFactory(amountFormatterFactory: numberFormatterFactory,
                                                                includesFeeInAmount: includesFee, transactionTypes: WalletTransactionType.required,
-                                                               assets: assets,
-                                                               commandFactory: commandFactory)
+                                                               assets: assets)
 
         let viewModelFactory = HistoryViewModelFactory(dateFormatterProvider: dateFormatterProvider,
-                                                       itemViewModelFactory: itemViewModelFactory)
+                                                       itemViewModelFactory: itemViewModelFactory,
+                                                       commandFactory: commandFactory)
 
         return viewModelFactory
     }

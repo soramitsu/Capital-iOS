@@ -16,35 +16,38 @@ enum ContactListState {
     case search
 }
 
-
-enum ContactListSection: Int, CaseIterable {
-    case actions = 0
-    case contacts = 1
+public protocol ContactSectionViewModelProtocol {
+    var title: String? { get }
+    var items: [WalletViewModelProtocol] { get }
 }
 
+public struct ContactSectionViewModel: ContactSectionViewModelProtocol {
+    public let title: String?
+    public let items: [WalletViewModelProtocol]
+
+    public init(title: String?, items: [WalletViewModelProtocol]) {
+        self.title = title
+        self.items = items
+    }
+}
 
 protocol ContactListViewModelProtocol {
-    
-    var actions: [WalletViewModelProtocol] { get }
-    var contacts: [WalletViewModelProtocol] { get }
+    var contacts: [ContactSectionViewModelProtocol] { get }
     var found: [WalletViewModelProtocol] { get }
     var state: ContactListState { get }
     var isEmpty: Bool { get }
     var shouldDisplayEmptyState: Bool { get }
-    var sectionCount: Int { get }
+    var numberOfSections: Int { get }
     
-    func itemsCount(for section: Int) -> Int
+    func numberOfItems(in section: Int) -> Int
     func title(for section: Int) -> String?
     
     subscript(indexPath: IndexPath) -> WalletViewModelProtocol? { get }
     
 }
 
-
 struct ContactListViewModel: ContactListViewModelProtocol {
-    
-    var actions: [WalletViewModelProtocol]
-    var contacts: [WalletViewModelProtocol]
+    var contacts: [ContactSectionViewModelProtocol]
     var found: [WalletViewModelProtocol]
     var state: ContactListState = .full
     var shouldDisplayEmptyState: Bool = false
@@ -58,68 +61,44 @@ struct ContactListViewModel: ContactListViewModelProtocol {
         }
     }
     
-    var sectionCount: Int {
-        !actions.isEmpty ? 2 : 1
+    var numberOfSections: Int {
+        switch state {
+        case .full:
+            return contacts.count
+        case .search:
+            return 1
+        }
     }
     
     init() {
-        actions = []
         contacts = []
         found = []
     }
     
-    func itemsCount(for section: Int) -> Int {
-        let mappedSection = !actions.isEmpty ? section : section + 1
-
-        guard let section = ContactListSection(rawValue: mappedSection) else {
-            return 0
-        }
-
-        switch section {
-        case .actions:
-            return actions.count
-        case .contacts:
-            switch state {
-            case .full:  return contacts.count
-            case .search: return found.count
-            }
+    func numberOfItems(in section: Int) -> Int {
+        switch state {
+        case .full:
+            return contacts[section].items.count
+        case .search:
+            return found.count
         }
     }
     
     func title(for section: Int) -> String? {
-        let mappedSection = !actions.isEmpty ? section : section + 1
-
-        guard let section = ContactListSection(rawValue: mappedSection) else {
-            return nil
-        }
-
-        switch section {
-        case .actions:
-            return nil
-        case .contacts:
-            switch state {
-            case .full:  return L10n.Contacts.title
-            case .search: return  L10n.Contacts.searchResults
-            }
+        switch state {
+        case .full:
+            return contacts[section].title
+        case .search:
+            return  L10n.Contacts.searchResults
         }
     }
     
     subscript(indexPath: IndexPath) -> WalletViewModelProtocol? {
-        let mappedSection = !actions.isEmpty ? indexPath.section : indexPath.section + 1
-
-        guard let section = ContactListSection(rawValue: mappedSection) else {
-            return nil
-        }
-        
-        switch section {
-        case .actions:
-            return actions[indexPath.row]
-        case .contacts:
-            switch state {
-            case .full:  return contacts[indexPath.row]
-            case .search: return found[indexPath.row]
-            }
+        switch state {
+        case .full:
+            return contacts[indexPath.section].items[indexPath.row]
+        case .search:
+            return found[indexPath.row]
         }
     }
-    
 }

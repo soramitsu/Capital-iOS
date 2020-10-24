@@ -7,7 +7,10 @@
 import Foundation
 
 public protocol ContactsLocalSearchEngineProtocol {
-    func search(query: String, assetId: String) -> [ContactViewModelProtocol]?
+    func search(query: String,
+                accountId: String,
+                assetId: String,
+                delegate: ContactViewModelDelegate?) -> [ContactViewModelProtocol]?
 }
 
 public protocol ContactsLocalSearchResultProtocol: ContactViewModelProtocol {}

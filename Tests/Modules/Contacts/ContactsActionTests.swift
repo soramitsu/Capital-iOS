@@ -28,7 +28,7 @@ class ContactsScanPositionTests: NetworkBaseTests {
             }
 
             when(stub).set(listViewModel: any()).then { viewModel in
-                XCTAssertEqual(optionsCount, viewModel.actions.count)
+                XCTAssertEqual(optionsCount, viewModel.contacts[0].items.count)
 
                 listViewModelExpectation.fulfill()
             }
@@ -57,7 +57,7 @@ class ContactsScanPositionTests: NetworkBaseTests {
 
         stub(view) { stub in
             when(stub).set(listViewModel: any()).then { viewModel in
-                XCTAssertEqual(optionsCount + 1, viewModel.actions.count)
+                XCTAssertEqual(optionsCount + 1, viewModel.contacts[0].items.count)
 
                 listViewModelExpectation.fulfill()
             }
@@ -86,7 +86,7 @@ class ContactsScanPositionTests: NetworkBaseTests {
 
         stub(view) { stub in
             when(stub).set(listViewModel: any()).then { viewModel in
-                XCTAssertEqual(optionsCount, viewModel.actions.count)
+                XCTAssertEqual(optionsCount, viewModel.contacts[0].items.count)
 
                 listViewModelExpectation.fulfill()
             }
@@ -112,7 +112,7 @@ class ContactsScanPositionTests: NetworkBaseTests {
 
         stub(view) { stub in
             when(stub).set(listViewModel: any()).then { viewModel in
-                XCTAssertTrue(viewModel.actions.isEmpty)
+                XCTAssertTrue(viewModel.contacts.isEmpty)
 
                 listViewModelExpectation.fulfill()
             }
@@ -170,12 +170,15 @@ class ContactsScanPositionTests: NetworkBaseTests {
                                   requestType: .contacts,
                                   httpMethod: .get)
 
+        let listViewModelFactory =
+            ContactsListViewModelFactory(itemViewModelFactory: viewModelFactory,
+                                         actionViewModelFactory: actionViewModelFactory)
+
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
                                           dataProvider: dataProvider,
                                           walletService: walletService,
-                                          viewModelFactory: viewModelFactory,
-                                          actionViewModelFactory: actionViewModelFactory,
+                                          listViewModelFactory: listViewModelFactory,
                                           selectedAsset: accountSettings.assets[0],
                                           currentAccountId: accountSettings.accountId,
                                           localSearchEngine: nil,
