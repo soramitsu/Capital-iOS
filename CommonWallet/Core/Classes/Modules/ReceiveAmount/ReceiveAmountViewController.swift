@@ -116,6 +116,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     private func configureContentView() {
         qrView = containingFactory.createQrView()
         qrView.backgroundColor = viewStyle.qrBackgroundColor
+        qrView.imageView.contentMode = viewStyle.qrMode
         qrView.margin = Constants.expandedQrMargin
         qrView.borderedView.borderType = []
 
@@ -159,7 +160,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     private func createSeparatorView() -> BorderedContainerView {
         let separatorView = containingFactory.createSeparatorView()
         separatorView.strokeWidth = Constants.separatorHeight
-        separatorView.borderType = [.top]
+        separatorView.borderType = []
 
         separatorView.heightAnchor.constraint(equalToConstant: Constants.separatorHeight).isActive = true
 
@@ -323,8 +324,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func updateLayoutConstraints(for state: LayoutState) {
-        qrView?.margin = calculateQrMargin(for: state)
-        qrHeight?.constant = calculateQrBackgrounHeight(for: state)
+        qrView?.margin = viewStyle.qrMargin ?? calculateQrMargin(for: state)
+        qrHeight?.constant = viewStyle.qrSize?.height ?? calculateQrBackgrounHeight(for: state)
     }
 
     private func calculateQrMargin(for state: LayoutState) -> CGFloat {
