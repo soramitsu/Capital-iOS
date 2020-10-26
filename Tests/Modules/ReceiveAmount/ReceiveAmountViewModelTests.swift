@@ -100,6 +100,7 @@ class ReceiveAmountViewModelTests: XCTestCase {
                                                        transactionSettings: transactionSettings)
 
         let localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)
+        let fieldsInclusion: ReceiveFieldsInclusion = [.selectedAsset, .amount, .description]
         let presenter = try ReceiveAmountPresenter(view: view,
                                                    coordinator: coordinator,
                                                    assets: accountSettings.assets,
@@ -108,7 +109,7 @@ class ReceiveAmountViewModelTests: XCTestCase {
                                                    sharingFactory: AccountShareFactory(),
                                                    receiveInfo: receiveInfo,
                                                    viewModelFactory: viewModelFactory,
-                                                   shouldIncludeDescription: true,
+                                                   fieldsInclusion: fieldsInclusion,
                                                    localizationManager: localizationManager)
 
         return presenter

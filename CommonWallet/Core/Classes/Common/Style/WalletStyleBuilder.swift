@@ -80,6 +80,9 @@ public protocol WalletStyleBuilderProtocol: class {
     func with(closeIcon: UIImage?) -> Self
 
     @discardableResult
+    func with(shareIcon: UIImage?) -> Self
+
+    @discardableResult
     func with(keyboardIcon: UIImage?) -> Self
 
     @discardableResult
@@ -210,6 +213,11 @@ final class WalletStyleBuilder: WalletStyleBuilderProtocol {
 
     func with(closeIcon: UIImage?) -> Self {
         style.closeIcon = closeIcon
+        return self
+    }
+
+    func with(shareIcon: UIImage?) -> Self {
+        style.shareIcon = shareIcon
         return self
     }
 

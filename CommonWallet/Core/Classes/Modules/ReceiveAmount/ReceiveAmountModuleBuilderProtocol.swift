@@ -15,8 +15,14 @@ public protocol ReceiveAmountModuleBuilderProtocol: class {
     func with(title: LocalizableResource<String>) -> Self
 
     @discardableResult
-    func with(shouldIncludeDescription: Bool) -> Self
+    func with(fieldsInclusion: ReceiveFieldsInclusion) -> Self
 
     @discardableResult
     func with(settings: WalletTransactionSettingsProtocol) -> Self
+
+    @discardableResult
+    func with(style: ReceiveStyleProtocol) -> Self
+
+    @discardableResult
+    func with(viewFactory: ReceiveViewFactoryProtocol) -> Self
 }

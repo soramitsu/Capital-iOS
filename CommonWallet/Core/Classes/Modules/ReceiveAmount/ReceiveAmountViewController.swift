@@ -33,6 +33,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     let containingFactory: ContainingViewFactoryProtocol
 
     let style: WalletStyleProtocol
+    let viewStyle: ReceiveStyleProtocol
+    let customViewFactory: ReceiveViewFactoryProtocol?
 
     var localizableTitle: LocalizableResource<String>?
 
@@ -47,9 +49,10 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     private var containerView = ScrollableContainerView()
 
     private var qrView: QRView!
-    private var selectedAssetView: SelectedAssetView!
-    private var amountInputTitleView: MultilineTitleIconView!
-    private var amountInputView: AmountInputView!
+    private var qrSeparatorView: BorderedContainerView!
+    private var selectedAssetView: SelectedAssetView?
+    private var amountInputTitleView: MultilineTitleIconView?
+    private var amountInputView: AmountInputView?
     private var descriptionInputTitleView: MultilineTitleIconView?
     private var descriptionInputView: DescriptionInputView?
 
@@ -58,8 +61,13 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private var keyboardHandler: KeyboardHandler?
 
-    init(containingFactory: ContainingViewFactoryProtocol, style: WalletStyleProtocol) {
+    init(containingFactory: ContainingViewFactoryProtocol,
+         customViewFactory: ReceiveViewFactoryProtocol?,
+         viewStyle: ReceiveStyleProtocol,
+         style: WalletStyleProtocol) {
         self.containingFactory = containingFactory
+        self.customViewFactory = customViewFactory
+        self.viewStyle = viewStyle
         self.style = style
 
         super.init(nibName: nil, bundle: nil)
@@ -84,9 +92,13 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
         setupLocalization()
 
-        let qrHeight = calculateQrBackgrounHeight(for: .expanded)
-        let qrMargin = calculateQrMargin(for: .expanded)
-        presenter.setup(qrSize: CGSize(width: qrHeight - 2 * qrMargin, height: qrHeight - 2 * qrMargin))
+        if let qrSize = viewStyle.qrSize {
+            presenter.setup(qrSize: qrSize)
+        } else {
+            let qrHeight = calculateQrBackgrounHeight(for: .expanded)
+            let qrMargin = calculateQrMargin(for: .expanded)
+            presenter.setup(qrSize: CGSize(width: qrHeight - 2 * qrMargin, height: qrHeight - 2 * qrMargin))
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -103,35 +115,24 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private func configureContentView() {
         qrView = containingFactory.createQrView()
+        qrView.backgroundColor = viewStyle.qrBackgroundColor
+        qrView.imageView.contentMode = viewStyle.qrMode
         qrView.margin = Constants.expandedQrMargin
         qrView.borderedView.borderType = []
 
-        qrHeight = qrView.heightAnchor.constraint(equalToConstant: Constants.expandedQrBackgroundHeight)
+        let height = viewStyle.qrSize?.height ?? Constants.expandedQrBackgroundHeight
+        qrHeight = qrView.heightAnchor.constraint(equalToConstant: height)
         qrHeight?.isActive = true
 
-        amountInputTitleView = containingFactory.createTitleView()
-        amountInputTitleView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing,
-                                                          left: 0.0,
-                                                          bottom: Constants.bottomMargin,
-                                                          right: 0.0)
+        qrSeparatorView = createSeparatorView()
 
-        selectedAssetView = containingFactory.createSelectedAssetView()
-        selectedAssetView.borderedView.borderType = [.bottom]
-        selectedAssetView.delegate = self
-        selectedAssetView.heightAnchor.constraint(equalToConstant: Constants.assetViewHeight).isActive = true
+        let views: [UIView]
 
-        amountInputView = containingFactory.createAmountInputView(for: .small)
-        amountInputView.borderedView.borderType = []
-        amountInputView.contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
-                                                     bottom: Constants.bottomMargin, right: 0.0)
-        amountInputView.keyboardIndicatorMode = .always
-
-        let amountHeightValue = Constants.amountViewHeight + Constants.bottomMargin
-        amountHeight = amountInputView.heightAnchor
-            .constraint(equalToConstant: amountHeightValue)
-        amountHeight.isActive = true
-
-        let views: [UIView] = [qrView, createSeparatorView(), selectedAssetView, amountInputTitleView, amountInputView]
+        if let header = customViewFactory?.createHeaderView() {
+            views = [header, qrView, qrSeparatorView]
+        } else {
+            views = [qrView, qrSeparatorView]
+        }
 
         views.forEach { containerView.stackView.addArrangedSubview($0) }
 
@@ -139,9 +140,11 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
             $0.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         }
 
-        views[2...].forEach {
-            $0.widthAnchor.constraint(equalTo: view.widthAnchor,
-                                      constant: -2 * Constants.horizontalMargin).isActive = true
+        if views.count > 2 {
+            views[2...].forEach {
+                $0.widthAnchor.constraint(equalTo: view.widthAnchor,
+                                          constant: -2 * Constants.horizontalMargin).isActive = true
+            }
         }
     }
 
@@ -157,17 +160,73 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     private func createSeparatorView() -> BorderedContainerView {
         let separatorView = containingFactory.createSeparatorView()
         separatorView.strokeWidth = Constants.separatorHeight
-        separatorView.borderType = [.top]
+        separatorView.borderType = []
 
         separatorView.heightAnchor.constraint(equalToConstant: Constants.separatorHeight).isActive = true
 
         return separatorView
     }
 
-    private func addDescriptionView() {
-        amountInputView.borderedView.borderType = [.bottom]
-        amountInputView.keyboardIndicatorMode = .editing
+    private func arrange(newView: UIView, after arrangedView: UIView) {
+        if let index = containerView.stackView.arrangedSubviews.firstIndex(of: arrangedView) {
+            containerView.stackView.insertArrangedSubview(newView, at: index + 1)
+            newView.widthAnchor.constraint(equalTo: view.widthAnchor,
+                                           constant: -2 * Constants.horizontalMargin).isActive = true
+        }
+    }
 
+    private func rearrangeByRemoving(view: UIView) {
+        containerView.stackView.removeArrangedSubview(view)
+        view.removeFromSuperview()
+    }
+
+    private func updateSeparators() {
+        if selectedAssetView != nil || amountInputView != nil || descriptionInputView != nil {
+            qrSeparatorView.borderType = [.top]
+        } else {
+            qrSeparatorView.borderType = []
+        }
+
+        if amountInputView != nil || descriptionInputView != nil {
+            selectedAssetView?.borderType = [.bottom]
+        } else {
+            selectedAssetView?.borderType = []
+        }
+
+        if descriptionInputView != nil {
+            amountInputView?.borderType = [.bottom]
+        } else {
+            amountInputView?.borderType = []
+        }
+
+        descriptionInputView?.borderType = []
+    }
+
+    private func updateKeyboardIndicatorModes() {
+        if amountInputView != nil, descriptionInputView != nil {
+            amountInputView?.keyboardIndicatorMode = .editing
+            descriptionInputView?.keyboardIndicatorMode = .editing
+        } else {
+            amountInputView?.keyboardIndicatorMode = .always
+            descriptionInputView?.keyboardIndicatorMode = .always
+        }
+    }
+
+    private func addSelectedAssetView() {
+        let selectedAssetView = containingFactory.createSelectedAssetView()
+        selectedAssetView.borderedView.borderType = [.bottom]
+        selectedAssetView.delegate = self
+
+        selectedAssetView.heightAnchor.constraint(equalToConstant: Constants.assetViewHeight).isActive = true
+
+        arrange(newView: selectedAssetView, after: qrSeparatorView)
+
+        self.selectedAssetView = selectedAssetView
+
+        updateSeparators()
+    }
+
+    private func addDescriptionView() {
         let descriptionInputTitleView = containingFactory.createTitleView()
         descriptionInputTitleView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing,
                                                                left: 0.0,
@@ -175,10 +234,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
                                                                right: 0.0)
 
         let descriptionView = containingFactory.createDescriptionInputView()
-        descriptionView.borderedView.borderType = []
         descriptionView.contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
                                                      bottom: Constants.bottomMargin, right: 0.0)
-        descriptionView.keyboardIndicatorMode = .editing
 
         containerView.stackView.addArrangedSubview(descriptionInputTitleView)
         containerView.stackView.addArrangedSubview(descriptionView)
@@ -194,6 +251,42 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
         self.descriptionInputTitleView = descriptionInputTitleView
 
         setupDescriptionTitleLocalizationIfNeeded()
+
+        updateKeyboardIndicatorModes()
+        updateSeparators()
+    }
+
+    private func addAmountView() {
+        let amountInputTitleView = containingFactory.createTitleView()
+        amountInputTitleView.contentInsets = UIEdgeInsets(top: Constants.verticalSpacing,
+                                                          left: 0.0,
+                                                          bottom: Constants.bottomMargin,
+                                                          right: 0.0)
+
+        let amountInputView = containingFactory.createAmountInputView(for: .small)
+        amountInputView.contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
+                                                     bottom: Constants.bottomMargin, right: 0.0)
+
+        let amountHeightValue = Constants.amountViewHeight + Constants.bottomMargin
+        amountHeight = amountInputView.heightAnchor
+            .constraint(equalToConstant: amountHeightValue)
+        amountHeight.isActive = true
+
+        if let selectedAssetView = selectedAssetView {
+            arrange(newView: amountInputTitleView, after: selectedAssetView)
+        } else {
+            arrange(newView: amountInputTitleView, after: qrSeparatorView)
+        }
+
+        arrange(newView: amountInputView, after: amountInputTitleView)
+
+        self.amountInputTitleView = amountInputTitleView
+        self.amountInputView = amountInputView
+
+        setupAmountTitleLocalization()
+
+        updateKeyboardIndicatorModes()
+        updateSeparators()
     }
 
     private func setupLocalization() {
@@ -212,7 +305,7 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
 
     private func setupAmountTitleLocalization() {
         let amountTitleViewModel = MultilineTitleIconViewModel(text: L10n.Amount.title)
-        amountInputTitleView.bind(viewModel: amountTitleViewModel)
+        amountInputTitleView?.bind(viewModel: amountTitleViewModel)
     }
 
     private func setupDescriptionTitleLocalizationIfNeeded() {
@@ -231,8 +324,8 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func updateLayoutConstraints(for state: LayoutState) {
-        qrView?.margin = calculateQrMargin(for: state)
-        qrHeight?.constant = calculateQrBackgrounHeight(for: state)
+        qrView?.margin = viewStyle.qrMargin ?? calculateQrMargin(for: state)
+        qrHeight?.constant = viewStyle.qrSize?.height ?? calculateQrBackgrounHeight(for: state)
     }
 
     private func calculateQrMargin(for state: LayoutState) -> CGFloat {
@@ -304,12 +397,18 @@ final class ReceiveAmountViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func scrollToFirstReponder(for localKeyboardFrame: CGRect) {
-        let currentInputView: UIView
+        let inputView: UIView?
 
         if let descriptionView = descriptionInputView, descriptionView.textView.isFirstResponder {
-            currentInputView = descriptionView
+            inputView = descriptionView
+        } else if let amountView = amountInputView, amountView.isFirstResponder {
+            inputView = amountView
         } else {
-            currentInputView = amountInputView
+            inputView = nil
+        }
+
+        guard let currentInputView = inputView else {
+            return
         }
 
         let scrollHeight = view.bounds.maxY - containerView.scrollView.frame.minY -
@@ -341,11 +440,19 @@ extension ReceiveAmountViewController: ReceiveAmountViewProtocol {
     }
 
     func didReceive(assetSelectionViewModel: AssetSelectionViewModelProtocol) {
-        selectedAssetView.bind(viewModel: assetSelectionViewModel)
+        if selectedAssetView == nil {
+            addSelectedAssetView()
+        }
+
+        selectedAssetView?.bind(viewModel: assetSelectionViewModel)
     }
 
     func didReceive(amountInputViewModel: AmountInputViewModelProtocol) {
-        amountInputView.bind(inputViewModel: amountInputViewModel)
+        if amountInputView == nil {
+            addAmountView()
+        }
+
+        amountInputView?.bind(inputViewModel: amountInputViewModel)
     }
 
     func didReceive(descriptionViewModel: DescriptionInputViewModelProtocol) {

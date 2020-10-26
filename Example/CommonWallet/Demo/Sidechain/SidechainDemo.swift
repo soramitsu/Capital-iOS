@@ -71,8 +71,8 @@ final class SidechainDemo: DemoFactoryProtocol {
             .with(withdrawOptionsPosition: .notInclude)
             .with(supportsLiveSearch: true)
 
-        walletBuilder.receiveModuleBuilder
-            .with(shouldIncludeDescription: true)
+            walletBuilder.receiveModuleBuilder
+                .with(fieldsInclusion: [.selectedAsset, .amount, .description])
 
         walletBuilder.transactionDetailsModuleBuilder.with(sendBackTransactionTypes: ["INCOMING"])
         walletBuilder.transactionDetailsModuleBuilder.with(sendAgainTransactionTypes: ["OUTGOING"])

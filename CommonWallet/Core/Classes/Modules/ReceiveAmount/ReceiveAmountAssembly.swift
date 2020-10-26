@@ -16,8 +16,12 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                           amount: nil,
                                           details: nil)
 
+            let config = resolver.receiveConfiguration
+
             let containingFactory = ContainingViewFactory(style: resolver.style)
             let view = ReceiveAmountViewController(containingFactory: containingFactory,
+                                                   customViewFactory: config.viewFactory,
+                                                   viewStyle: config.receiveStyle,
                                                    style: resolver.style)
 
             let coordinator = ReceiveAmountCoordinator(resolver: resolver)
@@ -34,8 +38,6 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                                            descriptionValidatorFactory: inputValidatorFactory,
                                                            transactionSettings: settings)
 
-            let config = resolver.receiveConfiguration
-
             let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
 
             let presenter = try ReceiveAmountPresenter(view: view,
@@ -46,7 +48,7 @@ final class ReceiveAmountAssembly: ReceiveAmountAssemblyProtocol {
                                                        sharingFactory: config.accountShareFactory,
                                                        receiveInfo: receiveInfo,
                                                        viewModelFactory: viewModelFactory,
-                                                       shouldIncludeDescription: config.shouldIncludeDescription,
+                                                       fieldsInclusion: config.fieldsInclusion,
                                                        localizationManager: resolver.localizationManager)
             view.presenter = presenter
 

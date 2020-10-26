@@ -294,6 +294,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         privateInvoiceScanModuleBuilder.walletStyle = style
         let invoiceScanConfiguration = privateInvoiceScanModuleBuilder.build()
 
+        privateReceiveModuleBuilder.walletStyle = style
         let receiveConfiguration = privateReceiveModuleBuilder.build()
 
         let transactionDetailsConfiguration = privateTransactionDetailsModuleBuilder.build()
