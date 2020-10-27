@@ -31,6 +31,7 @@ final class ContactsPresenter: NSObject {
     private let listViewModelFactory: ContactsListViewModelFactoryProtocol
     private let currentAccountId: String
     private let localSearchEngine: ContactsLocalSearchEngineProtocol?
+    private let commandFactory: WalletCommandFactoryProtocol
     private let canFindItself: Bool
 
     private let selectedAsset: WalletAsset
@@ -41,6 +42,11 @@ final class ContactsPresenter: NSObject {
 
     private var searchOperation: CancellableCall?
     private var isWaitingSearch: Bool = false
+
+    private var moduleParameters: ContactModuleParameters {
+        ContactModuleParameters(accountId: currentAccountId,
+                                assetId: selectedAsset.identifier)
+    }
     
     var logger: WalletLoggerProtocol?
 
@@ -50,6 +56,7 @@ final class ContactsPresenter: NSObject {
 
     init(view: ContactsViewProtocol,
          coordinator: ContactsCoordinatorProtocol,
+         commandFactory: WalletCommandFactoryProtocol,
          dataProvider: SingleValueProvider<[SearchData]>,
          walletService: WalletServiceProtocol,
          listViewModelFactory: ContactsListViewModelFactoryProtocol,
@@ -59,6 +66,7 @@ final class ContactsPresenter: NSObject {
          canFindItself: Bool) {
         self.view = view
         self.coordinator = coordinator
+        self.commandFactory = commandFactory
         self.dataProvider = dataProvider
         self.walletService = walletService
         self.listViewModelFactory = listViewModelFactory
@@ -72,15 +80,16 @@ final class ContactsPresenter: NSObject {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         viewModel.contacts = listViewModelFactory
             .createContactViewModelListFromItems([],
-                                                 accountId: currentAccountId,
-                                                 assetId: selectedAsset.identifier,
+                                                 parameters: moduleParameters,
                                                  locale: locale,
-                                                 delegate: self)
+                                                 delegate: self,
+                                                 commandFactory: commandFactory)
     }
 
     private func provideBarActionViewModel() {
         if let viewModel = listViewModelFactory
-            .createBarActionForAccountId(currentAccountId, assetId: selectedAsset.identifier) {
+            .createBarActionForAccountId(moduleParameters,
+                                         commandFactory: commandFactory) {
             view?.set(barViewModel: viewModel)
         }
     }
@@ -120,10 +129,10 @@ final class ContactsPresenter: NSObject {
 
             viewModel.contacts = listViewModelFactory
                 .createContactViewModelListFromItems(items,
-                                                     accountId: currentAccountId,
-                                                     assetId: selectedAsset.identifier,
+                                                     parameters: moduleParameters,
                                                      locale: locale,
-                                                     delegate: self)
+                                                     delegate: self,
+                                                     commandFactory: commandFactory)
         }
 
         switch contactsLoadingState {
@@ -153,10 +162,10 @@ final class ContactsPresenter: NSObject {
         let locale = localizationManager?.selectedLocale ?? Locale.current
         viewModel.found = listViewModelFactory
             .createSearchViewModelListFromItems(filtered,
-                                                accountId: currentAccountId,
-                                                assetId: selectedAsset.identifier,
+                                                parameters: moduleParameters,
                                                 locale: locale,
-                                                delegate: self)
+                                                delegate: self,
+                                                commandFactory: commandFactory)
 
         switchViewModel(to: .search)
     }

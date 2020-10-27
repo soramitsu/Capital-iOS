@@ -121,8 +121,7 @@ class ContactsTests: NetworkBaseTests {
         let viewModelFactory = ContactsViewModelFactory(avatarRadius: 10.0,
                                                         nameIconStyle: contactsConfiguration.cellStyle.contactStyle.nameIcon)
 
-        let actionViewModelFactory = ContactsActionViewModelFactory(commandFactory: commandFactory,
-                                                                    scanPosition: .tableAction,
+        let actionViewModelFactory = ContactsActionViewModelFactory(scanPosition: .tableAction,
                                                                     withdrawOptions: [])
 
         let coordinator = MockContactsCoordinatorProtocol()
@@ -149,6 +148,7 @@ class ContactsTests: NetworkBaseTests {
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
+                                          commandFactory: commandFactory,
                                           dataProvider: dataProvider,
                                           walletService: walletService,
                                           listViewModelFactory: listViewModelFactory,

@@ -6,22 +6,28 @@
 
 import Foundation
 
+public struct ContactModuleParameters {
+    public let accountId: String
+    public let assetId: String
+}
+
 public protocol ContactsListViewModelFactoryProtocol {
     func createContactViewModelListFromItems(_ items: [SearchData],
-                                             accountId: String,
-                                             assetId: String,
+                                             parameters: ContactModuleParameters,
                                              locale: Locale,
-                                             delegate: ContactViewModelDelegate?)
+                                             delegate: ContactViewModelDelegate?,
+                                             commandFactory: WalletCommandFactoryProtocol)
         -> [ContactSectionViewModelProtocol]
 
     func createSearchViewModelListFromItems(_ items: [SearchData],
-                                            accountId: String,
-                                            assetId: String,
+                                            parameters: ContactModuleParameters,
                                             locale: Locale,
-                                            delegate: ContactViewModelDelegate?)
+                                            delegate: ContactViewModelDelegate?,
+                                            commandFactory: WalletCommandFactoryProtocol)
         -> [WalletViewModelProtocol]
 
-    func createBarActionForAccountId(_ accountId: String, assetId: String)
+    func createBarActionForAccountId(_ parameters: ContactModuleParameters,
+                                     commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol?
 }
 
@@ -38,16 +44,19 @@ final class ContactsListViewModelFactory {
 
 extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
     func createContactViewModelListFromItems(_ items: [SearchData],
-                                             accountId: String,
-                                             assetId: String,
+                                             parameters: ContactModuleParameters,
                                              locale: Locale,
-                                             delegate: ContactViewModelDelegate?)
+                                             delegate: ContactViewModelDelegate?,
+                                             commandFactory: WalletCommandFactoryProtocol)
         -> [ContactSectionViewModelProtocol] {
 
         var sections: [ContactSectionViewModelProtocol] = []
 
         let actions = actionViewModelFactory
-            .createOptionListForAccountId(accountId, assetId: assetId, locale: locale)
+            .createOptionListForAccountId(parameters.accountId,
+                                          assetId: parameters.assetId,
+                                          locale: locale,
+                                          commandFactory: commandFactory)
 
         if !actions.isEmpty {
             let actionsSection = ContactSectionViewModel(title: nil, items: actions)
@@ -56,8 +65,8 @@ extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
 
         let contacts = items.map {
             itemViewModelFactory.createContactViewModelFromContact($0,
-                                                                   accountId: accountId,
-                                                                   assetId: assetId,
+                                                                   accountId: parameters.accountId,
+                                                                   assetId: parameters.assetId,
                                                                    delegate: delegate)
         }
 
@@ -71,22 +80,24 @@ extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
     }
 
     func createSearchViewModelListFromItems(_ items: [SearchData],
-                                            accountId: String,
-                                            assetId: String,
+                                            parameters: ContactModuleParameters,
                                             locale: Locale,
-                                            delegate: ContactViewModelDelegate?)
+                                            delegate: ContactViewModelDelegate?,
+                                            commandFactory: WalletCommandFactoryProtocol)
         -> [WalletViewModelProtocol] {
         return items.map {
             itemViewModelFactory.createContactViewModelFromContact($0,
-                                                                   accountId: accountId,
-                                                                   assetId: assetId,
+                                                                   accountId: parameters.accountId,
+                                                                   assetId: parameters.assetId,
                                                                    delegate: delegate)
         }
     }
 
-    func createBarActionForAccountId(_ accountId: String,
-                                     assetId: String)
+    func createBarActionForAccountId(_ parameters: ContactModuleParameters,
+                                     commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol? {
-        actionViewModelFactory.createBarActionForAccountId(accountId, assetId: assetId)
+        actionViewModelFactory.createBarActionForAccountId(parameters.accountId,
+                                                           assetId: parameters.assetId,
+                                                           commandFactory: commandFactory)
     }
 }
