@@ -5,6 +5,7 @@
 
 import Foundation
 import Photos
+import PhotosUI
 
 final class InvoiceScanCoordinator: NSObject {
     private weak var galleryDelegate: ImageGalleryDelegate?
@@ -19,11 +20,22 @@ final class InvoiceScanCoordinator: NSObject {
                                 delegate: ImageGalleryDelegate) {
         galleryDelegate = delegate
 
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
+        let imageController: UIViewController
 
-        view?.controller.present(imagePicker,
+        if #available(iOS 14, *) {
+            let imagePicker = PHPickerViewController(configuration: PHPickerConfiguration())
+            imagePicker.delegate = self
+
+            imageController = imagePicker
+        } else {
+            let imagePicker = UIImagePickerController()
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+
+            imageController = imagePicker
+        }
+
+        view?.controller.present(imageController,
                                  animated: true,
                                  completion: nil)
     }
@@ -41,7 +53,7 @@ extension InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
     func presentImageGallery(from view: ControllerBackedProtocol?, delegate: ImageGalleryDelegate) {
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         switch photoAuthorizationStatus {
-        case .authorized:
+        case .authorized, .limited:
             presentGallery(from: view, delegate: delegate)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization({ (newStatus) in
@@ -84,5 +96,27 @@ extension InvoiceScanCoordinator: UIImagePickerControllerDelegate & UINavigation
         galleryDelegate = nil
 
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+@available(iOS 14, *)
+extension InvoiceScanCoordinator: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let result = results.first else {
+            return
+        }
+
+        result.itemProvider.loadObject(ofClass: UIImage.self) { (object, _) in
+            DispatchQueue.main.async {
+                if let image = object as? UIImage {
+                    self.galleryDelegate?.didCompleteImageSelection(from: self,
+                                                                    with: [image])
+                } else {
+                    self.galleryDelegate?.didCompleteImageSelection(from: self,
+                                                                    with: [])
+                }
+            }
+        }
     }
 }
