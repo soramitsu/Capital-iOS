@@ -6,9 +6,10 @@
 import Foundation
 
 public protocol InvoiceScanViewStyleProtocol {
+    var background: UIColor { get }
     var title: WalletTextStyle { get }
     var message: WalletTextStyle { get }
-    var background: UIColor { get }
+    var maskBackground: UIColor { get }
     var upload: WalletRoundedButtonStyleProtocol { get }
 }
 
@@ -16,15 +17,18 @@ public struct InvoiceScanViewStyle: InvoiceScanViewStyleProtocol {
     public var title: WalletTextStyle
     public var message: WalletTextStyle
     public var background: UIColor
+    public var maskBackground: UIColor
     public var upload: WalletRoundedButtonStyleProtocol
 
-    public init(title: WalletTextStyle,
+    public init(background: UIColor,
+                title: WalletTextStyle,
                 message: WalletTextStyle,
-                background: UIColor,
+                maskBackground: UIColor,
                 upload: WalletRoundedButtonStyleProtocol) {
+        self.background = background
         self.title = title
         self.message = message
-        self.background = background
+        self.maskBackground = maskBackground
         self.upload = upload
     }
 }
@@ -37,9 +41,10 @@ extension InvoiceScanViewStyle {
         let uploadTitle = WalletTextStyle(font: style.bodyBoldFont, color: .white)
         let upload = WalletRoundedButtonStyle(background: style.accentColor, title: uploadTitle)
 
-        return InvoiceScanViewStyle(title: title,
+        return InvoiceScanViewStyle(background: style.backgroundColor,
+                                    title: title,
                                     message: message,
-                                    background: UIColor.black.withAlphaComponent(0.8),
+                                    maskBackground: UIColor.black.withAlphaComponent(0.8),
                                     upload: upload)
     }
 }
