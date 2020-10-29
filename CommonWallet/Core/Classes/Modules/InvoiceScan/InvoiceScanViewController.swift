@@ -97,7 +97,7 @@ final class InvoiceScanViewController: UIViewController, AdaptiveDesignable {
             messageLabel.textColor = style.message.color
             messageLabel.font = style.message.font
 
-            qrFrameView.fillColor = style.background
+            qrFrameView.fillColor = style.maskBackground
 
             style.upload.apply(to: uploadButton)
         }
