@@ -11,5 +11,8 @@ public protocol InvoiceScanModuleBuilderProtocol: class {
     func with(viewStyle: InvoiceScanViewStyleProtocol) -> Self
 
     @discardableResult
+    func with(localSearchEngine: InvoiceLocalSearchEngineProtocol) -> Self
+
+    @discardableResult
     func with(supportsUpload: Bool) -> Self
 }
