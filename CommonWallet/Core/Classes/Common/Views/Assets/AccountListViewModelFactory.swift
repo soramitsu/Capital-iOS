@@ -15,6 +15,7 @@ public protocol AccountListViewModelFactoryProtocol: class {
                                 locale: Locale) -> WalletViewModelProtocol?
     func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?,
                                  locale: Locale) -> WalletViewModelProtocol?
+    func createAssetIconViewModel(for asset: WalletAsset) -> WalletImageViewModelProtocol?
 }
 
 public extension AccountListViewModelFactoryProtocol {
@@ -34,6 +35,10 @@ public extension AccountListViewModelFactoryProtocol {
 
     func createShowMoreViewModel(for delegate: ShowMoreViewModelDelegate?,
                                  locale: Locale) -> WalletViewModelProtocol? {
+        return nil
+    }
+
+    func createAssetIconViewModel(for asset: WalletAsset) -> WalletImageViewModelProtocol? {
         return nil
     }
 }
