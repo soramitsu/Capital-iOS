@@ -19,7 +19,15 @@ final class HistoryBackgroundView: RoundedView {
 
 extension HistoryBackgroundView: HistoryBackgroundViewProtocol {
     func apply(style: HistoryViewStyleProtocol) {
-        shadowOpacity = 0.0
+        if let shadow = style.shadow {
+            shadowColor = shadow.color
+            shadowOffset = shadow.offset
+            shadowOpacity = shadow.opacity
+            shadowRadius = shadow.blurRadius
+        } else {
+            shadowOpacity = 0.0
+        }
+
         fillColor = style.fillColor
         highlightedFillColor = style.fillColor
         cornerRadius = style.cornerRadius

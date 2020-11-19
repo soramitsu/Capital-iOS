@@ -14,9 +14,13 @@ public protocol HistoryViewStyleProtocol {
     var closeIcon: UIImage? { get }
     var panIndicatorStyle: UIColor { get }
     var shouldInsertFullscreenShadow: Bool { get }
+    var shadow: WalletShadowStyleProtocol? { get }
+    var separatorStyle: UIColor? { get }
 }
 
 public struct HistoryViewStyle: HistoryViewStyleProtocol {
+    public var separatorStyle: UIColor?
+    public var shadow: WalletShadowStyleProtocol?
     public var fillColor: UIColor
     public var borderStyle: WalletStrokeStyle
     public var cornerRadius: CGFloat
@@ -33,7 +37,9 @@ public struct HistoryViewStyle: HistoryViewStyleProtocol {
                 filterIcon: UIImage?,
                 closeIcon: UIImage?,
                 panIndicatorStyle: UIColor,
-                shouldInsertFullscreenShadow: Bool) {
+                shouldInsertFullscreenShadow: Bool,
+                shadow: WalletShadowStyleProtocol?,
+                separatorStyle: UIColor?) {
         self.fillColor = fillColor
         self.borderStyle = borderStyle
         self.cornerRadius = cornerRadius
@@ -42,6 +48,8 @@ public struct HistoryViewStyle: HistoryViewStyleProtocol {
         self.closeIcon = closeIcon
         self.panIndicatorStyle = panIndicatorStyle
         self.shouldInsertFullscreenShadow = shouldInsertFullscreenShadow
+        self.separatorStyle = separatorStyle
+        self.shadow = shadow
     }
 }
 
@@ -58,6 +66,8 @@ extension HistoryViewStyle {
                                 filterIcon: filter,
                                 closeIcon: style.closeIcon,
                                 panIndicatorStyle: .panIndicator,
-                                shouldInsertFullscreenShadow: true)
+                                shouldInsertFullscreenShadow: true,
+                                shadow: nil,
+                                separatorStyle: nil)
     }
 }
