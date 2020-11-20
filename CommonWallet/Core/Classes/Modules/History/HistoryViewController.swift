@@ -112,9 +112,12 @@ final class HistoryViewController: UIViewController {
         backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         backgroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor,
-                                               multiplier: 2.0,
-                                               constant: 0.0).isActive = true
+
+        if let height = configuration?.backgroundHeight {
+            backgroundView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        } else {
+            backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
     }
 
     private func configureStyle() {
