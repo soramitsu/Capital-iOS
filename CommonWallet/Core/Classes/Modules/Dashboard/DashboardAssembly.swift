@@ -9,6 +9,7 @@ final class DashboardAssembly: DashboardAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol) -> DashboardViewProtocol? {
         let view = DashboardViewController()
         view.style = resolver.style
+        view.shouldInsertShadow = resolver.historyConfiguration.viewStyle.shouldInsertFullscreenShadow
 
         let assets = resolver.account.assets
 

@@ -18,7 +18,7 @@ class ContainerViewController: UIViewController, AdaptiveDesignable {
         static let draggableMaxShadowAlpha: CGFloat = 0.5
     }
 
-    private lazy var shadowView = UIView()
+    private var shadowView: UIView?
 
     private var containerSize: CGSize = CGSize(width: 375.0, height: 667.0)
     private var boundsHeight: CGFloat = 667.0
@@ -34,6 +34,8 @@ class ContainerViewController: UIViewController, AdaptiveDesignable {
     var draggable: Draggable?
 
     var gestureStartOriginY: CGFloat = 0.0
+
+    var shouldInsertShadow: Bool = true
 
     var inheritedInsets: UIEdgeInsets {
         var contentInsets: UIEdgeInsets = .zero
@@ -161,10 +163,21 @@ class ContainerViewController: UIViewController, AdaptiveDesignable {
     }
 
     private func setupShadowView() {
-        if let draggable = draggable {
-            view.insertSubview(shadowView, belowSubview: draggable.draggableView)
-            shadowView.backgroundColor = .black
-            shadowView.frame = view.bounds
+        if let draggable = draggable, shouldInsertShadow {
+
+            let currentShadow: UIView
+
+            if let shadowView = shadowView {
+                currentShadow = shadowView
+            } else {
+                currentShadow = UIView()
+                currentShadow.backgroundColor = .black
+                self.shadowView = currentShadow
+            }
+
+            currentShadow.frame = view.bounds
+
+            view.insertSubview(currentShadow, belowSubview: draggable.draggableView)
         }
     }
 
@@ -282,9 +295,9 @@ class ContainerViewController: UIViewController, AdaptiveDesignable {
         if let draggable = draggable {
             switch draggableState {
             case .compact:
-                shadowView.alpha = CGFloat(draggableProgress) * Constants.draggableMaxShadowAlpha
+                shadowView?.alpha = CGFloat(draggableProgress) * Constants.draggableMaxShadowAlpha
             case .full:
-                shadowView.alpha = CGFloat(1.0 - draggableProgress) * Constants.draggableMaxShadowAlpha
+                shadowView?.alpha = CGFloat(1.0 - draggableProgress) * Constants.draggableMaxShadowAlpha
             }
 
             draggable.animate(progress: draggableProgress,
@@ -337,14 +350,15 @@ class ContainerViewController: UIViewController, AdaptiveDesignable {
 
                 switch state {
                 case .compact:
-                    self.shadowView.alpha = 0.0
+                    self.shadowView?.alpha = 0.0
                 case .full:
-                    self.shadowView.alpha = Constants.draggableMaxShadowAlpha
+                    self.shadowView?.alpha = Constants.draggableMaxShadowAlpha
                 }
 
             }, completion: { _ in
                 if state == .compact {
-                    self.shadowView.removeFromSuperview()
+                    self.shadowView?.removeFromSuperview()
+                    self.shadowView = nil
                 }
             })
         }
@@ -382,7 +396,8 @@ extension ContainerViewController: DraggableDelegate {
 
                 switch draggableState {
                 case .compact:
-                    shadowView.removeFromSuperview()
+                    shadowView?.removeFromSuperview()
+                    shadowView = nil
                 case .full:
                     setupShadowView()
                 }
