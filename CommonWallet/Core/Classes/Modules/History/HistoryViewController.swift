@@ -42,10 +42,12 @@ final class HistoryViewController: UIViewController {
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var titleLeft: NSLayoutConstraint!
     @IBOutlet private var headerView: UIView!
-    private var backgroundView: BaseHistoryBackgroundView!
+    @IBOutlet private var contentView: UIView!
     @IBOutlet private var panIndicatorView: RoundedView!
     @IBOutlet private var headerTop: NSLayoutConstraint!
     @IBOutlet private var headerHeight: NSLayoutConstraint!
+
+    private var backgroundView: BaseHistoryBackgroundView!
 
     private var draggableState: DraggableState = .compact
     private var compactInsets: UIEdgeInsets = .zero {
@@ -626,7 +628,7 @@ extension HistoryViewController: EmptyStateDataSource {
     }
 
     var contentViewForEmptyState: UIView {
-        return backgroundView
+        return contentView
     }
 
     var imageForEmptyState: UIImage? {

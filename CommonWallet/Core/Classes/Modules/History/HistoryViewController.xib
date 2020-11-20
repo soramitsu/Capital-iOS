@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HistoryViewController" customModule="CommonWallet" customModuleProvider="target">
             <connections>
                 <outlet property="closeButton" destination="BDo-pA-KJ2" id="x73-Ac-eVT"/>
+                <outlet property="contentView" destination="C3j-9D-HQJ" id="DrK-c7-3dz"/>
                 <outlet property="filterButton" destination="AYW-zr-069" id="Hqk-rS-1of"/>
                 <outlet property="headerHeight" destination="idQ-V2-Tam" id="0mP-Ds-02v"/>
                 <outlet property="headerTop" destination="avv-dq-lUS" id="zcn-dG-WtL"/>
@@ -92,6 +93,10 @@
                         <constraint firstAttribute="trailing" secondItem="AYW-zr-069" secondAttribute="trailing" constant="10" id="reE-ML-P8d"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C3j-9D-HQJ">
+                    <rect key="frame" x="0.0" y="55" width="375" height="612"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hBk-ef-I40">
                     <rect key="frame" x="0.0" y="55" width="375" height="612"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -104,14 +109,18 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="4aj-3b-aVU"/>
+                <constraint firstAttribute="bottom" secondItem="C3j-9D-HQJ" secondAttribute="bottom" id="6XF-sb-Aa0"/>
                 <constraint firstItem="Y7P-IW-Teu" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="8k2-IR-nEg"/>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="B7y-AR-caC"/>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Dzw-Es-TiE"/>
                 <constraint firstItem="0QZ-vK-oo0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="Gty-bj-NIl"/>
+                <constraint firstItem="C3j-9D-HQJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IgW-Bh-Sm1"/>
+                <constraint firstAttribute="trailing" secondItem="C3j-9D-HQJ" secondAttribute="trailing" id="LmJ-O7-A8g"/>
                 <constraint firstItem="Y7P-IW-Teu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="avv-dq-lUS"/>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="top" secondItem="Y7P-IW-Teu" secondAttribute="bottom" id="lc7-eb-nep"/>
                 <constraint firstItem="0QZ-vK-oo0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="p26-xl-Na5"/>
                 <constraint firstItem="Y7P-IW-Teu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yd7-s0-kqI"/>
+                <constraint firstItem="C3j-9D-HQJ" firstAttribute="top" secondItem="Y7P-IW-Teu" secondAttribute="bottom" id="yqB-bJ-oCy"/>
             </constraints>
             <point key="canvasLocation" x="138.40000000000001" y="126.38680659670166"/>
         </view>
