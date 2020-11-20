@@ -43,6 +43,9 @@ public protocol HistoryModuleBuilderProtocol: class {
 
     @discardableResult
     func with(localizableTitle: LocalizableResource<String>) -> Self
+
+    @discardableResult
+    func with(viewFactoryOverriding: HistoryViewFactoryOverriding) -> Self
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
@@ -73,6 +76,8 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
 
     fileprivate var localizableTitle: LocalizableResource<String>?
 
+    fileprivate var viewFactoryOverriding: HistoryViewFactoryOverriding?
+
     init() {
         registerItemCell()
     }
@@ -87,7 +92,8 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
                                     emptyStateDelegate: emptyStateDelegate,
                                     registeredCellsMetadata: registeredCellsMetadata,
                                     itemViewModelFactory: itemViewModelFactory,
-                                    localizableTitle: localizableTitle)
+                                    localizableTitle: localizableTitle,
+                                    viewFactoryOverriding: viewFactoryOverriding)
     }
 
     fileprivate func registerItemCell() {
@@ -156,6 +162,11 @@ extension HistoryModuleBuilder {
 
     func with(localizableTitle: LocalizableResource<String>) -> Self {
         self.localizableTitle = localizableTitle
+        return self
+    }
+
+    func with(viewFactoryOverriding: HistoryViewFactoryOverriding) -> Self {
+        self.viewFactoryOverriding = viewFactoryOverriding
         return self
     }
 }

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HistoryViewController" customModule="CommonWallet" customModuleProvider="target">
             <connections>
-                <outlet property="backgroundView" destination="Xfc-ch-HB3" id="i5P-ae-d17"/>
                 <outlet property="closeButton" destination="BDo-pA-KJ2" id="x73-Ac-eVT"/>
-                <outlet property="contentView" destination="aK5-7P-EMe" id="8ul-pf-mzY"/>
                 <outlet property="filterButton" destination="AYW-zr-069" id="Hqk-rS-1of"/>
                 <outlet property="headerHeight" destination="idQ-V2-Tam" id="0mP-Ds-02v"/>
                 <outlet property="headerTop" destination="avv-dq-lUS" id="zcn-dG-WtL"/>
@@ -28,29 +26,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xfc-ch-HB3" customClass="RoundedView" customModule="SoraUI">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="55" id="yHl-31-aDL"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topLeftRounded" value="YES"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="_topRightRounded" value="YES"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomLeftRounded" value="NO"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="_bottomRightRounded" value="NO"/>
-                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="10"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                            <real key="value" value="0.0"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aK5-7P-EMe">
-                    <rect key="frame" x="0.0" y="54" width="375" height="613"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0QZ-vK-oo0" customClass="RoundedView" customModule="SoraUI">
                     <rect key="frame" x="170" y="5" width="35" height="5"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -129,20 +104,13 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="4aj-3b-aVU"/>
-                <constraint firstItem="Xfc-ch-HB3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="514-e6-Iz9"/>
                 <constraint firstItem="Y7P-IW-Teu" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="8k2-IR-nEg"/>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="B7y-AR-caC"/>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Dzw-Es-TiE"/>
-                <constraint firstAttribute="bottom" secondItem="aK5-7P-EMe" secondAttribute="bottom" id="KB6-hK-bu1"/>
-                <constraint firstItem="aK5-7P-EMe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Kq4-6s-dWB"/>
-                <constraint firstItem="0QZ-vK-oo0" firstAttribute="top" secondItem="Xfc-ch-HB3" secondAttribute="top" constant="5" id="MUM-Lu-kPM"/>
-                <constraint firstAttribute="trailing" secondItem="aK5-7P-EMe" secondAttribute="trailing" id="UH9-rf-6Zu"/>
-                <constraint firstAttribute="trailing" secondItem="Xfc-ch-HB3" secondAttribute="trailing" id="Xqh-wZ-5y4"/>
+                <constraint firstItem="0QZ-vK-oo0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="Gty-bj-NIl"/>
                 <constraint firstItem="Y7P-IW-Teu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="avv-dq-lUS"/>
-                <constraint firstItem="aK5-7P-EMe" firstAttribute="top" secondItem="Xfc-ch-HB3" secondAttribute="bottom" constant="-1" id="bJi-o9-Xuy"/>
-                <constraint firstItem="Xfc-ch-HB3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="d2n-He-KkQ"/>
-                <constraint firstItem="0QZ-vK-oo0" firstAttribute="centerX" secondItem="Xfc-ch-HB3" secondAttribute="centerX" id="hkT-q9-Cak"/>
                 <constraint firstItem="hBk-ef-I40" firstAttribute="top" secondItem="Y7P-IW-Teu" secondAttribute="bottom" id="lc7-eb-nep"/>
+                <constraint firstItem="0QZ-vK-oo0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="p26-xl-Na5"/>
                 <constraint firstItem="Y7P-IW-Teu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yd7-s0-kqI"/>
             </constraints>
             <point key="canvasLocation" x="138.40000000000001" y="126.38680659670166"/>

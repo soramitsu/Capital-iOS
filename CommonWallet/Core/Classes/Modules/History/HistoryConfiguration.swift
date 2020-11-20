@@ -18,6 +18,7 @@ protocol HistoryConfigurationProtocol {
     var registeredCellsMetadata: [String: Any] { get }
     var itemViewModelFactory: HistoryItemViewModelFactoryProtocol? { get }
     var localizableTitle: LocalizableResource<String>? { get }
+    var viewFactoryOverriding: HistoryViewFactoryOverriding? { get }
 }
 
 struct HistoryConfiguration: HistoryConfigurationProtocol {
@@ -31,4 +32,5 @@ struct HistoryConfiguration: HistoryConfigurationProtocol {
     let registeredCellsMetadata: [String: Any]
     let itemViewModelFactory: HistoryItemViewModelFactoryProtocol?
     let localizableTitle: LocalizableResource<String>?
+    let viewFactoryOverriding: HistoryViewFactoryOverriding?
 }
