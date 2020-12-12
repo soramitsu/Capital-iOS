@@ -50,15 +50,21 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
     }
 
     func performAction() {
-        let receiverInfo = ReceiveInfo(accountId: transactionData.peerId,
-                                       assetId: transactionData.assetId,
-                                       amount: nil,
-                                       details: nil)
+        let receiverInfo = transactionData.status != .rejected ?
+                                    ReceiveInfo(accountId: transactionData.peerId,
+                                               assetId: transactionData.assetId,
+                                               amount: nil,
+                                               details: nil) :
+                                    ReceiveInfo(accountId: transactionData.peerId,
+                                                assetId: transactionData.assetId,
+                                                amount: transactionData.amount,
+                                                details: transactionData.details)
 
         let receiverName: String = transactionData.localizedPeerName
 
         let payload = TransferPayload(receiveInfo: receiverInfo,
-                                      receiverName: receiverName)
+                                      receiverName: receiverName,
+                                      context: (transactionData.status != .rejected ? [:] : transactionData.context) ?? [:])
 
         coordinator.send(to: payload)
     }

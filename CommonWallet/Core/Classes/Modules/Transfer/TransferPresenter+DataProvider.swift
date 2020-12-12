@@ -168,7 +168,8 @@ extension TransferPresenter {
                                 amount: AmountDecimal(value: result.sending),
                                 asset: selectedAsset.identifier,
                                 details: details,
-                                fees: result.fees)
+                                fees: result.fees,
+                                context: payload.context)
 
         return try resultValidator.validate(info: info,
                                             balances: balances,
