@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,7 +16,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QYg-rG-di7" customClass="BorderedContainerView" customModule="SoraUI">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <gestureRecognizers/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="strokeWidth">
@@ -37,7 +38,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hT1-D4-oQO">
-                    <rect key="frame" x="10.5" y="21.5" width="332.5" height="22.5"/>
+                    <rect key="frame" x="14.5" y="21.5" width="324.5" height="22.5"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                     <connections>
@@ -62,14 +63,15 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="QYg-rG-di7" secondAttribute="trailing" id="2z4-PQ-K5U"/>
+                <constraint firstItem="MLM-Hn-drg" firstAttribute="height" secondItem="hT1-D4-oQO" secondAttribute="height" multiplier="0.888889" id="8o6-vR-V4Y"/>
                 <constraint firstAttribute="trailing" secondItem="MLM-Hn-drg" secondAttribute="trailing" id="Bbp-HN-dO0"/>
-                <constraint firstItem="MLM-Hn-drg" firstAttribute="leading" secondItem="hT1-D4-oQO" secondAttribute="trailing" id="Els-nK-q2d"/>
+                <constraint firstItem="MLM-Hn-drg" firstAttribute="leading" secondItem="hT1-D4-oQO" secondAttribute="trailing" constant="4" id="Els-nK-q2d"/>
                 <constraint firstItem="MLM-Hn-drg" firstAttribute="centerY" secondItem="hT1-D4-oQO" secondAttribute="centerY" id="HDk-Vd-7Ld"/>
                 <constraint firstItem="hT1-D4-oQO" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Jbq-9x-JVg"/>
                 <constraint firstAttribute="bottom" secondItem="QYg-rG-di7" secondAttribute="bottom" id="Sw0-30-bTc"/>
                 <constraint firstItem="QYg-rG-di7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="V21-VJ-CCT"/>
                 <constraint firstItem="QYg-rG-di7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YEd-d4-262"/>
-                <constraint firstItem="hT1-D4-oQO" firstAttribute="leading" secondItem="ulX-7x-4h2" secondAttribute="trailing" id="jf2-J2-dug"/>
+                <constraint firstItem="hT1-D4-oQO" firstAttribute="leading" secondItem="ulX-7x-4h2" secondAttribute="trailing" constant="4" id="jf2-J2-dug"/>
                 <constraint firstItem="ulX-7x-4h2" firstAttribute="centerY" secondItem="hT1-D4-oQO" secondAttribute="centerY" id="mXW-l6-hrj"/>
                 <constraint firstItem="ulX-7x-4h2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ogl-G9-Az7"/>
             </constraints>
@@ -90,7 +92,15 @@
             </connections>
         </tapGestureRecognizer>
     </objects>
+    <designables>
+        <designable name="MLM-Hn-drg">
+            <size key="intrinsicContentSize" width="32" height="20"/>
+        </designable>
+    </designables>
     <resources>
         <image name="iconKeyboardControl" width="24" height="20"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
