@@ -330,6 +330,15 @@ final class HistoryViewController: UIViewController {
         }
     }
 
+    private func setupNavigationItemTitle(_ item: UINavigationItem) {
+        if let localizableTitle = configuration?.localizableTitle {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            item.title = localizableTitle.value(for: locale)
+        } else {
+            item.title = L10n.History.title
+        }
+    }
+
     private func updateHiddenTypeNavigationItem(for state: DraggableState, animated: Bool) {
         guard
             let navigationItem = delegate?.presentationNavigationItem,
@@ -352,7 +361,8 @@ final class HistoryViewController: UIViewController {
                                                                   leftBarItem: navigationItem.leftBarButtonItem,
                                                                   rightBarItem: navigationItem.rightBarButtonItem)
 
-                navigationItem.title = L10n.History.title
+                setupNavigationItemTitle(navigationItem)
+
                 let closeBarItem = UIBarButtonItem(image: configuration.viewStyle.closeIcon,
                                                    style: .plain,
                                                    target: self,
@@ -695,7 +705,7 @@ extension HistoryViewController: Localizable {
             reloadEmptyState(animated: false)
 
             if draggableState == .full, let navigationItem = delegate?.presentationNavigationItem {
-                navigationItem.title = L10n.History.title
+                setupNavigationItemTitle(navigationItem)
             }
 
             view.setNeedsLayout()
