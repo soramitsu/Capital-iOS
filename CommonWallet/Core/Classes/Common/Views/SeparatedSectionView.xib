@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -56,17 +53,17 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="q6f-eO-Gam" secondAttribute="top" id="FQz-uP-9s5"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="q6f-eO-Gam" secondAttribute="trailing" constant="20" id="FZQ-BY-bun"/>
-                <constraint firstItem="q6f-eO-Gam" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="NBa-xN-fLY"/>
-                <constraint firstItem="q6f-eO-Gam" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="YFJ-MP-Q2r"/>
+                <constraint firstAttribute="top" secondItem="q6f-eO-Gam" secondAttribute="top" id="FQz-uP-9s5"/>
+                <constraint firstAttribute="trailing" secondItem="q6f-eO-Gam" secondAttribute="trailing" constant="20" id="FZQ-BY-bun"/>
+                <constraint firstItem="q6f-eO-Gam" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="NBa-xN-fLY"/>
+                <constraint firstItem="q6f-eO-Gam" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="YFJ-MP-Q2r"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="separatorView" destination="q6f-eO-Gam" id="lgq-Kz-hVt"/>
                 <outlet property="titleLabel" destination="bMJ-1b-BLy" id="Cif-kN-6wG"/>
             </connections>
+            <point key="canvasLocation" x="-350" y="113"/>
         </view>
     </objects>
 </document>

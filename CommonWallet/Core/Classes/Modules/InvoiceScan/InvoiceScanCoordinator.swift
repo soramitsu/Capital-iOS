@@ -41,8 +41,6 @@ extension InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
     func presentImageGallery(from view: ControllerBackedProtocol?, delegate: ImageGalleryDelegate) {
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         switch photoAuthorizationStatus {
-        case .authorized:
-            presentGallery(from: view, delegate: delegate)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization({ (newStatus) in
                 DispatchQueue.main.async {
@@ -57,8 +55,8 @@ extension InvoiceScanCoordinator: InvoiceScanCoordinatorProtocol {
             delegate.didFail(in: self, with: ImageGalleryError.accessRestricted)
         case .denied:
             delegate.didFail(in: self, with: ImageGalleryError.accessDeniedPreviously)
-        @unknown default:
-            delegate.didFail(in: self, with: ImageGalleryError.unknownAuthorizationStatus)
+        default:
+            presentGallery(from: view, delegate: delegate)
         }
     }
 }

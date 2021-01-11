@@ -131,6 +131,7 @@ class InvoiceScanTests: NetworkBaseTests {
                                                  coordinator: coordinator,
                                                  currentAccountId: accountSettings.accountId,
                                                  networkService: networkService,
+                                                 localSearchEngine: nil,
                                                  qrScanServiceFactory: qrScanServiceFactory,
                                                  qrCoderFactory: WalletQRCoderFactory(),
                                                  localizationManager: localizationManager)

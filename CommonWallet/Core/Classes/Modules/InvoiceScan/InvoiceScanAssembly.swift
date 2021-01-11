@@ -12,14 +12,17 @@ final class InvoiceScanAssembly: InvoiceScanAssemblyProtocol {
 
         let qrScanServiceFactory = WalletQRCaptureServiceFactory()
 
+        let config = resolver.invoiceScanConfiguration
+
         let view = InvoiceScanViewController(nibName: "InvoiceScanViewController", bundle: Bundle(for: self))
-        view.style = resolver.invoiceScanConfiguration.viewStyle
+        view.style = config.viewStyle
         let coordinator = InvoiceScanCoordinator(resolver: resolver)
 
         let presenter = InvoiceScanPresenter(view: view,
                                              coordinator: coordinator,
                                              currentAccountId: resolver.account.accountId,
                                              networkService: networkService,
+                                             localSearchEngine: config.localSearchEngine,
                                              qrScanServiceFactory: qrScanServiceFactory,
                                              qrCoderFactory: resolver.qrCoderFactory,
                                              localizationManager: resolver.localizationManager)

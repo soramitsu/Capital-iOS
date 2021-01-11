@@ -7,41 +7,51 @@
 import Foundation
 
 protocol ContactsActionViewModelFactoryProtocol {
-    func createOptionListForAccountId(_ accountId: String, assetId: String, locale: Locale?)
+    func createOptionListForAccountId(_ accountId: String,
+                                      assetId: String,
+                                      locale: Locale?,
+                                      commandFactory: WalletCommandFactoryProtocol)
         -> [SendOptionViewModelProtocol]
-    func createBarActionForAccountId(_ accountId: String, assetId: String)
+    func createBarActionForAccountId(_ accountId: String,
+                                     assetId: String,
+                                     commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol?
 }
 
 final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtocol {
-    let commandFactory: WalletCommandFactoryProtocol
     let scanPosition: WalletContactsScanPosition
     let withdrawOptions: [WalletWithdrawOption]
 
-    init(commandFactory: WalletCommandFactoryProtocol,
-         scanPosition: WalletContactsScanPosition,
-         withdrawOptions: [WalletWithdrawOption]) {
-        self.commandFactory = commandFactory
+    init(scanPosition: WalletContactsScanPosition, withdrawOptions: [WalletWithdrawOption]) {
         self.scanPosition = scanPosition
         self.withdrawOptions = withdrawOptions
     }
 
     func createOptionListForAccountId(_ accountId: String,
                                       assetId: String,
-                                      locale: Locale?) -> [SendOptionViewModelProtocol] {
+                                      locale: Locale?,
+                                      commandFactory: WalletCommandFactoryProtocol)
+    -> [SendOptionViewModelProtocol] {
         var viewModels: [SendOptionViewModelProtocol] = []
 
         if scanPosition == .tableAction {
-            viewModels.append(createScanViewModel())
+            viewModels.append(createScanViewModel(commandFactory))
         }
 
-        let withdrawViewModels = withdrawOptions.map { createWithdrawViewModel(for: $0, assetId: assetId) }
+        let withdrawViewModels = withdrawOptions.map {
+            createWithdrawViewModel(for: $0,
+                                    assetId: assetId,
+                                    commandFactory: commandFactory)
+        }
+
         viewModels.append(contentsOf: withdrawViewModels)
 
         return viewModels
     }
 
-    func createBarActionForAccountId(_ accountId: String, assetId: String)
+    func createBarActionForAccountId(_ accountId: String,
+                                     assetId: String,
+                                     commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol? {
         guard scanPosition == .barButton else {
             return nil
@@ -57,7 +67,8 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
 
     // MARK: Private
 
-    private func createScanViewModel() -> SendOptionViewModelProtocol {
+    private func createScanViewModel(_ commandFactory: WalletCommandFactoryProtocol)
+    -> SendOptionViewModelProtocol {
         let scanCommand = commandFactory.prepareScanReceiverCommand()
         let viewModel = SendOptionViewModel(command: scanCommand)
 
@@ -68,7 +79,9 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
     }
 
     private func createWithdrawViewModel(for option: WalletWithdrawOption,
-                                         assetId: String) -> SendOptionViewModelProtocol {
+                                         assetId: String,
+                                         commandFactory: WalletCommandFactoryProtocol)
+    -> SendOptionViewModelProtocol {
         let withdrawCommand = commandFactory.prepareWithdrawCommand(for: assetId,
                                                                     optionId: option.identifier)
 

@@ -13,7 +13,7 @@ final class ReceiveAmountModuleBuilder {
     fileprivate var title: LocalizableResource<String> = LocalizableResource { _ in L10n.Receive.title }
     fileprivate var fieldsInclusion: ReceiveFieldsInclusion = [.selectedAsset, .amount]
     fileprivate var settings: WalletTransactionSettingsProtocol = WalletTransactionSettings.defaultSettings
-    fileprivate var viewFactory: ReceiveViewFactoryProtocol? = nil
+    fileprivate var viewFactory: ReceiveViewFactoryProtocol?
 
     lazy var walletStyle: WalletStyleProtocol = WalletStyle()
 

@@ -43,6 +43,12 @@ public protocol HistoryModuleBuilderProtocol: class {
 
     @discardableResult
     func with(localizableTitle: LocalizableResource<String>) -> Self
+
+    @discardableResult
+    func with(viewFactoryOverriding: HistoryViewFactoryOverriding) -> Self
+
+    @discardableResult
+    func with(backgroundHeight: CGFloat?) -> Self
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
@@ -73,6 +79,14 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
 
     fileprivate var localizableTitle: LocalizableResource<String>?
 
+    fileprivate var viewFactoryOverriding: HistoryViewFactoryOverriding?
+
+    /*
+     * We don't want to change height dynamically due to performance issue, so set max by default.
+     * Pass nil to bind to superview.
+     */
+    fileprivate var backgroundHeight: CGFloat? = UIScreen.main.bounds.height
+
     init() {
         registerItemCell()
     }
@@ -87,7 +101,9 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
                                     emptyStateDelegate: emptyStateDelegate,
                                     registeredCellsMetadata: registeredCellsMetadata,
                                     itemViewModelFactory: itemViewModelFactory,
-                                    localizableTitle: localizableTitle)
+                                    localizableTitle: localizableTitle,
+                                    viewFactoryOverriding: viewFactoryOverriding,
+                                    backgroundHeight: backgroundHeight)
     }
 
     fileprivate func registerItemCell() {
@@ -156,6 +172,16 @@ extension HistoryModuleBuilder {
 
     func with(localizableTitle: LocalizableResource<String>) -> Self {
         self.localizableTitle = localizableTitle
+        return self
+    }
+
+    func with(viewFactoryOverriding: HistoryViewFactoryOverriding) -> Self {
+        self.viewFactoryOverriding = viewFactoryOverriding
+        return self
+    }
+
+    func with(backgroundHeight: CGFloat?) -> Self {
+        self.backgroundHeight = backgroundHeight
         return self
     }
 }

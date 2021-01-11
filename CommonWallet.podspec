@@ -16,6 +16,8 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
   s.ios.deployment_target = '9.0'
   s.swift_version = '5.0'
 
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64', 'VALID_ARCHS' => 'x86_64 armv7 arm64'  }
+
   s.subspec 'Core' do |core|
       core.source_files = 'CommonWallet/Core/Classes/**/*.swift'
       core.resources = ['CommonWallet/Core/**/*.xcdatamodeld', 'CommonWallet/Core/**/*.xib','CommonWallet/Core/Assets/**/*']

@@ -29,6 +29,7 @@ final class InvoiceScanPresenter {
     private let qrScanService: WalletQRCaptureServiceProtocol
     private let qrCoderFactory: WalletQRCoderFactoryProtocol
     private let qrScanMatcher: InvoiceScanMatcher
+    private let localSearchEngine: InvoiceLocalSearchEngineProtocol?
 
     var qrExtractionService: WalletQRExtractionServiceProtocol?
 
@@ -38,12 +39,14 @@ final class InvoiceScanPresenter {
          coordinator: InvoiceScanCoordinatorProtocol,
          currentAccountId: String,
          networkService: WalletServiceProtocol,
+         localSearchEngine: InvoiceLocalSearchEngineProtocol?,
          qrScanServiceFactory: WalletQRCaptureServiceFactoryProtocol,
          qrCoderFactory: WalletQRCoderFactoryProtocol,
          localizationManager: LocalizationManagerProtocol?) {
         self.view = view
         self.coordinator = coordinator
         self.networkService = networkService
+        self.localSearchEngine = localSearchEngine
         self.currentAccountId = currentAccountId
 
         self.qrCoderFactory = qrCoderFactory
@@ -153,20 +156,26 @@ final class InvoiceScanPresenter {
     }
 
     private func performProcessing(of receiverInfo: ReceiveInfo) {
-        let operation = networkService.search(for: receiverInfo.accountId,
-                                              runCompletionIn: .main) { [weak self] (optionalResult) in
-                                                if let result = optionalResult {
-                                                    switch result {
-                                                    case .success(let searchResult):
-                                                        let loadedResult = searchResult ?? []
-                                                        self?.handleProccessing(searchResult: loadedResult)
-                                                    case .failure(let error):
-                                                        self?.handleProcessing(error: error)
-                                                    }
-                                                }
-        }
+        if let searchData = localSearchEngine?.searchByAccountId(receiverInfo.accountId) {
+            scanState = .active
 
-        scanState = .processing(receiverInfo: receiverInfo, operation: operation)
+            completeTransferFoundAccount(searchData, receiverInfo: receiverInfo)
+        } else {
+            let operation = networkService.search(for: receiverInfo.accountId,
+                                                  runCompletionIn: .main) { [weak self] (optionalResult) in
+                                                    if let result = optionalResult {
+                                                        switch result {
+                                                        case .success(let searchResult):
+                                                            let loadedResult = searchResult ?? []
+                                                            self?.handleProccessing(searchResult: loadedResult)
+                                                        case .failure(let error):
+                                                            self?.handleProcessing(error: error)
+                                                        }
+                                                    }
+            }
+
+            scanState = .processing(receiverInfo: receiverInfo, operation: operation)
+        }
     }
 
     private func handleProccessing(searchResult: [SearchData]) {
@@ -183,6 +192,11 @@ final class InvoiceScanPresenter {
             return
         }
 
+        completeTransferFoundAccount(foundAccount, receiverInfo: receiverInfo)
+    }
+
+    private func completeTransferFoundAccount(_ foundAccount: SearchData,
+                                              receiverInfo: ReceiveInfo) {
         guard foundAccount.accountId == receiverInfo.accountId else {
                 let message = L10n.InvoiceScan.Error.noReceiver
                 view?.present(message: message, animated: true)

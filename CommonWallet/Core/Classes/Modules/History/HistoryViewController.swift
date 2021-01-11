@@ -43,10 +43,11 @@ final class HistoryViewController: UIViewController {
     @IBOutlet private var titleLeft: NSLayoutConstraint!
     @IBOutlet private var headerView: UIView!
     @IBOutlet private var contentView: UIView!
-    @IBOutlet private var backgroundView: RoundedView!
     @IBOutlet private var panIndicatorView: RoundedView!
     @IBOutlet private var headerTop: NSLayoutConstraint!
     @IBOutlet private var headerHeight: NSLayoutConstraint!
+
+    private var backgroundView: BaseHistoryBackgroundView!
 
     private var draggableState: DraggableState = .compact
     private var compactInsets: UIEdgeInsets = .zero {
@@ -56,6 +57,7 @@ final class HistoryViewController: UIViewController {
             }
         }
     }
+
     private var fullInsets: UIEdgeInsets = .zero
 
     private var pageLoadingView: PageLoadingView!
@@ -75,6 +77,7 @@ final class HistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureBackgroundViewIfNeeded()
         configureFilter()
         configureTableView()
         configureStyle()
@@ -99,14 +102,27 @@ final class HistoryViewController: UIViewController {
         didSetupLayout = true
     }
 
+    private func configureBackgroundViewIfNeeded() {
+        backgroundView = configuration?.viewFactoryOverriding?
+            .createBackgroundView() ?? HistoryBackgroundView()
+
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(backgroundView, at: 0)
+
+        backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        backgroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+
+        if let height = configuration?.backgroundHeight {
+            backgroundView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        } else {
+            backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
+    }
+
     private func configureStyle() {
         if let viewStyle = configuration?.viewStyle {
-            backgroundView.fillColor = viewStyle.fillColor
-            backgroundView.cornerRadius = viewStyle.cornerRadius
-            backgroundView.strokeColor = viewStyle.borderStyle.color
-            backgroundView.strokeWidth = viewStyle.borderStyle.lineWidth
-
-            contentView.backgroundColor = viewStyle.fillColor
+            backgroundView.apply(style: viewStyle)
 
             titleLabel.textColor = viewStyle.titleStyle.color
             titleLabel.font = viewStyle.titleStyle.font
@@ -180,13 +196,12 @@ final class HistoryViewController: UIViewController {
                                           forcesLayoutUpdate: Bool) {
         let titleFullPosition = headerView.bounds.midX - titleLabel.intrinsicContentSize.width / 2.0
         let titleCompactPosition = Constants.compactTitleLeft
-        let cornerRadius = configuration?.viewStyle.cornerRadius ?? 0.0
 
         switch draggableState {
         case .compact:
             let adjustedProgress = min(progress / (1.0 - Constants.triggerProgressThreshold), 1.0)
 
-            backgroundView.cornerRadius = CGFloat(adjustedProgress) * cornerRadius
+            backgroundView.applyFullscreen(progress: CGFloat(adjustedProgress))
             closeButton.alpha = CGFloat(1.0 - adjustedProgress)
             panIndicatorView.alpha = CGFloat(adjustedProgress)
 
@@ -201,7 +216,7 @@ final class HistoryViewController: UIViewController {
             let adjustedProgress = max(progress - Constants.triggerProgressThreshold, 0.0)
                 / (1.0 - Constants.triggerProgressThreshold)
 
-            backgroundView.cornerRadius = CGFloat(1.0 - adjustedProgress) * cornerRadius
+            backgroundView.applyFullscreen(progress: CGFloat(1.0 - adjustedProgress))
             closeButton.alpha = CGFloat(adjustedProgress)
             panIndicatorView.alpha = CGFloat(1.0 - adjustedProgress)
 
@@ -217,13 +232,11 @@ final class HistoryViewController: UIViewController {
     fileprivate func updateHiddenTypeContent(for draggableState: DraggableState,
                                              progress: Double,
                                              forcesLayoutUpdate: Bool) {
-        let cornerRadius = configuration?.viewStyle.cornerRadius ?? 0.0
-
         switch draggableState {
         case .compact:
             let adjustedProgress = min(progress / (1.0 - Constants.triggerProgressThreshold), 1.0)
 
-            backgroundView.cornerRadius = CGFloat(adjustedProgress) * cornerRadius
+            backgroundView.applyFullscreen(progress: CGFloat(adjustedProgress))
             closeButton.alpha = 0.0
             headerView.alpha = CGFloat(adjustedProgress)
             panIndicatorView.alpha = CGFloat(adjustedProgress)
@@ -235,7 +248,7 @@ final class HistoryViewController: UIViewController {
             let adjustedProgress = max(progress - Constants.triggerProgressThreshold, 0.0)
                 / (1.0 - Constants.triggerProgressThreshold)
 
-            backgroundView.cornerRadius = CGFloat(1.0 - adjustedProgress) * cornerRadius
+            backgroundView.applyFullscreen(progress: CGFloat(1.0 - adjustedProgress))
             closeButton.alpha = 0.0
             headerView.alpha = CGFloat(1.0 - adjustedProgress)
             panIndicatorView.alpha = CGFloat(1.0 - adjustedProgress)
@@ -317,6 +330,15 @@ final class HistoryViewController: UIViewController {
         }
     }
 
+    private func setupNavigationItemTitle(_ item: UINavigationItem) {
+        if let localizableTitle = configuration?.localizableTitle {
+            let locale = localizationManager?.selectedLocale ?? Locale.current
+            item.title = localizableTitle.value(for: locale)
+        } else {
+            item.title = L10n.History.title
+        }
+    }
+
     private func updateHiddenTypeNavigationItem(for state: DraggableState, animated: Bool) {
         guard
             let navigationItem = delegate?.presentationNavigationItem,
@@ -339,7 +361,8 @@ final class HistoryViewController: UIViewController {
                                                                   leftBarItem: navigationItem.leftBarButtonItem,
                                                                   rightBarItem: navigationItem.rightBarButtonItem)
 
-                navigationItem.title = L10n.History.title
+                setupNavigationItemTitle(navigationItem)
+
                 let closeBarItem = UIBarButtonItem(image: configuration.viewStyle.closeIcon,
                                                    style: .plain,
                                                    target: self,
@@ -679,11 +702,10 @@ extension HistoryViewController: Localizable {
     func applyLocalization() {
         if isViewLoaded {
             setupLocalization()
-
             reloadEmptyState(animated: false)
 
             if draggableState == .full, let navigationItem = delegate?.presentationNavigationItem {
-                navigationItem.title = L10n.History.title
+                setupNavigationItemTitle(navigationItem)
             }
 
             view.setNeedsLayout()

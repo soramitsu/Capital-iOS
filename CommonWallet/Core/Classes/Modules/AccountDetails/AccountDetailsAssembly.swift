@@ -11,6 +11,7 @@ final class AccountDetailsAssembly: AccountDetailsAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol, asset: WalletAsset) -> AccountDetailsViewProtocol? {
         let view = AccountDetailsViewController()
         view.style = resolver.style
+        view.shouldInsertShadow = resolver.historyConfiguration.viewStyle.shouldInsertFullscreenShadow
 
         guard
             let accountListView = AccountListAssembly.assembleView(with: resolver, detailsAsset: asset),

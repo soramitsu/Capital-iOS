@@ -51,15 +51,13 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
             let actionFactory: ContactsActionViewModelFactoryProtocol
 
             if let customActionFactory = config.actionFactoryWrapper {
-                let defaultFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
-                                                                    scanPosition: config.scanPosition,
+                let defaultFactory = ContactsActionViewModelFactory(scanPosition: config.scanPosition,
                                                                     withdrawOptions: withdrawOptions)
 
                 actionFactory = ContactsActionFactoryWrapper(customFactory: customActionFactory,
                                                              defaultFactory: defaultFactory)
             } else {
-                actionFactory = ContactsActionViewModelFactory(commandFactory: resolver.commandFactory,
-                                                               scanPosition: config.scanPosition,
+                actionFactory = ContactsActionViewModelFactory(scanPosition: config.scanPosition,
                                                                withdrawOptions: withdrawOptions)
             }
 
@@ -69,6 +67,7 @@ final class ContactsAssembly: ContactsAssemblyProtocol {
 
         let presenter = ContactsPresenter(view: view,
                                           coordinator: coordinator,
+                                          commandFactory: resolver.commandFactory,
                                           dataProvider: contactsDataProvider,
                                           walletService: walletService,
                                           listViewModelFactory: listViewModelFactory,

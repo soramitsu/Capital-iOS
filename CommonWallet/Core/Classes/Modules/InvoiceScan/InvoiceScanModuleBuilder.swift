@@ -9,6 +9,8 @@ enum InvoiceScanModuleBuilderError: Error {}
 final class InvoiceScanModuleBuilder {
     lazy var walletStyle: WalletStyleProtocol = WalletStyle()
 
+    private var localSearchEngine: InvoiceLocalSearchEngineProtocol?
+
     var supportsUpload: Bool = true
 
     fileprivate lazy var viewStyle: InvoiceScanViewStyleProtocol = {
@@ -17,6 +19,7 @@ final class InvoiceScanModuleBuilder {
 
     func build() -> InvoiceScanConfigurationProtocol {
         return InvoiceScanConfiguration(viewStyle: viewStyle,
+                                        localSearchEngine: localSearchEngine,
                                         supportsUpload: supportsUpload)
     }
 }
@@ -25,6 +28,12 @@ final class InvoiceScanModuleBuilder {
 extension InvoiceScanModuleBuilder: InvoiceScanModuleBuilderProtocol {
     func with(viewStyle: InvoiceScanViewStyleProtocol) -> Self {
         self.viewStyle = viewStyle
+        return self
+    }
+
+    @discardableResult
+    func with(localSearchEngine: InvoiceLocalSearchEngineProtocol) -> Self {
+        self.localSearchEngine = localSearchEngine
         return self
     }
 
