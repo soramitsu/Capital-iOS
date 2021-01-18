@@ -17,11 +17,7 @@ extension TransferPresenter {
             case .amount:
                 view?.presentAmountError(errorMapping.message)
             case .receiver:
-                if let command = errorMapping.command {
-                    view?.presentReceiverError(errorMapping.message, command)
-                } else {
-                    view?.presentReceiverError(errorMapping.message)
-                }
+                view?.presentReceiverError(errorMapping.message)
             case .fee:
                 view?.presentFeeError(errorMapping.message, at: 0)
             case .description:

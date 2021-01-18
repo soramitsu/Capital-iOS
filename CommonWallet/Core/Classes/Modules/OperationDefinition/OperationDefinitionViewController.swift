@@ -376,19 +376,6 @@ extension OperationDefinitionViewController: OperationDefinitionViewProtocol {
         }
     }
 
-    func presentReceiverError(_ message: String?, _ command: WalletCommandProtocol){
-        guard let receiverDef = receiverDef else {
-            return
-        }
-
-        if let message = message {
-            let viewModel = MultilineTitleIconViewModel(text: message, icon: style.inlineErrorStyle.icon, command: command)
-            self.receiverDef = updatingDef(receiverDef, type: .receiver, withError: viewModel)
-        } else {
-            self.receiverDef = updatingDefByRemovingError(receiverDef)
-        }
-    }
-
     func setDescriptionHeader(_ viewModel: MultilineTitleIconViewModelProtocol?) {
         guard let descriptionDef = descriptionInputDef else {
             return
