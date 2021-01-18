@@ -77,6 +77,15 @@ final class SidechainDemo: DemoFactoryProtocol {
         walletBuilder.transactionDetailsModuleBuilder.with(sendBackTransactionTypes: ["INCOMING"])
         walletBuilder.transactionDetailsModuleBuilder.with(sendAgainTransactionTypes: ["OUTGOING"])
 
+        let title = WalletTextStyle(font: UIFont(name: "HelveticaNeue", size: 14.0)!,
+                                    color: UIColor.darkGray)
+
+        let iconStyle = WalletNameIconStyle(background: .white,
+                                            title: title,
+                                            radius: 15.0)
+
+        let transferFactory = SidechainTransferViewModelFactory(iconStyle: iconStyle)
+
         walletBuilder.transferModuleBuilder
             .with(headerFactory: SidechainTransferHeaderFactory())
             .with(receiverPosition: .form)
@@ -87,10 +96,15 @@ final class SidechainDemo: DemoFactoryProtocol {
             .with(localizableTitle: LocalizableResource { _ in "Transfer Token" })
             .with(errorContentInsets: UIEdgeInsets(top: 8.0, left: 0.0, bottom: 0.0, right: 0.0))
             .with(errorHandler: SidechainTransferErrorHandler())
+            .with(generatingIconStyle: iconStyle)
+            .with(transferViewModelFactory: transferFactory)
+
+        let confirmViewModelFactory = SidechainConfirmViewModelFactory(iconStyle: iconStyle)
 
         walletBuilder.transferConfirmationBuilder
             .with(completion: .hide)
             .with(accessoryViewType: .onlyActionBar)
+            .with(viewModelFactoryOverriding: confirmViewModelFactory)
 
         let caretColor = UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
         walletBuilder.styleBuilder.with(caretColor: caretColor)

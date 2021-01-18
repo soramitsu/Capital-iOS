@@ -28,6 +28,7 @@ public protocol TransferViewModelFactoryOverriding {
                                       locale: Locale) throws -> AssetSelectionViewModelProtocol?
 
     func createAssetSelectionTitle(_ inputState: TransferInputState,
+                                   asset: WalletAsset,
                                    payload: TransferPayload,
                                    locale: Locale) throws -> String?
 
