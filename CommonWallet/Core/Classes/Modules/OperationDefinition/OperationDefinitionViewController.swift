@@ -228,7 +228,7 @@ class OperationDefinitionViewController: AccessoryViewController {
 
     private func updateConfirmationState() {
         let isEnabled = (amountInputView.inputViewModel?.isValid ?? false) &&
-            (descriptionInputView?.viewModel?.isValid ?? true) && (receiverDef?.isValid ?? true)
+            (descriptionInputView?.viewModel?.isValid ?? true)
 
         accessoryView?.isActionEnabled = isEnabled
     }
