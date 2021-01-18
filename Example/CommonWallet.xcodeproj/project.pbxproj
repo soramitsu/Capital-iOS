@@ -124,8 +124,8 @@
 		84D8D9AA22F730F300C9B9C7 /* DialogCommandDecoratorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8D9A922F730F300C9B9C7 /* DialogCommandDecoratorFactory.swift */; };
 		84D8D9AC22F7315900C9B9C7 /* DialogCommandDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8D9AB22F7315900C9B9C7 /* DialogCommandDecorator.swift */; };
 		84E048A222C209E700F0CA66 /* irohaErrorResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 845D1D9F22B539CC000641F9 /* irohaErrorResponse.json */; };
-		84E1E1C325B587BF003C5582 /* SidechainTransferViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E1C225B587BF003C5582 /* SidechainTransferViewModelFactory.swift */; };
 		84E1E1F925B58F19003C5582 /* SidechainConfirmViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E1F825B58F19003C5582 /* SidechainConfirmViewModelFactory.swift */; };
+		84E1E20325B5A3F1003C5582 /* SidechainTransferViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E20225B5A3F1003C5582 /* SidechainTransferViewModelFactory.swift */; };
 		84E28A552279753B00F7646D /* TransferSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A502279753B00F7646D /* TransferSetupTests.swift */; };
 		84E28A562279753B00F7646D /* ContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E28A522279753B00F7646D /* ContactsTests.swift */; };
 		84EBF57D23C760F000E609FF /* MoneyPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EBF57B23C760D900E609FF /* MoneyPresenter.swift */; };
@@ -275,8 +275,8 @@
 		84D8D9A522F72C8B00C9B9C7 /* CommandDecoratorDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandDecoratorDemo.swift; sourceTree = "<group>"; };
 		84D8D9A922F730F300C9B9C7 /* DialogCommandDecoratorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCommandDecoratorFactory.swift; sourceTree = "<group>"; };
 		84D8D9AB22F7315900C9B9C7 /* DialogCommandDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogCommandDecorator.swift; sourceTree = "<group>"; };
-		84E1E1C225B587BF003C5582 /* SidechainTransferViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SidechainTransferViewModelFactory.swift; path = ../../../../../../../../../SidechainTransferViewModelFactory.swift; sourceTree = "<group>"; };
 		84E1E1F825B58F19003C5582 /* SidechainConfirmViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidechainConfirmViewModelFactory.swift; sourceTree = "<group>"; };
+		84E1E20225B5A3F1003C5582 /* SidechainTransferViewModelFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidechainTransferViewModelFactory.swift; sourceTree = "<group>"; };
 		84E28A502279753B00F7646D /* TransferSetupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferSetupTests.swift; sourceTree = "<group>"; };
 		84E28A522279753B00F7646D /* ContactsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTests.swift; sourceTree = "<group>"; };
 		84EBF57B23C760D900E609FF /* MoneyPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyPresenter.swift; sourceTree = "<group>"; };
@@ -431,12 +431,12 @@
 		841562282452199D002400F2 /* Sidechain */ = {
 			isa = PBXGroup;
 			children = (
+				84E1E20225B5A3F1003C5582 /* SidechainTransferViewModelFactory.swift */,
 				84156229245219BF002400F2 /* SidechainDemo.swift */,
 				84F5B97124629B02004E658C /* SidechainTransferHeaderFactory.swift */,
 				84F5B9752462ADD8004E658C /* SidechainTransferSeparatorsDistribution.swift */,
 				841B76512472756600370FE3 /* SidechainTransferErrorHandler.swift */,
 				84C423F525038E7B0032CE34 /* SidechainContactsActionFactory.swift */,
-				84E1E1C225B587BF003C5582 /* SidechainTransferViewModelFactory.swift */,
 				84E1E1F825B58F19003C5582 /* SidechainConfirmViewModelFactory.swift */,
 			);
 			path = Sidechain;
@@ -1275,7 +1275,7 @@
 				84C1806922551D4000F19858 /* DemoHeaderCell.swift in Sources */,
 				8415622A245219BF002400F2 /* SidechainDemo.swift in Sources */,
 				841B76522472756600370FE3 /* SidechainTransferErrorHandler.swift in Sources */,
-				84E1E1C325B587BF003C5582 /* SidechainTransferViewModelFactory.swift in Sources */,
+				84E1E20325B5A3F1003C5582 /* SidechainTransferViewModelFactory.swift in Sources */,
 				848B6EC2224D5A1100E8A3C9 /* NetworkMockManager.swift in Sources */,
 				848B6EC0224D5A1100E8A3C9 /* BaseServiceMock.swift in Sources */,
 				84C1805B2253AD8600F19858 /* DefaultDemo.swift in Sources */,
