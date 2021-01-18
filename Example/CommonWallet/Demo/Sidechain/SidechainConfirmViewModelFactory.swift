@@ -16,8 +16,7 @@ final class SidechainConfirmViewModelFactory: TransferConfirmationViewModelFacto
 
     func createAccessoryViewModelFromPayload(_ payload: ConfirmationPayload,
                                              locale: Locale) -> AccessoryViewModelProtocol? {
-        let icon = UIImage.createAvatar(fullName: payload.receiverName,
-                                        style: iconStyle)
+        let icon = UIImage.createAvatar(fullName: payload.receiverName, style: iconStyle)
 
         return AccessoryViewModel(title: payload.receiverName,
                                   action: L10n.Common.next,
