@@ -84,6 +84,10 @@ final class AccountModuleViewModelFactory {
 
         viewModel.symbol = asset.symbol
 
+        if let iconViewModel = context.accountListViewModelFactory?.createAssetIconViewModel(for: asset) {
+            viewModel.imageViewModel = iconViewModel
+        }
+
         return viewModel
     }
 

@@ -43,7 +43,9 @@ extension AccessoryView: AccessoryViewProtocol {
 
     var isActionEnabled: Bool {
         set {
-            if newValue {
+            let shouldAllowAction = viewModel?.shouldAllowAction ?? true
+
+            if newValue && shouldAllowAction {
                 actionButton.enable()
             } else {
                 actionButton.disable()
@@ -65,6 +67,13 @@ extension AccessoryView: AccessoryViewProtocol {
         titleLabel.numberOfLines = viewModel.numberOfLines
 
         actionButton.imageWithTitleView?.title = viewModel.action
+
+        if viewModel.shouldAllowAction {
+            actionButton.enable()
+        } else {
+            actionButton.disable()
+        }
+
         actionButton.invalidateLayout()
 
         self.viewModel = viewModel

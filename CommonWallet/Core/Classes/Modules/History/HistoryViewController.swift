@@ -124,6 +124,18 @@ final class HistoryViewController: UIViewController {
         if let viewStyle = configuration?.viewStyle {
             backgroundView.apply(style: viewStyle)
 
+            if let separatorColor = viewStyle.separatorStyle {
+                let separator = UIView()
+                separator.translatesAutoresizingMaskIntoConstraints = false
+                separator.layer.borderWidth = 0.5
+                separator.layer.borderColor = separatorColor.cgColor
+                headerView.addSubview(separator)
+                separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
+                separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+                separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
+            }
+
             titleLabel.textColor = viewStyle.titleStyle.color
             titleLabel.font = viewStyle.titleStyle.font
 

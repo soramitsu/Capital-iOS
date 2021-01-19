@@ -10,6 +10,8 @@ import SoraUI
 final class ActionBarView: UIView {
     @IBOutlet private(set) var actionButton: RoundedButton!
     @IBOutlet private(set) var borderedView: BorderedContainerView!
+
+    private var viewModel: AccessoryViewModelProtocol?
 }
 
 extension ActionBarView: AccessoryViewProtocol {
@@ -19,7 +21,9 @@ extension ActionBarView: AccessoryViewProtocol {
 
     var isActionEnabled: Bool {
         set {
-            if newValue {
+            let shouldAllowAction = viewModel?.shouldAllowAction ?? true
+
+            if newValue && shouldAllowAction {
                 actionButton.enable()
             } else {
                 actionButton.disable()
@@ -33,7 +37,16 @@ extension ActionBarView: AccessoryViewProtocol {
 
     func bind(viewModel: AccessoryViewModelProtocol) {
         actionButton.imageWithTitleView?.title = viewModel.action
+
+        if viewModel.shouldAllowAction {
+            actionButton.enable()
+        } else {
+            actionButton.disable()
+        }
+
         actionButton.invalidateLayout()
+
+        self.viewModel = viewModel
 
         setNeedsLayout()
     }
