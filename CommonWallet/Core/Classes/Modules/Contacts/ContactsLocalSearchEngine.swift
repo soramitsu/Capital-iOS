@@ -10,7 +10,8 @@ public protocol ContactsLocalSearchEngineProtocol {
     func search(query: String,
                 accountId: String,
                 assetId: String,
-                delegate: ContactViewModelDelegate?) -> [ContactViewModelProtocol]?
+                delegate: ContactViewModelDelegate?,
+                commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?
 }
 
 public protocol ContactsLocalSearchResultProtocol: ContactViewModelProtocol {}

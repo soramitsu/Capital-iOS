@@ -9,7 +9,9 @@ public protocol ContactsFactoryWrapperProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
                                            accountId: String,
                                            assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol?
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol?
 }
 
 final class ContactsFactoryWrapper: ContactsViewModelFactoryProtocol {
@@ -24,17 +26,22 @@ final class ContactsFactoryWrapper: ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
                                            accountId: String,
                                            assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol {
-        if let customViewModel = customFactory.createContactViewModelFromContact(contact,
-                                                                                 accountId: accountId,
-                                                                                 assetId: assetId,
-                                                                                 delegate: delegate) {
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol {
+        if let customViewModel = customFactory
+            .createContactViewModelFromContact(contact,
+                                               accountId: accountId,
+                                               assetId: assetId,
+                                               delegate: delegate,
+                                               commandFactory: commandFactory) {
             return customViewModel
         } else {
             return defaultFactory.createContactViewModelFromContact(contact,
                                                                     accountId: accountId,
                                                                     assetId: assetId,
-                                                                    delegate: delegate)
+                                                                    delegate: delegate,
+                                                                    commandFactory: commandFactory)
         }
     }
 }
@@ -43,7 +50,9 @@ protocol ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
                                            accountId: String,
                                            assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol
 }
 
 
@@ -61,7 +70,9 @@ extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
                                            accountId: String,
                                            assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol {
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol {
 
         let fullName = L10n.Common.fullName(contact.firstName, contact.lastName)
         let image = UIImage.createAvatar(fullName: fullName, style: nameIconStyle)

@@ -67,7 +67,8 @@ extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
             itemViewModelFactory.createContactViewModelFromContact($0,
                                                                    accountId: parameters.accountId,
                                                                    assetId: parameters.assetId,
-                                                                   delegate: delegate)
+                                                                   delegate: delegate,
+                                                                   commandFactory: commandFactory)
         }
 
         if !contacts.isEmpty {
@@ -89,7 +90,8 @@ extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
             itemViewModelFactory.createContactViewModelFromContact($0,
                                                                    accountId: parameters.accountId,
                                                                    assetId: parameters.assetId,
-                                                                   delegate: delegate)
+                                                                   delegate: delegate,
+                                                                   commandFactory: commandFactory)
         }
     }
 
