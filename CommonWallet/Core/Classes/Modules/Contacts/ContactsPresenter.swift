@@ -87,8 +87,10 @@ final class ContactsPresenter: NSObject {
     }
 
     private func provideBarActionViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
         if let viewModel = listViewModelFactory
             .createBarActionForAccountId(moduleParameters,
+                                         locale: locale,
                                          commandFactory: commandFactory) {
             view?.set(barViewModel: viewModel)
         }

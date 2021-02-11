@@ -9,11 +9,12 @@ import Foundation
 protocol ContactsActionViewModelFactoryProtocol {
     func createOptionListForAccountId(_ accountId: String,
                                       assetId: String,
-                                      locale: Locale?,
+                                      locale: Locale,
                                       commandFactory: WalletCommandFactoryProtocol)
         -> [SendOptionViewModelProtocol]
     func createBarActionForAccountId(_ accountId: String,
                                      assetId: String,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol?
 }
@@ -29,7 +30,7 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
 
     func createOptionListForAccountId(_ accountId: String,
                                       assetId: String,
-                                      locale: Locale?,
+                                      locale: Locale,
                                       commandFactory: WalletCommandFactoryProtocol)
     -> [SendOptionViewModelProtocol] {
         var viewModels: [SendOptionViewModelProtocol] = []
@@ -51,6 +52,7 @@ final class ContactsActionViewModelFactory: ContactsActionViewModelFactoryProtoc
 
     func createBarActionForAccountId(_ accountId: String,
                                      assetId: String,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol? {
         guard scanPosition == .barButton else {

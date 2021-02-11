@@ -9,11 +9,12 @@ import Foundation
 public protocol ContactsActionFactoryWrapperProtocol {
     func createOptionListForAccountId(_ accountId: String,
                                       assetId: String,
-                                      locale: Locale?,
+                                      locale: Locale,
                                       commandFactory: WalletCommandFactoryProtocol)
         -> [SendOptionViewModelProtocol]?
     func createBarActionForAccountId(_ accountId: String,
                                      assetId: String,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol?
 }
@@ -21,7 +22,7 @@ public protocol ContactsActionFactoryWrapperProtocol {
 public extension ContactsActionFactoryWrapperProtocol {
     func createOptionListForAccountId(_ accountId: String,
                                       assetId: String,
-                                      locale: Locale?,
+                                      locale: Locale,
                                       commandFactory: WalletCommandFactoryProtocol)
         -> [SendOptionViewModelProtocol]? {
         nil
@@ -29,6 +30,7 @@ public extension ContactsActionFactoryWrapperProtocol {
 
     func createBarActionForAccountId(_ accountId: String,
                                      assetId: String,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol? {
         nil
@@ -47,7 +49,7 @@ final class ContactsActionFactoryWrapper: ContactsActionViewModelFactoryProtocol
 
     func createOptionListForAccountId(_ accountId: String,
                                       assetId: String,
-                                      locale: Locale?,
+                                      locale: Locale,
                                       commandFactory: WalletCommandFactoryProtocol)
         -> [SendOptionViewModelProtocol] {
             if let options = customFactory
@@ -67,17 +69,20 @@ final class ContactsActionFactoryWrapper: ContactsActionViewModelFactoryProtocol
 
     func createBarActionForAccountId(_ accountId: String,
                                      assetId: String,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol? {
         if let options = customFactory
             .createBarActionForAccountId(accountId,
                                          assetId: assetId,
+                                         locale: locale,
                                          commandFactory: commandFactory) {
             return options
         } else {
             return defaultFactory
                 .createBarActionForAccountId(accountId,
                                              assetId: assetId,
+                                             locale: locale,
                                              commandFactory: commandFactory)
         }
     }

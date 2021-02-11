@@ -7,8 +7,8 @@ import Foundation
 
 public protocol ContactsFactoryWrapperProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
                                            delegate: ContactViewModelDelegate?,
                                            commandFactory: WalletCommandFactoryProtocol)
     -> ContactViewModelProtocol?
@@ -24,22 +24,22 @@ final class ContactsFactoryWrapper: ContactsViewModelFactoryProtocol {
     }
 
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
                                            delegate: ContactViewModelDelegate?,
                                            commandFactory: WalletCommandFactoryProtocol)
     -> ContactViewModelProtocol {
         if let customViewModel = customFactory
             .createContactViewModelFromContact(contact,
-                                               accountId: accountId,
-                                               assetId: assetId,
+                                               parameters: parameters,
+                                               locale: locale,
                                                delegate: delegate,
                                                commandFactory: commandFactory) {
             return customViewModel
         } else {
             return defaultFactory.createContactViewModelFromContact(contact,
-                                                                    accountId: accountId,
-                                                                    assetId: assetId,
+                                                                    parameters: parameters,
+                                                                    locale: locale,
                                                                     delegate: delegate,
                                                                     commandFactory: commandFactory)
         }
@@ -48,8 +48,8 @@ final class ContactsFactoryWrapper: ContactsViewModelFactoryProtocol {
 
 protocol ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
                                            delegate: ContactViewModelDelegate?,
                                            commandFactory: WalletCommandFactoryProtocol)
     -> ContactViewModelProtocol
@@ -68,8 +68,8 @@ final class ContactsViewModelFactory {
 
 extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
                                            delegate: ContactViewModelDelegate?,
                                            commandFactory: WalletCommandFactoryProtocol)
     -> ContactViewModelProtocol {
