@@ -26,7 +26,7 @@ class ContactsLocalEngineTests: NetworkBaseTests {
 
         stub(localSearchEngine) { stub in
             when(stub).search(query: any(),
-                              parameter: any(),
+                              parameters: any(),
                               locale: any(),
                               delegate: any(),
                               commandFactory: any()).then { (query, _, _, _, _) in

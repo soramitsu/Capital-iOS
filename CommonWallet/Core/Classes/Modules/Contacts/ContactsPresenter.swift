@@ -208,7 +208,7 @@ final class ContactsPresenter: NSObject {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         if let localSearchResults = localSearchEngine?.search(query: searchPattern,
-                                                              parameter: parameters,
+                                                              parameters: parameters,
                                                               locale: locale,
                                                               delegate: self,
                                                               commandFactory: commandFactory) {

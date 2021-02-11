@@ -3362,16 +3362,16 @@ public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEnginePro
     
     
     
-    public func search(query: String, parameter: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]? {
+    public func search(query: String, parameters: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]? {
         
-    return cuckoo_manager.call("search(query: String, parameter: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?",
-            parameters: (query, parameter, locale, delegate, commandFactory),
-            escapingParameters: (query, parameter, locale, delegate, commandFactory),
+    return cuckoo_manager.call("search(query: String, parameters: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?",
+            parameters: (query, parameters, locale, delegate, commandFactory),
+            escapingParameters: (query, parameters, locale, delegate, commandFactory),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.search(query: query, parameter: parameter, locale: locale, delegate: delegate, commandFactory: commandFactory))
+            defaultCall: __defaultImplStub!.search(query: query, parameters: parameters, locale: locale, delegate: delegate, commandFactory: commandFactory))
         
     }
     
@@ -3384,9 +3384,9 @@ public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEnginePro
 	    }
 	    
 	    
-	    func search<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable, M4: Cuckoo.OptionalMatchable, M5: Cuckoo.Matchable>(query: M1, parameter: M2, locale: M3, delegate: M4, commandFactory: M5) -> Cuckoo.ProtocolStubFunction<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol), [ContactViewModelProtocol]?> where M1.MatchedType == String, M2.MatchedType == ContactModuleParameters, M3.MatchedType == Locale, M4.OptionalMatchedType == ContactViewModelDelegate, M5.MatchedType == WalletCommandFactoryProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol)>] = [wrap(matchable: query) { $0.0 }, wrap(matchable: parameter) { $0.1 }, wrap(matchable: locale) { $0.2 }, wrap(matchable: delegate) { $0.3 }, wrap(matchable: commandFactory) { $0.4 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockContactsLocalSearchEngineProtocol.self, method: "search(query: String, parameter: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?", parameterMatchers: matchers))
+	    func search<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable, M4: Cuckoo.OptionalMatchable, M5: Cuckoo.Matchable>(query: M1, parameters: M2, locale: M3, delegate: M4, commandFactory: M5) -> Cuckoo.ProtocolStubFunction<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol), [ContactViewModelProtocol]?> where M1.MatchedType == String, M2.MatchedType == ContactModuleParameters, M3.MatchedType == Locale, M4.OptionalMatchedType == ContactViewModelDelegate, M5.MatchedType == WalletCommandFactoryProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol)>] = [wrap(matchable: query) { $0.0 }, wrap(matchable: parameters) { $0.1 }, wrap(matchable: locale) { $0.2 }, wrap(matchable: delegate) { $0.3 }, wrap(matchable: commandFactory) { $0.4 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockContactsLocalSearchEngineProtocol.self, method: "search(query: String, parameters: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -3406,9 +3406,9 @@ public class MockContactsLocalSearchEngineProtocol: ContactsLocalSearchEnginePro
 	
 	    
 	    @discardableResult
-	    func search<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable, M4: Cuckoo.OptionalMatchable, M5: Cuckoo.Matchable>(query: M1, parameter: M2, locale: M3, delegate: M4, commandFactory: M5) -> Cuckoo.__DoNotUse<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol), [ContactViewModelProtocol]?> where M1.MatchedType == String, M2.MatchedType == ContactModuleParameters, M3.MatchedType == Locale, M4.OptionalMatchedType == ContactViewModelDelegate, M5.MatchedType == WalletCommandFactoryProtocol {
-	        let matchers: [Cuckoo.ParameterMatcher<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol)>] = [wrap(matchable: query) { $0.0 }, wrap(matchable: parameter) { $0.1 }, wrap(matchable: locale) { $0.2 }, wrap(matchable: delegate) { $0.3 }, wrap(matchable: commandFactory) { $0.4 }]
-	        return cuckoo_manager.verify("search(query: String, parameter: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func search<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable, M4: Cuckoo.OptionalMatchable, M5: Cuckoo.Matchable>(query: M1, parameters: M2, locale: M3, delegate: M4, commandFactory: M5) -> Cuckoo.__DoNotUse<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol), [ContactViewModelProtocol]?> where M1.MatchedType == String, M2.MatchedType == ContactModuleParameters, M3.MatchedType == Locale, M4.OptionalMatchedType == ContactViewModelDelegate, M5.MatchedType == WalletCommandFactoryProtocol {
+	        let matchers: [Cuckoo.ParameterMatcher<(String, ContactModuleParameters, Locale, ContactViewModelDelegate?, WalletCommandFactoryProtocol)>] = [wrap(matchable: query) { $0.0 }, wrap(matchable: parameters) { $0.1 }, wrap(matchable: locale) { $0.2 }, wrap(matchable: delegate) { $0.3 }, wrap(matchable: commandFactory) { $0.4 }]
+	        return cuckoo_manager.verify("search(query: String, parameters: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -3420,7 +3420,7 @@ public class ContactsLocalSearchEngineProtocolStub: ContactsLocalSearchEnginePro
     
 
     
-    public func search(query: String, parameter: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?  {
+    public func search(query: String, parameters: ContactModuleParameters, locale: Locale, delegate: ContactViewModelDelegate?, commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?  {
         return DefaultValueRegistry.defaultValue(for: ([ContactViewModelProtocol]?).self)
     }
     

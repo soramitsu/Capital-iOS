@@ -8,7 +8,7 @@ import Foundation
 
 public protocol ContactsLocalSearchEngineProtocol {
     func search(query: String,
-                parameter: ContactModuleParameters,
+                parameters: ContactModuleParameters,
                 locale: Locale,
                 delegate: ContactViewModelDelegate?,
                 commandFactory: WalletCommandFactoryProtocol) -> [ContactViewModelProtocol]?
