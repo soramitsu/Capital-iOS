@@ -203,9 +203,13 @@ final class ContactsPresenter: NSObject {
         searchOperation?.cancel()
         searchOperation = nil
 
+        let parameters = ContactModuleParameters(accountId: currentAccountId,
+                                                 assetId: selectedAsset.identifier)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         if let localSearchResults = localSearchEngine?.search(query: searchPattern,
-                                                              accountId: currentAccountId,
-                                                              assetId: selectedAsset.identifier,
+                                                              parameter: parameters,
+                                                              locale: locale,
                                                               delegate: self,
                                                               commandFactory: commandFactory) {
             if isWaitingSearch {

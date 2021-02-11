@@ -26,8 +26,8 @@ class ContactsLocalEngineTests: NetworkBaseTests {
 
         stub(localSearchEngine) { stub in
             when(stub).search(query: any(),
-                              accountId: any(),
-                              assetId: any(),
+                              parameter: any(),
+                              locale: any(),
                               delegate: any(),
                               commandFactory: any()).then { (query, _, _, _, _) in
                 if query == localQuery {
