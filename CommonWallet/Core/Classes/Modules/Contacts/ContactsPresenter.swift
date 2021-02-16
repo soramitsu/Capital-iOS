@@ -87,8 +87,10 @@ final class ContactsPresenter: NSObject {
     }
 
     private func provideBarActionViewModel() {
+        let locale = localizationManager?.selectedLocale ?? Locale.current
         if let viewModel = listViewModelFactory
             .createBarActionForAccountId(moduleParameters,
+                                         locale: locale,
                                          commandFactory: commandFactory) {
             view?.set(barViewModel: viewModel)
         }
@@ -201,10 +203,15 @@ final class ContactsPresenter: NSObject {
         searchOperation?.cancel()
         searchOperation = nil
 
+        let parameters = ContactModuleParameters(accountId: currentAccountId,
+                                                 assetId: selectedAsset.identifier)
+        let locale = localizationManager?.selectedLocale ?? Locale.current
+
         if let localSearchResults = localSearchEngine?.search(query: searchPattern,
-                                                              accountId: currentAccountId,
-                                                              assetId: selectedAsset.identifier,
-                                                              delegate: self) {
+                                                              parameters: parameters,
+                                                              locale: locale,
+                                                              delegate: self,
+                                                              commandFactory: commandFactory) {
             if isWaitingSearch {
                 cancelSearch()
             }

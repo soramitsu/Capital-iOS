@@ -7,9 +7,11 @@ import Foundation
 
 public protocol ContactsFactoryWrapperProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol?
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol?
 }
 
 final class ContactsFactoryWrapper: ContactsViewModelFactoryProtocol {
@@ -22,28 +24,35 @@ final class ContactsFactoryWrapper: ContactsViewModelFactoryProtocol {
     }
 
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol {
-        if let customViewModel = customFactory.createContactViewModelFromContact(contact,
-                                                                                 accountId: accountId,
-                                                                                 assetId: assetId,
-                                                                                 delegate: delegate) {
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol {
+        if let customViewModel = customFactory
+            .createContactViewModelFromContact(contact,
+                                               parameters: parameters,
+                                               locale: locale,
+                                               delegate: delegate,
+                                               commandFactory: commandFactory) {
             return customViewModel
         } else {
             return defaultFactory.createContactViewModelFromContact(contact,
-                                                                    accountId: accountId,
-                                                                    assetId: assetId,
-                                                                    delegate: delegate)
+                                                                    parameters: parameters,
+                                                                    locale: locale,
+                                                                    delegate: delegate,
+                                                                    commandFactory: commandFactory)
         }
     }
 }
 
 protocol ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol
 }
 
 
@@ -59,9 +68,11 @@ final class ContactsViewModelFactory {
 
 extension ContactsViewModelFactory: ContactsViewModelFactoryProtocol {
     func createContactViewModelFromContact(_ contact: SearchData,
-                                           accountId: String,
-                                           assetId: String,
-                                           delegate: ContactViewModelDelegate?) -> ContactViewModelProtocol {
+                                           parameters: ContactModuleParameters,
+                                           locale: Locale,
+                                           delegate: ContactViewModelDelegate?,
+                                           commandFactory: WalletCommandFactoryProtocol)
+    -> ContactViewModelProtocol {
 
         let fullName = L10n.Common.fullName(contact.firstName, contact.lastName)
         let image = UIImage.createAvatar(fullName: fullName, style: nameIconStyle)

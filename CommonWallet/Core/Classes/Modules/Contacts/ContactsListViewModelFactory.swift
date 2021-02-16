@@ -27,6 +27,7 @@ public protocol ContactsListViewModelFactoryProtocol {
         -> [WalletViewModelProtocol]
 
     func createBarActionForAccountId(_ parameters: ContactModuleParameters,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol?
 }
@@ -65,9 +66,10 @@ extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
 
         let contacts = items.map {
             itemViewModelFactory.createContactViewModelFromContact($0,
-                                                                   accountId: parameters.accountId,
-                                                                   assetId: parameters.assetId,
-                                                                   delegate: delegate)
+                                                                   parameters: parameters,
+                                                                   locale: locale,
+                                                                   delegate: delegate,
+                                                                   commandFactory: commandFactory)
         }
 
         if !contacts.isEmpty {
@@ -87,17 +89,20 @@ extension ContactsListViewModelFactory: ContactsListViewModelFactoryProtocol {
         -> [WalletViewModelProtocol] {
         return items.map {
             itemViewModelFactory.createContactViewModelFromContact($0,
-                                                                   accountId: parameters.accountId,
-                                                                   assetId: parameters.assetId,
-                                                                   delegate: delegate)
+                                                                   parameters: parameters,
+                                                                   locale: locale,
+                                                                   delegate: delegate,
+                                                                   commandFactory: commandFactory)
         }
     }
 
     func createBarActionForAccountId(_ parameters: ContactModuleParameters,
+                                     locale: Locale,
                                      commandFactory: WalletCommandFactoryProtocol)
         -> WalletBarActionViewModelProtocol? {
         actionViewModelFactory.createBarActionForAccountId(parameters.accountId,
                                                            assetId: parameters.assetId,
+                                                           locale: locale,
                                                            commandFactory: commandFactory)
     }
 }
