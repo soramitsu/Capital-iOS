@@ -6,9 +6,9 @@
 import Foundation
 
 public struct TransferMetadataInfo {
-    public var assetId: String
-    public var sender: String
-    public var receiver: String
+    public let assetId: String
+    public let sender: String
+    public let receiver: String
 
     public init(assetId: String, sender: String, receiver: String) {
         self.assetId = assetId
