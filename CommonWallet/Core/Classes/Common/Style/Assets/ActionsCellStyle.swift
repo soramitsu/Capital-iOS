@@ -6,8 +6,8 @@
 import Foundation
 
 public struct ActionsCellStyle {
-    public var sendText: WalletTextStyle
-    public var receiveText: WalletTextStyle
+    public let sendText: WalletTextStyle
+    public let receiveText: WalletTextStyle
 
     public init(sendText: WalletTextStyle, receiveText: WalletTextStyle) {
         self.sendText = sendText
