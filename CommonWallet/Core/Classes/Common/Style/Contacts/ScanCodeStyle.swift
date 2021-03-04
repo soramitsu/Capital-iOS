@@ -13,8 +13,8 @@ public protocol SendOptionCellStyleProtocol {
 
 
 public struct SendOptionCellStyle: SendOptionCellStyleProtocol {
-    public var title: WalletTextStyleProtocol
-    public var accessoryIcon: UIImage?
+    public let title: WalletTextStyleProtocol
+    public let accessoryIcon: UIImage?
     
     public init(title: WalletTextStyleProtocol,
                 accessoryIcon: UIImage?) {
