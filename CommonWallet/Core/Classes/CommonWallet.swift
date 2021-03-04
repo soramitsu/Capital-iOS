@@ -70,18 +70,18 @@ public enum CommonWalletBuilderError: Error {
 }
 
 public final class CommonWalletBuilder {
-    fileprivate var privateAccountModuleBuilder: AccountListModuleBuilder
-    fileprivate var privateAccountDetailsModuleBuilder: AccountDetailsModuleBuilder
-    fileprivate var privateHistoryModuleBuilder: HistoryModuleBuilder
-    fileprivate var privateContactsModuleBuilder: ContactsModuleBuilder
-    fileprivate var privateInvoiceScanModuleBuilder: InvoiceScanModuleBuilder
-    fileprivate var privateReceiveModuleBuilder: ReceiveAmountModuleBuilder
-    fileprivate var privateTransactionDetailsModuleBuilder: TransactionDetailsModuleBuilder
-    fileprivate var privateTransferModuleBuilder: TransferModuleBuilder
-    fileprivate var privateWithdrawModuleBuilder: WithdrawModuleBuilder
-    fileprivate var privateTransferConfirmationBuilder: TransferConfirmationModuleBuilder
-    fileprivate var privateStyleBuilder: WalletStyleBuilder
-    fileprivate var account: WalletAccountSettingsProtocol
+    fileprivate let privateAccountModuleBuilder: AccountListModuleBuilder
+    fileprivate let privateAccountDetailsModuleBuilder: AccountDetailsModuleBuilder
+    fileprivate let privateHistoryModuleBuilder: HistoryModuleBuilder
+    fileprivate let privateContactsModuleBuilder: ContactsModuleBuilder
+    fileprivate let privateInvoiceScanModuleBuilder: InvoiceScanModuleBuilder
+    fileprivate let privateReceiveModuleBuilder: ReceiveAmountModuleBuilder
+    fileprivate let privateTransactionDetailsModuleBuilder: TransactionDetailsModuleBuilder
+    fileprivate let privateTransferModuleBuilder: TransferModuleBuilder
+    fileprivate let privateWithdrawModuleBuilder: WithdrawModuleBuilder
+    fileprivate let privateTransferConfirmationBuilder: TransferConfirmationModuleBuilder
+    fileprivate let privateStyleBuilder: WalletStyleBuilder
+    fileprivate let account: WalletAccountSettingsProtocol
     fileprivate var networkOperationFactory: WalletNetworkOperationFactoryProtocol
     fileprivate lazy var feeCalculationFactory: FeeCalculationFactoryProtocol = FeeCalculationFactory()
     fileprivate lazy var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol = FeeDisplaySettingsFactory()
