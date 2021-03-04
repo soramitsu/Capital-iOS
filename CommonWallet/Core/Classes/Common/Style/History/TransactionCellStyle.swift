@@ -16,13 +16,13 @@ public protocol TransactionCellStyleProtocol {
 }
 
 public struct TransactionCellStyle: TransactionCellStyleProtocol {
-    public var backgroundColor: UIColor
-    public var title: WalletTextStyleProtocol
-    public var amount: WalletTextStyleProtocol
-    public var statusStyleContainer: WalletTransactionStatusStyleContainerProtocol
-    public var increaseAmountIcon: UIImage?
-    public var decreaseAmountIcon: UIImage?
-    public var separatorColor: UIColor
+    public let backgroundColor: UIColor
+    public let title: WalletTextStyleProtocol
+    public let amount: WalletTextStyleProtocol
+    public let statusStyleContainer: WalletTransactionStatusStyleContainerProtocol
+    public let increaseAmountIcon: UIImage?
+    public let decreaseAmountIcon: UIImage?
+    public let separatorColor: UIColor
 
     public init(backgroundColor: UIColor,
                 title: WalletTextStyleProtocol,
