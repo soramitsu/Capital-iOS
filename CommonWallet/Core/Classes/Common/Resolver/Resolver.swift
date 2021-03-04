@@ -37,22 +37,22 @@ protocol ResolverProtocol: class {
 }
 
 final class Resolver: ResolverProtocol {
-    var account: WalletAccountSettingsProtocol
-    var networkOperationFactory: WalletNetworkOperationFactoryProtocol
-    var accountListConfiguration: AccountListConfigurationProtocol
-    var accountDetailsConfiguration: AccountDetailsConfigurationProtocol
-    var historyConfiguration: HistoryConfigurationProtocol
-    var contactsConfiguration: ContactsConfigurationProtocol
-    var invoiceScanConfiguration: InvoiceScanConfigurationProtocol
-    var receiveConfiguration: ReceiveAmountConfigurationProtocol
-    var transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol
-    var transferConfiguration: TransferConfigurationProtocol
-    var withdrawConfiguration: WithdrawConfigurationProtocol
-    var transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol
-    var inputValidatorFactory: WalletInputValidatorFactoryProtocol
-    var feeCalculationFactory: FeeCalculationFactoryProtocol
-    var feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
-    var singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol
+    let account: WalletAccountSettingsProtocol
+    let networkOperationFactory: WalletNetworkOperationFactoryProtocol
+    let accountListConfiguration: AccountListConfigurationProtocol
+    let accountDetailsConfiguration: AccountDetailsConfigurationProtocol
+    let historyConfiguration: HistoryConfigurationProtocol
+    let contactsConfiguration: ContactsConfigurationProtocol
+    let invoiceScanConfiguration: InvoiceScanConfigurationProtocol
+    let receiveConfiguration: ReceiveAmountConfigurationProtocol
+    let transactionDetailsConfiguration: TransactionDetailsConfigurationProtocol
+    let transferConfiguration: TransferConfigurationProtocol
+    let withdrawConfiguration: WithdrawConfigurationProtocol
+    let transferConfirmationConfiguration: TransferConfirmationConfigurationProtocol
+    let inputValidatorFactory: WalletInputValidatorFactoryProtocol
+    let feeCalculationFactory: FeeCalculationFactoryProtocol
+    let feeDisplaySettingsFactory: FeeDisplaySettingsFactoryProtocol
+    let singleValueIdentifierFactory: SingleProviderIdentifierFactoryProtocol
     var commandDecoratorFactory: WalletCommandDecoratorFactoryProtocol?
     var navigation: NavigationProtocol?
 
