@@ -7,7 +7,7 @@ import UIKit
 import SoraFoundation
 
 class AccessoryViewController: UIViewController {
-    var shouldSetupKeyboardHandler: Bool = true
+    private let shouldSetupKeyboardHandler = true
     var accessoryViewFactory: AccessoryViewFactoryProtocol.Type = AccessoryViewFactory.self
 
     var accessoryStyle: WalletAccessoryStyleProtocol? {
