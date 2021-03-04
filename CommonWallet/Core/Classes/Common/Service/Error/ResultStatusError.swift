@@ -6,8 +6,8 @@
 import Foundation
 
 struct ResultStatusError: Error {
-    var code: String
-    var message: String
+    let code: String
+    let message: String
 
     init(statusData: StatusData) {
         code = statusData.code
