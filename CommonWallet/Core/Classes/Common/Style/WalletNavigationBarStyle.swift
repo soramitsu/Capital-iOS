@@ -14,11 +14,11 @@ public protocol WalletNavigationBarStyleProtocol {
 }
 
 public struct WalletNavigationBarStyle: WalletNavigationBarStyleProtocol, Equatable {
-    public var barColor: UIColor
-    public var shadowColor: UIColor
-    public var itemTintColor: UIColor
-    public var titleColor: UIColor
-    public var titleFont: UIFont
+    public let barColor: UIColor
+    public let shadowColor: UIColor
+    public let itemTintColor: UIColor
+    public let titleColor: UIColor
+    public let titleFont: UIFont
 
     public init(barColor: UIColor,
                 shadowColor: UIColor,

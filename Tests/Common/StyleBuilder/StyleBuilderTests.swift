@@ -11,12 +11,11 @@ class StyleBuilderTests: XCTestCase {
     func testNavigationBarStyleChanges() {
         var defaultStyleBuilder = WalletStyleBuilder()
 
-        var navigationBarStyle = WalletNavigationBarStyle(barColor: .white,
+        let navigationBarStyle = WalletNavigationBarStyle(barColor: .white,
                                                           shadowColor: .black,
                                                           itemTintColor: .red,
-                                                          titleColor: .green,
+                                                          titleColor: .black,
                                                           titleFont: .walletHeader4)
-        navigationBarStyle.titleColor = .black
 
         defaultStyleBuilder = defaultStyleBuilder.with(navigationBarStyle: navigationBarStyle)
         let style = defaultStyleBuilder.build()
