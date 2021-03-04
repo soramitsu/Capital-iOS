@@ -6,8 +6,8 @@
 import Foundation
 
 public struct BalanceQueryInfo: Codable {
-    public var assets: [String]
-    public var query: Data
+    public let assets: [String]
+    public let query: Data
 
     public init(assets: [String], query: Data) {
         self.assets = assets
