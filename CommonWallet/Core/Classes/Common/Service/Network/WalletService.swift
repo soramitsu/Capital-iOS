@@ -6,10 +6,6 @@
 import Foundation
 import RobinHood
 
-enum WalletServiceError: Error {
-    case invalidPageHash
-}
-
 final class WalletService {
     let operationQueue: OperationQueue
     let operationFactory: WalletNetworkOperationFactoryProtocol
