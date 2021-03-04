@@ -11,8 +11,8 @@ enum ResultDataError: Error {
 }
 
 struct StatusData: Decodable {
-    var code: String
-    var message: String
+    let code: String
+    let message: String
 
     var isSuccess: Bool {
         return code == "OK"
@@ -20,7 +20,7 @@ struct StatusData: Decodable {
 }
 
 struct ResultData<ResultType> where ResultType: Decodable {
-    var status: StatusData
+    let status: StatusData
     var result: ResultType?
 }
 
