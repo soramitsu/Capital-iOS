@@ -15,10 +15,10 @@ public protocol ContactsSectionStyleProtocol {
 
 
 public struct ContactsSectionStyle: ContactsSectionStyleProtocol {
-    public var title: WalletTextStyleProtocol
-    public var uppercased: Bool
-    public var height: CGFloat
-    public var displaysSeparatorForLastCell: Bool
+    public let title: WalletTextStyleProtocol
+    public let uppercased: Bool
+    public let height: CGFloat
+    public let displaysSeparatorForLastCell: Bool
 
     public init(title: WalletTextStyleProtocol,
                 uppercased: Bool,
