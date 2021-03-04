@@ -19,16 +19,16 @@ public protocol HistoryViewStyleProtocol {
 }
 
 public struct HistoryViewStyle: HistoryViewStyleProtocol {
-    public var separatorStyle: UIColor?
-    public var shadow: WalletShadowStyleProtocol?
-    public var fillColor: UIColor
-    public var borderStyle: WalletStrokeStyle
-    public var cornerRadius: CGFloat
-    public var titleStyle: WalletTextStyleProtocol
-    public var filterIcon: UIImage?
-    public var closeIcon: UIImage?
-    public var panIndicatorStyle: UIColor
-    public var shouldInsertFullscreenShadow: Bool
+    public let separatorStyle: UIColor?
+    public let shadow: WalletShadowStyleProtocol?
+    public let fillColor: UIColor
+    public let borderStyle: WalletStrokeStyle
+    public let cornerRadius: CGFloat
+    public let titleStyle: WalletTextStyleProtocol
+    public let filterIcon: UIImage?
+    public let closeIcon: UIImage?
+    public let panIndicatorStyle: UIColor
+    public let shouldInsertFullscreenShadow: Bool
 
     public init(fillColor: UIColor,
                 borderStyle: WalletStrokeStyle,
