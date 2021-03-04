@@ -12,9 +12,9 @@ public protocol WalletTransactionStatusStyleContainerProtocol {
 }
 
 public struct WalletTransactionStatusStyleContainer: WalletTransactionStatusStyleContainerProtocol {
-    public var approved: WalletTransactionStatusStyleProtocol
-    public var pending: WalletTransactionStatusStyleProtocol
-    public var rejected: WalletTransactionStatusStyleProtocol
+    public let approved: WalletTransactionStatusStyleProtocol
+    public let pending: WalletTransactionStatusStyleProtocol
+    public let rejected: WalletTransactionStatusStyleProtocol
 
     public init(approved: WalletTransactionStatusStyleProtocol,
                 pending: WalletTransactionStatusStyleProtocol,
