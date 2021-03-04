@@ -25,8 +25,9 @@ final class HistoryDemo: DemoFactoryProtocol {
 
         let signer = IRIrohaSigner(privateKey: keypair.privateKey())
 
-        var account = WalletAccountSettings(accountId: accountId, assets: assets)
-        account.withdrawOptions = createWithdrawOptions()
+        let account = WalletAccountSettings(accountId: accountId,
+                                            assets: assets,
+                                            withdrawOptions: createWithdrawOptions())
 
         let networkResolver = DemoNetworkResolver()
 

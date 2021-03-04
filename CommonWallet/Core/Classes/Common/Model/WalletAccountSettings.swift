@@ -12,9 +12,9 @@ public protocol WalletAccountSettingsProtocol {
 }
 
 public struct WalletAccountSettings: WalletAccountSettingsProtocol {
-    public var accountId: String
-    public var assets: [WalletAsset]
-    public var withdrawOptions: [WalletWithdrawOption]
+    public let accountId: String
+    public let assets: [WalletAsset]
+    public let withdrawOptions: [WalletWithdrawOption]
 
     public init(accountId: String, assets: [WalletAsset], withdrawOptions: [WalletWithdrawOption] = []) {
         self.accountId = accountId
