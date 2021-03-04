@@ -16,11 +16,11 @@ public protocol ContactCellStyleProtocol {
 
 
 public struct ContactCellStyle: ContactCellStyleProtocol {
-    public var title: WalletTextStyleProtocol
-    public var nameIcon: WalletNameIconStyleProtocol
-    public var accessoryIcon: UIImage?
-    public var lineBreakMode: NSLineBreakMode
-    public var selectionColor: UIColor?
+    public let title: WalletTextStyleProtocol
+    public let nameIcon: WalletNameIconStyleProtocol
+    public let accessoryIcon: UIImage?
+    public let lineBreakMode: NSLineBreakMode
+    public let selectionColor: UIColor?
     
     public init(title: WalletTextStyleProtocol,
                 nameIcon: WalletNameIconStyleProtocol,
