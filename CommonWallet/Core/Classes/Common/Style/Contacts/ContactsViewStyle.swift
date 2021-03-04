@@ -21,16 +21,16 @@ public protocol ContactsViewStyleProtocol {
 
 
 public struct ContactsViewStyle: ContactsViewStyleProtocol {
-    public var backgroundColor: UIColor
-    public var searchHeaderBackgroundColor: UIColor
-    public var searchTextStyle: WalletTextStyleProtocol
-    public var searchPlaceholderStyle: WalletTextStyleProtocol
-    public var searchFieldStyle: WalletRoundedViewStyleProtocol
-    public var searchIndicatorStyle: UIColor
-    public var searchIcon: UIImage?
-    public var searchSeparatorColor: UIColor
-    public var tableSeparatorColor: UIColor
-    public var actionsSeparator: WalletStrokeStyleProtocol
+    public let backgroundColor: UIColor
+    public let searchHeaderBackgroundColor: UIColor
+    public let searchTextStyle: WalletTextStyleProtocol
+    public let searchPlaceholderStyle: WalletTextStyleProtocol
+    public let searchFieldStyle: WalletRoundedViewStyleProtocol
+    public let searchIndicatorStyle: UIColor
+    public let searchIcon: UIImage?
+    public let searchSeparatorColor: UIColor
+    public let tableSeparatorColor: UIColor
+    public let actionsSeparator: WalletStrokeStyleProtocol
 
     public init(backgroundColor: UIColor,
                 searchHeaderBackgroundColor: UIColor,
