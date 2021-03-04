@@ -6,7 +6,7 @@
 import Foundation
 
 public struct TransactionInfo: Encodable {
-    public var transaction: Data
+    public let transaction: Data
 
     public init(transaction: Data) {
         self.transaction = transaction
