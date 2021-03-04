@@ -6,11 +6,11 @@
 import Foundation
 
 public struct WithdrawInfo {
-    public var destinationAccountId: String
-    public var assetId: String
-    public var amount: AmountDecimal
-    public var details: String
-    public var fees: [Fee]
+    public let destinationAccountId: String
+    public let assetId: String
+    public let amount: AmountDecimal
+    public let details: String
+    public let fees: [Fee]
 
     public init(destinationAccountId: String,
                 assetId: String,
