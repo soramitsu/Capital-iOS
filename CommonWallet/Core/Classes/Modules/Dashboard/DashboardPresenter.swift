@@ -7,7 +7,7 @@ import Foundation
 
 final class DashboardPresenter {
     weak var view: DashboardViewProtocol?
-    var coordinator: DashboardCoordinatorProtocol
+    let coordinator: DashboardCoordinatorProtocol
 
     init(view: DashboardViewProtocol, coordinator: DashboardCoordinatorProtocol) {
         self.view = view
