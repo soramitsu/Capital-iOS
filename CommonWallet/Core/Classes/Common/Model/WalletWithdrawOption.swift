@@ -6,12 +6,12 @@
 import Foundation
 
 public struct WalletWithdrawOption {
-    public let identifier: String
-    public let symbol: String
-    public let shortTitle: String
-    public let longTitle: String
-    public let details: String
-    public let icon: UIImage?
+    let identifier: String
+    let symbol: String
+    let shortTitle: String
+    let longTitle: String
+    let details: String
+    let icon: UIImage?
 
     public init(identifier: String,
                 symbol: String,
