@@ -95,8 +95,8 @@ public protocol WalletInlineErrorStyleProtocol {
 }
 
 public struct WalletTextStyle: WalletTextStyleProtocol {
-    public var font: UIFont
-    public var color: UIColor
+    public let font: UIFont
+    public let color: UIColor
 
     public init(font: UIFont, color: UIColor) {
         self.font = font
@@ -105,10 +105,10 @@ public struct WalletTextStyle: WalletTextStyleProtocol {
 }
 
 public struct WalletShadowStyle: WalletShadowStyleProtocol {
-    public var offset: CGSize
-    public var color: UIColor
-    public var opacity: Float
-    public var blurRadius: CGFloat
+    public let offset: CGSize
+    public let color: UIColor
+    public let opacity: Float
+    public let blurRadius: CGFloat
 
     public init(offset: CGSize, color: UIColor, opacity: Float = 1.0, blurRadius: CGFloat = 0.0) {
         self.offset = offset
@@ -119,8 +119,8 @@ public struct WalletShadowStyle: WalletShadowStyleProtocol {
 }
 
 public struct WalletStrokeStyle: WalletStrokeStyleProtocol {
-    public var color: UIColor
-    public var lineWidth: CGFloat
+    public let color: UIColor
+    public let lineWidth: CGFloat
 
     public init(color: UIColor, lineWidth: CGFloat = 1.0) {
         self.color = color
@@ -129,9 +129,9 @@ public struct WalletStrokeStyle: WalletStrokeStyleProtocol {
 }
 
 public struct WalletRoundedViewStyle: WalletRoundedViewStyleProtocol {
-    public var fill: UIColor
-    public var stroke: WalletStrokeStyleProtocol?
-    public var cornerRadius: CGFloat?
+    public let fill: UIColor
+    public let stroke: WalletStrokeStyleProtocol?
+    public let cornerRadius: CGFloat?
 
     public init(fill: UIColor,
                 cornerRadius: CGFloat? = nil,
@@ -143,10 +143,10 @@ public struct WalletRoundedViewStyle: WalletRoundedViewStyleProtocol {
 }
 
 public struct WalletRoundedButtonStyle: WalletRoundedButtonStyleProtocol {
-    public var background: UIColor
-    public var title: WalletTextStyleProtocol
-    public var stroke: WalletStrokeStyleProtocol?
-    public var shadow: WalletShadowStyleProtocol?
+    public let background: UIColor
+    public let title: WalletTextStyleProtocol
+    public let stroke: WalletStrokeStyleProtocol?
+    public let shadow: WalletShadowStyleProtocol?
 
     public init(background: UIColor,
                 title: WalletTextStyleProtocol,
@@ -160,10 +160,10 @@ public struct WalletRoundedButtonStyle: WalletRoundedButtonStyleProtocol {
 }
 
 public struct WalletNameIconStyle: WalletNameIconStyleProtocol {
-    public var background: UIColor
-    public var title: WalletTextStyleProtocol
-    public var stroke: WalletStrokeStyleProtocol?
-    public var radius: CGFloat
+    public let background: UIColor
+    public let title: WalletTextStyleProtocol
+    public let stroke: WalletStrokeStyleProtocol?
+    public let radius: CGFloat
 
     public init(background: UIColor,
                 title: WalletTextStyleProtocol,
@@ -177,8 +177,8 @@ public struct WalletNameIconStyle: WalletNameIconStyleProtocol {
 }
 
 public struct WalletLinkStyle: WalletLinkStyleProtocol {
-    public var normal: UIColor
-    public var highlighted: UIColor
+    public let normal: UIColor
+    public let highlighted: UIColor
 
     public init(normal: UIColor, highlighted: UIColor) {
         self.normal = normal
@@ -187,10 +187,10 @@ public struct WalletLinkStyle: WalletLinkStyleProtocol {
 }
 
 public struct WalletFormCellStyle: WalletFormCellStyleProtocol {
-    public var title: WalletTextStyleProtocol
-    public var details: WalletTextStyleProtocol
-    public var link: WalletLinkStyleProtocol
-    public var separator: UIColor
+    public let title: WalletTextStyleProtocol
+    public let details: WalletTextStyleProtocol
+    public let link: WalletLinkStyleProtocol
+    public let separator: UIColor
 
     public init(title: WalletTextStyleProtocol,
                 details: WalletTextStyleProtocol,
@@ -204,12 +204,12 @@ public struct WalletFormCellStyle: WalletFormCellStyleProtocol {
 }
 
 public struct WalletModalActionStyle: WalletModalActionStyleProtocol {
-    public var fill: UIColor
-    public var cornerRadius: CGFloat
-    public var stroke: WalletStrokeStyleProtocol?
-    public var shadow: WalletShadowStyleProtocol?
-    public var doneIcon: UIImage?
-    public var backdropOpacity: CGFloat
+    public let fill: UIColor
+    public let cornerRadius: CGFloat
+    public let stroke: WalletStrokeStyleProtocol?
+    public let shadow: WalletShadowStyleProtocol?
+    public let doneIcon: UIImage?
+    public let backdropOpacity: CGFloat
 
     public init(fill: UIColor, cornerRadius: CGFloat,
                 stroke: WalletStrokeStyleProtocol?, shadow: WalletShadowStyleProtocol?,
@@ -224,10 +224,10 @@ public struct WalletModalActionStyle: WalletModalActionStyleProtocol {
 }
 
 public struct WalletAccessoryStyle: WalletAccessoryStyleProtocol {
-    public var title: WalletTextStyleProtocol
-    public var action: WalletRoundedButtonStyle
-    public var separator: WalletStrokeStyle
-    public var background: UIColor
+    public let title: WalletTextStyleProtocol
+    public let action: WalletRoundedButtonStyle
+    public let separator: WalletStrokeStyle
+    public let background: UIColor
 
     public init(title: WalletTextStyleProtocol, action: WalletRoundedButtonStyle,
                 separator: WalletStrokeStyle, background: UIColor) {
@@ -239,8 +239,8 @@ public struct WalletAccessoryStyle: WalletAccessoryStyleProtocol {
 }
 
 public struct WalletAmountChangeStyle: WalletAmountChangeStyleProtocol {
-    public var increase: UIImage?
-    public var decrease: UIImage?
+    public let increase: UIImage?
+    public let decrease: UIImage?
 
     public init(increase: UIImage?, decrease: UIImage?) {
         self.increase = increase
@@ -249,8 +249,8 @@ public struct WalletAmountChangeStyle: WalletAmountChangeStyleProtocol {
 }
 
 public struct WalletTransactionStatusStyle: WalletTransactionStatusStyleProtocol {
-    public var icon: UIImage?
-    public var color: UIColor
+    public let icon: UIImage?
+    public let color: UIColor
 
     public init(icon: UIImage?, color: UIColor) {
         self.icon = icon
@@ -259,11 +259,11 @@ public struct WalletTransactionStatusStyle: WalletTransactionStatusStyleProtocol
 }
 
 public struct WalletLoadingOverlayStyle: WalletLoadingOverlayStyleProtocol {
-    public var background: UIColor
-    public var contentColor: UIColor
-    public var contentSize: CGSize
-    public var indicator: UIImage?
-    public var animationDuration: TimeInterval
+    public let background: UIColor
+    public let contentColor: UIColor
+    public let contentSize: CGSize
+    public let indicator: UIImage?
+    public let animationDuration: TimeInterval
 
     public init(background: UIColor, contentColor: UIColor, contentSize: CGSize, indicator: UIImage?,
                 animationDuration: TimeInterval) {
@@ -276,9 +276,9 @@ public struct WalletLoadingOverlayStyle: WalletLoadingOverlayStyleProtocol {
 }
 
 public struct WalletInlineErrorStyle: WalletInlineErrorStyleProtocol {
-    public var icon: UIImage?
-    public var titleFont: UIFont
-    public var titleColor: UIColor
+    public let icon: UIImage?
+    public let titleFont: UIFont
+    public let titleColor: UIColor
 
     public init(titleColor: UIColor, titleFont: UIFont, icon: UIImage? = nil) {
         self.titleColor = titleColor
