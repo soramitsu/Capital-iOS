@@ -14,11 +14,11 @@ public protocol TransactionHeaderStyleProtocol {
 }
 
 public struct TransactionHeaderStyle: TransactionHeaderStyleProtocol {
-    public var background: UIColor
-    public var title: WalletTextStyleProtocol
-    public var separatorColor: UIColor
-    public var separatorWidth: CGFloat
-    public var upppercased: Bool
+    public let background: UIColor
+    public let title: WalletTextStyleProtocol
+    public let separatorColor: UIColor
+    public let separatorWidth: CGFloat
+    public let upppercased: Bool
 
     public init(background: UIColor,
                 title: WalletTextStyleProtocol,
