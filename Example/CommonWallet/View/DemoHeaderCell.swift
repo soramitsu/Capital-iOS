@@ -26,9 +26,6 @@ final class DemoHeaderCell: UICollectionViewCell {
 }
 
 extension DemoHeaderCell: WalletViewProtocol {
-    var viewModel: WalletViewModelProtocol? {
-        return headerViewModel
-    }
 
     func bind(viewModel: WalletViewModelProtocol) {
         if let headerViewModel = viewModel as? DemoHeaderViewModelProtocol {

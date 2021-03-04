@@ -17,11 +17,11 @@ protocol DemoHeaderViewModelDelegate: class {
 }
 
 final class DemoHeaderViewModel: DemoHeaderViewModelProtocol {
-    var cellReuseIdentifier: String = "co.jp.demo.header.identifier"
-    var itemHeight: CGFloat = 60.0
+    let cellReuseIdentifier: String = "co.jp.demo.header.identifier"
+    let itemHeight: CGFloat = 60.0
 
-    var title: String
-    var style: WalletTextStyleProtocol
+    let title: String
+    let style: WalletTextStyleProtocol
 
     var command: WalletCommandProtocol? { return nil }
 

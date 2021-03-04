@@ -35,7 +35,7 @@ final class CommandDecoratorDemo: DemoFactoryProtocol {
                                                         operationSettings: operationSettings,
                                                         networkResolver: networkResolver)
 
-        let walletBuilder =  CommonWalletBuilder
+        let walletBuilder = CommonWalletBuilder
             .builder(with: account, networkOperationFactory: networkFactory)
             .with(commandDecoratorFactory: DialogCommandDecoratorFactory())
 
