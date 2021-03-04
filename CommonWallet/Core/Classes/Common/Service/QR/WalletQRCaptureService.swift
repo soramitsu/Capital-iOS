@@ -50,7 +50,7 @@ final class WalletQRCaptureServiceFactory: WalletQRCaptureServiceFactoryProtocol
 final class WalletQRCaptureService: NSObject {
     static let processingQueue = DispatchQueue(label: "qr.capture.service.queue")
 
-    private(set) var matcher: WalletQRMatcherProtocol
+    private let matcher: WalletQRMatcherProtocol
     private(set) var captureSession: AVCaptureSession?
 
     weak var delegate: WalletQRCaptureServiceDelegate?
@@ -72,7 +72,7 @@ final class WalletQRCaptureService: NSObject {
             return
         }
 
-        let device = AVCaptureDevice.devices(for: .video).first { $0.position == .back}
+        let device = AVCaptureDevice.devices(for: .video).first { $0.position == .back }
 
         guard let camera = device else {
             throw WalletQRCaptureServiceError.deviceAccessRestricted
