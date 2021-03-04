@@ -14,11 +14,11 @@ public protocol InvoiceScanViewStyleProtocol {
 }
 
 public struct InvoiceScanViewStyle: InvoiceScanViewStyleProtocol {
-    public var title: WalletTextStyle
-    public var message: WalletTextStyle
-    public var background: UIColor
-    public var maskBackground: UIColor
-    public var upload: WalletRoundedButtonStyleProtocol
+    public let title: WalletTextStyle
+    public let message: WalletTextStyle
+    public let background: UIColor
+    public let maskBackground: UIColor
+    public let upload: WalletRoundedButtonStyleProtocol
 
     public init(background: UIColor,
                 title: WalletTextStyle,
