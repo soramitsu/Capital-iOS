@@ -14,7 +14,6 @@ enum ImageGalleryError: Error {
     case accessDeniedPreviously
     case accessDeniedNow
     case accessRestricted
-    case unknownAuthorizationStatus
 }
 
 protocol ImageGalleryPresentable: class {
