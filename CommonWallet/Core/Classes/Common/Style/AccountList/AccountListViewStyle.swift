@@ -11,8 +11,8 @@ public protocol AccountListViewStyleProtocol {
 }
 
 public struct AccountListViewStyle: AccountListViewStyleProtocol {
-    public var refreshIndicatorStyle: UIColor
-    public var backgroundImage: UIImage?
+    public let refreshIndicatorStyle: UIColor
+    public let backgroundImage: UIImage?
 
     public init(refreshIndicatorStyle: UIColor) {
         self.refreshIndicatorStyle = refreshIndicatorStyle
