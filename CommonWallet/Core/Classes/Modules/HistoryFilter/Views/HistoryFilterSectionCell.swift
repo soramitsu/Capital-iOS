@@ -7,9 +7,9 @@ import Foundation
 import UIKit
 
 
-final class FilterSectionHeaderCell: UITableViewCell {
+final class HistoryFilterSectionHeaderCell: UITableViewCell {
 
-    private var headerModel: FilterSectionViewModel?
+    private var headerModel: HistoryFilterSectionViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,14 +32,14 @@ final class FilterSectionHeaderCell: UITableViewCell {
 }
 
 
-extension FilterSectionHeaderCell: FilterViewCellProtocol {
+extension HistoryFilterSectionHeaderCell: HistoryFilterViewCellProtocol {
     
     var viewModel: WalletViewModelProtocol? {
         return headerModel
     }
     
     func bind(viewModel: WalletViewModelProtocol) {
-        if let viewModel = viewModel as? FilterSectionViewModel {
+        if let viewModel = viewModel as? HistoryFilterSectionViewModel {
             headerModel = viewModel
             
             textLabel?.text = viewModel.title

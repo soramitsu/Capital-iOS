@@ -34,7 +34,7 @@ protocol HistoryPresenterProtocol: class {
 
 
 protocol HistoryCoordinatorProtocol: class {
-    func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])
+    func presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])
 }
 
 

@@ -6,7 +6,7 @@
 import Foundation
 
 
-final class FilterCoordinator: FilterCoordinatorProtocol {
+final class HistoryFilterCoordinator: HistoryFilterCoordinatorProtocol {
     
     let resolver: ResolverProtocol
     
