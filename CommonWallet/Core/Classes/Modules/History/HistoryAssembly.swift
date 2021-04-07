@@ -15,7 +15,8 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         view.headerType = type
         view.configuration = resolver.historyConfiguration
 
-        let filterEditor = HistoryFilterEditor(resolver: resolver)
+        let filterEditor = resolver.historyConfiguration.filterEditor ??
+            HistoryFilterEditor(resolver: resolver)
         let coordinator = HistoryCoordinator(resolver: resolver, filterEditor: filterEditor)
         
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
