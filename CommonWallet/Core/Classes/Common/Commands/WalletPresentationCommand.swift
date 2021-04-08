@@ -17,13 +17,14 @@ public protocol WalletPresentationCommandProtocol: WalletCommandProtocol {
 }
 
 extension WalletPresentationCommandProtocol {
-    func present(view: UIViewController, in navigation: NavigationProtocol, animated: Bool) {
+    func present(view: UIViewController, in navigation: NavigationProtocol,
+                 animated: Bool, completion: (() -> Void)? = nil) {
         switch presentationStyle {
         case .push(let hidesBottomBar):
             view.hidesBottomBarWhenPushed = hidesBottomBar
             navigation.push(view, animated: animated)
         case .modal(let inNavigation):
-            navigation.present(view, inNavigationController: inNavigation, animated: animated)
+            navigation.present(view, inNavigationController: inNavigation, animated: animated, completion: completion)
         case .setRoot:
             navigation.set(view, animated: animated)
         }
