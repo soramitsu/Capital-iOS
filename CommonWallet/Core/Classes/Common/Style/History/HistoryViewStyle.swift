@@ -16,19 +16,21 @@ public protocol HistoryViewStyleProtocol {
     var shouldInsertFullscreenShadow: Bool { get }
     var shadow: WalletShadowStyleProtocol? { get }
     var separatorStyle: UIColor? { get }
+    var pageLoadingIndicatorColor: UIColor? { get }
 }
 
 public struct HistoryViewStyle: HistoryViewStyleProtocol {
-    public var separatorStyle: UIColor?
-    public var shadow: WalletShadowStyleProtocol?
-    public var fillColor: UIColor
-    public var borderStyle: WalletStrokeStyle
-    public var cornerRadius: CGFloat
-    public var titleStyle: WalletTextStyleProtocol
-    public var filterIcon: UIImage?
-    public var closeIcon: UIImage?
-    public var panIndicatorStyle: UIColor
-    public var shouldInsertFullscreenShadow: Bool
+    public let separatorStyle: UIColor?
+    public let shadow: WalletShadowStyleProtocol?
+    public let fillColor: UIColor
+    public let borderStyle: WalletStrokeStyle
+    public let cornerRadius: CGFloat
+    public let titleStyle: WalletTextStyleProtocol
+    public let filterIcon: UIImage?
+    public let closeIcon: UIImage?
+    public let panIndicatorStyle: UIColor
+    public let shouldInsertFullscreenShadow: Bool
+    public let pageLoadingIndicatorColor: UIColor?
 
     public init(fillColor: UIColor,
                 borderStyle: WalletStrokeStyle,
@@ -39,7 +41,8 @@ public struct HistoryViewStyle: HistoryViewStyleProtocol {
                 panIndicatorStyle: UIColor,
                 shouldInsertFullscreenShadow: Bool,
                 shadow: WalletShadowStyleProtocol?,
-                separatorStyle: UIColor?) {
+                separatorStyle: UIColor?,
+                pageLoadingIndicatorColor: UIColor?) {
         self.fillColor = fillColor
         self.borderStyle = borderStyle
         self.cornerRadius = cornerRadius
@@ -50,6 +53,7 @@ public struct HistoryViewStyle: HistoryViewStyleProtocol {
         self.shouldInsertFullscreenShadow = shouldInsertFullscreenShadow
         self.separatorStyle = separatorStyle
         self.shadow = shadow
+        self.pageLoadingIndicatorColor = pageLoadingIndicatorColor
     }
 }
 
@@ -68,6 +72,7 @@ extension HistoryViewStyle {
                                 panIndicatorStyle: .panIndicator,
                                 shouldInsertFullscreenShadow: true,
                                 shadow: nil,
-                                separatorStyle: nil)
+                                separatorStyle: nil,
+                                pageLoadingIndicatorColor: nil)
     }
 }
