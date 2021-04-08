@@ -150,7 +150,7 @@ final class HistoryViewController: UIViewController {
             panIndicatorView.fillColor = viewStyle.panIndicatorStyle
 
             if let pageLoadingColor = viewStyle.pageLoadingIndicatorColor {
-                pageLoadingView.activityIndicatorView.tintColor = pageLoadingColor
+                pageLoadingView.activityIndicatorView.color = pageLoadingColor
             }
         }
 
