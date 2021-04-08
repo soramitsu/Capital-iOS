@@ -5,6 +5,8 @@
 
 import Foundation
 
+typealias CommandCompletionBlock = () -> ()
+
 public protocol WalletCommandProtocol: class {
     func execute() throws
 }

@@ -11,6 +11,7 @@ final class ControllerPresentationCommand: WalletPresentationCommandProtocol {
 
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: false)
     var animated: Bool = true
+    var completionBlock: CommandCompletionBlock?
 
     init(resolver: ResolverProtocol, controller: UIViewController) {
         self.resolver = resolver
@@ -23,5 +24,7 @@ final class ControllerPresentationCommand: WalletPresentationCommandProtocol {
         }
 
         present(view: controller, in: navigation, animated: animated)
+        
+        completionBlock?()
     }
 }
