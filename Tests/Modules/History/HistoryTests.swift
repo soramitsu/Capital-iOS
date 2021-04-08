@@ -203,6 +203,9 @@ class HistoryTests: NetworkBaseTests {
             stub.remove(observer: any()).thenDoNothing()
         }
 
+        let assetIds = accountSettings.assets.map { $0.identifier }
+        let filter = WalletHistoryRequest(assets: assetIds)
+
         let presenter = HistoryPresenter(view: view,
                                          coordinator: coordinator,
                                          dataProvider: dataProvider,
@@ -210,6 +213,8 @@ class HistoryTests: NetworkBaseTests {
                                          eventCenter: eventCenter,
                                          viewModelFactory: viewModelFactory,
                                          assets: accountSettings.assets,
+                                         defaultFilter: filter,
+                                         selectedFilter: filter,
                                          transactionsPerPage: 100)
 
         presenter.localizationManager = LocalizationManager(localization: WalletLanguage.english.rawValue)

@@ -6,9 +6,9 @@
 import Foundation
 
 
-final class FilterSectionViewModel: WalletViewModelProtocol {
+final class HistoryFilterSectionViewModel: WalletViewModelProtocol {
     
-    let cellReuseIdentifier: String = FilterConstants.headerIdentifier
+    let cellReuseIdentifier: String = HistoryFilterConstants.headerIdentifier
     let itemHeight: CGFloat = 56
 
     var command: WalletCommandProtocol? { return nil }

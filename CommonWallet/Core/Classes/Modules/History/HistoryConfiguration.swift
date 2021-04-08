@@ -20,6 +20,7 @@ protocol HistoryConfigurationProtocol {
     var localizableTitle: LocalizableResource<String>? { get }
     var viewFactoryOverriding: HistoryViewFactoryOverriding? { get }
     var backgroundHeight: CGFloat? { get }
+    var filterEditor: HistoryFilterEditing? { get }
 }
 
 struct HistoryConfiguration: HistoryConfigurationProtocol {
@@ -35,4 +36,5 @@ struct HistoryConfiguration: HistoryConfigurationProtocol {
     let localizableTitle: LocalizableResource<String>?
     let viewFactoryOverriding: HistoryViewFactoryOverriding?
     let backgroundHeight: CGFloat?
+    let filterEditor: HistoryFilterEditing?
 }

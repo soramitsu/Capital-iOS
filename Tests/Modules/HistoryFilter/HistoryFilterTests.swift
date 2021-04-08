@@ -24,9 +24,11 @@ class FilterTests: XCTestCase {
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
                 + typeFilters.count + 1
 
+            let assetIds = accountSettings.assets.map { $0.identifier }
+            let filter = WalletHistoryRequest(assets: assetIds)
             _ = performSetupTest(accountSettings: accountSettings,
                                                      typeFilters: typeFilters,
-                                                     filter: nil,
+                                                     filter: filter,
                                                      expectedViewModelCount: expectedViewModelCount)
 
         } catch {
@@ -46,9 +48,11 @@ class FilterTests: XCTestCase {
 
             let expectedViewModelCount = FilterTests.numberOfDates + typeFilters.count + 1
 
+            let assetIds = accountSettings.assets.map { $0.identifier }
+            let filter = WalletHistoryRequest(assets: assetIds)
             _ = performSetupTest(accountSettings: accountSettings,
                                  typeFilters: typeFilters,
-                                 filter: nil,
+                                 filter: filter,
                                  expectedViewModelCount: expectedViewModelCount)
 
         } catch {
@@ -69,7 +73,7 @@ class FilterTests: XCTestCase {
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
                 + typeFilters.count + 1
 
-            let view = MockFilterViewProtocol()
+            let view = MockHistoryFilterViewProtocol()
 
             let filter = WalletHistoryRequest(assets: [accountSettings.assets[0].identifier])
             let (presenter, optionalSetupViewModel) = performSetupTest(for: view,
@@ -109,14 +113,16 @@ class FilterTests: XCTestCase {
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
                 + typeFilters.count + 1
 
-            let view = MockFilterViewProtocol()
-            let coordinator = MockFilterCoordinatorProtocol()
+            let view = MockHistoryFilterViewProtocol()
+            let coordinator = MockHistoryFilterCoordinatorProtocol()
 
+            let assetIds = accountSettings.assets.map { $0.identifier }
+            let filter = WalletHistoryRequest(assets: assetIds)
             var (presenter, optionalViewModel) = performSetupTest(for: view,
                                                                   coordinator: coordinator,
                                                                   accountSettings: accountSettings,
                                                                   typeFilters: typeFilters,
-                                                                  filter: nil,
+                                                                  filter: filter,
                                                                   expectedViewModelCount: expectedViewModelCount)
 
             let firstDate = Date().addingTimeInterval(-7200)
@@ -143,7 +149,9 @@ class FilterTests: XCTestCase {
 
             wait(for: [firstDateExpectation], timeout: Constants.networkTimeout)
 
-            guard let firstDateViewModel = optionalViewModel?[assetsCount + 2] as? FilterDateViewModel else {
+            guard
+                let viewModels = optionalViewModel,
+                let firstDateViewModel = viewModels[assetsCount + 2] as? HistoryFilterDateViewModel else {
                 XCTFail("View Model must not be nil")
                 return
             }
@@ -171,7 +179,9 @@ class FilterTests: XCTestCase {
 
             wait(for: [secondDateExpectation], timeout: Constants.networkTimeout)
 
-            guard let secondDateViewModel = optionalViewModel?[assetsCount + 3] as? FilterDateViewModel else {
+            guard
+                let viewModel = optionalViewModel,
+                let secondDateViewModel = viewModel[assetsCount + 3] as? HistoryFilterDateViewModel else {
                 XCTFail("View Model must not be nil")
                 return
             }
@@ -201,14 +211,16 @@ class FilterTests: XCTestCase {
             let expectedViewModelCount = FilterTests.numberOfDates + assetsCount + 1
                 + typeFilters.count + 1
 
-            let view = MockFilterViewProtocol()
-            let coordinator = MockFilterCoordinatorProtocol()
+            let view = MockHistoryFilterViewProtocol()
+            let coordinator = MockHistoryFilterCoordinatorProtocol()
 
+            let assetIds = accountSettings.assets.map { $0.identifier }
+            let filter = WalletHistoryRequest(assets: assetIds)
             let (presenter, optionalViewModel) = performSetupTest(for: view,
                                                                   coordinator: coordinator,
                                                                   accountSettings: accountSettings,
                                                                   typeFilters: typeFilters,
-                                                                  filter: nil,
+                                                                  filter: filter,
                                                                   expectedViewModelCount: expectedViewModelCount)
 
             // when
@@ -226,7 +238,7 @@ class FilterTests: XCTestCase {
                 return
             }
 
-            guard let selectionViewModel = viewModels.last as? FilterSelectionViewModel else {
+            guard let selectionViewModel = viewModels.last as? HistoryFilterSelectionViewModel else {
                 XCTFail("Can't extract transaction type view model")
                 return
             }
@@ -259,18 +271,18 @@ class FilterTests: XCTestCase {
 
             let expectedViewModelCount = FilterTests.numberOfDates + typeFilters.count + 1
 
-            let filterable = MockFilterable()
+            let delegate = MockHistoryFilterEditingDelegate()
 
-            let (presenter, _) = performSetupTest(filterable: filterable,
-                                                  accountSettings: accountSettings,
+            let assetIds = accountSettings.assets.map { $0.identifier }
+            let (presenter, _) = performSetupTest(delegate: delegate, accountSettings: accountSettings,
                                                   typeFilters: typeFilters,
-                                                  filter: nil,
+                                                  filter: WalletHistoryRequest(assets: assetIds),
                                                   expectedViewModelCount: expectedViewModelCount)
 
             let expectation = XCTestExpectation()
 
-            stub(filterable) { stub in
-                when(stub).set(filter: any()).then { _ in
+            stub(delegate) { stub in
+                when(stub).historyFilterDidEdit(request: any()).then { _ in
                     expectation.fulfill()
                 }
             }
@@ -291,28 +303,29 @@ class FilterTests: XCTestCase {
 
     // MARK: Private
 
-    func performSetupTest(for view: MockFilterViewProtocol = MockFilterViewProtocol(),
-                          coordinator: MockFilterCoordinatorProtocol = MockFilterCoordinatorProtocol(),
-                          filterable: Filterable = MockFilterable(),
-                          accountSettings: WalletAccountSettingsProtocol,
-                          typeFilters: [WalletTransactionTypeFilter],
-                          filter: WalletHistoryRequest?,
-                          expectedViewModelCount: Int) -> (FilterPresenter, FilterViewModel?) {
+    func performSetupTest(
+        for view: MockHistoryFilterViewProtocol = MockHistoryFilterViewProtocol(),
+        coordinator: MockHistoryFilterCoordinatorProtocol = MockHistoryFilterCoordinatorProtocol(),
+        delegate: HistoryFilterEditingDelegate = MockHistoryFilterEditingDelegate(),
+        accountSettings: WalletAccountSettingsProtocol,
+        typeFilters: [WalletTransactionTypeFilter],
+        filter: WalletHistoryRequest,
+        expectedViewModelCount: Int) -> (HistoryFilterPresenter, HistoryFilterViewModel?) {
         // given
 
         let resolver = MockResolverProtocol()
 
-        let presenter = FilterPresenter(view: view,
-                                        coordinator: coordinator,
-                                        assets: accountSettings.assets,
-                                        typeFilters: typeFilters,
-                                        filteringInstance: filterable,
-                                        filter: filter)
+        let presenter = HistoryFilterPresenter(view: view,
+                                               coordinator: coordinator,
+                                               assets: accountSettings.assets,
+                                               typeFilters: typeFilters,
+                                               filter: filter,
+                                               delegate: delegate)
 
         // when
         let expectation = XCTestExpectation()
 
-        var filterViewModel: FilterViewModel?
+        var filterViewModel: HistoryFilterViewModel?
 
         stub(view) { (stub) in
             when(stub).set(filter: any()).then { viewModels in
@@ -347,10 +360,10 @@ class FilterTests: XCTestCase {
         return (presenter, viewModel)
     }
 
-    private func validateAssets(viewModel: FilterViewModel, assetsCount: Int) -> Bool {
+    private func validateAssets(viewModel: HistoryFilterViewModel, assetsCount: Int) -> Bool {
         if assetsCount > 1 {
             let invalid = viewModel[1..<assetsCount].allSatisfy { subModel in
-                if let selectionViewModel = subModel as? FilterSelectionViewModel {
+                if let selectionViewModel = subModel as? HistoryFilterSelectionViewModel {
                     return !selectionViewModel.selected
                 } else {
                     return true
@@ -363,10 +376,10 @@ class FilterTests: XCTestCase {
         }
     }
 
-    private func validateTypes(viewModel: FilterViewModel, typesCount: Int) -> Bool {
+    private func validateTypes(viewModel: HistoryFilterViewModel, typesCount: Int) -> Bool {
         if typesCount > 0 {
             let invalid = viewModel.reversed()[0..<typesCount].allSatisfy { subModel in
-                if let selectionViewModel = subModel as? FilterSelectionViewModel {
+                if let selectionViewModel = subModel as? HistoryFilterSelectionViewModel {
                     return !selectionViewModel.selected
                 } else {
                     return true

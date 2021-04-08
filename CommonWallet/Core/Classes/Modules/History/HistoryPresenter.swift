@@ -23,11 +23,11 @@ final class HistoryPresenter {
     let dataProvider: SingleValueProvider<AssetTransactionPageData>
     let walletService: WalletServiceProtocol
     let eventCenter: WalletEventCenterProtocol
-    var viewModelFactory: HistoryViewModelFactoryProtocol
-    var transactionsPerPage: Int = 100
+    let transactionsPerPage: Int
     let assets: [WalletAsset]
-    var filter = WalletHistoryRequest()
-    var initialFilter: WalletHistoryRequest
+    let defaultFilter: WalletHistoryRequest
+    private(set) var viewModelFactory: HistoryViewModelFactoryProtocol
+    private(set) var selectedFilter: WalletHistoryRequest
 
     private(set) var dataLoadingState: DataState = .waitingCached
     private(set) var viewModels: [TransactionSectionViewModel] = []
@@ -42,19 +42,19 @@ final class HistoryPresenter {
          eventCenter: WalletEventCenterProtocol,
          viewModelFactory: HistoryViewModelFactoryProtocol,
          assets: [WalletAsset],
-         transactionsPerPage: Int) {
+         defaultFilter: WalletHistoryRequest,
+         selectedFilter: WalletHistoryRequest,
+         transactionsPerPage: Int = 100) {
         self.view = view
         self.coordinator = coordinator
         self.dataProvider = dataProvider
         self.walletService = walletService
         self.viewModelFactory = viewModelFactory
-        self.transactionsPerPage = transactionsPerPage
         self.assets = assets
         self.eventCenter = eventCenter
-
-        let assetIds = assets.map { $0.identifier }
-        filter.assets = assetIds
-        initialFilter = WalletHistoryRequest(assets: assetIds)
+        self.selectedFilter = selectedFilter
+        self.defaultFilter = defaultFilter
+        self.transactionsPerPage = transactionsPerPage
     }
     
     private func reloadView(with pageData: AssetTransactionPageData, andSwitch newDataLoadingState: DataState) throws {
@@ -141,7 +141,7 @@ final class HistoryPresenter {
     }
 
     private func loadTransactions(for pagination: Pagination) {
-        walletService.fetchTransactionHistory(for: filter,
+        walletService.fetchTransactionHistory(for: selectedFilter,
                                               pagination: pagination,
                                               runCompletionIn: .main) { [weak self] (optionalResult) in
                                                     if let result = optionalResult {
@@ -351,7 +351,7 @@ extension HistoryPresenter: HistoryPresenterProtocol {
     }
     
     func showFilter() {
-        coordinator.presentFilter(filter: filter, assets: assets)
+        coordinator.presentFilter(filter: selectedFilter, assets: assets)
     }
     
 }
@@ -360,12 +360,12 @@ extension HistoryPresenter: HistoryPresenterProtocol {
 extension HistoryPresenter: HistoryCoordinatorDelegate {
     
     func coordinator(_ coordinator: HistoryCoordinatorProtocol, didReceive filter: WalletHistoryRequest) {
-        if filter != self.filter {
-            self.filter = filter
+        if filter != selectedFilter {
+            selectedFilter = filter
 
             clearDataProvider()
 
-            guard filter != initialFilter else {
+            guard filter != defaultFilter else {
                 dataLoadingState = .waitingCached
                 setupDataProvider()
                 return
