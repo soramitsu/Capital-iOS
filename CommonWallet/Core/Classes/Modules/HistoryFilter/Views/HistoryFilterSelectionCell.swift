@@ -7,9 +7,9 @@ import Foundation
 import UIKit
 
 
-final class FilterSelectionCell: UITableViewCell, FilterViewCellProtocol {
+final class HistoryFilterSelectionCell: UITableViewCell, HistoryFilterViewCellProtocol {
     
-    private(set) var selectionModel: FilterSelectionViewModel?
+    private(set) var selectionModel: HistoryFilterSelectionViewModel?
     private(set) var doneIcon: UIImage?
     
     func applyStyle(_ style: WalletStyleProtocol) {
@@ -26,7 +26,7 @@ final class FilterSelectionCell: UITableViewCell, FilterViewCellProtocol {
     }
     
     func bind(viewModel: WalletViewModelProtocol) {
-        if let viewModel = viewModel as? FilterSelectionViewModel {
+        if let viewModel = viewModel as? HistoryFilterSelectionViewModel {
             selectionModel = viewModel
             
             textLabel?.text = viewModel.title

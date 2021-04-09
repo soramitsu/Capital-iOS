@@ -15,12 +15,9 @@ PODS:
     - CommonWallet/Core
     - IrohaCommunication (~> 4.0.0)
     - RobinHood (~> 2.5.0)
-  - Crashlytics (3.12.0):
-    - Fabric (~> 1.9.0)
   - Cuckoo (1.4.1):
     - Cuckoo/Swift (= 1.4.1)
   - Cuckoo/Swift (1.4.1)
-  - Fabric (1.9.0)
   - gRPC (1.11.0):
     - gRPC-RxLibrary (= 1.11.0)
     - gRPC/Main (= 1.11.0)
@@ -113,10 +110,7 @@ PODS:
 DEPENDENCIES:
   - CommonWallet/Core (from `../`)
   - CommonWallet/IrohaMiddleware (from `../`)
-  - Crashlytics (= 3.12.0)
   - Cuckoo
-  - Fabric (= 1.9.0)
-  - OHHTTPStubs/Swift
   - OHHTTPStubs/Swift (~> 8.0.0)
   - SwiftGen
   - SwiftLint (~> 0.39)
@@ -124,9 +118,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - BoringSSL
-    - Crashlytics
     - Cuckoo
-    - Fabric
     - gRPC
     - gRPC-Core
     - gRPC-ProtoRPC
@@ -150,9 +142,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   CommonWallet: 28eeefdc1448d591ae70aee9adde97ae30710380
-  Crashlytics: a33af323773f73904037dc2e684cd2f0d29f4fe2
   Cuckoo: 4625f7f54d9bb880123270e8969898d6c1d036b5
-  Fabric: 09ef2d9b99b104702bede1acaf469fb8f20a9146
   gRPC: 70703dc9ba31c72341fc7f37745cc1c379edee96
   gRPC-Core: 164639cd8ae18ca8b65477fafb2efbaecf4f181a
   gRPC-ProtoRPC: bb5fddf3424aa4fad74d76736578a79fe40e244e
@@ -169,6 +159,6 @@ SPEC CHECKSUMS:
   SwiftGen: 67860cc7c3cfc2ed25b9b74cfd55495fc89f9108
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 0a333f84facbd67fc40f2d7927c2fc8c4597bed0
+PODFILE CHECKSUM: b8044d3bf009edd1b5860592a2e694a788681c72
 
 COCOAPODS: 1.10.1

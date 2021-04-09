@@ -7,9 +7,9 @@ import Foundation
 import UIKit
 
 
-final class FilterDateCell: UITableViewCell {
+final class HistoryFilterDateCell: UITableViewCell {
     
-    private var dateModel: FilterDateViewModel?
+    private var dateModel: HistoryFilterDateViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
@@ -22,14 +22,14 @@ final class FilterDateCell: UITableViewCell {
 }
 
 
-extension FilterDateCell: FilterViewCellProtocol {
+extension HistoryFilterDateCell: HistoryFilterViewCellProtocol {
     
     var viewModel: WalletViewModelProtocol? {
         return dateModel
     }
     
     func bind(viewModel: WalletViewModelProtocol) {
-        if let viewModel = viewModel as? FilterDateViewModel {
+        if let viewModel = viewModel as? HistoryFilterDateViewModel {
             dateModel = viewModel
             
             textLabel?.text = viewModel.title

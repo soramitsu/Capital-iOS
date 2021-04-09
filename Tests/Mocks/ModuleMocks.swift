@@ -4547,20 +4547,22 @@ import Cuckoo
 import Cuckoo
 @testable import CommonWallet
 
+import Foundation
 
- class MockFilterable: Filterable, Cuckoo.ProtocolMock {
+
+public class MockHistoryFilterEditing: HistoryFilterEditing, Cuckoo.ProtocolMock {
     
-     typealias MocksType = Filterable
+    public typealias MocksType = HistoryFilterEditing
     
-     typealias Stubbing = __StubbingProxy_Filterable
-     typealias Verification = __VerificationProxy_Filterable
+    public typealias Stubbing = __StubbingProxy_HistoryFilterEditing
+    public typealias Verification = __VerificationProxy_HistoryFilterEditing
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
-    private var __defaultImplStub: Filterable?
+    private var __defaultImplStub: HistoryFilterEditing?
 
-     func enableDefaultImplementation(_ stub: Filterable) {
+    public func enableDefaultImplementation(_ stub: HistoryFilterEditing) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -4573,41 +4575,41 @@ import Cuckoo
     
     
     
-     func set(filter: WalletHistoryRequest)  {
+    public func startEditing(filter: WalletHistoryRequest, with assets: [WalletAsset], commandFactory: WalletCommandFactoryProtocol, notifying delegate: HistoryFilterEditingDelegate?)  {
         
-    return cuckoo_manager.call("set(filter: WalletHistoryRequest)",
-            parameters: (filter),
-            escapingParameters: (filter),
+    return cuckoo_manager.call("startEditing(filter: WalletHistoryRequest, with: [WalletAsset], commandFactory: WalletCommandFactoryProtocol, notifying: HistoryFilterEditingDelegate?)",
+            parameters: (filter, assets, commandFactory, delegate),
+            escapingParameters: (filter, assets, commandFactory, delegate),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.set(filter: filter))
+            defaultCall: __defaultImplStub!.startEditing(filter: filter, with: assets, commandFactory: commandFactory, notifying: delegate))
         
     }
     
 
-	 struct __StubbingProxy_Filterable: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_HistoryFilterEditing: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
 	    
-	    func set<M1: Cuckoo.Matchable>(filter: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletHistoryRequest)> where M1.MatchedType == WalletHistoryRequest {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest)>] = [wrap(matchable: filter) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterable.self, method: "set(filter: WalletHistoryRequest)", parameterMatchers: matchers))
+	    func startEditing<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable, M4: Cuckoo.OptionalMatchable>(filter: M1, with assets: M2, commandFactory: M3, notifying delegate: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletHistoryRequest, [WalletAsset], WalletCommandFactoryProtocol, HistoryFilterEditingDelegate?)> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset], M3.MatchedType == WalletCommandFactoryProtocol, M4.OptionalMatchedType == HistoryFilterEditingDelegate {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, [WalletAsset], WalletCommandFactoryProtocol, HistoryFilterEditingDelegate?)>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }, wrap(matchable: commandFactory) { $0.2 }, wrap(matchable: delegate) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterEditing.self, method: "startEditing(filter: WalletHistoryRequest, with: [WalletAsset], commandFactory: WalletCommandFactoryProtocol, notifying: HistoryFilterEditingDelegate?)", parameterMatchers: matchers))
 	    }
 	    
 	}
 
-	 struct __VerificationProxy_Filterable: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_HistoryFilterEditing: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -4617,21 +4619,21 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func set<M1: Cuckoo.Matchable>(filter: M1) -> Cuckoo.__DoNotUse<(WalletHistoryRequest), Void> where M1.MatchedType == WalletHistoryRequest {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest)>] = [wrap(matchable: filter) { $0 }]
-	        return cuckoo_manager.verify("set(filter: WalletHistoryRequest)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func startEditing<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.Matchable, M4: Cuckoo.OptionalMatchable>(filter: M1, with assets: M2, commandFactory: M3, notifying delegate: M4) -> Cuckoo.__DoNotUse<(WalletHistoryRequest, [WalletAsset], WalletCommandFactoryProtocol, HistoryFilterEditingDelegate?), Void> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset], M3.MatchedType == WalletCommandFactoryProtocol, M4.OptionalMatchedType == HistoryFilterEditingDelegate {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, [WalletAsset], WalletCommandFactoryProtocol, HistoryFilterEditingDelegate?)>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }, wrap(matchable: commandFactory) { $0.2 }, wrap(matchable: delegate) { $0.3 }]
+	        return cuckoo_manager.verify("startEditing(filter: WalletHistoryRequest, with: [WalletAsset], commandFactory: WalletCommandFactoryProtocol, notifying: HistoryFilterEditingDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
 }
 
- class FilterableStub: Filterable {
+public class HistoryFilterEditingStub: HistoryFilterEditing {
     
 
     
 
     
-     func set(filter: WalletHistoryRequest)   {
+    public func startEditing(filter: WalletHistoryRequest, with assets: [WalletAsset], commandFactory: WalletCommandFactoryProtocol, notifying delegate: HistoryFilterEditingDelegate?)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -4639,174 +4641,19 @@ import Cuckoo
 
 
 
- class MockFilterViewProtocol: FilterViewProtocol, Cuckoo.ProtocolMock {
+public class MockHistoryFilterEditingDelegate: HistoryFilterEditingDelegate, Cuckoo.ProtocolMock {
     
-     typealias MocksType = FilterViewProtocol
+    public typealias MocksType = HistoryFilterEditingDelegate
     
-     typealias Stubbing = __StubbingProxy_FilterViewProtocol
-     typealias Verification = __VerificationProxy_FilterViewProtocol
+    public typealias Stubbing = __StubbingProxy_HistoryFilterEditingDelegate
+    public typealias Verification = __VerificationProxy_HistoryFilterEditingDelegate
 
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: FilterViewProtocol?
-
-     func enableDefaultImplementation(_ stub: FilterViewProtocol) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
+    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
 
     
-    
-    
-     var isSetup: Bool {
-        get {
-            return cuckoo_manager.getter("isSetup",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.isSetup)
-        }
-        
-    }
-    
-    
-    
-     var controller: UIViewController {
-        get {
-            return cuckoo_manager.getter("controller",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.controller)
-        }
-        
-    }
-    
+    private var __defaultImplStub: HistoryFilterEditingDelegate?
 
-    
-
-    
-    
-    
-     func set(filter: FilterViewModel)  {
-        
-    return cuckoo_manager.call("set(filter: FilterViewModel)",
-            parameters: (filter),
-            escapingParameters: (filter),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.set(filter: filter))
-        
-    }
-    
-
-	 struct __StubbingProxy_FilterViewProtocol: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	     init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFilterViewProtocol, Bool> {
-	        return .init(manager: cuckoo_manager, name: "isSetup")
-	    }
-	    
-	    
-	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFilterViewProtocol, UIViewController> {
-	        return .init(manager: cuckoo_manager, name: "controller")
-	    }
-	    
-	    
-	    func set<M1: Cuckoo.Matchable>(filter: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(FilterViewModel)> where M1.MatchedType == FilterViewModel {
-	        let matchers: [Cuckoo.ParameterMatcher<(FilterViewModel)>] = [wrap(matchable: filter) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterViewProtocol.self, method: "set(filter: FilterViewModel)", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	 struct __VerificationProxy_FilterViewProtocol: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	    
-	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
-	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	    
-	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
-	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	
-	    
-	    @discardableResult
-	    func set<M1: Cuckoo.Matchable>(filter: M1) -> Cuckoo.__DoNotUse<(FilterViewModel), Void> where M1.MatchedType == FilterViewModel {
-	        let matchers: [Cuckoo.ParameterMatcher<(FilterViewModel)>] = [wrap(matchable: filter) { $0 }]
-	        return cuckoo_manager.verify("set(filter: FilterViewModel)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
- class FilterViewProtocolStub: FilterViewProtocol {
-    
-    
-     var isSetup: Bool {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (Bool).self)
-        }
-        
-    }
-    
-    
-     var controller: UIViewController {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (UIViewController).self)
-        }
-        
-    }
-    
-
-    
-
-    
-     func set(filter: FilterViewModel)   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-}
-
-
-
- class MockFilterPresenterProtocol: FilterPresenterProtocol, Cuckoo.ProtocolMock {
-    
-     typealias MocksType = FilterPresenterProtocol
-    
-     typealias Stubbing = __StubbingProxy_FilterPresenterProtocol
-     typealias Verification = __VerificationProxy_FilterPresenterProtocol
-
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: FilterPresenterProtocol?
-
-     func enableDefaultImplementation(_ stub: FilterPresenterProtocol) {
+    public func enableDefaultImplementation(_ stub: HistoryFilterEditingDelegate) {
         __defaultImplStub = stub
         cuckoo_manager.enableDefaultStubImplementation()
     }
@@ -4819,81 +4666,41 @@ import Cuckoo
     
     
     
-     func setup()  {
+    public func historyFilterDidEdit(request: WalletHistoryRequest)  {
         
-    return cuckoo_manager.call("setup()",
-            parameters: (),
-            escapingParameters: (),
+    return cuckoo_manager.call("historyFilterDidEdit(request: WalletHistoryRequest)",
+            parameters: (request),
+            escapingParameters: (request),
             superclassCall:
                 
                 Cuckoo.MockManager.crashOnProtocolSuperclassCall()
                 ,
-            defaultCall: __defaultImplStub!.setup())
-        
-    }
-    
-    
-    
-     func reset()  {
-        
-    return cuckoo_manager.call("reset()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.reset())
-        
-    }
-    
-    
-    
-     func apply()  {
-        
-    return cuckoo_manager.call("apply()",
-            parameters: (),
-            escapingParameters: (),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.apply())
+            defaultCall: __defaultImplStub!.historyFilterDidEdit(request: request))
         
     }
     
 
-	 struct __StubbingProxy_FilterPresenterProtocol: Cuckoo.StubbingProxy {
+	public struct __StubbingProxy_HistoryFilterEditingDelegate: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	
-	     init(manager: Cuckoo.MockManager) {
+	    public init(manager: Cuckoo.MockManager) {
 	        self.cuckoo_manager = manager
 	    }
 	    
 	    
-	    func setup() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterPresenterProtocol.self, method: "setup()", parameterMatchers: matchers))
-	    }
-	    
-	    func reset() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterPresenterProtocol.self, method: "reset()", parameterMatchers: matchers))
-	    }
-	    
-	    func apply() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterPresenterProtocol.self, method: "apply()", parameterMatchers: matchers))
+	    func historyFilterDidEdit<M1: Cuckoo.Matchable>(request: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletHistoryRequest)> where M1.MatchedType == WalletHistoryRequest {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest)>] = [wrap(matchable: request) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterEditingDelegate.self, method: "historyFilterDidEdit(request: WalletHistoryRequest)", parameterMatchers: matchers))
 	    }
 	    
 	}
 
-	 struct __VerificationProxy_FilterPresenterProtocol: Cuckoo.VerificationProxy {
+	public struct __VerificationProxy_HistoryFilterEditingDelegate: Cuckoo.VerificationProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
 	    private let callMatcher: Cuckoo.CallMatcher
 	    private let sourceLocation: Cuckoo.SourceLocation
 	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
 	        self.cuckoo_manager = manager
 	        self.callMatcher = callMatcher
 	        self.sourceLocation = sourceLocation
@@ -4903,194 +4710,21 @@ import Cuckoo
 	
 	    
 	    @discardableResult
-	    func setup() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("setup()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func reset() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("reset()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func apply() -> Cuckoo.__DoNotUse<(), Void> {
-	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
-	        return cuckoo_manager.verify("apply()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func historyFilterDidEdit<M1: Cuckoo.Matchable>(request: M1) -> Cuckoo.__DoNotUse<(WalletHistoryRequest), Void> where M1.MatchedType == WalletHistoryRequest {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest)>] = [wrap(matchable: request) { $0 }]
+	        return cuckoo_manager.verify("historyFilterDidEdit(request: WalletHistoryRequest)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
 }
 
- class FilterPresenterProtocolStub: FilterPresenterProtocol {
+public class HistoryFilterEditingDelegateStub: HistoryFilterEditingDelegate {
     
 
     
 
     
-     func setup()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func reset()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func apply()   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-}
-
-
-
- class MockFilterCoordinatorProtocol: FilterCoordinatorProtocol, Cuckoo.ProtocolMock {
-    
-     typealias MocksType = FilterCoordinatorProtocol
-    
-     typealias Stubbing = __StubbingProxy_FilterCoordinatorProtocol
-     typealias Verification = __VerificationProxy_FilterCoordinatorProtocol
-
-     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
-
-    
-    private var __defaultImplStub: FilterCoordinatorProtocol?
-
-     func enableDefaultImplementation(_ stub: FilterCoordinatorProtocol) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
-
-    
-    
-    
-     var resolver: ResolverProtocol {
-        get {
-            return cuckoo_manager.getter("resolver",
-                superclassCall:
-                    
-                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                    ,
-                defaultCall: __defaultImplStub!.resolver)
-        }
-        
-    }
-    
-
-    
-
-    
-    
-    
-     func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)  {
-        
-    return cuckoo_manager.call("presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)",
-            parameters: (titles, initialIndex, delegate),
-            escapingParameters: (titles, initialIndex, delegate),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.presentPicker(for: titles, initialIndex: initialIndex, delegate: delegate))
-        
-    }
-    
-    
-    
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
-        
-    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
-            parameters: (minDate, maxDate, delegate, locale),
-            escapingParameters: (minDate, maxDate, delegate, locale),
-            superclassCall:
-                
-                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
-                ,
-            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
-        
-    }
-    
-
-	 struct __StubbingProxy_FilterCoordinatorProtocol: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	     init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    var resolver: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockFilterCoordinatorProtocol, ResolverProtocol> {
-	        return .init(manager: cuckoo_manager, name: "resolver")
-	    }
-	    
-	    
-	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<([String], Int, ModalPickerViewDelegate?)> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<([String], Int, ModalPickerViewDelegate?)>] = [wrap(matchable: titles) { $0.0 }, wrap(matchable: initialIndex) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
-	    }
-	    
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockFilterCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	 struct __VerificationProxy_FilterCoordinatorProtocol: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	    
-	    var resolver: Cuckoo.VerifyReadOnlyProperty<ResolverProtocol> {
-	        return .init(manager: cuckoo_manager, name: "resolver", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	
-	    
-	    @discardableResult
-	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.__DoNotUse<([String], Int, ModalPickerViewDelegate?), Void> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
-	        let matchers: [Cuckoo.ParameterMatcher<([String], Int, ModalPickerViewDelegate?)>] = [wrap(matchable: titles) { $0.0 }, wrap(matchable: initialIndex) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
-	        return cuckoo_manager.verify("presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	    @discardableResult
-	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
-	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
-	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
- class FilterCoordinatorProtocolStub: FilterCoordinatorProtocol {
-    
-    
-     var resolver: ResolverProtocol {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (ResolverProtocol).self)
-        }
-        
-    }
-    
-
-    
-
-    
-     func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)   {
-        return DefaultValueRegistry.defaultValue(for: (Void).self)
-    }
-    
-     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
+    public func historyFilterDidEdit(request: WalletHistoryRequest)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -5813,9 +5447,9 @@ import RobinHood
     
     
     
-     func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])  {
+     func presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])  {
         
-    return cuckoo_manager.call("presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])",
+    return cuckoo_manager.call("presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])",
             parameters: (filter, assets),
             escapingParameters: (filter, assets),
             superclassCall:
@@ -5835,9 +5469,9 @@ import RobinHood
 	    }
 	    
 	    
-	    func presentFilter<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(filter: M1, assets: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletHistoryRequest?, [WalletAsset])> where M1.OptionalMatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset] {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest?, [WalletAsset])>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryCoordinatorProtocol.self, method: "presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])", parameterMatchers: matchers))
+	    func presentFilter<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(filter: M1, assets: M2) -> Cuckoo.ProtocolStubNoReturnFunction<(WalletHistoryRequest, [WalletAsset])> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset] {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, [WalletAsset])>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryCoordinatorProtocol.self, method: "presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -5857,9 +5491,9 @@ import RobinHood
 	
 	    
 	    @discardableResult
-	    func presentFilter<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.Matchable>(filter: M1, assets: M2) -> Cuckoo.__DoNotUse<(WalletHistoryRequest?, [WalletAsset]), Void> where M1.OptionalMatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset] {
-	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest?, [WalletAsset])>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }]
-	        return cuckoo_manager.verify("presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    func presentFilter<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(filter: M1, assets: M2) -> Cuckoo.__DoNotUse<(WalletHistoryRequest, [WalletAsset]), Void> where M1.MatchedType == WalletHistoryRequest, M2.MatchedType == [WalletAsset] {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletHistoryRequest, [WalletAsset])>] = [wrap(matchable: filter) { $0.0 }, wrap(matchable: assets) { $0.1 }]
+	        return cuckoo_manager.verify("presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -5871,7 +5505,7 @@ import RobinHood
     
 
     
-     func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset])   {
+     func presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
@@ -5963,6 +5597,468 @@ import RobinHood
 
     
      func coordinator(_ coordinator: HistoryCoordinatorProtocol, didReceive filter: WalletHistoryRequest)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+import Cuckoo
+@testable import CommonWallet
+
+
+ class MockHistoryFilterViewProtocol: HistoryFilterViewProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = HistoryFilterViewProtocol
+    
+     typealias Stubbing = __StubbingProxy_HistoryFilterViewProtocol
+     typealias Verification = __VerificationProxy_HistoryFilterViewProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: HistoryFilterViewProtocol?
+
+     func enableDefaultImplementation(_ stub: HistoryFilterViewProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+     var isSetup: Bool {
+        get {
+            return cuckoo_manager.getter("isSetup",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isSetup)
+        }
+        
+    }
+    
+    
+    
+     var controller: UIViewController {
+        get {
+            return cuckoo_manager.getter("controller",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.controller)
+        }
+        
+    }
+    
+
+    
+
+    
+    
+    
+     func set(filter: HistoryFilterViewModel)  {
+        
+    return cuckoo_manager.call("set(filter: HistoryFilterViewModel)",
+            parameters: (filter),
+            escapingParameters: (filter),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.set(filter: filter))
+        
+    }
+    
+
+	 struct __StubbingProxy_HistoryFilterViewProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var isSetup: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockHistoryFilterViewProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup")
+	    }
+	    
+	    
+	    var controller: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockHistoryFilterViewProtocol, UIViewController> {
+	        return .init(manager: cuckoo_manager, name: "controller")
+	    }
+	    
+	    
+	    func set<M1: Cuckoo.Matchable>(filter: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(HistoryFilterViewModel)> where M1.MatchedType == HistoryFilterViewModel {
+	        let matchers: [Cuckoo.ParameterMatcher<(HistoryFilterViewModel)>] = [wrap(matchable: filter) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterViewProtocol.self, method: "set(filter: HistoryFilterViewModel)", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	 struct __VerificationProxy_HistoryFilterViewProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var isSetup: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isSetup", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var controller: Cuckoo.VerifyReadOnlyProperty<UIViewController> {
+	        return .init(manager: cuckoo_manager, name: "controller", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	    @discardableResult
+	    func set<M1: Cuckoo.Matchable>(filter: M1) -> Cuckoo.__DoNotUse<(HistoryFilterViewModel), Void> where M1.MatchedType == HistoryFilterViewModel {
+	        let matchers: [Cuckoo.ParameterMatcher<(HistoryFilterViewModel)>] = [wrap(matchable: filter) { $0 }]
+	        return cuckoo_manager.verify("set(filter: HistoryFilterViewModel)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+ class HistoryFilterViewProtocolStub: HistoryFilterViewProtocol {
+    
+    
+     var isSetup: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
+    
+    
+     var controller: UIViewController {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (UIViewController).self)
+        }
+        
+    }
+    
+
+    
+
+    
+     func set(filter: HistoryFilterViewModel)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+
+ class MockHistoryFilterPresenterProtocol: HistoryFilterPresenterProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = HistoryFilterPresenterProtocol
+    
+     typealias Stubbing = __StubbingProxy_HistoryFilterPresenterProtocol
+     typealias Verification = __VerificationProxy_HistoryFilterPresenterProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: HistoryFilterPresenterProtocol?
+
+     func enableDefaultImplementation(_ stub: HistoryFilterPresenterProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+
+    
+
+    
+    
+    
+     func setup()  {
+        
+    return cuckoo_manager.call("setup()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.setup())
+        
+    }
+    
+    
+    
+     func reset()  {
+        
+    return cuckoo_manager.call("reset()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.reset())
+        
+    }
+    
+    
+    
+     func apply()  {
+        
+    return cuckoo_manager.call("apply()",
+            parameters: (),
+            escapingParameters: (),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.apply())
+        
+    }
+    
+
+	 struct __StubbingProxy_HistoryFilterPresenterProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    func setup() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterPresenterProtocol.self, method: "setup()", parameterMatchers: matchers))
+	    }
+	    
+	    func reset() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterPresenterProtocol.self, method: "reset()", parameterMatchers: matchers))
+	    }
+	    
+	    func apply() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterPresenterProtocol.self, method: "apply()", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	 struct __VerificationProxy_HistoryFilterPresenterProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	
+	    
+	    @discardableResult
+	    func setup() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("setup()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func reset() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("reset()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func apply() -> Cuckoo.__DoNotUse<(), Void> {
+	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
+	        return cuckoo_manager.verify("apply()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+ class HistoryFilterPresenterProtocolStub: HistoryFilterPresenterProtocol {
+    
+
+    
+
+    
+     func setup()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+     func reset()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+     func apply()   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+}
+
+
+
+ class MockHistoryFilterCoordinatorProtocol: HistoryFilterCoordinatorProtocol, Cuckoo.ProtocolMock {
+    
+     typealias MocksType = HistoryFilterCoordinatorProtocol
+    
+     typealias Stubbing = __StubbingProxy_HistoryFilterCoordinatorProtocol
+     typealias Verification = __VerificationProxy_HistoryFilterCoordinatorProtocol
+
+     let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: false)
+
+    
+    private var __defaultImplStub: HistoryFilterCoordinatorProtocol?
+
+     func enableDefaultImplementation(_ stub: HistoryFilterCoordinatorProtocol) {
+        __defaultImplStub = stub
+        cuckoo_manager.enableDefaultStubImplementation()
+    }
+    
+
+    
+    
+    
+     var resolver: ResolverProtocol {
+        get {
+            return cuckoo_manager.getter("resolver",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.resolver)
+        }
+        
+    }
+    
+
+    
+
+    
+    
+    
+     func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)  {
+        
+    return cuckoo_manager.call("presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)",
+            parameters: (titles, initialIndex, delegate),
+            escapingParameters: (titles, initialIndex, delegate),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.presentPicker(for: titles, initialIndex: initialIndex, delegate: delegate))
+        
+    }
+    
+    
+    
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)  {
+        
+    return cuckoo_manager.call("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)",
+            parameters: (minDate, maxDate, delegate, locale),
+            escapingParameters: (minDate, maxDate, delegate, locale),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.presentDatePicker(for: minDate, maxDate: maxDate, delegate: delegate, locale: locale))
+        
+    }
+    
+
+	 struct __StubbingProxy_HistoryFilterCoordinatorProtocol: Cuckoo.StubbingProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	
+	     init(manager: Cuckoo.MockManager) {
+	        self.cuckoo_manager = manager
+	    }
+	    
+	    
+	    var resolver: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockHistoryFilterCoordinatorProtocol, ResolverProtocol> {
+	        return .init(manager: cuckoo_manager, name: "resolver")
+	    }
+	    
+	    
+	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.ProtocolStubNoReturnFunction<([String], Int, ModalPickerViewDelegate?)> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
+	        let matchers: [Cuckoo.ParameterMatcher<([String], Int, ModalPickerViewDelegate?)>] = [wrap(matchable: titles) { $0.0 }, wrap(matchable: initialIndex) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterCoordinatorProtocol.self, method: "presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", parameterMatchers: matchers))
+	    }
+	    
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.ProtocolStubNoReturnFunction<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryFilterCoordinatorProtocol.self, method: "presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", parameterMatchers: matchers))
+	    }
+	    
+	}
+
+	 struct __VerificationProxy_HistoryFilterCoordinatorProtocol: Cuckoo.VerificationProxy {
+	    private let cuckoo_manager: Cuckoo.MockManager
+	    private let callMatcher: Cuckoo.CallMatcher
+	    private let sourceLocation: Cuckoo.SourceLocation
+	
+	     init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
+	        self.cuckoo_manager = manager
+	        self.callMatcher = callMatcher
+	        self.sourceLocation = sourceLocation
+	    }
+	
+	    
+	    
+	    var resolver: Cuckoo.VerifyReadOnlyProperty<ResolverProtocol> {
+	        return .init(manager: cuckoo_manager, name: "resolver", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	
+	    
+	    @discardableResult
+	    func presentPicker<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable, M3: Cuckoo.OptionalMatchable>(for titles: M1, initialIndex: M2, delegate: M3) -> Cuckoo.__DoNotUse<([String], Int, ModalPickerViewDelegate?), Void> where M1.MatchedType == [String], M2.MatchedType == Int, M3.OptionalMatchedType == ModalPickerViewDelegate {
+	        let matchers: [Cuckoo.ParameterMatcher<([String], Int, ModalPickerViewDelegate?)>] = [wrap(matchable: titles) { $0.0 }, wrap(matchable: initialIndex) { $0.1 }, wrap(matchable: delegate) { $0.2 }]
+	        return cuckoo_manager.verify("presentPicker(for: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func presentDatePicker<M1: Cuckoo.OptionalMatchable, M2: Cuckoo.OptionalMatchable, M3: Cuckoo.OptionalMatchable, M4: Cuckoo.Matchable>(for minDate: M1, maxDate: M2, delegate: M3, locale: M4) -> Cuckoo.__DoNotUse<(Date?, Date?, ModalDatePickerViewDelegate?, Locale), Void> where M1.OptionalMatchedType == Date, M2.OptionalMatchedType == Date, M3.OptionalMatchedType == ModalDatePickerViewDelegate, M4.MatchedType == Locale {
+	        let matchers: [Cuckoo.ParameterMatcher<(Date?, Date?, ModalDatePickerViewDelegate?, Locale)>] = [wrap(matchable: minDate) { $0.0 }, wrap(matchable: maxDate) { $0.1 }, wrap(matchable: delegate) { $0.2 }, wrap(matchable: locale) { $0.3 }]
+	        return cuckoo_manager.verify("presentDatePicker(for: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	}
+}
+
+ class HistoryFilterCoordinatorProtocolStub: HistoryFilterCoordinatorProtocol {
+    
+    
+     var resolver: ResolverProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (ResolverProtocol).self)
+        }
+        
+    }
+    
+
+    
+
+    
+     func presentPicker(for titles: [String], initialIndex: Int, delegate: ModalPickerViewDelegate?)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
+    }
+    
+     func presentDatePicker(for minDate: Date?, maxDate: Date?, delegate: ModalDatePickerViewDelegate?, locale: Locale)   {
         return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     

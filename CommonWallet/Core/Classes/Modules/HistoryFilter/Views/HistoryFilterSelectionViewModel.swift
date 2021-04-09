@@ -6,23 +6,23 @@
 import Foundation
 
 
-final class FilterSelectionViewModel: WalletViewModelProtocol {
+final class HistoryFilterSelectionViewModel: WalletViewModelProtocol {
     
-    let cellReuseIdentifier: String = FilterConstants.selectableCellIdentifier
+    let cellReuseIdentifier: String = HistoryFilterConstants.selectableCellIdentifier
     let itemHeight: CGFloat = 56
     
     private(set) var selected: Bool = false
     private(set) var title: String
-    private(set) var action: FilterSelectionAction
+    private(set) var action: HistoryFilterSelectionAction
     private(set) var index: Int
     
-    init(title: String, index: Int, action: @escaping FilterSelectionAction) {
+    init(title: String, index: Int, action: @escaping HistoryFilterSelectionAction) {
         self.title = title
         self.index = index
         self.action = action
     }
     
-    init(title: String, selected: Bool, index: Int, action: @escaping FilterSelectionAction) {
+    init(title: String, selected: Bool, index: Int, action: @escaping HistoryFilterSelectionAction) {
         self.title = title
         self.index = index
         self.selected = selected
@@ -30,7 +30,7 @@ final class FilterSelectionViewModel: WalletViewModelProtocol {
     }
 }
 
-extension FilterSelectionViewModel: WalletCommandProtocol {
+extension HistoryFilterSelectionViewModel: WalletCommandProtocol {
     var command: WalletCommandProtocol? { return self }
 
     func execute() throws {

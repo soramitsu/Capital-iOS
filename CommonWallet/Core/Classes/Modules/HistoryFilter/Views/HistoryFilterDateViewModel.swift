@@ -6,9 +6,9 @@
 import Foundation
 
 
-final class FilterDateViewModel: WalletViewModelProtocol {
+final class HistoryFilterDateViewModel: WalletViewModelProtocol {
     
-    let cellReuseIdentifier: String = FilterConstants.dateCellIdentifier
+    let cellReuseIdentifier: String = HistoryFilterConstants.dateCellIdentifier
     let itemHeight: CGFloat = 56
     
     private(set) var dateString: String?
@@ -22,7 +22,7 @@ final class FilterDateViewModel: WalletViewModelProtocol {
     }
 }
 
-extension FilterDateViewModel: WalletCommandProtocol {
+extension HistoryFilterDateViewModel: WalletCommandProtocol {
     var command: WalletCommandProtocol? { return self }
 
     func execute() throws {
