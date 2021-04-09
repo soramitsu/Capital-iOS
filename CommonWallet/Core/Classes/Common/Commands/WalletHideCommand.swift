@@ -14,4 +14,5 @@ public enum WalletHideActionType {
 public protocol WalletHideCommandProtocol: WalletCommandProtocol {
     var actionType: WalletHideActionType { get set }
     var animated: Bool { get set }
+    var completionBlock: (() -> Void)? { get set }
 }

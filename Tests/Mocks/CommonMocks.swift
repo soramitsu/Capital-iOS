@@ -395,6 +395,30 @@ public class MockWalletHideCommandProtocol: WalletHideCommandProtocol, Cuckoo.Pr
         
     }
     
+    
+    
+    public var completionBlock: (() -> Void)? {
+        get {
+            return cuckoo_manager.getter("completionBlock",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.completionBlock)
+        }
+        
+        set {
+            cuckoo_manager.setter("completionBlock",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.completionBlock = newValue)
+        }
+        
+    }
+    
 
     
 
@@ -433,6 +457,11 @@ public class MockWalletHideCommandProtocol: WalletHideCommandProtocol, Cuckoo.Pr
 	    }
 	    
 	    
+	    var completionBlock: Cuckoo.ProtocolToBeStubbedOptionalProperty<MockWalletHideCommandProtocol, (() -> Void)> {
+	        return .init(manager: cuckoo_manager, name: "completionBlock")
+	    }
+	    
+	    
 	    func execute() -> Cuckoo.ProtocolStubNoReturnThrowingFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletHideCommandProtocol.self, method: "execute() throws", parameterMatchers: matchers))
@@ -462,6 +491,11 @@ public class MockWalletHideCommandProtocol: WalletHideCommandProtocol, Cuckoo.Pr
 	        return .init(manager: cuckoo_manager, name: "animated", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
+	    
+	    var completionBlock: Cuckoo.VerifyOptionalProperty<(() -> Void)> {
+	        return .init(manager: cuckoo_manager, name: "completionBlock", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
 	
 	    
 	    @discardableResult
@@ -489,6 +523,16 @@ public class WalletHideCommandProtocolStub: WalletHideCommandProtocol {
     public var animated: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+        set { }
+        
+    }
+    
+    
+    public var completionBlock: (() -> Void)? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: ((() -> Void)?).self)
         }
         
         set { }

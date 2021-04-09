@@ -5,11 +5,11 @@
 
 import Foundation
 
-
 final class ControllerHideCommand: WalletHideCommandProtocol {
     let resolver: ResolverProtocol
     var actionType: WalletHideActionType
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     init(resolver: ResolverProtocol, actionType: WalletHideActionType) {
         self.resolver = resolver
@@ -27,7 +27,7 @@ final class ControllerHideCommand: WalletHideCommandProtocol {
         case .popToRoot:
             navigation.popToRoot(animated: animated)
         case .dismiss:
-            navigation.dismiss(animated: animated)
+            navigation.dismiss(animated: animated, completion: completionBlock)
         }
     }
 }

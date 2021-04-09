@@ -14,8 +14,8 @@ protocol NavigationProtocol {
     func push(_ controller: UIViewController, animated: Bool)
     func pop(animated: Bool)
     func popToRoot(animated: Bool)
-    func dismiss(animated: Bool)
-    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool)
+    func dismiss(animated: Bool, completion: (() -> Void)?)
+    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool, completion: (() -> Void)?)
     
 }
 
@@ -39,11 +39,19 @@ extension NavigationProtocol {
     }
 
     func dismiss() {
-        dismiss(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+
+    func dismiss(animated: Bool) {
+        dismiss(animated: animated, completion: nil)
     }
 
     func present(_ controller: UIViewController, inNavigationController: Bool) {
-        present(controller, inNavigationController: inNavigationController, animated: true)
+        present(controller, inNavigationController: inNavigationController, animated: true, completion: nil)
+    }
+
+    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool) {
+        present(controller, inNavigationController: inNavigationController, animated: animated, completion: nil)
     }
     
 }
@@ -98,7 +106,11 @@ final class Navigation: NavigationProtocol {
         activeNavigationController?.popToRootViewController(animated: animated)
     }
     
-    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool) {
+    func present(_ controller: UIViewController,
+                 inNavigationController: Bool,
+                 animated: Bool,
+                 completion: (() -> Void)?)
+    {
         var presentedController: UIViewController
 
         if inNavigationController {
@@ -111,12 +123,17 @@ final class Navigation: NavigationProtocol {
             presentedController = controller
         }
 
-        topViewController?.present(presentedController, animated: animated, completion: nil)
+        topViewController?.present(presentedController,
+                                   animated: animated,
+                                   completion: completion)
     }
     
-    func dismiss(animated: Bool) {
+    func dismiss(animated: Bool,
+                 completion: (() -> Void)?)
+    {
         if let presentingController = topViewController?.presentingViewController {
-            presentingController.dismiss(animated: animated, completion: nil)
+            presentingController.dismiss(animated: animated,
+                                         completion: completion)
         }
     }
 
