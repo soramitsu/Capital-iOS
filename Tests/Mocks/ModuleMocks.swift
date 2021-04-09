@@ -5170,6 +5170,20 @@ import RobinHood
     
 
     
+    
+    
+     var isLoading: Bool {
+        get {
+            return cuckoo_manager.getter("isLoading",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.isLoading)
+        }
+        
+    }
+    
 
     
 
@@ -5288,6 +5302,11 @@ import RobinHood
 	    }
 	    
 	    
+	    var isLoading: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockHistoryPresenterProtocol, Bool> {
+	        return .init(manager: cuckoo_manager, name: "isLoading")
+	    }
+	    
+	    
 	    func setup() -> Cuckoo.ProtocolStubNoReturnFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockHistoryPresenterProtocol.self, method: "setup()", parameterMatchers: matchers))
@@ -5337,6 +5356,11 @@ import RobinHood
 	    }
 	
 	    
+	    
+	    var isLoading: Cuckoo.VerifyReadOnlyProperty<Bool> {
+	        return .init(manager: cuckoo_manager, name: "isLoading", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
 	
 	    
 	    @discardableResult
@@ -5385,6 +5409,14 @@ import RobinHood
 }
 
  class HistoryPresenterProtocolStub: HistoryPresenterProtocol {
+    
+    
+     var isLoading: Bool {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+    }
     
 
     

@@ -20,6 +20,8 @@ protocol HistoryViewProtocol: ControllerBackedProtocol, Draggable {
 }
 
 protocol HistoryPresenterProtocol: class {
+    var isLoading: Bool { get }
+
     func setup()
     func reload()
     func loadNext() -> Bool

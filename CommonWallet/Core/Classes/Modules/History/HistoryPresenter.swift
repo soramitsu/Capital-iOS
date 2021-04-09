@@ -231,13 +231,18 @@ final class HistoryPresenter {
             }
         case .loaded, .filtered:
             logger?.debug("Context loaded \(String(describing: pagination.context)) loaded but not expected")
-        case .filtering(let currentPagination, _):
+        case .filtering(let currentPagination, let prevPagination):
             if currentPagination == pagination {
                 do {
                     let loadedPage = Pagination(count: transactionData.transactions.count,
                                                 context: pagination.context)
                     let newState = DataState.filtered(page: loadedPage, nextContext: transactionData.context)
-                    try appendPage(with: transactionData, andSwitch: newState)
+
+                    if prevPagination == nil {
+                        try reloadView(with: transactionData, andSwitch: newState)
+                    } else {
+                        try appendPage(with: transactionData, andSwitch: newState)
+                    }
                 } catch {
                     logger?.error("Did receive page processing error \(error)")
                 }
@@ -275,7 +280,16 @@ final class HistoryPresenter {
 
 
 extension HistoryPresenter: HistoryPresenterProtocol {
-    
+
+    var isLoading: Bool {
+        switch dataLoadingState {
+        case .filtering, .loading:
+            return true
+        case .waitingCached, .filtered, .loaded:
+            return false
+        }
+    }
+
     func setup() {
         viewModelFactory.delegate = self
 
