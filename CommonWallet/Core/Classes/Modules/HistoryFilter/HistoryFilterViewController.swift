@@ -6,22 +6,12 @@
 import UIKit
 import SoraFoundation
 
-
-struct FilterConstants {
-    static let selectableCellIdentifier: String = "jp.co.soramitsu.capital.SelectionCellIdentifier"
-    static let dateCellIdentifier: String = "jp.co.soramitsu.capital.DateCellIdentifier"
-    static let headerIdentifier = "jp.co.soramitsu.capital.SectionHeaderCellIdentifier"
-    static let cellHeight: CGFloat = 54
-}
-
-
-final class FilterViewController: UIViewController {
-    
-    var presenter: FilterPresenterProtocol!
+final class HistoryFilterViewController: UIViewController {
+    var presenter: HistoryFilterPresenterProtocol!
     
     @IBOutlet private var tableView: UITableView!
     
-    private var filter: FilterViewModel = [] {
+    private var filter: HistoryFilterViewModel = [] {
         didSet {
             tableView.reloadData()
         }
@@ -54,9 +44,9 @@ final class FilterViewController: UIViewController {
         let tableFooterFrame = CGRect(origin: .zero, size: CGSize(width: tableView.bounds.size.width, height: 1.0))
         tableView.tableFooterView = UIView(frame: tableFooterFrame)
 
-        tableView.register(FilterSelectionCell.self, forCellReuseIdentifier: FilterConstants.selectableCellIdentifier)
-        tableView.register(FilterDateCell.self, forCellReuseIdentifier: FilterConstants.dateCellIdentifier)
-        tableView.register(FilterSectionHeaderCell.self, forCellReuseIdentifier: FilterConstants.headerIdentifier)
+        tableView.register(HistoryFilterSelectionCell.self, forCellReuseIdentifier: HistoryFilterConstants.selectableCellIdentifier)
+        tableView.register(HistoryFilterDateCell.self, forCellReuseIdentifier: HistoryFilterConstants.dateCellIdentifier)
+        tableView.register(HistoryFilterSectionHeaderCell.self, forCellReuseIdentifier: HistoryFilterConstants.headerIdentifier)
     }
 
     private func setupNavigationItems() {
@@ -98,7 +88,7 @@ final class FilterViewController: UIViewController {
 }
 
 
-extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
+extension HistoryFilterViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filter.count
@@ -109,7 +99,7 @@ extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: model.cellReuseIdentifier)!
 
         //swiftlint:disable:next force_cast
-        let filterCell = cell as! FilterViewCellProtocol
+        let filterCell = cell as! HistoryFilterViewCellProtocol
         if let style = style {
             filterCell.applyStyle(style)
         }
@@ -131,15 +121,15 @@ extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 
-extension FilterViewController: FilterViewProtocol {
+extension HistoryFilterViewController: HistoryFilterViewProtocol {
     
-    func set(filter: FilterViewModel) {
+    func set(filter: HistoryFilterViewModel) {
         self.filter = filter
     }
     
 }
 
-extension FilterViewController: Localizable {
+extension HistoryFilterViewController: Localizable {
     func applyLocalization() {
         if isViewLoaded {
             setupLocalization()

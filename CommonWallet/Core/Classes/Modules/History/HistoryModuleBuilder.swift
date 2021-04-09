@@ -49,6 +49,9 @@ public protocol HistoryModuleBuilderProtocol: class {
 
     @discardableResult
     func with(backgroundHeight: CGFloat?) -> Self
+
+    @discardableResult
+    func with(filterEditor: HistoryFilterEditing) -> Self
 }
 
 final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
@@ -81,6 +84,8 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
 
     fileprivate var viewFactoryOverriding: HistoryViewFactoryOverriding?
 
+    fileprivate var filterEditor: HistoryFilterEditing?
+
     /*
      * We don't want to change height dynamically due to performance issue, so set max by default.
      * Pass nil to bind to superview.
@@ -103,7 +108,8 @@ final class HistoryModuleBuilder: HistoryModuleBuilderProtocol {
                                     itemViewModelFactory: itemViewModelFactory,
                                     localizableTitle: localizableTitle,
                                     viewFactoryOverriding: viewFactoryOverriding,
-                                    backgroundHeight: backgroundHeight)
+                                    backgroundHeight: backgroundHeight,
+                                    filterEditor: filterEditor)
     }
 
     fileprivate func registerItemCell() {
@@ -182,6 +188,11 @@ extension HistoryModuleBuilder {
 
     func with(backgroundHeight: CGFloat?) -> Self {
         self.backgroundHeight = backgroundHeight
+        return self
+    }
+
+    func with(filterEditor: HistoryFilterEditing) -> Self {
+        self.filterEditor = filterEditor
         return self
     }
 }

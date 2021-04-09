@@ -7,29 +7,30 @@ import Foundation
 
 final class HistoryCoordinator: HistoryCoordinatorProtocol {
     let resolver: ResolverProtocol
+    let filterEditor: HistoryFilterEditing
 
-    init(resolver: ResolverProtocol) {
+    init(resolver: ResolverProtocol, filterEditor: HistoryFilterEditing) {
         self.resolver = resolver
+        self.filterEditor = filterEditor
     }
     
     weak var delegate: HistoryCoordinatorDelegate?
 
-    func presentFilter(filter: WalletHistoryRequest?, assets: [WalletAsset]) {
-        guard let view = FilterAssembly.assembleView(with: resolver,
-                                                     assets: assets,
-                                                     filtering: self,
-                                                     filter: filter) else {
-            return
-        }
-        
-        resolver.navigation?.present(view.controller, inNavigationController: true)
+    func presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset]) {
+        filterEditor.startEditing(filter: filter,
+                                  with: assets,
+                                  commandFactory: resolver.commandFactory,
+                                  notifying: self)
     }
     
 }
 
 
-extension HistoryCoordinator: Filterable {
-    
+extension HistoryCoordinator: HistoryFilterEditingDelegate {
+    func historyFilterDidEdit(request: WalletHistoryRequest) {
+        delegate?.coordinator(self, didReceive: request)
+    }
+
     func set(filter: WalletHistoryRequest) {
         delegate?.coordinator(self, didReceive: filter)
     }

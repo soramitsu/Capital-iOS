@@ -15,14 +15,16 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
         view.headerType = type
         view.configuration = resolver.historyConfiguration
 
-        let coordinator = HistoryCoordinator(resolver: resolver)
+        let filterEditor = resolver.historyConfiguration.filterEditor ??
+            HistoryFilterEditor(resolver: resolver)
+        let coordinator = HistoryCoordinator(resolver: resolver, filterEditor: filterEditor)
         
         let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
                                                       cacheFacade: CoreDataCacheFacade.shared,
                                                       networkOperationFactory: resolver.networkOperationFactory,
                                                       identifierFactory: resolver.singleValueIdentifierFactory)
 
-        let assetIds = assets.map({ $0.identifier })
+        let assetIds = assets.map { $0.identifier }
         guard
             let transactionDataProvider = try? dataProviderFactory.createHistoryDataProvider(for: assetIds) else {
             return nil
@@ -45,7 +47,10 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
                                                        commandFactory: resolver.commandFactory)
 
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
- 
+
+        let defaultFilter = WalletHistoryRequest(assets: assetIds)
+        let selectedFilter = defaultFilter
+
         let presenter = HistoryPresenter(view: view,
                                          coordinator: coordinator,
                                          dataProvider: transactionDataProvider,
@@ -53,6 +58,8 @@ final class HistoryAssembly: HistoryAssemblyProtocol {
                                          eventCenter: resolver.eventCenter,
                                          viewModelFactory: viewModelFactory,
                                          assets: assets,
+                                         defaultFilter: defaultFilter,
+                                         selectedFilter: selectedFilter,
                                          transactionsPerPage: DataProviderFactory.historyItemsPerPage)
         
         coordinator.delegate = presenter

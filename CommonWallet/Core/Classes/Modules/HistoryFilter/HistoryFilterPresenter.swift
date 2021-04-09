@@ -15,18 +15,18 @@ private enum DateSelection: Int {
 }
 
 
-final class FilterPresenter {
-    weak var view: FilterViewProtocol?
-    var coordinator: FilterCoordinatorProtocol
+final class HistoryFilterPresenter {
+    weak var view: HistoryFilterViewProtocol?
+    var coordinator: HistoryFilterCoordinatorProtocol
     
     var fromDate: Date?
     var toDate: Date?
     
     private let assets: [WalletAsset]
-    private var selectedAssets: Set<WalletAsset> = []
+    private var selectedAssets: Set<WalletAsset>
     private var typeFilters: [WalletTransactionTypeFilter]
     private var selectedTypeFilter: WalletTransactionTypeFilter?
-    private var filteringInstance: Filterable
+    private weak var delegate: HistoryFilterEditingDelegate?
     private var filter: WalletHistoryRequest?
     private var dateSelection: DateSelection?
 
@@ -42,19 +42,19 @@ final class FilterPresenter {
     private lazy var dateFormatter: LocalizableResource<DateFormatter> =
         DateFormatter.filterDateFormatter.localizableResource()
 
-    init(view: FilterViewProtocol,
-         coordinator: FilterCoordinatorProtocol,
+    init(view: HistoryFilterViewProtocol,
+         coordinator: HistoryFilterCoordinatorProtocol,
          assets: [WalletAsset],
          typeFilters: [WalletTransactionTypeFilter],
-         filteringInstance: Filterable,
-         filter: WalletHistoryRequest?) {
+         filter: WalletHistoryRequest,
+         delegate: HistoryFilterEditingDelegate?) {
         self.view = view
         self.coordinator = coordinator
         self.assets = assets
         self.typeFilters = typeFilters
-        self.filteringInstance = filteringInstance
+        self.delegate = delegate
         self.filter = filter
-        selectedAssets = selectedAssets.union(assets)
+        self.selectedAssets = Set(assets)
     }
     
     private func selectDate(for dateCase: DateSelection) {
@@ -114,43 +114,44 @@ final class FilterPresenter {
     }
     
     private func reload() {
-        var filterViewModel: FilterViewModel = []
+        var filterViewModel: HistoryFilterViewModel = []
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         if assets.count > 1 {
 
-            filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.assets))
+            filterViewModel.append(HistoryFilterSectionViewModel(title: L10n.Filter.assets))
             filterViewModel.append(contentsOf:
-                zip(0..<assets.count, assets).map { FilterSelectionViewModel(title: $1.name.value(for: locale),
-                                                                             selected: selectedAssets.contains($1),
-                                                                             index: $0,
-                                                                             action: { [weak self] (index) in
-                                                                                self?.selectAsset(with: index)
+                zip(0..<assets.count, assets).map {
+                    HistoryFilterSelectionViewModel(title: $1.name.value(for: locale),
+                                                    selected: selectedAssets.contains($1),
+                                                    index: $0,
+                                                    action: { [weak self] (index) in
+                                                        self?.selectAsset(with: index)
                 })
             })
         }
         
-        filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.dateRange))
-        filterViewModel.append(FilterDateViewModel(title: L10n.Filter.from,
-                                                   dateString: string(for: fromDate),
-                                                   action: { [weak self] in
+        filterViewModel.append(HistoryFilterSectionViewModel(title: L10n.Filter.dateRange))
+        filterViewModel.append(HistoryFilterDateViewModel(title: L10n.Filter.from,
+                                                          dateString: string(for: fromDate),
+                                                          action: { [weak self] in
                                                     self?.selectDate(for: .fromDate)
         }))
-        filterViewModel.append(FilterDateViewModel(title: L10n.Filter.to,
+        filterViewModel.append(HistoryFilterDateViewModel(title: L10n.Filter.to,
                                                    dateString: string(for: toDate),
                                                    action: { [weak self] in
             self?.selectDate(for: .toDate)
         }))
         
-        filterViewModel.append(FilterSectionViewModel(title: L10n.Filter.type))
+        filterViewModel.append(HistoryFilterSectionViewModel(title: L10n.Filter.type))
         filterViewModel.append(contentsOf:
             zip(0..<typeFilters.count, typeFilters).map {
                 let selected = selectedTypeFilter != nil ? selectedTypeFilter! == $1 : false
-                return FilterSelectionViewModel(title: $1.displayName.value(for: locale),
-                                                selected: selected,
-                                                index: $0,
-                                                action: { [weak self] (index) in
+                return HistoryFilterSelectionViewModel(title: $1.displayName.value(for: locale),
+                                                       selected: selected,
+                                                       index: $0,
+                                                       action: { [weak self] (index) in
                                                     self?.selectType(with: index)
                 })
         })
@@ -160,9 +161,7 @@ final class FilterPresenter {
     
 }
 
-
-extension FilterPresenter: FilterPresenterProtocol {
-    
+extension HistoryFilterPresenter: HistoryFilterPresenterProtocol {
     func setup() {
         if let filter = filter {
             if let filterAssets = filter.assets {
@@ -192,12 +191,11 @@ extension FilterPresenter: FilterPresenterProtocol {
     }
 
     func apply() {
-        filteringInstance.set(filter: finalFilter)
+        delegate?.historyFilterDidEdit(request: finalFilter)
     }
 }
 
-
-extension FilterPresenter: ModalDatePickerViewDelegate {
+extension HistoryFilterPresenter: ModalDatePickerViewDelegate {
     
     func modalDatePickerViewDidCancel(_ view: ModalDatePickerView) {
         dateSelection = nil
@@ -216,7 +214,7 @@ extension FilterPresenter: ModalDatePickerViewDelegate {
     
 }
 
-extension FilterPresenter: Localizable {
+extension HistoryFilterPresenter: Localizable {
     func applyLocalization() {
         if view?.isSetup == true {
             reload()
