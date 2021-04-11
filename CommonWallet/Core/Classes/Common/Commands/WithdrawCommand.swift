@@ -12,6 +12,7 @@ final class WithdrawCommand {
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     init(resolver: ResolverProtocol, assetId: String, optionId: String) {
         self.resolver = resolver
