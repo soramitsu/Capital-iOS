@@ -29,7 +29,7 @@ final class AccessoryViewFactory: AccessoryViewFactoryProtocol {
         }
     }
 
-    //swiftlint:disable force_cast
+    // swiftlint:disable force_cast
     private static func createActionBarView(from style: WalletAccessoryStyleProtocol?,
                                             target: Any?,
                                             completionSelector: Selector?) -> AccessoryViewProtocol {
@@ -52,9 +52,9 @@ final class AccessoryViewFactory: AccessoryViewFactoryProtocol {
 
         return view
     }
-    //swiftlint:enable force_cast
+    // swiftlint:enable force_cast
 
-    //swiftlint:disable force_cast
+    // swiftlint:disable force_cast
     private static func createAccessoryView(from style: WalletAccessoryStyleProtocol?,
                                             target: Any?,
                                             completionSelector: Selector?) -> AccessoryViewProtocol {

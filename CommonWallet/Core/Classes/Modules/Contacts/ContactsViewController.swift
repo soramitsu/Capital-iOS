@@ -158,7 +158,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellReuseIdentifier,
                                                  for: indexPath)
         
-        //swiftlint:disable:next force_cast
+        // swiftlint:disable:next force_cast
         let contactCell = cell as! WalletViewProtocol
 
         if var stylableCell = cell as? ContactsCellStylable, stylableCell.style == nil {

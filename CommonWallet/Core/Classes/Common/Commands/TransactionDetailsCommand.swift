@@ -6,6 +6,7 @@ final class TransactionDetailsCommand: WalletPresentationCommandProtocol {
 
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     init(resolver: ResolverProtocol, transaction: AssetTransactionData) {
         self.resolver = resolver
@@ -20,6 +21,9 @@ final class TransactionDetailsCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: trasactionDetailsView.controller, in: navigation, animated: animated)
+        present(view: trasactionDetailsView.controller,
+                in: navigation,
+                animated: animated,
+                completion: completionBlock)
     }
 }
