@@ -24,7 +24,7 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
 
       core.frameworks = 'UIKit', 'CoreImage'
 
-      core.dependency 'RobinHood', '~> 2.5.0'
+      core.dependency 'RobinHood', '~> 2.6.0'
       core.dependency 'SoraUI', '~> 1.10.0'
       core.dependency 'SoraFoundation/DateProcessing', '~> 0.9.0'
       core.dependency 'SoraFoundation/NotificationHandlers', '~> 0.9.0'
@@ -36,7 +36,7 @@ Library allow fast integration of Soramitsu Wallet implementation into client ap
 
       im.dependency 'CommonWallet/Core'
       im.dependency 'IrohaCommunication', '~> 4.0.0'
-      im.dependency 'RobinHood', '~> 2.5.0'
+      im.dependency 'RobinHood', '~> 2.6.0'
   end
 
   s.test_spec do |ts|
