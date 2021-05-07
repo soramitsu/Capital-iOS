@@ -34,8 +34,11 @@ class WithdrawConfirmationTests: NetworkBaseTests {
 
             let withdrawObserver = MockWalletEventVisitorProtocol()
 
-            let tokenFormatter = TokenAmountFormatter(numberFormatter: NumberFormatter(),
-                                                      tokenSymbol: "A")
+            let tokenFormatter: LocalizableResource<TokenFormatter> = LocalizableResource { locale in
+                let formatter = TokenFormatter(decimalFormatter: NumberFormatter(), tokenSymbol: "A")
+                formatter.locale = locale
+                return formatter
+            }
 
             let presenter = WithdrawConfirmationPresenter(view: view,
                                                           coordinator: coordinator,
@@ -44,7 +47,7 @@ class WithdrawConfirmationTests: NetworkBaseTests {
                                                           asset: accountSettings.assets[0],
                                                           withdrawOption: accountSettings.withdrawOptions[0],
                                                           style: WalletStyle(),
-                                                          amountFormatter: tokenFormatter.localizableResource(),
+                                                          amountFormatter: tokenFormatter,
                                                           eventCenter: eventCenter,
                                                           feeDisplaySettings: FeeDisplaySettings.defaultSettings)
 

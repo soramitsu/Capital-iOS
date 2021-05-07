@@ -105,8 +105,7 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
 
         let amountFormatter = amountFormatterFactory.createTokenFormatter(for: feeAsset)
 
-        guard let details = amountFormatter.value(for: locale)
-            .string(from: fee.value.decimalValue) else {
+        guard let details = amountFormatter.value(for: locale).stringFromDecimal(fee.value.decimalValue) else {
             return FeeViewModel(title: L10n.Amount.defaultFee,
                                 details: "",
                                 isLoading: true,
@@ -178,7 +177,7 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
 
         if let balanceData = inputState.balance,
             let formattedBalance = amountFormatter.value(for: locale)
-                .string(from: balanceData.balance.decimalValue) {
+                .stringFromDecimal(balanceData.balance.decimalValue) {
             details = formattedBalance
         } else {
             details = ""

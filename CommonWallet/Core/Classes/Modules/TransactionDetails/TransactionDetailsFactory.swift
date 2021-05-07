@@ -170,7 +170,7 @@ struct WalletTransactionDetailsFactory {
 
         let formatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
-        guard let displayAmount = formatter.value(for: locale).string(from: amount) else {
+        guard let displayAmount = formatter.value(for: locale).stringFromDecimal(amount) else {
             return
         }
 
@@ -194,7 +194,7 @@ struct WalletTransactionDetailsFactory {
 
         let formatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
-        guard let displayAmount = formatter.value(for: locale).string(from: amount) else {
+        guard let displayAmount = formatter.value(for: locale).stringFromDecimal(amount) else {
             return
         }
 
@@ -224,7 +224,7 @@ struct WalletTransactionDetailsFactory {
                 continue
             }
 
-            guard let amount = formatter.string(from: decimalAmount) else {
+            guard let amount = formatter.stringFromDecimal(decimalAmount) else {
                 continue
             }
 
@@ -257,7 +257,7 @@ struct WalletTransactionDetailsFactory {
                 continue
             }
 
-            guard let amount = formatter.string(from: decimalAmount) else {
+            guard let amount = formatter.stringFromDecimal(decimalAmount) else {
                 continue
             }
 
@@ -289,7 +289,7 @@ struct WalletTransactionDetailsFactory {
             }
         }
 
-        guard let totalAmount = formatter.string(from: totalAmountDecimal) else {
+        guard let totalAmount = formatter.stringFromDecimal(totalAmountDecimal) else {
             return
         }
 

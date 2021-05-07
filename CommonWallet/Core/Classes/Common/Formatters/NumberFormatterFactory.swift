@@ -8,8 +8,8 @@ import SoraFoundation
 
 public protocol NumberFormatterFactoryProtocol {
     func createInputFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>
-    func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>
-    func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenAmountFormatter>
+    func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting>
+    func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>
 }
 
 public extension NumberFormatterFactoryProtocol {
@@ -27,15 +27,26 @@ public extension NumberFormatterFactoryProtocol {
         return numberFormatter.localizableResource()
     }
 
-    func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter> {
-        createDisplayNumberFormatter(for: asset).localizableResource()
+    func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting> {
+        let formatter = createDisplayNumberFormatter(for: asset)
+
+        let result: LocalizableResource<LocalizableDecimalFormatting> = LocalizableResource { locale in
+            formatter.locale = locale
+            return formatter
+        }
+
+        return result
     }
 
-    func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenAmountFormatter> {
+    func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter> {
         let numberFormatter = createDisplayNumberFormatter(for: asset)
 
-        return TokenAmountFormatter(numberFormatter: numberFormatter,
-                                    tokenSymbol: asset?.symbol ?? "").localizableResource()
+        let formatter = TokenFormatter(decimalFormatter: numberFormatter, tokenSymbol: asset?.symbol ?? "")
+
+        return LocalizableResource { locale in
+            formatter.locale = locale
+            return formatter
+        }
     }
 
     private func createDisplayNumberFormatter(for asset: WalletAsset?) -> NumberFormatter {

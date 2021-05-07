@@ -60,7 +60,7 @@ class HistoryViewModelFactoryTests: XCTestCase {
                 let amountFormatter = numberFormatterFactory.createTokenFormatter(for: asset)
 
                 guard let currentAmount = amountFormatter.value(for: Locale.current)
-                    .string(from: expectedAmount) else {
+                    .stringFromDecimal(expectedAmount) else {
                     XCTFail("Unexpected current amount")
                     return
                 }

@@ -63,8 +63,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
         let amountFormatter = amountFormatterFactory.createTokenFormatter(for: feeAsset)
 
-        guard let details = amountFormatter.value(for: locale)
-            .string(from: fee.value.decimalValue) else {
+        guard let details = amountFormatter.value(for: locale).stringFromDecimal(fee.value.decimalValue) else {
             return FeeViewModel(title: L10n.Amount.defaultFee,
                                 details: "",
                                 isLoading: true,
@@ -115,7 +114,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
         let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
-        guard let title = amountFormatter.value(for: locale).string(from: amount) else {
+        guard let title = amountFormatter.value(for: locale).stringFromDecimal(amount) else {
             return accessoryViewModel
         }
 
@@ -138,7 +137,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
         let amountString: String
 
-        if let formattedAmount = amountFormatter.value(for: locale).string(from: amount) {
+        if let formattedAmount = amountFormatter.value(for: locale).stringFromDecimal(amount) {
             amountString = formattedAmount
         } else {
             amountString = (amount as NSNumber).stringValue
@@ -169,7 +168,7 @@ extension WithdrawAmountViewModelFactory: WithdrawAmountViewModelFactoryProtocol
 
             if let balanceData = balanceData,
                 let formattedBalance = amountFormatter.value(for: locale)
-                    .string(from: balanceData.balance.decimalValue) {
+                    .stringFromDecimal(balanceData.balance.decimalValue) {
                 details = formattedBalance
             } else {
                 details = ""

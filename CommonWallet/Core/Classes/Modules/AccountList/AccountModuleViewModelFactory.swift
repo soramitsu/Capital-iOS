@@ -68,7 +68,7 @@ final class AccountModuleViewModelFactory {
 
         let decimalBalance = balanceData.balance.decimalValue
 
-        if let balanceString = amountFormatter.value(for: locale).string(from: decimalBalance as NSNumber) {
+        if let balanceString = amountFormatter.value(for: locale).stringFromDecimal(decimalBalance) {
             viewModel.amount = balanceString
         } else {
             viewModel.amount = balanceData.balance.stringValue
