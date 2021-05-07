@@ -102,7 +102,7 @@ class HistoryDemoItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
             let amountFormatter = amountFormatterFactory.createTokenFormatter(for: asset)
 
             guard let displayString = amountFormatter.value(for: locale)
-                .string(from: totalAmountValue) else {
+                    .stringFromDecimal(totalAmountValue) else {
                 throw HistoryItemViewModelFactoryError.amountFormattingFailed
             }
 

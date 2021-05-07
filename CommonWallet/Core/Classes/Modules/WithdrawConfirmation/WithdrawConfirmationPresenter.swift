@@ -17,7 +17,7 @@ final class WithdrawConfirmationPresenter {
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
-    let amountFormatter: LocalizableResource<TokenAmountFormatter>
+    let amountFormatter: LocalizableResource<TokenFormatter>
     let eventCenter: WalletEventCenterProtocol
     let feeDisplaySettings: FeeDisplaySettingsProtocol
 
@@ -28,7 +28,7 @@ final class WithdrawConfirmationPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: LocalizableResource<TokenAmountFormatter>,
+         amountFormatter: LocalizableResource<TokenFormatter>,
          eventCenter: WalletEventCenterProtocol,
          feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
@@ -49,7 +49,7 @@ final class WithdrawConfirmationPresenter {
         let details: String
 
         if let formatterAmount = amountFormatter.value(for: locale)
-                .string(from: withdrawInfo.amount.decimalValue) {
+            .stringFromDecimal(withdrawInfo.amount.decimalValue) {
             details = formatterAmount
         } else {
             details = "\(asset.symbol)\(withdrawInfo.amount.stringValue)"
@@ -70,7 +70,7 @@ final class WithdrawConfirmationPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        if let formatterFee = amountFormatter.value(for: locale).string(from: fee) {
+        if let formatterFee = amountFormatter.value(for: locale).stringFromDecimal(fee) {
             details = formatterFee
         } else {
             details = "\(asset.symbol)\(fee)"
@@ -108,7 +108,7 @@ final class WithdrawConfirmationPresenter {
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
         guard let totalAmountString = amountFormatter.value(for: locale)
-            .string(from: totalAmount) else {
+            .stringFromDecimal(totalAmount) else {
             return accessoryViewModel
         }
 

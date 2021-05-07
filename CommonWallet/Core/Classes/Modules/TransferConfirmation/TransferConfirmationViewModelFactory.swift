@@ -35,7 +35,7 @@ struct TransferConfirmationViewModelFactory {
 
         let decimalAmount = payload.transferInfo.amount.decimalValue
 
-        guard let amount = formatter.value(for: locale).string(from: decimalAmount) else {
+        guard let amount = formatter.value(for: locale).stringFromDecimal(decimalAmount) else {
             return
         }
 
@@ -64,7 +64,7 @@ struct TransferConfirmationViewModelFactory {
                 continue
             }
 
-            guard let amount = formatter.string(from: decimalAmount) else {
+            guard let amount = formatter.stringFromDecimal(decimalAmount) else {
                 continue
             }
 
@@ -97,7 +97,7 @@ struct TransferConfirmationViewModelFactory {
                 continue
             }
 
-            guard let amount = formatter.string(from: decimalAmount) else {
+            guard let amount = formatter.stringFromDecimal(decimalAmount) else {
                 continue
             }
 
@@ -128,7 +128,7 @@ struct TransferConfirmationViewModelFactory {
             }
         }
 
-        guard let totalAmount = formatter.string(from: totalAmountDecimal) else {
+        guard let totalAmount = formatter.stringFromDecimal(totalAmountDecimal) else {
             return
         }
 

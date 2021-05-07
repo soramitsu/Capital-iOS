@@ -46,8 +46,7 @@ final class TransferResultPresenter {
 
         let decimalAmount = transferPayload.transferInfo.amount.decimalValue
 
-        guard let amount = amountFormatter.value(for: locale)
-            .string(from: decimalAmount) else {
+        guard let amount = amountFormatter.value(for: locale).stringFromDecimal(decimalAmount) else {
                 let amount = "\(transferPayload.transferInfo.amount.stringValue)"
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
@@ -59,8 +58,7 @@ final class TransferResultPresenter {
         guard
             let decimalFee = feeDisplaySettings.displayStrategy
                 .decimalValue(from: transferPayload.transferInfo.fees.first?.value.decimalValue),
-            let fee = amountFormatter.value(for: locale)
-                .string(from: decimalFee) else {
+            let fee = amountFormatter.value(for: locale).stringFromDecimal(decimalFee) else {
                 let viewModel = prepareSingleAmountViewModel(for: amount)
                 return [viewModel]
         }
@@ -79,8 +77,7 @@ final class TransferResultPresenter {
 
         var viewModels = [amountViewModel, feeViewModel]
 
-        if let totalAmount = amountFormatter.value(for: locale)
-            .string(from: totalAmountDecimal) {
+        if let totalAmount = amountFormatter.value(for: locale).stringFromDecimal(totalAmountDecimal) {
             let totalAmountViewModel = WalletFormViewModel(layoutType: .accessory,
                                                            title: L10n.Amount.total,
                                                            details: totalAmount,

@@ -14,7 +14,7 @@ final class WithdrawResultPresenter {
     let asset: WalletAsset
     let withdrawOption: WalletWithdrawOption
     let style: WalletStyleProtocol
-    let amountFormatter: LocalizableResource<TokenAmountFormatter>
+    let amountFormatter: LocalizableResource<TokenFormatter>
     let dateFormatter: LocalizableResource<DateFormatter>
     let feeDisplaySettings: FeeDisplaySettingsProtocol
 
@@ -24,7 +24,7 @@ final class WithdrawResultPresenter {
          asset: WalletAsset,
          withdrawOption: WalletWithdrawOption,
          style: WalletStyleProtocol,
-         amountFormatter: LocalizableResource<TokenAmountFormatter>,
+         amountFormatter: LocalizableResource<TokenFormatter>,
          dateFormatter: LocalizableResource<DateFormatter>,
          feeDisplaySettings: FeeDisplaySettingsProtocol) {
         self.view = view
@@ -45,8 +45,7 @@ final class WithdrawResultPresenter {
 
         let amountDecimal = withdrawInfo.amount.decimalValue
 
-        if let formatterAmount = amountFormatter.value(for: locale)
-                .string(from: amountDecimal) {
+        if let formatterAmount = amountFormatter.value(for: locale).stringFromDecimal(amountDecimal) {
             details = formatterAmount
         } else {
             details = "\(asset.symbol)\(withdrawInfo.amount.stringValue)"
@@ -67,7 +66,7 @@ final class WithdrawResultPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        if let formatterFee = amountFormatter.value(for: locale).string(from: fee) {
+        if let formatterFee = amountFormatter.value(for: locale).stringFromDecimal(fee) {
             details = formatterFee
         } else {
             details = "\(asset.symbol)\(fee)"
@@ -92,8 +91,7 @@ final class WithdrawResultPresenter {
 
         let locale = localizationManager?.selectedLocale ?? Locale.current
 
-        guard let details = amountFormatter.value(for: locale)
-            .string(from: totalAmountDecimal) else {
+        guard let details = amountFormatter.value(for: locale).stringFromDecimal(totalAmountDecimal) else {
             return nil
         }
 

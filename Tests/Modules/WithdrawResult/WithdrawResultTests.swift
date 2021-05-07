@@ -22,8 +22,11 @@ class WithdrawResultTests: NetworkBaseTests {
 
             let withdrawInfo = try createRandomWithdrawInfo()
 
-            let tokenFormatter = TokenAmountFormatter(numberFormatter: NumberFormatter(),
-                                                      tokenSymbol: "A")
+            let tokenFormatter: LocalizableResource<TokenFormatter> = LocalizableResource { locale in
+                let formatter = TokenFormatter(decimalFormatter: NumberFormatter(), tokenSymbol: "A")
+                formatter.locale = locale
+                return formatter
+            }
 
             let presenter = WithdrawResultPresenter(view: view,
                                                     coordinator: coordinator,
@@ -31,7 +34,7 @@ class WithdrawResultTests: NetworkBaseTests {
                                                     asset: accountSettings.assets[0],
                                                     withdrawOption: accountSettings.withdrawOptions[0],
                                                     style: WalletStyle(),
-                                                    amountFormatter: tokenFormatter.localizableResource(),
+                                                    amountFormatter: tokenFormatter,
                                                     dateFormatter: DateFormatter().localizableResource(),
                                                     feeDisplaySettings: FeeDisplaySettings.defaultSettings)
 

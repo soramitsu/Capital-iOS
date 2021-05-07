@@ -1383,9 +1383,9 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
     
     
     
-    public func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenAmountFormatter> {
+    public func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter> {
         
-    return cuckoo_manager.call("createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenAmountFormatter>",
+    return cuckoo_manager.call("createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>",
             parameters: (asset),
             escapingParameters: (asset),
             superclassCall:
@@ -1415,9 +1415,9 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
 	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", parameterMatchers: matchers))
 	    }
 	    
-	    func createTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<TokenAmountFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	    func createTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<TokenFormatter>> where M1.OptionalMatchedType == WalletAsset {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenAmountFormatter>", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -1449,9 +1449,9 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
 	    }
 	    
 	    @discardableResult
-	    func createTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<TokenAmountFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	    func createTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<TokenFormatter>> where M1.OptionalMatchedType == WalletAsset {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
-	        return cuckoo_manager.verify("createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenAmountFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -1471,149 +1471,8 @@ public class NumberFormatterFactoryProtocolStub: NumberFormatterFactoryProtocol 
         return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
     }
     
-    public func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenAmountFormatter>  {
-        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<TokenAmountFormatter>).self)
-    }
-    
-}
-
-
-import Cuckoo
-@testable import CommonWallet
-
-import Foundation
-import SoraFoundation
-
-
-public class MockTokenAmountFormatter: TokenAmountFormatter, Cuckoo.ClassMock {
-    
-    public typealias MocksType = TokenAmountFormatter
-    
-    public typealias Stubbing = __StubbingProxy_TokenAmountFormatter
-    public typealias Verification = __VerificationProxy_TokenAmountFormatter
-
-    public let cuckoo_manager = Cuckoo.MockManager.preconfiguredManager ?? Cuckoo.MockManager(hasParent: true)
-
-    
-    private var __defaultImplStub: TokenAmountFormatter?
-
-    public func enableDefaultImplementation(_ stub: TokenAmountFormatter) {
-        __defaultImplStub = stub
-        cuckoo_manager.enableDefaultStubImplementation()
-    }
-    
-
-    
-    
-    
-    public override var locale: Locale {
-        get {
-            return cuckoo_manager.getter("locale",
-                superclassCall:
-                    
-                    super.locale
-                    ,
-                defaultCall: __defaultImplStub!.locale)
-        }
-        
-        set {
-            cuckoo_manager.setter("locale",
-                value: newValue,
-                superclassCall:
-                    
-                    super.locale = newValue
-                    ,
-                defaultCall: __defaultImplStub!.locale = newValue)
-        }
-        
-    }
-    
-
-    
-
-    
-    
-    
-    public override func string(from amount: Decimal) -> String? {
-        
-    return cuckoo_manager.call("string(from: Decimal) -> String?",
-            parameters: (amount),
-            escapingParameters: (amount),
-            superclassCall:
-                
-                super.string(from: amount)
-                ,
-            defaultCall: __defaultImplStub!.string(from: amount))
-        
-    }
-    
-
-	public struct __StubbingProxy_TokenAmountFormatter: Cuckoo.StubbingProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	
-	    public init(manager: Cuckoo.MockManager) {
-	        self.cuckoo_manager = manager
-	    }
-	    
-	    
-	    var locale: Cuckoo.ClassToBeStubbedProperty<MockTokenAmountFormatter, Locale> {
-	        return .init(manager: cuckoo_manager, name: "locale")
-	    }
-	    
-	    
-	    func string<M1: Cuckoo.Matchable>(from amount: M1) -> Cuckoo.ClassStubFunction<(Decimal), String?> where M1.MatchedType == Decimal {
-	        let matchers: [Cuckoo.ParameterMatcher<(Decimal)>] = [wrap(matchable: amount) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockTokenAmountFormatter.self, method: "string(from: Decimal) -> String?", parameterMatchers: matchers))
-	    }
-	    
-	}
-
-	public struct __VerificationProxy_TokenAmountFormatter: Cuckoo.VerificationProxy {
-	    private let cuckoo_manager: Cuckoo.MockManager
-	    private let callMatcher: Cuckoo.CallMatcher
-	    private let sourceLocation: Cuckoo.SourceLocation
-	
-	    public init(manager: Cuckoo.MockManager, callMatcher: Cuckoo.CallMatcher, sourceLocation: Cuckoo.SourceLocation) {
-	        self.cuckoo_manager = manager
-	        self.callMatcher = callMatcher
-	        self.sourceLocation = sourceLocation
-	    }
-	
-	    
-	    
-	    var locale: Cuckoo.VerifyProperty<Locale> {
-	        return .init(manager: cuckoo_manager, name: "locale", callMatcher: callMatcher, sourceLocation: sourceLocation)
-	    }
-	    
-	
-	    
-	    @discardableResult
-	    func string<M1: Cuckoo.Matchable>(from amount: M1) -> Cuckoo.__DoNotUse<(Decimal), String?> where M1.MatchedType == Decimal {
-	        let matchers: [Cuckoo.ParameterMatcher<(Decimal)>] = [wrap(matchable: amount) { $0 }]
-	        return cuckoo_manager.verify("string(from: Decimal) -> String?", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
-	    }
-	    
-	}
-}
-
-public class TokenAmountFormatterStub: TokenAmountFormatter {
-    
-    
-    public override var locale: Locale {
-        get {
-            return DefaultValueRegistry.defaultValue(for: (Locale).self)
-        }
-        
-        set { }
-        
-    }
-    
-
-    
-
-    
-    public override func string(from amount: Decimal) -> String?  {
-        return DefaultValueRegistry.defaultValue(for: (String?).self)
+    public func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>  {
+        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<TokenFormatter>).self)
     }
     
 }
