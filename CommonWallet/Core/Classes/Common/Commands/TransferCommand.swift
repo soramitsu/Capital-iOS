@@ -12,6 +12,7 @@ final class TransferCommand {
 
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     init(resolver: ResolverProtocol, payload: TransferPayload) {
         self.resolver = resolver
@@ -42,6 +43,9 @@ extension TransferCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: view.controller, in: navigation, animated: animated)
+        present(view: view.controller,
+                in: navigation,
+                animated: animated,
+                completion: completionBlock)
     }
 }

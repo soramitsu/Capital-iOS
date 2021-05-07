@@ -10,6 +10,7 @@ final class ScanReceiverCommand {
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     init(resolver: ResolverProtocol) {
         self.resolver = resolver
@@ -29,6 +30,9 @@ extension ScanReceiverCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: scanView.controller, in: navigation, animated: animated)
+        present(view: scanView.controller,
+                in: navigation,
+                animated: animated,
+                completion: completionBlock)
     }
 }

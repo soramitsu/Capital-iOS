@@ -42,6 +42,10 @@ extension AccessoryView: AccessoryViewProtocol {
     }
 
     var isActionEnabled: Bool {
+        get {
+            actionButton.isEnabled
+        }
+        
         set {
             let shouldAllowAction = viewModel?.shouldAllowAction ?? true
 
@@ -50,10 +54,6 @@ extension AccessoryView: AccessoryViewProtocol {
             } else {
                 actionButton.disable()
             }
-        }
-
-        get {
-            actionButton.isEnabled
         }
     }
 

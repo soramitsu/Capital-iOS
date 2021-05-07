@@ -10,6 +10,7 @@ final class SendCommand {
 
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     let selectedAssetId: String?
 
@@ -41,6 +42,9 @@ extension SendCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: contactsView.controller, in: navigation, animated: animated)
+        present(view: contactsView.controller,
+                in: navigation,
+                animated: animated,
+                completion: completionBlock)
     }
 }

@@ -10,6 +10,7 @@ import SoraFoundation
 final class ActionSheetCommand<T>: WalletPresentationCommandProtocol {
     var presentationStyle: WalletPresentationStyle = .modal(inNavigation: false)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     let source: T
     let options: [WalletSelectableAction<T>]
@@ -46,6 +47,9 @@ final class ActionSheetCommand<T>: WalletPresentationCommandProtocol {
 
         actionSheet.addAction(UIAlertAction(title: L10n.Common.cancel, style: .cancel, handler: nil))
 
-        present(view: actionSheet, in: navigator, animated: animated)
+        present(view: actionSheet,
+                in: navigator,
+                animated: animated,
+                completion: completionBlock)
     }
 }

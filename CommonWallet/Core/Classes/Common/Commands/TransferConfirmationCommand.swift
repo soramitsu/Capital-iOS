@@ -12,6 +12,7 @@ final class TransferConfirmationCommand: WalletPresentationCommandProtocol {
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     init(payload: ConfirmationPayload, resolver: ResolverProtocol) {
         self.payload = payload
@@ -25,6 +26,9 @@ final class TransferConfirmationCommand: WalletPresentationCommandProtocol {
             return
         }
 
-        present(view: confirmationView.controller, in: navigation, animated: animated)
+        present(view: confirmationView.controller,
+                in: navigation,
+                animated: animated,
+                completion: completionBlock)
     }
 }

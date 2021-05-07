@@ -15,6 +15,7 @@ final class AssetDetailsCommand {
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
     var animated: Bool = true
+    var completionBlock: (() -> Void)?
 
     var ignoredWhenSingleAsset: Bool = true
 
@@ -40,6 +41,9 @@ extension AssetDetailsCommand: AssetDetailsCommadProtocol {
             return
         }
 
-        present(view: assetDetailsView.controller, in: navigation, animated: animated)
+        present(view: assetDetailsView.controller,
+                in: navigation,
+                animated: animated,
+                completion: completionBlock)
     }
 }

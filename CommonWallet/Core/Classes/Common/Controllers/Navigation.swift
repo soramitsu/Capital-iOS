@@ -15,7 +15,10 @@ protocol NavigationProtocol {
     func pop(animated: Bool)
     func popToRoot(animated: Bool)
     func dismiss(animated: Bool, completion: (() -> Void)?)
-    func present(_ controller: UIViewController, inNavigationController: Bool, animated: Bool, completion: (() -> Void)?)
+    func present(_ controller: UIViewController,
+                 inNavigationController: Bool,
+                 animated: Bool,
+                 completion: (() -> Void)?)
     
 }
 

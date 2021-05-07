@@ -95,6 +95,30 @@ public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.
         
     }
     
+    
+    
+    public var completionBlock: (() -> Void)? {
+        get {
+            return cuckoo_manager.getter("completionBlock",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.completionBlock)
+        }
+        
+        set {
+            cuckoo_manager.setter("completionBlock",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.completionBlock = newValue)
+        }
+        
+    }
+    
 
     
 
@@ -138,6 +162,11 @@ public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.
 	    }
 	    
 	    
+	    var completionBlock: Cuckoo.ProtocolToBeStubbedOptionalProperty<MockAssetDetailsCommadProtocol, (() -> Void)> {
+	        return .init(manager: cuckoo_manager, name: "completionBlock")
+	    }
+	    
+	    
 	    func execute() -> Cuckoo.ProtocolStubNoReturnThrowingFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockAssetDetailsCommadProtocol.self, method: "execute() throws", parameterMatchers: matchers))
@@ -170,6 +199,11 @@ public class MockAssetDetailsCommadProtocol: AssetDetailsCommadProtocol, Cuckoo.
 	    
 	    var animated: Cuckoo.VerifyProperty<Bool> {
 	        return .init(manager: cuckoo_manager, name: "animated", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
+	    
+	    var completionBlock: Cuckoo.VerifyOptionalProperty<(() -> Void)> {
+	        return .init(manager: cuckoo_manager, name: "completionBlock", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
 	
@@ -209,6 +243,16 @@ public class AssetDetailsCommadProtocolStub: AssetDetailsCommadProtocol {
     public var animated: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+        set { }
+        
+    }
+    
+    
+    public var completionBlock: (() -> Void)? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: ((() -> Void)?).self)
         }
         
         set { }
@@ -623,6 +667,30 @@ public class MockWalletPresentationCommandProtocol: WalletPresentationCommandPro
         
     }
     
+    
+    
+    public var completionBlock: (() -> Void)? {
+        get {
+            return cuckoo_manager.getter("completionBlock",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.completionBlock)
+        }
+        
+        set {
+            cuckoo_manager.setter("completionBlock",
+                value: newValue,
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.completionBlock = newValue)
+        }
+        
+    }
+    
 
     
 
@@ -661,6 +729,11 @@ public class MockWalletPresentationCommandProtocol: WalletPresentationCommandPro
 	    }
 	    
 	    
+	    var completionBlock: Cuckoo.ProtocolToBeStubbedOptionalProperty<MockWalletPresentationCommandProtocol, (() -> Void)> {
+	        return .init(manager: cuckoo_manager, name: "completionBlock")
+	    }
+	    
+	    
 	    func execute() -> Cuckoo.ProtocolStubNoReturnThrowingFunction<()> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockWalletPresentationCommandProtocol.self, method: "execute() throws", parameterMatchers: matchers))
@@ -690,6 +763,11 @@ public class MockWalletPresentationCommandProtocol: WalletPresentationCommandPro
 	        return .init(manager: cuckoo_manager, name: "animated", callMatcher: callMatcher, sourceLocation: sourceLocation)
 	    }
 	    
+	    
+	    var completionBlock: Cuckoo.VerifyOptionalProperty<(() -> Void)> {
+	        return .init(manager: cuckoo_manager, name: "completionBlock", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
+	    
 	
 	    
 	    @discardableResult
@@ -717,6 +795,16 @@ public class WalletPresentationCommandProtocolStub: WalletPresentationCommandPro
     public var animated: Bool {
         get {
             return DefaultValueRegistry.defaultValue(for: (Bool).self)
+        }
+        
+        set { }
+        
+    }
+    
+    
+    public var completionBlock: (() -> Void)? {
+        get {
+            return DefaultValueRegistry.defaultValue(for: ((() -> Void)?).self)
         }
         
         set { }
