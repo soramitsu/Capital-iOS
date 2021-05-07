@@ -148,6 +148,10 @@ final class HistoryViewController: UIViewController {
             }
 
             panIndicatorView.fillColor = viewStyle.panIndicatorStyle
+
+            if let pageLoadingColor = viewStyle.pageLoadingIndicatorColor {
+                pageLoadingView.activityIndicatorView.color = pageLoadingColor
+            }
         }
 
         if let cellStyle = configuration?.cellStyle {
@@ -393,12 +397,22 @@ final class HistoryViewController: UIViewController {
         }
     }
 
-    fileprivate func applyContentInsets(for draggableState: DraggableState) {
+    private func applyContentInsets(for draggableState: DraggableState) {
         switch draggableState {
         case .compact:
             tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: compactInsets.bottom, right: 0.0)
         default:
             tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fullInsets.bottom, right: 0.0)
+        }
+    }
+
+    private func updateLoadingAndEmptyState(animated: Bool) {
+        updateEmptyState(animated: animated)
+
+        if presenter.isLoading {
+            pageLoadingView.start()
+        } else {
+            pageLoadingView.stop()
         }
     }
 
@@ -421,7 +435,7 @@ extension HistoryViewController: HistoryViewProtocol {
     
     func reloadContent() {
         tableView.reloadData()
-        updateEmptyState(animated: true)
+        updateLoadingAndEmptyState(animated: true)
     }
 
     func handle(changes: [HistoryViewModelChange]) {
@@ -432,7 +446,7 @@ extension HistoryViewController: HistoryViewProtocol {
 
             tableView.endUpdates()
 
-            updateEmptyState(animated: true)
+            updateLoadingAndEmptyState(animated: true)
         }
     }
 
@@ -635,7 +649,7 @@ extension HistoryViewController: Draggable {
 extension HistoryViewController: EmptyStateDelegate {
 
     var shouldDisplayEmptyState: Bool {
-        guard presenter.numberOfSections() == 0 else {
+        guard presenter.numberOfSections() == 0, !presenter.isLoading else {
             return false
         }
 
