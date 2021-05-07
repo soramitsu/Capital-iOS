@@ -131,7 +131,7 @@ class HistoryTests: NetworkBaseTests {
         let filterCompletionExpectation = XCTestExpectation()
 
         stub(view) { stub in
-            when(stub).handle(changes: any()).then { _ in
+            when(stub).reloadContent().then {
                 filterCompletionExpectation.fulfill()
             }
         }
