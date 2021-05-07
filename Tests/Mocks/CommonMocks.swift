@@ -1368,9 +1368,9 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
     
     
     
-    public func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter> {
+    public func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting> {
         
-    return cuckoo_manager.call("createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>",
+    return cuckoo_manager.call("createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting>",
             parameters: (asset),
             escapingParameters: (asset),
             superclassCall:
@@ -1410,9 +1410,9 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
 	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createInputFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", parameterMatchers: matchers))
 	    }
 	    
-	    func createDisplayFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<NumberFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	    func createDisplayFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<LocalizableDecimalFormatting>> where M1.OptionalMatchedType == WalletAsset {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
-	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", parameterMatchers: matchers))
+	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting>", parameterMatchers: matchers))
 	    }
 	    
 	    func createTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<TokenFormatter>> where M1.OptionalMatchedType == WalletAsset {
@@ -1443,9 +1443,9 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
 	    }
 	    
 	    @discardableResult
-	    func createDisplayFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<NumberFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	    func createDisplayFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<LocalizableDecimalFormatting>> where M1.OptionalMatchedType == WalletAsset {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
-	        return cuckoo_manager.verify("createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<NumberFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	        return cuckoo_manager.verify("createDisplayFormatter(for: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	    @discardableResult
@@ -1467,8 +1467,8 @@ public class NumberFormatterFactoryProtocolStub: NumberFormatterFactoryProtocol 
         return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
     }
     
-    public func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>  {
-        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<NumberFormatter>).self)
+    public func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting>  {
+        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<LocalizableDecimalFormatting>).self)
     }
     
     public func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>  {
