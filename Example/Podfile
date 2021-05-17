@@ -1,9 +1,10 @@
 platform :ios, '9.0'
 use_frameworks!
+inhibit_all_warnings!
 
 target 'CommonWallet_Example' do
-  pod 'CommonWallet/Core', :path => '../'
-  pod 'CommonWallet/IrohaMiddleware', :path => '../'
+  pod 'CommonWallet/Core', :path => '../', :inhibit_warnings => false
+  pod 'CommonWallet/IrohaMiddleware', :path => '../', :inhibit_warnings => false
   pod 'SwiftLint', '~> 0.39'
   pod 'OHHTTPStubs/Swift', '~> 8.0.0'
   pod 'SwiftGen'
@@ -17,8 +18,11 @@ target 'CommonWallet_Example' do
 end
 
 post_install do |installer|
-  installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
-    configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
-    configuration.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |configuration|
+      configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+      configuration.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+    end
   end
 end
