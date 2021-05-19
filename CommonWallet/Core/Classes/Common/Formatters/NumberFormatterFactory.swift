@@ -10,6 +10,7 @@ public protocol NumberFormatterFactoryProtocol {
     func createInputFormatter(for asset: WalletAsset?) -> LocalizableResource<NumberFormatter>
     func createDisplayFormatter(for asset: WalletAsset?) -> LocalizableResource<LocalizableDecimalFormatting>
     func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>
+    func createFeeTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>
 }
 
 public extension NumberFormatterFactoryProtocol {
@@ -47,6 +48,10 @@ public extension NumberFormatterFactoryProtocol {
             formatter.locale = locale
             return formatter
         }
+    }
+
+    func createFeeTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter> {
+        createTokenFormatter(for: asset)
     }
 
     private func createDisplayNumberFormatter(for asset: WalletAsset?) -> NumberFormatter {
