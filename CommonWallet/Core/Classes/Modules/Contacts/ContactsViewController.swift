@@ -14,6 +14,7 @@ final class ContactsViewController: UIViewController {
     @IBOutlet private var searchField: UITextField!
     @IBOutlet private var searchFieldBackgroundView: RoundedView!
     @IBOutlet private var searchBorderView: BorderedContainerView!
+    @IBOutlet private var contentView: UIView!
 
     private lazy var searchActivityIndicatory: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .white)
@@ -335,7 +336,7 @@ extension ContactsViewController: EmptyStateDataSource {
     }
 
     var contentViewForEmptyState: UIView {
-        return view
+        return contentView
     }
 
     var imageForEmptyState: UIImage? {
