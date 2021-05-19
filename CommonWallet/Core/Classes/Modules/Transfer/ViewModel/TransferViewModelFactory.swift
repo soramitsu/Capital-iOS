@@ -103,7 +103,7 @@ extension TransferViewModelFactory: TransferViewModelFactoryProtocol {
         let feeDisplaySettings = feeDisplaySettingsFactory
             .createFeeSettingsForId(fee.feeDescription.identifier)
 
-        let amountFormatter = amountFormatterFactory.createTokenFormatter(for: feeAsset)
+        let amountFormatter = amountFormatterFactory.createFeeTokenFormatter(for: feeAsset)
 
         guard let details = amountFormatter.value(for: locale).stringFromDecimal(fee.value.decimalValue) else {
             return FeeViewModel(title: L10n.Amount.defaultFee,
