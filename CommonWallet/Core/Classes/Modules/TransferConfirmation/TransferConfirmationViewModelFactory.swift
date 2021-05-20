@@ -87,7 +87,7 @@ struct TransferConfirmationViewModelFactory {
 
             let asset = assets.first(where: { $0.identifier == fee.feeDescription.assetId })
 
-            let formatter = amountFormatterFactory.createTokenFormatter(for: asset).value(for: locale)
+            let formatter = amountFormatterFactory.createFeeTokenFormatter(for: asset).value(for: locale)
 
             let feeDisplaySettings = feeDisplayFactory
                 .createFeeSettingsForId(fee.feeDescription.identifier)
