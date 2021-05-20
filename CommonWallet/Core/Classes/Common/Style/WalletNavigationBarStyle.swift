@@ -22,13 +22,12 @@ public struct WalletNavigationBarStyle: WalletNavigationBarStyleProtocol, Equata
     public var titleFont: UIFont
     public var backButtonImage: UIImage?
 
-
     public init(barColor: UIColor,
                 shadowColor: UIColor,
                 itemTintColor: UIColor,
                 titleColor: UIColor,
                 titleFont: UIFont,
-                backButtonImage: UIImage?) {
+                backButtonImage: UIImage? = nil) {
         self.barColor = barColor
         self.shadowColor = shadowColor
         self.itemTintColor = itemTintColor
