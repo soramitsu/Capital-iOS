@@ -11,6 +11,7 @@ public protocol WalletNavigationBarStyleProtocol {
     var itemTintColor: UIColor { get }
     var titleColor: UIColor { get }
     var titleFont: UIFont { get }
+    var backButtonImage: UIImage? { get }
 }
 
 public struct WalletNavigationBarStyle: WalletNavigationBarStyleProtocol, Equatable {
@@ -19,16 +20,20 @@ public struct WalletNavigationBarStyle: WalletNavigationBarStyleProtocol, Equata
     public var itemTintColor: UIColor
     public var titleColor: UIColor
     public var titleFont: UIFont
+    public var backButtonImage: UIImage?
+
 
     public init(barColor: UIColor,
                 shadowColor: UIColor,
                 itemTintColor: UIColor,
                 titleColor: UIColor,
-                titleFont: UIFont) {
+                titleFont: UIFont,
+                backButtonImage: UIImage?) {
         self.barColor = barColor
         self.shadowColor = shadowColor
         self.itemTintColor = itemTintColor
         self.titleColor = titleColor
         self.titleFont = titleFont
+        self.backButtonImage = backButtonImage
     }
 }
