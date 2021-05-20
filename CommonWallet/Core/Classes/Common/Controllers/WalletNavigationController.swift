@@ -10,9 +10,9 @@ enum WalletBarShadowType {
     case singleLine
 }
 
-public protocol WalletNavigationBarConcealable: class {}
+public protocol WalletNavigationBarConcealable: AnyObject {}
 
-protocol WalletDesignableBar: class {
+protocol WalletDesignableBar: AnyObject {
     var shadowType: WalletBarShadowType { get }
 }
 
@@ -59,6 +59,11 @@ final class WalletNavigationController: UINavigationController, UINavigationCont
                 updateShadowState(for: topViewController)
             } else {
                 navigationBar.shadowImage = UIImage.background(from: navigationBarStyle.shadowColor)
+            }
+
+            if let backButtonImage = navigationBarStyle.backButtonImage {
+                navigationBar.backIndicatorImage = backButtonImage
+                navigationBar.backIndicatorTransitionMaskImage = backButtonImage
             }
         }
     }
