@@ -32,15 +32,37 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
         let walletService = WalletService(operationFactory: resolver.networkOperationFactory)
 
         let viewModelFactory = createViewModelFactory(from: resolver)
+        let dataProviderFactory = DataProviderFactory(
+            accountSettings: resolver.account,
+            cacheFacade: CoreDataCacheFacade.shared,
+            networkOperationFactory: resolver.networkOperationFactory,
+            identifierFactory: resolver.singleValueIdentifierFactory
+        )
 
-        let presenter = TransferConfirmationPresenter(view: view,
-                                                      coordinator: coordinator,
-                                                      service: walletService,
-                                                      payload: payload,
-                                                      eventCenter: resolver.eventCenter,
-                                                      viewModelFactory: viewModelFactory)
+        guard let balanceDataProvider = try? dataProviderFactory.createBalanceDataProvider() else {
+            return nil
+        }
+        guard let metadataProvider = try? dataProviderFactory
+                .createTransferMetadataProvider(
+                    for: payload.transferInfo.asset,
+                    receiver: payload.receiverName
+                ) else {
+            return nil
+        }
+        let transferValidator = resolver.transferConfiguration.resultValidator
 
-        presenter.logger = resolver.logger
+        let presenter = TransferConfirmationPresenter(
+            view: view,
+            coordinator: coordinator,
+            service: walletService,
+            payload: payload,
+            eventCenter: resolver.eventCenter,
+            viewModelFactory: viewModelFactory,
+            balanceDataProvider: balanceDataProvider,
+            metadataProvider: metadataProvider,
+            transferValidator: transferValidator,
+            logger: resolver.logger
+        )
 
         view.presenter = presenter
 
