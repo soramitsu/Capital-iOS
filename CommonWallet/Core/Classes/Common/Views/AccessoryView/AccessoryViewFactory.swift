@@ -80,5 +80,5 @@ final class AccessoryViewFactory: AccessoryViewFactoryProtocol {
 
         return view
     }
-    //swiftlint:enable force_cast
+    // swiftlint:enable force_cast
 }

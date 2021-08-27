@@ -8,12 +8,12 @@ protocol TransferResultPresenterProtocol: WalletFormPresenterProtocol {
 }
 
 
-protocol TransferResultCoordinatorProtocol: class {
+protocol TransferResultCoordinatorProtocol: AnyObject {
     func dismiss()
 }
 
 
-protocol TransferResultAssemblyProtocol: class {
+protocol TransferResultAssemblyProtocol: AnyObject {
     static func assembleView(resolver: ResolverProtocol,
                              payload: ConfirmationPayload) -> WalletFormViewProtocol?
 }

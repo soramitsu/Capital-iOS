@@ -6,11 +6,11 @@
 import Foundation
 import AVFoundation
 
-protocol WalletQRMatcherProtocol: class {
+protocol WalletQRMatcherProtocol: AnyObject {
     func match(code: String) -> Bool
 }
 
-protocol WalletQRCaptureServiceProtocol: class {
+protocol WalletQRCaptureServiceProtocol: AnyObject {
     var delegate: WalletQRCaptureServiceDelegate? { get set }
     var delegateQueue: DispatchQueue { get set }
 
@@ -30,7 +30,7 @@ enum WalletQRCaptureServiceError: Error {
     case deviceAccessRestricted
 }
 
-protocol WalletQRCaptureServiceDelegate: class {
+protocol WalletQRCaptureServiceDelegate: AnyObject {
     func qrCapture(service: WalletQRCaptureServiceProtocol, didSetup captureSession: AVCaptureSession)
     func qrCapture(service: WalletQRCaptureServiceProtocol, didMatch code: String)
     func qrCapture(service: WalletQRCaptureServiceProtocol, didFailMatching code: String)

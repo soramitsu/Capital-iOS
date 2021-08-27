@@ -5,7 +5,7 @@
 
 import Foundation
 
-@objc protocol ShowMoreViewModelObserver: class {
+@objc protocol ShowMoreViewModelObserver: AnyObject {
     @objc optional func didChangeExpanded(oldValue: Bool)
 }
 
@@ -18,7 +18,7 @@ protocol ShowMoreViewModelProtocol: WalletViewModelProtocol {
     var observable: WalletViewModelObserverContainer<ShowMoreViewModelObserver> { get }
 }
 
-public protocol ShowMoreViewModelDelegate: class {
+public protocol ShowMoreViewModelDelegate: AnyObject {
     func shouldToggleExpansion(from value: Bool, for viewModel: WalletViewModelProtocol) -> Bool
 }
 

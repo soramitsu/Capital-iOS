@@ -5,6 +5,6 @@
 
 import Foundation
 
-protocol CoordinatorProtocol: class {
+protocol CoordinatorProtocol: AnyObject {
     var resolver: ResolverProtocol { get }
 }

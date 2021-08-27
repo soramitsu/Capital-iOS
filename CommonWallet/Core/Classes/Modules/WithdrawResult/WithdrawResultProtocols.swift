@@ -5,11 +5,11 @@
 
 protocol WithdrawResultPresenterProtocol: WalletFormPresenterProtocol {}
 
-protocol WithdrawResultCoordinatorProtocol: class {
+protocol WithdrawResultCoordinatorProtocol: AnyObject {
     func dismiss()
 }
 
-protocol WithdrawResultAssemblyProtocol: class {
+protocol WithdrawResultAssemblyProtocol: AnyObject {
     static func assembleView(for resolver: ResolverProtocol,
                              info: WithdrawInfo,
                              asset: WalletAsset,

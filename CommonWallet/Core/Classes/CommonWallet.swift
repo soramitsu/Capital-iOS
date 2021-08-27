@@ -6,7 +6,7 @@
 import UIKit
 import SoraFoundation
 
-public protocol CommonWalletBuilderProtocol: class {
+public protocol CommonWalletBuilderProtocol: AnyObject {
     static func builder(with account: WalletAccountSettingsProtocol,
                         networkOperationFactory: WalletNetworkOperationFactoryProtocol)
         -> CommonWalletBuilderProtocol

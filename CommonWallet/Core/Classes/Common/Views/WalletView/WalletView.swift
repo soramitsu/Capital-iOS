@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol WalletViewProtocol: class {
+public protocol WalletViewProtocol: AnyObject {
     var viewModel: WalletViewModelProtocol? { get }
     func bind(viewModel: WalletViewModelProtocol)
 }

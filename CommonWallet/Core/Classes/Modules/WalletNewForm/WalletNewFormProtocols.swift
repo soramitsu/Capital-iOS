@@ -12,7 +12,7 @@ protocol WalletNewFormViewProtocol: ControllerBackedProtocol, LoadableViewProtoc
 }
 
 
-protocol WalletNewFormPresenterProtocol: class {
+protocol WalletNewFormPresenterProtocol: AnyObject {
     func setup()
     func performAction()
 }

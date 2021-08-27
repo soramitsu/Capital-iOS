@@ -42,7 +42,7 @@ final class TransactionItemViewModel: TransactionItemViewModelProtocol {
     }
 }
 
-protocol TransactionSectionViewModelProtocol: class {
+protocol TransactionSectionViewModelProtocol: AnyObject {
     var title: String { get }
     var items: [WalletViewModelProtocol] { get }
 }

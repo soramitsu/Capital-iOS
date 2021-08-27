@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol WalletInputValidatorProtocol: class {
+public protocol WalletInputValidatorProtocol: AnyObject {
     var input: String { get }
     var hint: String { get }
     var isValid: Bool { get }

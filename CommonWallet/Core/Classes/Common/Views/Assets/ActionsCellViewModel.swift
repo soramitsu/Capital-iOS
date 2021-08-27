@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol ActionViewModelProtocol: class {
+public protocol ActionViewModelProtocol: AnyObject {
     var title: String { get }
     var style: WalletTextStyleProtocol { get }
     var command: WalletCommandProtocol { get }

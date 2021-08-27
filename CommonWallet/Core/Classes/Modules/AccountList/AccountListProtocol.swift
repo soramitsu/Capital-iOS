@@ -9,15 +9,15 @@ protocol AccountListViewProtocol: ControllerBackedProtocol, Containable {
     func set(expanded: Bool, animated: Bool)
 }
 
-protocol AccountListPresenterProtocol: class {
+protocol AccountListPresenterProtocol: AnyObject {
     func setup()
     func reload()
     func viewDidAppear()
 }
 
-protocol AccountListCoordinatorProtocol: class {}
+protocol AccountListCoordinatorProtocol: AnyObject {}
 
-protocol AccountListAssemblyProtocol: class {
+protocol AccountListAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol) -> AccountListViewProtocol?
     static func assembleView(with resolver: ResolverProtocol, detailsAsset: WalletAsset) -> AccountListViewProtocol?
 }

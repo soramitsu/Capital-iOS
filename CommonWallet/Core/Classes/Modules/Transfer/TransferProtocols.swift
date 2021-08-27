@@ -10,7 +10,7 @@ protocol TransferCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
     func confirm(with payload: ConfirmationPayload)
 }
 
-protocol TransferAssemblyProtocol: class {
+protocol TransferAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: TransferPayload) -> TransferViewProtocol?
 }

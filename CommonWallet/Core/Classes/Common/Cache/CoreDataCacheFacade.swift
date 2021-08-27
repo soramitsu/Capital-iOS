@@ -7,7 +7,7 @@ import Foundation
 import CoreData
 import RobinHood
 
-protocol CoreDataCacheFacadeProtocol: class {
+protocol CoreDataCacheFacadeProtocol: AnyObject {
     var databaseService: CoreDataServiceProtocol { get }
 
     func createCoreDataCache<T, U>(filter: NSPredicate?) -> CoreDataRepository<T, U>

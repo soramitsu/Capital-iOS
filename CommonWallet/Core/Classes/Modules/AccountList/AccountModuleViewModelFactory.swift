@@ -8,7 +8,7 @@ import SoraFoundation
 
 typealias AccountModuleViewModel = (models: [WalletViewModelProtocol], collapsingRange: Range<Int>)
 
-protocol AccountModuleViewModelFactoryProtocol: class {
+protocol AccountModuleViewModelFactoryProtocol: AnyObject {
     var assets: [WalletAsset] { get }
 
     func createViewModel(from balances: [BalanceData],

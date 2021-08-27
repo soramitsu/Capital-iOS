@@ -9,7 +9,7 @@ protocol WalletFormViewProtocol: ControllerBackedProtocol, LoadableViewProtocol,
 }
 
 
-protocol WalletFormPresenterProtocol: class {
+protocol WalletFormPresenterProtocol: AnyObject {
     func setup()
     func performAction()
 }

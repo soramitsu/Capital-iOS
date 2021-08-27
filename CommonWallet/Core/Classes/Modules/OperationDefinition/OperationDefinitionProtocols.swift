@@ -6,7 +6,7 @@
 
 import Foundation
 
-protocol OperationDefinitionViewProtocol: class {
+protocol OperationDefinitionViewProtocol: AnyObject {
     func setAssetHeader(_ viewModel: MultilineTitleIconViewModelProtocol?)
     func set(assetViewModel: AssetSelectionViewModelProtocol)
     func presentAssetError(_ message: String?)
@@ -30,7 +30,7 @@ protocol OperationDefinitionViewProtocol: class {
     func set(accessoryViewModel: AccessoryViewModelProtocol)
 }
 
-protocol OperationDefinitionPresenterProtocol: class {
+protocol OperationDefinitionPresenterProtocol: AnyObject {
     func setup()
     func presentAssetSelection()
     func presentFeeEditing(at index: Int)

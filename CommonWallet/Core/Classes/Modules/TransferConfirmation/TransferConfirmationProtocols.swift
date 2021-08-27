@@ -6,12 +6,12 @@
 protocol TransferConfirmationPresenterProtocol: WalletNewFormPresenterProtocol {}
 
 
-protocol TransferConfirmationCoordinatorProtocol: class {
+protocol TransferConfirmationCoordinatorProtocol: AnyObject {
     func proceed(payload: ConfirmationPayload)
 }
 
 
-protocol TransferConfirmationAssemblyProtocol: class {
+protocol TransferConfirmationAssemblyProtocol: AnyObject {
 	static func assembleView(with resolver: ResolverProtocol, payload: ConfirmationPayload)
         -> WalletNewFormViewProtocol?
 }

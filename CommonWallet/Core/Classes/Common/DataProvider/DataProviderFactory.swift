@@ -6,7 +6,7 @@
 import Foundation
 import RobinHood
 
-protocol DataProviderFactoryProtocol: class {
+protocol DataProviderFactoryProtocol: AnyObject {
     func createBalanceDataProvider() throws -> SingleValueProvider<[BalanceData]>
     func createHistoryDataProvider(for assets: [String]) throws
         -> SingleValueProvider<AssetTransactionPageData>

@@ -19,7 +19,7 @@ protocol HistoryViewProtocol: ControllerBackedProtocol, Draggable {
     func handle(changes: [HistoryViewModelChange])
 }
 
-protocol HistoryPresenterProtocol: class {
+protocol HistoryPresenterProtocol: AnyObject {
     var isLoading: Bool { get }
 
     func setup()
@@ -32,16 +32,16 @@ protocol HistoryPresenterProtocol: class {
     func sectionModel(at index: Int) -> TransactionSectionViewModelProtocol
 }
 
-protocol HistoryCoordinatorProtocol: class {
+protocol HistoryCoordinatorProtocol: AnyObject {
     func presentFilter(filter: WalletHistoryRequest, assets: [WalletAsset])
 }
 
-protocol HistoryAssemblyProtocol: class {
+protocol HistoryAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol,
                              assets: [WalletAsset],
                              type: HistoryHeaderType) -> HistoryViewProtocol?
 }
 
-protocol HistoryCoordinatorDelegate: class {
+protocol HistoryCoordinatorDelegate: AnyObject {
     func coordinator(_ coordinator: HistoryCoordinatorProtocol, didReceive filter: WalletHistoryRequest)
 }

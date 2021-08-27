@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol TransactionDetailsModuleBuilderProtocol: class {
+public protocol TransactionDetailsModuleBuilderProtocol: AnyObject {
     @discardableResult
     func with(viewBinder: WalletFormViewModelBinderOverriding) -> Self
 

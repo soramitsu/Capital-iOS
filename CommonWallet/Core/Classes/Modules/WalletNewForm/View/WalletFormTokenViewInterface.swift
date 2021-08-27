@@ -29,7 +29,7 @@ public struct WalletFormTokenViewStyle {
     }
 }
 
-public protocol WalletFormTokenViewProtocol: class {
+public protocol WalletFormTokenViewProtocol: AnyObject {
     var style: WalletFormTokenViewStyle? { get set }
 
     func bind(viewModel: WalletFormTokenViewModel)

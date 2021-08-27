@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol WalletCommandFactoryProtocol: class {
+public protocol WalletCommandFactoryProtocol: AnyObject {
     func prepareSendCommand(for assetId: String?) -> WalletPresentationCommandProtocol
     func prepareReceiveCommand(for assetId: String?) -> WalletPresentationCommandProtocol
     func prepareAssetDetailsCommand(for assetId: String) -> AssetDetailsCommadProtocol

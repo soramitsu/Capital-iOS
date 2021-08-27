@@ -12,7 +12,7 @@ protocol ContactsViewProtocol: ControllerBackedProtocol, AlertPresentable {
 }
 
 
-protocol ContactsPresenterProtocol: class {
+protocol ContactsPresenterProtocol: AnyObject {
 
     func setup()
     func search(_ pattern: String)
@@ -20,7 +20,7 @@ protocol ContactsPresenterProtocol: class {
 }
 
 
-protocol ContactsCoordinatorProtocol: class {
+protocol ContactsCoordinatorProtocol: AnyObject {
     
     func send(to payload: TransferPayload)
     func scanInvoice()
@@ -28,7 +28,7 @@ protocol ContactsCoordinatorProtocol: class {
 }
 
 
-protocol ContactsAssemblyProtocol: class {
+protocol ContactsAssemblyProtocol: AnyObject {
     
     static func assembleView(with resolver: ResolverProtocol,
                              selectedAsset: WalletAsset) -> ContactsViewProtocol?

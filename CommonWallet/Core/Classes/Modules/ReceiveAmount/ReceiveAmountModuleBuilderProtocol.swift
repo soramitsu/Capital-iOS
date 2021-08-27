@@ -7,7 +7,7 @@ import Foundation
 import SoraFoundation
 
 
-public protocol ReceiveAmountModuleBuilderProtocol: class {
+public protocol ReceiveAmountModuleBuilderProtocol: AnyObject {
     @discardableResult
     func with(accountShareFactory: AccountShareFactoryProtocol) -> Self
 

@@ -6,7 +6,7 @@
 import Foundation
 import SoraFoundation
 
-protocol ResolverProtocol: class {
+protocol ResolverProtocol: AnyObject {
     var account: WalletAccountSettingsProtocol { get }
     var networkOperationFactory: WalletNetworkOperationFactoryProtocol { get }
     var eventCenter: WalletEventCenterProtocol { get }

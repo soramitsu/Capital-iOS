@@ -7,7 +7,7 @@ import Foundation
 import Contacts
 
 
-public protocol ContactViewModelDelegate: class {
+public protocol ContactViewModelDelegate: AnyObject {
     
     func didSelect(contact: ContactViewModelProtocol)
 

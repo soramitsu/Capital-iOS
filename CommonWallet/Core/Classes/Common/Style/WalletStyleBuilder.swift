@@ -6,7 +6,7 @@
 import Foundation
 
 
-public protocol WalletStyleBuilderProtocol: class {
+public protocol WalletStyleBuilderProtocol: AnyObject {
     @discardableResult
     func with(header1 font: UIFont) -> Self
 

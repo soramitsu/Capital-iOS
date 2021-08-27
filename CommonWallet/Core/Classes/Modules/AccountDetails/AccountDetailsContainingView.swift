@@ -8,7 +8,7 @@ import Foundation
 
 public typealias BaseAccountDetailsContainingView = UIView & AccountDetailsContainingViewProtocol
 
-public protocol AccountDetailsContainingViewProtocol: class {
+public protocol AccountDetailsContainingViewProtocol: AnyObject {
     var contentInsets: UIEdgeInsets { get }
     var preferredContentHeight: CGFloat { get }
 

@@ -11,7 +11,7 @@ protocol ReceiveAmountViewProtocol: ControllerBackedProtocol, AlertPresentable {
 }
 
 
-protocol ReceiveAmountPresenterProtocol: class {
+protocol ReceiveAmountPresenterProtocol: AnyObject {
     func setup(qrSize: CGSize)
     func presentAssetSelection()
     func share()
@@ -24,7 +24,7 @@ protocol ReceiveAmountCoordinatorProtocol: CoordinatorProtocol, PickerPresentabl
 }
 
 
-protocol ReceiveAmountAssemblyProtocol: class {
+protocol ReceiveAmountAssemblyProtocol: AnyObject {
     static func assembleView(resolver: ResolverProtocol,
                              selectedAsset: WalletAsset) -> ReceiveAmountViewProtocol?
 }

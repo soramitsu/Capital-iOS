@@ -7,7 +7,7 @@ import Foundation
 import RobinHood
 import SoraFoundation
 
-protocol HistoryViewModelFactoryDelegate: class {
+protocol HistoryViewModelFactoryDelegate: AnyObject {
     func historyViewModelFactoryDidChange(_ factory: HistoryViewModelFactoryProtocol)
 }
 

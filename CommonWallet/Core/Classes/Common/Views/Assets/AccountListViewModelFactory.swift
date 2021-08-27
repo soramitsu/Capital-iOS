@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol AccountListViewModelFactoryProtocol: class {
+public protocol AccountListViewModelFactoryProtocol: AnyObject {
     func createAssetViewModel(for asset: WalletAsset,
                               balance: BalanceData,
                               commandFactory: WalletCommandFactoryProtocol,

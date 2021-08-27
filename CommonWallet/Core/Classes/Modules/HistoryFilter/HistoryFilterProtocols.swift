@@ -14,7 +14,7 @@ protocol HistoryFilterViewProtocol: ControllerBackedProtocol {
     func set(filter: HistoryFilterViewModel)
 }
 
-protocol HistoryFilterPresenterProtocol: class {
+protocol HistoryFilterPresenterProtocol: AnyObject {
     func setup()
     func reset()
     func apply()
@@ -22,7 +22,7 @@ protocol HistoryFilterPresenterProtocol: class {
 
 protocol HistoryFilterCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {}
 
-protocol HistoryFilterAssemblyProtocol: class {
+protocol HistoryFilterAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol,
                              assets: [WalletAsset],
                              delegate: HistoryFilterEditingDelegate?,

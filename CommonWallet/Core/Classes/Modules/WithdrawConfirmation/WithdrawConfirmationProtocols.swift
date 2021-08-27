@@ -5,13 +5,13 @@
 
 protocol WithdrawConfirmationPresenterProtocol: WalletFormPresenterProtocol {}
 
-protocol WithdrawConfirmationCoordinatorProtocol: class {
+protocol WithdrawConfirmationCoordinatorProtocol: AnyObject {
     func showResult(for withdrawInfo: WithdrawInfo,
                     asset: WalletAsset,
                     option: WalletWithdrawOption)
 }
 
-protocol WithdrawConfirmationAssemblyProtocol: class {
+protocol WithdrawConfirmationAssemblyProtocol: AnyObject {
     static func assembleView(for resolver: ResolverProtocol,
                              info: WithdrawInfo,
                              asset: WalletAsset,

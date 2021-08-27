@@ -6,7 +6,7 @@
 import Foundation
 import SoraUI
 
-protocol LoadableViewProtocol: class {
+protocol LoadableViewProtocol: AnyObject {
     var loadableContentView: UIView! { get }
     var shouldDisableInteractionWhenLoading: Bool { get }
 

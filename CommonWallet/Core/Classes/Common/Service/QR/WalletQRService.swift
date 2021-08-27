@@ -6,7 +6,7 @@
 import Foundation
 import RobinHood
 
-protocol WalletQRServiceProtocol: class {
+protocol WalletQRServiceProtocol: AnyObject {
     @discardableResult
     func generate(from info: ReceiveInfo,
                   qrSize: CGSize,

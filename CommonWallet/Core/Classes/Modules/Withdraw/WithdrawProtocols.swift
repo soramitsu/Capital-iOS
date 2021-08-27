@@ -12,7 +12,7 @@ protocol WithdrawCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
     func confirm(with info: WithdrawInfo, asset: WalletAsset, option: WalletWithdrawOption)
 }
 
-protocol WithdrawAssemblyProtocol: class {
+protocol WithdrawAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol,
                              asset: WalletAsset,
                              option: WalletWithdrawOption) -> WithdrawViewProtocol?

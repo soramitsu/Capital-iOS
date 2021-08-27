@@ -8,7 +8,7 @@ import CommonWallet
 
 typealias DemoCompletionBlock = (UIViewController?) -> Void
 
-protocol DemoFactoryProtocol: class {
+protocol DemoFactoryProtocol: AnyObject {
     var title: String { get }
     func setupDemo(with completionBlock: @escaping DemoCompletionBlock) throws -> UIViewController
 }

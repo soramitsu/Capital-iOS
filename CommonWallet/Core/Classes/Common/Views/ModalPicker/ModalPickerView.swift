@@ -6,7 +6,7 @@
 import UIKit
 import SoraUI
 
-protocol ModalPickerViewDelegate: class {
+protocol ModalPickerViewDelegate: AnyObject {
     func modalPickerViewDidCancel(_ view: ModalPickerView)
     func modalPickerView(_ view: ModalPickerView, didSelectRowAt index: Int, in context: AnyObject?)
 }

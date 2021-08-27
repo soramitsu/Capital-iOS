@@ -7,7 +7,7 @@ import Foundation
 
 public typealias WalletViewModelFactory = () throws -> WalletViewModelProtocol
 
-public protocol WalletViewModelProtocol: class {
+public protocol WalletViewModelProtocol: AnyObject {
     var cellReuseIdentifier: String { get }
     var itemHeight: CGFloat { get }
     var command: WalletCommandProtocol? { get }

@@ -7,7 +7,7 @@ import Foundation
 import SoraUI
 import SoraFoundation
 
-public protocol HistoryModuleBuilderProtocol: class {
+public protocol HistoryModuleBuilderProtocol: AnyObject {
     var itemCellIdentifier: String { get }
 
     @discardableResult
