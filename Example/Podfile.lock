@@ -16,9 +16,9 @@ PODS:
     - CommonWallet/Core
     - IrohaCommunication (~> 4.0.0)
     - RobinHood (~> 2.6.0)
-  - Cuckoo (1.4.1):
-    - Cuckoo/Swift (= 1.4.1)
-  - Cuckoo/Swift (1.4.1)
+  - Cuckoo (1.5.1):
+    - Cuckoo/Swift (= 1.5.1)
+  - Cuckoo/Swift (1.5.1)
   - gRPC (1.11.0):
     - gRPC-RxLibrary (= 1.11.0)
     - gRPC/Main (= 1.11.0)
@@ -144,7 +144,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   CommonWallet: cdc58c26a9bbac8d45edba7c09313896b5d7350d
-  Cuckoo: 4625f7f54d9bb880123270e8969898d6c1d036b5
+  Cuckoo: 9124fe138270854903483c270370e6e7658fbc9b
   gRPC: 70703dc9ba31c72341fc7f37745cc1c379edee96
   gRPC-Core: 164639cd8ae18ca8b65477fafb2efbaecf4f181a
   gRPC-ProtoRPC: bb5fddf3424aa4fad74d76736578a79fe40e244e
