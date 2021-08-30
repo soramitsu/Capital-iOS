@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol ImageGalleryDelegate: class {
+protocol ImageGalleryDelegate: AnyObject {
     func didCompleteImageSelection(from gallery: ImageGalleryPresentable, with selectedImages: [UIImage])
     func didFail(in gallery: ImageGalleryPresentable, with error: Error)
 }
@@ -17,6 +17,6 @@ enum ImageGalleryError: Error {
     case unknownAuthorizationStatus
 }
 
-protocol ImageGalleryPresentable: class {
+protocol ImageGalleryPresentable: AnyObject {
     func presentImageGallery(from view: ControllerBackedProtocol?, delegate: ImageGalleryDelegate)
 }

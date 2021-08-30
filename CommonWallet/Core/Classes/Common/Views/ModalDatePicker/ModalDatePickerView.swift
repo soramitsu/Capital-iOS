@@ -7,7 +7,7 @@ import UIKit
 import SoraUI
 
 
-protocol ModalDatePickerViewDelegate: class {
+protocol ModalDatePickerViewDelegate: AnyObject {
     
     func modalDatePickerViewDidCancel(_ view: ModalDatePickerView)
     func modalDatePickerView(_ view: ModalDatePickerView, didSelect date: Date)

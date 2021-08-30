@@ -9,7 +9,7 @@ import SoraUI
 
 public typealias BaseSelectedAssetView = UIControl & SelectedAssetViewProtocol
 
-public protocol SelectedAssetViewProtocol: class {
+public protocol SelectedAssetViewProtocol: AnyObject {
     var delegate: SelectedAssetViewDelegate? { get set }
     var activated: Bool { get }
     var borderType: BorderType { get set }
@@ -17,7 +17,7 @@ public protocol SelectedAssetViewProtocol: class {
     func bind(viewModel: AssetSelectionViewModelProtocol)
 }
 
-public protocol SelectedAssetViewDelegate: class {
+public protocol SelectedAssetViewDelegate: AnyObject {
     func selectedAssetViewDidChange(_ view: SelectedAssetViewProtocol)
 }
 

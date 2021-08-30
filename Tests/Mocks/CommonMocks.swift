@@ -1396,6 +1396,21 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
         
     }
     
+    
+    
+    public func createFeeTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter> {
+        
+    return cuckoo_manager.call("createFeeTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>",
+            parameters: (asset),
+            escapingParameters: (asset),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.createFeeTokenFormatter(for: asset))
+        
+    }
+    
 
 	public struct __StubbingProxy_NumberFormatterFactoryProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -1418,6 +1433,11 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
 	    func createTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<TokenFormatter>> where M1.OptionalMatchedType == WalletAsset {
 	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>", parameterMatchers: matchers))
+	    }
+	    
+	    func createFeeTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.ProtocolStubFunction<(WalletAsset?), LocalizableResource<TokenFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockNumberFormatterFactoryProtocol.self, method: "createFeeTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -1454,6 +1474,12 @@ public class MockNumberFormatterFactoryProtocol: NumberFormatterFactoryProtocol,
 	        return cuckoo_manager.verify("createTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
+	    @discardableResult
+	    func createFeeTokenFormatter<M1: Cuckoo.OptionalMatchable>(for asset: M1) -> Cuckoo.__DoNotUse<(WalletAsset?), LocalizableResource<TokenFormatter>> where M1.OptionalMatchedType == WalletAsset {
+	        let matchers: [Cuckoo.ParameterMatcher<(WalletAsset?)>] = [wrap(matchable: asset) { $0 }]
+	        return cuckoo_manager.verify("createFeeTokenFormatter(for: WalletAsset?) -> LocalizableResource<TokenFormatter>", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
 	}
 }
 
@@ -1472,6 +1498,10 @@ public class NumberFormatterFactoryProtocolStub: NumberFormatterFactoryProtocol 
     }
     
     public func createTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>  {
+        return DefaultValueRegistry.defaultValue(for: (LocalizableResource<TokenFormatter>).self)
+    }
+    
+    public func createFeeTokenFormatter(for asset: WalletAsset?) -> LocalizableResource<TokenFormatter>  {
         return DefaultValueRegistry.defaultValue(for: (LocalizableResource<TokenFormatter>).self)
     }
     

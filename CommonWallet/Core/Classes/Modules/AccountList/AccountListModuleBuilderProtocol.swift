@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol AccountListModuleBuilderProtocol: class {
+public protocol AccountListModuleBuilderProtocol: AnyObject {
     var assetCellIdentifier: String { get }
     var showMoreCellIdentifier: String { get }
     var actionsCellIdentifier: String { get }

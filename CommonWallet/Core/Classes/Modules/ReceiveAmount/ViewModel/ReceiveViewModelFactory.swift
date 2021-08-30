@@ -6,7 +6,7 @@
 
 import Foundation
 
-protocol ReceiveViewModelFactoryProtocol: class {
+protocol ReceiveViewModelFactoryProtocol: AnyObject {
     func createAmountViewModel(for asset: WalletAsset, amount: Decimal?, locale: Locale) -> AmountInputViewModel
     func createDescriptionViewModel(for details: String?) throws -> DescriptionInputViewModel
 

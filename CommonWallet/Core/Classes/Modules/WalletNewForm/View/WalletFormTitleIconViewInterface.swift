@@ -23,7 +23,7 @@ public struct WalletFormTitleIconViewStyle {
     }
 }
 
-public protocol WalletFormTitleIconViewProtocol: class {
+public protocol WalletFormTitleIconViewProtocol: AnyObject {
     var style: WalletFormTitleIconViewStyle? { get set }
 
     func bind(viewModel: MultilineTitleIconViewModelProtocol)

@@ -6,14 +6,14 @@
 protocol AccountDetailsViewProtocol: ControllerBackedProtocol {}
 
 
-protocol AccountDetailsPresenterProtocol: class {
+protocol AccountDetailsPresenterProtocol: AnyObject {
     func setup()
 }
 
 
-protocol AccountDetailsCoordinatorProtocol: class {}
+protocol AccountDetailsCoordinatorProtocol: AnyObject {}
 
 
-protocol AccountDetailsAssemblyProtocol: class {
+protocol AccountDetailsAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol, asset: WalletAsset) -> AccountDetailsViewProtocol?
 }

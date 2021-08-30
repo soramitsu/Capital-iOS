@@ -7,7 +7,7 @@ import Foundation
 import SoraUI
 import SoraFoundation
 
-public protocol ContactsModuleBuilderProtocol: class {
+public protocol ContactsModuleBuilderProtocol: AnyObject {
 
     @discardableResult
     func with<Cell>(cellClass: Cell.Type?,

@@ -5,13 +5,13 @@
 
 import Foundation
 
-protocol Reloadable: class {
+protocol Reloadable: AnyObject {
     var reloadableDelegate: ReloadableDelegate? { get set }
 
     func reload()
 }
 
-protocol ReloadableDelegate: class {
+protocol ReloadableDelegate: AnyObject {
     func didInitiateReload(on reloadable: Reloadable)
 }
 
@@ -20,7 +20,7 @@ protocol ReloadableDelegate: class {
     func didChangePreferredContentHeight(to newContentHeight: CGFloat)
 }
 
-protocol Containable: class {
+protocol Containable: AnyObject {
     var contentView: UIView { get }
     var contentInsets: UIEdgeInsets { get }
     var preferredContentHeight: CGFloat { get }
@@ -42,13 +42,13 @@ enum DraggableState {
     }
 }
 
-protocol DraggableDelegate: class {
+protocol DraggableDelegate: AnyObject {
     var presentationNavigationItem: UINavigationItem? { get }
 
     func wantsTransit(to draggableState: DraggableState, animating: Bool)
 }
 
-protocol Draggable: class {
+protocol Draggable: AnyObject {
     var draggableView: UIView { get }
 
     var delegate: DraggableDelegate? { get set }

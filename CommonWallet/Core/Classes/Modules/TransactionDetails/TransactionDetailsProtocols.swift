@@ -6,12 +6,12 @@
 protocol TransactionDetailsPresenterProtocol: WalletNewFormPresenterProtocol {}
 
 
-protocol TransactionDetailsCoordinatorProtocol: class {
+protocol TransactionDetailsCoordinatorProtocol: AnyObject {
     func send(to payload: TransferPayload)
 }
 
 
-protocol TransactionDetailsAssemblyProtocol: class {
+protocol TransactionDetailsAssemblyProtocol: AnyObject {
 	static func assembleView(resolver: ResolverProtocol, transactionDetails: AssetTransactionData)
         -> WalletNewFormViewProtocol?
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol WalletQROperationFactoryProtocol: class {
+protocol WalletQROperationFactoryProtocol: AnyObject {
     func createCreationOperation(for payload: Data, qrSize: CGSize) -> WalletQRCreationOperation
 }
 

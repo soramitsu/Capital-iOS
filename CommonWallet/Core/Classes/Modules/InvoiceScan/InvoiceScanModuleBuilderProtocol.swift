@@ -6,7 +6,7 @@
 import Foundation
 
 
-public protocol InvoiceScanModuleBuilderProtocol: class {
+public protocol InvoiceScanModuleBuilderProtocol: AnyObject {
     @discardableResult
     func with(viewStyle: InvoiceScanViewStyleProtocol) -> Self
 

@@ -41,7 +41,7 @@ public struct WalletFormDetailsViewStyle {
     }
 }
 
-public protocol WalletFormDetailsViewProtocol: class {
+public protocol WalletFormDetailsViewProtocol: AnyObject {
     var style: WalletFormDetailsViewStyle? { get set }
 
     func bind(viewModel: WalletNewFormDetailsViewModel)

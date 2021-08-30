@@ -6,13 +6,13 @@
 
 import Foundation
 
-public protocol HistoryFilterEditing: class {
+public protocol HistoryFilterEditing: AnyObject {
     func startEditing(filter: WalletHistoryRequest,
                       with assets: [WalletAsset],
                       commandFactory: WalletCommandFactoryProtocol,
                       notifying delegate: HistoryFilterEditingDelegate?)
 }
 
-public protocol HistoryFilterEditingDelegate: class {
+public protocol HistoryFilterEditingDelegate: AnyObject {
     func historyFilterDidEdit(request: WalletHistoryRequest)
 }

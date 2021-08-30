@@ -7,7 +7,7 @@ import Foundation
 import SoraUI
 
 
-protocol WalletLoadingOverlayFactoryProtocol: class {
+protocol WalletLoadingOverlayFactoryProtocol: AnyObject {
     func createLoadingView() -> LoadingView
 }
 

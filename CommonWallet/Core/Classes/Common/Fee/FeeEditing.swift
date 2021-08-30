@@ -6,12 +6,12 @@
 
 import Foundation
 
-public protocol FeeEditing: class {
+public protocol FeeEditing: AnyObject {
     var delegate: FeeEditingDelegate? { get set}
 
     func startEditing(feeDescription: FeeDescription)
 }
 
-public protocol FeeEditingDelegate: class {
+public protocol FeeEditingDelegate: AnyObject {
     func feeEditing(_ feeEditing: FeeEditing, didEdit feeDescription: FeeDescription)
 }

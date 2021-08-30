@@ -6,7 +6,7 @@
 import Foundation
 
 
-protocol PickerPresentable: class {
+protocol PickerPresentable: AnyObject {
 
     func presentPicker(for titles: [String],
                        initialIndex: Int,

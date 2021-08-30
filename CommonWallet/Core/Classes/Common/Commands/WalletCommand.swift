@@ -5,6 +5,6 @@
 
 import Foundation
 
-public protocol WalletCommandProtocol: class {
+public protocol WalletCommandProtocol: AnyObject {
     func execute() throws
 }

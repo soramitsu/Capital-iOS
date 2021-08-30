@@ -7,7 +7,7 @@
 import Foundation
 import SoraUI
 
-public protocol FeeViewProtocol: class {
+public protocol FeeViewProtocol: AnyObject {
     var borderType: BorderType { get set }
 
     func bind(viewModel: FeeViewModelProtocol)

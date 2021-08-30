@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol WalletFormCellProtocol: class {
+protocol WalletFormCellProtocol: AnyObject {
     var viewModel: WalletFormViewModelProtocol? { get }
 
     var style: WalletFormCellStyleProtocol? { get set }

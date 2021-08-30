@@ -6,7 +6,7 @@
 import Foundation
 import SoraUI
 
-public protocol AccessoryViewProtocol: class {
+public protocol AccessoryViewProtocol: AnyObject {
     var contentView: UIView { get }
 
     var isActionEnabled: Bool { get set }

@@ -9,7 +9,7 @@ import SoraUI
 
 public typealias BaseAmountInputView = AmountInputViewProtocol & UIView
 
-public protocol AmountInputViewProtocol: class {
+public protocol AmountInputViewProtocol: AnyObject {
     var contentInsets: UIEdgeInsets { get }
     var borderType: BorderType { get set }
     var inputViewModel: AmountInputViewModelProtocol? { get }

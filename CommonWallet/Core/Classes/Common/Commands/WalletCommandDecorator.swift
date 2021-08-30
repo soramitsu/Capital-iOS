@@ -9,7 +9,7 @@ public protocol WalletCommandDecoratorProtocol: WalletCommandProtocol {
     var undelyingCommand: WalletCommandProtocol? { get set }
 }
 
-public protocol WalletCommandDecoratorFactoryProtocol: class {
+public protocol WalletCommandDecoratorFactoryProtocol: AnyObject {
     func createSendCommandDecorator(with commandFactory: WalletCommandFactoryProtocol)
         -> WalletCommandDecoratorProtocol?
     func createReceiveCommandDecorator(with commandFactory: WalletCommandFactoryProtocol)

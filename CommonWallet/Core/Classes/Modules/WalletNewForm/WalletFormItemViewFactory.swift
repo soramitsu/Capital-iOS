@@ -7,7 +7,7 @@
 import Foundation
 import SoraUI
 
-public protocol WalletFormBordering: class {
+public protocol WalletFormBordering: AnyObject {
     var borderType: BorderType { get set }
 }
 

@@ -12,7 +12,7 @@ protocol DemoHeaderViewModelProtocol: WalletViewModelProtocol {
     var delegate: DemoHeaderViewModelDelegate? { get }
 }
 
-protocol DemoHeaderViewModelDelegate: class {
+protocol DemoHeaderViewModelDelegate: AnyObject {
     func didSelectClose(for viewModel: DemoHeaderViewModelProtocol)
 }
 

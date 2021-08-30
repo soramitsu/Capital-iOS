@@ -5,11 +5,11 @@
 
 import Foundation
 
-@objc public protocol AmountInputViewModelObserver: class {
+@objc public protocol AmountInputViewModelObserver: AnyObject {
     func amountInputDidChange()
 }
 
-public protocol AmountInputViewModelProtocol: class {
+public protocol AmountInputViewModelProtocol: AnyObject {
     var symbol: String { get }
     var displayAmount: String { get }
     var decimalAmount: Decimal? { get }

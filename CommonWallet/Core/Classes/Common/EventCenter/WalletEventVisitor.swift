@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol WalletEventVisitorProtocol: class {
+protocol WalletEventVisitorProtocol: AnyObject {
     func processTransferComplete(event: TransferCompleteEvent)
     func processWithdrawComplete(event: WithdrawCompleteEvent)
     func processAccountUpdate(event: AccountUpdateEvent)

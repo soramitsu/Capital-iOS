@@ -5,11 +5,11 @@
 
 import Foundation
 
-@objc public protocol DescriptionInputViewModelObserver: class {
+@objc public protocol DescriptionInputViewModelObserver: AnyObject {
     func descriptionInputDidChangeText()
 }
 
-public protocol DescriptionInputViewModelProtocol: class {
+public protocol DescriptionInputViewModelProtocol: AnyObject {
     var text: String { get }
     var placeholder: String { get }
     var isValid: Bool { get }

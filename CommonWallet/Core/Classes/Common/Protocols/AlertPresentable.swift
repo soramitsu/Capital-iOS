@@ -6,7 +6,7 @@
 import Foundation
 import UIKit
 
-protocol AlertPresentable: class {
+protocol AlertPresentable: AnyObject {
     func showAlert(title: String,
                    message: String,
                    actions: [(String, UIAlertAction.Style)],

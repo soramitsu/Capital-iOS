@@ -11,7 +11,7 @@ protocol InvoiceScanViewProtocol: ControllerBackedProtocol {
 }
 
 
-protocol InvoiceScanPresenterProtocol: class {
+protocol InvoiceScanPresenterProtocol: AnyObject {
     func prepareAppearance()
     func handleAppearance()
     func prepareDismiss()
@@ -25,6 +25,6 @@ protocol InvoiceScanCoordinatorProtocol: ApplicationSettingsPresentable, ImageGa
 }
 
 
-protocol InvoiceScanAssemblyProtocol: class {
+protocol InvoiceScanAssemblyProtocol: AnyObject {
     static func assembleView(with resolver: ResolverProtocol) -> InvoiceScanViewProtocol?
 }

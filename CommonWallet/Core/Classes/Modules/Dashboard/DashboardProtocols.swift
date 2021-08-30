@@ -5,12 +5,12 @@
 
 protocol DashboardViewProtocol: ControllerBackedProtocol {}
 
-protocol DashboardPresenterProtocol: class {
+protocol DashboardPresenterProtocol: AnyObject {
     func reload()
 }
 
-protocol DashboardCoordinatorProtocol: class {}
+protocol DashboardCoordinatorProtocol: AnyObject {}
 
-protocol DashboardAssemblyProtocol: class {
+protocol DashboardAssemblyProtocol: AnyObject {
 	static func assembleView(with resolver: ResolverProtocol) -> DashboardViewProtocol?
 }

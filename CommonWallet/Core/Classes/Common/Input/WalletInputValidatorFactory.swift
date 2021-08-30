@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol WalletInputValidatorFactoryProtocol: class {
+public protocol WalletInputValidatorFactoryProtocol: AnyObject {
     func createTransferDescriptionValidator() -> WalletInputValidatorProtocol?
     func createWithdrawDescriptionValidator(optionId: String) -> WalletInputValidatorProtocol?
     func createReceiveDescriptionValidator() -> WalletInputValidatorProtocol?
