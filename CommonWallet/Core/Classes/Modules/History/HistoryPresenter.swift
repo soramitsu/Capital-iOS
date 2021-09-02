@@ -283,9 +283,9 @@ extension HistoryPresenter: HistoryPresenterProtocol {
 
     var isLoading: Bool {
         switch dataLoadingState {
-        case .filtering, .loading:
+        case .filtering, .loading, .waitingCached:
             return true
-        case .waitingCached, .filtered, .loaded:
+        case .filtered, .loaded:
             return false
         }
     }

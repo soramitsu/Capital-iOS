@@ -445,9 +445,9 @@ extension HistoryViewController: HistoryViewProtocol {
             changes.forEach { self.applySection(change: $0) }
 
             tableView.endUpdates()
-
-            updateLoadingAndEmptyState(animated: true)
         }
+
+        updateLoadingAndEmptyState(animated: true)
     }
 
     private func applySection(change: HistoryViewModelChange) {
