@@ -164,10 +164,10 @@ final class HistoryPresenter {
             do {
                 let loadedTransactionData = transactionData ?? AssetTransactionPageData(transactions: [])
 
-                let loadedPage = Pagination(count: loadedTransactionData.transactions.count)
-                let newState = DataState.loaded(page: loadedPage, nextContext: loadedTransactionData.context)
+                let newState = DataState.loading(page: Pagination(count: transactionsPerPage), previousPage: nil)
+                dataProvider.refresh()
+
                 try reloadView(with: loadedTransactionData, andSwitch: newState)
-                reload()
             } catch {
                 logger?.error("Did receive cache processing error \(error)")
             }
