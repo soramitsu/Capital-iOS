@@ -131,7 +131,7 @@ public enum L10n {
 
     public enum Contacts {
         /// Select recipient
-        public static var moduleTitle: String { return localize("contacts.module_title") }
+        public static var moduleTitle: String { return localize("common.send") }
         /// Scan QR code
         public static var scan: String { return localize("contacts.scan") }
         /// Search results
