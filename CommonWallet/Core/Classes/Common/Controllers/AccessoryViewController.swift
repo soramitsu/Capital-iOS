@@ -6,8 +6,14 @@
 import UIKit
 import SoraFoundation
 
+enum KeyboardDisplayMode {
+    case pushAccessoryView(inset: CGFloat)
+    case overlapAccessoryView
+}
+
 class AccessoryViewController: UIViewController {
     var shouldSetupKeyboardHandler: Bool = true
+    var shouldAlwaysDisplayAccessory: Bool = true
     var accessoryViewFactory: AccessoryViewFactoryProtocol.Type = AccessoryViewFactory.self
 
     var accessoryStyle: WalletAccessoryStyleProtocol? {
@@ -123,16 +129,22 @@ class AccessoryViewController: UIViewController {
         }
 
         bottomInset = max(bottomInset, 0.0)
-        bottomConstraint?.constant = -bottomInset
-
-        if let accessoryView = accessoryView {
-            updateBottom(inset: bottomInset + accessoryView.contentView.frame.size.height)
+        if shouldAlwaysDisplayAccessory {
+            bottomConstraint?.constant = -bottomInset
         }
+
+        guard let accessoryView = accessoryView else { return }
+
+        let displayMode: KeyboardDisplayMode = shouldAlwaysDisplayAccessory ?
+            .pushAccessoryView(inset: bottomInset + accessoryView.contentView.frame.size.height) :
+            .overlapAccessoryView
+
+        updateBottom(displayMode: displayMode)
     }
 
     // MARK: Overridable methods
 
-    func updateBottom(inset: CGFloat) {}
+    func updateBottom(displayMode: KeyboardDisplayMode) {}
 
     @objc func actionAccessory() {}
 }
