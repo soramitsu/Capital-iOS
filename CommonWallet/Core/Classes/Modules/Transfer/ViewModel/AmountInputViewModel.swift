@@ -17,8 +17,12 @@ public protocol AmountInputViewModelProtocol: AnyObject {
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> { get }
 
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool
+    func didUpdateAmount(to newAmount: String)
 }
 
+extension AmountInputViewModelProtocol {
+    func didUpdateAmount(to newAmount: String) { }
+}
 
 public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable {
     static let zero: String = "0"
@@ -108,5 +112,9 @@ public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPres
         amount = newAmount
 
         return false
+    }
+
+    public func didUpdateAmount(to newAmount: String) {
+        amount = newAmount
     }
 }
