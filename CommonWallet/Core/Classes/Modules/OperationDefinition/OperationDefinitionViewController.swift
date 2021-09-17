@@ -53,15 +53,12 @@ class OperationDefinitionViewController: AccessoryViewController {
 
     init(
         containingFactory: OperationDefinitionViewFactoryProtocol,
-        style: WalletStyleProtocol,
-        shouldAlwaysDisplayAccessory: Bool = true)
+        style: WalletStyleProtocol)
     {
         self.containingFactory = containingFactory
         self.style = style
 
         super.init(nibName: nil, bundle: nil)
-
-        self.shouldAlwaysDisplayAccessory = shouldAlwaysDisplayAccessory
     }
 
     required init?(coder: NSCoder) {
@@ -256,17 +253,15 @@ class OperationDefinitionViewController: AccessoryViewController {
 
     // MARK: Override Superclass
 
-    override func updateBottom(displayMode: KeyboardDisplayMode) {
-        super.updateBottom(displayMode: displayMode)
+    override func updateBottom(inset: CGFloat) {
+        super.updateBottom(inset: inset)
 
-        if case let .pushAccessoryView(inset) = displayMode {
-            var currentInsets = containerView.scrollView.contentInset
-            currentInsets.bottom = inset
-
-            containerView.scrollView.contentInset = currentInsets
-
-            view.layoutIfNeeded()
-        }
+        var currentInsets = containerView.scrollView.contentInset
+        currentInsets.bottom = inset
+        
+        containerView.scrollView.contentInset = currentInsets
+        
+        view.layoutIfNeeded()
 
         if amountInputView.isFirstResponder {
             scrollToAmount(animated: false)
