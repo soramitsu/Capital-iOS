@@ -17,11 +17,11 @@ public protocol AmountInputViewModelProtocol: AnyObject {
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> { get }
 
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool
-    func didUpdateAmount(to newAmount: String)
+    func didUpdateAmount(to newAmount: Decimal)
 }
 
 extension AmountInputViewModelProtocol {
-    func didUpdateAmount(to newAmount: String) { }
+    func didUpdateAmount(to newAmount: Decimal) { }
 }
 
 public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable {
@@ -114,7 +114,11 @@ public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPres
         return false
     }
 
-    public func didUpdateAmount(to newAmount: String) {
-        amount = newAmount
+    public func didUpdateAmount(to newAmount: Decimal) {
+        guard newAmount <= limit,
+              let inputAmount = formatter.string(from: newAmount as NSNumber)
+        else { return }
+
+        amount = inputAmount
     }
 }
