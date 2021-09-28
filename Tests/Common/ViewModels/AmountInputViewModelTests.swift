@@ -13,7 +13,7 @@ class AmountInputViewModelTests: XCTestCase {
         let limit = Decimal(1e6)
         performAmountInitializationTest(inputAmount: 12345, expectedAmount: 12345, limit: limit)
         performAmountInitializationTest(inputAmount: 12345.25, expectedAmount: 12345.25, limit: limit)
-        performAmountInitializationTest(inputAmount: 1e6+0.1, expectedAmount: 0.0, limit: limit)
+        performAmountInitializationTest(inputAmount: 1e6+0.1, expectedAmount: nil, limit: limit)
     }
 
     func testAmountInput() {
@@ -78,7 +78,7 @@ class AmountInputViewModelTests: XCTestCase {
     }
 
     private func performAmountInitializationTest(inputAmount: Decimal,
-                                         expectedAmount: Decimal,
+                                         expectedAmount: Decimal?,
                                          limit: Decimal) {
         let amountInputViewModel = AmountInputViewModel(symbol:"R",
                                                         amount: inputAmount,
