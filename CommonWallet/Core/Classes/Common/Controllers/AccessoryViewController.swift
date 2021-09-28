@@ -15,6 +15,7 @@ class AccessoryViewController: UIViewController {
     }
 
     var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
+    var accessoryOverlayMode: WalletAccessoryOverlayMode = .push
 
     private(set) var accessoryView: AccessoryViewProtocol?
     private(set) var keyboardHandler: KeyboardHandler?
@@ -123,7 +124,9 @@ class AccessoryViewController: UIViewController {
         }
 
         bottomInset = max(bottomInset, 0.0)
-        bottomConstraint?.constant = -bottomInset
+        if accessoryOverlayMode == .push {
+            bottomConstraint?.constant = -bottomInset
+        }
 
         if let accessoryView = accessoryView {
             updateBottom(inset: bottomInset + accessoryView.contentView.frame.size.height)

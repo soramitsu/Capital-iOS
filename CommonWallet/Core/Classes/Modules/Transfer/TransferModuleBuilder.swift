@@ -73,6 +73,8 @@ final class TransferModuleBuilder {
 
     private lazy var accessoryViewType: WalletAccessoryViewType = .titleIconActionBar
 
+    private lazy var accessoryOverlayMode: WalletAccessoryOverlayMode = .push
+
     private lazy var generatingIconStyle: WalletNameIconStyleProtocol = style.nameIconStyle
 
     private lazy var selectedAssetStyle: WalletContainingAssetStyle = {
@@ -167,6 +169,7 @@ final class TransferModuleBuilder {
                                      style: style,
                                      generatingIconStyle: generatingIconStyle,
                                      accessoryViewType: accessoryViewType,
+                                     accessoryOverlayMode: accessoryOverlayMode,
                                      localizableTitle: localizableTitle,
                                      transferViewModelFactory: transferViewModelFactory,
                                      errorHandler: errorHandler,
@@ -260,6 +263,11 @@ extension TransferModuleBuilder: TransferModuleBuilderProtocol {
 
     func with(accessoryViewType: WalletAccessoryViewType) -> Self {
         self.accessoryViewType = accessoryViewType
+        return self
+    }
+
+    func with(accessoryOverlayMode: WalletAccessoryOverlayMode) -> Self {
+        self.accessoryOverlayMode = accessoryOverlayMode
         return self
     }
 

@@ -5096,6 +5096,21 @@ public class MockAmountInputViewModelProtocol: AmountInputViewModelProtocol, Cuc
         
     }
     
+    
+    
+    public func didUpdateAmount(to newAmount: Decimal)  {
+        
+    return cuckoo_manager.call("didUpdateAmount(to: Decimal)",
+            parameters: (newAmount),
+            escapingParameters: (newAmount),
+            superclassCall:
+                
+                Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                ,
+            defaultCall: __defaultImplStub!.didUpdateAmount(to: newAmount))
+        
+    }
+    
 
 	public struct __StubbingProxy_AmountInputViewModelProtocol: Cuckoo.StubbingProxy {
 	    private let cuckoo_manager: Cuckoo.MockManager
@@ -5133,6 +5148,11 @@ public class MockAmountInputViewModelProtocol: AmountInputViewModelProtocol, Cuc
 	    func didReceiveReplacement<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ string: M1, for range: M2) -> Cuckoo.ProtocolStubFunction<(String, NSRange), Bool> where M1.MatchedType == String, M2.MatchedType == NSRange {
 	        let matchers: [Cuckoo.ParameterMatcher<(String, NSRange)>] = [wrap(matchable: string) { $0.0 }, wrap(matchable: range) { $0.1 }]
 	        return .init(stub: cuckoo_manager.createStub(for: MockAmountInputViewModelProtocol.self, method: "didReceiveReplacement(_: String, for: NSRange) -> Bool", parameterMatchers: matchers))
+	    }
+	    
+	    func didUpdateAmount<M1: Cuckoo.Matchable>(to newAmount: M1) -> Cuckoo.ProtocolStubNoReturnFunction<(Decimal)> where M1.MatchedType == Decimal {
+	        let matchers: [Cuckoo.ParameterMatcher<(Decimal)>] = [wrap(matchable: newAmount) { $0 }]
+	        return .init(stub: cuckoo_manager.createStub(for: MockAmountInputViewModelProtocol.self, method: "didUpdateAmount(to: Decimal)", parameterMatchers: matchers))
 	    }
 	    
 	}
@@ -5180,6 +5200,12 @@ public class MockAmountInputViewModelProtocol: AmountInputViewModelProtocol, Cuc
 	    func didReceiveReplacement<M1: Cuckoo.Matchable, M2: Cuckoo.Matchable>(_ string: M1, for range: M2) -> Cuckoo.__DoNotUse<(String, NSRange), Bool> where M1.MatchedType == String, M2.MatchedType == NSRange {
 	        let matchers: [Cuckoo.ParameterMatcher<(String, NSRange)>] = [wrap(matchable: string) { $0.0 }, wrap(matchable: range) { $0.1 }]
 	        return cuckoo_manager.verify("didReceiveReplacement(_: String, for: NSRange) -> Bool", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+	    }
+	    
+	    @discardableResult
+	    func didUpdateAmount<M1: Cuckoo.Matchable>(to newAmount: M1) -> Cuckoo.__DoNotUse<(Decimal), Void> where M1.MatchedType == Decimal {
+	        let matchers: [Cuckoo.ParameterMatcher<(Decimal)>] = [wrap(matchable: newAmount) { $0 }]
+	        return cuckoo_manager.verify("didUpdateAmount(to: Decimal)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
 	    }
 	    
 	}
@@ -5233,6 +5259,10 @@ public class AmountInputViewModelProtocolStub: AmountInputViewModelProtocol {
     
     public func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool  {
         return DefaultValueRegistry.defaultValue(for: (Bool).self)
+    }
+    
+    public func didUpdateAmount(to newAmount: Decimal)   {
+        return DefaultValueRegistry.defaultValue(for: (Void).self)
     }
     
 }

@@ -17,6 +17,7 @@ protocol TransferConfigurationProtocol {
     var style: OperationDefinitionViewStyle { get }
     var generatingIconStyle: WalletNameIconStyleProtocol { get }
     var accessoryViewType: WalletAccessoryViewType { get }
+    var accessoryOverlayMode: WalletAccessoryOverlayMode { get }
     var localizableTitle: LocalizableResource<String>? { get }
     var transferViewModelFactory: TransferViewModelFactoryOverriding? { get }
     var errorHandler: OperationDefinitionErrorHandling? { get }
@@ -35,6 +36,7 @@ struct TransferConfiguration: TransferConfigurationProtocol {
     let style: OperationDefinitionViewStyle
     let generatingIconStyle: WalletNameIconStyleProtocol
     let accessoryViewType: WalletAccessoryViewType
+    let accessoryOverlayMode: WalletAccessoryOverlayMode
     let localizableTitle: LocalizableResource<String>?
     let transferViewModelFactory: TransferViewModelFactoryOverriding?
     let errorHandler: OperationDefinitionErrorHandling?

@@ -51,7 +51,10 @@ class OperationDefinitionViewController: AccessoryViewController {
     private var receiverDef: OperationDefinition<UIView>?
     private var receiverView: BaseReceiverView?
 
-    init(containingFactory: OperationDefinitionViewFactoryProtocol, style: WalletStyleProtocol) {
+    init(
+        containingFactory: OperationDefinitionViewFactoryProtocol,
+        style: WalletStyleProtocol)
+    {
         self.containingFactory = containingFactory
         self.style = style
 
@@ -255,9 +258,9 @@ class OperationDefinitionViewController: AccessoryViewController {
 
         var currentInsets = containerView.scrollView.contentInset
         currentInsets.bottom = inset
-
+        
         containerView.scrollView.contentInset = currentInsets
-
+        
         view.layoutIfNeeded()
 
         if amountInputView.isFirstResponder {

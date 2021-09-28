@@ -17,8 +17,12 @@ public protocol AmountInputViewModelProtocol: AnyObject {
     var observable: WalletViewModelObserverContainer<AmountInputViewModelObserver> { get }
 
     func didReceiveReplacement(_ string: String, for range: NSRange) -> Bool
+    func didUpdateAmount(to newAmount: Decimal)
 }
 
+extension AmountInputViewModelProtocol {
+    func didUpdateAmount(to newAmount: Decimal) { }
+}
 
 public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPresentable {
     static let zero: String = "0"
@@ -29,7 +33,7 @@ public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPres
 
     public var decimalAmount: Decimal? {
         if amount.isEmpty {
-            return Decimal(0)
+            return nil
         }
 
         return Decimal(string: amount, locale: formatter.locale)
@@ -108,5 +112,13 @@ public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPres
         amount = newAmount
 
         return false
+    }
+
+    public func didUpdateAmount(to newAmount: Decimal) {
+        guard newAmount <= limit,
+              let inputAmount = formatter.string(from: newAmount as NSNumber)
+        else { return }
+
+        amount = inputAmount
     }
 }

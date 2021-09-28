@@ -78,6 +78,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
 
         view.separatorsDistribution = resolver.transferConfiguration.separatorsDistribution
         view.accessoryViewType = resolver.transferConfiguration.accessoryViewType
+        view.accessoryOverlayMode = resolver.transferConfiguration.accessoryOverlayMode
 
         view.localizationManager = resolver.localizationManager
 

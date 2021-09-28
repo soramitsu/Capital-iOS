@@ -60,6 +60,9 @@ public protocol TransferModuleBuilderProtocol {
     func with(accessoryViewType: WalletAccessoryViewType) -> Self
 
     @discardableResult
+    func with(accessoryOverlayMode: WalletAccessoryOverlayMode) -> Self
+
+    @discardableResult
     func with(localizableTitle: LocalizableResource<String>) -> Self
 
     @discardableResult
