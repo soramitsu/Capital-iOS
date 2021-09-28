@@ -33,7 +33,7 @@ public final class AmountInputViewModel: AmountInputViewModelProtocol, MoneyPres
 
     public var decimalAmount: Decimal? {
         if amount.isEmpty {
-            return Decimal(0)
+            return nil
         }
 
         return Decimal(string: amount, locale: formatter.locale)
