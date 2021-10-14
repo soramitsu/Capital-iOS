@@ -60,6 +60,9 @@ public protocol CommonWalletBuilderProtocol: AnyObject {
     func with(language: WalletLanguage) -> Self
 
     @discardableResult
+    func with(localizationManager: LocalizationManagerProtocol) -> Self
+
+    @discardableResult
     func with(singleProviderIdentifierFactory: SingleProviderIdentifierFactoryProtocol) -> Self
     
     func build() throws -> CommonWalletContextProtocol
@@ -96,6 +99,7 @@ public final class CommonWalletBuilder {
     fileprivate var inputValidatorFactory: WalletInputValidatorFactoryProtocol?
     fileprivate var qrCoderFactory: WalletQRCoderFactoryProtocol?
     fileprivate var language: WalletLanguage = .english
+    fileprivate var localizationManager: LocalizationManagerProtocol?
 
     init(account: WalletAccountSettingsProtocol, networkOperationFactory: WalletNetworkOperationFactoryProtocol) {
         self.account = account
@@ -230,6 +234,11 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         return self
     }
 
+    public func with(localizationManager: LocalizationManagerProtocol) -> Self {
+        self.localizationManager = localizationManager
+        return self
+    }
+
     public func with(singleProviderIdentifierFactory: SingleProviderIdentifierFactoryProtocol) -> Self {
         self.singleProviderIdentifierFactory = singleProviderIdentifierFactory
         return self
@@ -268,7 +277,7 @@ extension CommonWalletBuilder: CommonWalletBuilderProtocol {
         }
 
         let allLanguages: [String] = WalletLanguage.allCases.map { $0.rawValue }
-        resolver.localizationManager = LocalizationManager(localization: language.rawValue,
+        resolver.localizationManager = self.localizationManager ?? LocalizationManager(localization: language.rawValue,
                                                            availableLocalizations: allLanguages)
         L10n.sharedLanguage = language
 
