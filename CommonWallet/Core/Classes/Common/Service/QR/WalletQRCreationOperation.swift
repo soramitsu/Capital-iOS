@@ -13,7 +13,7 @@ enum WalletQRCreationOperationError: Error {
     case bitmapImageCreationFailed
 }
 
-final class WalletQRCreationOperation: BaseOperation<UIImage> {
+public final class WalletQRCreationOperation: BaseOperation<UIImage> {
     let payload: Data
     let qrSize: CGSize
 
