@@ -18,10 +18,11 @@ public protocol WalletQRCoderFactoryProtocol {
     func createDecoder() -> WalletQRDecoderProtocol
 }
 
-struct WalletQREncoder: WalletQREncoderProtocol {
+public struct WalletQREncoder: WalletQREncoderProtocol {
+    public init() {}
     let underlyingEncoder = JSONEncoder()
 
-    func encode(receiverInfo: ReceiveInfo) throws -> Data {
+    public func encode(receiverInfo: ReceiveInfo) throws -> Data {
         return try underlyingEncoder.encode(receiverInfo)
     }
 }

@@ -6,7 +6,7 @@
 import Foundation
 import RobinHood
 
-protocol WalletQRServiceProtocol: AnyObject {
+public protocol WalletQRServiceProtocol: AnyObject {
     @discardableResult
     func generate(from info: ReceiveInfo,
                   qrSize: CGSize,
@@ -14,15 +14,15 @@ protocol WalletQRServiceProtocol: AnyObject {
                   completionBlock: @escaping (Result<UIImage, Error>?) -> Void) throws -> Operation
 }
 
-final class WalletQRService {
+public final class WalletQRService {
     let operationFactory: WalletQROperationFactoryProtocol
     let operationQueue: OperationQueue
 
     private let encoder: WalletQREncoderProtocol
 
-    init(operationFactory: WalletQROperationFactoryProtocol,
-         encoder: WalletQREncoderProtocol = WalletQREncoder(),
-         operationQueue: OperationQueue = OperationQueue()) {
+    public init(operationFactory: WalletQROperationFactoryProtocol,
+                encoder: WalletQREncoderProtocol = WalletQREncoder(),
+                operationQueue: OperationQueue = OperationQueue()) {
         self.operationFactory = operationFactory
         self.encoder = encoder
         self.operationQueue = operationQueue
@@ -31,10 +31,10 @@ final class WalletQRService {
 
 extension WalletQRService: WalletQRServiceProtocol {
     @discardableResult
-    func generate(from info: ReceiveInfo,
-                  qrSize: CGSize,
-                  runIn queue: DispatchQueue,
-                  completionBlock: @escaping (Result<UIImage, Error>?) -> Void) throws -> Operation {
+    public func generate(from info: ReceiveInfo,
+                         qrSize: CGSize,
+                         runIn queue: DispatchQueue,
+                         completionBlock: @escaping (Result<UIImage, Error>?) -> Void) throws -> Operation {
         let payload = try encoder.encode(receiverInfo: info)
         let operation = operationFactory.createCreationOperation(for: payload, qrSize: qrSize)
 
