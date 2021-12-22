@@ -5,17 +5,17 @@ PODS:
   - BoringSSL/Implementation (10.0.6):
     - BoringSSL/Interface (= 10.0.6)
   - BoringSSL/Interface (10.0.6)
-  - CommonWallet/Core (1.15.0):
-    - RobinHood (~> 2.6.0)
+  - CommonWallet/Core (1.16.0):
+    - RobinHood (~> 2.6.1)
     - SoraFoundation/DateProcessing (~> 1.0.0)
     - SoraFoundation/Localization (~> 1.0.0)
     - SoraFoundation/NotificationHandlers (~> 1.0.0)
     - SoraFoundation/NumberProcessing (~> 1.0.0)
     - SoraUI (~> 1.10.0)
-  - CommonWallet/IrohaMiddleware (1.15.0):
+  - CommonWallet/IrohaMiddleware (1.16.0):
     - CommonWallet/Core
     - IrohaCommunication (~> 4.0.0)
-    - RobinHood (~> 2.6.0)
+    - RobinHood (~> 2.6.1)
   - Cuckoo (1.5.1):
     - Cuckoo/Swift (= 1.5.1)
   - Cuckoo/Swift (1.5.1)
@@ -66,7 +66,7 @@ PODS:
   - OHHTTPStubs/Swift (8.0.0):
     - OHHTTPStubs/Default
   - Protobuf (3.5.0)
-  - RobinHood (2.6.0)
+  - RobinHood (2.6.1)
   - SoraFoundation/DateProcessing (1.0.0):
     - SoraFoundation/Localization
   - SoraFoundation/Localization (1.0.0):
@@ -143,7 +143,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
-  CommonWallet: cdc58c26a9bbac8d45edba7c09313896b5d7350d
+  CommonWallet: 3c67d5fd85593a20f6b55777c2660ff886fc4148
   Cuckoo: 9124fe138270854903483c270370e6e7658fbc9b
   gRPC: 70703dc9ba31c72341fc7f37745cc1c379edee96
   gRPC-Core: 164639cd8ae18ca8b65477fafb2efbaecf4f181a
@@ -154,7 +154,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
-  RobinHood: f8628c9841dc1a082f4565247f6b598e82157b28
+  RobinHood: bd66f17e8aeb64d2a739d4fe07e4725fc87919d5
   SoraFoundation: 988d90ee3159311b02e42aeba0cf7e85d8bc724c
   SoraKeystore: 92cff6e2a12f212dd64ed089970ff7c365247b1c
   SoraUI: 00d6c45c2c9dbcae54517cbfc2e5836a7c8101a7
@@ -163,4 +163,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 78915cb50296997ffdfbeb6ef1ddd840e7f12c39
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2

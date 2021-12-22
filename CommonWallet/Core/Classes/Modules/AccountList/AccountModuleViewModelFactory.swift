@@ -133,6 +133,7 @@ final class AccountModuleViewModelFactory {
 }
 
 extension AccountModuleViewModelFactory: AccountModuleViewModelFactoryProtocol {
+    // swiftline:disable function_body_length
     func createViewModel(from balances: [BalanceData],
                          delegate: ShowMoreViewModelDelegate?,
                          locale: Locale) throws -> AccountModuleViewModel {

@@ -44,9 +44,12 @@ final class HistoryFilterViewController: UIViewController {
         let tableFooterFrame = CGRect(origin: .zero, size: CGSize(width: tableView.bounds.size.width, height: 1.0))
         tableView.tableFooterView = UIView(frame: tableFooterFrame)
 
-        tableView.register(HistoryFilterSelectionCell.self, forCellReuseIdentifier: HistoryFilterConstants.selectableCellIdentifier)
-        tableView.register(HistoryFilterDateCell.self, forCellReuseIdentifier: HistoryFilterConstants.dateCellIdentifier)
-        tableView.register(HistoryFilterSectionHeaderCell.self, forCellReuseIdentifier: HistoryFilterConstants.headerIdentifier)
+        tableView.register(HistoryFilterSelectionCell.self,
+                           forCellReuseIdentifier: HistoryFilterConstants.selectableCellIdentifier)
+        tableView.register(HistoryFilterDateCell.self,
+                           forCellReuseIdentifier: HistoryFilterConstants.dateCellIdentifier)
+        tableView.register(HistoryFilterSectionHeaderCell.self,
+                           forCellReuseIdentifier: HistoryFilterConstants.headerIdentifier)
     }
 
     private func setupNavigationItems() {
@@ -98,7 +101,7 @@ extension HistoryFilterViewController: UITableViewDataSource, UITableViewDelegat
         let model = filter[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: model.cellReuseIdentifier)!
 
-        //swiftlint:disable:next force_cast
+        // swiftlint:disable:next force_cast
         let filterCell = cell as! HistoryFilterViewCellProtocol
         if let style = style {
             filterCell.applyStyle(style)

@@ -160,7 +160,7 @@ extension WalletFormViewController: UITableViewDataSource {
         return models.count
     }
 
-    //swiftlint:disable force_cast
+    // swiftlint:disable force_cast
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier(for: models[indexPath.row].layoutType),
                                                  for: indexPath) as! (UITableViewCell & WalletFormCellProtocol)
@@ -173,7 +173,7 @@ extension WalletFormViewController: UITableViewDataSource {
 
         return cell
     }
-    //swiftlint:enable force_cast
+    // swiftlint:enable force_cast
 }
 
 extension WalletFormViewController: UITableViewDelegate {

@@ -7,7 +7,7 @@ import Foundation
 import SoraFoundation
 
 final class HistoryAssembly: HistoryAssemblyProtocol {
-    
+    // swiftlint:disable function_body_length
     static func assembleView(with resolver: ResolverProtocol,
                              assets: [WalletAsset],
                              type: HistoryHeaderType) -> HistoryViewProtocol? {

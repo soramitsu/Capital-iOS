@@ -42,11 +42,6 @@ extension LoadableViewProtocol where Self: UIViewController {
     }
 
     var transitionAnimationDuration: TimeInterval {
-        set {
-            objc_setAssociatedObject(self, WalletLoadableViewKeys.transitionAnimationDuration,
-                                     newValue, .OBJC_ASSOCIATION_COPY)
-        }
-
         get {
             let optionalDuration = objc_getAssociatedObject(self, WalletLoadableViewKeys.transitionAnimationDuration)
 
@@ -55,6 +50,11 @@ extension LoadableViewProtocol where Self: UIViewController {
             } else {
                 return 0.25
             }
+        }
+        
+        set {
+            objc_setAssociatedObject(self, WalletLoadableViewKeys.transitionAnimationDuration,
+                                     newValue, .OBJC_ASSOCIATION_COPY)
         }
     }
 
