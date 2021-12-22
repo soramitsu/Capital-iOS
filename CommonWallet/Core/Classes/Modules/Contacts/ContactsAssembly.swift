@@ -7,6 +7,7 @@ import Foundation
 import SoraFoundation
 
 final class ContactsAssembly: ContactsAssemblyProtocol {
+    // swiftlint:disable function_body_length
     static func assembleView(with resolver: ResolverProtocol,
                              selectedAsset: WalletAsset) -> ContactsViewProtocol? {
 

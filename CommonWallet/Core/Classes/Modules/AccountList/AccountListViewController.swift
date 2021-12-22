@@ -156,7 +156,7 @@ extension AccountListViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.cellReuseIdentifier,
                                                       for: indexPath)
 
-        //swiftlint:disable:next force_cast
+        // swiftlint:disable:next force_cast
         let walletCell = cell as! WalletViewProtocol
         walletCell.bind(viewModel: viewModel)
 

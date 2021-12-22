@@ -22,6 +22,7 @@ struct HistoryItemViewModelFactory: HistoryItemViewModelFactoryProtocol {
     let transactionTypes: [WalletTransactionType]
     let assets: [WalletAsset]
 
+    // swiftlint:disable function_body_length
     func createItemFromData(_ data: AssetTransactionData,
                             commandFactory: WalletCommandFactoryProtocol,
                             locale: Locale) throws

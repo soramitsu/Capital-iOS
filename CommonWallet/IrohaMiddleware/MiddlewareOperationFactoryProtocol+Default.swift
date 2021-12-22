@@ -209,7 +209,7 @@ public extension MiddlewareOperationFactoryProtocol {
         let requestFactory = BlockNetworkRequestFactory {
             guard let encodedString = searchString
                 .addingPercentEncoding(withAllowedCharacters: Constants.queryEncoding) else {
-                    throw NetworkResponseError.invalidParameters
+                    throw NetworkResponseError.invalidParameters(nil)
             }
 
             let serviceUrl = try EndpointBuilder(urlTemplate: urlTemplate).buildParameterURL(encodedString)
