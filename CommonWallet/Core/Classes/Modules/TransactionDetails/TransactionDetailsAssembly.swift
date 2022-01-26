@@ -9,12 +9,13 @@ import SoraFoundation
 final class TransactionDetailsAssembly: TransactionDetailsAssemblyProtocol {
     static func assembleView(resolver: ResolverProtocol,
                              transactionDetails: AssetTransactionData) -> WalletNewFormViewProtocol? {
-
+/* Not sure if we need this at all
         guard resolver.transactionTypeList
                 .first(where: { $0.backendName == transactionDetails.type }) != nil else {
                     resolver.logger?.error("Can't find transaction type for value \(transactionDetails.type)")
                     return nil
         }
+ */
 
         guard resolver.account.assets
                 .first(where: { $0.identifier == transactionDetails.assetId }) != nil else {
