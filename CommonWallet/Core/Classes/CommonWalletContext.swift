@@ -22,5 +22,6 @@ public protocol WalletCommandFactoryProtocol: AnyObject {
 }
 
 public protocol CommonWalletContextProtocol: WalletCommandFactoryProtocol {
+    var networkOperationFactory: WalletNetworkOperationFactoryProtocol { get }
     func createRootController() throws -> UINavigationController
 }
