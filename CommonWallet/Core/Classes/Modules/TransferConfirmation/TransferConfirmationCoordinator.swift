@@ -8,6 +8,7 @@ import Foundation
 public enum TransferCompletion {
     case showResult
     case hide
+    case toast(view: UIViewController, presenter: UIViewController?)
 }
 
 final class TransferConfirmationCoordinator: TransferConfirmationCoordinatorProtocol {
@@ -29,6 +30,9 @@ final class TransferConfirmationCoordinator: TransferConfirmationCoordinatorProt
             resolver.navigation?.set(view.controller, animated: true)
         case .hide:
             resolver.navigation?.dismiss(animated: true)
+        case .toast(let view, let presenter):
+            resolver.navigation?.dismiss(animated: true)
+            (presenter ?? UIApplication.shared.keyWindow?.rootViewController)?.present(view, animated: true, completion: nil)
         }
     }
 }

@@ -4490,6 +4490,20 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
     
 
     
+    
+    
+    public var networkOperationFactory: WalletNetworkOperationFactoryProtocol {
+        get {
+            return cuckoo_manager.getter("networkOperationFactory",
+                superclassCall:
+                    
+                    Cuckoo.MockManager.crashOnProtocolSuperclassCall()
+                    ,
+                defaultCall: __defaultImplStub!.networkOperationFactory)
+        }
+        
+    }
+    
 
     
 
@@ -4683,6 +4697,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	    }
 	    
 	    
+	    var networkOperationFactory: Cuckoo.ProtocolToBeStubbedReadOnlyProperty<MockCommonWalletContextProtocol, WalletNetworkOperationFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "networkOperationFactory")
+	    }
+	    
+	    
 	    func createRootController() -> Cuckoo.ProtocolStubThrowingFunction<(), UINavigationController> {
 	        let matchers: [Cuckoo.ParameterMatcher<Void>] = []
 	        return .init(stub: cuckoo_manager.createStub(for: MockCommonWalletContextProtocol.self, method: "createRootController() throws -> UINavigationController", parameterMatchers: matchers))
@@ -4756,6 +4775,11 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 	        self.sourceLocation = sourceLocation
 	    }
 	
+	    
+	    
+	    var networkOperationFactory: Cuckoo.VerifyReadOnlyProperty<WalletNetworkOperationFactoryProtocol> {
+	        return .init(manager: cuckoo_manager, name: "networkOperationFactory", callMatcher: callMatcher, sourceLocation: sourceLocation)
+	    }
 	    
 	
 	    
@@ -4835,6 +4859,14 @@ public class MockCommonWalletContextProtocol: CommonWalletContextProtocol, Cucko
 }
 
 public class CommonWalletContextProtocolStub: CommonWalletContextProtocol {
+    
+    
+    public var networkOperationFactory: WalletNetworkOperationFactoryProtocol {
+        get {
+            return DefaultValueRegistry.defaultValue(for: (WalletNetworkOperationFactoryProtocol).self)
+        }
+        
+    }
     
 
     
