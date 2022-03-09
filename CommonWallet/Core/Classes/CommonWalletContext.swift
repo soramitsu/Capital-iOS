@@ -19,6 +19,7 @@ public protocol WalletCommandFactoryProtocol: AnyObject {
     func prepareLanguageSwitchCommand(with newLanguage: WalletLanguage) -> WalletCommandProtocol
     func prepareTransactionDetailsCommand(with transaction: AssetTransactionData) -> WalletPresentationCommandProtocol
     func prepareTransfer(with payload: TransferPayload) -> WalletPresentationCommandProtocol
+    func prepareConfirmation(with payload: ConfirmationPayload) -> WalletPresentationCommandProtocol
 }
 
 public protocol CommonWalletContextProtocol: WalletCommandFactoryProtocol {
