@@ -31,4 +31,8 @@ final class TransferConfirmationCommand: WalletPresentationCommandProtocol {
                 animated: animated,
                 completion: completionBlock)
     }
+    
+    func dismiss() {
+        resolver.navigation?.dismiss(animated: true, completion: nil)
+    }
 }
