@@ -15,7 +15,6 @@ public protocol WalletPresentationCommandProtocol: WalletCommandProtocol {
     var presentationStyle: WalletPresentationStyle { get set }
     var animated: Bool { get set }
     var completionBlock: (() -> Void)? { get set }
-    func dismiss()
 }
 
 extension WalletPresentationCommandProtocol {
@@ -31,6 +30,4 @@ extension WalletPresentationCommandProtocol {
             navigation.set(view, animated: animated)
         }
     }
-    
-    func dismiss() {}
 }
