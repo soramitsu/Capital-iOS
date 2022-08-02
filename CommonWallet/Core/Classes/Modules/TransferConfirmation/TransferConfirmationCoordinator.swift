@@ -31,8 +31,8 @@ final class TransferConfirmationCoordinator: TransferConfirmationCoordinatorProt
         case .hide:
             resolver.navigation?.dismiss(animated: true)
         case .toast(let view, let presenter):
-            resolver.navigation?.dismiss(animated: true)
-            (presenter ?? UIApplication.shared.keyWindow?.rootViewController)?.present(view, animated: true, completion: nil)
+            resolver.navigation?.navigationController?.dismiss(animated: true)
+            presenter?.present(view, animated: true, completion: nil)
         }
     }
 }
