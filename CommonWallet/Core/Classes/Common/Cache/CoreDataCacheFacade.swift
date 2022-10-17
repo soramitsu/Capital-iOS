@@ -7,17 +7,17 @@ import Foundation
 import CoreData
 import RobinHood
 
-protocol CoreDataCacheFacadeProtocol: AnyObject {
+public protocol CoreDataCacheFacadeProtocol: AnyObject {
     var databaseService: CoreDataServiceProtocol { get }
 
     func createCoreDataCache<T, U>(filter: NSPredicate?) -> CoreDataRepository<T, U>
         where T: Identifiable & Codable, U: NSManagedObject & CoreDataCodable
 }
 
-final class CoreDataCacheFacade: CoreDataCacheFacadeProtocol {
-    static let shared = CoreDataCacheFacade()
+public final class CoreDataCacheFacade: CoreDataCacheFacadeProtocol {
+    public static let shared = CoreDataCacheFacade()
 
-    let databaseService: CoreDataServiceProtocol
+    public let databaseService: CoreDataServiceProtocol
 
     private init() {
         let modelName = "CapitalCache"
@@ -35,7 +35,7 @@ final class CoreDataCacheFacade: CoreDataCacheFacadeProtocol {
         databaseService = CoreDataService(configuration: configuration)
     }
 
-    func createCoreDataCache<T, U>(filter: NSPredicate?) -> CoreDataRepository<T, U>
+    public func createCoreDataCache<T, U>(filter: NSPredicate?) -> CoreDataRepository<T, U>
         where T: Identifiable & Codable, U: NSManagedObject & CoreDataCodable {
 
             let mapper = AnyCoreDataMapper(CodableCoreDataMapper<T, U>())
